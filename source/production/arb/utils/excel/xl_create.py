@@ -298,7 +298,9 @@ def test_update_xlsx_payloads_01():
   """
   logger.debug(f"test_update_xlsx_payloads_01() called")
 
-  base_dir = Path("C:/one_drive/code/pycharm/feedback_portal/source/production/arb/utils/excel")
+  # changing to relative references so code will work on ec2, eventually will move to s3
+  # base_dir = Path("C:/one_drive/code/pycharm/feedback_portal/source/production/arb/utils/excel")
+  base_dir = Path(".")
 
   file_name_in = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
   file_name_out = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx"
@@ -343,7 +345,9 @@ def prep_xl_templates():
 
   file_specs = []
 
-  input_dir = Path("C:/one_drive/code/pycharm/feedback_portal/feedback_forms/current_versions")
+  # changing to relative references so code will work on ec2, eventually will move to s3
+  input_dir = Path("../../../../../feedback_forms/current_versions")
+  # input_dir = Path("C:/one_drive/code/pycharm/feedback_portal/feedback_forms/current_versions")
   output_dir = Path(".")
 
   ensure_dir_exists(output_dir / "xl_schemas")
