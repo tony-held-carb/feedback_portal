@@ -13,11 +13,15 @@ Notes on usage.
 
 import copy
 import logging
+import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import openpyxl
+import pytz
 
 import arb.__get_logger as get_logger
+from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
@@ -224,7 +228,7 @@ def extract_tabs(wb, schema_map, xl_as_dict, drop_downs_rev=None):
                           for html select elements. 
   """
   # todo - this had to be updated because drop downs are no longer foreign keys, test that it still works
-  # from arb.portal.db_hardcoded import get_excel_dropdown_data
+  # todo - payloads may be expressing as datetime objects rather than utc strings, which may lead to inconsistencies
 
   result = copy.deepcopy(xl_as_dict)
 
@@ -240,17 +244,29 @@ def extract_tabs(wb, schema_map, xl_as_dict, drop_downs_rev=None):
       value_type = lookup['value_type']
       value = ws[value_address].value
 
+      # Try to cast the spreadsheet data to the desired type if possible
       if value is not None:
         if not isinstance(value, value_type):
-          logger.warning(f"Warning: {html_field_name} value at {lookup['value_address']} is {value} "
-                         f"and is of type {type(value)} whereas it should be of type {value_type}.  "
-                         f"Attempting to convert the value to the correct type")
-          try:
-            value = value_type(value)
-            logger.info(f"Type conversion successful.  value is now {value} with type: {type(value)}")
-          except (ValueError, TypeError) as e:
-            logger.warning(f"Type conversion failed, resetting value to None")
+          # if it is not supposed to be of type string, but it is a zero length string, turn it to None
+          if value == "":
             value = None
+          else:
+            logger.warning(f"Warning: <{html_field_name}> value at <{lookup['value_address']}> is <{value}> "
+                           f"and is of type <{type(value)}> whereas it should be of type <{value_type}>.  "
+                           f"Attempting to convert the value to the correct type")
+            try:
+              # convert to datetime using a parser if possible
+              if value_type == datetime.datetime:
+                local_datetime = parse_unknown_datetime(value)
+                utc_datetime = local_datetime.astimezone(ZoneInfo("UTC"))
+                value = utc_datetime
+              else:
+                # Use default repr-like conversion if not a datetime
+                value = value_type(value)
+              logger.info(f"Type conversion successful.  value is now <{value}> with type: <{type(value)}>")
+            except (ValueError, TypeError) as e:
+              logger.warning(f"Type conversion failed, resetting value to None")
+              value = None
 
       result['tab_contents'][tab_name][html_field_name] = value
 
