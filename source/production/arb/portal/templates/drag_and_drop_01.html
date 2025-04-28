@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop File Upload</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_02.css') }}">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center">Drag and Drop File Upload</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        <div class="form-group text-center">
+          <label for="fileInput" class="form-control">
+            <div class="upload-drop-zone" id="dropZone">
+              <h3>Drag and Drop Files Here</h3>
+              <input type="file" id="fileInput" name="file" class="d-none"/>
+            </div>
+          </label>
+          <button type="submit" class="btn btn-primary mt-3">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+    document.getElementById('dropZone').addEventListener('dragover', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.add('dragging');
+    });
+
+    document.getElementById('dropZone').addEventListener('dragleave', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('dragging');
+    });
+
+    document.getElementById('dropZone').addEventListener('drop', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('dragging');
+        document.getElementById('fileInput').files = e.dataTransfer.files;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+body {
+    background-image: url('../img/background.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#drop-area {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 40px;
+    transition: background-color 0.3s ease;
+}
+
+#drop-area.bg-success-subtle {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+#progress-bar {
+    transition: width 0.4s ease;
+}
+
+#file-select-btn {
+    cursor: pointer;
+}

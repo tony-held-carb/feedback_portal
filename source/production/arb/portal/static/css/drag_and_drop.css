@@ -1,0 +1,67 @@
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: 40px;*/
+/*}*/
+
+.drag-and-drop-h1 {
+    color: #333;
+}
+
+.drag-and-drop-ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.drag-and-drop-li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.drag-and-drop-a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.drag-and-drop-a:hover {
+    background-color: #0056b3;
+}
+
+#drop_zone {
+    width: 450px;
+    height: 300px;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+#drop_zone.dragover {
+    background-color: #e0f7ff;
+}
+
+/*.drop-zone-icon {*/
+/*    width: 10px;*/
+/*}*/
+
+#drop_zone .icon img {
+    width: 50px;
+}
+
+.imageContent {
+    background: url('http://orig15.deviantart.net/0e45/f/2010/052/1/1/calvin_and_hobbes_2010_by_nami86.png') no-repeat center center;
+    background-size: auto 100%;
+    height: 500px;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}

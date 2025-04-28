@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop File Upload</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" rel="stylesheet">
+  <style>
+      /* Custom styling for the dropzone */
+      .dropzone {
+          border: 2px dashed #0087F7;
+          border-radius: 5px;
+          background: #f3f3f3;
+          padding: 30px;
+      }
+
+      /* Change background color on drag-over */
+      .dropzone.dragover {
+          background-color: #d0f0d8;
+          border-color: #28a745;
+      }
+
+      /* Styling for the icon */
+      .dz-message {
+          font-size: 20px;
+          color: #333;
+      }
+
+      .dz-message i {
+          font-size: 50px;
+          margin-bottom: 10px;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Drag and Drop File Upload</h2>
+
+  <form action="/upload" class="dropzone" id="file-dropzone" method="POST" enctype="multipart/form-data">
+    <div class="dz-message">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Drag & drop files here or click to upload.</p>
+    </div>
+  </form>
+</div>
+
+<!-- Font Awesome for icon -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
+<script>
+    // Initialize Dropzone
+    Dropzone.options.fileDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 5, // MB
+        init: function () {
+            this.on("dragenter", function () {
+                this.element.classList.add('dragover');
+            });
+            this.on("dragleave", function () {
+                this.element.classList.remove('dragover');
+            });
+        }
+    };
+</script>
+</body>
+</html>

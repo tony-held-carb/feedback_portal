@@ -1,0 +1,40 @@
+{
+  "_metadata_": {
+    "schema_version": "oil_and_gas_v03",
+    "payload description": "test of Excel jinja templating system",
+    "File created at": "2024-12-25T21:20:29.662728",
+    "Serialized with": "rsdas_util.misc.json_save_with_meta",
+    "Deserialize with": "rsdas_util.misc.json_load_with_meta"
+  },
+  "data": {
+    "id_incidence": "1000011",
+    "id_plume": "1234",
+    "observation_timestamp": "06/25/2024 00:00",
+    "lat_carb": "35.3211",
+    "long_carb": "-119.5808",
+    "notification_timestamp": "06/27/2024 00:00",
+    "facility_name": "Facility Name",
+    "id_arb_eggrt": "Cal e-GGRT ARB ID",
+    "contact_name": "Contact Person Name",
+    "contact_phone": "555-555-5555",
+    "contact_email": "me@email.com",
+    "venting_exclusion": "Please Select",
+    "venting_description_1": "Q7 Answer.",
+    "inspection_timestamp": "08/14/2023 00:00",
+    "inspection_type": "Please Select",
+    "found_source_type": "Please Select",
+    "venting_description_2": "Q11 Answer.",
+    "initial_mitigation_plan": "Q12 Answer.",
+    "ogi_survey": "Please Select",
+    "equipment_at_source": "Please Select",
+    "equipment_other_description": "Q15 Answer.",
+    "component_at_source": "Please Select",
+    "component_other_description": "Q17 Answer.",
+    "initial_method_21_timestamp": "08/13/2023 14:00",
+    "initial_leak_concentration": "100",
+    "repair_timestamp": "08/21/2023 16:00",
+    "final_repair_concentration": "40",
+    "repair_description": "Q22 Answer.",
+    "additional_notes": "Q23 Answer."
+  }
+}

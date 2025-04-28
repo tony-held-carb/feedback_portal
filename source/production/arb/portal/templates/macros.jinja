@@ -1,0 +1,109 @@
+{# Jinja Macros for Web Portal #}
+
+{% macro input_element(element,
+                       size=9) %}
+  {#
+  Notes:
+    - default size is 9 columns
+    - kwargs stores any unspecified keyword arguments passed to this macro
+    - diagnostic options for kwargs
+      - {{ kwargs }}
+      - {{ kwargs|debug or '' }}
+  #}
+
+  {#  {% if 'disabled_' in kwargs %}#}
+  {#    {{ 'Disabled selected'|debug or '' }}#}
+  {#  {% endif %}#}
+
+  {% if size>= 12 %}
+    {% set label_size = 12 %}
+  {% else %}
+    {% set label_size = 12 - size %}
+  {% endif %}
+
+  <div class='row mb-2'>
+    {#    <div class="col-sm-{{ label_size }}">#}
+    <div class="col-md-{{ label_size }}">
+      {{ element.label(class_="col-form-label") }}
+    </div>
+    {#    <div class="col-sm-{{ size }}">#}
+    <div class="col-md-{{ size }}">
+      {% if kwargs %}
+        {{ element(class_="form-control", **kwargs) }}
+      {% else %}
+        {{ element(class_="form-control") }}
+      {% endif %}
+    </div>
+  </div>
+
+  {{ list_errors(element) }}
+
+{% endmacro %}
+
+{% macro list_errors(element) %}
+  {#  Display errors associated with an html element#}
+  {% if element.errors %}
+    {% for error in element.errors %}
+      <div class="alert alert-danger alert-dismissible fade show">
+        <strong>Invalid Input</strong> {{ error }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro error_header(wtf_form, error_count_dict) %}
+  {#  Put total error count and wtf_form-level errors at top as dismissible banners#}
+
+  {% if error_count_dict['total_error_count'] >0 %}
+    <div class="alert alert-danger alert-dismissible fade show">
+      <strong> {{ error_count_dict['total_error_count'] }} validation error(s) was/were detected.</strong>
+      <br>Please correct entry errors where possible.
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endif %}
+
+
+  {% if error_count_dict['wtf_form_error_count'] >0 %}
+    <div class="alert alert-danger alert-dismissible fade show">
+      <strong> {{ error_count_dict['wtf_form_error_count'] }} wtf_form-level validation error(s) were detected:</strong>
+      <ul>
+        {% for error in wtf_form.errors[None] %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro drop_down_list(data_dict,
+                        drop_down_dict,
+                        name,
+                        description,
+                        size=9) %}
+  {#
+  Notes:
+    - this macro is likely outdated, but being kept as a reference for a bit ...
+    - Be careful on the types associated with drop downs!
+    - Sometimes db store items as number and when they are compared to text there are equality/type issues.
+    - As an initial strategy, I recommend that you always cast selectors to strings for equality determination.
+    - Also, use int instead of boolean because it avoids some logic pitfalls of type conversions using this algorithm.
+  #}
+
+  {% set label_size = 12 - size %}
+
+  <div class="row mb-2">
+    <label class="col-sm-{{ label_size }} col-form-label" for="{{ name }}">{{ description }}</label>
+    <div class="col-sm-{{ size }}">
+      <select class="form-select" name="{{ name }}" id="{{ name }}">
+        <option value="" selected disabled>Please Select</option>
+        {% for key_, value_ in drop_down_dict[name].items() %}
+          <option value="{{ key_ }}"
+              {% if key_|string == data_dict[name]|string %} selected {% endif %} >{{ value_ }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+{% endmacro %}
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Uploader</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="upload-container"
+     style="background-image: url('{{ url_for('static', filename='images/light_blue.png') }}');">
+  <h1>Drag & Drop to Upload</h1>
+  <div class="drag-area" id="drag-area">
+    <div class="icon">
+      <img src="{{ url_for('static', filename='images/upload_icon.png') }}" alt="Upload Icon">
+    </div>
+    <header>Drag & Drop or Select File</header>
+    <span>OR</span>
+    <button id="file-btn">Choose File</button>
+    <input type="file" id="file-input" hidden>
+  </div>
+
+  <div class="progress-area">
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+
+  <div class="uploaded-area" id="uploaded-area">
+    <!-- Uploaded file details will show here -->
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/uploader.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{#Formatting settings#}
+{% set card_style="card bg-light mb-3" %}
+{% set card_header_style="card-header text-bg-primary" %}
+
+{% if crud_type=="update" %}
+  {% set title= "Update Feedback Incidence " ~ wtf_form['id_incidence'].data %}
+  {#  {% set banner_title= "Update Operator Feedback Form " ~ wtf_form['id_incidence'].data %}#}
+  {% set banner_title= "Operator Feedback Form (Oil & Gas)" %}
+{% else %}
+  {% set title= "New Feedback" %}
+  {#  {% set banner_title= "Create New Operator Feedback Form" %}#}
+  {% set banner_title= "Operator Feedback Form (Oil & Gas)" %}
+{% endif %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content_1 %}
+
+  {#  <p>The form type is: {{ crud_type }}</p>#}
+  {#  <p>{{ wtf_form['id_incidence']|debug }}</p>#}
+  {#  <p>{{ wtf_form['id_incidence'].data|debug }}</p>#}
+
+  {#  <p>{{ wtf_form|debug }}</p>#}
+  {#  <p>{{ error_count_dict|debug }}</p>#}
+
+  {#
+<div class="container-fluid bg-image-02 pt-3">#}
+  {#
+  <div class="container-fluid pt-3" style="background-color:tan;">#}
+  {#
+    <div class="container-fluid post-nav-padding neutral-background" style="min-width: 300px;">#}
+  <div class="container-fluid post-nav-padding bg-secondary"
+       style="
+           min-width: 300px;
+           {#--bs-bg-opacity: .75;  {# Comment this line out if you want the full opacity #}
+           "
+  >
+    <div class="container-fluid mb-3 pt-1 ">
+
+      {#
+          <div class="mb-2 p-3 bg-secondary text-white rounded">#}
+      <div class="mb-2 p-3 bg-success text-white rounded">
+        <h1>{% block banner_title %}
+          {{ banner_title }}
+        {% endblock %}</h1>
+
+        <p>{% block banner_subtitle %}
+        {% endblock %}</p>
+      </div>
+
+      {{ macros.error_header(wtf_form, error_count_dict) }}
+
+      <div class="{{ card_style }}">
+        <div class="{{ card_header_style }}">
+          <h3>Section 1. Instructions</h3>
+        </div>
+        <div class="card-body">
+
+          <ul class="mb-0">
+            <li>
+              Owners/operators must inspect their facility within 5 days of this plume notification.
+            </li>
+            <li>If a ground inspection is required per Section 6, relevant sections of this form must be reported within
+              72 hours (3 days) of completion of the inspection (not to exceed 8 days after the initial notification).
+            </li>
+            <li>If the plume is due to a planned maintenance activity, please submit relevant sections of this this form
+              within 5 days of receiving the notification.
+            </li>
+            <li>If a non-venting source is found, please submit your responses to Sections 7 and 8 within 5 days of
+              repairing a leak.
+            </li>
+            <li>Not all sections and fields may apply to your facility for the suspected plume.</li>
+            <li>If a data request does not apply, leave the response blank (or 'Please Select' if it is a drop down
+              field).
+            </li>
+            <li>Use the local date/time at the facility for timestamp related questions.</li>
+            <li>Detailed data requirements and timelines are specified in the Oil and Gas Methane Regulation (see
+              Section 2 below).
+            </li>
+            <li>If it is unclear how to respond to a request or how to interpret the regulations, please elaborate in
+              the 'Additional Comments' Section.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="{{ card_style }}">
+        <div class="{{ card_header_style }}">
+          <h3>Section 2. Resources</h3>
+        </div>
+        <div class="card-body">
+
+          <ul class="mb-0">
+            <li>
+              <a href="https://ww2.arb.ca.gov/rulemaking/2023/oil-and-gas-2023"
+                 target="_blank"
+                 rel="noopener noreferrer"
+              >
+                Click here for the rulemaking process for the Amendments to the Greenhouse Gas Emission Standards for
+                Crude Oil and Natural Gas Facilities.
+              </a>
+            </li>
+            <li>
+              <a href="https://ww2.arb.ca.gov/sites/default/files/barcu/regact/2023/oilgas2023/fro1.pdf"
+                 target="_blank"
+                 rel="noopener noreferrer"
+              >
+                Click here for the Final Regulation Order Regarding Greenhouse Gas Emission Standards for Crude Oil
+                and Natural Gas Facilities.
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <form method="post" novalidate>
+        {{ wtf_form.csrf_token }}
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 3. Emission Detection Information Provided by CARB</h3>
+          </div>
+          <div class="card-body">
+
+            {{ macros.input_element(wtf_form.id_incidence, size=8, placeholder="ID as Integer") }}
+            {{ macros.input_element(wtf_form.id_plume, size=8, placeholder="ID as Integer") }}
+            {{ macros.input_element(wtf_form.observation_timestamp, size=8) }}
+            {{ macros.input_element(wtf_form.lat_arb, size=8, placeholder="Optional valid CA latitude (5 digits of precision preferred).") }}
+            {{ macros.input_element(wtf_form.long_arb, size=8, placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
+            {{ macros.input_element(wtf_form.id_message, size=8, placeholder="Optional CARB Message ID") }}
+
+          </div>
+        </div>
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 4. Facility Information</h3>
+          </div>
+          <div class="card-body">
+
+            {{ macros.input_element(wtf_form.facility_name) }}
+            {{ macros.input_element(wtf_form.id_arb_eggrt) }}
+            {{ macros.input_element(wtf_form.contact_name, placeholder="Contact Name") }}
+            {{ macros.input_element(wtf_form.contact_phone, placeholder="(555) 555-5555") }}
+            {{ macros.input_element(wtf_form.contact_email, placeholder="your_name@server.com") }}
+
+          </div>
+        </div>
+
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>
+              Section 5. Venting Exclusion Determination
+            </h3>
+          </div>
+          <div class="card-body">
+
+            {{ macros.input_element(wtf_form.venting_exclusion, size=5) }}
+            {{ macros.input_element(wtf_form.venting_description_1, size=12, rows=3,
+                  placeholder="Required only if you select YES for the venting exclusion above. Leave blank otherwise.") }}
+
+          </div>
+        </div>
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>
+              Section 6. Ground Inspection Results
+            </h3>
+          </div>
+          <div class="card-body">
+
+            {{ macros.input_element(wtf_form.ogi_performed) }}
+            {{ macros.input_element(wtf_form.ogi_date) }}
+            {{ macros.input_element(wtf_form.ogi_result) }}
+            {{ macros.input_element(wtf_form.method21_performed) }}
+            {{ macros.input_element(wtf_form.method21_date) }}
+            {{ macros.input_element(wtf_form.method21_result) }}
+            {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.venting_description_2, size=12, rows=3) }}
+            {{ macros.input_element(wtf_form.initial_mitigation_plan, size=12, rows=3) }}
+
+          </div>
+        </div>
+
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 7. Description of Emission Sources and Repairs (Required if a Non-Venting Source Found)</h3>
+          </div>
+          <div class="card-body">
+
+            {{ macros.input_element(wtf_form.equipment_at_source, size=6) }}
+            {{ macros.input_element(wtf_form.equipment_other_description, size=12, rows=1) }}
+            {{ macros.input_element(wtf_form.component_at_source, size=6) }}
+            {{ macros.input_element(wtf_form.component_other_description, size=12, rows=1) }}
+            {{ macros.input_element(wtf_form.repair_timestamp, size=6) }}
+            {{ macros.input_element(wtf_form.final_repair_concentration, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.repair_description, size=12, rows=3) }}
+
+          </div>
+        </div>
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 8. Supplemental</h3>
+          </div>
+          <div class="card-body">
+            {{ macros.input_element(wtf_form.additional_notes, size=12, rows=3) }}
+          </div>
+        </div>
+
+        <div class="btn-group" role="group" id="tbd">
+          <button type="submit" name="submit_button" value="validate_and_submit"
+                  class="btn btn-success m-3 btn-lg">
+            Validate & Submit
+          </button>
+          {#
+                <button type="submit" name="submit_button" value="update_incidence_status"
+                        class="btn btn-success m-3 btn-lg">#}
+          {# Update Incidence Status#}
+          {#
+                </button>
+                #}
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  {# <p> debug info: </p>#}
+  {# <p>{{ wtf_form|debug }}</p>#}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mt-4">{{ note.title }}</h1>
+<p>{{ note.content }}</p>
+<p class="text-muted">Created by {{ note.username }} on {{ note.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+<p class="text-muted">Last updated on {{ note.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+
+<a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn btn-primary">Edit</a>
+
+<form method="POST" action="{{ url_for('delete_note', note_id=note.id) }}" style="display:inline;">
+  <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+
+<a href="{{ url_for('home') }}" class="btn btn-secondary">Back</a>
+{% endblock %}

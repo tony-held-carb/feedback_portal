@@ -1,0 +1,11 @@
+Collection system downtime
+Construction - New Well Installation
+Construction - Well Raising or Horizontal Extension
+Cover integrity
+Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)
+Cracked/Broken Seal
+Damaged component
+Insufficient vacuum
+Offline Gas Collection Well(s)
+Other
+Uncontrolled Area (no gas collection infrastructure)

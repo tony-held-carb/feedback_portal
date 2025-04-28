@@ -1,0 +1,278 @@
+
+To determine the SQLAlchemy types and Python types from a model using inspect, you can use the sqlalchemy.inspection.inspect function. This function helps you inspect the model and retrieve the columns, along with their types.
+
+Here's a step-by-step guide:
+
+Example SQLAlchemy Model:
+python
+Copy code
+from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+Inspecting the Model:
+You can use inspect to get information about the table's columns and types.
+
+python
+Copy code
+from sqlalchemy.inspection import inspect
+
+def get_column_info(model):
+    # Get the table inspector for the model
+    inspector = inspect(model)
+    
+    columns_info = {}
+    for column in inspector.columns:
+        col_name = column.name
+        sqlalchemy_type = column.type
+        python_type = column.type.python_type
+        
+        columns_info[col_name] = {
+            'sqlalchemy_type': sqlalchemy_type,
+            'python_type': python_type
+        }
+    
+    return columns_info
+
+# Example usage
+column_info = get_column_info(User)
+for col_name, col_types in column_info.items():
+    print(f"Column: {col_name}, SQLAlchemy Type: {col_types['sqlalchemy_type']}, Python Type: {col_types['python_type']}")
+
+
+# suppress warnings about data validation - Excel's extensions aren't fully compatible with openpyxl but these modified templates should work
+# https://www.reddit.com/r/learnpython/comments/mfy9qa/openpyxl_deleting_data_validation/
+# with warnings.catch_warnings():
+#     warnings.filterwarnings("ignore", category=UserWarning)
+
+Tables associated with incidences
+
+emission_identified_flag
+emission_type
+incidence_qa_flag
+inspection_flag
+mitigation_type
+sources
+
+# this is a multiple foreign key association table (do this last)
+plume_incidence_mapping
+
+
+
+when we close, set the incidence end timestamp
+
+
+python define a class in a function to avoid circular imports
+
+def create_class():
+    class MyClass:
+        def __init__(self, value):
+            self.value = value
+
+        def do_something(self):
+            print(f"Doing something with {self.value}")
+
+    return MyClass
+
+# Use the function to create the class
+MyClass = create_class()
+
+# Create an instance of the class
+obj = MyClass(10)
+obj.do_something()
+
+
+Naming Conventions
+---------------------
+* pass an sql model as model_rows and iterate through it with for model_row in model_rows
+* Use model_row if you have a single row from a query
+* don't use form as a variable in html, it is confusing.  if you want to pass a WTForm, use the variable wtf_form
+
+Datetime string conventions
+---------------------------
+- When you create an SQLAlchemy model, you can use a dict to represent the json column
+- That dict can contain any python types, but if you try to write the json to the database, the type must serialize as a string
+- datetimes coming into and out of the postgres database should follow the format "2024-09-03 16:55:00.000000"
+      - logger.debug(f"Attempting to cast datetime to string")
+      - value = datetime.datetime.strftime(value, "%Y-%m-%d %H:%M:%S.%f")
+      - if isinstance(obj, datetime):
+          return obj.strftime("%Y-%m-%d %H:%M:%S.%f")
+          value = datetime.datetime.strftime(value, "%Y-%m-%d %H:%M:%S.%f")
+
+Date-time issues
+---------------------------
+- if you set the raw_data for a date field you can get unexpected results!
+
+- turned off editing the raw data
+---------------------------------
+- notes on an incidence created through the web-interface
+    - seems to initialize and show dates properly
+    - no validation data are presented (that may be by design, but it could be nice if it validated)
+    - when you validate, the dates don't disappear and things sorta seem to work as desired
+    - the creation process creates new instances each time you validate
+- notes on GETing an incidence that already exists
+    - date stamps are not in the right format and are deleted when you post
+    - get does not show the validation errors (likely because i turned off raw data)
+- notes on POSTing an incidence that already exists
+
+- turned on editing the raw data
+---------------------------------
+- notes on an incidence created through the web-interface
+    - GETing seems like things are populated properly, but there is no validation
+    - When you post things seem to work as expected and get saved properly
+- when you try and load, you get errors, likely because the json field has a string rather than a datetime object
+
+currently datetimes are converted to at model_to_wtform to ensure they are datetime objects.
+This works, but it means that datetimes in models may be strings or actual datetime objects depending on
+if they were created as a python object or deserialized from the database or json file
+
+secondary and tertiary causes are not mapping to their selects properly.
+I think it is because the drop down does not have the same name as the element for the emission_cause and dropdown
++2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause.  field.data=-1
++2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_secondary.  field.data='Offline Gas Collection Well(s)'
++2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_tertiary.  field.data='Construction - New Well Installation'
+
+* trying to figure out the repeat incidence on validation for new incidences (fixed!)
+    - testing creation through dummy data
+        - on first get page, the database is not updated
+        - if you validate, it creates an incidence
+        - if you validate again, it creates another
+    - options are to try and fix the existing structure (try first)
+      or to get rid of the concept of creation pages (would get confusing on incidence id's being set automatically)
+
+
+* It looks like validation is done on raw_data not the data, so if you try to run validation with GET
+you get all sorts of errors because you are not setting the raw_data (which must be a string)
+
+* old todo items
+Monday fixes 11/19/24
+  - change database location to dan's new db
+    - old: satellite_tracker_sample2
+    - new: satellite_tracker_demo1
+  - change table with incidence info in column 'misc_json'
+    - old: incidences_with_json
+    - new: incidences
+  - change table references to incidences not incidences_with_json
+  - fix source id = none on the index page
+
+Sunday prep priorities
+
+* 11/17/24, deploying portal for dry-run purposes, clone will be on main branch that should be stable/working
+
+
+*. double check o&g and landfill model validation (second pass)
+
+Going to see if remote development is faster than developing off my laptop ...
+initially looks like the remote is quite a lot faster at startup, but i don't think
+the debugger is on, so i need to set some ec2 variables to make this a fair fight.
+  * ec2 flask run --host=0.0.0.0 -p 2113 --debug --no-reload
+    * 0.5 seconds
+        start   +2024-11-22 19:27:48.479
+        finish  +2024-11-22 19:27:49.030
+  * laptop flask run --host=0.0.0.0 -p 2113 --debug --no-reload
+    * 13 seconds
+       start    +2024-11-22 11:29:51.591
+       finish   +2024-11-22 11:30:04.193
+  * laptop flask run -p 2113 --debug --no-reload
+    * 13 seconds
+      * start     +2024-11-22 11:55:10.854
+      * finish    +2024-11-22 11:55:23.184
+
+flask_logger.log replaced with portal_logger.log  changed to operator_portal.log that is not tracked by git
+
+* db has entries for landfills (plural) should be changed to landfill for consistency
+    (note that the names for sectors have changed, so this may be moot)
+
+finding startup times using remote development
+    * laptop
+        flask run -p 2113 --debug
+            try 1 (25 seconds)
+                start  +2024-11-25 09:36:50.960
+                finish +2024-11-25 09:37:15.633
+            try 2 (21 seconds)
+                start  +2024-11-25 09:38:14.310
+                finish +2024-11-25 09:38:35.417
+            try 3 (23 seconds)
+                start  +2024-11-25 10:09:38.432
+                finish +2024-11-25 10:10:01.867
+            source code change 1 (12 seconds)
+                start  +2024-11-25 10:12:30.690 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in 'C:\\Users\\theld\\OneDrive - California Air Resources Board\\code\\pycharm\\plume_portal\\portal_03\\app.py', reloading
+                finish +2024-11-25 10:12:42.601 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 834-679-507
+            source code change 2 (12 seconds)
+                start  +2024-11-25 10:13:55.408 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in 'C:\\Users\\theld\\OneDrive - California Air Resources Board\\code\\pycharm\\plume_portal\\portal_03\\app.py', reloading
+                finish +2024-11-25 10:14:07.832 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 834-679-507
+            source code change 3 (12 seconds)
+                start  +2024-11-25 10:15:00.613 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in 'C:\\Users\\theld\\OneDrive - California Air Resources Board\\code\\pycharm\\plume_portal\\portal_03\\app.py', reloading
+                finish +2024-11-25 10:15:12.311 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 834-679-507
+
+        flask run -p 2113 --debug --no-reload
+            try 1 (10 seconds)
+                start  +2024-11-25 09:39:33.235
+                finish +2024-11-25 09:39:43.203
+            try 2 (10 seconds)
+                start  +2024-11-25 09:40:49.854
+                finish +2024-11-25 09:40:59.408
+
+    * ec2
+        flask run -p 2113 --debug
+            try 1 (3 seconds)
+                start  +2024-11-25 17:52:31.838
+                finish +2024-11-25 17:52:34.660
+            try 2 (3 seconds)
+                start  +2024-11-25 17:55:28.976
+                finish +2024-11-25 17:55:31.997
+            try 3 (2 seconds)
+                start  +2024-11-25 17:59:21.290
+                finish +2024-11-25 17:59:23.102
+            source code change 1 (3 seconds)
+                +2024-11-25 18:03:11.720 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in '/home/theld/code/pycharm/plume_portal/portal_03/app.py', reloading
+                +2024-11-25 18:03:12.293 | INFO     | werkzeug | _internal.py | 97 |  * Restarting with stat
+                +2024-11-25 18:03:14.103 | INFO     | portal_03.config | config.py | 98 | Logger Initialized
+                +2024-11-25 18:03:14.735 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 113-184-331
+            source code change 2 (4.5 seconds)
+                +2024-11-25 18:04:54.226 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in '/home/theld/code/pycharm/plume_portal/portal_03/app.py', reloading
+                +2024-11-25 18:04:59.162 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 113-184-331
+            source code change 3 (3.5 seconds)
+                +2024-11-25 18:06:12.552 | INFO     | werkzeug | _internal.py | 97 |  * Detected change in '/home/theld/code/pycharm/plume_portal/portal_03/app.py', reloading
+                +2024-11-25 18:06:16.011 | INFO     | werkzeug | _internal.py | 97 |  * Debugger PIN: 113-184-331
+        flask run -p 2113 --debug --no-reload
+            try 1 (0.5 seconds)
+                start  +2024-11-25 17:56:13.931
+                finish +2024-11-25 17:56:14.455
+            try 2 (0.5 seconds)
+                start  +2024-11-25 17:57:01.104
+                finish +2024-11-25 17:57:01.636
+
+* To delete, then recreate the database (only if using sqlite):
+    * Close flask app
+    * disconnect pycharm from database
+    * run flask run
+    * navigate to  http://127.0.0.1:5000/run_sql_script
+    * navigate to  http://127.0.0.1:5000/add_form_dummy_data
+
+* Changing first name, second name, to just name
+contact_first_name -> contact_name
+contact_last_name -> deleted
+First Name -> Contact Name
+First Name
+
+wtf_forms.py references
+class LandfillFeedback(FlaskForm)
+  contact_first_name = StringField(label='Contact First Name:', validators=[InputRequired()])
+  contact_last_name = StringField(label='Contact Last Name:', validators=[InputRequired()])
+
+class OGFeedback(FlaskForm):
+  contact_first_name = StringField(label='Contact First Name:', validators=[InputRequired()])
+  contact_last_name = StringField(label='Contact Last Name:', validators=[InputRequired()])
+
+# todo - Landfill feedback forms, fields to add to wtf forms and html
+    CARB Message ID - jinja_id_message
+    SWIS ID - jinja_id_arb_swis
+    additional_activities - jinja_additional_activities
+    re_monitored_timestamp - jinja_re_monitored_timestamp

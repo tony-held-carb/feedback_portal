@@ -1,0 +1,100 @@
+/*template from: https://mdbootstrap.com/docs/standard/extended/login/#section-2*/
+/*dark blue  #0e597c*/
+/*light blue #1e8abe*/
+/*green  #2fad9c*/
+/*yellow  #fdb62b*/
+
+/*  Hard coded padding for nav bar, not sure if there is a better way to get padding
+    If you change the image size in the nav-bar you may need to adjust the hard coded padding below.
+*/
+.post-nav-padding {
+    padding-top: 80px;
+}
+
+.neutral-background {
+    /*background-color:tan;*/
+    background-color: #004A2A;
+    /*background-color:#92FCDC;*/
+}
+
+.bg-image-01 {
+    /* The image used */
+    background-image: url("../images/clipboard_01.jpeg");
+    /*background-image: url("portal_03/static/images/clip
+
+    /* Full height */
+    width: 100%;
+
+    /* Center and scale the image nicely */
+    /*background-position: center;*/
+    background-repeat: repeat-y;
+    /*background-size: 300px 100px;*/
+    /*background-size: cover;*/
+
+    background-size: contain;
+    background-attachment: fixed;
+}
+
+.bg-image-02 {
+    /* The image used */
+    background-image: url("../images/beige_02.jpg");
+
+
+    /* Full height */
+    width: 100%;
+
+    /* Center and scale the image nicely */
+    /*background-position: center;*/
+    /*background-repeat: repeat-y;*/
+    /*background-size: 300px 100px;*/
+    background-size: cover;
+
+    /*background-size: contain;*/
+    background-attachment: fixed;
+}
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /*background: -webkit-linear-gradient(to right, #1e8abe, #fdb62b,#2fad9c,  #0e597c);*/
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /*background: linear-gradient(to right, #1e8abe, #fdb62b,#2fad9c,  #0e597c);*/
+}
+
+.gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    /*background: -webkit-linear-gradient(to right, #0e597c, #0e597c, #0e597c,#1e8abe, #1e8abe,  #1e8abe, #fdb62b);*/
+    background: -webkit-linear-gradient(to right, #0e597c, #1e8abe);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #0e597c, #1e8abe);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+/*.sticky-top {*/
+/*  !*position: -webkit-sticky;*!*/
+/*  position: sticky;*/
+/*  top: 0;*/
+/*  z-index: 1020; !* Bootstrap z-index for fixed/sticky navbar *!*/
+/*  background-color: #ffffff; !* Optional: Set background color *!*/
+/*}*/

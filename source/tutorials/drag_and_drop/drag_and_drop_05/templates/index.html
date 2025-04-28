@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag & Drop File Uploader</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+      }
+
+      #drop-area {
+          border: 2px dashed #007bff;
+          padding: 30px;
+          margin: 20px auto;
+          width: 300px;
+      }
+
+      #progress-bar {
+          width: 0;
+          height: 20px;
+          background-color: #28a745;
+          margin-top: 10px;
+          display: none;
+      }
+
+      .alert {
+          margin-top: 10px;
+          padding: 10px;
+          color: white;
+          display: none;
+      }
+
+      .alert-success {
+          background-color: #28a745;
+      }
+
+      .alert-error {
+          background-color: #dc3545;
+      }
+  </style>
+</head>
+<body>
+
+<h1>Drag and Drop File Uploader</h1>
+
+<div id="drop-area">
+  <p>Drag & Drop your file here</p>
+  <input type="file" id="fileElem" style="display:none;"/>
+  <button id="fileSelect">Select File</button>
+</div>
+
+<div id="progress-bar"></div>
+
+<div class="alert alert-success" id="success-alert">File uploaded successfully!</div>
+<div class="alert alert-error" id="error-alert">Error uploading file!</div>
+
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const fileElem = document.getElementById('fileElem');
+    const progressBar = document.getElementById('progress-bar');
+    const successAlert = document.getElementById('success-alert');
+    const errorAlert = document.getElementById('error-alert');
+
+    document.getElementById('fileSelect').addEventListener('click', function () {
+        fileElem.click();
+    });
+
+    // Handle file drag-and-drop
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropArea.style.borderColor = '#17a2b8';
+    });
+
+    dropArea.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        dropArea.style.borderColor = '#007bff';
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropArea.style.borderColor = '#007bff';
+        const files = event.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    fileElem.addEventListener('change', (event) => {
+        const files = event.target.files;
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        const file = files[0];
+        if (file) {
+            uploadFile(file);
+        }
+    }
+
+    function uploadFile(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload', true);
+
+        xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBar.style.width = percentComplete + '%';
+                progressBar.style.display = 'block';
+            }
+        };
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                showSuccessAlert();
+            } else {
+                showErrorAlert();
+            }
+            progressBar.style.display = 'none';
+            progressBar.style.width = '0';
+        };
+
+        xhr.send(formData);
+    }
+
+    function showSuccessAlert() {
+        successAlert.style.display = 'block';
+        setTimeout(() => {
+            successAlert.style.display = 'none';
+        }, 3000);
+    }
+
+    function showErrorAlert() {
+        errorAlert.style.display = 'block';
+        setTimeout(() => {
+            errorAlert.style.display = 'none';
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>

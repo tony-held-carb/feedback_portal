@@ -1,0 +1,51 @@
+# Creation of the conda environment suitable for flask web development
+# On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
+# ---------------------------------
+# conda update conda
+# conda env list
+# conda remove --name mini_conda_01 --all
+# conda deactivate
+# conda env create -f "D:\g_drive\google docs\code\python\requirements\mini_conda_01.yml"
+# 
+
+# Updating the conda environment
+# Make sure you activate the environment and that the yml "name:"" has not changed
+# ---------------------------------
+# conda activate mini_conda_01
+# conda env update --file "D:\g_drive\google docs\code\python\requirements\mini_conda_01.yml" --prune
+
+# change the name of your environment with the variable below
+name: mini_conda_01
+channels:
+  - defaults
+  # Include any other channels here if your package is not in defaults
+  # - conda-forge
+dependencies:
+  - python=3.11.*
+  - flask
+  - pandas
+  - numpy
+  - scipy
+  - jupyter
+  - notebook
+  - matplotlib
+  - scikit-learn
+  - seaborn
+  - plotly
+  - flask-sqlalchemy
+  - flask-login
+  - psycopg2
+  - conda-forge::wtforms=3.1
+  - Flask-WTF
+  - xlwings
+  - openpyxl
+  - Flask-Bootstrap
+  # Make sure you include pip as a dependency (so don't delete the next line)
+  # if you don't have the next line, you can get unstable/unpredictable results
+  - pip
+  # If a package is not available through conda, include it in the pip sub-list below
+  - pip:
+      - wget
+      - Flask-Migrate
+      - geoalchemy2
+      - email_validator

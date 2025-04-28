@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DateTimeLocalField Example</title>
+</head>
+<body>
+<h1>Choose a Date and Time</h1>
+<form method="post">
+  {{ form.datetime_field.label }}
+  {{ form.datetime_field() }}
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>

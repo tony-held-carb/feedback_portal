@@ -1,0 +1,13 @@
+.upload-drop-zone {
+    border: 2px dashed #007bff;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.upload-drop-zone.dragging {
+    background-color: #e2e6ea;
+}
