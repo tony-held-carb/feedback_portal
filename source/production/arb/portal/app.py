@@ -60,6 +60,7 @@ Config.configure_flask_app(app)
 db_initialize_and_create(app, db)
 base = reflect_database(app, db)  # determines schema of postgres database
 
+
 #####################################################################
 # Save db schema to global variables, & load drop down selector information
 # #####################################################################

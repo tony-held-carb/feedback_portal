@@ -46,6 +46,11 @@ class Config:
   BASE_PATH = Path(BASE_DIR)
   UPLOAD_PATH = BASE_PATH / 'static/uploads'
 
+  # Set the project root based on the location of folder containing app.py
+  # current file structure is feedback_portal/source/production/arb/portal
+  # So .parent gets to you portal and .parent.parten gets you to arb
+  PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
   @classmethod
   def configure_flask_app(cls,
                           flask_app,
@@ -118,6 +123,7 @@ class Config:
     logger.debug(f"{Config.BASE_DIR=}")
     logger.debug(f"{Config.BASE_PATH=}")
     logger.debug(f"{Config.UPLOAD_PATH=}")
+    logger.debug(f"{Config.PROJECT_ROOT=}")
 
     # Configure drag and drop upload folder
     flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
