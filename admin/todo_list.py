@@ -21,6 +21,10 @@ before doing any major code re-works.
 feedback portal now a clean repo, need to test that it still works on laptop,
 then make it generalizable to the ec2
 
+* xl_parse.log shows that the payloads are getting message up (loosing spaces and punctuation)
+* looks like it is special characters in the vba that are getting corrupted
+
+* probably want to disable the ability to delete an incidence
 
 Forget me nots
 ----------------------------

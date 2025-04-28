@@ -64,14 +64,15 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
     # my_path1 = Path(__file__).parent
     # print(f"{my_path1=}")
     xl_base_path = Path.cwd()
-    print(f"{xl_base_path=}")
+
+    logger.debug(f"{xl_base_path=}")
   else:
     xl_base_path = xl_base_path_
 
   if xl_base_path.name == 'portal':
-    print(f"Looks like this is run from a flask app ... changing the base directory")
+    logger.debug(f"Looks like this is run from a flask app ... changing the base directory")
     xl_base_path = xl_base_path.parent / "utils" / "excel"
-    print(f"{xl_base_path=}")
+    logger.debug(f"{xl_base_path=}")
 
   if xl_base_schema_path_ is None:
     xl_base_schema_path = xl_base_path / "xl_schemas"
@@ -132,8 +133,9 @@ def create_schema_file_map(schema_path=None, schema_names=None):
   if schema_path is None:
     schema_path = xl_base_schema_path
   if schema_names is None:
-    schema_names = ["landfill_v01", "landfill_v02", "landfill_v03",
-                    "oil_and_gas_v01", "oil_and_gas_v02", "oil_and_gas_v03", ]
+    schema_names = ["landfill_v01_00",
+                    "oil_and_gas_v01_00",
+                    "energy_v00_01",]
 
   schema_file_map = {}
 
@@ -397,7 +399,7 @@ def test_parse_xl_file():
     schema_path (str|Path): Path to the JSON file with schema data
   """
   logger.debug(f"test_parse_xl_file() called")
-  xl_path = xl_base_path / "xl_workbooks/landfill_operator_feedback_v36_populated_01.xlsx"
+  xl_path = xl_base_path / "xl_workbooks/landfill_operator_feedback_v070_populated_01.xlsx"
   result = parse_xl_file(xl_path, xl_schema_map)
   logger.debug(f"{result=}")
 
