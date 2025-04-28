@@ -12,13 +12,11 @@ Notes on usage.
 """
 
 import copy
-import logging
 import datetime
+import logging
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 import openpyxl
-import pytz
 
 import arb.__get_logger as get_logger
 from arb.utils.date_and_time import parse_unknown_datetime
@@ -139,7 +137,7 @@ def create_schema_file_map(schema_path=None, schema_names=None):
   if schema_names is None:
     schema_names = ["landfill_v01_00",
                     "oil_and_gas_v01_00",
-                    "energy_v00_01",]
+                    "energy_v00_01", ]
 
   schema_file_map = {}
 
@@ -258,8 +256,8 @@ def extract_tabs(wb, schema_map, xl_as_dict, drop_downs_rev=None):
               # convert to datetime using a parser if possible
               if value_type == datetime.datetime:
                 local_datetime = parse_unknown_datetime(value)
-                utc_datetime = local_datetime.astimezone(ZoneInfo("UTC"))
-                value = utc_datetime
+                # utc_datetime = local_datetime.astimezone(ZoneInfo("UTC")) # If you wanted to cast
+                value = local_datetime
               else:
                 # Use default repr-like conversion if not a datetime
                 value = value_type(value)
