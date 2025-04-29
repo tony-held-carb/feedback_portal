@@ -33,6 +33,18 @@ class OGFeedback(FlaskForm):
   longitude_validation = {"min": Globals.MIN_LONGITUDE, "max": Globals.MAX_LONGITUDE,
                           "message": msg}
 
+  # venting through inspection (not through the 95669.1(b)(1) exclusion)
+  venting_responses = [
+    "Venting-construction/maintenance",
+    "Venting-routine",
+  ]
+
+  # These are considered leaks that require mitigation
+  unintentional_leak = [
+    "Unintentional-leak",
+    "Unintentional-non-component",
+  ]
+
   # Section 3
   label = "1.  Incidence/Emission ID"
   id_incidence = IntegerField(
@@ -92,12 +104,11 @@ class OGFeedback(FlaskForm):
     validators=[InputRequired()],
   )
   # contact_phone = StringField(label="Contact Phone", validators=[InputRequired()])
-  # todo - change from DataRequired to InputRequired?
   label = "Q4.  Contact Phone Number"
   message = "Invalid phone number. Phone number must be in format '(123) 456-7890' or '(123) 456-7890 x1234567'."
   contact_phone = StringField(
     label=label,
-    validators=[DataRequired(),
+    validators=[InputRequired(),
                 Regexp(regex=r"^\(\d{3}\) \d{3}-\d{4}( x\d{1,7})?$", message=message)
                 ],
   )
@@ -166,7 +177,7 @@ class OGFeedback(FlaskForm):
   method21_result = SelectField(
     label=label,
     choices=Globals.drop_downs["method21_result"],
-    validators=[InputRequired],
+    validators=[InputRequired()],
   )
 
   label = "Q14. If you answered 'Yes' to Q11, what was the initial leak concentration in ppmv (if applicable)?"
@@ -207,12 +218,12 @@ class OGFeedback(FlaskForm):
   component_at_source = SelectField(
     label=label,
     choices=Globals.drop_downs["component_at_source"],
-    validators=[InputRequired(), ],
+    validators=[Optional(), ],
   )
 
   label = "Q20.  If you answered 'Other' for Q19, please provide an additional description of the component."
   component_other_description = TextAreaField(
-    label=label, validators=[InputRequired],
+    label=label, validators=[InputRequired()],
   )
 
   label = f"Q21.  Repair/mitigation completion date & time (if applicable)."
@@ -303,6 +314,24 @@ class OGFeedback(FlaskForm):
         if self.method21_result.data in ["Unintentional-leak"]:
           self.method21_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with Method 21.")
 
+    if self.ogi_result.data in self.unintentional_leak:
+      if self.method21_performed.data != "Yes":
+        self.method21_performed.errors.append("If a leak was detected via OGI, Method 21 must be performed.")
+
+    if self.ogi_performed.data == "No":
+      if self.ogi_date.data:
+        self.ogi_date.errors.append("Can't have an OGI inspection date if OGI was not performed")
+      if self.ogi_result.data:
+        if self.ogi_result.data != "Not Applicable as OGI was not performed":
+          self.ogi_result.errors.append("Can't have an OGI result date if OGI was not performed")
+
+    if self.method21_performed.data == "No":
+      if self.method21_date.data:
+        self.method21_date.errors.append("Can't have an Method 21 inspection date if Method 21 was not performed")
+      if self.method21_result.data:
+        if self.method21_result.data != "Not Applicable as Method 21 was not performed":
+          self.method21_result.errors.append("Can't have an Method 21 result date if Method 21 was not performed")
+
     ###################################################################################################
     # perform any form level validation and append it to the form_errors property
     # This may not be useful, but if you want to have form level errors appear at the top of the error
@@ -342,17 +371,7 @@ class OGFeedback(FlaskForm):
 
     # logger.debug(f"In determine_contingent_fields()")
 
-    # venting through inspection (not through the 95669.1(b)(1) exclusion)
-    venting_responses = [
-      "Venting-construction/maintenance",
-      "Venting-routine",
-    ]
 
-    # These are considered leaks that require mitigation
-    unintentional_leak = [
-      "Unintentional-leak",
-      "Unintentional-non-component",
-    ]
 
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_venting_exclusion = ["venting_description_1", ]
@@ -398,7 +417,7 @@ class OGFeedback(FlaskForm):
       "venting_description_2",
     ]
     venting2_test = False
-    if self.ogi_result.data in venting_responses or self.method21_result.data in venting_responses:
+    if self.ogi_result.data in self.venting_responses or self.method21_result.data in self.venting_responses:
       venting2_test = True
     change_validators_on_test(self, venting2_test, required_if_venting_on_inspection)
 
@@ -410,7 +429,7 @@ class OGFeedback(FlaskForm):
       "repair_description",
     ]
     unintentional_test = False
-    if self.ogi_result.data in unintentional_leak or self.method21_result.data in unintentional_leak:
+    if self.ogi_result.data in self.unintentional_leak or self.method21_result.data in self.unintentional_leak:
       unintentional_test = True
     change_validators_on_test(self, unintentional_test, required_if_unintentional)
 
