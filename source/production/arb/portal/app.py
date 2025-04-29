@@ -534,12 +534,15 @@ if __name__ == '__main__':
   """
   How to run the operator portal app from the EC2
 
-  1. git clone https://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@github.com/tony-held-carb/plume_portal.git
-  2. cd /source/production/arb/portal
-  3. conda deactivate
-  4. conda activate mini_conda_01
-  5. flask run --host=0.0.0.0 -p 2112
-  6. open browser to http://10.93.112.44:2112
+  1. generate token from github for access to tony-held-carb repos:
+      - on 2025-04-28 I created the token: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
+  2. git clone https://<your-username>:<your-token>@github.com/tony-held-carb/feedback_portal.git
+      git clone https://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@github.com/tony-held-carb/feedback_portal.git 
+  3. cd source/production/arb/portal
+  4. conda deactivate
+  5. conda activate mini_conda_01
+  6. flask run --host=0.0.0.0 -p 2112
+  7. open browser to http://10.93.112.44:2112
   """
 
   # app.run(host="0.0.0.0", port=5150, debug=True)
