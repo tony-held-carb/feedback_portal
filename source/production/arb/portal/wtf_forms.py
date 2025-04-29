@@ -277,22 +277,30 @@ class OGFeedback(FlaskForm):
     # todo - likely need to update these to new OGI/Method 21 options, just commenting out now because
     # the change in drop down approaches may muddle things ...
 
-    # if self.notification_timestamp.data and self.initial_method_21_timestamp.data:
-    #   if self.notification_timestamp.data > self.initial_method_21_timestamp.data:
-    #     self.initial_method_21_timestamp.errors.append(
-    #       "Initial Method 21 inspection timestamp must be after the notification timestamp")
-    #
-    # if self.inspection_timestamp.data and self.repair_timestamp.data:
-    #   if self.inspection_timestamp.data > self.repair_timestamp.data:
-    #     self.repair_timestamp.errors.append("Repair timestamp must be after the initial inspection timestamp")
-    #
-    # leak_values = [Globals.drop_downs_rev["found_source_type"]["Unintentional emission source (found with OGI)"],
-    #                Globals.drop_downs_rev["found_source_type"]["Leak (found with Method 21)"]]
-    #
-    # if self.venting_exclusion and self.found_source_type.data:
-    #   if self.venting_exclusion.data == Globals.drop_downs_rev["venting_exclusion"]["Yes"]:
-    #     if self.found_source_type.data in leak_values:
-    #       self.found_source_type.errors.append("If you claim a venting exclusion, you can't also have a leak.")
+    if self.observation_timestamp.data and self.ogi_date.data:
+      if self.observation_timestamp.data > self.ogi_date.data:
+        self.ogi_date.errors.append(
+          "Initial OGI timestamp must be after the plume observation timestamp")
+
+    if self.observation_timestamp.data and self.method21_date.data:
+      if self.observation_timestamp.data > self.method21_date.data:
+        self.method21_date.errors.append(
+          "Initial Method 21 timestamp must be after the plume observation timestamp")
+
+    if self.observation_timestamp.data and self.repair_timestamp.data:
+      if self.observation_timestamp.data > self.repair_timestamp.data:
+        self.method21_date.errors.append(
+          "Repair timestamp must be after the plume observation timestamp")
+
+    if self.venting_exclusion and self.ogi_result.data:
+      if self.venting_exclusion.data == "Yes":
+        if self.ogi_result.data in "Unintentional-leak":
+          self.ogi_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with OGI.")
+
+    if self.venting_exclusion and self.method21_result.data:
+      if self.venting_exclusion.data == "Yes":
+        if self.method21_result.data in "Unintentional-leak":
+          self.method21_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with Method 21.")
 
     ###################################################################################################
     # perform any form level validation and append it to the form_errors property
@@ -336,25 +344,66 @@ class OGFeedback(FlaskForm):
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_venting_exclusion = ["venting_description_1", ]
     optional_if_venting_exclusion = [
-      "component_at_source",
-      "component_other_description",
-      "equipment_at_source",
-      "equipment_other_description",
-      "final_repair_concentration",
-      # "found_source_type",
-      "initial_leak_concentration",
-      "initial_method_21_timestamp",
-      "initial_mitigation_plan",
-      "inspection_timestamp",
-      "inspection_type",
-      "ogi_survey",
-      "repair_description",
-      "repair_timestamp",
-      "venting_description_2",
+      "ogi_performed",
+      "method21_performed",
     ]
     venting_exclusion = self.venting_exclusion.data == "Yes"
     # logger.debug(f"\n\t{venting_exclusion=}, {self.venting_exclusion.data=}")
     change_validators_on_test(self, venting_exclusion, required_if_venting_exclusion, optional_if_venting_exclusion)
+
+    required_if_ogi_performed = [
+      "ogi_date",
+      "ogi_result",
+    ]
+    ogi_required = self.ogi_performed.data == "Yes"
+    change_validators_on_test(self, ogi_required, required_if_ogi_performed)
+
+    required_if_method21_performed = [
+      "method21_date",
+      "method21_result",
+      "initial_leak_concentration",
+    ]
+    ogi_required = self.method21_performed.data == "Yes"
+    change_validators_on_test(self, ogi_required, required_if_method21_performed)
+
+    required_if_venting_on_inspection = [
+      "venting_description_2",
+    ]
+    venting_responses = [
+      "Venting-construction/maintenance",
+      "Venting-routine",
+    ]
+    venting2_required = False
+    if self.ogi_result.data in venting_responses or self.method21_result.data in venting_responses:
+      venting2_required = True
+    change_validators_on_test(self, venting2_required, required_if_venting_on_inspection)
+
+    required_if_unintentional = [
+      "initial_mitigation_plan",
+      "equipment_at_source",
+    ]
+    unintentional_responses = [
+      "Unintentional-leak",
+      "Unintentional-non-component",
+    ]
+    unintentional_required = False
+    if self.ogi_result.data in unintentional_responses or self.method21_result.data in unintentional_responses:
+      unintentional_required = True
+    change_validators_on_test(self, unintentional_required, required_if_unintentional)
+
+    required_if_equipment_other = [
+      "equipment_other_description",
+    ]
+    equipment_other_required = self.equipment_at_source.data == "Other"
+    change_validators_on_test(self, equipment_other_required, required_if_equipment_other)
+
+    required_if_component_other = [
+      "component_other_description",
+    ]
+    component_other_required = self.component_at_source.data == "Other"
+    change_validators_on_test(self, component_other_required, required_if_component_other)
+
+    # todo - return here to complete oil & gas validation ... most below is legacy code
 
     # If source is found to be venting during an inspection (not because of an exclusion)
     # then a description of the venting is required

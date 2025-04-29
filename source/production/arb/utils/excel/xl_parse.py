@@ -59,12 +59,7 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
   logger.debug(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
 
   if xl_base_path_ is None:
-    # todo - consider changing to the gpt recommended way of
-    # Set the project root based on the location of app.py
-    # PROJECT_ROOT = Path(__file__).resolve().parent.parent
-    # changing to relative references so code will work on ec2, eventually will move to s3
-    # my_path1 = Path(__file__).parent
-    # print(f"{my_path1=}")
+    # todo - consider changing to the gpt recommended way of using PROJECT_ROOT here
     xl_base_path = Path.cwd()
 
     logger.debug(f"{xl_base_path=}")
