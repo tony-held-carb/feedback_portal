@@ -66,14 +66,14 @@ class OGFeedback(FlaskForm):
   )
 
   label = "4.  Plume CARB Estimated Latitude"
-  lat_arb = DecimalField(
+  lat_carb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
     validators=[InputRequired(), NumberRange(**latitude_validation)],
   )
 
   label = "5.  Plume CARB Estimated Longitude"
-  long_arb = DecimalField(
+  long_carb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
     validators=[InputRequired(), NumberRange(**longitude_validation)],
@@ -218,7 +218,7 @@ class OGFeedback(FlaskForm):
   component_at_source = SelectField(
     label=label,
     choices=Globals.drop_downs["component_at_source"],
-    validators=[Optional(), ],
+    validators=[],
   )
 
   label = "Q20.  If you answered 'Other' for Q19, please provide an additional description of the component."
@@ -286,9 +286,6 @@ class OGFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
-    # todo - likely need to update these to new OGI/Method 21 options, just commenting out now because
-    # the change in drop down approaches may muddle things ...
-
     if self.observation_timestamp.data and self.ogi_date.data:
       if self.observation_timestamp.data > self.ogi_date.data:
         self.ogi_date.errors.append(
@@ -490,7 +487,7 @@ class LandfillFeedback(FlaskForm):
   )
 
   label = "4.  Plume Origin CARB Estimated Latitude"
-  lat_arb = DecimalField(
+  lat_carb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
     # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],
@@ -498,7 +495,7 @@ class LandfillFeedback(FlaskForm):
   )
 
   label = "5.  Plume Origin CARB Estimated Longitude"
-  long_arb = DecimalField(
+  long_carb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
     # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],

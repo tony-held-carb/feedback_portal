@@ -399,6 +399,8 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
     field.data = attr_value
     field.raw_data = format_raw_data(field, attr_value)
 
+    # todo (consider) update contingent fields here?
+
     logger.debug(f"Set {attr_name=} with data={field.data}, raw_data={field.raw_data}")
 
 
