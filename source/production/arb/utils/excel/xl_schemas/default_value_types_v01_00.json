@@ -1,0 +1,226 @@
+{
+    "_metadata_": {
+        "schema_version": "default_value_types_v01_00",
+        "File created at": "2025-04-29T00:43:38.504304+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "additional_activities": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "additional_notes": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "component_at_source": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "component_other_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "contact_email": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "contact_name": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "contact_phone": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_cause": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_cause_notes": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_cause_secondary": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_cause_tertiary": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_identified_flag_fk": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_location": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_location_notes": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "emission_type_fk": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "equipment_at_source": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "equipment_other_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "facility_name": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "final_repair_concentration": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "id_arb_eggrt": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "id_arb_swis": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "id_incidence": {
+            "__class__": "int",
+            "__module__": "builtins"
+        },
+        "id_message": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "id_plume": {
+            "__class__": "int",
+            "__module__": "builtins"
+        },
+        "included_in_last_lmr": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "included_in_last_lmr_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "initial_leak_concentration": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "initial_mitigation_plan": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "inspection_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "instrument": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "last_component_leak_monitoring_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "last_surface_monitoring_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "lat_carb": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "lat_revised": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "long_carb": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "long_revised": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "method21_date": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "method21_performed": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "method21_result": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "mitigation_actions": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "mitigation_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "observation_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "ogi_date": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "ogi_performed": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "ogi_result": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "planned_for_next_lmr": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "planned_for_next_lmr_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "re_monitored_concentration": {
+            "__class__": "float",
+            "__module__": "builtins"
+        },
+        "re_monitored_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "repair_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "repair_timestamp": {
+            "__class__": "datetime",
+            "__module__": "datetime"
+        },
+        "venting_description_1": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "venting_description_2": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "venting_exclusion": {
+            "__class__": "str",
+            "__module__": "builtins"
+        }
+    }
+}

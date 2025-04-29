@@ -5,12 +5,12 @@ and related routines associated with the operator portal.
 Notes:
 """
 import datetime
-from zoneinfo import ZoneInfo
 
 import arb.__get_logger as get_logger
 from arb.utils.web_html import update_selector_dict
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
+
 
 def add_og_dummy_data(db, base, table_name) -> None:
   """

@@ -3,8 +3,6 @@ from collections.abc import Mapping
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from dateutil import parser
-
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
@@ -224,9 +222,6 @@ def ca_naive_to_utc_datetime(dt: datetime) -> datetime:
     return dt.replace(tzinfo=PACIFIC_TZ).astimezone(UTC_TZ)
   else:
     raise ValueError(f"Datetime already has timezone: {dt=!r}")
-
-
-
 
 
 def convert_datetimes_to_ca_naive(data: object,
