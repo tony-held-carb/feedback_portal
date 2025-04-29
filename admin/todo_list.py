@@ -8,11 +8,6 @@
   * Start with Portal UI/UX Requests
   * Change firstname/lastname to just name
 
-items from my notebook on the 4/3/25 dry-run
-  * remove notification timestamps from spreadsheet (done?)
-  * notifications are sent to ISD from RD
-  * Dan OK with changing drop downs from foreign key lookups for greater flexibility (could take some doing though) ...
-
 # Continuing code refactor to clean up, organize, code before new functionality added.
 
 # code refactor to move file handling out of app.py
@@ -23,9 +18,13 @@ creating gpt_recommendations_02 because i may have put some bugs into gpt_recomm
 I abandoned v01, i worked on v02, but i think it would be safe to get the stable portal on the ec2
 before doing any major code re-works.
 
-testing move from feedback_portal to v_01
+feedback portal now a clean repo, need to test that it still works on laptop,
+then make it generalizable to the ec2
 
+* xl_parse.log shows that the payloads are getting message up (loosing spaces and punctuation)
+* looks like it is special characters in the vba that are getting corrupted
 
+* probably want to disable the ability to delete an incidence
 
 Forget me nots
 ----------------------------

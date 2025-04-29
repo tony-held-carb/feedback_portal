@@ -3,8 +3,6 @@ from collections.abc import Mapping
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from dateutil import parser
-
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
@@ -226,9 +224,6 @@ def ca_naive_to_utc_datetime(dt: datetime) -> datetime:
     raise ValueError(f"Datetime already has timezone: {dt=!r}")
 
 
-
-
-
 def convert_datetimes_to_ca_naive(data: object,
                                   assume_naive_is_utc: bool = False,
                                   utc_strict: bool = True) -> object:
@@ -323,3 +318,36 @@ def convert_ca_naive_datetimes_to_utc(data: object) -> object:
     }
   else:
     return data
+
+
+from datetime import datetime
+from dateutil import parser
+
+
+def parse_unknown_datetime(date_str: str) -> datetime | None:
+  """
+  Attempts to parse a string into a datetime object using dateutil.parser.parse.
+
+  Args:
+      date_str (str): The input string that represents a date and/or time.
+
+  Returns:
+      datetime | None: The parsed datetime object if successful, otherwise None.
+
+  Raises:
+      ValueError: If the input cannot be parsed as a date and time.
+
+  Example:
+      >>> parse_unknown_datetime("2025-04-28T16:23:00Z")
+      datetime.datetime(2025, 4, 28, 16, 23, tzinfo=tzutc())
+
+      >>> parse_unknown_datetime("April 28, 2025 4:23 PM")
+      datetime.datetime(2025, 4, 28, 16, 23)
+  """
+  if not date_str or not isinstance(date_str, str):
+    return None
+
+  try:
+    return parser.parse(date_str)
+  except (ValueError, TypeError):
+    return None
