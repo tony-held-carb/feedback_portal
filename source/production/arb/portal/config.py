@@ -46,9 +46,11 @@ class Config:
   BASE_PATH = Path(BASE_DIR)
   UPLOAD_PATH = BASE_PATH / 'static/uploads'
 
-  # Set the project root based on the location of folder containing app.py
   # current file structure is feedback_portal/source/production/arb/portal
-  # So .parent gets to you portal and .parent.parten gets you to arb
+  # Find the project root based on the location of folder containing app.py
+  # __file__ = location of the folder containing app.py
+  # .resolve() = fully resolves symlinks and makes it absolute
+  # .parent.parent = go up two levels (portal/ → arb/)
   PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
   @classmethod
