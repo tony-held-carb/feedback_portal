@@ -6,13 +6,9 @@
 """
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
-  * Change firstname/lastname to just name
-
-# Continuing code refactor to clean up, organize, code before new functionality added.
+* 	Change 'not a citation' to 'not an enforcement action' - hmmm, i can't remember the context of this, so hunt around for these words
 
 # code refactor to move file handling out of app.py
-# remove Operator Notification Timestamp from oil and gas and landfill
-* 	Change 'not a citation' to 'not an enforcement action' - hmmm, i can't remember the context of this, so hunt around for these words
 
 creating gpt_recommendations_02 because i may have put some bugs into gpt_recommendations_01.
 I abandoned v01, i worked on v02, but i think it would be safe to get the stable portal on the ec2
@@ -22,6 +18,7 @@ feedback portal now a clean repo, need to test that it still works on laptop,
 then make it generalizable to the ec2
 
 * probably want to disable the ability to delete an incidence
+* ask dan for access to new db instance.
 
 getting ready to run on ec2
 

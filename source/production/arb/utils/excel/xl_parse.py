@@ -297,15 +297,6 @@ def split_compound_keys(dict_) -> None:
   for html_field_name in list(dict_.keys()):
     value = dict_[html_field_name]
 
-    # todo - comment out and see if that fixes the parsing
-    # if html_field_name == 'contact_name':
-    #   if value:
-    #     contact_names = value.split(' ')
-    #     dict_['contact_last_name'] = contact_names[-1]
-    #     if len(contact_names) > 1:
-    #       dict_['contact_first_name'] = contact_names[0]
-    #   del dict_[html_field_name]
-
     if html_field_name == 'lat_and_long':
       if value:
         lat_longs = value.split(',')

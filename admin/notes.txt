@@ -150,7 +150,6 @@ I think it is because the drop down does not have the same name as the element f
 * It looks like validation is done on raw_data not the data, so if you try to run validation with GET
 you get all sorts of errors because you are not setting the raw_data (which must be a string)
 
-* old todo items
 Monday fixes 11/19/24
   - change database location to dan's new db
     - old: satellite_tracker_sample2
@@ -271,8 +270,3 @@ class OGFeedback(FlaskForm):
   contact_first_name = StringField(label='Contact First Name:', validators=[InputRequired()])
   contact_last_name = StringField(label='Contact Last Name:', validators=[InputRequired()])
 
-# todo - Landfill feedback forms, fields to add to wtf forms and html
-    CARB Message ID - jinja_id_message
-    SWIS ID - jinja_id_arb_swis
-    additional_activities - jinja_additional_activities
-    re_monitored_timestamp - jinja_re_monitored_timestamp
