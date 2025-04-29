@@ -403,44 +403,8 @@ class OGFeedback(FlaskForm):
     component_other_required = self.component_at_source.data == "Other"
     change_validators_on_test(self, component_other_required, required_if_component_other)
 
-    # todo - return here to complete oil & gas validation ... most below is legacy code
+    # todo - return here to complete oil & gas validation ... go to the bottom of form
 
-    # If source is found to be venting during an inspection (not because of an exclusion)
-    # then a description of the venting is required
-    required_if_venting_source = ["venting_description_2"]
-    # todo - check how to fix this given reorg
-    # source_is_venting = self.found_source_type.data == Globals.drop_downs_rev["found_source_type"]["Venting"]
-    # logger.debug(f"\n\t{source_is_venting=}, {self.found_source_type.data=}, {Globals.drop_downs_rev["found_source_type"]["Venting"]=}")
-    # change_validators_on_test(self, source_is_venting, required_if_venting_source)
-
-    required_if_equipment_other = ["equipment_other_description"]
-    equipment_is_other = self.equipment_at_source.data == "Other"
-    # logger.debug(f"\n\t{equipment_is_other=}, {self.equipment_at_source.data=}")
-    change_validators_on_test(self, equipment_is_other, required_if_equipment_other)
-
-    required_if_component_other = ["component_other_description"]
-    component_is_other = self.component_at_source.data == "Other"
-    # logger.debug(f"\n\t{component_is_other=}, {self.component_at_source.data=}")
-    change_validators_on_test(self, component_is_other, required_if_component_other)
-
-    # If type of source is not "venting" or "no source found" then mitigation and related fields are required
-    required_if_mitigating = [
-      "initial_mitigation_plan",
-      "ogi_survey",
-      "equipment_at_source",
-      "component_at_source",
-      "initial_method_21_timestamp",
-      "initial_leak_concentration",
-      "repair_timestamp",
-      "repair_description",
-      "final_repair_concentration"
-    ]
-    # todo - change logic given new spreadsheet forms and drop downs
-    # leak_values = [Globals.drop_downs_rev["found_source_type"]["Unintentional emission source (found with OGI)"],
-    #                Globals.drop_downs_rev["found_source_type"]["Leak (found with Method 21)"]]
-    # mitigation_required = self.found_source_type.data in leak_values
-    # logger.debug(f"\n\t{mitigation_required=}, {self.found_source_type.data=}")
-    # change_validators_on_test(self, mitigation_required, required_if_mitigating)
 
 
 class LandfillFeedback(FlaskForm):
