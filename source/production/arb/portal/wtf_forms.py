@@ -294,12 +294,12 @@ class OGFeedback(FlaskForm):
 
     if self.venting_exclusion and self.ogi_result.data:
       if self.venting_exclusion.data == "Yes":
-        if self.ogi_result.data in "Unintentional-leak":
+        if self.ogi_result.data in ["Unintentional-leak"]:
           self.ogi_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with OGI.")
 
     if self.venting_exclusion and self.method21_result.data:
       if self.venting_exclusion.data == "Yes":
-        if self.method21_result.data in "Unintentional-leak":
+        if self.method21_result.data in ["Unintentional-leak"]:
           self.method21_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with Method 21.")
 
     ###################################################################################################
@@ -341,70 +341,89 @@ class OGFeedback(FlaskForm):
 
     # logger.debug(f"In determine_contingent_fields()")
 
+    # venting through inspection (not through the 95669.1(b)(1) exclusion)
+    venting_responses = [
+      "Venting-construction/maintenance",
+      "Venting-routine",
+    ]
+
+    # These are considered leaks that require mitigation
+    unintentional_leak = [
+      "Unintentional-leak",
+      "Unintentional-non-component",
+    ]
+
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_venting_exclusion = ["venting_description_1", ]
     optional_if_venting_exclusion = [
       "ogi_performed",
+      "ogi_date",
+      "ogi_result",
       "method21_performed",
+      "method21_date",
+      "method21_result",
+      "initial_leak_concentration",
+      "venting_description_2",
+      "initial_mitigation_plan",
+      "equipment_at_source",
+      "equipment_other_description",
+      "component_at_source",
+      "component_other_description",
+      "repair_timestamp",
+      "final_repair_concentration",
+      "repair_description",
+      "additional_notes",
     ]
-    venting_exclusion = self.venting_exclusion.data == "Yes"
-    # logger.debug(f"\n\t{venting_exclusion=}, {self.venting_exclusion.data=}")
-    change_validators_on_test(self, venting_exclusion, required_if_venting_exclusion, optional_if_venting_exclusion)
+    venting_exclusion_test = self.venting_exclusion.data == "Yes"
+    # logger.debug(f"\n\t{venting_exclusion_test=}, {self.venting_exclusion_test.data=}")
+    change_validators_on_test(self, venting_exclusion_test, required_if_venting_exclusion, optional_if_venting_exclusion)
 
     required_if_ogi_performed = [
       "ogi_date",
       "ogi_result",
     ]
-    ogi_required = self.ogi_performed.data == "Yes"
-    change_validators_on_test(self, ogi_required, required_if_ogi_performed)
+    ogi_test = self.ogi_performed.data == "Yes"
+    change_validators_on_test(self, ogi_test, required_if_ogi_performed)
 
     required_if_method21_performed = [
       "method21_date",
       "method21_result",
       "initial_leak_concentration",
     ]
-    ogi_required = self.method21_performed.data == "Yes"
-    change_validators_on_test(self, ogi_required, required_if_method21_performed)
+    method21_test = self.method21_performed.data == "Yes"
+    change_validators_on_test(self, method21_test, required_if_method21_performed)
 
     required_if_venting_on_inspection = [
       "venting_description_2",
     ]
-    venting_responses = [
-      "Venting-construction/maintenance",
-      "Venting-routine",
-    ]
-    venting2_required = False
+    venting2_test = False
     if self.ogi_result.data in venting_responses or self.method21_result.data in venting_responses:
-      venting2_required = True
-    change_validators_on_test(self, venting2_required, required_if_venting_on_inspection)
+      venting2_test = True
+    change_validators_on_test(self, venting2_test, required_if_venting_on_inspection)
 
     required_if_unintentional = [
       "initial_mitigation_plan",
       "equipment_at_source",
+      "repair_timestamp",
+      "final_repair_concentration",
+      "repair_description",
     ]
-    unintentional_responses = [
-      "Unintentional-leak",
-      "Unintentional-non-component",
-    ]
-    unintentional_required = False
-    if self.ogi_result.data in unintentional_responses or self.method21_result.data in unintentional_responses:
-      unintentional_required = True
-    change_validators_on_test(self, unintentional_required, required_if_unintentional)
+    unintentional_test = False
+    if self.ogi_result.data in unintentional_leak or self.method21_result.data in unintentional_leak:
+      unintentional_test = True
+    change_validators_on_test(self, unintentional_test, required_if_unintentional)
 
     required_if_equipment_other = [
       "equipment_other_description",
     ]
-    equipment_other_required = self.equipment_at_source.data == "Other"
-    change_validators_on_test(self, equipment_other_required, required_if_equipment_other)
+    equipment_other_test = self.equipment_at_source.data == "Other"
+    change_validators_on_test(self, equipment_other_test, required_if_equipment_other)
 
     required_if_component_other = [
       "component_other_description",
     ]
-    component_other_required = self.component_at_source.data == "Other"
-    change_validators_on_test(self, component_other_required, required_if_component_other)
-
-    # todo - return here to complete oil & gas validation ... go to the bottom of form
-    # lots of gotchas in the validation logic so far, need to review and try again ...
+    component_other_test = self.component_at_source.data == "Other"
+    change_validators_on_test(self, component_other_test, required_if_component_other)
 
 
 class LandfillFeedback(FlaskForm):
