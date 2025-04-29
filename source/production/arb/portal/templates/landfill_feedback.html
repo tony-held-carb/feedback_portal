@@ -90,8 +90,10 @@
               {{ macros.input_element(wtf_form.id_incidence, size=8, placeholder="ID as Integer") }}
               {{ macros.input_element(wtf_form.id_plume, size=8, placeholder="ID as Integer") }}
               {{ macros.input_element(wtf_form.observation_timestamp, size=8) }}
-              {{ macros.input_element(wtf_form.lat_arb, size=8, placeholder="Optional valid CA latitude (5 digits of precision preferred).") }}
-              {{ macros.input_element(wtf_form.long_arb, size=8, placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
+              {{ macros.input_element(wtf_form.lat_arb, size=8,
+              placeholder="Optional valid CA latitude (5 digits of precision preferred).") }}
+              {{ macros.input_element(wtf_form.long_arb, size=8,
+              placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
               {{ macros.input_element(wtf_form.id_message, size=8, placeholder="Optional CARB Message ID") }}
             </div>
           </div>
@@ -118,8 +120,8 @@
             <div class="card-body">
 
               {{ macros.input_element(wtf_form.inspection_timestamp, size=6) }}
-              {{ macros.input_element(wtf_form.instrument, size=6, placeholder="(e.g., Fisher Scientific TVA2020; RKI
-              Multigas Analyzer Eagle 2; TDL)") }}
+              {{ macros.input_element(wtf_form.instrument, size=6,
+              placeholder="(e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL)") }}
               {{ macros.input_element(wtf_form.emission_identified_flag_fk, size=6) }}
               {{ macros.input_element(wtf_form.additional_activities, size=12, rows=3, placeholder="") }}
             </div>
@@ -130,20 +132,21 @@
               <h3>Section 5. Detailed Ground Monitoring Results</h3>
             </div>
             <div class="card-body">
-              {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="For example: 123.4") }}
-              {{ macros.input_element(wtf_form.lat_revised, size=6, placeholder="Optional valid CA latitude with 5
-              digits of precision).") }}
-              {{ macros.input_element(wtf_form.long_revised, size=6, placeholder="Optional valid CA longitude with 5
-              digits of precision).") }}
+              {{ macros.input_element(wtf_form.initial_leak_concentration, size=6,
+              placeholder="For example: 123.4") }}
+              {{ macros.input_element(wtf_form.lat_revised, size=6,
+              placeholder="Optional valid CA latitude with 5 digits of precision).") }}
+              {{ macros.input_element(wtf_form.long_revised, size=6,
+              placeholder="Optional valid CA longitude with 5 digits of precision).") }}
               {{ macros.input_element(wtf_form.emission_type_fk, size=6, placeholder="TBD") }}
               {{ macros.input_element(wtf_form.emission_location, size=6) }}
-              {{ macros.input_element(wtf_form.emission_location_notes, size=12, rows=3, placeholder="Description of the
-              location selected above.") }}
+              {{ macros.input_element(wtf_form.emission_location_notes, size=12, rows=3,
+              placeholder="Description of the location selected above.") }}
               {{ macros.input_element(wtf_form.emission_cause, size=6, placeholder="TBD") }}
               {{ macros.input_element(wtf_form.emission_cause_secondary, size=6, placeholder="TBD") }}
               {{ macros.input_element(wtf_form.emission_cause_tertiary, size=6, placeholder="TBD") }}
-              {{ macros.input_element(wtf_form.emission_cause_notes, size=12, rows=3, placeholder="Additional cause
-              details.") }}
+              {{ macros.input_element(wtf_form.emission_cause_notes, size=12, rows=3,
+              placeholder="Additional cause details.") }}
             </div>
           </div>
 
@@ -152,11 +155,12 @@
               <h3> Section 6. Follow-up Actions</h3>
             </div>
             <div class="card-body">
-              {{ macros.input_element(wtf_form.mitigation_actions, size=12, rows=3, placeholder="Mitigation actions
-              details") }}
+              {{ macros.input_element(wtf_form.mitigation_actions, size=12, rows=3,
+              placeholder="Mitigation actions details") }}
               {{ macros.input_element(wtf_form.mitigation_timestamp, size=6) }}
               {{ macros.input_element(wtf_form.re_monitored_timestamp, size=6) }}
-              {{ macros.input_element(wtf_form.re_monitored_concentration, size=6, placeholder="For example: 123.4") }}
+              {{ macros.input_element(wtf_form.re_monitored_concentration, size=6,
+              placeholder="For example: 123.4") }}
               {{ macros.input_element(wtf_form.included_in_last_lmr, size=3, placeholder="TBD") }}
               {{ macros.input_element(wtf_form.included_in_last_lmr_description, size=12, rows=3,
               placeholder="Description") }}
@@ -172,7 +176,8 @@
             </div>
             <div class="card-body">
               {{ macros.input_element(wtf_form.last_surface_monitoring_timestamp, size=6) }}
-              {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6, placeholder="TBD") }}
+              {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6,
+              placeholder="TBD") }}
               {{ macros.input_element(wtf_form.additional_notes, size=12, rows=3) }}
             </div>
           </div>

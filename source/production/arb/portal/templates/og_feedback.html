@@ -20,19 +20,19 @@
 
 {% block content_1 %}
 
-{#  <p>The form type is: {{ crud_type }}</p>#}
-{#  <p>{{ wtf_form['id_incidence']|debug }}</p>#}
-{#  <p>{{ wtf_form['id_incidence'].data|debug }}</p>#}
+{#  <p>The form type is: {{ crud_type }}</p>  #}
+{#  <p>{{ wtf_form['id_incidence']|debug }}</p>  #}
+{#  <p>{{ wtf_form['id_incidence'].data|debug }}</p>  #}
 
-{#  <p>{{ wtf_form|debug }}</p>#}
-{#  <p>{{ error_count_dict|debug }}</p>#}
+{#  <p>{{ wtf_form|debug }}</p>  #}
+{#  <p>{{ error_count_dict|debug }}</p>   #}
 
 {#
-<div class="container-fluid bg-image-02 pt-3">#}
+<div class="container-fluid bg-image-02 pt-3"> #}
   {#
-  <div class="container-fluid pt-3" style="background-color:tan;">#}
+  <div class="container-fluid pt-3" style="background-color:tan;"> #}
     {#
-    <div class="container-fluid post-nav-padding neutral-background" style="min-width: 300px;">#}
+    <div class="container-fluid post-nav-padding neutral-background" style="min-width: 300px;"> #}
       <div class="container-fluid post-nav-padding bg-secondary"
            style="
            min-width: 300px;
@@ -64,31 +64,34 @@
                   <li>
                     Owners/operators must inspect their facility within 5 days of this plume notification.
                   </li>
-                  <li>If a ground inspection is required per Section 6, relevant sections of this form must be reported
-                    within
-                    72 hours (3 days) of completion of the inspection (not to exceed 8 days after the initial
+                  <li>
+                    If a ground inspection is required per Section 6, relevant sections of this form must be reported
+                    within 72 hours (3 days) of completion of the inspection (not to exceed 8 days after the initial
                     notification).
                   </li>
-                  <li>If the plume is due to a planned maintenance activity, please submit relevant sections of this
-                    this form
-                    within 5 days of receiving the notification.
+                  <li>
+                    If the plume is due to a planned maintenance activity, please submit relevant sections of this
+                    this form within 5 days of receiving the notification.
                   </li>
-                  <li>If a non-venting source is found, please submit your responses to Sections 7 and 8 within 5 days
-                    of
-                    repairing a leak.
+                  <li>
+                    If a non-venting source is found, please submit your responses to Sections 7 and 8 within 5 days
+                    of repairing a leak.
                   </li>
-                  <li>Not all sections and fields may apply to your facility for the suspected plume.</li>
-                  <li>If a data request does not apply, leave the response blank (or 'Please Select' if it is a drop
-                    down
-                    field).
+                  <li>
+                    Not all sections and fields may apply to your facility for the suspected plume.
+                  </li>
+                  <li>
+                    If a data request does not apply, leave the response blank (or 'Please Select' if it is a drop
+                    down field).
                   </li>
                   <li>Use the local date/time at the facility for timestamp related questions.</li>
-                  <li>Detailed data requirements and timelines are specified in the Oil and Gas Methane Regulation (see
+                  <li>
+                    Detailed data requirements and timelines are specified in the Oil and Gas Methane Regulation (see
                     Section 2 below).
                   </li>
-                  <li>If it is unclear how to respond to a request or how to interpret the regulations, please elaborate
-                    in
-                    the 'Additional Comments' Section.
+                  <li>
+                    If it is unclear how to respond to a request or how to interpret the regulations, please elaborate
+                    in the 'Additional Comments' Section.
                   </li>
                 </ul>
               </div>
@@ -107,8 +110,7 @@
                        rel="noopener noreferrer"
                     >
                       Click here for the rulemaking process for the Amendments to the Greenhouse Gas Emission Standards
-                      for
-                      Crude Oil and Natural Gas Facilities.
+                      for Crude Oil and Natural Gas Facilities.
                     </a>
                   </li>
                   <li>
@@ -117,8 +119,7 @@
                        rel="noopener noreferrer"
                     >
                       Click here for the Final Regulation Order Regarding Greenhouse Gas Emission Standards for Crude
-                      Oil
-                      and Natural Gas Facilities.
+                      Oil and Natural Gas Facilities.
                     </a>
                   </li>
                 </ul>
@@ -138,9 +139,12 @@
                   {{ macros.input_element(wtf_form.id_incidence, size=8, placeholder="ID as Integer") }}
                   {{ macros.input_element(wtf_form.id_plume, size=8, placeholder="ID as Integer") }}
                   {{ macros.input_element(wtf_form.observation_timestamp, size=8) }}
-                  {{ macros.input_element(wtf_form.lat_arb, size=8, placeholder="Optional valid CA latitude (5 digits of precision preferred).") }}
-                  {{ macros.input_element(wtf_form.long_arb, size=8, placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
-                  {{ macros.input_element(wtf_form.id_message, size=8, placeholder="Optional CARB Message ID") }}
+                  {{ macros.input_element(wtf_form.lat_arb, size=8,
+                  placeholder="Optional valid CA latitude (5 digits of precision preferred).") }}
+                  {{ macros.input_element(wtf_form.long_arb, size=8,
+                  placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
+                  {{ macros.input_element(wtf_form.id_message, size=8,
+                  placeholder="Optional CARB Message ID") }}
 
                 </div>
               </div>
