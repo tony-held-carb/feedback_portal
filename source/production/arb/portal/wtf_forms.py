@@ -404,7 +404,7 @@ class OGFeedback(FlaskForm):
     change_validators_on_test(self, component_other_required, required_if_component_other)
 
     # todo - return here to complete oil & gas validation ... go to the bottom of form
-
+    # lots of gotchas in the validation logic so far, need to review and try again ...
 
 
 class LandfillFeedback(FlaskForm):
