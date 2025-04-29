@@ -57,14 +57,14 @@ class OGFeedback(FlaskForm):
   lat_arb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
-    validators=[Optional(), NumberRange(**latitude_validation)],
+    validators=[InputRequired(), NumberRange(**latitude_validation)],
   )
 
   label = "5.  Plume CARB Estimated Longitude"
   long_arb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
-    validators=[Optional(), NumberRange(**longitude_validation)],
+    validators=[InputRequired(), NumberRange(**longitude_validation)],
   )
 
   label = "6.  CARB Message ID"
@@ -92,6 +92,7 @@ class OGFeedback(FlaskForm):
     validators=[InputRequired()],
   )
   # contact_phone = StringField(label="Contact Phone", validators=[InputRequired()])
+  # todo - change from DataRequired to InputRequired?
   label = "Q4.  Contact Phone Number"
   message = "Invalid phone number. Phone number must be in format '(123) 456-7890' or '(123) 456-7890 x1234567'."
   contact_phone = StringField(
@@ -136,7 +137,7 @@ class OGFeedback(FlaskForm):
   label = "Q9.  If you answered 'Yes' to Q8, what date and time was the OGI inspection performed?"
   ogi_date = DateTimeLocalField(
     label=label,
-    validators=[],
+    validators=[InputRequired()],
     format=DROPDOWN_DATE_FORMAT,
   )
 
@@ -144,7 +145,7 @@ class OGFeedback(FlaskForm):
   ogi_result = SelectField(
     label=label,
     choices=Globals.drop_downs["ogi_result"],
-    validators=[],
+    validators=[InputRequired()],
   )
 
   label = "Q11.  Was a Method 21 inspection performed?"
@@ -157,7 +158,7 @@ class OGFeedback(FlaskForm):
   label = "Q12.  If you answered 'Yes' to Q11, what date and time was the Method 21 inspection performed?"
   method21_date = DateTimeLocalField(
     label=label,
-    validators=[],
+    validators=[InputRequired()],
     format=DROPDOWN_DATE_FORMAT,
   )
 
@@ -165,13 +166,13 @@ class OGFeedback(FlaskForm):
   method21_result = SelectField(
     label=label,
     choices=Globals.drop_downs["method21_result"],
-    validators=[],
+    validators=[InputRequired],
   )
 
   label = "Q14. If you answered 'Yes' to Q11, what was the initial leak concentration in ppmv (if applicable)?"
   initial_leak_concentration = FloatField(
     label=label,
-    validators=[],
+    validators=[InputRequired()],
   )
 
   label = (f"Q15.  If you answered 'Venting' to Q10 or Q13, please provide a brief summary of the source "
@@ -211,7 +212,7 @@ class OGFeedback(FlaskForm):
 
   label = "Q20.  If you answered 'Other' for Q19, please provide an additional description of the component."
   component_other_description = TextAreaField(
-    label=label, validators=[],
+    label=label, validators=[InputRequired],
   )
 
   label = f"Q21.  Repair/mitigation completion date & time (if applicable)."
