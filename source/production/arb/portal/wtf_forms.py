@@ -321,7 +321,7 @@ class OGFeedback(FlaskForm):
     if self.ogi_performed.data == "No":
       if self.ogi_date.data:
         self.ogi_date.errors.append("Can't have an OGI inspection date if OGI was not performed")
-      print(f"{self.ogi_result.data=}")
+      # print(f"{self.ogi_result.data=}")
       if self.ogi_result.data != "Please Select":
         if self.ogi_result.data != "Not applicable as OGI was not performed":
           self.ogi_result.errors.append("Can't have an OGI result if OGI was not performed")
@@ -329,10 +329,19 @@ class OGFeedback(FlaskForm):
     if self.method21_performed.data == "No":
       if self.method21_date.data:
         self.method21_date.errors.append("Can't have an Method 21 inspection date if Method 21 was not performed")
-      print(f"{self.method21_result.data=}")
+      # print(f"{self.method21_result.data=}")
       if self.method21_result.data != "Please Select":
         if self.method21_result.data != "Not applicable as Method 21 was not performed":
           self.method21_result.errors.append("Can't have an Method 21 result if Method 21 was not performed")
+
+    # todo (consider) - you could also remove the option for not applicable rather than the following two tests
+    if self.ogi_performed.data == "Yes":
+      if self.ogi_result.data == "Not applicable as OGI was not performed":
+        self.ogi_result.errors.append("Invalid response given your Q8 answer")
+
+    if self.method21_performed.data == "Yes":
+      if self.method21_result.data == "Not applicable as Method 21 was not performed":
+        self.method21_result.errors.append("Invalid response given your Q11 answer")
 
     ###################################################################################################
     # perform any form level validation and append it to the form_errors property
@@ -372,8 +381,6 @@ class OGFeedback(FlaskForm):
     """
 
     # logger.debug(f"In determine_contingent_fields()")
-
-
 
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_venting_exclusion = ["venting_description_1", ]
