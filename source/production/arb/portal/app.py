@@ -541,8 +541,9 @@ if __name__ == '__main__':
   3. cd source/production/arb/portal
   4. conda deactivate
   5. conda activate mini_conda_01
-  6. flask run --host=0.0.0.0 -p 2112
-  7. open browser to http://10.93.112.44:2112
+  6. git pull (<- to update your local repo)
+  7. flask run --host=0.0.0.0 -p 2112
+  8. open browser to http://10.93.112.44:2112
   """
 
   # app.run(host="0.0.0.0", port=5150, debug=True)
