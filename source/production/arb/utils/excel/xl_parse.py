@@ -208,7 +208,7 @@ def parse_xl_file(xl_path, schema_map=None):
   return new_result
 
 
-def extract_tabs(wb, schema_map, xl_as_dict, drop_downs_rev=None):
+def extract_tabs(wb, schema_map, xl_as_dict):
   """
   Extract data from the data tabs that are enumerated in the schema tab.
 
@@ -217,8 +217,6 @@ def extract_tabs(wb, schema_map, xl_as_dict, drop_downs_rev=None):
     schema_map (dict): xl schema dictionary
     xl_as_dict (dict): dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
                 parse the tab
-    drop_downs_rev (dict): Reverse drop down dictionary to convert drop down values to their keys 
-                          for html select elements. 
   """
   # todo - this had to be updated because drop downs are no longer foreign keys, test that it still works
   # todo - payloads may be expressing as datetime objects rather than utc strings, which may lead to inconsistencies

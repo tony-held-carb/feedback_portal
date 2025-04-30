@@ -467,6 +467,7 @@ class LandfillFeedback(FlaskForm):
                           "message": msg}
 
   # Section 2
+  # todo - likely have to change these to InputRequired(), Optional(), blank and removed
   label = "1.  Incidence/Emission ID"
   id_incidence = IntegerField(
     label=label,
@@ -531,7 +532,7 @@ class LandfillFeedback(FlaskForm):
   message = "Invalid phone number. Phone number must be in format '(123) 456-7890' or '(123) 456-7890 x1234567'."
   contact_phone = StringField(
     label=label,
-    validators=[DataRequired(),
+    validators=[InputRequired(),
                 Regexp(regex=r"^\(\d{3}\) \d{3}-\d{4}( x\d{1,7})?$", message=message)
                 ],
   )
@@ -753,7 +754,8 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
-    # todo - update with new html selectors
+    # todo - include new logic for required, etc (noting that landfills are all optional)
+    # todo - update with new html selectors being more aware
     # emission_identified = self.emission_identified_flag_fk.data == Globals.drop_downs_rev["emission_identified_flag_fk"]["Yes"]
     #
     # emission_type_not_found = self.emission_type_fk.data == Globals.drop_downs_rev["emission_type_fk"]["Not found"]
@@ -771,6 +773,7 @@ class LandfillFeedback(FlaskForm):
     #            "yet did not select 'Not found' for the emission type.")
     #     self.emission_type_fk.errors.append(msg)
 
+    # todo - not sure if this test makes sense since they may have know about it prior to the plume (going to comment out)
     if self.observation_timestamp.data and self.inspection_timestamp.data:
       if self.inspection_timestamp.data < self.observation_timestamp.data:
         self.inspection_timestamp.errors.append(
@@ -831,11 +834,11 @@ class LandfillFeedback(FlaskForm):
     """
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_emission_identified = [
+      "additional_activities",
       "initial_leak_concentration",
       # "lat_revised",
       # "long_revised",
       "emission_type_fk",
-      "emission_type_notes",
       "emission_location",
       # "emission_location_notes",
       "emission_cause",
@@ -844,28 +847,27 @@ class LandfillFeedback(FlaskForm):
       "emission_cause_notes",
       "mitigation_actions",
       "mitigation_timestamp",
+      "re_monitored_timestamp",
       "re_monitored_concentration",
-      "most_recent_prior_inspection",
-      "last_surface_monitoring_timestamp",
-      "last_component_leak_monitoring_timestamp",
       "included_in_last_lmr",
       "included_in_last_lmr_description",
       "planned_for_next_lmr",
       "planned_for_next_lmr_description",
+      "last_surface_monitoring_timestamp",
+      "last_component_leak_monitoring_timestamp",
+      "additional_notes",
     ]
+    # test if
     # todo - update logic for new selectors
-    # emission_identified_value = self.emission_identified_flag_fk.data
-    # emission_identified_yes = Globals.drop_downs_rev["emission_identified_flag_fk"]["Yes"]
-    # emission_identified = emission_identified_value == emission_identified_yes
-    # logger.debug(
-    #   f"\n\t{emission_identified=}, {emission_identified_value=}, {emission_identified_yes=}")
-    # change_validators_on_test(self, emission_identified, required_if_emission_identified)
+    emission_identified_test = self.emission_identified_flag_fk.data != "No leak was detected"
+    change_validators_on_test(self, emission_identified_test, required_if_emission_identified)
 
-    lmr_test = self.included_in_last_lmr.data == "No"
-    logger.debug(f"\n\t{lmr_test=}")
-    change_validators_on_test(self, lmr_test, ["included_in_last_lmr_description"])
+    if emission_identified_test:
+      lmr_test = self.included_in_last_lmr.data == "No"
+      logger.debug(f"\n\t{lmr_test=}")
+      change_validators_on_test(self, lmr_test, ["included_in_last_lmr_description"])
 
-    lmr_test = self.planned_for_next_lmr.data == "No"
-    logger.debug(
-      f"\n\t{lmr_test=}")
-    change_validators_on_test(self, lmr_test, ["planned_for_next_lmr_description"])
+      lmr_test = self.planned_for_next_lmr.data == "No"
+      logger.debug(
+        f"\n\t{lmr_test=}")
+      change_validators_on_test(self, lmr_test, ["planned_for_next_lmr_description"])
