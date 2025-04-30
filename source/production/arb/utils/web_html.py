@@ -102,16 +102,56 @@ def selector_list_to_tuples(values):
 
 
 def list_to_triple_tuple(values):
-  result = [(v, v, {}) for v in values]
-  return result
+  """
+  Converts a list of values into a list of WTForms-compatible triple tuples.
+
+  Each input value is transformed into a tuple of the form (value, value, {}),
+  which is commonly used to populate WTForms `SelectField` choices with support
+  for additional metadata.
+
+  Args:
+      values (list[str]): A list of string values to be converted.
+
+  Returns:
+      list[tuple[str, str, dict[str, object]]]: A list of 3-element tuples of the form (value, value, {}).
+
+  Example:
+      >>> list_to_triple_tuple(["One", "Two"])
+      [('One', 'One', {}), ('Two', 'Two', {})]
+  """
+  return [(v, v, {}) for v in values]
 
 
 def update_triple_tuple_dict(tuple_list, match_list, match_update_dict, unmatch_update_dict=None):
+  """
+  Updates the dictionary part of triple tuples based on whether their key matches a given list.
+
+  This function is intended to work with tuples of the form (key, value, dict) where `dict`
+  contains metadata for WTForms fields. If the key exists in `match_list`, `match_update_dict`
+  is merged into the existing dict. Otherwise, `unmatch_update_dict` is merged (if provided).
+
+  Args:
+      tuple_list (list[tuple[str, str, dict[str, object]]]): List of 3-element tuples (key, value, dict) to update.
+      match_list (list[str]): Keys to match against for applying `match_update_dict`.
+      match_update_dict (dict[str, object]): Dictionary to update matched items with.
+      unmatch_update_dict (dict[str, object] | None): Dictionary to update unmatched items with.
+          Defaults to an empty dictionary if not provided.
+
+  Returns:
+      list[tuple[str, str, dict[str, object]]]: A new list of updated 3-element tuples.
+
+  Example:
+      >>> tuple_list = [("a", "A", {}), ("b", "B", {})]
+      >>> match_list = ["a"]
+      >>> match_update_dict = {"selected": True}
+      >>> update_triple_tuple_dict(tuple_list, match_list, match_update_dict)
+      [('a', 'A', {'selected': True}), ('b', 'B', {})]
+  """
   if unmatch_update_dict is None:
     unmatch_update_dict = {}
 
   result = []
-  for (tuple_key, tuple_value, tuple_dict) in tuple_list:
+  for tuple_key, tuple_value, tuple_dict in tuple_list:
     if tuple_key in match_list:
       tuple_dict.update(match_update_dict)
     else:
