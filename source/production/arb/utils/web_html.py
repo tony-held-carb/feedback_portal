@@ -101,6 +101,25 @@ def selector_list_to_tuples(values):
   return result
 
 
+def list_to_triple_tuple(values):
+  result = [(v, v, {}) for v in values]
+  return result
+
+
+def update_triple_tuple_dict(tuple_list, match_list, match_update_dict, unmatch_update_dict=None):
+  if unmatch_update_dict is None:
+    unmatch_update_dict = {}
+
+  result = []
+  for (tuple_key, tuple_value, tuple_dict) in tuple_list:
+    if tuple_key in match_list:
+      tuple_dict.update(match_update_dict)
+    else:
+      tuple_dict.update(unmatch_update_dict)
+    result.append((tuple_key, tuple_value, tuple_dict))
+  return result
+
+
 def update_selector_dict(input_dict):
   """
   Transforms a dictionary where the keys are html selector id's and the values
