@@ -201,3 +201,79 @@ if __name__ == '__main__':
   now_string = "Note a valid datetime"
   new_now = str_to_datetime(now_string)
   print(f"{new_now=}")
+
+
+def ensure_placeholder_option(tuple_list,
+                              item='Please Select',
+                              item_dict=None,
+                              ensure_first=True):
+  """
+  Ensures that a placeholder option is present at the top of a triple-tuple selector list.
+
+  If a tuple with the given `item` as the key is not already present in `tuple_list`,
+  it is prepended using (item, item, item_dict). If `ensure_first` is True and the placeholder
+  is already in the list but not first, it is moved to the front.
+
+  Args:
+      tuple_list (list[tuple[str, str, dict[str, object]]]): A list of selector tuples,
+          typically from list_to_triple_tuple.
+      item (str): The placeholder key and label to look for or insert. Defaults to 'Please Select'.
+      item_dict (dict[str, object] | None): Dictionary metadata for the placeholder.
+          Defaults to {'disabled': True}.
+      ensure_first (bool): If True, ensures the placeholder appears as the first item.
+          Defaults to True.
+
+  Returns:
+      list[tuple[str, str, dict[str, object]]]: Updated list with the placeholder tuple prepended or repositioned.
+
+  Example:
+      >>> ensure_placeholder_option([('One', 'One', {})])
+      [('Please Select', 'Please Select', {'disabled': True}), ('One', 'One', {})]
+  """
+  if item_dict is None:
+    item_dict = {"disabled": True}
+
+  placeholder = (item, item, item_dict)
+
+  # Find index of existing placeholder if present
+  existing_index = next((i for i, t in enumerate(tuple_list) if t[0] == item), None)
+
+  if existing_index is None:
+    # Not present, prepend
+    return [placeholder] + tuple_list
+  elif ensure_first and existing_index != 0:
+    # Move to front
+    updated_list = [tuple_list[i] for i in range(len(tuple_list)) if i != existing_index]
+    return [tuple_list[existing_index]] + updated_list
+
+  return tuple_list
+
+
+def remove_items(tuple_list, remove_items):
+  """
+  Removes specified items by key from a list of WTForms-style triple tuples.
+
+  This function returns a new list excluding any tuple where the first element (the key)
+  matches one of the `remove_items`.
+
+  Args:
+      tuple_list (list[tuple[str, str, dict[str, object]]]): The list of selector tuples to filter.
+      remove_items (str | list[str]): A single string or list of strings representing keys to remove.
+
+  Returns:
+      list[tuple[str, str, dict[str, object]]]: A new list with specified keys removed.
+
+  Example:
+      >>> tuples = [('One', 'One', {}), ('Two', 'Two', {}), ('Three', 'Three', {})]
+      >>> remove_items(tuples, 'Two')
+      [('One', 'One', {}), ('Three', 'Three', {})]
+
+      >>> remove_items(tuples, ['One', 'Three'])
+      [('Two', 'Two', {})]
+  """
+  if isinstance(remove_items, str):
+    remove_set = {remove_items}
+  else:
+    remove_set = set(remove_items)
+
+  return [t for t in tuple_list if t[0] not in remove_set]
