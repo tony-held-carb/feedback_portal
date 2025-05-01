@@ -12,7 +12,6 @@ import arb.__get_logger as get_logger
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.web_html import ensure_placeholder_option, list_to_triple_tuple, selector_list_to_tuples
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
@@ -728,26 +727,49 @@ class LandfillFeedback(FlaskForm):
     # emission_cause is contingent on emission_location
     # use the emission_cause_contingent_on_emission_location key to find the possible choices
     # for the emission_location based on the emission_cause
+    emission_location = self.emission_location.data
+    logger.debug(f"{emission_location=}")
     emission_cause_dict = Globals.drop_downs_contingent["emission_cause_contingent_on_emission_location"]
     logger.debug(f"{emission_cause_dict=}")
+    choices = emission_cause_dict.get(emission_location, None)
+    logger.debug(f"{choices=}")
 
-    if self.emission_location.data in emission_cause_dict:
-      logger.debug(f"{self.emission_location.data=}")
-      choices = emission_cause_dict[self.emission_location.data]
-      logger.debug(f"{choices=}")
-      choice_tuple = list_to_triple_tuple(choices)
-      choice_tuple = ensure_placeholder_option(choice_tuple,
-                                               item='Please Select',
-                                               item_dict={"disabled": True},
-                                               ensure_first=True)
-      self.emission_cause.choices = choice_tuple
-      logger.debug(f"{self.emission_cause.choices=}")
+    if choices is not None:
+      # Primary cause
+      header_1 = [
+        ("Please Select", "Please Select", {"disabled": True}),
+        ("Not applicable as no leak was detected", "Not applicable as no leak was detected", {}),
+      ]
+      footer_1 = [(c, c, {}) for c in choices]
+      choices_1 = header_1 + footer_1
+      logger.debug(f"{choices_1=}")
 
-      if self.emission_cause.data not in choices:
-        logger.debug(f"{self.emission_cause.data=} not in {choices=}")
+      self.emission_cause.choices = choices_1
+      if self.emission_cause.data not in choices_1:
+        logger.debug(f"{self.emission_cause.data=} not in {choices_1=}")
         self.emission_cause.data = "Please Select"
 
-    # todo update secondary and tertiary drop downs
+      # Secondary and tertiary causes
+      header_2 = [
+        ("Please Select", "Please Select", {"disabled": True}),
+        ("Not applicable as no leak was detected", "Not applicable as no leak was detected", {}),
+        ("Not applicable as no additional leak cause suspected", "Not applicable as no additional leak cause suspected", {}),
+      ]
+      footer_2 = [(c, c, {}) for c in choices]
+      choices_2 = header_2 + footer_2
+      choices_2 = header_2 + footer_2
+      logger.debug(f"{choices_2=}")
+
+      self.emission_cause_secondary.choices = choices_2
+      if self.emission_cause_secondary.data not in choices_2:
+        logger.debug(f"{self.emission_cause_secondary.data=} not in {choices_2=}")
+        self.emission_cause_secondary.data = "Please Select"
+
+      self.emission_cause_tertiary.choices = choices_2
+      if self.emission_cause_tertiary.data not in choices_2:
+        logger.debug(f"{self.emission_cause_tertiary.data=} not in {choices_2=}")
+        self.emission_cause_tertiary.data = "Please Select"
+
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -804,6 +826,7 @@ class LandfillFeedback(FlaskForm):
         self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
       if self.emission_cause.data not in valid_options:
         self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
+      # todo - add 2nd and 3rd causes
 
     # Q8 and Q13 should be coupled to Operator aware response
     elif self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
@@ -820,7 +843,6 @@ class LandfillFeedback(FlaskForm):
         self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
       if self.emission_cause.data in invalid_options:
         self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
-
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
