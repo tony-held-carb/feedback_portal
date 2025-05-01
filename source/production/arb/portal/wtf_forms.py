@@ -754,7 +754,6 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
-    # todo - include new logic for required, etc (noting that landfills are all optional)
     # todo - update with new html selectors being more aware
 
     # Consider this validation test
@@ -764,15 +763,15 @@ class LandfillFeedback(FlaskForm):
         self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
-      required_selection = f"Not applicable as no leak was detected"
-      if self.emission_type_fk.data != required_selection:
-        self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
+      valid_options = ["Not applicable as no leak was detected", "Please Select"]
+      if self.emission_type_fk.data not in valid_options:
+        self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
 
-    if self.emission_location.data == "No leak was detected":
+    if self.emission_location.data == "Not applicable as no leak was detected":
       if self.emission_type_fk.data != "No leak was detected":
         self.emission_location.errors.append(f"Q13 and Q14 appear to be inconsistent")
 
-    if self.emission_location.data == "No leak was detected":
+    if self.emission_location.data == "Not applicable as no leak was detected":
       if self.emission_cause.data != "No leak was detected":
         self.emission_location.errors.append(f"Q13 and Q16 appear to be inconsistent")
 
