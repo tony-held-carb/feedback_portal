@@ -771,9 +771,9 @@ class LandfillFeedback(FlaskForm):
       if self.emission_type_fk.data != "No leak was detected":
         self.emission_location.errors.append(f"Q13 and Q14 appear to be inconsistent")
 
-    if self.emission_location.data == "Not applicable as no leak was detected":
+    if self.emission_cause.data == "Not applicable as no leak was detected":
       if self.emission_cause.data != "No leak was detected":
-        self.emission_location.errors.append(f"Q13 and Q16 appear to be inconsistent")
+        self.emission_cause.errors.append(f"Q13 and Q16 appear to be inconsistent")
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
@@ -846,9 +846,9 @@ class LandfillFeedback(FlaskForm):
       "last_component_leak_monitoring_timestamp",
       "additional_notes",
     ]
-    # test if
     # todo - update logic for new selectors
     emission_identified_test = self.emission_identified_flag_fk.data != "No leak was detected"
+    # print(f"{emission_identified_test=}")
     change_validators_on_test(self, emission_identified_test, required_if_emission_identified)
 
     if emission_identified_test:

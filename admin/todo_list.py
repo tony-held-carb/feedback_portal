@@ -20,9 +20,8 @@ then make it generalizable to the ec2
 * probably want to disable the ability to delete an incidence
 * ask dan for access to new db instance.
 
-getting ready to run on ec2
+* Probably want to have a form passes validation modal after you validate.  Maybe stay on same page?
 
 Forget me nots
 ----------------------------
-* check new spreadsheets, create a readme file, post on review site, send email out
 """
