@@ -297,7 +297,7 @@ def get_excel_dropdown_data():
       "Other",
       "Uncontrolled Area (no gas collection infrastructure)",
     ],
-    "emission_cause_contingent": {
+    "emission_cause_contingent_on_emission_location": {
       "Gas Collection System Component (e.g., blower, well, valve, port)": [
         "Construction - New Well Installation",
         "Construction - Well Raising or Horizontal Extension",

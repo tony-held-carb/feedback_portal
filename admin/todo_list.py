@@ -23,6 +23,7 @@ then make it generalizable to the ec2
 * Probably want to have a form passes validation modal after you validate.  Maybe stay on same page?
 
 * Created new branch to update how selectors are created
+  * not going to convert them to selectors at the global level, instead i'm going to have them be hardcoded dict to begin with
 
 Forget me nots
 ----------------------------

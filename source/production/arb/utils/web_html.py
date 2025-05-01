@@ -191,18 +191,6 @@ def update_selector_dict(input_dict):
   return {key: selector_list_to_tuples(values) for key, values in input_dict.items()}
 
 
-if __name__ == '__main__':
-  now = datetime.now(ZoneInfo("UTC"))
-  print(f"{now=}")
-  now_string = repr(now)
-  new_now = str_to_datetime(now_string)
-  print(f"{new_now=}")
-
-  now_string = "Note a valid datetime"
-  new_now = str_to_datetime(now_string)
-  print(f"{new_now=}")
-
-
 def ensure_placeholder_option(tuple_list,
                               item='Please Select',
                               item_dict=None,
@@ -277,3 +265,15 @@ def remove_items(tuple_list, remove_items):
     remove_set = set(remove_items)
 
   return [t for t in tuple_list if t[0] not in remove_set]
+
+
+if __name__ == '__main__':
+  now = datetime.now(ZoneInfo("UTC"))
+  print(f"{now=}")
+  now_string = repr(now)
+  new_now = str_to_datetime(now_string)
+  print(f"{new_now=}")
+
+  now_string = "Note a valid datetime"
+  new_now = str_to_datetime(now_string)
+  print(f"{new_now=}")
