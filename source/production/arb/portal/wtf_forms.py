@@ -725,6 +725,7 @@ class LandfillFeedback(FlaskForm):
     if self.emission_location.data in emission_cause:
       choices = emission_cause[self.emission_location.data]
       self.emission_cause.choices = choices
+      logger.debug(f"{self.emission_cause.choices=}")
 
   def validate(self, extra_validators=None):
     """
