@@ -22,6 +22,8 @@ then make it generalizable to the ec2
 
 * Probably want to have a form passes validation modal after you validate.  Maybe stay on same page?
 
+* Created new branch to update how selectors are created
+
 Forget me nots
 ----------------------------
 """
