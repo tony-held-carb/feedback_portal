@@ -6,7 +6,7 @@ wt_forms functions are located in arb.utils.wtf_forms_util.py module.
 """
 from flask_wtf import FlaskForm
 from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField)
-from wtforms.validators import (DataRequired, Email, InputRequired, Length, NumberRange, Optional, Regexp)
+from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
 import arb.__get_logger as get_logger
 from arb.portal.globals import Globals
@@ -756,46 +756,36 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     # todo - include new logic for required, etc (noting that landfills are all optional)
     # todo - update with new html selectors being more aware
-    # emission_identified = self.emission_identified_flag_fk.data == Globals.drop_downs_rev["emission_identified_flag_fk"]["Yes"]
-    #
-    # emission_type_not_found = self.emission_type_fk.data == Globals.drop_downs_rev["emission_type_fk"]["Not found"]
-    #
-    # if self.emission_identified_flag_fk.data in [Globals.drop_downs_rev["emission_identified_flag_fk"]["Please Select"]]:
-    #   pass
-    # elif self.emission_identified_flag_fk.data in [Globals.drop_downs_rev["emission_identified_flag_fk"]["Yes"]]:
-    #   if self.emission_type_fk.data in [Globals.drop_downs_rev["emission_type_fk"]["Not found"]]:
-    #     msg = ("Answer inconsistency.  You answered 'Yes' to 'Was an emission source identified by follow-up monitoring?' "
-    #            "yet selected 'Not found' for the emission type.")
-    #     self.emission_type_fk.errors.append(msg)
-    # elif self.emission_identified_flag_fk.data in [Globals.drop_downs_rev["emission_identified_flag_fk"]["No"]]:
-    #   if self.emission_type_fk.data not in [Globals.drop_downs_rev["emission_type_fk"]["Not found"]]:
-    #     msg = ("Answer inconsistency.  You answered 'No' to 'Was an emission source identified by follow-up monitoring?' "
-    #            "yet did not select 'Not found' for the emission type.")
-    #     self.emission_type_fk.errors.append(msg)
 
-    # todo - not sure if this test makes sense since they may have know about it prior to the plume (going to comment out)
-    if self.observation_timestamp.data and self.inspection_timestamp.data:
-      if self.inspection_timestamp.data < self.observation_timestamp.data:
-        self.inspection_timestamp.errors.append(
-          "Date of inspection cannot be prior to date of initial plume observation.")
+    # Consider this validation test
+    if self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
+      required_selection = f"Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation"
+      if self.emission_type_fk.data != required_selection:
+        self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
+
+    if self.emission_identified_flag_fk.data == "No leak was detected":
+      required_selection = f"Not applicable as no leak was detected"
+      if self.emission_type_fk.data != required_selection:
+        self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
+
+    if self.emission_location.data == "No leak was detected":
+      if self.emission_type_fk.data != "No leak was detected":
+        self.emission_location.errors.append(f"Q13 and Q14 appear to be inconsistent")
+
+    if self.emission_location.data == "No leak was detected":
+      if self.emission_cause.data != "No leak was detected":
+        self.emission_location.errors.append(f"Q13 and Q16 appear to be inconsistent")
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
         self.mitigation_timestamp.errors.append(
           "Date of mitigation cannot be prior to initial site inspection.")
 
-    # The last_surface_monitoring_timestamp and last_component_leak_monitoring_timestamp are
-    # no longer required to be after the initial site inspection.
-
-    # if self.last_surface_monitoring_timestamp.data and self.inspection_timestamp.data:
-    #   if self.last_surface_monitoring_timestamp.data < self.inspection_timestamp.data:
-    #     self.last_surface_monitoring_timestamp.errors.append(
-    #       "Date of last surface emissions monitoring cannot be prior to initial site inspection.")
-    #
-    # if self.last_component_leak_monitoring_timestamp.data and self.inspection_timestamp.data:
-    #   if self.last_component_leak_monitoring_timestamp.data < self.inspection_timestamp.data:
-    #     self.last_component_leak_monitoring_timestamp.errors.append(
-    #       "Date of last component leak monitoring cannot be prior to initial site inspection.")
+    # not sure if this test makes sense since they may have know about it prior to the plume (going to comment out)
+    # if self.observation_timestamp.data and self.inspection_timestamp.data:
+    #   if self.inspection_timestamp.data < self.observation_timestamp.data:
+    #     self.inspection_timestamp.errors.append(
+    #       "Date of inspection cannot be prior to date of initial plume observation.")
 
     ###################################################################################################
     # perform any form level validation and append it to the form_errors property
@@ -863,11 +853,11 @@ class LandfillFeedback(FlaskForm):
     change_validators_on_test(self, emission_identified_test, required_if_emission_identified)
 
     if emission_identified_test:
-      lmr_test = self.included_in_last_lmr.data == "No"
-      logger.debug(f"\n\t{lmr_test=}")
-      change_validators_on_test(self, lmr_test, ["included_in_last_lmr_description"])
+      lmr_included_test = self.included_in_last_lmr.data == "No"
+      logger.debug(f"\n\t{lmr_included_test=}")
+      change_validators_on_test(self, lmr_included_test, ["included_in_last_lmr_description"])
 
-      lmr_test = self.planned_for_next_lmr.data == "No"
+      lmr_planned_test = self.planned_for_next_lmr.data == "No"
       logger.debug(
-        f"\n\t{lmr_test=}")
-      change_validators_on_test(self, lmr_test, ["planned_for_next_lmr_description"])
+        f"\n\t{lmr_planned_test=}")
+      change_validators_on_test(self, lmr_planned_test, ["planned_for_next_lmr_description"])
