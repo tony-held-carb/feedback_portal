@@ -728,10 +728,13 @@ class LandfillFeedback(FlaskForm):
     # emission_cause is contingent on emission_location
     # use the emission_cause_contingent_on_emission_location key to find the possible choices
     # for the emission_location based on the emission_cause
-    emission_cause = Globals.drop_downs_contingent["emission_cause_contingent_on_emission_location"]
+    emission_cause_dict = Globals.drop_downs_contingent["emission_cause_contingent_on_emission_location"]
+    logger.debug(f"{emission_cause_dict=}")
 
-    if self.emission_location.data in emission_cause:
-      choices = emission_cause[self.emission_location.data]
+    if self.emission_location.data in emission_cause_dict:
+      logger.debug(f"{self.emission_location.data=}")
+      choices = emission_cause_dict[self.emission_location.data]
+      logger.debug(f"{choices=}")
       choice_tuple = list_to_triple_tuple(choices)
       choice_tuple = ensure_placeholder_option(choice_tuple,
                                                item='Please Select',
@@ -740,9 +743,11 @@ class LandfillFeedback(FlaskForm):
       self.emission_cause.choices = choice_tuple
       logger.debug(f"{self.emission_cause.choices=}")
 
-      if self.emission_cause.data not in self.emission_cause.choices:
+      if self.emission_cause.data not in choices:
+        logger.debug(f"{self.emission_cause.data=} not in {choices=}")
         self.emission_cause.data = "Please Select"
 
+    # todo update secondary and tertiary drop downs
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -800,11 +805,22 @@ class LandfillFeedback(FlaskForm):
       if self.emission_cause.data not in valid_options:
         self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
 
+    # Q8 and Q13 should be coupled to Operator aware response
     elif self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
       valid_options = ["Please Select",
                        "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation", ]
       if self.emission_type_fk.data not in valid_options:
         self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
+
+    if self.emission_identified_flag_fk.data != "No leak was detected":
+      invalid_options = ["Not applicable as no leak was detected", ]
+      if self.emission_type_fk.data in invalid_options:
+        self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
+      if self.emission_location.data in invalid_options:
+        self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
+      if self.emission_cause.data in invalid_options:
+        self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
+
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
