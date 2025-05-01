@@ -18,6 +18,7 @@ class Globals:
   """
   db_column_types = {}
   drop_downs = {}
+  drop_downs_contingent = {}
 
   # consider
   # flask_app, base, and engine are initialized with load_type_mapping(), they are not used
@@ -61,12 +62,10 @@ class Globals:
 
     logger.debug(f"In load_drop_downs()")
 
-    Globals.drop_downs = get_excel_dropdown_data()
+    Globals.drop_downs, Globals.drop_downs_contingent = get_excel_dropdown_data()
 
     logger.debug(f"{Globals.drop_downs=}")
-
-    # todo - get rid of all references to drop_downs_rev
-    # logger.debug(f"{Globals.drop_downs_rev=}")
+    logger.debug(f"{Globals.drop_downs_contingent=}")
 
   @classmethod
   def load_logger(cls, flask_app) -> None:

@@ -297,6 +297,23 @@ def get_excel_dropdown_data():
       "Other",
       "Uncontrolled Area (no gas collection infrastructure)",
     ],
+
+    "included_in_last_lmr": [
+      "Yes",
+      "No",
+    ],
+    "planned_for_next_lmr": [
+      "Yes",
+      "No",
+    ],
+
+  }
+
+  # keys to the contingent dropdowns follow the patter html_selector2_contingent_on_html_selector1
+  # for instance, emission_cause_contingent_on_emission_location means that the choices for
+  # emission_cause are based on a lookup of the value of emission_location
+
+  drop_downs_contingent = {
     "emission_cause_contingent_on_emission_location": {
       "Gas Collection System Component (e.g., blower, well, valve, port)": [
         "Construction - New Well Installation",
@@ -364,20 +381,9 @@ def get_excel_dropdown_data():
         "Other",
         "Uncontrolled Area (no gas collection infrastructure)",
       ],
-
     },
-    "included_in_last_lmr": [
-      "Yes",
-      "No",
-    ],
-    "planned_for_next_lmr": [
-      "Yes",
-      "No",
-    ],
-
   }
 
-  # todo - likely remove this and have drop downs created via wtforms
-
+  # Note, the drop_downs get 'Please Select' prepended, but the drop_down_contingent content is not modified
   drop_downs = update_selector_dict(drop_downs)
-  return drop_downs
+  return drop_downs, drop_downs_contingent
