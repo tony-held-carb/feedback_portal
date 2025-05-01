@@ -770,23 +770,24 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
 
     # Consider this validation test
-    if self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
-      required_selection = f"Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation"
-      if self.emission_type_fk.data != required_selection:
-        self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
+    # todo - it makes sense to have a blanket if self.emission_type_fk.data != "No leak was detected":
+    # and fail lots of conditions based on this?
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
-      valid_options = ["Not applicable as no leak was detected", "Please Select"]
+      valid_options = ["Please Select",
+                       "Not applicable as no leak was detected", ]
       if self.emission_type_fk.data not in valid_options:
         self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
+      if self.emission_location.data not in valid_options:
+        self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
+      if self.emission_cause.data not in valid_options:
+        self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
 
-    if self.emission_location.data == "Not applicable as no leak was detected":
-      if self.emission_type_fk.data != "No leak was detected":
-        self.emission_location.errors.append(f"Q13 and Q14 appear to be inconsistent")
-
-    if self.emission_cause.data == "Not applicable as no leak was detected":
-      if self.emission_cause.data != "No leak was detected":
-        self.emission_cause.errors.append(f"Q13 and Q16 appear to be inconsistent")
+    elif self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
+      valid_options = ["Please Select",
+                       "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation", ]
+      if self.emission_type_fk.data not in valid_options:
+        self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
