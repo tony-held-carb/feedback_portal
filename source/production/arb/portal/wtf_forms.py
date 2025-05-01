@@ -12,6 +12,7 @@ import arb.__get_logger as get_logger
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
+from arb.utils.web_html import ensure_placeholder_option, list_to_triple_tuple, selector_list_to_tuples
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
@@ -718,14 +719,29 @@ class LandfillFeedback(FlaskForm):
   )
 
   def update_contingent_selectors(self):
+    """
+    Update the selector choices if they are contingent on other form values.
+    """
+
     logger.debug(f"in update_contingent_selectors()")
 
-    # emission_cause_contingent_on_emission_location
+    # emission_cause is contingent on emission_location
+    # use the emission_cause_contingent_on_emission_location key to find the possible choices
+    # for the emission_location based on the emission_cause
     emission_cause = Globals.drop_downs_contingent["emission_cause_contingent_on_emission_location"]
+
     if self.emission_location.data in emission_cause:
       choices = emission_cause[self.emission_location.data]
-      self.emission_cause.choices = choices
+      choice_tuple = list_to_triple_tuple(choices)
+      choice_tuple = ensure_placeholder_option(choice_tuple,
+                                               item='Please Select',
+                                               item_dict={"disabled": True},
+                                               ensure_first=True)
+      self.emission_cause.choices = choice_tuple
       logger.debug(f"{self.emission_cause.choices=}")
+
+      if self.emission_cause.data not in self.emission_cause.choices:
+        self.emission_cause.data = "Please Select"
 
   def validate(self, extra_validators=None):
     """
