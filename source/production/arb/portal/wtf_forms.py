@@ -252,6 +252,9 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
+  def update_contingent_selectors(self):
+    pass
+
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -714,6 +717,15 @@ class LandfillFeedback(FlaskForm):
     validators=[],
   )
 
+  def update_contingent_selectors(self):
+    logger.debug(f"in update_contingent_selectors()")
+
+    # emission_cause_contingent_on_emission_location
+    emission_cause = Globals.drop_downs_contingent["emission_cause_contingent_on_emission_location"]
+    if self.emission_location.data in emission_cause:
+      choices = emission_cause[self.emission_location.data]
+      self.emission_cause.choices = choices
+
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -729,6 +741,8 @@ class LandfillFeedback(FlaskForm):
     # Add, Remove, or Modify validation at a field level here before the super is called (for example)
     ###################################################################################################
     self.determine_contingent_fields()
+    self.update_contingent_selectors()
+    # todo - update contingent dropdowns
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -754,7 +768,6 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
-    # todo - update with new html selectors being more aware
 
     # Consider this validation test
     if self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":

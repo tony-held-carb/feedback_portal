@@ -47,8 +47,6 @@ def upload_single_file(upload_dir, request_file):
   return file_name
 
 
-
-
 def selector_list_to_tuples(values):
   """
   Given a list of strings that represent html drop down options,

@@ -475,6 +475,9 @@ def incidence_prep(model_row,
   if request.method == 'GET':
     # Populate wtform from model data
     model_to_wtform(model_row, wtf_form)
+    # todo - maybe put update contingencies here?
+
+
     # obj_diagnostics(wtf_form, message="wtf_form in incidence_prep() after model_to_wtform")
 
     # For GET requests for row creation, don't validate and error_count_dict will be all zeros
