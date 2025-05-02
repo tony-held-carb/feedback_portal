@@ -2,7 +2,6 @@
 Global variables for a Flask/SQLAlchemy application.
 Primarily used to for dropdown selectors and to avoid recursion issues of imports.
 """
-from zoneinfo import ZoneInfo
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -19,7 +18,6 @@ class Globals:
   db_column_types = {}
   drop_downs = {}
   drop_downs_contingent = {}
-
 
   @classmethod
   def load_drop_downs(cls, flask_app, db):
