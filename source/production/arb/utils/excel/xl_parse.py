@@ -76,6 +76,8 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
   else:
     xl_base_schema_path = xl_base_schema_path_
 
+  print(f"{xl_base_schema_path=}")
+
   # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
     xl_schema_file_map = {
