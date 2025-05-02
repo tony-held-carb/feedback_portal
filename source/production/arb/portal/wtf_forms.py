@@ -491,6 +491,8 @@ class LandfillFeedback(FlaskForm):
   )
 
   label = "4.  Plume Origin CARB Estimated Latitude"
+  # I think lat/longs are failing because they were renamed ...
+
   lat_carb = DecimalField(
     label=label,
     places=Globals.GPS_RESOLUTION,
