@@ -15,7 +15,7 @@ from typing import Any
 from flask_wtf import FlaskForm
 from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
-from wtforms.fields import DateTimeField
+from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 import arb.__get_logger as get_logger
@@ -386,20 +386,24 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
     attr_value = model_json_dict.get(attr_name)
     field = getattr(wtform, attr_name)
 
-    if isinstance(field, DateTimeField):
-      if attr_value is None:
-        pass
-      elif isinstance(attr_value, str):
-        attr_value = iso8601_to_utc_dt(attr_value)
-        attr_value = datetime_to_ca_naive(attr_value)
-      else:
-        raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
+    if attr_value is None:
+      pass
+    else:
+      if isinstance(field, DateTimeField):
+        if isinstance(attr_value, str):
+          attr_value = iso8601_to_utc_dt(attr_value)
+          attr_value = datetime_to_ca_naive(attr_value)
+        else:
+          raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
+      if isinstance(field, DecimalField):
+        if isinstance(attr_value, str):
+          attr_value = float(attr_value)
+        else:
+          raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
 
     # Set field data and raw_data for proper rendering/validation
     field.data = attr_value
     field.raw_data = format_raw_data(field, attr_value)
-
-    # todo (consider) update contingent fields here?
 
     logger.debug(f"Set {attr_name=} with data={field.data}, raw_data={field.raw_data}")
 

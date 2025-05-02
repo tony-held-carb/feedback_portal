@@ -552,5 +552,5 @@ if __name__ == '__main__':
   """
 
   # app.run(host="0.0.0.0", port=5150, debug=True)
-  # app.run()
-  app.run(debug=False, use_reloader=False) # allows pycharm debugger to catch errors
+  app.run()
+  # app.run(debug=False, use_reloader=False) # allows pycharm debugger to catch errors
