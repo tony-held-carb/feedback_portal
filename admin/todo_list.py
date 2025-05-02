@@ -25,4 +25,14 @@ then make it generalizable to the ec2
 * preparing to use chat gpt to restructure code
 Forget me nots
 ----------------------------
+
+chatgpt request
+attached is the code base.  please propose the following changes:
+
+1) app.py current has all the routes, please create a file named routes.py that has all routes associated with this project
+2) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
+3) break Globals.py into a constants.py file for true constants and shared.py for values that are shared app wide but require some sort of initialization/prep.
+
+use google docstrings with modern type hinting in the docstrings.  Include extensive documentation and examples.  Include the full text for any file you create or propose to change.
+
 """
