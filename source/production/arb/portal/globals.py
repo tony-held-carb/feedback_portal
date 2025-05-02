@@ -61,17 +61,6 @@ class Globals:
     logger.debug(f"{Globals.drop_downs_contingent=}")
 
   @classmethod
-  def load_logger(cls, flask_app) -> None:
-    """
-    Loads logger to the global variable.  Likely an outdated usage.
-
-    Args:
-      flask_app (Flask): The Flask application instance.
-    """
-    Globals.logger = flask_app.logger
-    Globals.logger.debug(f"{type(Globals.logger)=}, {Globals.logger=}")
-
-  @classmethod
   def load_type_mapping(cls, flask_app, db, base) -> None:
     """
     Save the flask_app, database, and base to global variables and determine
