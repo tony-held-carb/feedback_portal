@@ -138,7 +138,7 @@ def obj_to_html(obj):
         {% endif %}
   """
   # Pretty print the data to create an indented string
-  pp = pprint.PrettyPrinter(indent=4, width=100)
+  pp = pprint.PrettyPrinter(indent=4, width=200)
   formatted_data = pp.pformat(obj)
 
   # Use BeautifulSoup to convert indented string into a formated html string

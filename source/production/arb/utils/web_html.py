@@ -47,40 +47,6 @@ def upload_single_file(upload_dir, request_file):
   return file_name
 
 
-def create_html_select(table_name, table_as_list, key_field, display_field):
-  """
-  Given a list of dictionaries, where each dictionary represents a row of table_name, create
-  a list of tuples suitable for an HTML selector where the element value is the key_field and the displayed
-  value is the associated display_field.
-
-
-  Args:
-    table_name (str): lower-case sql table name
-    table_as_list (list[dict]): list of dictionaries where each dictionary has the column name as the key and the value as the value
-    key_field (str): name of the dictionary key that represents the select element's value
-    display_field (str): name of the dictionary key that represents the select element's display
-
-  Returns:
-    tuple: A tuple containing the drop-down menu items and a reverse dictionary lookup.
-      - drop_downs (list[tuple]): lookup dictionary of drop down key values for each table.
-      - drop_downs_rev (dict): reverse lookup dictionary of drop down key values for each table
-  """
-  drop_downs = {}
-  drop_downs_rev = {}
-  entries = [(-1, 'Please Select', {'disabled': True})]
-  entries_rev = {}
-  for row in table_as_list:
-    value = row[key_field]
-    display = row[display_field]
-    entries.append((value, display))
-    entries_rev[display] = value
-
-  drop_downs[table_name] = entries
-  drop_downs_rev[table_name] = entries_rev
-
-  return drop_downs, drop_downs_rev
-
-
 def selector_list_to_tuples(values):
   """
   Given a list of strings that represent html drop down options,
@@ -191,18 +157,6 @@ def update_selector_dict(input_dict):
   return {key: selector_list_to_tuples(values) for key, values in input_dict.items()}
 
 
-if __name__ == '__main__':
-  now = datetime.now(ZoneInfo("UTC"))
-  print(f"{now=}")
-  now_string = repr(now)
-  new_now = str_to_datetime(now_string)
-  print(f"{new_now=}")
-
-  now_string = "Note a valid datetime"
-  new_now = str_to_datetime(now_string)
-  print(f"{new_now=}")
-
-
 def ensure_placeholder_option(tuple_list,
                               item='Please Select',
                               item_dict=None,
@@ -277,3 +231,15 @@ def remove_items(tuple_list, remove_items):
     remove_set = set(remove_items)
 
   return [t for t in tuple_list if t[0] not in remove_set]
+
+
+if __name__ == '__main__':
+  now = datetime.now(ZoneInfo("UTC"))
+  print(f"{now=}")
+  now_string = repr(now)
+  new_now = str_to_datetime(now_string)
+  print(f"{new_now=}")
+
+  now_string = "Note a valid datetime"
+  new_now = str_to_datetime(now_string)
+  print(f"{new_now=}")

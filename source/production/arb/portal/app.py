@@ -224,7 +224,9 @@ def show_dropdown_dict():
   # update drop down tables
   Globals.load_drop_downs(app, db)
   result1 = obj_to_html(Globals.drop_downs)
-  result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p> ")
+  result2 = obj_to_html(Globals.drop_downs_contingent)
+  result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p>"
+            f"<p><strong>Globals.drop_downs_contingent=</strong></p> <p>{result2}</p>")
   return render_template('diagnostics.html', html_content=result)
 
 
@@ -255,7 +257,7 @@ def show_feedback_form_structure():
   fields2 = get_wtforms_fields(form2)
   result2 = obj_to_html(fields2)
 
-  result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p> "
+  result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p>"
             f"<p><strong>WTF LandfillFeedback Form Structure=</strong></p> <p>{result2}</p>")
 
   return render_template('diagnostics.html', html_content=result)
@@ -473,6 +475,9 @@ def incidence_prep(model_row,
   if request.method == 'GET':
     # Populate wtform from model data
     model_to_wtform(model_row, wtf_form)
+    # todo - maybe put update contingencies here?
+
+
     # obj_diagnostics(wtf_form, message="wtf_form in incidence_prep() after model_to_wtform")
 
     # For GET requests for row creation, don't validate and error_count_dict will be all zeros

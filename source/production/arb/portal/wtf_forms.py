@@ -252,6 +252,9 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
+  def update_contingent_selectors(self):
+    pass
+
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -714,6 +717,82 @@ class LandfillFeedback(FlaskForm):
     validators=[],
   )
 
+  def update_contingent_selectors(self):
+    """
+    Update selector choices for emission causes based on the selected emission location.
+
+    This method dynamically updates the primary, secondary, and tertiary emission cause fields
+    based on the value of self.emission_location. It sets valid choices and resets any invalid
+    selection to a safe default.
+
+    Assumes:
+        - self.emission_location, self.emission_cause,
+          self.emission_cause_secondary, and self.emission_cause_tertiary
+          are WTForms SelectField instances.
+        - Globals.drop_downs_contingent contains a nested dict of contingent options.
+    """
+    logger.debug("Running update_contingent_selectors()")
+
+    emission_location = self.emission_location.data
+    logger.debug(f"Selected emission_location: {emission_location!r}")
+
+    emission_cause_dict = Globals.drop_downs_contingent.get(
+      "emission_cause_contingent_on_emission_location", {}
+    )
+    choices_raw = emission_cause_dict.get(emission_location, [])
+    logger.debug(f"Available contingent causes: {choices_raw!r}")
+
+    # Define headers
+    primary_header = [
+      ("Please Select", "Please Select", {"disabled": True}),
+      ("Not applicable as no leak was detected", "Not applicable as no leak was detected", {}),
+    ]
+    secondary_tertiary_header = primary_header + [
+      ("Not applicable as no additional leak cause suspected",
+       "Not applicable as no additional leak cause suspected", {}),
+    ]
+
+    # Build full choices
+    primary_choices = self._build_choices(primary_header, choices_raw)
+    secondary_tertiary_choices = self._build_choices(secondary_tertiary_header, choices_raw)
+
+    # Update each field
+    self._update_selector("emission_cause", self.emission_cause, primary_choices)
+    self._update_selector("emission_cause_secondary", self.emission_cause_secondary, secondary_tertiary_choices)
+    self._update_selector("emission_cause_tertiary", self.emission_cause_tertiary, secondary_tertiary_choices)
+
+  def _build_choices(self, header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
+    """
+    Combine header and choices into a list of triple tuples for WTForms.
+
+    Args:
+        header (list[tuple[str, str, dict]]): The static header items.
+        items (list[str]): Dynamic items to append as (value, value, {}).
+
+    Returns:
+        list[tuple[str, str, dict]]: Combined list.
+    """
+    footer = [(item, item, {}) for item in items]
+    return header + footer
+
+  def _update_selector(self, field_name: str, field, choices: list[tuple[str, str, dict]]) -> None:
+    """
+    Update the field's choices and reset data if invalid.
+
+    Args:
+        field_name (str): The name of the field (for logging).
+        field: The WTForms field to update.
+        choices (list[tuple[str, str, dict]]): New valid choices.
+    """
+    field.choices = choices
+    valid_values = {value for value, _, _ in choices}
+
+    if field.data not in valid_values:
+      logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
+      field.data = "Please Select"
+    # else:
+    #   logger.debug(f"{field_name}.data={field.data!r} is valid")
+
   def validate(self, extra_validators=None):
     """
     Overriding validate to allow for form-level validation and inter-comparing fields.
@@ -729,6 +808,8 @@ class LandfillFeedback(FlaskForm):
     # Add, Remove, or Modify validation at a field level here before the super is called (for example)
     ###################################################################################################
     self.determine_contingent_fields()
+    self.update_contingent_selectors()
+    # todo - update contingent dropdowns
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -754,31 +835,61 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
-    # todo - update with new html selectors being more aware
-
-    # Consider this validation test
-    if self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
-      required_selection = f"Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation"
-      if self.emission_type_fk.data != required_selection:
-        self.emission_type_fk.errors.append(f"To be consistent with Q8, this answer should be: {required_selection}")
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
-      valid_options = ["Not applicable as no leak was detected", "Please Select"]
+      valid_options = ["Please Select",
+                       "Not applicable as no leak was detected",
+                       "Not applicable as no additional leak cause suspected",
+                       ]
+      if self.emission_type_fk.data not in valid_options:
+        self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
+      if self.emission_location.data not in valid_options:
+        self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
+      if self.emission_cause.data not in valid_options:
+        self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
+      if self.emission_cause_secondary.data not in valid_options:
+        self.emission_cause_secondary.errors.append(f"Q8 and Q17 appear to be inconsistent")
+      if self.emission_cause_tertiary.data not in valid_options:
+        self.emission_cause.errors.append(f"Q8 and Q18 appear to be inconsistent")
+
+    # Q8 and Q13 should be coupled to Operator aware response
+    elif self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
+      valid_options = ["Please Select",
+                       "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation", ]
       if self.emission_type_fk.data not in valid_options:
         self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
 
-    if self.emission_location.data == "Not applicable as no leak was detected":
-      if self.emission_type_fk.data != "No leak was detected":
-        self.emission_location.errors.append(f"Q13 and Q14 appear to be inconsistent")
-
-    if self.emission_cause.data == "Not applicable as no leak was detected":
-      if self.emission_cause.data != "No leak was detected":
-        self.emission_cause.errors.append(f"Q13 and Q16 appear to be inconsistent")
+    if self.emission_identified_flag_fk.data != "No leak was detected":
+      invalid_options = ["Not applicable as no leak was detected", ]
+      if self.emission_type_fk.data in invalid_options:
+        self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
+      if self.emission_location.data in invalid_options:
+        self.emission_location.errors.append(f"Q8 and Q14 appear to be inconsistent")
+      if self.emission_cause.data in invalid_options:
+        self.emission_cause.errors.append(f"Q8 and Q16 appear to be inconsistent")
+      if self.emission_cause_secondary.data in invalid_options:
+        self.emission_cause_secondary.errors.append(f"Q8 and Q17 appear to be inconsistent")
+      if self.emission_cause_tertiary.data in invalid_options:
+        self.emission_cause_tertiary.errors.append(f"Q8 and Q18 appear to be inconsistent")
 
     if self.inspection_timestamp.data and self.mitigation_timestamp.data:
       if self.mitigation_timestamp.data < self.inspection_timestamp.data:
         self.mitigation_timestamp.errors.append(
           "Date of mitigation cannot be prior to initial site inspection.")
+
+    # todo - add that 2nd and 3rd can be repeats
+    ignore_repeats = ["Please Select",
+                      "Not applicable as no leak was detected",
+                      "Not applicable as no additional leak cause suspected",
+                      ]
+
+    if (self.emission_cause_secondary.data not in ignore_repeats and
+        self.emission_cause_secondary.data in [self.emission_cause.data]):
+      self.emission_cause_secondary.errors.append(f"Q17 appears to be a repeat")
+
+    if (self.emission_cause_tertiary.data not in ignore_repeats and
+        self.emission_cause_tertiary.data in [self.emission_cause.data, self.emission_cause_secondary.data]):
+      self.emission_cause_secondary.errors.append(f"Q18 appears to be a repeat")
 
     # not sure if this test makes sense since they may have know about it prior to the plume (going to comment out)
     # if self.observation_timestamp.data and self.inspection_timestamp.data:
