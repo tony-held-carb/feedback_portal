@@ -8,7 +8,6 @@ import arb.__get_logger as get_logger
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
-
 GPS_RESOLUTION = 5  # decimal digits required of users for GPS lat/long data
 
 PLEASE_SELECT = 'Please Select'  # select element value for disabled 'Please Select' option

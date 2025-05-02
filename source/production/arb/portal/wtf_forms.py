@@ -9,12 +9,11 @@ from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatF
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
 import arb.__get_logger as get_logger
+from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
-
-from arb.portal.constants import GPS_RESOLUTION, PLEASE_SELECT, MIN_LATITUDE, MAX_LATITUDE, MIN_LONGITUDE, MAX_LONGITUDE
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
