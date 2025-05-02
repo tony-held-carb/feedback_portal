@@ -353,6 +353,9 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
       - Does not support lists or custom field types unless manually extended.
   """
   # todo - lots of changes, need to review closely once the wtform_to_model works
+  # todo - looks like carb lat longs were stored as strings rather than number,
+  # i put in a hack to force decimal types to float, but should review why json is storing in this way
+  # and remove any old data
 
   model_json_dict = getattr(model, json_column)
   logger.debug(f"model_to_wtform called with model: {model}, json: {model_json_dict}")

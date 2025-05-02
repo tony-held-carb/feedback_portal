@@ -20,13 +20,6 @@ class Globals:
   drop_downs = {}
   drop_downs_contingent = {}
 
-  # consider
-  # flask_app, base, and engine are initialized with load_type_mapping(), they are not used
-  # elsewhere and are candidates for removal to make the code cleaner.
-  flask_app: Flask = None
-  base = None
-  engine = None
-
   GPS_RESOLUTION = 5  # decimal digits required of users for GPS lat/long data
   PLEASE_SELECT = 'Please Select'  # select element value for disabled 'Please Select' option
 
@@ -93,8 +86,5 @@ class Globals:
 
     with flask_app.app_context():
       engine = db.engine
-      Globals.flask_app = flask_app
-      Globals.engine = engine
-      Globals.base = base
       Globals.db_column_types = get_sa_automap_types(engine, base)
     logger.debug(f"Database type mapping: {Globals.db_column_types=}")
