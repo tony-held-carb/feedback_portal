@@ -35,4 +35,9 @@ attached is the code base modified, but similar to code that I previously update
 
 use google docstrings with modern type hinting in the docstrings.  Include extensive documentation and examples.  Include the full text for any file you create or propose to change.
 
+not sure i liked the response, could be changing too much at one time.  Going to try a more incremental approach.
+1. create a constants file and remove globals from it.
+2. remove unnecessary variables from globals per gpt recommendation.
+3. consider combining app_util to app
+4. move routes to separate file and make sure it has a ref to the flask app (i think you monkey attach)
 """
