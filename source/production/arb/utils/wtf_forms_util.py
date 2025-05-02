@@ -26,8 +26,6 @@ from arb.utils.sql_alchemy import get_sa_column_types, get_sa_fields
 __version__ = "1.0.0"
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
-HTML_LOCAL_TIME_FORMAT = "%Y-%m-%dT%H:%M"
-
 
 def min_decimal_precision(min_digits):
   """

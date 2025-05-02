@@ -41,6 +41,7 @@ from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_
   sa_model_diagnostics, sa_model_to_dict
 from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
   wtform_to_model
+from arb.portal.constants import PLEASE_SELECT
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger.get_logger(__name__, __file__)
@@ -118,7 +119,7 @@ def incidence_update(id_):
   return incidence_prep(model_row,
                         crud_type='update',
                         sector_type=sector_type,
-                        default_dropdown=Globals.PLEASE_SELECT)
+                        default_dropdown=PLEASE_SELECT)
 
 
 @app.route('/og_incidence_create/', methods=('GET', 'POST'))
