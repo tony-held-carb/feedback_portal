@@ -253,8 +253,8 @@ def change_validators(form,
   Args:
     form (FlaskForm): wtform
     field_names_to_change (list(str)): form fields to change from the old_validator to the new_validator
-    old_validator (InputRequired | Optional): Validator type to remove from an element's validation list.
-    new_validator (InputRequired | Optional): Validator type to add from an element's validation list.
+    old_validator (Type[InputRequired] | Type[Optional]): Validator type to remove from an element's validation list.
+    new_validator (Type[InputRequired] | Type[Optional]): Validator type to add from an element's validation list.
 
   Notes:
 

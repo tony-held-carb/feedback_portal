@@ -3,6 +3,8 @@ from collections.abc import Mapping
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from dateutil import parser
+
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
@@ -141,14 +143,14 @@ def iso8601_to_utc_dt(iso_string, error_on_missing_tz=True):
   including support for variations like 'Z' (UTC shorthand) and missing separators.
 
   Args:
-      iso_string (str): An ISO 8601-formatted datetime string.
-                        Examples:
-                          - '2025-04-20T14:30:00+00:00'
-                          - '2025-04-20T14:30:00Z'
-                          - '2025-04-20 14:30:00'
-      error_on_missing_tz (bool):
-          If True, raises a ValueError when the string has no timezone info.
-          If False, assumes the datetime is already in UTC and attaches UTC tzinfo.
+    error_on_missing_tz (bool):
+      If True, raises a ValueError when the string has no timezone info.
+      If False, assumes the datetime is already in UTC and attaches UTC tzinfo.
+    iso_string (str): An ISO 8601-formatted datetime string.
+      Examples:
+      - '2025-04-20T14:30:00+00:00'
+      - '2025-04-20T14:30:00Z'
+      - '2025-04-20 14:30:00'
 
   Returns:
       datetime: A timezone-aware datetime object in UTC.
@@ -318,10 +320,6 @@ def convert_ca_naive_datetimes_to_utc(data: object) -> object:
     }
   else:
     return data
-
-
-from datetime import datetime
-from dateutil import parser
 
 
 def parse_unknown_datetime(date_str: str) -> datetime | None:

@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 from werkzeug.utils import secure_filename
 
 from arb.__get_logger import get_logger
+from arb.portal.constants import DATETIME_WITH_SECONDS
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger(__name__, __file__)
@@ -75,7 +76,6 @@ def get_secure_timestamped_file_name(directory, file_name):
 
   Returns (Path): fully specified file name
   """
-  DATETIME_WITH_SECONDS = "%Y_%m_%d_%H_%M_%S"
 
   # logger.debug(f"{directory=}, {file_name=}")
   file_name_as_str = secure_filename(file_name)

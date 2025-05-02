@@ -28,9 +28,4 @@ MAX_LONGITUDE = -114
 UTC_TIME_ZONE = ZoneInfo("UTC")
 CA_TIME_ZONE = ZoneInfo("America/Los_Angeles")
 HTML_LOCAL_TIME_FORMAT = "%Y-%m-%dT%H:%M"
-
-
-
-
-
-
+DATETIME_WITH_SECONDS = "%Y_%m_%d_%H_%M_%S"
