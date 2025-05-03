@@ -39,9 +39,9 @@ def xl_address_sort(xl_tuple, address_location="key", sort_by="row", sub_keys=No
   to navigate through the dictionary to find the value for searching purposes.
 
   Args:
-    xl_tuple (tuple): key value pair where either the key or value has an xl string address
+    xl_tuple (tuple): key value pair where either the key or value has an Excel string address
                   that uses absolute references (both columns and rows have dollar signs).
-    address_location (str): "key" or "value" to indicate which has an xl string address
+    address_location (str): "key" or "value" to indicate which has an Excel string address
     sort_by (str): "row" or "column" to indicate which should be used for sorting.
     sub_keys (str, optional): if the value has a sub key (if it is a dict) for sorting
 

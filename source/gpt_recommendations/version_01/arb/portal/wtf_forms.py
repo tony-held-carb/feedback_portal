@@ -9,8 +9,7 @@ from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatF
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
 import arb.__get_logger as get_logger
-from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, PLEASE_SELECT
-from arb.portal.globals import Globals
+from arb.portal.shared import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
@@ -27,11 +26,11 @@ class OGFeedback(FlaskForm):
   Notes:
   """
 
-  msg = f"Latitudes must be blank or valid California number between {MIN_LATITUDE} and {MAX_LATITUDE}."
-  latitude_validation = {"min": MIN_LATITUDE, "max": MAX_LATITUDE,
+  msg = f"Latitudes must be blank or valid California number between {Globals.MIN_LATITUDE} and {Globals.MAX_LATITUDE}."
+  latitude_validation = {"min": Globals.MIN_LATITUDE, "max": Globals.MAX_LATITUDE,
                          "message": msg}
-  msg = f"Longitudes must be blank or valid California number between  {MIN_LONGITUDE} and {MAX_LONGITUDE}."
-  longitude_validation = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
+  msg = f"Longitudes must be blank or valid California number between  {Globals.MIN_LONGITUDE} and {Globals.MAX_LONGITUDE}."
+  longitude_validation = {"min": Globals.MIN_LONGITUDE, "max": Globals.MAX_LONGITUDE,
                           "message": msg}
 
   # venting through inspection (not through the 95669.1(b)(1) exclusion)
@@ -69,14 +68,14 @@ class OGFeedback(FlaskForm):
   label = "4.  Plume CARB Estimated Latitude"
   lat_carb = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
+    places=Globals.GPS_RESOLUTION,
     validators=[InputRequired(), NumberRange(**latitude_validation)],
   )
 
   label = "5.  Plume CARB Estimated Longitude"
   long_carb = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
+    places=Globals.GPS_RESOLUTION,
     validators=[InputRequired(), NumberRange(**longitude_validation)],
   )
 
@@ -284,7 +283,7 @@ class OGFeedback(FlaskForm):
     ###################################################################################################
     # Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data
     ###################################################################################################
-    validate_selectors(self, PLEASE_SELECT)
+    validate_selectors(self, Globals.PLEASE_SELECT)
 
     ###################################################################################################
     # Perform any field level validation where one field is cross-referenced to another
@@ -463,11 +462,11 @@ class LandfillFeedback(FlaskForm):
   Notes:
   """
 
-  msg = f"Latitudes must be blank or valid California number between {MIN_LATITUDE} and {MAX_LATITUDE}."
-  latitude_validation = {"min": MIN_LATITUDE, "max": MAX_LATITUDE,
+  msg = f"Latitudes must be blank or valid California number between {Globals.MIN_LATITUDE} and {Globals.MAX_LATITUDE}."
+  latitude_validation = {"min": Globals.MIN_LATITUDE, "max": Globals.MAX_LATITUDE,
                          "message": msg}
-  msg = f"Longitudes must be blank or valid California number between  {MIN_LONGITUDE} and {MAX_LONGITUDE}."
-  longitude_validation = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
+  msg = f"Longitudes must be blank or valid California number between  {Globals.MIN_LONGITUDE} and {Globals.MAX_LONGITUDE}."
+  longitude_validation = {"min": Globals.MIN_LONGITUDE, "max": Globals.MAX_LONGITUDE,
                           "message": msg}
 
   # Section 2
@@ -492,20 +491,18 @@ class LandfillFeedback(FlaskForm):
   )
 
   label = "4.  Plume Origin CARB Estimated Latitude"
-  # I think lat/longs are failing because they were renamed ...
-
   lat_carb = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(GPS_RESOLUTION)],
+    places=Globals.GPS_RESOLUTION,
+    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],
     validators=[Optional(), NumberRange(**latitude_validation)],
   )
 
   label = "5.  Plume Origin CARB Estimated Longitude"
   long_carb = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(GPS_RESOLUTION)],
+    places=Globals.GPS_RESOLUTION,
+    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],
     validators=[Optional(), NumberRange(**longitude_validation)],
   )
 
@@ -585,16 +582,16 @@ class LandfillFeedback(FlaskForm):
   label = "Q11.  Please provide a revised latitude if the leak location differs from CARB's estimate in Section 2."
   lat_revised = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(GPS_RESOLUTION)],
+    places=Globals.GPS_RESOLUTION,
+    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],
     validators=[Optional(), NumberRange(**latitude_validation)],
   )
 
   label = "Q12.  Please provide a revised longitude if the leak location differs from CARB's estimate in Section 2."
   long_revised = DecimalField(
     label=label,
-    places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(GPS_RESOLUTION)],
+    places=Globals.GPS_RESOLUTION,
+    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(Globals.GPS_RESOLUTION)],
     validators=[Optional(), NumberRange(**longitude_validation)],
   )
 
@@ -832,7 +829,7 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     # Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data
     ###################################################################################################
-    validate_selectors(self, PLEASE_SELECT)
+    validate_selectors(self, Globals.PLEASE_SELECT)
 
     ###################################################################################################
     # Perform any field level validation where one field is cross-referenced to another

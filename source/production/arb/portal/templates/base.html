@@ -25,99 +25,99 @@
 {# pt-5 pb-3 gives you nice pad top and pad bottom after menubar #}
 {#
 <div class="container pt-5">#}
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
-        {# <a class="navbar-brand" href="{{ url_for('index') }}">Operator Portal</a>#}
-        <a class="navbar-brand" href="{{ url_for('index') }}">
-          <img src="{{ url_for('static', filename='images/carb_logo_01.jpg') }}" alt="California Air Resources Board"
-               width="40" height="40">
-          Methane Satellite Portal
-        </a>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      {# <a class="navbar-brand" href="{{ url_for('index') }}">Operator Portal</a>#}
+      <a class="navbar-brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/carb_logo_01.jpg') }}" alt="California Air Resources Board"
+             width="40" height="40">
+        Methane Satellite Portal
+      </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {#
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {#
             <li class="nav-item">#}
-              {# <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>#}
-              {#
+          {# <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>#}
+          {#
             </li>
             #}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                Facility Feedback
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url_for('og_incidence_create') }}">Create Incidence (Oil &
-                  Gas)</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('landfill_incidence_create') }}">Create Incidence
-                  (Landfill)</a></li>
-                <li><a class="dropdown-item disabled" href="{{ url_for('incidence_update', id_=1) }}">Update
-                  Incidence</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                Developer Utilities
-              </a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Facility Feedback
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('og_incidence_create') }}">Create Incidence (Oil &
+                Gas)</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('landfill_incidence_create') }}">Create Incidence
+                (Landfill)</a></li>
+              <li><a class="dropdown-item disabled" href="{{ url_for('incidence_update', id_=1) }}">Update
+                Incidence</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Developer Utilities
+            </a>
 
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url_for('show_dropdown_dict') }}">Show Dropdowns</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('show_database_structure') }}">Show Database Structure</a>
-                </li>
-                <li><a class="dropdown-item" href="{{ url_for('show_feedback_form_structure') }}">Show Feedback Form
-                  Structure</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('show_log_file') }}">Show Log File</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('diagnostics') }}">Diagnostics</a></li>
-                <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('run_sql_script') }}">Run
-                  SQL Script</a></li>
-                <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('add_form_dummy_data') }}">Add
-                  Dummy Data</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                Spreadsheet
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url_for('upload_file') }}">Upload Feedback Spreadsheet</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('list_uploads') }}">List Uploaded Files</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item disabled" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Index</a>
-            </li>
-          </ul>
-          <form class="d-flex" role="search" action="{{ url_for('search') }}" method='POST'>
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                   name="navbar_search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('show_dropdown_dict') }}">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('show_database_structure') }}">Show Database Structure</a>
+              </li>
+              <li><a class="dropdown-item" href="{{ url_for('show_feedback_form_structure') }}">Show Feedback Form
+                Structure</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('show_log_file') }}">Show Log File</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('diagnostics') }}">Diagnostics</a></li>
+              <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('run_sql_script') }}">Run
+                SQL Script</a></li>
+              <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('add_form_dummy_data') }}">Add
+                Dummy Data</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Spreadsheet
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('upload_file') }}">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('list_uploads') }}">List Uploaded Files</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item disabled" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Index</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search" action="{{ url_for('search') }}" method='POST'>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                 name="navbar_search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
+</div>
 
-  {% block content_1 %}
+{% block content_1 %}
   <p>content_1 default text</p>
-  {% endblock %}
+{% endblock %}
 
-  {% block content_2 %}
-  {% endblock %}
+{% block content_2 %}
+{% endblock %}
 
 </body>
 </html>

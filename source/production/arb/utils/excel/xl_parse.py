@@ -57,6 +57,7 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
   global xl_base_path, xl_base_schema_path, xl_schema_file_map, xl_schema_map
 
   logger.debug(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
+  print(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
 
   if xl_base_path_ is None:
     # todo - consider changing to the gpt recommended way of using PROJECT_ROOT here
@@ -71,10 +72,18 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
     xl_base_path = xl_base_path.parent / "utils" / "excel"
     logger.debug(f"{xl_base_path=}")
 
+  # Try to get debugger to fail here
+  # if xl_base_path.name == 'feedback_portal':
+  #   logger.debug(f"Looks like this is run from the base of the pycharm project, perhaps through a debugger changing the base directory")
+  #   xl_base_path = xl_base_path / "source" / "production" / "arb" / "utils" / "excel"
+  #   logger.debug(f"{xl_base_path=}")
+
   if xl_base_schema_path_ is None:
     xl_base_schema_path = xl_base_path / "xl_schemas"
   else:
     xl_base_schema_path = xl_base_schema_path_
+
+  print(f"{xl_base_schema_path=}")
 
   # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
@@ -384,7 +393,7 @@ def test_load_xl_schemas():
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   logging.debug(f"\nschemas=\n{pp_log(schemas)}")
-  # logging.debug(f"\nschemas=\n{dict_to_str(schemas)}")
+  # logging.debug(f"\n schemas= \n{dict_to_str(schemas)}")
 
 
 def test_parse_xl_file():

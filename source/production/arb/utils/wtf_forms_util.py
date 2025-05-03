@@ -15,7 +15,7 @@ from typing import Any
 from flask_wtf import FlaskForm
 from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
-from wtforms.fields import DateTimeField
+from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 import arb.__get_logger as get_logger
@@ -25,8 +25,6 @@ from arb.utils.sql_alchemy import get_sa_column_types, get_sa_fields
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger.get_logger(__name__, __file__)
-
-HTML_LOCAL_TIME_FORMAT = "%Y-%m-%dT%H:%M"
 
 
 def min_decimal_precision(min_digits):
@@ -255,8 +253,8 @@ def change_validators(form,
   Args:
     form (FlaskForm): wtform
     field_names_to_change (list(str)): form fields to change from the old_validator to the new_validator
-    old_validator (InputRequired | Optional): Validator type to remove from an element's validation list.
-    new_validator (InputRequired | Optional): Validator type to add from an element's validation list.
+    old_validator (Type[InputRequired] | Type[Optional]): Validator type to remove from an element's validation list.
+    new_validator (Type[InputRequired] | Type[Optional]): Validator type to add from an element's validation list.
 
   Notes:
 
@@ -353,6 +351,9 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
       - Does not support lists or custom field types unless manually extended.
   """
   # todo - lots of changes, need to review closely once the wtform_to_model works
+  # todo - looks like carb lat longs were stored as strings rather than number,
+  # i put in a hack to force decimal types to float, but should review why json is storing in this way
+  # and remove any old data
 
   model_json_dict = getattr(model, json_column)
   logger.debug(f"model_to_wtform called with model: {model}, json: {model_json_dict}")
@@ -386,20 +387,24 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
     attr_value = model_json_dict.get(attr_name)
     field = getattr(wtform, attr_name)
 
-    if isinstance(field, DateTimeField):
-      if attr_value is None:
-        pass
-      elif isinstance(attr_value, str):
-        attr_value = iso8601_to_utc_dt(attr_value)
-        attr_value = datetime_to_ca_naive(attr_value)
-      else:
-        raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
+    if attr_value is None:
+      pass
+    else:
+      if isinstance(field, DateTimeField):
+        if isinstance(attr_value, str):
+          attr_value = iso8601_to_utc_dt(attr_value)
+          attr_value = datetime_to_ca_naive(attr_value)
+        else:
+          raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
+      if isinstance(field, DecimalField):
+        if isinstance(attr_value, str):
+          attr_value = float(attr_value)
+        else:
+          raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
 
     # Set field data and raw_data for proper rendering/validation
     field.data = attr_value
     field.raw_data = format_raw_data(field, attr_value)
-
-    # todo (consider) update contingent fields here?
 
     logger.debug(f"Set {attr_name=} with data={field.data}, raw_data={field.raw_data}")
 

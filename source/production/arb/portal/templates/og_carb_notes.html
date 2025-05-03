@@ -19,63 +19,63 @@ Since a newly created SQLAlchemy object won't have a primary key, but one from a
 {#{% endif %}#}
 
 {% block title %}
-{{ title }}
+  {{ title }}
 {% endblock %}
 
 {% block content_1 %}
 
-<div class="container-fluid post-nav-padding neutral-background" style="min-width: 300px;">
+  <div class="container-fluid post-nav-padding neutral-background" style="min-width: 300px;">
 
-  <div class="container-fluid mb-3 pt-1 ">
+    <div class="container-fluid mb-3 pt-1 ">
 
-    <div class="mb-2 p-3 bg-secondary text-white rounded">
-      <h1>{% block banner_title %}
-        {{ banner_title }}
+      <div class="mb-2 p-3 bg-secondary text-white rounded">
+        <h1>{% block banner_title %}
+          {{ banner_title }}
         {% endblock %}</h1>
 
-      <p>{% block banner_subtitle %}
-        CARB admin status update and notes.
+        <p>{% block banner_subtitle %}
+          CARB admin status update and notes.
         {% endblock %}</p>
+      </div>
+
+      {{ macros.error_header(wtf_form, error_count_dict) }}
+
+      <form method="post" novalidate>
+        {{ wtf_form.csrf_token }}
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 01</h3>
+          </div>
+          <div class="card-body">
+            Contents
+          </div>
+        </div>
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 02</h3>
+          </div>
+          <div class="card-body">
+            Contents
+          </div>
+        </div>
+
+        <div class="{{ card_style }}">
+          <div class="{{ card_header_style }}">
+            <h3>Section 03</h3>
+          </div>
+          <div class="card-body">
+            Contents
+          </div>
+        </div>
+
+
+        <button type="submit" name="submit_button" value="Save Changes" class="btn btn-info m-3 btn-lg">
+          Save Changes
+        </button>
+
+      </form>
     </div>
-
-    {{ macros.error_header(wtf_form, error_count_dict) }}
-
-    <form method="post" novalidate>
-      {{ wtf_form.csrf_token }}
-
-      <div class="{{ card_style }}">
-        <div class="{{ card_header_style }}">
-          <h3>Section 01</h3>
-        </div>
-        <div class="card-body">
-          Contents
-        </div>
-      </div>
-
-      <div class="{{ card_style }}">
-        <div class="{{ card_header_style }}">
-          <h3>Section 02</h3>
-        </div>
-        <div class="card-body">
-          Contents
-        </div>
-      </div>
-
-      <div class="{{ card_style }}">
-        <div class="{{ card_header_style }}">
-          <h3>Section 03</h3>
-        </div>
-        <div class="card-body">
-          Contents
-        </div>
-      </div>
-
-
-      <button type="submit" name="submit_button" value="Save Changes" class="btn btn-info m-3 btn-lg">
-        Save Changes
-      </button>
-
-    </form>
   </div>
-</div>
 {% endblock %}

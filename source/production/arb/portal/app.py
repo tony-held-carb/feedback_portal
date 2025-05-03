@@ -34,6 +34,7 @@ import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
 from arb.portal.config import Config, db_initialize_and_create, reflect_database
+from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_to_html
@@ -118,7 +119,7 @@ def incidence_update(id_):
   return incidence_prep(model_row,
                         crud_type='update',
                         sector_type=sector_type,
-                        default_dropdown=Globals.PLEASE_SELECT)
+                        default_dropdown=PLEASE_SELECT)
 
 
 @app.route('/og_incidence_create/', methods=('GET', 'POST'))
@@ -476,8 +477,6 @@ def incidence_prep(model_row,
     # Populate wtform from model data
     model_to_wtform(model_row, wtf_form)
     # todo - maybe put update contingencies here?
-
-
     # obj_diagnostics(wtf_form, message="wtf_form in incidence_prep() after model_to_wtform")
 
     # For GET requests for row creation, don't validate and error_count_dict will be all zeros
@@ -553,3 +552,4 @@ if __name__ == '__main__':
 
   # app.run(host="0.0.0.0", port=5150, debug=True)
   app.run()
+  # app.run(debug=False, use_reloader=False) # allows pycharm debugger to catch errors

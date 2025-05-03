@@ -1,37 +1,37 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Upload File
+  Upload File
 {% endblock %}
 
 {% block header_css_and_js %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/drag_and_drop.css') }}">
-<script defer src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/drag_and_drop.css') }}">
+  <script defer src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
-<div class="container-fluid post-nav-padding mb-2">
+  <div class="container-fluid post-nav-padding mb-2">
 
-  <h1>Upload an Operator Feedback Spreadsheet</h1>
-  <div>Drop a file into the target area below.</div>
-  <div>Alternatively, click the target area to upload a file from your computer.</div>
+    <h1>Upload an Operator Feedback Spreadsheet</h1>
+    <div>Drop a file into the target area below.</div>
+    <div>Alternatively, click the target area to upload a file from your computer.</div>
 
-  <div id="drop_zone"
-       style="background: url('{{ url_for('static', filename='images/upload_icon.png') }}') no-repeat center center;
+    <div id="drop_zone"
+         style="background: url('{{ url_for('static', filename='images/upload_icon.png') }}') no-repeat center center;
              background-size: auto 100%;
              padding-top: 3%;
              padding-bottom: 3%;
              "
-  >
-    {# <img class="icon" src="{{ url_for('static', filename='images/upload_icon.png') }}" alt="Upload Icon">#}
+    >
+      {# <img class="icon" src="{{ url_for('static', filename='images/upload_icon.png') }}" alt="Upload Icon">#}
+    </div>
+    <form id="file_form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+      <input type="file" id="file_input" name="file" style="display:none;"/>
+    </form>
+
+    {% if upload_message is defined and upload_message is not none and upload_message|trim %}
+      <div class="mt-2">Status: {{ upload_message }}</div>
+    {% endif %}
+
   </div>
-  <form id="file_form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
-    <input type="file" id="file_input" name="file" style="display:none;"/>
-  </form>
-
-  {% if upload_message is defined and upload_message is not none and upload_message|trim %}
-  <div class="mt-2">Status: {{ upload_message }}</div>
-  {% endif %}
-
-</div>
 {% endblock %}
