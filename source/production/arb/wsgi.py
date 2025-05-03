@@ -79,30 +79,22 @@ Note on running Flask Apps:
 5) Best practices:
   1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
     * will give you access to Browser-based call trace or python debugger depending on other factors
-  2. testing web interactions in browser without python debugger
+  2. Use 'development' over 'production' until product is final.
+  3. testing web interactions in browser without python debugger
     * flask run --app wsgi
-  3. Debugging with PyCharm (breakpoints + console)
+  4. Debugging with PyCharm (breakpoints + console)
     * Use a Run Configuration:
         * Script: wsgi.py
         * Working Dir: production/arb
         * Env vars: FLASK_ENV=development, FLASK_DEBUG=0
         * app.run(debug=True) in wsgi.py
-  4. Combined Workflow (PyCharm + Browser)
+  5. Combined Workflow (PyCharm + Browser)
     * Run wsgi.py in PyCharm with debug=True
     * Set FLASK_ENV=development, FLASK_DEBUG=1
-  5. This allows:
-    * PyCharm to log & capture
-    * Browser to display detailed error trace
-    * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
-
-
-
-Usage:
-  gunicorn wsgi:app
-  or
-  flask run --app wsgi
-
-Make sure the environment variable FLASK_ENV is set to "development" or "production" appropriately.
+      * This allows:
+        * PyCharm to log & capture
+        * Browser to display detailed error trace
+        * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
 
 """
 
