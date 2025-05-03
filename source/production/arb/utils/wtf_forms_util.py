@@ -396,10 +396,16 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
           attr_value = datetime_to_ca_naive(attr_value)
         else:
           raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
+      # todo - see if this make sense
+      # if isinstance(field, DecimalField):
+      #   if isinstance(attr_value, str):
+      #     attr_value = float(attr_value)
+      #   else:
+      #     raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
       if isinstance(field, DecimalField):
-        if isinstance(attr_value, str):
+        try:
           attr_value = float(attr_value)
-        else:
+        except ValueError:
           raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
 
     # Set field data and raw_data for proper rendering/validation
