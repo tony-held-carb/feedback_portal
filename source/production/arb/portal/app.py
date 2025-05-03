@@ -19,10 +19,10 @@ All prior comments and TODOs retained or moved where appropriate.
 from flask import Flask
 from jinja2 import StrictUndefined
 
-from config import Config, db_initialize_and_create, reflect_database
-from extensions import db
-from globals import Globals
-from routes import main as main_blueprint
+from arb.portal.config import Config, db_create, db_initialize_and_create, reflect_database
+from arb.portal.extensions import db
+from arb.portal.globals import Globals
+from arb.portal.routes import main as main_blueprint
 
 
 def create_app() -> Flask:
@@ -45,7 +45,7 @@ def create_app() -> Flask:
 
   with app.app_context():
     # Create database structure if needed
-    db_initialize_and_create(app, db)
+    db_create(app, db)
 
     # Reflect the current Postgres schema into SQLAlchemy
     base = reflect_database(app, db)
