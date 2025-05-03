@@ -16,12 +16,10 @@ import arb.__get_logger as get_logger
 from arb.portal.app import create_app
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
-
-print("in wsgi.py module")
 logger.debug("in wsgi.py module")
+
 app = create_app()
 
 if __name__ == "__main__":
-  print("in wsgi.py main")
   logger.debug("in wsgi.py main")
   app.run(debug=True)

@@ -55,5 +55,7 @@ please update __get_logger.py in the following way:
 - Include the full text for any file you create or propose to change.
 - retain, all previous documentation, notes, and todos where possible
 
+- logging now working
+
 
 """
