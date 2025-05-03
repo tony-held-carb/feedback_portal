@@ -39,8 +39,10 @@ attached is the code base to be modified.  please propose the following changes:
 7) Retain, all previous documentation, notes, and todos
 
 not sure if I liked the response, could be changing too much at one time.  Going to try a more incremental approach.
-1. create a constants file and remove globals from it.
-2. remove unnecessary variables from globals per gpt recommendation.
 3. consider combining app_util to app
 4. move routes to separate file and make sure it has a ref to the flask app (I think you monkey attach)
+
+chat gpt structure - archive app.py so it can be called up again.
+add the new app.py and route.py checking that all imports work
+
 """
