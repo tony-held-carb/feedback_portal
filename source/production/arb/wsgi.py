@@ -11,8 +11,20 @@ Usage:
 Make sure the environment variable FLASK_ENV is set to "development" or "production" appropriately.
 
 """
+import logging
 
-from arb.portal.app import create_app
+from portal.app import create_app
+
+# todo - make this my standard get logger?
+# Optional: direct logs to a file
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+    handlers=[
+        logging.FileHandler("portal/logs/app.log", mode="a"),
+        logging.StreamHandler()
+    ]
+)
 
 app = create_app()
 
