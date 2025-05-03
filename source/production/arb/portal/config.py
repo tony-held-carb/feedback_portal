@@ -19,7 +19,6 @@ import arb.__get_logger as get_logger
 import arb.utils.diagnostics
 import arb.utils.misc
 from arb.utils.date_and_time import repr_datetime_to_string
-from arb.utils.file_io import ensure_parent_dirs
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
@@ -173,7 +172,7 @@ def db_initialize_and_create(flask_app, db) -> None:
   """
   db_initialize(flask_app, db)
   # Uncomment next line if you wish to delete all tables and their data
-  # db_drop_all(flask_app)
+  # Danger danger danger # db_drop_all(flask_app)
   db_create(flask_app, db)
 
 
