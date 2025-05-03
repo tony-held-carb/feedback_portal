@@ -57,7 +57,6 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
   global xl_base_path, xl_base_schema_path, xl_schema_file_map, xl_schema_map
 
   logger.debug(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
-  print(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
 
   if xl_base_path_ is None:
     # todo - consider changing to the gpt recommended way of using PROJECT_ROOT here
@@ -82,8 +81,6 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
     xl_base_schema_path = xl_base_path / "xl_schemas"
   else:
     xl_base_schema_path = xl_base_schema_path_
-
-  print(f"{xl_base_schema_path=}")
 
   # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
