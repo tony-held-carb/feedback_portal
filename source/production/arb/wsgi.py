@@ -17,18 +17,8 @@ from arb.portal.app import create_app
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
-# # todo - make this my standard get logger?
-# # Optional: direct logs to a file
-# logging.basicConfig(
-#     level=logging.DEBUG,
-#     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
-#     handlers=[
-#         logging.FileHandler("source/production/arb/portal/logs/wsgi.log", mode="a"),
-#         logging.StreamHandler()
-#     ]
-# )
-
-
+print("in wsgi.py module")
+logger.debug("in wsgi.py module")
 app = create_app()
 
 if __name__ == "__main__":

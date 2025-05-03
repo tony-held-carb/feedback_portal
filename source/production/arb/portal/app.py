@@ -19,10 +19,13 @@ All prior comments and TODOs retained or moved where appropriate.
 from flask import Flask
 from jinja2 import StrictUndefined
 
-from arb.portal.config import Config, db_create, db_initialize_and_create, reflect_database
+import arb.__get_logger as get_logger
+from arb.portal.config import Config, db_create, reflect_database
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.routes import main as main_blueprint
+
+logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 
 def create_app() -> Flask:

@@ -111,17 +111,7 @@ class Config:
 
     # Logger
     werkzeug.serving._log_add_style = False  # Turn off color coding (avoids special terminal characters in log file)
-    # todo - not sure why i have to define this below, I thought it would be app.log by default
-    logging_file_name = 'logs/operator_portal.log'
-    ensure_parent_dirs(logging_file_name)
-    logging.basicConfig(filename=logging_file_name,
-                        level=logging.DEBUG,
-                        # format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        format='+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S',
-                        )
 
-    logger.info(f"Logger Initialized\n{'-' * 120}\n")
     logger.debug(f"{Config.BASE_DIR=}")
     logger.debug(f"{Config.BASE_PATH=}")
     logger.debug(f"{Config.UPLOAD_PATH=}")
