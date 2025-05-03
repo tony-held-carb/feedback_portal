@@ -27,10 +27,11 @@ Forget me nots
 ----------------------------
 
 chatgpt request
-attached is the code base modified, but similar to code that I previously updated.  please propose the following changes:
+
+attached is the code base to be modified.  please propose the following changes:
 
 1) app.py current has all the routes, please create a file named routes.py that has all routes associated with this project
-2) in the routes file, use a blueprinting system where all the routes are currently in the 'main' route
+2) in the routes file, use a blueprinting system where all the routes will use a newly created 'main' route
 3) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
 4) use google docstrings with modern type hinting in the docstrings.
 5) Include extensive documentation and examples.
