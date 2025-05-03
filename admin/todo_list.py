@@ -45,4 +45,6 @@ not sure if I liked the response, could be changing too much at one time.  Going
 chat gpt structure - archive app.py so it can be called up again.
 add the new app.py and route.py checking that all imports work
 
+retiring at 5/2/25 10:47 pm, some things murky ... but it seems to be coming along
+
 """
