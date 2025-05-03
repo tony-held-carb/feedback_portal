@@ -11,22 +11,27 @@ Usage:
 Make sure the environment variable FLASK_ENV is set to "development" or "production" appropriately.
 
 """
-import logging
 
+import arb.__get_logger as get_logger
 from arb.portal.app import create_app
 
-# todo - make this my standard get logger?
-# Optional: direct logs to a file
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
-    handlers=[
-        logging.FileHandler("source/production/arb/portal/logs/wsgi.log", mode="a"),
-        logging.StreamHandler()
-    ]
-)
+logger, pp_log = get_logger.get_logger(__name__, __file__)
+
+# # todo - make this my standard get logger?
+# # Optional: direct logs to a file
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+#     handlers=[
+#         logging.FileHandler("source/production/arb/portal/logs/wsgi.log", mode="a"),
+#         logging.StreamHandler()
+#     ]
+# )
+
 
 app = create_app()
 
 if __name__ == "__main__":
+  print("in wsgi.py main")
+  logger.debug("in wsgi.py main")
   app.run(debug=True)
