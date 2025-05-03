@@ -76,7 +76,7 @@ def incidence_update(id_):
   rows = db.session.query(table).filter_by(id_incidence=id_).all()
   if not rows:
     message = f"A request was made to edit a non-existent id_incidence ({id_}).  Consider uploading the incidence by importing a spreadsheet."
-    return redirect(url_for('upload_file', message=message))
+    return redirect(url_for('main.upload_file', message=message))
   if len(rows) > 1:
     abort(500, description=f"Multiple rows found for id={id_}")
   model_row = rows[0]
@@ -110,7 +110,7 @@ def og_incidence_create():
                          )
 
   logger.debug(f"og_incidence_create() - leaving.")
-  return redirect(url_for('incidence_update', id_=id_))
+  return redirect(url_for('main.incidence_update', id_=id_))
 
 
 @main.route('/landfill_incidence_create/', methods=('GET', 'POST'))
@@ -133,7 +133,7 @@ def landfill_incidence_create():
                          )
 
   logger.debug(f"landfill_incidence_create() - leaving.")
-  return redirect(url_for('incidence_update', id_=id_))
+  return redirect(url_for('main.incidence_update', id_=id_))
 
 
 @main.post('/incidence_delete/<int:id_>/')
@@ -155,7 +155,7 @@ def incidence_delete(id_):
                                                     model_row,
                                                     comment=f'Deleting incidence row {id_}')
 
-  return redirect(url_for('index'))
+  return redirect(url_for('main.index'))
 
 
 @main.route('/search/', methods=('GET', 'POST'))
@@ -301,7 +301,7 @@ def upload_file(message=None):
       logger.debug(f"{sector=}")
       if id_:
         logger.debug(f"upload_file() {id_=}")
-        return redirect(url_for('incidence_update', id_=id_))
+        return redirect(url_for('main.incidence_update', id_=id_))
       else:
         logger.debug(f"upload_file() Did not contain feedback format: {file_name=}")
         return render_template('upload.html', upload_message=f"Successfully uploaded file: {file_name.name}")
@@ -409,7 +409,7 @@ def drag_and_drop_01():
       return redirect(request.url)
     if file:
       file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename))
-      return redirect(url_for('drag_and_drop_01'))
+      return redirect(url_for('main.drag_and_drop_01'))
   return render_template('drag_and_drop_01.html')
 
 
@@ -492,7 +492,7 @@ def incidence_prep(model_row,
     if button == 'validate_and_submit':
       logger.debug(f"validate_and_submit was pressed")
       if wtf_form.validate():
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     elif button == 'update_incidence_status':
       logger.debug(f"update_incidence_status was pressed")
       html_content = f"you clicked update_incidence_status"
