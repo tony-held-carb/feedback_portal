@@ -57,5 +57,9 @@ please update __get_logger.py in the following way:
 
 - logging now working
 
+- need to figure out how different types of running affect the environment
+  - running from pycharm for both regular and debug interact with environmental variables
+    and potentially overridden by pycharm variables
+- running from wsgi
 
 """
