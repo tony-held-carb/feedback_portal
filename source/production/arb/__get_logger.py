@@ -61,7 +61,6 @@ def get_logger(
     - if the logger was started by a command line that did not have arguments, or an __init__ file
       the logger name is changed to app_logger.log to avoid log file names with special characters.
   """
-  print(f"in get_logger {name}, {file}, {log_to_console}, {force_command_line}")
   logger = logging.getLogger(name)
 
   if not logging.getLogger().handlers:
@@ -74,11 +73,8 @@ def get_logger(
     else:
       script_name = name
 
-    print(f"{script_name}")
-
     if script_name in [None, "", "__init__", "__main__"]:
       script_name = "app_logger"
-      print(f"Renaming log file from {name} to {script_name}")
 
     log_filename = log_dir / f"{script_name.replace('.', '_')}.log"
 
