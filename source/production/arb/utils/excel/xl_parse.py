@@ -30,7 +30,10 @@ EXCEL_SCHEMA_TAB_NAME = '_json_schema'
 EXCEL_METADATA_TAB_NAME = '_json_metadata'
 EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 
-# xl_schema_map based on Excel PROCESSED_VERSIONS files
+# xl_schema_map based on excel PROCESSED_VERSIONS files
+xl_base_path = Path()
+xl_base_schema_path = Path()
+xl_schema_file_map = {}
 xl_schema_map = {}
 
 
