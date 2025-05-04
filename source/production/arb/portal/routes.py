@@ -240,8 +240,9 @@ def show_log_file():
   """
   Flask route to show the log file as a diagnostic.
   """
+  # todo - base this off project root and what the log file name may be
   logger.info(f"Displaying the log file as a diagnostic")
-  with open('logs/operator_portal.log', 'r') as file:
+  with open('logs/flask.log', 'r') as file:
     file_content = file.read()
 
   # result = obj_to_html(file_content)
@@ -257,8 +258,9 @@ def list_uploads():
   """
   Flask route to list files in the uploads folder.
   """
+  # todo - use alternative approach/location for uploads rather than hardcoding
   logger.debug(f"in list_uploads")
-  up_dir = Path("static/uploads")
+  up_dir = Path("portal/static/uploads")
   # print(f"{type(up_dir)=}: {up_dir=}")
   files = [x.name for x in up_dir.iterdir() if x.is_file()]
   logger.debug(f"{files=}")

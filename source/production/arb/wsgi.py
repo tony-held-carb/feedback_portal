@@ -34,7 +34,7 @@ Note on running Flask Apps:
 
    * FLASK_APP:
       sets the default name for the flask app if not specified.
-      "flask run" is equivalent to "flask run --app FLASK_APP"
+      "flask run" is equivalent to "flask --app FLASK_APP run"
       Likely FLASK_APP=app.py or FLASK_APP=wsgi
   * FLASK_ENV:
       can be 'development' or 'production'
