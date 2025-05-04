@@ -375,16 +375,16 @@ def test_parse_xl_file():
     schema_path (str|Path): Path to the JSON file with schema data
   """
   logger.debug(f"test_parse_xl_file() called")
-  xl_path = PROCESSED_VERSIONS / "xl_workbooks" / "/landfill_operator_feedback_v070_populated_01.xlsx"
+  xl_path = PROCESSED_VERSIONS / "xl_workbooks" / "landfill_operator_feedback_v070_populated_01.xlsx"
+  print(f"{xl_path=}")
   result = parse_xl_file(xl_path, xl_schema_map)
   logger.debug(f"{result=}")
 
 
 # todo - may want to create a pretty printer with the logger since they go together well
 def main():
-  # test_load_xl_schemas()
-  # test_xl_to_dict()
-  # test_load_schema_file_map()
+  test_load_xl_schemas()
+  test_load_schema_file_map()
   test_parse_xl_file()
   # initialize_module()
 
