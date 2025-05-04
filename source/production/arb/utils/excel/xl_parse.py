@@ -206,11 +206,16 @@ def parse_xl_file(xl_path, schema_map=None):
   # Extract metadata and schema information from hidden tabs
   if EXCEL_METADATA_TAB_NAME in wb.sheetnames:
     logger.debug(f"metadata tab detected in Excel file")
-    result['metadata'] = get_spreadsheet_key_value_pairs(wb, EXCEL_METADATA_TAB_NAME, EXCEL_TOP_LEFT_KEY_VALUE_CELL)
+    result['metadata'] = get_spreadsheet_key_value_pairs(wb,
+                                                         EXCEL_METADATA_TAB_NAME,
+                                                         EXCEL_TOP_LEFT_KEY_VALUE_CELL
+                                                         )
 
   if EXCEL_SCHEMA_TAB_NAME in wb.sheetnames:
     logger.debug(f"Schema tab detected in Excel file")
-    result['schemas'] = get_spreadsheet_key_value_pairs(wb, EXCEL_SCHEMA_TAB_NAME, EXCEL_TOP_LEFT_KEY_VALUE_CELL)
+    result['schemas'] = get_spreadsheet_key_value_pairs(wb,
+                                                        EXCEL_SCHEMA_TAB_NAME,
+                                                        EXCEL_TOP_LEFT_KEY_VALUE_CELL)
   else:
     ValueError(f'Spreadsheet must have a {EXCEL_SCHEMA_TAB_NAME} tab')
 
