@@ -14,11 +14,10 @@ Notes:
 
 import os
 from datetime import datetime
-from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
-from flask import Blueprint, abort, current_app, redirect, render_template, request, url_for  # to access app context
+from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
@@ -312,10 +311,20 @@ def upload_file(message=None):
   return render_template('upload.html', upload_message=message)
 
 
+@main.route("/uploads/<path:filename>")
+def uploaded_file(filename):
+  upload_folder = current_app.config["UPLOAD_FOLDER"]
+  file_path = os.path.join(upload_folder, filename)
+
+  if not os.path.exists(file_path):
+    abort(404)
+
+  return send_from_directory(upload_folder, filename)
+
+
 #####################################################################
 # Diagnostic and developer endpoints
 #####################################################################
-
 
 @main.route('/background/', methods=('GET', 'POST'))
 def background():
