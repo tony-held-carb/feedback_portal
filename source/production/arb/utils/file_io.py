@@ -85,65 +85,62 @@ def get_secure_timestamped_file_name(directory, file_name):
   return file_name_as_path
 
 
+from pathlib import Path
+
+
 def get_project_root_dir(file, match_parts):
   """
-  Locate the project root directory by walking up from a given file path and checking
-  whether the end of the current path matches the known directory structure.
+  Locate the project root directory by walking up from a given file path and identifying
+  a directory whose trailing path components match a known directory structure.
 
-  This function is robust to the presence of duplicate folder names and different working
-  directories, making it suitable for dynamic project structures where the file may be
-  executed from arbitrary depths or entry points.
+  Unlike typical suffix matchers that return the leaf folder, this function returns the
+  root of the matched structure — i.e., the top-most directory in `match_parts`.
 
   Args:
-    file (str | Path): The file path from which the search for the project root begins.
-                       Usually you pass `__file__`.
-    match_parts (List[str]): A list of directory names that uniquely identify the project
-                             root structure, ordered from top-level to leaf.
-                             For example: ["feedback_portal", "source", "production", "arb", "portal"]
+    file (str | Path): The path of a file within the project. Typically `__file__`.
+    match_parts (List[str]): A list of directory names representing a known path suffix,
+                             ordered from project root to leaf. For example:
+                             ["feedback_portal", "source", "production", "arb", "portal"]
 
   Returns:
-    Path: The absolute `Path` to the project root directory that ends with the given
-          `match_parts` sequence.
+    Path: A `Path` object pointing to the root of the matched structure — the first component
+          in the `match_parts` list.
 
   Raises:
-    ValueError: If the directory matching the `match_parts` sequence is not found.
+    ValueError: If the specified directory sequence is not found in the parent hierarchy.
 
   Logic:
-    - The function resolves the file path to an absolute path.
-    - It then walks upward through parent directories using `.parent` until it reaches
-      the filesystem root.
-    - At each level, it checks if the last N components of the current path match
-      `match_parts`, where N is the length of `match_parts`.
+    - Resolve the input path.
+    - Walk upward through its parents using `.parent`.
+    - At each step, check if the trailing parts of the path match `match_parts`.
+    - If matched, return the path slice up to the beginning of the match.
 
   Discussion:
-    - `current.parts` returns a tuple of the directory components of the current `Path`.
+    - `current.parts` returns a tuple of strings representing the components of the path.
       For example:
         Path("/a/b/c/d.py").parts → ('/', 'a', 'b', 'c', 'd.py')
-      This allows safe and platform-independent inspection of each folder name.
-    - Matching is done using `current.parts[-len(match_parts):]` to extract the end
-      segment of the path and compare it against `match_parts`.
+    - This allows easy inspection and slicing of the directory structure.
 
-  Passing Examples:
-    Suppose `file` is "/Users/dev/feedback_portal/source/production/arb/portal/config.py"
-    and `match_parts = ["feedback_portal", "source", "production", "arb", "portal"]`
+  Passing Example:
+    If `file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"`
+    and `match_parts = ["feedback_portal", "source", "production", "arb", "portal"]`,
+    then:
+      → match found at /Users/tony/dev/**feedback_portal**/source/production/arb/portal
+      → returns: Path("/Users/tony/dev/feedback_portal")
 
-    Then:
-      current = /Users/dev/feedback_portal/source/production/arb/portal
-      current.parts[-5:] = ("feedback_portal", "source", "production", "arb", "portal")
-      → Match found → Return Path("/Users/dev/feedback_portal/source/production/arb/portal")
-
-  Failing Examples:
-    - If the file path is "/Users/random_dir/file.py", the upward search will
-      never find a sequence that matches `match_parts`, and a `ValueError` is raised.
-
+  Failing Example:
+    If the file path is unrelated (e.g., "/tmp/random_file.py"),
+    the function will raise a ValueError.
   """
   path = Path(file).resolve()
   match_len = len(match_parts)
 
   current = path
   while current != current.parent:
-    if list(current.parts[-match_len:]) == match_parts:
-      return current
+    parts = current.parts
+    if list(parts[-match_len:]) == match_parts:
+      # Get the path up to the start of the match
+      return Path(*parts[:len(parts) - match_len + 1])
     current = current.parent
 
   raise ValueError(f"Could not locate project root using match sequence {match_parts} from {path}")
