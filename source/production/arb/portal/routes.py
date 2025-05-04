@@ -260,9 +260,10 @@ def list_uploads():
   """
   # todo - use alternative approach/location for uploads rather than hardcoding
   logger.debug(f"in list_uploads")
-  up_dir = Path("portal/static/uploads")
+  upload_folder = current_app.config["UPLOAD_FOLDER"]
+  # up_dir = Path("portal/static/uploads")
   # print(f"{type(up_dir)=}: {up_dir=}")
-  files = [x.name for x in up_dir.iterdir() if x.is_file()]
+  files = [x.name for x in upload_folder.iterdir() if x.is_file()]
   logger.debug(f"{files=}")
 
   return render_template('list_uploads.html', files=files)

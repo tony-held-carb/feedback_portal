@@ -43,7 +43,9 @@ class Config:
   logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
 
   # Path to upload feedback forms and payloads
-  UPLOAD_PATH = PROJECT_ROOT / 'source/production/arb/portal/static/uploads'
+  # UPLOAD_PATH = PROJECT_ROOT / 'source/production/arb/portal/static/uploads'
+  UPLOAD_PATH = PROJECT_ROOT / 'portal_uploads'
+
   # Ensure UPLOAD_PATH exists
   UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
   logger.debug(f"UPLOAD_PATH={UPLOAD_PATH}")
@@ -102,25 +104,23 @@ class Config:
       }
     }
 
-    # Jinja Configuration
-
-    # Treat all undefined variables as errors
+    # Jinja: Treat all undefined variables as errors
     flask_app.jinja_env.undefined = StrictUndefined
 
-    # Trim whitespace before/after {{ }} text injection
+    # Jinja: Trim whitespace before/after {{ }} text injection
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
 
-    # custom filters for debugging and string manipulation
+    # Jinja: custom filters for debugging and string manipulation
     flask_app.jinja_env.filters['debug'] = diag_recursive
     flask_app.jinja_env.filters['date_to_string'] = date_to_string
     flask_app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
     flask_app.jinja_env.filters['args_to_string'] = args_to_string
 
-    # Logger
-    werkzeug.serving._log_add_style = False  # Turn off color coding (avoids special terminal characters in log file)
+    # Logging: Turn off color coding (avoids special terminal characters in log file)
+    werkzeug.serving._log_add_style = False
 
-    # Configure drag and drop upload folder
+    # Upload configuration
     flask_app.config['UPLOAD_FOLDER'] = Config.UPLOAD_PATH
     flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
 
