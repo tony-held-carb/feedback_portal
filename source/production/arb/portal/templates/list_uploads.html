@@ -17,7 +17,7 @@
     <ul class="drag-and-drop-ul">
       {% for file in files %}
         <li class="drag-and-drop-li">
-          <a href="{{ url_for('static', filename="uploads/" + file) }}"> {{ file }} </a>
+          <a href="{{ url_for('main.uploaded_file', filename=file) }}">{{ file }}</a>
         </li>
       {% endfor %}
     </ul>

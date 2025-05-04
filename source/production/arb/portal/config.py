@@ -3,9 +3,7 @@ Flask/Database configuration settings and routines to create
 and initialize a flask database connection.
 """
 
-import logging
 import os
-from pathlib import Path
 
 import werkzeug
 from flask import Flask
@@ -19,6 +17,7 @@ import arb.__get_logger as get_logger
 import arb.utils.diagnostics
 import arb.utils.misc
 from arb.utils.date_and_time import repr_datetime_to_string
+from arb.utils.file_io import get_project_root_dir
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
@@ -33,24 +32,36 @@ class Config:
       During prototyping, it is safe to use a hard coded value (as done below).
     *
   """
-  POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
+  # ----------------------------------------------------
+  # Determine File Structure
+  # ----------------------------------------------------
 
+  # Get the platform independent project root directory knowing the apps directory structure is:
+  # 'feedback_portal/source/production/arb/portal/'
+  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
+  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
+  logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
+
+  # Path to upload feedback forms and payloads
+  # UPLOAD_PATH = PROJECT_ROOT / 'source/production/arb/portal/static/uploads'
+  UPLOAD_PATH = PROJECT_ROOT / 'portal_uploads'
+
+  # Ensure UPLOAD_PATH exists
+  UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
+  logger.debug(f"UPLOAD_PATH={UPLOAD_PATH}")
+
+  # ----------------------------------------------------
+  # Database Related
+  # ----------------------------------------------------
+  POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   SECRET_KEY = (os.environ.get('SECRET_KEY') or 'secret-key-goes-here')
   SQLALCHEMY_DATABASE_URI = (os.environ.get('DATABASE_URI') or POSTGRES_DB_URI)
   SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+  # ----------------------------------------------------
+  # Misc
+  # ----------------------------------------------------
   EXPLAIN_TEMPLATE_LOADING = False
-
-  # get absolute path to the flask app base directory
-  BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-  BASE_PATH = Path(BASE_DIR)
-  UPLOAD_PATH = BASE_PATH / 'static/uploads'
-
-  # current file structure is feedback_portal/source/production/arb/portal
-  # Find the project root based on the location of folder containing app.py
-  # __file__ = location of the folder containing app.py
-  # .resolve() = fully resolves symlinks and makes it absolute
-  # .parent.parent = go up two levels (portal/ → arb/)
-  PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
   @classmethod
   def configure_flask_app(cls,
@@ -93,37 +104,25 @@ class Config:
       }
     }
 
-    # Jinja Configuration
-
-    # Treat all undefined variables as errors
+    # Jinja: Treat all undefined variables as errors
     flask_app.jinja_env.undefined = StrictUndefined
 
-    # Trim whitespace before/after {{ }} text injection
+    # Jinja: Trim whitespace before/after {{ }} text injection
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
 
-    # custom filters for debugging and string manipulation
+    # Jinja: custom filters for debugging and string manipulation
     flask_app.jinja_env.filters['debug'] = diag_recursive
     flask_app.jinja_env.filters['date_to_string'] = date_to_string
     flask_app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
     flask_app.jinja_env.filters['args_to_string'] = args_to_string
 
-    # Logger
-    werkzeug.serving._log_add_style = False  # Turn off color coding (avoids special terminal characters in log file)
+    # Logging: Turn off color coding (avoids special terminal characters in log file)
+    werkzeug.serving._log_add_style = False
 
-    logger.debug(f"{Config.BASE_DIR=}")
-    logger.debug(f"{Config.BASE_PATH=}")
-    logger.debug(f"{Config.UPLOAD_PATH=}")
-    logger.debug(f"{Config.PROJECT_ROOT=}")
-
-    # Configure drag and drop upload folder
-    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
-    # flask_app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), upload_folder)
+    # Upload configuration
     flask_app.config['UPLOAD_FOLDER'] = Config.UPLOAD_PATH
-
-    # Ensure upload directory exists
-    if not os.path.exists(upload_folder):
-      os.makedirs(upload_folder)
+    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
 
 
 def db_initialize(flask_app, db) -> None:

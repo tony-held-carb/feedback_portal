@@ -61,10 +61,6 @@ def ensure_dir_exists(dir_path):
   dir_path.mkdir(parents=True, exist_ok=True)
 
 
-if __name__ == "__main__":
-  pass
-
-
 def get_secure_timestamped_file_name(directory, file_name):
   """
   Get a fully specified file name that is secure (no special characters) with a timestamp based on
@@ -87,3 +83,68 @@ def get_secure_timestamped_file_name(directory, file_name):
   # logger.debug(f"{file_stem=}, {time_stamp=}, {file_name_as_path=}")
 
   return file_name_as_path
+
+
+from pathlib import Path
+
+
+def get_project_root_dir(file, match_parts):
+  """
+  Locate the project root directory by walking up from a given file path and identifying
+  a directory whose trailing path components match a known directory structure.
+
+  Unlike typical suffix matchers that return the leaf folder, this function returns the
+  root of the matched structure — i.e., the top-most directory in `match_parts`.
+
+  Args:
+    file (str | Path): The path of a file within the project. Typically `__file__`.
+    match_parts (List[str]): A list of directory names representing a known path suffix,
+                             ordered from project root to leaf. For example:
+                             ["feedback_portal", "source", "production", "arb", "portal"]
+
+  Returns:
+    Path: A `Path` object pointing to the root of the matched structure — the first component
+          in the `match_parts` list.
+
+  Raises:
+    ValueError: If the specified directory sequence is not found in the parent hierarchy.
+
+  Logic:
+    - Resolve the input path.
+    - Walk upward through its parents using `.parent`.
+    - At each step, check if the trailing parts of the path match `match_parts`.
+    - If matched, return the path slice up to the beginning of the match.
+
+  Discussion:
+    - `current.parts` returns a tuple of strings representing the components of the path.
+      For example:
+        Path("/a/b/c/d.py").parts → ('/', 'a', 'b', 'c', 'd.py')
+    - This allows easy inspection and slicing of the directory structure.
+
+  Passing Example:
+    If `file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"`
+    and `match_parts = ["feedback_portal", "source", "production", "arb", "portal"]`,
+    then:
+      → match found at /Users/tony/dev/**feedback_portal**/source/production/arb/portal
+      → returns: Path("/Users/tony/dev/feedback_portal")
+
+  Failing Example:
+    If the file path is unrelated (e.g., "/tmp/random_file.py"),
+    the function will raise a ValueError.
+  """
+  path = Path(file).resolve()
+  match_len = len(match_parts)
+
+  current = path
+  while current != current.parent:
+    parts = current.parts
+    if list(parts[-match_len:]) == match_parts:
+      # Get the path up to the start of the match
+      return Path(*parts[:len(parts) - match_len + 1])
+    current = current.parent
+
+  raise ValueError(f"Could not locate project root using match sequence {match_parts} from {path}")
+
+
+if __name__ == "__main__":
+  pass

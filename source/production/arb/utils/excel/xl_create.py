@@ -4,7 +4,6 @@ Module to prep xl templates and to create new Excel files based on jinja payload
 import shutil
 import zipfile
 from functools import partial
-from pathlib import Path
 
 import jinja2
 
@@ -13,14 +12,16 @@ from arb.utils.excel.xl_misc import xl_address_sort
 from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
 from arb.utils.json import compare_json_files, json_load, json_load_with_meta, json_save_with_meta
 from arb.utils.misc import ensure_key_value_pair
+from arb.utils.excel.xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
+# todo - need to remove other references to file structure
+#  trying to make the code more platform neutral - 2025-05-03 10:10
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
 ENERGY_VERSION = "v002"
-
 
 def sort_xl_schema(xl_schema, sort_by="variable_name"):
   """
@@ -119,11 +120,11 @@ def update_vba_schema(schema_version,
                f"{file_name_out=}, {file_name_default_value_types=}")
 
   if file_name_in is None:
-    file_name_in = "xl_schemas/" + schema_version + "_vba.json"
+    file_name_in = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}_vba.json"
   if file_name_out is None:
-    file_name_out = "xl_schemas/" + schema_version + ".json"
+    file_name_out = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}.json"
   if file_name_default_value_types is None:
-    file_name_default_value_types = "xl_schemas/default_value_types_v01_00.json"
+    file_name_default_value_types = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00.json"
 
   ensure_parent_dirs(file_name_in)
   ensure_parent_dirs(file_name_out)
@@ -296,34 +297,33 @@ def test_update_xlsx_payloads_01():
   """
   Example usage of update_xlsx_payloads.
   """
+
   logger.debug(f"test_update_xlsx_payloads_01() called")
 
   # changing to relative references so code will work on ec2, eventually will move to s3
-  # base_dir = Path("C:/one_drive/code/pycharm/feedback_portal/source/production/arb/utils/excel")
-  base_dir = Path(".")
 
-  file_name_in = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
-  file_name_out = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx"
-  payload_01 = base_dir / "xl_payloads/landfill_v01_00_defaults.json"
-  payload_02 = base_dir / "xl_payloads/landfill_v01_00_payload_01.json"
+  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
+  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx"
+  payload_01 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_defaults.json"
+  payload_02 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
   update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
 
-  file_name_in = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
-  file_name_out = base_dir / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_02.xlsx"
-  payload_01 = base_dir / "xl_payloads/landfill_v01_00_payload_01.json"
+  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
+  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_02.xlsx"
+  payload_01 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
   payload_02 = {"id_incidence": "123456"}
   update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
 
-  file_name_in = base_dir / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx"
-  file_name_out = base_dir / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_populated_01.xlsx"
-  payload_01 = base_dir / "xl_payloads/oil_and_gas_v01_00_defaults.json"
+  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx"
+  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_populated_01.xlsx"
+  payload_01 = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_defaults.json"
   # payload_02 = {"id_incidence": "456789"}
-  payload_02 = base_dir / "xl_payloads/oil_and_gas_v01_00_payload_01.json"
+  payload_02 = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01.json"
   update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
 
-  file_name_in = base_dir / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx"
-  file_name_out = base_dir / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_populated_01.xlsx"
-  payload_01 = base_dir / "xl_payloads/energy_v00_01_defaults.json"
+  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx"
+  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_populated_01.xlsx"
+  payload_01 = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_defaults.json"
   payload_02 = {"id_incidence": "654321"}
   update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
 
@@ -341,14 +341,17 @@ def prep_xl_templates():
            for further processing below.
   Step 5.  Specify the file specs below for each group of files you wish to convert to a usable python template file.
   """
+  # todo - break this into helper functions
+
   logger.debug(f"prep_xl_templates() called to create oil & gas, landfill, and energy schemas")
 
   file_specs = []
 
-  # changing to relative references so code will work on ec2, eventually will move to s3
-  input_dir = Path("../../../../../feedback_forms/current_versions")
+  # change input/output at some point for s3 rather than ec2/laptop
   # input_dir = Path("C:/one_drive/code/pycharm/feedback_portal/feedback_forms/current_versions")
-  output_dir = Path(".")
+  input_dir = PROJECT_ROOT / "feedback_forms/current_versions"
+  # output_dir = Path(".")
+  output_dir = PROJECT_ROOT / "feedback_forms/processed_versions"
 
   ensure_dir_exists(output_dir / "xl_schemas")
   ensure_dir_exists(output_dir / "xl_workbooks")
@@ -431,11 +434,10 @@ def create_default_types_schema(diagnostics=False):
     diagnostics (bool) : True if you want additional diagnostic info
   """
   from arb.utils.excel.xl_hardcoded import default_value_types_v01_00
-
   logger.debug(f"create_default_types_schema called to create the default data type dictionary")
 
-  file_name = Path("xl_schemas/default_value_types_v01_00.json")
-  file_backup = Path("xl_schemas/default_value_types_v01_00_backup.json")
+  file_name = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00.json"
+  file_backup = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00_backup.json"
 
   field_types = dict(sorted(default_value_types_v01_00.items()))
 
@@ -500,8 +502,8 @@ def create_payloads():
 
   payload = landfill_payload_01
   schema_version = "landfill_v01_00"
-  file_name = Path("xl_payloads/landfill_v01_00_payload_01.json")
-  file_backup = Path("xl_payloads/landfill_v01_00_payload_01_backup.json")
+  file_name = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
+  file_backup = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01_backup.json"
 
   create_payload(payload, file_name, schema_version, )
   # Check that the json file is equivalent to a backup
@@ -510,8 +512,8 @@ def create_payloads():
 
   payload = oil_and_gas_payload_01
   schema_version = "oil_and_gas_v01_00"
-  file_name = Path("xl_payloads/oil_and_gas_v01_00_payload_01.json")
-  file_backup = Path("xl_payloads/oil_and_gas_v01_00_payload_01_backup.json")
+  file_name = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01.json"
+  file_backup = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01_backup.json"
 
   create_payload(payload, file_name, schema_version, )
   # Check that the json file is equivalent to a backup
@@ -521,8 +523,8 @@ def create_payloads():
   # Use oil and gas payload for energy since they share many fields in common
   payload = oil_and_gas_payload_01
   schema_version = "energy_v00_01"
-  file_name = Path("xl_payloads/energy_v00_01_payload_01.json")
-  file_backup = Path("xl_payloads/energy_v00_01_payload_01_backup.json")
+  file_name = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_payload_01.json"
+  file_backup = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_payload_01_backup.json"
 
   create_payload(payload, file_name, schema_version, )
   # Check that the json file is equivalent to a backup
@@ -534,13 +536,12 @@ def create_schemas_and_payloads():
   """
   Create landfill and oil and gas schema and payload json files.
   """
+
   logger.debug(f"create_schemas_and_payloads() called")
 
-  output_dir = Path(".")
-
-  ensure_dir_exists(output_dir / "xl_schemas")
-  ensure_dir_exists(output_dir / "xl_workbooks")
-  ensure_dir_exists(output_dir / "xl_payloads")
+  ensure_dir_exists(PROCESSED_VERSIONS / "xl_schemas")
+  ensure_dir_exists(PROCESSED_VERSIONS / "xl_workbooks")
+  ensure_dir_exists(PROCESSED_VERSIONS / "xl_payloads")
 
   create_default_types_schema(diagnostics=True)
   prep_xl_templates()
