@@ -131,11 +131,11 @@ def update_vba_schema(schema_version,
                f"{file_name_out=}, {file_name_default_value_types=}")
 
   if file_name_in is None:
-    file_name_in = "xl_schemas/" + schema_version + "_vba.json"
+    file_name_in = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}_vba.json"
   if file_name_out is None:
-    file_name_out = "xl_schemas/" + schema_version + ".json"
+    file_name_out = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}.json"
   if file_name_default_value_types is None:
-    file_name_default_value_types = "xl_schemas/default_value_types_v01_00.json"
+    file_name_default_value_types = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00.json"
 
   ensure_parent_dirs(file_name_in)
   ensure_parent_dirs(file_name_out)
