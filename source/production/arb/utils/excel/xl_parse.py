@@ -30,9 +30,7 @@ EXCEL_SCHEMA_TAB_NAME = '_json_schema'
 EXCEL_METADATA_TAB_NAME = '_json_metadata'
 EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 
-# xl_schema_map based on excel PROCESSED_VERSIONS files
-xl_base_path = Path()
-xl_base_schema_path = Path()
+# xl_schema_map based on Excel PROCESSED_VERSIONS files
 xl_schema_file_map = {}
 xl_schema_map = {}
 
@@ -42,60 +40,22 @@ def initialize_module():
   set_globals()
 
 
-def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_map_=None):
+def set_globals(xl_schema_file_map_=None):
   """
   Set global variables.
-
-  Notes:
-    - Best practice would be to set all global variables in a single call,
-      otherwise you may get unexpected results (such as the xl_schema_map updating to defaults).
-    - if you want to change some of the globals, but not all of them, pass the existing value of the
-      global you don't want to change as an argument.
-      for example:
-        - set_globals(xl_base_path_="my_path", xl_schema_file_map_=xl_schema_map)
-        - This will update both xl_base_path and xl_base_schema_path, but xl_schema_file_map will not be updated.
   """
-  global xl_base_path, xl_base_schema_path, xl_schema_file_map, xl_schema_map
-  # todo - update default roots with module paths
+  global xl_schema_file_map, xl_schema_map
+  # todo - update default roots with module paths, may make sense to remove globals and have
+  # a different logic since this is outdated given the project root approach
 
-  logger.debug(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
-
-  if xl_base_path_ is None:
-    # todo - consider changing to the gpt recommended way of using PROJECT_ROOT here
-    xl_base_path = Path.cwd()
-
-    logger.debug(f"{xl_base_path=}")
-  else:
-    xl_base_path = xl_base_path_
-
-  logger.debug(f"{xl_base_path.name=}")
-  if xl_base_path.name == 'feedback_portal':
-    logger.debug(f"Looks like this is run from the base of the pycharm project ... updating the base directory")
-    xl_base_path = xl_base_path / "source" / "production" / "arb" / "utils" / "excel"
-    logger.debug(f"New base path: {xl_base_path=}")
-
-  elif xl_base_path.name == 'arb':
-    logger.debug(f"Looks like this is run arb ... updating the base directory")
-    xl_base_path = xl_base_path / "utils" / "excel"
-    logger.debug(f"New base path: {xl_base_path=}")
-
-  elif xl_base_path.name == 'portal':
-    logger.debug(f"Looks like this is run from an app.py flask app ... updating the base directory")
-    xl_base_path = xl_base_path.parent / "utils" / "excel"
-    logger.debug(f"New base path: {xl_base_path=}")
-
-
-  if xl_base_schema_path_ is None:
-    xl_base_schema_path = xl_base_path / "xl_schemas"
-  else:
-    xl_base_schema_path = xl_base_schema_path_
+  logger.debug(f"set_globals() called with {xl_schema_file_map_=}")
 
   # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
     xl_schema_file_map = {
-      "landfill_v01_00": xl_base_schema_path / "landfill_v01_00.json",
-      "oil_and_gas_v01_00": xl_base_schema_path / "oil_and_gas_v01_00.json",
-      "energy_v00_01": xl_base_schema_path / "energy_v00_01.json",
+      "landfill_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "landfill_v01_00.json",
+      "oil_and_gas_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "oil_and_gas_v01_00.json",
+      "energy_v00_01": PROCESSED_VERSIONS / "xl_schemas" / "energy_v00_01.json",
     }
   else:
     xl_schema_file_map = xl_schema_file_map_
@@ -104,8 +64,7 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
   if xl_schema_file_map:
     xl_schema_map = load_schema_file_map(xl_schema_file_map)
 
-  logger.debug(f"globals are now: {xl_base_path=}, {xl_base_schema_path=}, "
-               f"{xl_schema_file_map=}, {xl_schema_map=}")
+  logger.debug(f"globals are now: {xl_schema_file_map=}, {xl_schema_map=}")
 
 
 def load_schema_file_map(schema_file_map):
@@ -142,7 +101,7 @@ def create_schema_file_map(schema_path=None, schema_names=None):
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
   if schema_path is None:
-    schema_path = xl_base_schema_path
+    schema_path = PROCESSED_VERSIONS / "xl_schemas"
   if schema_names is None:
     schema_names = ["landfill_v01_00",
                     "oil_and_gas_v01_00",
@@ -416,7 +375,7 @@ def test_parse_xl_file():
     schema_path (str|Path): Path to the JSON file with schema data
   """
   logger.debug(f"test_parse_xl_file() called")
-  xl_path = xl_base_path / "xl_workbooks/landfill_operator_feedback_v070_populated_01.xlsx"
+  xl_path = PROCESSED_VERSIONS / "xl_workbooks" / "/landfill_operator_feedback_v070_populated_01.xlsx"
   result = parse_xl_file(xl_path, xl_schema_map)
   logger.debug(f"{result=}")
 
