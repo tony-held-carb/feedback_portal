@@ -19,7 +19,6 @@ import arb.__get_logger as get_logger
 import arb.utils.diagnostics
 import arb.utils.misc
 from arb.utils.date_and_time import repr_datetime_to_string
-from arb.utils.file_io import ensure_parent_dirs
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
@@ -111,17 +110,7 @@ class Config:
 
     # Logger
     werkzeug.serving._log_add_style = False  # Turn off color coding (avoids special terminal characters in log file)
-    # todo - not sure why i have to define this below, I thought it would be app.log by default
-    logging_file_name = 'logs/operator_portal.log'
-    ensure_parent_dirs(logging_file_name)
-    logging.basicConfig(filename=logging_file_name,
-                        level=logging.DEBUG,
-                        # format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        format='+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S',
-                        )
 
-    logger.info(f"Logger Initialized\n{'-' * 120}\n")
     logger.debug(f"{Config.BASE_DIR=}")
     logger.debug(f"{Config.BASE_PATH=}")
     logger.debug(f"{Config.UPLOAD_PATH=}")
@@ -183,7 +172,7 @@ def db_initialize_and_create(flask_app, db) -> None:
   """
   db_initialize(flask_app, db)
   # Uncomment next line if you wish to delete all tables and their data
-  # db_drop_all(flask_app)
+  # Danger danger danger # db_drop_all(flask_app)
   db_create(flask_app, db)
 
 

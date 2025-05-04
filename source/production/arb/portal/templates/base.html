@@ -29,7 +29,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
       {# <a class="navbar-brand" href="{{ url_for('index') }}">Operator Portal</a>#}
-      <a class="navbar-brand" href="{{ url_for('index') }}">
+      <a class="navbar-brand" href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename='images/carb_logo_01.jpg') }}" alt="California Air Resources Board"
              width="40" height="40">
         Methane Satellite Portal
@@ -53,11 +53,11 @@
               Facility Feedback
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('og_incidence_create') }}">Create Incidence (Oil &
+              <li><a class="dropdown-item" href="{{ url_for('main.og_incidence_create') }}">Create Incidence (Oil &
                 Gas)</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('landfill_incidence_create') }}">Create Incidence
+              <li><a class="dropdown-item" href="{{ url_for('main.landfill_incidence_create') }}">Create Incidence
                 (Landfill)</a></li>
-              <li><a class="dropdown-item disabled" href="{{ url_for('incidence_update', id_=1) }}">Update
+              <li><a class="dropdown-item disabled" href="{{ url_for('main.incidence_update', id_=1) }}">Update
                 Incidence</a></li>
             </ul>
           </li>
@@ -68,16 +68,16 @@
             </a>
 
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('show_dropdown_dict') }}">Show Dropdowns</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('show_database_structure') }}">Show Database Structure</a>
+              <li><a class="dropdown-item" href="{{ url_for('main.show_dropdown_dict') }}">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.show_database_structure') }}">Show Database Structure</a>
               </li>
-              <li><a class="dropdown-item" href="{{ url_for('show_feedback_form_structure') }}">Show Feedback Form
+              <li><a class="dropdown-item" href="{{ url_for('main.show_feedback_form_structure') }}">Show Feedback Form
                 Structure</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('show_log_file') }}">Show Log File</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('diagnostics') }}">Diagnostics</a></li>
-              <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('run_sql_script') }}">Run
+              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Diagnostics</a></li>
+              <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('main.run_sql_script') }}">Run
                 SQL Script</a></li>
-              <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('add_form_dummy_data') }}">Add
+              <li><a class="dropdown-item disabled" aria-disabled="false" href="{{ url_for('main.add_form_dummy_data') }}">Add
                 Dummy Data</a></li>
             </ul>
           </li>
@@ -87,8 +87,8 @@
               Spreadsheet
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('upload_file') }}">Upload Feedback Spreadsheet</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('list_uploads') }}">List Uploaded Files</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -99,10 +99,10 @@
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('index') }}">Index</a>
+            <a class="nav-link" href="{{ url_for('main.index') }}">Index</a>
           </li>
         </ul>
-        <form class="d-flex" role="search" action="{{ url_for('search') }}" method='POST'>
+        <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                  name="navbar_search">
           <button class="btn btn-outline-success" type="submit">Search</button>

@@ -13,7 +13,7 @@
 
       <div class="card bg-light mb-3" style="max-width: 24rem;">
         <div class="card-header">
-          <a href="{{ url_for('incidence_update', id_=model_row['id_incidence']) }}">
+          <a href="{{ url_for('main.incidence_update', id_=model_row['id_incidence']) }}">
             Update Incidence # {{ model_row['id_incidence'] }} </a>
         </div>
 
@@ -45,7 +45,7 @@
           </p>
 
           <form method="POST"
-                action="{{ url_for('incidence_delete', id_=model_row['id_incidence']) }}">
+                action="{{ url_for('main.incidence_delete', id_=model_row['id_incidence']) }}">
             <input type="submit" value="Delete Feedback Form" class="btn btn-danger btn-sm"
                    onclick="return confirm('Are you sure you want to delete this entry?')">
           </form>

@@ -13,7 +13,7 @@
   <div class="container-fluid post-nav-padding mb-2">
 
     <h1 class="drag-and-drop-h1">Uploaded Files</h1>
-    <a class="drag-and-drop-a mt-3 mb-3" href="{{ url_for('upload_file') }}">Upload New File</a>
+    <a class="drag-and-drop-a mt-3 mb-3" href="{{ url_for('main.upload_file') }}">Upload New File</a>
     <ul class="drag-and-drop-ul">
       {% for file in files %}
         <li class="drag-and-drop-li">
