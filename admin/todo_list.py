@@ -22,10 +22,6 @@ Please propose changes using the following style preferences:
 # todo - next steps
 Next steps
 ----------------------------
-* new routing structure accepted and merged into main.
-* a reasonable starting point would be to use the app config information for the show log and uploads,
-probably want to move the uploads file out of static too.
-
 
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
