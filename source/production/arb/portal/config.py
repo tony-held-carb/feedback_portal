@@ -4,7 +4,6 @@ and initialize a flask database connection.
 """
 
 import os
-from pathlib import Path
 
 import werkzeug
 from flask import Flask
@@ -33,24 +32,34 @@ class Config:
       During prototyping, it is safe to use a hard coded value (as done below).
     *
   """
-  POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
+  # ----------------------------------------------------
+  # Determine File Structure
+  # ----------------------------------------------------
 
+  # Get the platform independent project root directory knowing the apps directory structure is:
+  # 'feedback_portal/source/production/arb/portal/'
+  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
+  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
+  logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
+
+  # Path to upload feedback forms and payloads
+  UPLOAD_PATH = PROJECT_ROOT / 'source/production/arb/portal/static/uploads'
+  # Ensure UPLOAD_PATH exists
+  UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
+  logger.debug(f"UPLOAD_PATH={UPLOAD_PATH}")
+
+  # ----------------------------------------------------
+  # Database Related
+  # ----------------------------------------------------
+  POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   SECRET_KEY = (os.environ.get('SECRET_KEY') or 'secret-key-goes-here')
   SQLALCHEMY_DATABASE_URI = (os.environ.get('DATABASE_URI') or POSTGRES_DB_URI)
   SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+  # ----------------------------------------------------
+  # Misc
+  # ----------------------------------------------------
   EXPLAIN_TEMPLATE_LOADING = False
-
-  # get absolute path to the flask app base directory
-  BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-  BASE_PATH = Path(BASE_DIR)
-  UPLOAD_PATH = BASE_PATH / 'static/uploads'
-
-  #
-  # location of the project root directory
-  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
-  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  print(f"{PROJECT_ROOT=}")
-  logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
 
   @classmethod
   def configure_flask_app(cls,
@@ -111,19 +120,9 @@ class Config:
     # Logger
     werkzeug.serving._log_add_style = False  # Turn off color coding (avoids special terminal characters in log file)
 
-    logger.debug(f"{Config.BASE_DIR=}")
-    logger.debug(f"{Config.BASE_PATH=}")
-    logger.debug(f"{Config.UPLOAD_PATH=}")
-    logger.debug(f"{Config.PROJECT_ROOT=}")
-
     # Configure drag and drop upload folder
-    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
-    # flask_app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), upload_folder)
     flask_app.config['UPLOAD_FOLDER'] = Config.UPLOAD_PATH
-
-    # Ensure upload directory exists
-    if not os.path.exists(upload_folder):
-      os.makedirs(upload_folder)
+    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
 
 
 def db_initialize(flask_app, db) -> None:
@@ -192,4 +191,3 @@ def reflect_database(flask_app, db):
     # print(f"{type(base)=}")
 
   return base
-
