@@ -10,7 +10,7 @@ import jinja2
 
 import arb.__get_logger as get_logger
 from arb.utils.excel.xl_misc import xl_address_sort
-from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
+from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs, get_project_root_dir
 from arb.utils.json import compare_json_files, json_load, json_load_with_meta, json_save_with_meta
 from arb.utils.misc import ensure_key_value_pair
 
@@ -20,6 +20,13 @@ logger, pp_log = get_logger.get_logger(__name__, __file__)
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
 ENERGY_VERSION = "v002"
+
+# Get the platform independent project root directory knowing the utils directory structure is:
+# 'feedback_portal/source/production/arb/utils/'
+app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'utils']
+PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
+print(f"PROJECT_ROOT={PROJECT_ROOT}")
+logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
 
 
 def sort_xl_schema(xl_schema, sort_by="variable_name"):
