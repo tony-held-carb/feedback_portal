@@ -10,7 +10,6 @@ Notes on usage.
       xl_schema_map["oil_and_gas_v03"]["schema"]   <--- results in the schema dict for oil and gas
 
 """
-
 import copy
 import datetime
 import logging
@@ -21,7 +20,7 @@ import openpyxl
 import arb.__get_logger as get_logger
 from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
-from xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
+from arb.utils.excel.xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
