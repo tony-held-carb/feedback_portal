@@ -21,7 +21,7 @@ import openpyxl
 import arb.__get_logger as get_logger
 from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
-from xl_file_structure import CURRENT_VERSIONS, FEEDBACK_FORMS, PROCESSED_VERSIONS, PROJECT_ROOT
+from xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
@@ -30,10 +30,7 @@ EXCEL_SCHEMA_TAB_NAME = '_json_schema'
 EXCEL_METADATA_TAB_NAME = '_json_metadata'
 EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 
-# Default location of schema files that are initialized with initialize_module()
-xl_base_path = Path()
-xl_base_schema_path = Path()
-xl_schema_file_map = {}
+# xl_schema_map based on Excel PROCESSED_VERSIONS files
 xl_schema_map = {}
 
 

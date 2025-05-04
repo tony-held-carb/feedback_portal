@@ -1,5 +1,23 @@
 """
-Excel utilities input/output file structure.
+Module to store expected Excel file structure in a platform independent way.
+
+Current directory structure:
+feedback_portal             <-- base of project directory tree
+ - feedback_forms
+  - current_versions        <--  current versions of the feedback forms created in excel/vba
+  - processed_versions      <--  updated versions of the "current versions" created in python
+    - xl_payloads
+    - xl_schemas
+    - xl_workbooks
+  - source
+    - production
+    - arb
+      - portal
+    - utils
+      - excel
+
+The goal of this module is to determine the path to feedback_portal in a platform independent way,
+independent of whether this module was run from utils.excel directory or a flask app.
 """
 
 import arb.__get_logger as get_logger
@@ -7,15 +25,13 @@ from arb.utils.file_io import get_project_root_dir
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
-# Get the platform independent project root of the feedback portal
-# The utility model may be initialized by running the module directly,
-# or it may be initialized by a flask app.  Try to get the 'feedback_portal' either way
-
 try:
-  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'utils']
+  # project is running from the utils.excel directory
+  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel']
   PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
   logger.debug(f"{PROJECT_ROOT =}, determined by {app_dir_structure =}")
 except ValueError as e:
+  # project is running from the portal flask app
   app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
   PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
   logger.debug(f"{PROJECT_ROOT =}, determined by {app_dir_structure =}")
