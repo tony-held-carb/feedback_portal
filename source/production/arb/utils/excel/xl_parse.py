@@ -21,6 +21,7 @@ import openpyxl
 import arb.__get_logger as get_logger
 from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
+from xl_file_structure import CURRENT_VERSIONS, FEEDBACK_FORMS, PROCESSED_VERSIONS, PROJECT_ROOT
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
@@ -55,6 +56,7 @@ def set_globals(xl_base_path_=None, xl_base_schema_path_=None, xl_schema_file_ma
         - This will update both xl_base_path and xl_base_schema_path, but xl_schema_file_map will not be updated.
   """
   global xl_base_path, xl_base_schema_path, xl_schema_file_map, xl_schema_map
+  # todo - update default roots with module paths
 
   logger.debug(f"set_globals() called with {xl_base_path_=}, {xl_base_schema_path_=}, {xl_schema_file_map_=}")
 
