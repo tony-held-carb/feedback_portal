@@ -352,12 +352,11 @@ def prep_xl_templates():
 
   file_specs = []
 
-  # changing to relative references so code will work on ec2, eventually will move to s3
+  # change input/output at some point for s3 rather than ec2/laptop
   # input_dir = Path("C:/one_drive/code/pycharm/feedback_portal/feedback_forms/current_versions")
-  # input_dir = Path("../../../../../feedback_forms/current_versions")
   input_dir = PROJECT_ROOT / "feedback_forms/current_versions"
-
-  output_dir = Path(".")
+  # output_dir = Path(".")
+  output_dir = PROJECT_ROOT / "feedback_forms/processed_versions"
 
   ensure_dir_exists(output_dir / "xl_schemas")
   ensure_dir_exists(output_dir / "xl_workbooks")
