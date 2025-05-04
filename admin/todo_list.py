@@ -22,7 +22,7 @@ Please propose changes using the following style preferences:
 # todo - next steps
 Next steps
 ----------------------------
-* xl utilities now work with project_root approach, but need to be refactored/cleaned-up
+* xl utilities now work with project_root approach, start with xl_parse
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
