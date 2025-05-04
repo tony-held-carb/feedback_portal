@@ -23,7 +23,6 @@ Please propose changes using the following style preferences:
 Next steps
 ----------------------------
 
-
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words

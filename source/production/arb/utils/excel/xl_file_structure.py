@@ -29,12 +29,12 @@ try:
   # project is running from the utils.excel directory
   app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel']
   PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  logger.debug(f"{PROJECT_ROOT =}, determined by {app_dir_structure =}")
+  logger.debug(f"{PROJECT_ROOT =}, determined by {__file__ =} and {app_dir_structure =}")
 except ValueError as e:
   # project is running from the portal flask app
   app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
   PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  logger.debug(f"{PROJECT_ROOT =}, determined by {app_dir_structure =}")
+  logger.debug(f"{PROJECT_ROOT =}, determined by {__file__ =} and {app_dir_structure =}")
 
 FEEDBACK_FORMS = PROJECT_ROOT / "feedback_forms"
 CURRENT_VERSIONS = FEEDBACK_FORMS / "current_versions"
