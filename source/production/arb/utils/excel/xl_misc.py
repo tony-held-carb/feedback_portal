@@ -115,13 +115,13 @@ def xl_address_sort(xl_tuple, address_location="key", sort_by="row", sub_keys=No
     return return_value
 
 
-def diagnostics() -> None:
+def run_diagnostics() -> None:
     """
     Run demonstration tests for get_excel_row_column() and xl_address_sort().
     This function is only called if this module is run directly.
 
     Examples:
-        >>> diagnostics()
+        >>> run_diagnostics()
     """
     pp = pprint.PrettyPrinter(indent=4, sort_dicts=False)
 
@@ -152,4 +152,4 @@ def diagnostics() -> None:
 
 
 if __name__ == "__main__":
-    diagnostics()
+    run_diagnostics()
