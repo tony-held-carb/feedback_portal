@@ -2,13 +2,19 @@
 Utility functions for file and path handling, including directory creation,
 secure file name generation, and project root resolution.
 
+Version:
+    1.0.0
+
+Author:
+    ARB Feedback Portal Development Team
+
 Notes:
     - This module assumes UTC time for timestamping and uses secure filename utilities
       to prevent unsafe characters.
     - It also provides tools for resolving the project root dynamically based on known
       directory structures.
 
-Potential Future Upgrades:
+TODO:
     - Add support for Windows-specific path edge cases, if needed.
     - Expand run_diagnostics to perform write/delete tests in a sandbox directory.
 """
@@ -90,7 +96,6 @@ def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> P
 
 class ProjectRootNotFoundError(ValueError):
   """Raised when the project root cannot be determined from known directory structures."""
-  pass
 
 
 def resolve_project_root(
@@ -150,16 +155,9 @@ def get_project_root_dir(file: str | Path, match_parts: list[str]) -> Path:
   Raises:
       ValueError: If no match is found in any parent hierarchy.
 
-  Passing Example:
-    If `file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"`
-    and `match_parts = ["feedback_portal", "source", "production", "arb", "portal"]`,
-    then:
-      → match found at /Users/tony/dev/**feedback_portal**/source/production/arb/portal
-      → returns: Path("/Users/tony/dev/feedback_portal")
-
-  Failing Example:
-    If the file path is unrelated (e.g., "/tmp/random_file.py"),
-    the function will raise a ValueError.
+  Example:
+      >>> get_project_root_dir("/a/b/c/project/src/mod.py", ["project", "src"])
+      Path("/a/b/c/project")
   """
   path = Path(file).resolve()
   match_len = len(match_parts)
