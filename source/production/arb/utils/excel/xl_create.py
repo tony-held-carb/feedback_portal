@@ -15,6 +15,7 @@ Typical Workflow:
 Run this file directly to create all schema and payload artifacts for landfill,
 oil and gas, and energy templates.
 """
+# todo - resume comparison to xl_create_gpt.py
 
 import shutil
 import zipfile
