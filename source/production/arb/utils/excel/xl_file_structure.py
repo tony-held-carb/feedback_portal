@@ -34,7 +34,7 @@ candidate_structures = [
 ]
 
 # Set project root and derived paths
-PROJECT_ROOT = resolve_project_root(__file__)
+PROJECT_ROOT = resolve_project_root(__file__, candidate_structures)
 
 FEEDBACK_FORMS = PROJECT_ROOT / "feedback_forms"
 CURRENT_VERSIONS = FEEDBACK_FORMS / "current_versions"
