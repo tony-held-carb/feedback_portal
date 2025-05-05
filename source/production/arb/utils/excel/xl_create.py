@@ -15,7 +15,6 @@ Typical Workflow:
 Run this file directly to create all schema and payload artifacts for landfill,
 oil and gas, and energy templates.
 """
-# todo - resume comparison to xl_create_gpt.py
 
 import shutil
 import zipfile
@@ -38,8 +37,6 @@ from arb.utils.misc import ensure_key_value_pair
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
-# todo - need to remove other references to file structure
-#  trying to make the code more platform neutral - 2025-05-03 10:10
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
@@ -212,67 +209,59 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
   return defaults, metadata
 
 
-def schema_to_default_json(file_name_in,
-                           file_name_out=None,
-                           ):
+def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tuple[dict, dict]:
   """
-  Based on an Excel json schema file created wit update_vba_schema, save a json file
-  with default values and return a dictionary with html variable names for keys default values.
-  For drop down cells, the default is 'Please Select';
-  the default is a blank string for non drop down cells.
+  Save default values extracted from a schema into a separate JSON file.
 
   Args:
-    file_name_in (str|pathlib.Path): json input file path of an Excel schema
-    file_name_out (str|pathlib.Path, optional): json output file path of an Excel schema
+      file_name_in (Path): Input schema JSON path.
+      file_name_out (Path, optional): Output JSON path. Defaults to 'xl_payloads/{schema_version}_defaults.json'.
 
-  Returns
-    tuple: A tuple containing the default values and metadata associated with a schema file.
-    - defaults (dict):
-    - metadata (dict):
+  Returns:
+      tuple:
+          - defaults (dict): Generated default values.
+          - metadata (dict): Metadata used for output JSON.
+
+  Example:
+      >>> schema_to_default_json(Path("xl_schemas/landfill_v01_00.json"))
   """
   logger.debug(f"schema_to_default_json() called for {file_name_in=}")
 
   defaults, metadata = schema_to_default_dict(file_name_in)
-  metadata['notes'] = ("Default values are empty strings unless the field is a drop down cell.  "
-                       "For drop down cells, the default is 'Please Select'.")
+  metadata['notes'] = (
+    "Default values are empty strings unless the field is a drop down cell. "
+    "For drop down cells, the default is 'Please Select'."
+  )
 
   if file_name_out is None:
-    file_name_out = "xl_payloads/" + metadata['schema_version'] + "_defaults.json"
+    file_name_out = f"xl_payloads/{metadata['schema_version']}_defaults.json"
 
   ensure_parent_dirs(file_name_out)
 
-  json_save_with_meta(file_name_out,
-                      data=defaults,
-                      metadata=metadata,
-                      json_options=None)
-
+  json_save_with_meta(file_name_out, data=defaults, metadata=metadata, json_options=None)
   return defaults, metadata
 
 
-def update_xlsx(file_in, file_out, jinja_dict):
+def update_xlsx(file_in: Path, file_out: Path, jinja_dict: dict) -> None:
   """
-  Rewrite a xlsx file by replacing jinja variable placeholders (e.g. {{ my_variable }}) with
-  values from a dictionary of key value pairs.
+  Render a Jinja-templated XLSX file by replacing placeholders with values from a dictionary.
 
   Args:
-      file_in (str|pathlib.Path): Path to the original XLSX file.
-      file_out (str|pathlib.Path): Path to save the processed XLSX file.
-      jinja_dict (dict): Dictionary where dict keys represent jinja template variable names and
-                         dict values represent the jinja variable value.
-  """
-  logger.debug(f"Convertion input file: {file_in} to {file_out} with: {jinja_dict}")
+      file_in (Path): Path to the Jinja-enabled XLSX file.
+      file_out (Path): Path to write the rendered Excel file.
+      jinja_dict (dict): Dictionary mapping Jinja variable names to replacement values.
 
-  with (zipfile.ZipFile(file_in, 'r') as xlsx,
-        zipfile.ZipFile(file_out, 'w') as new_xlsx):
+  Example:
+      >>> update_xlsx(Path("template.xlsx"), Path("output.xlsx"), {"id": "123"})
+  """
+  logger.debug(f"Rendering Excel from {file_in} to {file_out} using {jinja_dict}")
+
+  with zipfile.ZipFile(file_in, 'r') as xlsx, zipfile.ZipFile(file_out, 'w') as new_xlsx:
     for filename in xlsx.namelist():
       with xlsx.open(filename) as file:
         contents = file.read()
-
         if filename == 'xl/sharedStrings.xml':
-          # Perform string replacement for the specific file
-          contents = jinja2.Template(contents.decode('utf-8')).render(jinja_dict)
-          contents = contents.encode('utf-8')
-
+          contents = jinja2.Template(contents.decode('utf-8')).render(jinja_dict).encode('utf-8')
         new_xlsx.writestr(filename, contents)
 
 

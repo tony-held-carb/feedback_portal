@@ -270,3 +270,23 @@ class OGFeedback(FlaskForm):
   contact_first_name = StringField(label='Contact First Name:', validators=[InputRequired()])
   contact_last_name = StringField(label='Contact Last Name:', validators=[InputRequired()])
 
+-------------------------------------------------------------------
+Folder structure:
+-------------------------------------------------------------------
+
+/root/
+  ├── branch_01/
+       ├── sub_branch 01/
+       └── sub_branch 02/
+            └── sub_branch 03/
+  ├── branch 02/
+  └── branch 03/
+
+-------------------------------------------------------------------
+If you're working in a Python project, a good structure might be:
+-------------------------------------------------------------------
+/tests/                  # test code itself
+/test_results/           # raw output from test runs
+/reports/                # human-readable reports (e.g., pytest-cov, HTML)
+/diagnostics/            # runtime logs, stack traces, system info dumps
+
