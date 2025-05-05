@@ -189,8 +189,6 @@ def datetime_to_ca_naive(dt: datetime, assume_naive_is_utc: bool = False, utc_st
       >>> dt = datetime(2025, 5, 5, 12, 0)
       >>> datetime_to_ca_naive(dt, assume_naive_is_utc=True)
       datetime.datetime(2025, 5, 5, 5, 0)
-
-      Naive datetime in Pacific Time.
   """
   if dt.tzinfo is None:
     if assume_naive_is_utc:
@@ -250,8 +248,6 @@ def convert_datetimes_to_ca_naive(data: object, assume_naive_is_utc: bool = Fals
               (datetime.datetime(2025, 4, 23, 13, 0),)
           ]
       }
-
-      Transformed data.
   """
   if isinstance(data, datetime):
     return datetime_to_ca_naive(data, assume_naive_is_utc, utc_strict)
