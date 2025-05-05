@@ -1,11 +1,13 @@
 """
 Hardcoded schema definitions and sample payloads for Excel template processing.
 
-These were manually created by inspecting old_v01 and old_v02 versions of the Excel spreadsheets.
-The new versioning systems uses the naming scheme v01, v02, etc (without the old_prefix).
+The new versioning systems uses the naming scheme vxx_yy, where xx represents a major version and
+ yy represents a minor version (without the 'old' in the prefix).
+
+These were manually created by inspecting old_v01 and old_v02 versions of now outdated Excel spreadsheets.
 
 Contents:
-    - `default_value_types_v01_00`: field types for v01 based on old_v01 and old_v02 schemas
+    - `default_value_types_v01_00`: field types for v01_00 based on old_v01 and old_v02 schemas
     - Sample payloads for oil & gas and landfill forms
     - `jinja_names_set`: manually compiled field names used in Jinja templates
     - Diagnostic comparison for field coverage (see `__main__`)
@@ -19,7 +21,7 @@ from arb.utils.diagnostics import list_differences
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 # -------------------------------------------------------------------------------------
-# v01 schema field types based on legacy old_v01 and old_v02 excel schemas
+# v01_00 schema field types based on legacy old_v01 and old_v02 excel schemas
 # -------------------------------------------------------------------------------------
 
 default_value_types_v01_00 = {
@@ -201,59 +203,59 @@ landfill_payload_02 = {
 
 jinja_names_set = {
   "additional_activities",
-    "additional_notes",
-    "component_at_source",
-    "component_other_description",
-    "contact_email",
-    "contact_name",
-    "contact_phone",
-    "emission_cause",
-    "emission_cause_notes",
-    "emission_cause_secondary",
-    "emission_cause_tertiary",
-    "emission_identified_flag_fk",
-    "emission_location",
-    "emission_location_notes",
-    "emission_type_fk",
-    "equipment_at_source",
-    "equipment_other_description",
-    "facility_name",
-    "final_repair_concentration",
-    "id_arb_eggrt",
-    "id_arb_swis",
-    "id_incidence",
-    "id_message",
-    "id_plume",
-    "included_in_last_lmr",
-    "included_in_last_lmr_description",
-    "initial_leak_concentration",
-    "initial_mitigation_plan",
-    "inspection_timestamp",
-    "instrument",
-    "last_component_leak_monitoring_timestamp",
-    "last_surface_monitoring_timestamp",
-    "lat_carb",
-    "lat_revised",
-    "long_carb",
-    "long_revised",
-    "method21_date",
-    "method21_performed",
-    "method21_result",
-    "mitigation_actions",
-    "mitigation_timestamp",
-    "observation_timestamp",
-    "ogi_date",
-    "ogi_performed",
-    "ogi_result",
-    "planned_for_next_lmr",
-    "planned_for_next_lmr_description",
-    "re_monitored_concentration",
-    "re_monitored_timestamp",
-    "repair_description",
-    "repair_timestamp",
-    "venting_description_1",
-    "venting_description_2",
-    "venting_exclusion",
+  "additional_notes",
+  "component_at_source",
+  "component_other_description",
+  "contact_email",
+  "contact_name",
+  "contact_phone",
+  "emission_cause",
+  "emission_cause_notes",
+  "emission_cause_secondary",
+  "emission_cause_tertiary",
+  "emission_identified_flag_fk",
+  "emission_location",
+  "emission_location_notes",
+  "emission_type_fk",
+  "equipment_at_source",
+  "equipment_other_description",
+  "facility_name",
+  "final_repair_concentration",
+  "id_arb_eggrt",
+  "id_arb_swis",
+  "id_incidence",
+  "id_message",
+  "id_plume",
+  "included_in_last_lmr",
+  "included_in_last_lmr_description",
+  "initial_leak_concentration",
+  "initial_mitigation_plan",
+  "inspection_timestamp",
+  "instrument",
+  "last_component_leak_monitoring_timestamp",
+  "last_surface_monitoring_timestamp",
+  "lat_carb",
+  "lat_revised",
+  "long_carb",
+  "long_revised",
+  "method21_date",
+  "method21_performed",
+  "method21_result",
+  "mitigation_actions",
+  "mitigation_timestamp",
+  "observation_timestamp",
+  "ogi_date",
+  "ogi_performed",
+  "ogi_result",
+  "planned_for_next_lmr",
+  "planned_for_next_lmr_description",
+  "re_monitored_concentration",
+  "re_monitored_timestamp",
+  "repair_description",
+  "repair_timestamp",
+  "venting_description_1",
+  "venting_description_2",
+  "venting_exclusion",
 }
 
 if __name__ == "__main__":
