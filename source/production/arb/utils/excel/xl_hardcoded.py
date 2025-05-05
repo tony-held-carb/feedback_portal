@@ -71,6 +71,8 @@ default_value_types_v01_00 = {
 }
 
 # todo - see if these payloads still make sense
+#        looks like every value is a string ... not sure if that should be changed
+
 
 # oil and gas example payload
 oil_and_gas_payload_01 = {

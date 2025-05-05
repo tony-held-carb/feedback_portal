@@ -11,12 +11,14 @@ I would like ***
 2) in the routes file, use a blueprinting system where all the routes will use a newly created 'main' route
 3) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
 
+1) Please suggest changes to the attached python file.
+
 Please propose changes using the following style preferences:
 1) use google docstrings with modern type hinting in the docstrings.
 2) Include extensive documentation and examples.
 3) Include the full text for any file you create or propose to change.
 4) Retain, all previous documentation, notes, and todos where possible
-5) Suggest any other improvements
+5) include a function named run_diagnostics that includes testing of key features of this file.
 
 
 # todo - next steps
