@@ -1,5 +1,4 @@
 from datetime import datetime
-from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from werkzeug.utils import secure_filename
@@ -86,6 +85,62 @@ def get_secure_timestamped_file_name(directory, file_name):
 
 
 from pathlib import Path
+
+
+class ProjectRootNotFoundError(ValueError):
+  """Raised when the project root cannot be determined from known directory structures."""
+  pass
+
+
+def resolve_project_root(
+    file_path,
+    candidate_structures=None,
+):
+  """
+  Attempt to locate the feedback_portal project root by testing a list of known directory structures.
+
+  Args:
+      file_path (str | Path): The `__file__` path of the current module.
+      candidate_structures (list[list[str]], optional): List of directory structures to try.
+          Each structure is a list of folder names representing a known relative path
+          from the project root to the current file. If None, defaults to known structures.
+
+  Returns:
+      Path: The resolved path to the project root.
+
+  Raises:
+      ProjectRootNotFoundError: If no known directory structure matches.
+
+  Examples:
+      >>> resolve_project_root(__file__)
+      PosixPath('/absolute/path/to/feedback_portal')
+
+      >>> resolve_project_root(__file__, [['feedback_portal', 'src', 'arb', 'portal']])
+      PosixPath('/absolute/path/to/feedback_portal')
+
+  Notes:
+      This function tries each directory structure and logs the attempt.
+      If none succeed, the last error is included in the exception for context.
+  """
+  if candidate_structures is None:
+    candidate_structures = [
+      ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel'],
+      ['feedback_portal', 'source', 'production', 'arb', 'portal'],
+    ]
+
+  errors = []
+  for app_dir_structure in candidate_structures:
+    try:
+      project_root = get_project_root_dir(file_path, app_dir_structure)
+      logger.debug(f"{project_root =}, determined by {file_path =} and {app_dir_structure =}")
+      return project_root
+    except ValueError as e:
+      errors.append(f"{app_dir_structure}: {e}")
+
+  raise ProjectRootNotFoundError(
+    "Unable to determine project root. Tried the following directory structures:\n" +
+    "\n".join(errors)
+  )
 
 
 def get_project_root_dir(file, match_parts):
