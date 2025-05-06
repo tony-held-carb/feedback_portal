@@ -97,6 +97,7 @@ def get_sa_column_types(model, is_instance: bool = True) -> dict[str, dict]:
         'sqlalchemy_type': column.type,
         'python_type': None
       }
+      raise  # Re-raises the current exception with original traceback - comment out if you don't to warn rather than fail
 
   return columns_info
 
@@ -145,20 +146,6 @@ def get_sa_automap_types(engine, base) -> dict:
 
   return result
 
-
-def sa_model_to_dict(model) -> dict:
-  """
-  Convert a SQLAlchemy model instance to a dictionary.
-
-  Args:
-      model: SQLAlchemy ORM instance.
-
-  Returns:
-      dict: Mapping of column name to value.
-  """
-  return {field: getattr(model, field) for field in get_sa_fields(model)}
-
-
 def sa_model_dict_compare(model_before: dict, model_after: dict) -> dict:
   """
   Compare two model dictionaries and return changed fields.
@@ -175,6 +162,21 @@ def sa_model_dict_compare(model_before: dict, model_after: dict) -> dict:
     for field in model_after
     if model_before.get(field) != model_after[field]
   }
+
+
+def sa_model_to_dict(model) -> dict:
+  """
+  Convert a SQLAlchemy model instance to a dictionary.
+
+  Args:
+      model: SQLAlchemy ORM instance.
+
+  Returns:
+      dict: Mapping of column name to value.
+  """
+  return {field: getattr(model, field) for field in get_sa_fields(model)}
+
+
 
 
 def table_to_list(base, session, table_name: str) -> list[dict]:
