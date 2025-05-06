@@ -31,6 +31,8 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 Next steps
 ----------------------------
 * resume with gpt update of sql_alchemy
+  - seems to be failing - swap out for the old version and see if that fixes it and then examine code changes.
+
 
 * saving/prepping the other python project files for daytime processing
 
