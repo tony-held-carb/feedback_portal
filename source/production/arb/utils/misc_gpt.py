@@ -24,135 +24,135 @@ logger, pp_log = get_logger(__name__, __file__)
 
 
 def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:
-    """
-    Retrieve a value from a nested dictionary using a key path.
+  """
+  Retrieve a value from a nested dictionary using a key path.
 
-    Args:
-        nested_dict (dict): The dictionary to search.
-        keys (list | tuple | str): A sequence of keys to traverse the dictionary, or a single key.
+  Args:
+      nested_dict (dict): The dictionary to search.
+      keys (list | tuple | str): A sequence of keys to traverse the dictionary, or a single key.
 
-    Returns:
-        object: The value found at the specified key path.
+  Returns:
+      object: The value found at the specified key path.
 
-    Raises:
-        KeyError: If a key is missing at any level.
-        TypeError: If a non-dictionary value is encountered mid-traversal.
+  Raises:
+      KeyError: If a key is missing at any level.
+      TypeError: If a non-dictionary value is encountered mid-traversal.
 
-    Examples:
-        >>> data = {"a": {"b": {"c": 42}}, "x": 99}
-        >>> get_nested_value(data, ("a", "b", "c"))
-        42
-        >>> get_nested_value(data, "x")
-        99
-    """
-    if not isinstance(keys, (list, tuple)):
-        # Single key case
-        if keys not in nested_dict:
-            raise KeyError(f"Key '{keys}' not found in the dictionary")
-        return nested_dict[keys]
+  Examples:
+      >>> data = {"a": {"b": {"c": 42}}, "x": 99}
+      >>> get_nested_value(data, ("a", "b", "c"))
+      42
+      >>> get_nested_value(data, "x")
+      99
+  """
+  if not isinstance(keys, (list, tuple)):
+    # Single key case
+    if keys not in nested_dict:
+      raise KeyError(f"Key '{keys}' not found in the dictionary")
+    return nested_dict[keys]
 
-    current = nested_dict
-    for key in keys:
-        if not isinstance(current, dict):
-            raise TypeError(f"Expected a dictionary at key '{key}', found {type(current).__name__}")
-        if key not in current:
-            raise KeyError(f"Key '{key}' not found in the dictionary")
-        current = current[key]
-    return current
+  current = nested_dict
+  for key in keys:
+    if not isinstance(current, dict):
+      raise TypeError(f"Expected a dictionary at key '{key}', found {type(current).__name__}")
+    if key not in current:
+      raise KeyError(f"Key '{key}' not found in the dictionary")
+    current = current[key]
+  return current
 
 
 def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: str) -> None:
-    """
-    Ensure each sub-dictionary in dict_ has a given key, populating it from default_dict if missing.
+  """
+  Ensure each sub-dictionary in dict_ has a given key, populating it from default_dict if missing.
 
-    Args:
-        dict_ (dict[str, dict]): A dictionary whose values are sub-dictionaries.
-        default_dict (dict): A lookup dictionary to supply missing key-value pairs.
-        sub_key (str): The key that must exist in each sub-dictionary.
+  Args:
+      dict_ (dict[str, dict]): A dictionary whose values are sub-dictionaries.
+      default_dict (dict): A lookup dictionary to supply missing key-value pairs.
+      sub_key (str): The key that must exist in each sub-dictionary.
 
-    Raises:
-        TypeError: If the sub_key is missing and there's no fallback in default_dict.
+  Raises:
+      TypeError: If the sub_key is missing and there's no fallback in default_dict.
 
-    Example:
-        >>> dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
-        >>> defaults = {"c": 99}
-        >>> ensure_key_value_pair(dict_, defaults, "x")
-        >>> dict_["c"]["x"]
-        99
-    """
-    for key, sub_dict in dict_.items():
-        logger.debug(f"{key=}, {sub_dict=}")
-        if sub_key not in sub_dict:
-            if key in default_dict:
-                sub_dict[sub_key] = default_dict[key]
-            else:
-                raise TypeError(
-                    f"{sub_key} is not present in sub dictionary for key '{key}' "
-                    f"and no default provided in default_dict"
-                )
+  Example:
+      >>> dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
+      >>> defaults = {"c": 99}
+      >>> ensure_key_value_pair(dict_, defaults, "x")
+      >>> dict_["c"]["x"]
+      99
+  """
+  for key, sub_dict in dict_.items():
+    logger.debug(f"{key=}, {sub_dict=}")
+    if sub_key not in sub_dict:
+      if key in default_dict:
+        sub_dict[sub_key] = default_dict[key]
+      else:
+        raise TypeError(
+          f"{sub_key} is not present in sub dictionary for key '{key}' "
+          f"and no default provided in default_dict"
+        )
 
 
 def replace_list_occurrences(list_: list, lookup_dict: dict) -> None:
-    """
-    Replace elements of a list in-place using a lookup dictionary.
+  """
+  Replace elements of a list in-place using a lookup dictionary.
 
-    Args:
-        list_ (list): The list whose elements may be replaced.
-        lookup_dict (dict): A dictionary mapping old values to new values.
+  Args:
+      list_ (list): The list whose elements may be replaced.
+      lookup_dict (dict): A dictionary mapping old values to new values.
 
-    Example:
-        >>> values = ["cat", "dog", "bird"]
-        >>> lookup = {"dog": "puppy", "bird": "parrot"}
-        >>> replace_list_occurrences(values, lookup)
-        >>> values
-        ['cat', 'puppy', 'parrot']
-    """
-    for i in range(len(list_)):
-        if list_[i] in lookup_dict:
-            list_[i] = lookup_dict[list_[i]]
+  Example:
+      >>> values = ["cat", "dog", "bird"]
+      >>> lookup = {"dog": "puppy", "bird": "parrot"}
+      >>> replace_list_occurrences(values, lookup)
+      >>> values
+      ['cat', 'puppy', 'parrot']
+  """
+  for i in range(len(list_)):
+    if list_[i] in lookup_dict:
+      list_[i] = lookup_dict[list_[i]]
 
 
 def args_to_string(args: list | tuple | None) -> str:
-    """
-    Convert a list or tuple of arguments into a single space-separated string with padding.
+  """
+  Convert a list or tuple of arguments into a single space-separated string with padding.
 
-    Args:
-        args (list | tuple | None): Arguments to convert.
+  Args:
+      args (list | tuple | None): Arguments to convert.
 
-    Returns:
-        str: Space-separated string representation.
+  Returns:
+      str: Space-separated string representation.
 
-    Example:
-        >>> args_to_string(["--debug", "--log", "file.txt"])
-        ' --debug --log file.txt '
-    """
-    if not args:
-        return ''
-    else:
-        args = [str(arg) for arg in args]
-        return_string = " " + " ".join(args) + " "
-        return return_string
+  Example:
+      >>> args_to_string(["--debug", "--log", "file.txt"])
+      ' --debug --log file.txt '
+  """
+  if not args:
+    return ''
+  else:
+    args = [str(arg) for arg in args]
+    return_string = " " + " ".join(args) + " "
+    return return_string
 
 
 def log_error(e: Exception) -> None:
-    """
-    Log an exception and its stack trace, then re-raise the exception.
+  """
+  Log an exception and its stack trace, then re-raise the exception.
 
-    Args:
-        e (Exception): The exception to log.
+  Args:
+      e (Exception): The exception to log.
 
-    Notes:
-        - Outputs full traceback to logger.
-        - Re-raises the original exception.
-        - Useful during development or structured exception monitoring.
+  Notes:
+      - Outputs full traceback to logger.
+      - Re-raises the original exception.
+      - Useful during development or structured exception monitoring.
 
-    TODO:
-        Consider wrapping this in Flask to render a 500 error page instead.
-    """
-    logger.error(e, exc_info=True)
-    stack = traceback.extract_stack()
-    logger.error(stack)
-    raise e
+  TODO:
+      Consider wrapping this in Flask to render a 500 error page instead.
+  """
+  logger.error(e, exc_info=True)
+  stack = traceback.extract_stack()
+  logger.error(stack)
+  raise e
 
 
 def run_diagnostics() -> None:
@@ -205,14 +205,14 @@ def run_diagnostics() -> None:
 
 
 if __name__ == "__main__":
-    import logging
+  import logging
 
-    logging.basicConfig(
-        filename="misc_diagnostics.log",
-        level=logging.DEBUG,
-        encoding="utf-8",
-        format="%(asctime)s | %(levelname)-8s | %(name)s | %(filename)s:%(lineno)d | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
+  logging.basicConfig(
+    filename="misc_diagnostics.log",
+    level=logging.DEBUG,
+    encoding="utf-8",
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(filename)s:%(lineno)d | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+  )
 
-    run_diagnostics()
+  run_diagnostics()

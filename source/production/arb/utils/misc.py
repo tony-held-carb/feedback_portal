@@ -1,9 +1,6 @@
 """
 Module for miscellaneous utility functions and classes.
 
-Version:
-    1.0.0
-
 Includes:
     - Deep access to nested dictionaries
     - Sub-dictionary default injection
@@ -205,4 +202,4 @@ def run_diagnostics() -> None:
 
 
 if __name__ == "__main__":
-    run_diagnostics()
+  run_diagnostics()
