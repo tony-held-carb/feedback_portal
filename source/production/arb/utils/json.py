@@ -24,31 +24,6 @@ logger, pp_log = get_logger(__name__, __file__)
 
 # todo - integrate new json techniques to the website,
 #       make sure time are handled using the new time stamps iso strings and native pacific system
-def json_serializer(obj) -> dict:
-  """
-  Custom JSON serializer for objects not natively serializable by `json.dump`.
-
-  Args:
-      obj: The object to serialize.
-
-  Returns:
-      dict: A dictionary representation of the object.
-
-  Raises:
-      TypeError: If the object type is unsupported.
-
-  Example:
-      >>> json.dumps(datetime.datetime.now(), default=json_serializer)
-  """
-  if isinstance(obj, type):
-    return {"__class__": obj.__name__, "__module__": obj.__module__}
-  elif isinstance(obj, datetime.datetime):
-    return {"__type__": "datetime.datetime", "value": obj.isoformat()}
-  elif isinstance(obj, decimal.Decimal):
-    return {"__type__": "decimal.Decimal", "value": str(obj)}
-
-  raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
-
 
 def json_serializer(obj) -> dict:
   """
@@ -120,7 +95,9 @@ def json_deserializer(obj: dict) -> object:
   return new_obj
 
 
-def json_save(file_path: str | pathlib.Path, data, json_options: dict | None = None) -> None:
+def json_save(file_path: str | pathlib.Path,
+              data,
+              json_options: dict | None = None) -> None:
   """
   Save a data object to a JSON file.
 
@@ -144,12 +121,10 @@ def json_save(file_path: str | pathlib.Path, data, json_options: dict | None = N
   logger.debug(f"JSON saved to file: '{file_path}'.")
 
 
-def json_save_with_meta(
-    file_path: str | pathlib.Path,
-    data,
-    metadata: dict | None = None,
-    json_options: dict | None = None
-) -> None:
+def json_save_with_meta(file_path: str | pathlib.Path,
+                        data,
+                        metadata: dict | None = None,
+                        json_options: dict | None = None) -> None:
   """
   Save data with metadata to a JSON file.
 
@@ -181,7 +156,8 @@ def json_save_with_meta(
   json_save(file_path, wrapped, json_options=json_options)
 
 
-def json_load(file_path: str | pathlib.Path, json_options: dict | None = None):
+def json_load(file_path: str | pathlib.Path,
+              json_options: dict | None = None):
   """
   Load JSON data from a file.
 
@@ -209,9 +185,8 @@ def json_load(file_path: str | pathlib.Path, json_options: dict | None = None):
     return json.load(f, **json_options)
 
 
-def json_load_with_meta(
-    file_path: str | pathlib.Path, json_options: dict | None = None
-) -> tuple[object, dict]:
+def json_load_with_meta(file_path: str | pathlib.Path,
+                        json_options: dict | None = None) -> tuple[object, dict]:
   """
   Load a JSON file and separate data from metadata.
 
@@ -241,10 +216,8 @@ def json_load_with_meta(
   return all_data, {}
 
 
-def add_metadata_to_json(
-    file_name_in: str | pathlib.Path,
-    file_name_out: str | pathlib.Path | None = None
-) -> None:
+def add_metadata_to_json(file_name_in: str | pathlib.Path,
+                         file_name_out: str | pathlib.Path | None = None) -> None:
   """
   Add or update metadata in a JSON file.
 
@@ -264,7 +237,8 @@ def add_metadata_to_json(
   json_save_with_meta(file_name_out, data=data)
 
 
-def compare_json_files(file_name_1: str | pathlib.Path, file_name_2: str | pathlib.Path) -> None:
+def compare_json_files(file_name_1: str | pathlib.Path,
+                       file_name_2: str | pathlib.Path) -> None:
   """
   Compare two JSON files' metadata and data content.
 
