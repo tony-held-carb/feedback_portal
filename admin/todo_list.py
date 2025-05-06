@@ -32,6 +32,7 @@ Next steps
 ----------------------------
 * resume with gpt update of sql_alchemy
   - seems to be failing - swap out for the old version and see if that fixes it and then examine code changes.
+  - swap out seemed to work, must be something wrong with the new sql_alchemy code ...
 
 
 * saving/prepping the other python project files for daytime processing
