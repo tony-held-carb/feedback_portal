@@ -17,6 +17,7 @@ Please refactor the following python code using the following style preferences:
 3) Review all of the code and provide all suggestions in one response, not incrementally prompting me for additional information.
 4) Include the full text for any file you create or propose to change.
 5) Retain, all previous documentation, notes, and todos where possible
+6) do not import typing, rather use modern type hinting such as the | symbol
 
 
 

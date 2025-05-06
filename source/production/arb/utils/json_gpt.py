@@ -22,34 +22,6 @@ __version__ = "1.0.0"
 logger, pp_log = get_logger(__name__, __file__)
 
 
-# todo - integrate new json techniques to the website,
-#       make sure time are handled using the new time stamps iso strings and native pacific system
-def json_serializer(obj) -> dict:
-  """
-  Custom JSON serializer for objects not natively serializable by `json.dump`.
-
-  Args:
-      obj: The object to serialize.
-
-  Returns:
-      dict: A dictionary representation of the object.
-
-  Raises:
-      TypeError: If the object type is unsupported.
-
-  Example:
-      >>> json.dumps(datetime.datetime.now(), default=json_serializer)
-  """
-  if isinstance(obj, type):
-    return {"__class__": obj.__name__, "__module__": obj.__module__}
-  elif isinstance(obj, datetime.datetime):
-    return {"__type__": "datetime.datetime", "value": obj.isoformat()}
-  elif isinstance(obj, decimal.Decimal):
-    return {"__type__": "decimal.Decimal", "value": str(obj)}
-
-  raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
-
-
 def json_serializer(obj) -> dict:
   """
   Custom JSON serializer for objects not natively serializable by `json.dump`.
@@ -89,35 +61,26 @@ def json_deserializer(obj: dict) -> object:
   Example:
       >>> json.loads(json_string, object_hook=json_deserializer)
   """
-  new_obj = obj
-
   if "__class__" in obj:
-    # logger.debug(f"{obj['__class__']=} detected in object deserializer.")
-    if obj["__class__"] == "str":
-      new_obj = str
-    elif obj["__class__"] == "int":
-      new_obj = int
-    elif obj["__class__"] == "float":
-      new_obj = float
-    elif obj["__class__"] == "bool":
-      new_obj = bool
-    elif obj["__class__"] == "datetime":
-      new_obj = datetime.datetime
-    else:
-      raise TypeError(f"Object of type {type(obj).__name__} is not JSON deserializable")
+    cls = obj["__class__"]
+    return {
+      "str": str,
+      "int": int,
+      "float": float,
+      "bool": bool,
+      "datetime": datetime.datetime,
+    }.get(cls, obj)
 
-  elif "__type__" in obj:
+  if "__type__" in obj:
     type_tag = obj["__type__"]
     if type_tag == "datetime.datetime":
-      new_obj = datetime.datetime.fromisoformat(obj["value"])
+      return datetime.datetime.fromisoformat(obj["value"])
     elif type_tag == "decimal.Decimal":
-      new_obj = decimal.Decimal(obj["value"])
-    else:
-      logger.debug(f"No known conversion type for type {obj['__type__']}")
+      return decimal.Decimal(obj["value"])
 
-  # logger.debug(f"deserializer() returning type= {type(new_obj)}, new_obj= {new_obj}")
+    logger.debug(f"Unknown conversion type: {type_tag}")
 
-  return new_obj
+  return obj
 
 
 def json_save(file_path: str | pathlib.Path, data, json_options: dict | None = None) -> None:
@@ -194,11 +157,6 @@ def json_load(file_path: str | pathlib.Path, json_options: dict | None = None):
 
   Example:
       >>> json_load("data.json")
-
-  Notes:
-    -  encoding="utf-8-sig" will remove (if present) [BOM (Byte Order Mark)] for UTF-8 (\uFEFF)
-       if it appears as a special marker at the beginning of some UTF-8 encoded files.
-       This marker can cause JSON decoding errors if not handled properly.
   """
   logger.debug(f"json_load() called with {file_path=}, {json_options=}")
 
@@ -226,11 +184,6 @@ def json_load_with_meta(
 
   Example:
       >>> data, meta = json_load_with_meta("example.json")
-
-  Notes:
-      If the json file is a dictionary with a key _data_, then the _data_ and _metadata_
-      (if possible) will  be extracted.  Otherwise, the data is assumed
-      to be the whole JSON file with no metadata.
   """
   logger.debug(f"json_load_with_meta() called with {file_path=}, {json_options=}")
 
