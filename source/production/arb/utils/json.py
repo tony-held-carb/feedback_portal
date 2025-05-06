@@ -344,9 +344,9 @@ def run_diagnostics() -> None:
     assert loaded_data == data, "Data mismatch in metadata test"
     assert "note" in loaded_meta, "Metadata not found"
 
-    # Write plain file, then enrich with metadata
+    # Write plain file, with serializer included, then enrich with metadata
     with open(plain_file, "w", encoding="utf-8") as f:
-      json.dump(data, f, indent=2)
+      json.dump(data, f, indent=2, default=json_serializer)
     add_metadata_to_json(plain_file)
 
     # Compare metadata-enriched files
