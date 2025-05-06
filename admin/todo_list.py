@@ -30,7 +30,9 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 # todo - next steps
 Next steps
 ----------------------------
-* xl utilities now work with project_root approach, start with xl_parse
+* resume with gpt update of sql_alchemy
+
+* saving/prepping the other python project files for daytime processing
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
