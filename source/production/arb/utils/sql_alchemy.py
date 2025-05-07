@@ -239,9 +239,6 @@ def table_to_list(base, session, table_name: str) -> list[dict]:
   return result
 
 
-# got to here safely
-# get_class_from_table_name seems to fail
-
 def get_class_from_table_name(base, table_name):
   """
   Retrieves the table from SQLAlchemy's metadata by the table_name.
@@ -254,8 +251,11 @@ def get_class_from_table_name(base, table_name):
   Returns (Mapper): table as mapped class of database
 
   Notes:
-    To access the class mapped to a specific table name in SQLAlchemy without directly using _class_registry,
+    * To access the class mapped to a specific table name in SQLAlchemy without directly using _class_registry,
     you can use the Base.metadata object, which stores information about all mapped tables.
+
+    * get_class_from_table_name seems to fail from gpt refactor, so i kept my original code here.
+
   """
   try:
     # Look up the table in metadata and find its mapped class
@@ -273,7 +273,6 @@ def get_class_from_table_name(base, table_name):
   return None
 
 
-# was able to get get_rows_by_table_name changed ...
 def get_rows_by_table_name(db,
                            base,
                            table_name: str,
@@ -438,8 +437,6 @@ def get_foreign_value(db,
   logger.debug(f"Foreign key result: {result}")
   return result
 
-
-# safe to here
 
 def find_auto_increment_value(db, table_name: str, column_name: str) -> str:
   """
