@@ -1,0 +1,310 @@
+{
+    "_metadata_": {
+        "schema_version": "oil_and_gas_v01_00",
+        "File created at": "2025-05-05T17:04:41.548771+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "id_incidence": {
+            "label": "1.  Incidence/Emission ID",
+            "label_address": "$B$32",
+            "value_address": "$D$32",
+            "value_type": {
+                "__class__": "int",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "id_plume": {
+            "label": "2.  Plume ID(s)",
+            "label_address": "$B$33",
+            "value_address": "$D$33",
+            "value_type": {
+                "__class__": "int",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "observation_timestamp": {
+            "label": "3.  Plume Observation Timestamp(s)",
+            "label_address": "$B$34",
+            "value_address": "$D$34",
+            "value_type": {
+                "__class__": "datetime",
+                "__module__": "datetime"
+            },
+            "is_drop_down": false
+        },
+        "lat_carb": {
+            "label": "4.  Plume CARB Estimated Latitude",
+            "label_address": "$B$35",
+            "value_address": "$D$35",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "long_carb": {
+            "label": "5.  Plume CARB Estimated Longitude",
+            "label_address": "$B$36",
+            "value_address": "$D$36",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "id_message": {
+            "label": "6.  CARB message ID",
+            "label_address": "$B$37",
+            "value_address": "$D$37",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "facility_name": {
+            "label": "Q1.  Facility Name",
+            "label_address": "$B$41",
+            "value_address": "$D$41",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "id_arb_eggrt": {
+            "label": "Q2.  Facility's Cal e-GGRT ARB ID (if known)",
+            "label_address": "$B$42",
+            "value_address": "$D$42",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "contact_name": {
+            "label": "Q3.  Contact Name",
+            "label_address": "$B$43",
+            "value_address": "$D$43",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "contact_phone": {
+            "label": "Q4.  Contact Phone Number",
+            "label_address": "$B$44",
+            "value_address": "$D$44",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "contact_email": {
+            "label": "Q5.  Contact Email Address",
+            "label_address": "$B$45",
+            "value_address": "$D$45",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "venting_exclusion": {
+            "label": "Q6.  Was the plume a result of activity-based venting that is being reported per section 95669.1(b)(1) of the Oil and Gas Methane Regulation?",
+            "label_address": "$B$49",
+            "value_address": "$D$49",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "venting_description_1": {
+            "label": "Q7.  If you answered 'Yes' to Q6, please provide a brief summary of the source of the venting defined by Regulation 95669.1(b)(1) and why the venting occurred.",
+            "label_address": "$B$50",
+            "value_address": "$D$50",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "ogi_performed": {
+            "label": "Q8. Was an OGI inspection performed?",
+            "label_address": "$B$54",
+            "value_address": "$D$54",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "ogi_date": {
+            "label": "Q9.  If you answered 'Yes' to Q8, what date and time was the OGI inspection performed?",
+            "label_address": "$B$55",
+            "value_address": "$D$55",
+            "value_type": {
+                "__class__": "datetime",
+                "__module__": "datetime"
+            },
+            "is_drop_down": false
+        },
+        "ogi_result": {
+            "label": "Q10. If you answered 'Yes' to Q8, what type of source was found using OGI?",
+            "label_address": "$B$56",
+            "value_address": "$D$56",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "method21_performed": {
+            "label": "Q11.  Was a Method 21 inspection performed?",
+            "label_address": "$B$57",
+            "value_address": "$D$57",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "method21_date": {
+            "label": "Q12.  If you answered 'Yes' to Q11, what date and time was the Method 21 inspection performed?",
+            "label_address": "$B$58",
+            "value_address": "$D$58",
+            "value_type": {
+                "__class__": "datetime",
+                "__module__": "datetime"
+            },
+            "is_drop_down": false
+        },
+        "method21_result": {
+            "label": "Q13. If you answered 'Yes' to Q11, what type of source was found using Method 21?",
+            "label_address": "$B$59",
+            "value_address": "$D$59",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "initial_leak_concentration": {
+            "label": "Q14.  If you answered 'Yes' to Q11, what was the initial leak concentration in ppmv (if applicable)?",
+            "label_address": "$B$60",
+            "value_address": "$D$60",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "venting_description_2": {
+            "label": "Q15.  If you answered 'Venting' to Q10 or Q13, please provide a brief summary of the source of the venting discovered during the ground inspection and why the venting occurred.",
+            "label_address": "$B$61",
+            "value_address": "$D$61",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "initial_mitigation_plan": {
+            "label": "Q16.  If you answered a 'Unintentional-leak' or 'Unintentional-non-component' to Q10 or Q13, please provide a description of your initial mitigation plan.",
+            "label_address": "$B$62",
+            "value_address": "$D$62",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "equipment_at_source": {
+            "label": "Q17.  What type of equipment is at the source of the emissions?",
+            "label_address": "$B$66",
+            "value_address": "$D$66",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "equipment_other_description": {
+            "label": "Q18.  If you answered 'Other' for Q17, please provide an additional description of the equipment.",
+            "label_address": "$B$67",
+            "value_address": "$D$67",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "component_at_source": {
+            "label": "Q19.  If your source is a component, what type of component is at the source of the emissions?",
+            "label_address": "$B$68",
+            "value_address": "$D$68",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": true
+        },
+        "component_other_description": {
+            "label": "Q20.  If you answered 'Other' for Q19, please provide an additional description of the component.",
+            "label_address": "$B$69",
+            "value_address": "$D$69",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "repair_timestamp": {
+            "label": "Q21.  Repair/mitigation completion date & time (if applicable).",
+            "label_address": "$B$70",
+            "value_address": "$D$70",
+            "value_type": {
+                "__class__": "datetime",
+                "__module__": "datetime"
+            },
+            "is_drop_down": false
+        },
+        "final_repair_concentration": {
+            "label": "Q22.  Final repair concentration in ppmv (if applicable).",
+            "label_address": "$B$71",
+            "value_address": "$D$71",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "repair_description": {
+            "label": "Q23.  Repair/Mitigation actions taken (if applicable).",
+            "label_address": "$B$72",
+            "value_address": "$D$72",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "additional_notes": {
+            "label": "Q24.  Additional notes or comments.",
+            "label_address": "$B$76",
+            "value_address": "$D$76",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        }
+    }
+}
