@@ -255,7 +255,7 @@ def get_class_from_table_name(base, table_name):
     you can use the Base.metadata object, which stores information about all mapped tables.
 
     * get_class_from_table_name seems to fail from gpt refactor, so i kept my original code here.
-
+    * it failed because my old test of is not None was changed to if - be on the lookout for other subtle bugs like this
   """
   try:
     # Look up the table in metadata and find its mapped class
