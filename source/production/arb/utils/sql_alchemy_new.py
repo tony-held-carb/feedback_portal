@@ -267,11 +267,12 @@ def get_class_from_table_name(base, table_name: str):
   return None
 
 
-def get_rows_by_table_name(
-    db, base, table_name: str,
-    colum_name_pk: str | None = None,
-    ascending: bool = True
-):
+def get_rows_by_table_name(db,
+                           base,
+                           table_name: str,
+                           colum_name_pk: str | None = None,
+                           ascending: bool = True
+                           ):
   """
   Retrieve all rows from a table, optionally sorted by a column.
 
@@ -316,12 +317,11 @@ def delete_commit_and_log_model(db, model_row, comment: str = "") -> None:
     log_error(e)
 
 
-def add_commit_and_log_model(
-    db,
-    model_row,
-    comment: str = "",
-    model_before: dict | None = None
-) -> None:
+def add_commit_and_log_model(db,
+                             model_row,
+                             comment: str = "",
+                             model_before: dict | None = None
+                             ) -> None:
   """
   Add or update a model instance, log changes, and commit.
 
@@ -347,12 +347,12 @@ def add_commit_and_log_model(
     log_error(e)
 
 
-def get_table_row_and_column(
-    db, base,
-    table_name: str,
-    column_name: str,
-    id_: int
-) -> tuple | None:
+def get_table_row_and_column(db,
+                             base,
+                             table_name: str,
+                             column_name: str,
+                             id_: int
+                             ) -> tuple | None:
   """
   Fetch a row and column value given table name and primary key.
 
@@ -378,17 +378,16 @@ def get_table_row_and_column(
   return row, column_value
 
 
-def get_foreign_value(
-    db,
-    base,
-    primary_table_name: str,
-    foreign_table_name: str,
-    primary_table_fk_name: str,
-    foreign_table_column_name: str,
-    primary_table_pk_value: int,
-    primary_table_pk_name: str | None = None,
-    foreign_table_pk_name: str | None = None
-) -> str | None:
+def get_foreign_value(db,
+                      base,
+                      primary_table_name: str,
+                      foreign_table_name: str,
+                      primary_table_fk_name: str,
+                      foreign_table_column_name: str,
+                      primary_table_pk_value: int,
+                      primary_table_pk_name: str | None = None,
+                      foreign_table_pk_name: str | None = None
+                      ) -> str | None:
   """
   Resolve a foreign key reference and return its value.
 
