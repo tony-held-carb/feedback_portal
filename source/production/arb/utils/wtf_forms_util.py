@@ -176,7 +176,11 @@ def remove_validators(form: FlaskForm, field_names: list[str], validators_to_rem
             validators.remove(validator)
 
 
-def change_validators_on_test(form, bool_test, required_if_true, optional_if_true=None) -> None:
+def change_validators_on_test(form: FlaskForm,
+                              bool_test: bool,
+                              required_if_true: list[str],
+                              optional_if_true: list[str] | None = None
+                              ) -> None:
   """
   Change validator associated with a wtf form based on a boolean test.
 
@@ -187,13 +191,12 @@ def change_validators_on_test(form, bool_test, required_if_true, optional_if_tru
   If bool_test is False:
     InputRequired validators will be changed to Optional for each form element in required_if_true.
     Optional validators will be changed to InputRequired for each form element in optional_if_true.
-
   Args:
     form (FlaskForm): wtform
     bool_test (bool): Condition to test for validation change
-    required_if_true (list): wtform elements that should be set to InputRequired if bool_test is True
+    required_if_true (list[str]): wtform elements that should be set to InputRequired if bool_test is True
                              or set to Optional if bool_test is False
-    optional_if_true (list|None): wtform elements that should be set to Optional if bool_test is True
+    optional_if_true (list[str] | None): wtform elements that should be set to Optional if bool_test is True
                                   or set to InputRequired if bool_test is False
   """
   if optional_if_true is None:
