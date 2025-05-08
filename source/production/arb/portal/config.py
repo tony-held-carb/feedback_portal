@@ -75,8 +75,6 @@ class Config:
   # consider setting to True if you're getting TemplateNotFound errors.
   EXPLAIN_TEMPLATE_LOADING = False  # Recommended setting for most use cases.
 
-  # todo (consider) - consider adding a timezone setting like UTC?
-
   @classmethod
   def configure_flask_app(cls,
                           flask_app: Flask,
