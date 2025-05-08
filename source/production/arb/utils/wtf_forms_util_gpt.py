@@ -603,7 +603,7 @@ def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> b
   logger.debug("validate_no_csrf() called...")
   form.validate(extra_validators=extra_validators)
 
-  if "csrf_token" in form.errors:
+  if form.errors and 'csrf_token' in form.errors:
     del form.errors["csrf_token"]
 
   csrf_field = getattr(form, "csrf_token", None)
