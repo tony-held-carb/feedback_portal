@@ -30,7 +30,7 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 # todo - next steps
 Next steps
 ----------------------------
-* finished gpt'ing the util, now go on to the portal ...
+* app.py and config.py updated, app_util.py was not updated because it fail gpt refactor
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
