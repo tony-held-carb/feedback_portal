@@ -12,13 +12,15 @@ I would like ***
 3) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
 
 Please refactor the following python code using the following style preferences:
-1) use google docstrings with modern type hinting in the docstrings.
-2) Include extensive documentation and examples.
-3) Review all of the code and provide all suggestions in one response, not incrementally prompting me for additional information.
-4) Include the full text for any file you create or propose to change.
-5) Retain, all previous documentation, notes, and todos where possible
-6) do not import typing, rather use modern type hinting such as the | symbol
-7) do not omit any code for brevity, i'm going to copy paste your code into a new file.
+1) use google formatting docstrings
+2) use modern type hinting in the docstrings (not in the function definition).
+3) docstring type hinting should be in the format:  variable_name (type_hint): variable description.
+4) Include extensive documentation and examples.
+5) Review all of the code and provide all suggestions in one response, not incrementally prompting me for additional information.
+6) Include the full text for any file you create or propose to change.
+7) Retain, all previous documentation, notes, and todos where possible
+8) do not import typing, rather use modern type hinting such as the | symbol
+9) do not omit any code for brevity, i'm going to copy paste your code into a new file.
 
 
 
