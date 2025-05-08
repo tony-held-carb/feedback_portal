@@ -33,7 +33,6 @@ Next steps
 ----------------------------
 * files that still need gpt refactor:
 * app_util.py
-* db_hardcoded.py
 * routes.py
 * wtf_forms.py
 
