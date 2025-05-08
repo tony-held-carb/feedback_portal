@@ -18,6 +18,7 @@ Please refactor the following python code using the following style preferences:
 4) Include the full text for any file you create or propose to change.
 5) Retain, all previous documentation, notes, and todos where possible
 6) do not import typing, rather use modern type hinting such as the | symbol
+7) do not omit any code for brevity, i'm going to copy paste your code into a new file.
 
 
 
@@ -30,6 +31,13 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 # todo - next steps
 Next steps
 ----------------------------
+* files that still need gpt refactor:
+* app_util.py
+* db_hardcoded.py
+* routes.py
+* sqla_models.py
+* wtf_forms.py
+
 * app.py and config.py updated, app_util.py was not updated because it fail gpt refactor
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
