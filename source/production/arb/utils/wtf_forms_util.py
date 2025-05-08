@@ -2,15 +2,14 @@
 Functions and helper classes to support WTForms models.
 
 Notes:
-  * Best practices to have the wtform models in a separate file in the same directory as the
-  flask app (app.py) and have the helper routines in this file in a utils directory.
+  * Best practice is to keep WTForm models in a separate file located next to the Flask app (e.g., app.py),
+    and place helper routines in this utility module.
 
 """
 
 import datetime
 import decimal
 import json
-from typing import Any
 
 from flask_wtf import FlaskForm
 from sqlalchemy.orm.attributes import flag_modified
@@ -19,163 +18,147 @@ from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 import arb.__get_logger as get_logger
-from arb.utils.date_and_time import ca_naive_to_utc_datetime, datetime_to_ca_naive, iso8601_to_utc_dt
+from arb.utils.date_and_time import (
+  ca_naive_to_utc_datetime,
+  datetime_to_ca_naive,
+  iso8601_to_utc_dt
+)
 from arb.utils.diagnostics import list_differences
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 
-def min_decimal_precision(min_digits):
+def min_decimal_precision(min_digits: int):
   """
-  WTForms Validator to ensure that float values have required precision.
-
-  Example Usage:
-    amount = DecimalField('Amount', validators=[
-                          DataRequired(),
-                          min_decimal_precision(2)  # Ensure at least 2 decimal places
-                          ])
+  Create a WTForms validator to ensure at least `min_digits` after the decimal point.
 
   Args:
-    min_digits (int): minimum number of decimal places required to ensure precision
+      min_digits (int): Minimum number of decimal places required.
+
+  Returns:
+      Callable: A validator function to attach to a WTForms DecimalField.
+
+  Example:
+      >>> amount = DecimalField("Amount", validators=[
+      ...     InputRequired(),
+      ...     min_decimal_precision(2)
+      ... ])
   """
 
   def _min_decimal_precision(form, field):
-    # Check if the field data is a valid number
     if field.data is None:
       return
 
     try:
-      # Convert to string for easier precision check
       value_str = str(field.data)
-      # Split on the decimal point
       if '.' in value_str:
         _, decimals = value_str.split('.')
         if len(decimals) < min_digits:
           raise ValidationError()
-      else:
-        # If there is no decimal point, precision is zero
-        if min_digits > 0:
-          raise ValidationError()
+      elif min_digits > 0:
+        raise ValidationError()
     except (ValueError, TypeError):
-      raise ValidationError(f"Field must be a valid numeric value with at least {min_digits} decimal places.")
+      raise ValidationError(
+        f"Field must be a valid numeric value with at least {min_digits} decimal places."
+      )
 
   return _min_decimal_precision
 
 
 class RequiredIfTruthy:
   """
-  Validator which makes a field required if another field is set and has a truthy value.
-  Sources:
-    - https://stackoverflow.com/questions/8463209/how-to-make-a-field-conditionally-optional-in-wtforms
-    - https://wtforms.readthedocs.io/en/2.3.x/validators/
-    - https://stackoverflow.com/questions/8463209/how-to-make-a-field-conditionally-optional-in-wtforms
+  WTForms validator: Makes a field required if another field is truthy.
 
   Notes:
-    - Not currently in use
+      - Not currently in use.
+      - Inspired by StackOverflow and WTForms documentation examples.
+
+  Example:
+      class MyForm(FlaskForm):
+          other_field = StringField(...)
+          my_field = StringField(validators=[RequiredIfTruthy('other_field')])
   """
+
   field_flags = ("requirediftruthy",)
 
-  def __init__(self, other_field_name, message=None, other_field_invalid_values=None):
+  def __init__(self, other_field_name: str, message: str | None = None, other_field_invalid_values: list | None = None):
     self.other_field_name = other_field_name
     self.message = message
-    # the other field must have a value not in other_field_invalid_values to be considered valid
     if other_field_invalid_values is None:
       other_field_invalid_values = [False, [], {}, (), '', '0', '0.0', 0, 0.0]
     self.other_field_invalid_values = other_field_invalid_values
-    logger.debug(f"In __init__()")
+    logger.debug("RequiredIfTruthy initialized")
 
   def __call__(self, form, field):
-    # logger.debug(f"in __call__, {form=}, {field=}")
-    # logger.debug(f"{self.other_field_name=}, {self.message}, {field=}")
     other_field = form[self.other_field_name]
-    # logger.debug(f"{type(other_field.data)=}, {other_field.data=}")
     if other_field is None:
-      raise Exception('no field named "%s" in form' % self.other_field_name)
+      raise Exception(f'No field named "{self.other_field_name}" in form')
+
     if other_field.data not in self.other_field_invalid_values:
-      logger.debug('data required')
+      logger.debug("other_field is truthy → requiring this field")
       InputRequired(self.message).__call__(form, field)
     else:
-      logger.debug('data not required')
+      logger.debug("other_field is falsy → allowing this field to be optional")
       Optional(self.message).__call__(form, field)
 
 
 class IfTruthy:
   """
-  Validator which makes a validator required/optional based on the value in another field.
+  WTForms validator: Choose between InputRequired or Optional depending on truthiness of another field.
 
-  Sources:
-    - https://stackoverflow.com/questions/8463209/how-to-make-a-field-conditionally-optional-in-wtforms
-    - https://wtforms.readthedocs.io/en/2.3.x/validators/
-    - https://stackoverflow.com/questions/8463209/how-to-make-a-field-conditionally-optional-in-wtforms
+  Args:
+      other_field_name (str): Name of the other WTForms field.
+      falsy_values (list | None): List of values considered falsy.
+      mode (str): One of 'required on truthy' or 'optional on truthy'.
+      message (str | None): Validation error message to use.
 
-  Notes:
-    - Not currently in use
+  Raises:
+      TypeError: If an unknown mode is provided.
+
+  Example:
+      class MyForm(FlaskForm):
+          trigger = BooleanField(...)
+          conditional = StringField(validators=[IfTruthy('trigger', mode='required on truthy')])
   """
+
   field_flags = ("iftruthy",)
 
-  def __init__(self, other_field_name, falsy_values=None, mode='required on truthy', message=None):
-    """
-    Have a field's validator be InputRequired or Optional based on the truthiness of the data in another field.
-
-    if mode='required on truthy' and the other field is truthy, then validator is InputRequired
-    if mode='required on truthy' and the other field is falsy, then validator is Optional
-    if mode='optional on truthy' and the other field is truthy, then validator is Optional
-    if mode='optional on truthy' and the other field is falsy, then validator is InputRequired
-
-    Args:
-      other_field_name (str): name of the other field that this validator is contingent upon
-      falsy_values (list): values that are considered false for the other field
-      mode (str): ('required on truthy'|'optional on truthy')
-        determines which validator is used on truthy
-      message (str): message passed to validator
-
-    Notes:
-      1) the other field's truthiness is determined if it is not in the falsy_value list
-
-    Examples:
-
-    """
-    # logger.debug(f"In IfTruthy __init__")
-
+  def __init__(self, other_field_name: str, falsy_values: list | None = None, mode: str = 'required on truthy', message: str | None = None):
     self.other_field_name = other_field_name
-    # the other field must have a value not in other_field_invalid_values to be considered valid
     if falsy_values is None:
       falsy_values = [False, [], {}, (), '', '0', '0.0', 0, 0.0]
     self.falsy_values = falsy_values
+
     if mode == 'required on truthy':
       self.validators = {'truthy': InputRequired, 'falsy': Optional}
     elif mode == 'optional on truthy':
       self.validators = {'truthy': Optional, 'falsy': InputRequired}
     else:
       raise TypeError(f"Unknown mode: {mode}")
+
     self.message = message
 
   def __call__(self, form, field):
-    # logger.debug(f"in __call__, {form=}, {field=}")
-    # logger.debug(f"{self.other_field_name=}, {self.falsy_values=}, {self.validators=}, {self.message}")
     other_field = form[self.other_field_name]
-    # logger.debug(f"{type(other_field.data)=}, {other_field.data=}")
     if other_field is None:
-      raise Exception('no field named "%s" in form' % self.other_field_name)
-    if other_field.data not in self.falsy_values:
-      # the other field is truthy
-      self.validators['truthy'](self.message).__call__(form, field)
-    else:
-      self.validators['falsy'](self.message).__call__(form, field)
+      raise Exception(f'No field named "{self.other_field_name}" in form')
+
+    validator_class = self.validators['truthy'] if other_field.data not in self.falsy_values else self.validators['falsy']
+    validator_class(self.message).__call__(form, field)
 
 
-def remove_validators(form, field_names, validators_to_remove=None) -> None:
+def remove_validators(form: FlaskForm, field_names: list[str], validators_to_remove: list | None = None) -> None:
   """
-  Dynamically remove validators from wtform fields.
+  Dynamically remove specific validators from WTForms fields.
 
   Args:
-    form (FlaskForm): wtform
-    field_names (list(str)): fields to remove validators from
-    validators_to_remove (list): list validators you wish to remove
+      form (FlaskForm): The WTForms form instance.
+      field_names (list[str]): List of field names to modify.
+      validators_to_remove (list | None): Validator classes to remove. Defaults to [InputRequired].
 
   Notes:
-    - Validators are in a field dict named kwargs
+    - Useful when validator logic depends on user input or view context.
     - Not currently in use
 
   """
@@ -745,3 +728,7 @@ def run_diagnostics():
   logger.info(f"validate_no_csrf result: {result}, errors: {form.errors}")
 
   logger.info("WTForms diagnostics completed successfully.")
+
+  if __name__ == '__main__':
+    run_diagnostics()
+
