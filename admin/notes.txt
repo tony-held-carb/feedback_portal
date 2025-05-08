@@ -294,6 +294,9 @@ If you're working in a Python project, a good structure might be:
 Getting ready to create a new feedback_portal pycharm repo because
 it has becoming weird/unstable since i updated pycharm
 
+how to run from command line:
+(mini_conda_01) C:\one_drive\code\pycharm\feedback_portal\source\production\arb>flask --app wsgi run
+
 folders marked as untracked:
     archive
     logs
