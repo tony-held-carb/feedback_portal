@@ -6,8 +6,6 @@ Notes:
       should be placed in arb.util so they can be reused in other projects.
 """
 
-import json
-import tempfile
 from pathlib import Path
 
 from sqlalchemy.orm.attributes import flag_modified
@@ -322,74 +320,3 @@ def add_file_to_upload_table(db, file_name, status=None, description=None):
   db.session.add(model_uploaded_file)
   db.session.commit()
   logger.debug(f"{model_uploaded_file=}")
-
-
-def run_diagnostics():
-  """
-  Run a set of internal diagnostics to test core logic in this module.
-
-  Example:
-      >>> if __name__ == "__main__":
-      >>>     run_diagnostics()
-  """
-
-  class DummyRow:
-    def __init__(self):
-      self.misc_json = {}
-
-    def __repr__(self):
-      return f"DummyRow(misc_json={self.misc_json})"
-
-  print("\n[TEST] resolve_sector_type()")
-  row = DummyRow()
-  misc_json = {"sector": "Oil & Gas"}
-  sector, sector_type = resolve_sector_type(row, misc_json)
-  print(f"Resolved sector={sector}, sector_type={sector_type}")
-  assert sector == "Oil & Gas"
-  assert sector_type == "Oil & Gas"
-
-  print("\n[TEST] resolve_sector()")
-  sector = resolve_sector("Oil & Gas", row, {})
-  print(f"Final sector={sector}")
-  assert sector == "Oil & Gas"
-
-  print("\n[TEST] get_sector_type() with valid and invalid inputs")
-  try:
-    assert get_sector_type("Oil & Gas") == "Oil & Gas"
-    assert get_sector_type("Recycling & Waste: Landfills") == "Landfill"
-  except ValueError as ve:
-    print(f"[FAIL] Unexpected ValueError: {ve}")
-  try:
-    get_sector_type("Unknown Sector")
-  except ValueError as ve:
-    print(f"[PASS] Caught expected ValueError: {ve}")
-
-  print("\n[TEST] json_file_to_db() logic (mocked)")
-  json_payload = {
-    "metadata": {"sector": "Oil & Gas"},
-    "tab_contents": {
-      "Feedback Form": {
-        "facility_name": "Test Facility",
-        "sector": "Oil & Gas",
-        "contact_email": "test@example.com",
-      }
-    },
-  }
-
-  with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as tmp:
-    json.dump(json_payload, tmp)
-    json_path = Path(tmp.name)
-
-  print(f"Created test JSON at {json_path}")
-  json_data, meta = json_load_with_meta(json_path)
-  assert meta["sector"] == "Oil & Gas"
-  print("Loaded JSON successfully")
-
-  json_path.unlink(missing_ok=True)
-  print("Cleaned up test file")
-
-  print("\n[TEST] Diagnostics complete.\n")
-
-
-if __name__ == "__main__":
-  run_diagnostics()
