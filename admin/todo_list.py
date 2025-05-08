@@ -35,7 +35,6 @@ Next steps
 * app_util.py
 * db_hardcoded.py
 * routes.py
-* sqla_models.py
 * wtf_forms.py
 
 * app.py and config.py updated, app_util.py was not updated because it fail gpt refactor
