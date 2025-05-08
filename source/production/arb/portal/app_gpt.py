@@ -12,12 +12,6 @@ This file:
 
 To run the app:
   Use wsgi.py or an external WSGI server like Gunicorn.
-
-All prior comments and TODOs retained or moved where appropriate.
-
-How to Run Diagnostics:
-  From the root of your project (where arb/ lives), run:
-  python -m arb.portal.app_factory
 """
 
 from flask import Flask
@@ -33,107 +27,107 @@ logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 
 def create_app() -> Flask:
-    """
-    Flask application factory.
+  """
+  Flask application factory.
 
-    This function creates and configures an instance of the Flask application.
-    It is meant to be used with a WSGI server and follows the Flask application
-    factory pattern.
+  This function creates and configures an instance of the Flask application.
+  It is meant to be used with a WSGI server and follows the Flask application
+  factory pattern.
 
-    Returns:
-        Flask: A fully configured Flask application instance.
+  Returns:
+      Flask: A fully configured Flask application instance.
 
-    Example:
-        >>> from arb.portal.app_factory import create_app
-        >>> app = create_app()
-        >>> app.run(debug=True)
+  Example:
+      >>> from arb.portal.app_factory import create_app
+      >>> app = create_app()
+      >>> app.run(debug=True)
 
-    Raises:
-        RuntimeError: If schema reflection or globals loading fails.
-    """
-    app = Flask(__name__)
+  Raises:
+      RuntimeError: If schema reflection or globals loading fails.
+  """
+  app = Flask(__name__)
 
-    # Load Flask settings (e.g., SECRET_KEY, SQLALCHEMY_DATABASE_URI)
-    Config.configure_flask_app(app)
+  # Load Flask settings (e.g., SECRET_KEY, SQLALCHEMY_DATABASE_URI)
+  Config.configure_flask_app(app)
 
-    # Raise template errors for missing Jinja2 variables
-    app.jinja_env.undefined = StrictUndefined
+  # Raise template errors for missing Jinja2 variables
+  app.jinja_env.undefined = StrictUndefined
 
-    # Initialize SQLAlchemy extension
-    db.init_app(app)
+  # Initialize SQLAlchemy extension
+  db.init_app(app)
 
-    with app.app_context():
-        # Create or upgrade database structure
-        db_create(app, db)
+  with app.app_context():
+    # Create or upgrade database structure
+    db_create(app, db)
 
-        # Reflect database schema into SQLAlchemy ORM
-        base = reflect_database(app, db)
-        app.base = base  # Required for runtime use via current_app.base
+    # Reflect database schema into SQLAlchemy ORM
+    base = reflect_database(app, db)
+    app.base = base  # Required for runtime use via current_app.base
 
-        # Load dropdowns, mappings, and other global data
-        Globals.load_type_mapping(app, db, base)
-        Globals.load_drop_downs(app, db)
+    # Load dropdowns, mappings, and other global data
+    Globals.load_type_mapping(app, db, base)
+    Globals.load_drop_downs(app, db)
 
-    # Register blueprints with the Flask app
-    app.register_blueprint(main_blueprint)
+  # Register blueprints with the Flask app
+  app.register_blueprint(main_blueprint)
 
-    return app
+  return app
 
 
 def run_diagnostics():
-    """
-    Run diagnostics to test key aspects of the app factory setup.
+  """
+  Run diagnostics to test key aspects of the app factory setup.
 
-    This function performs a dry-run of the app factory to ensure that
-    core components are initialized properly. It does not start the
-    Flask server.
+  This function performs a dry-run of the app factory to ensure that
+  core components are initialized properly. It does not start the
+  Flask server.
 
-    Tests performed:
-        - App creation and configuration
-        - Database initialization and schema reflection
-        - Runtime globals loading
-        - Blueprint registration
+  Tests performed:
+      - App creation and configuration
+      - Database initialization and schema reflection
+      - Runtime globals loading
+      - Blueprint registration
 
-    Example:
-        >>> from arb.portal.app_factory import run_diagnostics
-        >>> run_diagnostics()
+  Example:
+      >>> from arb.portal.app_factory import run_diagnostics
+      >>> run_diagnostics()
 
-    Warnings:
-        - This is not a substitute for full integration testing.
-        - Assumes that the target database URI is reachable and valid.
+  Warnings:
+      - This is not a substitute for full integration testing.
+      - Assumes that the target database URI is reachable and valid.
 
-    Raises:
-        AssertionError: If any diagnostic step fails unexpectedly.
-    """
-    print("Starting diagnostics for app factory...\n")
+  Raises:
+      AssertionError: If any diagnostic step fails unexpectedly.
+  """
+  print("Starting diagnostics for app factory...\n")
 
-    app = create_app()
+  app = create_app()
 
-    with app.app_context():
-        # Check config
-        assert app.config.get("SQLALCHEMY_DATABASE_URI"), "Missing SQLALCHEMY_DATABASE_URI"
-        print("✓ Configuration loaded.")
+  with app.app_context():
+    # Check config
+    assert app.config.get("SQLALCHEMY_DATABASE_URI"), "Missing SQLALCHEMY_DATABASE_URI"
+    print("✓ Configuration loaded.")
 
-        # Check that SQLAlchemy was initialized
-        assert db.engine is not None, "SQLAlchemy engine is not initialized"
-        print("✓ SQLAlchemy engine initialized.")
+    # Check that SQLAlchemy was initialized
+    assert db.engine is not None, "SQLAlchemy engine is not initialized"
+    print("✓ SQLAlchemy engine initialized.")
 
-        # Check that reflected base was attached
-        assert hasattr(app, "base"), "Reflected database base is not attached to app"
-        print("✓ Database schema reflected and attached to app.base.")
+    # Check that reflected base was attached
+    assert hasattr(app, "base"), "Reflected database base is not attached to app"
+    print("✓ Database schema reflected and attached to app.base.")
 
-        # Check Globals
-        assert Globals.type_mapping, "Type mapping not loaded into Globals"
-        assert Globals.drop_downs, "Dropdowns not loaded into Globals"
-        print("✓ Runtime globals loaded (type_mapping and drop_downs).")
+    # Check Globals
+    assert Globals.type_mapping, "Type mapping not loaded into Globals"
+    assert Globals.drop_downs, "Dropdowns not loaded into Globals"
+    print("✓ Runtime globals loaded (type_mapping and drop_downs).")
 
-        # Check blueprint
-        registered = any(bp.name == "main" for bp in app.blueprints.values())
-        assert registered, "Main blueprint not registered"
-        print("✓ Main blueprint registered.\n")
+    # Check blueprint
+    registered = any(bp.name == "main" for bp in app.blueprints.values())
+    assert registered, "Main blueprint not registered"
+    print("✓ Main blueprint registered.\n")
 
-    print("App factory diagnostics completed successfully.")
+  print("App factory diagnostics completed successfully.")
 
 
 if __name__ == "__main__":
-    run_diagnostics()
+  run_diagnostics()

@@ -12,8 +12,6 @@ This file:
 
 To run the app:
   Use wsgi.py or an external WSGI server like Gunicorn.
-
-All prior comments and TODOs retained or moved where appropriate.
 """
 
 from flask import Flask
@@ -30,35 +28,98 @@ logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 def create_app() -> Flask:
   """
-  Application factory function.
+  Flask application factory.
+
+  This function creates and configures an instance of the Flask application.
+  It is meant to be used with a WSGI server and follows the Flask application
+  factory pattern.
 
   Returns:
-    Flask: A configured Flask application instance.
+      Flask: A fully configured Flask application instance.
+
+
+  Raises:
+      RuntimeError: If schema reflection or globals loading fails.
   """
   app = Flask(__name__)
 
-  # Load configuration into the app
+  # Load Flask settings (e.g., SECRET_KEY, SQLALCHEMY_DATABASE_URI)
   Config.configure_flask_app(app)
 
-  # Jinja2 should raise errors for undefined variables
+  # Raise template errors for missing Jinja2 variables
   app.jinja_env.undefined = StrictUndefined
 
-  # Bind SQLAlchemy to the app
+  # Initialize SQLAlchemy extension
   db.init_app(app)
 
   with app.app_context():
-    # Create database structure if needed
+    # Create or upgrade database structure
     db_create(app, db)
 
-    # Reflect the current Postgres schema into SQLAlchemy
+    # Reflect database schema into SQLAlchemy ORM
     base = reflect_database(app, db)
-    app.base = base  # Store for use in routes via current_app.base
+    app.base = base  # Required for runtime use via current_app.base
 
-    # Load globals
+    # Load dropdowns, mappings, and other global data
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)
 
-  # Register application blueprints
+  # Register blueprints with the Flask app
   app.register_blueprint(main_blueprint)
 
   return app
+
+
+def run_diagnostics():
+  """
+  Run diagnostics to test key aspects of the app factory setup.
+
+  This function performs a dry-run of the app factory to ensure that
+  core components are initialized properly. It does not start the
+  Flask server.
+
+  Tests performed:
+      - App creation and configuration
+      - Database initialization and schema reflection
+      - Runtime globals loading
+      - Blueprint registration
+
+  Warnings:
+      - This is not a substitute for full integration testing.
+      - Assumes that the target database URI is reachable and valid.
+
+  Raises:
+      AssertionError: If any diagnostic step fails unexpectedly.
+  """
+  print("Starting diagnostics for app factory...\n")
+
+  app = create_app()
+
+  with app.app_context():
+    # Check config
+    assert app.config.get("SQLALCHEMY_DATABASE_URI"), "Missing SQLALCHEMY_DATABASE_URI"
+    print("✓ Configuration loaded.")
+
+    # Check that SQLAlchemy was initialized
+    assert db.engine is not None, "SQLAlchemy engine is not initialized"
+    print("✓ SQLAlchemy engine initialized.")
+
+    # Check that reflected base was attached
+    assert hasattr(app, "base"), "Reflected database base is not attached to app"
+    print("✓ Database schema reflected and attached to app.base.")
+
+    # Check Globals
+    assert Globals.type_mapping, "Type mapping not loaded into Globals"
+    assert Globals.drop_downs, "Dropdowns not loaded into Globals"
+    print("✓ Runtime globals loaded (type_mapping and drop_downs).")
+
+    # Check blueprint
+    registered = any(bp.name == "main" for bp in app.blueprints.values())
+    assert registered, "Main blueprint not registered"
+    print("✓ Main blueprint registered.\n")
+
+  print("App factory diagnostics completed successfully.")
+
+
+if __name__ == "__main__":
+  run_diagnostics()
