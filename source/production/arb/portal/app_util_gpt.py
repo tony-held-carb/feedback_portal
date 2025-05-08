@@ -41,37 +41,34 @@ def get_sector_info(db, base, id_: int) -> tuple[str, str]:
   primary_table_name = "incidences"
   json_column = "misc_json"
 
-  sector_by_foreign_key = get_foreign_value(
-    db,
-    base,
-    primary_table_name=primary_table_name,
-    foreign_table_name="sources",
-    primary_table_fk_name="source_id",
-    foreign_table_column_name="sector",
-    primary_table_pk_value=id_,
-  )
+  sector_by_foreign_key = get_foreign_value(db,
+                                            base,
+                                            primary_table_name=primary_table_name,
+                                            foreign_table_name="sources",
+                                            primary_table_fk_name="source_id",
+                                            foreign_table_column_name="sector",
+                                            primary_table_pk_value=id_,
+                                            )
 
-  row, misc_json = get_table_row_and_column(
-    db,
-    base,
-    table_name=primary_table_name,
-    column_name=json_column,
-    id_=id_,
-  )
+  row, misc_json = get_table_row_and_column(db,
+                                            base,
+                                            table_name=primary_table_name,
+                                            column_name=json_column,
+                                            id_=id_,
+                                            )
 
   if misc_json is None:
     misc_json = {}
 
-  row_before = sa_model_to_dict(row)
+  row_before = sa_model_to_dict(row)  # save contents for logging
   _ = resolve_sector(sector_by_foreign_key, row, misc_json)
   sector, sector_type = resolve_sector_type(row, misc_json)
 
-  add_commit_and_log_model(
-    db,
-    row,
-    comment="resolving sector and sector_type",
-    model_before=row_before,
-  )
+  add_commit_and_log_model(db,
+                           row,
+                           comment="resolving sector and sector_type",
+                           model_before=row_before,
+                           )
 
   logger.debug(f"get_sector_info() returning {sector=} {sector_type=}")
   return sector, sector_type
@@ -127,6 +124,7 @@ def resolve_sector(sector_by_foreign_key: str | None, row, misc_json: dict) -> s
   elif sector_by_foreign_key != misc_json["sector"]:
     logger.warning(f"Sector mismatch, JSON data not adjusted. {sector_by_foreign_key=}, {misc_json['sector']=}")
 
+  # Ensure json entry for sector
   if "sector" not in misc_json:
     misc_json["sector"] = default_sector
     flag_modified(row, "misc_json")
@@ -140,7 +138,7 @@ def get_sector_type(sector: str) -> str:
   Determine sector_type grouping from specific sector name.
 
   Args:
-      sector: Specific sector name (e.g. "Oil and Gas").
+      sector: Specific sector name (e.g. "Oil and Gas", "Industrial: Power Generation", or "Anaerobic Digester").
 
   Returns:
       str: Sector type ("Oil & Gas" or "Landfill").
@@ -148,6 +146,8 @@ def get_sector_type(sector: str) -> str:
   Raises:
       ValueError: If sector is unknown.
   """
+  # todo - add ValueError: Unknown sector type: 'Recycling & Waste: Landfills'.
+
   if sector in [
     "Industrial - Other",
     "Industrial: Other",
@@ -242,13 +242,12 @@ def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str = "Feedback Form"
   return id_, sector
 
 
-def dict_to_database(
-    db,
-    base,
-    data_dict: dict,
-    table_name: str = "incidences",
-    json_field: str = "misc_json",
-) -> int:
+def dict_to_database(db,
+                     base,
+                     data_dict: dict,
+                     table_name: str = "incidences",
+                     json_field: str = "misc_json",
+                     ) -> int:
   """
   Insert or update a JSON payload into a SQLAlchemy model.
 
@@ -261,6 +260,12 @@ def dict_to_database(
 
   Returns:
       int: ID of the inserted or updated incidence.
+
+  Notes:
+  - If the dict_ has an id_incidence that is already in the database,
+    that row will be updated with dict_ contents.  If dict_ has an id_incidence that is not in the database,
+    a new row with that id will be created.  if dict_ does not have id_incidence a new row will be created with
+    an auto generated id.
   """
   from arb.utils.wtf_forms_util import update_model_with_payload
 
@@ -324,82 +329,81 @@ def add_file_to_upload_table(db, file_name, status: str | None = None, descripti
   db.session.commit()
   logger.debug(f"{model_uploaded_file=}")
 
-  def run_diagnostics():
-    """
-    Run a set of internal diagnostics to test core logic in this module.
 
-    This function should only be used in a development/testing context,
-    as it creates or updates database records and prints internal debug values.
+def run_diagnostics():
+  """
+  Run a set of internal diagnostics to test core logic in this module.
 
-    Example:
-        >>> if __name__ == "__main__":
-        >>>     run_diagnostics()
-    """
-    import tempfile
-    import json
-    from types import SimpleNamespace
-    from pathlib import Path
+  This function should only be used in a development/testing context,
+  as it creates or updates database records and prints internal debug values.
 
-    class DummyRow:
-      def __init__(self):
-        self.misc_json = {}
+  Example:
+      >>> if __name__ == "__main__":
+      >>>     run_diagnostics()
+  """
+  import tempfile
+  import json
+  from pathlib import Path
 
-      def __repr__(self):
-        return f"DummyRow(misc_json={self.misc_json})"
+  class DummyRow:
+    def __init__(self):
+      self.misc_json = {}
 
-    print("\n[TEST] resolve_sector_type()")
-    row = DummyRow()
-    misc_json = {"sector": "Oil & Gas"}
-    sector, sector_type = resolve_sector_type(row, misc_json)
-    print(f"Resolved sector={sector}, sector_type={sector_type}")
-    assert sector == "Oil & Gas"
-    assert sector_type == "Oil & Gas"
+    def __repr__(self):
+      return f"DummyRow(misc_json={self.misc_json})"
 
-    print("\n[TEST] resolve_sector()")
-    sector = resolve_sector("Oil & Gas", row, {})
-    print(f"Final sector={sector}")
-    assert sector == "Oil & Gas"
+  print("\n[TEST] resolve_sector_type()")
+  row = DummyRow()
+  misc_json = {"sector": "Oil & Gas"}
+  sector, sector_type = resolve_sector_type(row, misc_json)
+  print(f"Resolved sector={sector}, sector_type={sector_type}")
+  assert sector == "Oil & Gas"
+  assert sector_type == "Oil & Gas"
 
-    print("\n[TEST] get_sector_type() with valid and invalid inputs")
-    try:
-      assert get_sector_type("Oil & Gas") == "Oil & Gas"
-      assert get_sector_type("Recycling & Waste: Landfills") == "Landfill"
-    except ValueError as ve:
-      print(f"[FAIL] Unexpected ValueError: {ve}")
-    try:
-      get_sector_type("Unknown Sector")
-    except ValueError as ve:
-      print(f"[PASS] Caught expected ValueError: {ve}")
+  print("\n[TEST] resolve_sector()")
+  sector = resolve_sector("Oil & Gas", row, {})
+  print(f"Final sector={sector}")
+  assert sector == "Oil & Gas"
 
-    print("\n[TEST] json_file_to_db() logic (mocked)")
-    # Create a mock JSON payload
-    json_payload = {
-      "metadata": {"sector": "Oil & Gas"},
-      "tab_contents": {
-        "Feedback Form": {
-          "facility_name": "Test Facility",
-          "sector": "Oil & Gas",
-          "contact_email": "test@example.com",
-        }
-      },
-    }
+  print("\n[TEST] get_sector_type() with valid and invalid inputs")
+  try:
+    assert get_sector_type("Oil & Gas") == "Oil & Gas"
+    assert get_sector_type("Recycling & Waste: Landfills") == "Landfill"
+  except ValueError as ve:
+    print(f"[FAIL] Unexpected ValueError: {ve}")
+  try:
+    get_sector_type("Unknown Sector")
+  except ValueError as ve:
+    print(f"[PASS] Caught expected ValueError: {ve}")
 
-    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as tmp:
-      json.dump(json_payload, tmp)
-      json_path = Path(tmp.name)
+  print("\n[TEST] json_file_to_db() logic (mocked)")
+  # Create a mock JSON payload
+  json_payload = {
+    "metadata": {"sector": "Oil & Gas"},
+    "tab_contents": {
+      "Feedback Form": {
+        "facility_name": "Test Facility",
+        "sector": "Oil & Gas",
+        "contact_email": "test@example.com",
+      }
+    },
+  }
 
-    print(f"Created test JSON at {json_path}")
-    json_data, meta = json_load_with_meta(json_path)
-    assert meta["sector"] == "Oil & Gas"
-    print("Loaded JSON successfully")
+  with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as tmp:
+    json.dump(json_payload, tmp)
+    json_path = Path(tmp.name)
 
-    json_path.unlink(missing_ok=True)
-    print("Cleaned up test file")
+  print(f"Created test JSON at {json_path}")
+  json_data, meta = json_load_with_meta(json_path)
+  assert meta["sector"] == "Oil & Gas"
+  print("Loaded JSON successfully")
 
-    print("\n[TEST] Diagnostics complete.\n")
+  json_path.unlink(missing_ok=True)
+  print("Cleaned up test file")
+
+  print("\n[TEST] Diagnostics complete.\n")
 
 
 # Entry point for script testing
 if __name__ == "__main__":
   run_diagnostics()
-

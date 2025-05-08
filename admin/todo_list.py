@@ -32,9 +32,9 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 Next steps
 ----------------------------
 * files that still need gpt refactor:
-* app_util.py
+* app_util.py <-- started but resume here
 * routes.py
-* wtf_forms.py
+* wtf_forms.py  <-- consider re-running chatgpt here, it sorta phoned it in :)
 
 * app.py and config.py updated, app_util.py was not updated because it fail gpt refactor
 
