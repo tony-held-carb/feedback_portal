@@ -30,11 +30,7 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 # todo - next steps
 Next steps
 ----------------------------
-* resume with gpt update of sql_alchemy
- - got it working, but git seems corrupted after pycharm update, may want to archive main, current branch for safety and create
-   brand new repo!!
-
-* checked all is None references and it does not look like there are any other corruptions
+* finished gpt'ing the util, now go on to the portal ...
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
