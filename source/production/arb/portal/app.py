@@ -109,9 +109,8 @@ def run_diagnostics():
     print("✓ Database schema reflected and attached to app.base.")
 
     # Check Globals
-    assert Globals.type_mapping, "Type mapping not loaded into Globals"
     assert Globals.drop_downs, "Dropdowns not loaded into Globals"
-    print("✓ Runtime globals loaded (type_mapping and drop_downs).")
+    print("✓ Runtime globals loaded .")
 
     # Check blueprint
     registered = any(bp.name == "main" for bp in app.blueprints.values())
