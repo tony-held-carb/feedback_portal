@@ -379,7 +379,7 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
     logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-def format_raw_data(field: Any, value: Any) -> list[str]:
+def format_raw_data(field, value) -> list[str]:
   """
   Generate WTForms-compatible raw_data from a Python value.
 
@@ -389,8 +389,8 @@ def format_raw_data(field: Any, value: Any) -> list[str]:
   default or pre-populated values.
 
   Args:
-      field (Any): A WTForms field object (e.g., StringField, DateTimeField).
-      value (Any): The value to be assigned to the field. Can be a string, number, or datetime.
+      field : A WTForms field object (e.g., StringField, DateTimeField).
+      value : The value to be assigned to the field. Can be a string, number, or datetime.
 
   Returns:
       list[str]: A list with a single string element representing the value, as expected by WTForms.
@@ -734,4 +734,3 @@ def run_diagnostics():
 
   if __name__ == '__main__':
     run_diagnostics()
-
