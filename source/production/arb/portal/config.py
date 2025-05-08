@@ -56,7 +56,7 @@ class Config:
   POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   SECRET_KEY = (os.environ.get('SECRET_KEY') or 'secret-key-goes-here')
   SQLALCHEMY_DATABASE_URI = (os.environ.get('DATABASE_URI') or POSTGRES_DB_URI)
-  SQLALCHEMY_TRACK_MODIFICATIONS = False
+  SQLALCHEMY_TRACK_MODIFICATIONS = False  # Recommended setting for most use cases.
 
   # ----------------------------------------------------
   # Misc
@@ -95,9 +95,6 @@ class Config:
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = sqlalchemy_track_modifications
     flask_app.config['EXPLAIN_TEMPLATE_LOADING'] = explain_template_loading
 
-    # Consider - this is hard coded here, may want to make it global variable
-    # todo - timezone=UTC added to connection so in theory, all times are utc
-    # need to combine this with DateTime(timezone=True) in your SQLAlchemy models to ensure both Python and Postgres are handling timezones correctly.
     flask_app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
       'connect_args': {
         'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'
