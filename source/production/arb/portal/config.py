@@ -1,6 +1,17 @@
 """
 Flask/Database configuration settings and routines to create
-and initialize a flask database connection.
+and initialize a Flask database connection.
+
+Refactored to:
+  - Use modern Python syntax
+  - Use Google-style docstrings
+  - Add clarity and documentation for team maintainability
+
+This module supports:
+  - App configuration with custom Jinja filters
+  - PostgreSQL connection setup
+  - SQLAlchemy reflection and model registration
+  - Development vs production-safe secrets
 """
 
 import os
@@ -14,24 +25,26 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import DeclarativeMeta
 
 import arb.__get_logger as get_logger
-import arb.utils.diagnostics
-import arb.utils.misc
-from arb.utils.date_and_time import repr_datetime_to_string
+from arb.utils.date_and_time import date_to_string, repr_datetime_to_string
+from arb.utils.diagnostics import diag_recursive
 from arb.utils.file_io import get_project_root_dir
+from arb.utils.misc import args_to_string
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 
 class Config:
   """
-  Class to hold flask & database configuration data.
-  Initializes formatting for the app's logger.
+  Flask and SQLAlchemy configuration class.
+
+  This class determines the directory structure of the project, establishes paths
+  for file uploads, and sets up database URIs and Jinja environment behavior.
 
   Notes:
-    * When in production, the secret key should be stored as an environment variable.
-      During prototyping, it is safe to use a hard coded value (as done below).
-    *
+      - Secrets like the Flask secret key should be defined via environment variables in production.
+      - Upload path is hardcoded but designed to be safely adjusted via class attributes or parameters.
   """
+
   # ----------------------------------------------------
   # Determine File Structure
   # ----------------------------------------------------
@@ -42,54 +55,54 @@ class Config:
   PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
   logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
 
-  # Path to upload feedback forms and payloads
-  # UPLOAD_PATH = PROJECT_ROOT / 'source/production/arb/portal/static/uploads'
+  # Upload destination
   UPLOAD_PATH = PROJECT_ROOT / 'portal_uploads'
-
-  # Ensure UPLOAD_PATH exists
   UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
   logger.debug(f"UPLOAD_PATH={UPLOAD_PATH}")
 
   # ----------------------------------------------------
-  # Database Related
+  # Database and Flask Config
   # ----------------------------------------------------
-  POSTGRES_DB_URI = 'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
-  SECRET_KEY = (os.environ.get('SECRET_KEY') or 'secret-key-goes-here')
-  SQLALCHEMY_DATABASE_URI = (os.environ.get('DATABASE_URI') or POSTGRES_DB_URI)
-  SQLALCHEMY_TRACK_MODIFICATIONS = False  # Recommended setting for most use cases.
+  POSTGRES_DB_URI = (
+    'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
+    '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
+  )
 
-  # ----------------------------------------------------
-  # Misc
-  # ----------------------------------------------------
-  EXPLAIN_TEMPLATE_LOADING = False
+  SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key-goes-here'
+  SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or POSTGRES_DB_URI
+  SQLALCHEMY_TRACK_MODIFICATIONS = False
+  # When enabled, Flask will log detailed information about templating files
+  # consider setting to True if you're getting TemplateNotFound errors.
+  EXPLAIN_TEMPLATE_LOADING = False  # Recommended setting for most use cases.
+
+  # todo (consider) - consider adding a timezone setting like UTC?
 
   @classmethod
   def configure_flask_app(cls,
-                          flask_app,
+                          flask_app: Flask,
                           secret_key=SECRET_KEY,
                           sqlalchemy_database_uri=SQLALCHEMY_DATABASE_URI,
                           sqlalchemy_track_modifications=SQLALCHEMY_TRACK_MODIFICATIONS,
                           explain_template_loading=EXPLAIN_TEMPLATE_LOADING,
-                          upload_folder=UPLOAD_PATH,
-                          ):
+                          upload_folder=UPLOAD_PATH) -> None:
     """
-    Configures the Flask application.
+    Configure a Flask app instance with database, security, Jinja, and logging settings.
 
     Args:
-      flask_app (Flask): The Flask application instance.
-      secret_key (str): The secret key for the application. Defaults to SECRET_KEY.
-      sqlalchemy_database_uri (str): The database URI. Defaults to SQLALCHEMY_DATABASE_URI.
-      sqlalchemy_track_modifications (bool): Whether to track modifications. Defaults to SQLALCHEMY_TRACK_MODIFICATIONS.
-      explain_template_loading (bool): Whether to explain template loading. Defaults to EXPLAIN_TEMPLATE_LOADING.
-      upload_folder (str): The upload folder path. Defaults to UPLOAD_PATH.
+        flask_app (Flask): The Flask app instance to configure.
+        secret_key (str): Application secret key.
+        sqlalchemy_database_uri (str): Database URI.
+        sqlalchemy_track_modifications (bool): Enable SQLAlchemy modification tracking.
+        explain_template_loading (bool): Enable Jinja template load diagnostics.
+        upload_folder (Path): Folder to store uploaded files.
 
     Returns:
-      None
-    """
-    from arb.utils.misc import args_to_string
-    from arb.utils.diagnostics import diag_recursive
-    from arb.utils.date_and_time import date_to_string
+        None
 
+    Example:
+        >>> app = Flask(__name__)
+        >>> Config.configure_flask_app(app)
+    """
     flask_app.config['SECRET_KEY'] = secret_key
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemy_database_uri
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = sqlalchemy_track_modifications
@@ -101,7 +114,6 @@ class Config:
       }
     }
 
-    # Jinja: Treat all undefined variables as errors
     flask_app.jinja_env.undefined = StrictUndefined
 
     # Jinja: Trim whitespace before/after {{ }} text injection
@@ -119,53 +131,60 @@ class Config:
     werkzeug.serving._log_add_style = False
 
     # Upload configuration
-    flask_app.config['UPLOAD_FOLDER'] = Config.UPLOAD_PATH
-    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
+    flask_app.config['UPLOAD_FOLDER'] = upload_folder
+    flask_app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 
 
-def db_initialize(flask_app, db) -> None:
+def db_initialize(flask_app: Flask, db: SQLAlchemy) -> None:
   """
-  Initialize a flask app database connection.
+  Initialize the Flask app's SQLAlchemy extension.
 
   Args:
-    flask_app (Flask): The Flask application instance.
-    db (SQLAlchemy): SQLAlchemy database associated with a flask app
+      flask_app (Flask): The application instance.
+      db (SQLAlchemy): SQLAlchemy object to initialize.
+
+  Returns:
+      None
   """
-  arb.utils.diagnostics.diag_recursive(f"Initializing database")
+  diag_recursive("Initializing database")
   db.init_app(flask_app)
 
 
-def db_create(flask_app, db) -> None:
+def db_create(flask_app: Flask, db: SQLAlchemy) -> None:
   """
-  Create a database for a flask app.
+  Create database tables for the Flask app using SQLAlchemy models.
 
   Args:
-    flask_app (Flask): The Flask application instance.
-    db (SQLAlchemy): SQLAlchemy database associated with a flask app
+      flask_app (Flask): The application instance.
+      db (SQLAlchemy): SQLAlchemy object used to manage the database.
 
   Notes:
-    * Make sure to import all your SQLAlchemy models in this routine.
-      Your IDE may indicate that the imported models are not used,
-      but they need to be imported for proper SQLAlchemy registration.
+      - You must import your model modules so that SQLAlchemy registers them.
+      - This is only safe to run if you trust the models and database.
   """
   # Warning.  You must import models below (even if they are not used) so registration works properly
   # noinspection PyUnresolvedReferences
   import arb.portal.sqla_models as models
 
-  arb.utils.diagnostics.diag_recursive(f"Creating database")
+  diag_recursive("Creating database")
 
-  # Create database within app context
   with flask_app.app_context():
     db.create_all()
 
 
-def db_initialize_and_create(flask_app, db) -> None:
+def db_initialize_and_create(flask_app: Flask, db: SQLAlchemy) -> None:
   """
-  Initialize a flask app database connection and create the database if necessary.
+  Initialize SQLAlchemy and optionally create tables for the Flask app.
 
   Args:
-    flask_app (Flask): The Flask application instance.
-    db (SQLAlchemy): SQLAlchemy database associated with a flask app
+      flask_app (Flask): The Flask application instance.
+      db (SQLAlchemy): SQLAlchemy object to initialize and use.
+
+  Returns:
+      None
+
+  Warning:
+      Uncomment `db_drop_all()` to wipe all tables, but use with extreme caution.
   """
   db_initialize(flask_app, db)
   # Uncomment next line if you wish to delete all tables and their data
@@ -173,15 +192,20 @@ def db_initialize_and_create(flask_app, db) -> None:
   db_create(flask_app, db)
 
 
-def reflect_database(flask_app, db):
+def reflect_database(flask_app: Flask, db: SQLAlchemy) -> DeclarativeMeta:
   """
-  Determine structure of an existing database using reflection.
+  Reflect the structure of an existing database into a SQLAlchemy base.
 
   Args:
-    flask_app (Flask): The Flask application instance.
-    db (SQLAlchemy): SQLAlchemy database associated with a flask app
+      flask_app (Flask): The application instance.
+      db (SQLAlchemy): SQLAlchemy object with a bound engine.
 
-  Returns (DeclarativeMeta): base associated with database
+  Returns:
+      DeclarativeMeta: Reflected database schema wrapped in an automapped base.
+
+  Example:
+      >>> base = reflect_database(app, db)
+      >>> print(base.classes.keys())
   """
   with flask_app.app_context():
     base = automap_base()
