@@ -13,6 +13,7 @@ from pathlib import Path
 from sqlalchemy.orm.attributes import flag_modified
 
 import arb.__get_logger as get_logger
+from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
 from arb.utils.excel.xl_parse import get_json_file_name
 from arb.utils.json import json_load_with_meta
 from arb.utils.sql_alchemy import (
@@ -25,31 +26,6 @@ from arb.utils.sql_alchemy import (
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger.get_logger(__name__, __file__)
-
-# Sector classification constants
-OIL_AND_GAS_SECTORS = [
-  "Industrial - Other",
-  "Industrial: Other",
-  "Industrial: Oil & Gas",
-  "Industrial: Power Generation",
-  "Oil and Gas",
-  "Oil & Gas",
-]
-
-LANDFILL_SECTORS = [
-  "Agriculture: Dairy (Enteric Fermentation or Manure Management)",
-  "Agriculture: Dairy Digester",
-  "Agriculture: Other",
-  "Anaerobic Digester",
-  "Compost",
-  "Landfill",
-  "Landfills",
-  "Livestock",
-  "Recycling & Waste: Compost",
-  "Recycling & Waste: Anaerobic Digester",
-  "Recycling & Waste: Landfills",
-  "Recycling & Waste: Other",
-]
 
 
 def get_sector_info(db, base, id_):
