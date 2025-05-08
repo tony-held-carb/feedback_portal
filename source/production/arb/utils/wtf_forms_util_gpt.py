@@ -170,43 +170,42 @@ def remove_validators(form: FlaskForm, field_names: list[str], validators_to_rem
         v for v in form[field].validators if not any(isinstance(v, t) for t in validators_to_remove)
       ]
 
-  def change_validators_on_test(
-      form: FlaskForm,
-      bool_test: bool,
-      required_if_true: list[str],
-      optional_if_true: list[str] | None = None
-  ) -> None:
-    """
-    Switch WTForm validators conditionally based on a boolean test.
 
-    Args:
-        form (FlaskForm): The form whose fields will be modified.
-        bool_test (bool): Condition to control the validator behavior.
-        required_if_true (list[str]): Fields that should be InputRequired if bool_test is True.
-        optional_if_true (list[str] | None): Fields that should be Optional if bool_test is True.
-
-    Example:
-        >>> change_validators_on_test(form, user_is_admin, ["admin_note"], ["user_note"])
-    """
-    if optional_if_true is None:
-      optional_if_true = []
-
-    if bool_test:
-      change_validators(form, required_if_true, Optional, InputRequired)
-      change_validators(form, optional_if_true, InputRequired, Optional)
-    else:
-      change_validators(form, required_if_true, InputRequired, Optional)
-      change_validators(form, optional_if_true, Optional, InputRequired)
-
-
-def change_validators(
-    form: FlaskForm,
-    field_names_to_change: list[str],
-    old_validator,
-    new_validator
-) -> None:
+def change_validators_on_test(form: FlaskForm,
+                              bool_test: bool,
+                              required_if_true: list[str],
+                              optional_if_true: list[str] | None = None
+                              ) -> None:
   """
-  Replace one validator with another for a given set of form fields.
+  Switch WTForm validators conditionally based on a boolean test.
+
+  Args:
+      form (FlaskForm): The form whose fields will be modified.
+      bool_test (bool): Condition to control the validator behavior.
+      required_if_true (list[str]): Fields that should be InputRequired if bool_test is True.
+      optional_if_true (list[str] | None): Fields that should be Optional if bool_test is True.
+
+  Example:
+      >>> change_validators_on_test(form, user_is_admin, ["admin_note"], ["user_note"])
+  """
+  if optional_if_true is None:
+    optional_if_true = []
+
+  if bool_test:
+    change_validators(form, required_if_true, Optional, InputRequired)
+    change_validators(form, optional_if_true, InputRequired, Optional)
+  else:
+    change_validators(form, required_if_true, InputRequired, Optional)
+    change_validators(form, optional_if_true, Optional, InputRequired)
+
+
+def change_validators(form: FlaskForm,
+                      field_names_to_change: list[str],
+                      old_validator,
+                      new_validator
+                      ) -> None:
+  """
+  Replace one validator with another for a given set of form field_names.
 
   Args:
       form (FlaskForm): WTForms form instance.
@@ -217,8 +216,8 @@ def change_validators(
   Example:
       >>> change_validators(form, ["comment"], Optional, InputRequired)
   """
-  fields = get_wtforms_fields(form, include_csrf_token=False)
-  for field_name in fields:
+  field_names = get_wtforms_fields(form, include_csrf_token=False)
+  for field_name in field_names:
     if field_name in field_names_to_change:
       validators = form[field_name].validators
       for i, validator in enumerate(validators):
@@ -242,9 +241,14 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict:
           'total_error_count': int
       }
 
+  Notes:
+    * make sure form.validate_on_submit() is called first or the error information will be undefined
+    * form level errors are for overall form integrity and not associated with a single field's validation
+
   Example:
       >>> errors = wtf_count_errors(form)
       >>> print(errors["total_error_count"])
+
   """
   error_count_dict = {
     'elements_with_errors': 0,
@@ -339,48 +343,67 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
         except ValueError:
           raise ValueError(f"Cannot convert value to DecimalField: {attr_value=}")
 
+    # Set field data and raw_data for proper rendering/validation
     field.data = attr_value
     field.raw_data = format_raw_data(field, attr_value)
 
     logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-def format_raw_data(field, value) -> list[str]:
+def format_raw_data(field: Any, value: Any) -> list[str]:
   """
-  Convert a value to WTForms-compatible `raw_data` for rendering.
+  Generate WTForms-compatible raw_data from a Python value.
+
+  This helper function is used to populate the `.raw_data` attribute
+  of WTForms fields. This is critical for validation, especially when
+  the form has not been submitted via POST but needs to render with
+  default or pre-populated values.
 
   Args:
-      field: WTForms field instance.
-      value: The value to convert (str, float, int, datetime).
+      field (Any): A WTForms field object (e.g., StringField, DateTimeField).
+      value (Any): The value to be assigned to the field. Can be a string, number, or datetime.
 
   Returns:
-      list[str]: A list with one string representation of the value.
+      list[str]: A list with a single string element representing the value, as expected by WTForms.
 
   Raises:
-      ValueError: For unsupported types.
-      TypeError: If datetime is not naive when used with DateTimeField.
+      ValueError: If the value is of an unsupported type.
 
-  Example:
-      >>> format_raw_data(DateTimeField(), datetime.datetime.utcnow())
-      ['2025-04-23T14:00:00']
+  Examples:
+      >>> from wtforms.fields import DateTimeField, StringField
+      >>> from datetime import datetime, timezone
+      >>> field = DateTimeField()
+      >>> dt = datetime(2025, 4, 22, 18, 30, tzinfo=timezone.utc)
+      >>> format_raw_data(field, dt)
+      ['2025-04-22T11:30:00']  # Converted to Pacific
+
+      >>> format_raw_data(field, "hello")
+      ['hello']
+
+  Notes:
+      - Datetime objects must be naive local times.
+      - Floats, ints, and strings are stringified.
+      - Complex or nested structures will raise an exception unless explicitly supported.
   """
   if value is None:
     return []
 
   if isinstance(value, str):
     return [value]
-  elif isinstance(value, (int, float)):
+
+  elif isinstance(value, (int, float, complex)):
     return [str(value)]
+
   elif isinstance(value, datetime.datetime):
     if isinstance(field, DateTimeField):
       if value.tzinfo is None:
         return [value.strftime("%Y-%m-%dT%H:%M")]
       else:
-        raise TypeError(f"Expected naive datetime, got tz-aware: {value}")
+        raise TypeError(f"Attempt to set a DateTimeField with non-naive datetime object {value=!r}")
     else:
       return [value.isoformat()]
 
-  raise ValueError(f"Unsupported value for raw_data: {type(value)} — {value}")
+  raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
 def wtform_to_model(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> None:
@@ -431,16 +454,16 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
+  # need to turn to list ...
   model_fields = model_json_dict.keys()
   form_fields = get_wtforms_fields(wtform)
 
-  list_differences(
-    model_fields,
-    form_fields,
-    iterable_01_name="SQLAlchemy Model",
-    iterable_02_name="WTForm Fields",
-    print_warning=False,
-  )
+  list_differences(model_fields,
+                   form_fields,
+                   iterable_01_name="SQLAlchemy Model",
+                   iterable_02_name="WTForm Fields",
+                   print_warning=False,
+                   )
 
   for attr_name in form_fields:
     if attr_name in ignore_fields:

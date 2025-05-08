@@ -243,126 +243,112 @@ def change_validators_on_test(form, bool_test, required_if_true, optional_if_tru
                       )
 
 
-def change_validators(form,
-                      field_names_to_change,
-                      old_validator=InputRequired,
-                      new_validator=Optional) -> None:
+def change_validators(form: FlaskForm,
+                      field_names_to_change: list[str],
+                      old_validator,
+                      new_validator
+                      ) -> None:
   """
-  For each element in a form, replace one type of validator for another in the element's validation list.
+  Replace one validator with another for a given set of form field_names.
 
   Args:
-    form (FlaskForm): wtform
-    field_names_to_change (list(str)): form fields to change from the old_validator to the new_validator
-    old_validator (Type[InputRequired] | Type[Optional]): Validator type to remove from an element's validation list.
-    new_validator (Type[InputRequired] | Type[Optional]): Validator type to add from an element's validation list.
+      form (FlaskForm): WTForms form instance.
+      field_names_to_change (list[str]): List of field names to update.
+      old_validator: Validator class to be removed (e.g., Optional).
+      new_validator: Validator class to be added (e.g., InputRequired).
 
-  Notes:
-
+  Example:
+      >>> change_validators(form, ["comment"], Optional, InputRequired)
   """
-  # logger.debug(f"\n\tin change_validators")
-  # logger.debug(f"{field_names=}")
-  # logger.debug(f"{old_validator=}")
-  # logger.debug(f"{new_validator=}")
-  fields = get_wtforms_fields(form, include_csrf_token=False)
-  for field in fields:
-    if field in field_names_to_change:
-      validators = form[field].validators
-      # logger.debug(f"{field} old {validators=}")
+  field_names = get_wtforms_fields(form, include_csrf_token=False)
+  for field_name in field_names:
+    if field_name in field_names_to_change:
+      validators = form[field_name].validators
       for i, validator in enumerate(validators):
-        # logger.debug(i, validator)
         if isinstance(validator, old_validator):
-          # logger.debug(i, validator, validators[i])
-          # logger.debug(f"Changing validator in field: {field} from {old_validator} to {new_validator}")
           validators[i] = new_validator()
-      # logger.debug(f"{field} new {validators=}")
 
 
-def wtf_count_errors(form, log_errors=False):
+def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict:
   """
-  Count the number of elements with errors and the total number of errors in the wtform form.
+  Count errors on a WTForm.
 
   Args:
-    form (FlaskForm):
-    log_errors (bool): True if you want errors to be logged
+      form (FlaskForm): The form to inspect.
+      log_errors (bool): If True, log all errors to debug log.
 
-  Returns (dict): dictionary with keys 'elements_with_errors' & 'element_error_count'
+  Returns:
+      dict: {
+          'elements_with_errors': int,
+          'element_error_count': int,
+          'wtf_form_error_count': int,
+          'total_error_count': int
+      }
 
   Notes:
     * make sure form.validate_on_submit() is called first or the error information will be undefined
     * form level errors are for overall form integrity and not associated with a single field's validation
+
+  Example:
+      >>> errors = wtf_count_errors(form)
+      >>> print(errors["total_error_count"])
 
   """
   error_count_dict = {
     'elements_with_errors': 0,
     'element_error_count': 0,
     'wtf_form_error_count': 0,
-    'total_error_count': 0, }
+    'total_error_count': 0,
+  }
 
-  if log_errors is True:
+  if log_errors:
     logger.debug(f"Form errors are: {form.errors}")
 
   for field, error_list in form.errors.items():
-    # form level errors are stored in the None key
     if field is None:
-      error_count_dict['wtf_form_error_count'] = len(error_list)
+      error_count_dict['wtf_form_error_count'] += len(error_list)
     else:
       error_count_dict['elements_with_errors'] += 1
       error_count_dict['element_error_count'] += len(error_list)
 
-  error_count_dict['total_error_count'] = error_count_dict['element_error_count'] + error_count_dict['wtf_form_error_count']
+  error_count_dict['total_error_count'] = (
+      error_count_dict['element_error_count'] +
+      error_count_dict['wtf_form_error_count']
+  )
 
   return error_count_dict
 
 
-def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json') -> None:
+def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") -> None:
   """
-  Populate a WTForm based on values from a SQLAlchemy model's JSON column.
+  Populate a WTForm from a SQLAlchemy model's JSON column.
 
-  This function reads data from a model's JSON column and attempts to populate
-  corresponding fields in a WTForm. model keys are matched to field names.
-
-  Key's that are in the model but not in the wtform will be ignored.
-
-  If a field is of type DateTimeField, then the model value must be a string in
-  UTC ISO8601 format.
-
-  This function also sets the WTForms `raw_data` attribute to ensure that validation
-  works correctly when the form is rendered but not submitted via POST.
+  This function loads the model's JSON field (typically 'misc_json') and
+  sets WTForms field `.data` and `.raw_data` accordingly. Required for correct rendering
+  and validation of pre-filled forms.
 
   Args:
-      model (Any): A SQLAlchemy model instance containing a dynamic JSON column.
-      wtform (FlaskForm): An instance of a Flask-WTF form.
-      json_column (str): Name of the model attribute that stores JSON data (default: "misc_json").
+      model: SQLAlchemy model instance with a JSON column.
+      wtform (FlaskForm): The WTForm instance to populate.
+      json_column (str): The attribute name of the model's JSON column (default is "misc_json").
 
   Raises:
-      ValueError: If a value's type is unsupported for conversion into WTForms raw_data.
+      ValueError: If a datetime field cannot be parsed correctly.
+      TypeError: If an unsupported object type is passed.
 
-  Example:
-      >>> class MyModel:
-      ...     misc_json = '{"created_at": "2025-04-22T18:30:00Z", "name": "Test"}'
-      >>> form = MyForm()  # with fields `created_at`, `name`
-      >>> model_to_wtform(MyModel(), form)
-      >>> print(form.created_at.data)  # datetime object in UTC
-      >>> print(form.created_at.raw_data)  # ['2025-04-22T11:30:00'] in Pacific Time
-
-  Limitations:
-      - Assumes flat JSON structure (no nesting).
-      - Assumes datetime fields are ISO8601 strings in UTC.
-      - Does not support lists or custom field types unless manually extended.
+  Notes:
+      - Datetime strings are assumed to be in ISO8601 UTC format and converted to Pacific time.
+      - Decimal fields are coerced to float.
+      - Fields in the JSON but not in the form are ignored.
   """
-  # todo - lots of changes, need to review closely once the wtform_to_model works
-  # todo - looks like carb lat longs were stored as strings rather than number,
-  # i put in a hack to force decimal types to float, but should review why json is storing in this way
-  # and remove any old data
-
   model_json_dict = getattr(model, json_column)
-  logger.debug(f"model_to_wtform called with model: {model}, json: {model_json_dict}")
+  logger.debug(f"model_to_wtform called with model={model}, json={model_json_dict}")
 
-  # Parse string JSON if necessary
+  # Ensure dict, not str
   if isinstance(model_json_dict, str):
     try:
       model_json_dict = json.loads(model_json_dict)
-      logger.debug(f"Parsed JSON string into dict: {model_json_dict}")
+      logger.debug("Parsed JSON string into dict.")
     except json.JSONDecodeError:
       logger.warning(f"Invalid JSON in model's '{json_column}' column.")
       model_json_dict = {}
@@ -387,32 +373,25 @@ def model_to_wtform(model: Any, wtform: FlaskForm, json_column: str = 'misc_json
     attr_value = model_json_dict.get(attr_name)
     field = getattr(wtform, attr_name)
 
-    if attr_value is None:
-      pass
-    else:
+    if attr_value is not None:
       if isinstance(field, DateTimeField):
         if isinstance(attr_value, str):
           attr_value = iso8601_to_utc_dt(attr_value)
           attr_value = datetime_to_ca_naive(attr_value)
         else:
-          raise ValueError(f"database field can't be converted to datetime: {attr_value=}")
-      # todo - see if this make sense
-      # if isinstance(field, DecimalField):
-      #   if isinstance(attr_value, str):
-      #     attr_value = float(attr_value)
-      #   else:
-      #     raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
-      if isinstance(field, DecimalField):
+          raise ValueError(f"Invalid value for datetime field {attr_name=}: {attr_value=}")
+
+      elif isinstance(field, DecimalField):
         try:
           attr_value = float(attr_value)
         except ValueError:
-          raise ValueError(f"database field can't be converted to DecimalField: {attr_value=}")
+          raise ValueError(f"Cannot convert value to DecimalField: {attr_value=}")
 
     # Set field data and raw_data for proper rendering/validation
     field.data = attr_value
     field.raw_data = format_raw_data(field, attr_value)
 
-    logger.debug(f"Set {attr_name=} with data={field.data}, raw_data={field.raw_data}")
+    logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
 def format_raw_data(field: Any, value: Any) -> list[str]:
@@ -471,22 +450,20 @@ def format_raw_data(field: Any, value: Any) -> list[str]:
   raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
-def wtform_to_model(model, wtform, ignore_fields=None) -> None:
+def wtform_to_model(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> None:
   """
-  Update a SQLAlchemy model based on wtform contents
+  Update a SQLAlchemy model’s JSON column using data from a WTForm.
 
   Args:
-    model (db.Model): SQLAlchemy model
-    wtform (FlaskForm): form
-    ignore_fields (list[str]): fields not considered in model update (likely because they are disabled in html form)
+      model: SQLAlchemy model instance.
+      wtform (FlaskForm): The form containing updated data.
+      ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
 
-  Notes:
-
+  Example:
+      >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
   """
   if ignore_fields is None:
     ignore_fields = []
-
-  # obj_diagnostics(model, "in wtform_to_model")
 
   payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
   logger.info(f"wtform_to_model payload_all: {payload_all}")
@@ -495,43 +472,35 @@ def wtform_to_model(model, wtform, ignore_fields=None) -> None:
   update_model_with_payload(model, payload_changes)
 
 
-def get_payloads(model, wtform, ignore_fields=None) -> (dict, dict):
+def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
   """
-  Create a dictionary payload_changes for a SQLAlchemy model based on wtform contents.
+  Generate all values and changed values from a form for updating a model.
 
   Args:
-    model (db.Model): SQLAlchemy model
-    wtform (FlaskForm): form
-    ignore_fields (list[str]): fields not considered in model update (likely because they are disabled in html form)
+      model: SQLAlchemy model instance with JSON field `misc_json`.
+      wtform (FlaskForm): The form used to extract updated values.
+      ignore_fields (list[str] | None): Fields to ignore.
 
   Returns:
-    tuple: A tuple containing payload_all, payload_changes.
-      - payload_all (dict): all key, values associated with model.
-      - payload_changes (dict): subset of payload_all were values will change.
+      tuple[dict, dict]: (payload_all, payload_changes)
+          - payload_all: all fields from the form
+          - payload_changes: only changed fields vs. model JSON
 
   Notes:
-
+      - Values are compared against existing model JSON to detect changes.
   """
   if ignore_fields is None:
     ignore_fields = []
 
   payload_all = {}
   payload_changes = {}
-  # obj_diagnostics(model, "in get_payload()")
 
-  model_json_dict = getattr(model, 'misc_json')
-  if model_json_dict is None:
-    model_json_dict = {}
+  model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
-  if model_json_dict:
-    model_fields = model_json_dict.keys()
-  else:
-    model_fields = {}
-  # logger.debug(f"{model_fields=}")
-
+  # need to turn to list ...
+  model_fields = model_json_dict.keys()
   form_fields = get_wtforms_fields(wtform)
-  # logger.debug(f"{form_fields=}")
 
   list_differences(model_fields,
                    form_fields,
@@ -541,16 +510,16 @@ def get_payloads(model, wtform, ignore_fields=None) -> (dict, dict):
                    )
 
   for attr_name in form_fields:
+    if attr_name in ignore_fields:
+      continue
+
     attr_value = getattr(wtform, attr_name).data
-    # logger.debug(f"{attr_name} {type(attr_value)}:\n\t {attr_value}")
+    existing_value = model_json_dict.get(attr_name)
 
-    if ignore_fields is None or attr_name not in ignore_fields:
-      # logger.debug(f"Setting {attr_name} to {attr_value}")
-      existing_value = model_json_dict.get(attr_name, None)
-      payload_all[attr_name] = attr_value
+    payload_all[attr_name] = attr_value
 
-      if existing_value != attr_value:
-        payload_changes[attr_name] = attr_value
+    if existing_value != attr_value:
+      payload_changes[attr_name] = attr_value
 
   return payload_all, payload_changes
 
