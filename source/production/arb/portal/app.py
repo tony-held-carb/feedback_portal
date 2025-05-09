@@ -24,6 +24,7 @@ from arb.portal.routes import main  # Replace with modular blueprints if separat
 from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.portal.globals import Globals
+from arb.utils.database import get_reflected_base
 
 import arb.__get_logger as get_logger
 logger, pp_log = get_logger.get_logger(__name__, __file__)
@@ -55,6 +56,9 @@ def create_app() -> Flask:
     reflect_database()
 
     # Load dropdowns, mappings, and other global data
+    base = get_reflected_base(db)  # reuse db.metadata without hitting DB again
+    app.base = base  # ✅ Attach automap base to app object
+
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)
 

@@ -4,6 +4,8 @@ Miscellaneous database utilities.
 Notes:
 """
 from flask import app
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.automap import automap_base
 
 import arb.__get_logger as get_logger
 
@@ -43,3 +45,18 @@ def execute_sql_script(script_path=None, connection=None) -> None:
 
   connection.commit()
   connection.close()
+
+
+def get_reflected_base(db: SQLAlchemy) -> object:
+  """
+  Return an automapped base using already-reflected metadata if available.
+
+  Args:
+      db (SQLAlchemy): SQLAlchemy instance.
+
+  Returns:
+      base (DeclarativeMeta): Reflected base.
+  """
+  Base = automap_base(metadata=db.metadata)  # reuse metadata!
+  Base.prepare(db.engine, reflect=False)  # no extra reflection
+  return Base
