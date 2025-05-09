@@ -316,3 +316,11 @@ source/production/arb/portal/templates
 pycharm settings
 -------------------------------------------------------------------
 templating language: jinja2
+
+getting git to work correctly
+-------------------------------------------------------------------
+go to settings version control directory mappings
+remove any directories or projects, then add
+C:\one_drive\code\pycharm\feedback_portal>
+
+the shortcuts for one_drive are likely the source of the problem
