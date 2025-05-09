@@ -33,12 +33,10 @@ Please refactor this Python file in one step, not incrementally. Return the enti
 # todo - next steps
 Next steps
 ----------------------------
-* files that still need gpt refactor:
-* app_util.py <-- started but resume here
-* routes.py
-* wtf_forms.py  <-- consider re-running chatgpt here, it sorta phoned it in :)
+* initial gpt refactor complete, but for some reason, i was having trouble adding files to git associated with the refactor.
+  wsgi run appears fulling functional
+  i'm going to reboot and see if i can add the git files ...
 
-* app.py and config.py updated, app_util.py was not updated because it fail gpt refactor
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
