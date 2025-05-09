@@ -240,6 +240,7 @@ def show_log_file():
   Flask route to show the log file as a diagnostic.
   """
   # todo - base this off project root and what the log file name may be
+  # todo - resume here
   logger.info(f"Displaying the log file as a diagnostic")
   with open('logs/flask.log', 'r') as file:
     file_content = file.read()
