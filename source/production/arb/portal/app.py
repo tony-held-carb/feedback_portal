@@ -25,6 +25,9 @@ from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.portal.globals import Globals
 
+import arb.__get_logger as get_logger
+logger, pp_log = get_logger.get_logger(__name__, __file__)
+
 
 def create_app() -> Flask:
   """
