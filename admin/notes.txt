@@ -312,3 +312,7 @@ source/production
 folders i have marked as template - may need to set jinja as flask env
 -------------------------------------------------------------------
 source/production/arb/portal/templates
+
+pycharm settings
+-------------------------------------------------------------------
+templating language: jinja2
