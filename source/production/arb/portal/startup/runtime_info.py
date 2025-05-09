@@ -38,8 +38,8 @@ IS_MAC = PLATFORM.startswith("darwin")
 # ----------------------------------------------------
 # Get the platform independent project root directory knowing the apps directory structure is:
 # 'feedback_portal/source/production/arb/portal/'
-app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
-PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
+APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb', 'portal']
+PROJECT_ROOT = get_project_root_dir(__file__, APP_DIR_STRUCTURE)
 logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
 
 # Upload destination

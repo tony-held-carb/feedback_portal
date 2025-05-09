@@ -13,6 +13,8 @@ Notes:
       db (SQLAlchemy): SQLAlchemy database associated with a flask app
 """
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
+
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
@@ -22,3 +24,5 @@ logger, pp_log = get_logger.get_logger(__name__, __file__)
 
 db = SQLAlchemy()
 # print(f"{type(db)=}")
+
+csrf = CSRFProtect()

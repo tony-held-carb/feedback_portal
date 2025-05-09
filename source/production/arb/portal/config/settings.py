@@ -9,7 +9,8 @@ Usage:
     from config.settings import DevelopmentConfig
 
 Notes:
-  - All variables in this file are not dependent on runtime conditions and are static.
+  - All variables in this file are not dependent on runtime conditions other than
+    OS environment variables.
   - If a variable is a setting defined at runtime, such as platform type or root directory,
     it should be defined and initialized in the startup/runtime_info.py file.
 """
@@ -19,8 +20,24 @@ from pathlib import Path
 
 class BaseConfig:
     """Base configuration shared by all environments."""
-    SECRET_KEY = os.environ.get("SECRET_KEY", "replace-with-a-secure-default")
+    POSTGRES_DB_URI = (
+        'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
+        '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
+    )
+
+    SQLALCHEMY_ENGINE_OPTIONS = {
+      'connect_args': {
+        'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'
+      }
+    }
+
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key-goes-here'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or POSTGRES_DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # When enabled, Flask will log detailed information about templating files
+    # consider setting to True if you're getting TemplateNotFound errors.
+    EXPLAIN_TEMPLATE_LOADING = False  # Recommended setting for most use cases.
+
     WTF_CSRF_ENABLED = True
     LOG_LEVEL = "INFO"
     TIMEZONE = "America/Los_Angeles"
