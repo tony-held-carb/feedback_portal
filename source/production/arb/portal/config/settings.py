@@ -16,7 +16,6 @@ Notes:
 """
 
 import os
-from pathlib import Path
 
 class BaseConfig:
     """Base configuration shared by all environments."""

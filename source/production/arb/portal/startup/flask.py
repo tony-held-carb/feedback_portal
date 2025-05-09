@@ -7,16 +7,14 @@ Example:
     from startup.flask import configure_flask_app
 """
 
-import logging
 from flask import Flask
 from arb.__get_logger import get_logger
-from arb.portal.startup.runtime_info import PROJECT_ROOT, UPLOAD_PATH
+from arb.portal.startup.runtime_info import UPLOAD_PATH
 from jinja2 import StrictUndefined
 import werkzeug
 
 from arb.utils.date_and_time import date_to_string, repr_datetime_to_string
 from arb.utils.diagnostics import diag_recursive
-from arb.utils.file_io import get_project_root_dir
 from arb.utils.misc import args_to_string
 
 
