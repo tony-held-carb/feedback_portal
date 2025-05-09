@@ -22,21 +22,12 @@ Please refactor the following python code using the following style preferences:
 8) do not import typing, rather use modern type hinting such as the | symbol
 9) do not omit any code for brevity, i'm going to copy paste your code into a new file.
 
-
-
 Please create a new function named run_diagnostics that includes testing of key features of this file.
-
-Please provide the complete updated source code for this file after the creation of run_diagnostics
-
-Please refactor this Python file in one step, not incrementally. Return the entire file with Google-style docstrings, modern type hints (in docstrings), full documentation, and preserve all logic. Do not omit or summarize any portion
 
 # todo - next steps
 Next steps
 ----------------------------
-* initial gpt refactor complete, but for some reason, i was having trouble adding files to git associated with the refactor.
-  wsgi run appears fulling functional
-  i'm going to reboot and see if i can add the git files ...
-
+* git fixed by changing the version directories to one_drive rather than C:\Users\theld\OneDrive - California Air Resources Board\
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
