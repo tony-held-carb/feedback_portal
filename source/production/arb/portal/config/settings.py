@@ -7,6 +7,11 @@ or extend configuration values as needed.
 
 Usage:
     from config.settings import DevelopmentConfig
+
+Notes:
+  - All variables in this file are not dependent on runtime conditions and are static.
+  - If a variable is a setting defined at runtime, such as platform type or root directory,
+    it should be defined and initialized in the startup/runtime_info.py file.
 """
 
 import os
@@ -14,10 +19,8 @@ from pathlib import Path
 
 class BaseConfig:
     """Base configuration shared by all environments."""
-    BASE_DIR = Path(__file__).resolve().parent.parent
     SECRET_KEY = os.environ.get("SECRET_KEY", "replace-with-a-secure-default")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JSON_SORT_KEYS = False
     WTF_CSRF_ENABLED = True
     LOG_LEVEL = "INFO"
     TIMEZONE = "America/Los_Angeles"
@@ -26,17 +29,13 @@ class DevelopmentConfig(BaseConfig):
     """Development-specific settings."""
     DEBUG = True
     FLASK_ENV = "development"
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DEV_DATABASE_URI", f"sqlite:///{BaseConfig.BASE_DIR}/dev.db"
-    )
-    EXPLAIN_TEMPLATE_LOADING = True
+    # EXPLAIN_TEMPLATE_LOADING = True
     LOG_LEVEL = "DEBUG"
 
 class ProductionConfig(BaseConfig):
     """Production-specific settings."""
     DEBUG = False
     FLASK_ENV = "production"
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URI")
     WTF_CSRF_ENABLED = True
     LOG_LEVEL = "INFO"
 
@@ -46,7 +45,4 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     FLASK_ENV = "testing"
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "TEST_DATABASE_URI", "sqlite:///:memory:"
-    )
     LOG_LEVEL = "WARNING"

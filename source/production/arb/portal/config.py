@@ -45,20 +45,6 @@ class Config:
       - Upload path is hardcoded but designed to be safely adjusted via class attributes or parameters.
   """
 
-  # ----------------------------------------------------
-  # Determine File Structure
-  # ----------------------------------------------------
-
-  # Get the platform independent project root directory knowing the apps directory structure is:
-  # 'feedback_portal/source/production/arb/portal/'
-  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
-  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  logger.debug(f"PROJECT_ROOT={PROJECT_ROOT}")
-
-  # Upload destination
-  UPLOAD_PATH = PROJECT_ROOT / 'portal_uploads'
-  UPLOAD_PATH.mkdir(parents=True, exist_ok=True)
-  logger.debug(f"UPLOAD_PATH={UPLOAD_PATH}")
 
   # ----------------------------------------------------
   # Database and Flask Config
