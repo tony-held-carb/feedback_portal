@@ -17,10 +17,10 @@ Examples:
 
 import pprint
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.misc import get_nested_value
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def get_excel_row_column(xl_address):

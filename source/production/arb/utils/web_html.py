@@ -14,12 +14,12 @@ Notes on intended utility usage:
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.date_and_time import str_to_datetime
 from arb.utils.file_io import get_secure_timestamped_file_name
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def upload_single_file(upload_dir, request_file):

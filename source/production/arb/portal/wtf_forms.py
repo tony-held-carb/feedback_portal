@@ -31,14 +31,14 @@ from flask_wtf import FlaskForm
 from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField)
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
 

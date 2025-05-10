@@ -23,7 +23,7 @@ from pathlib import Path
 
 import jinja2
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.excel.xl_file_structure import (PROCESSED_VERSIONS, PROJECT_ROOT)
 from arb.utils.excel.xl_misc import xl_address_sort
 from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
@@ -35,7 +35,7 @@ from arb.utils.json import (
 )
 from arb.utils.misc import ensure_key_value_pair
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"

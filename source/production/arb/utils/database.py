@@ -7,10 +7,10 @@ from flask import app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def db_drop_all(flask_app: app, db) -> None:

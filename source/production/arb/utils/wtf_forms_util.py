@@ -17,7 +17,7 @@ from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
@@ -26,7 +26,7 @@ from arb.utils.date_and_time import (
 from arb.utils.diagnostics import list_differences
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def min_decimal_precision(min_digits: int):

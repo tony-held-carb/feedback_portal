@@ -7,7 +7,7 @@ Alphabetic sorting of imports ensures predictable ordering of logging imports.
 Usage:
   In any module (including __init__.py), add:
       from arb import __get_logger as get_logger
-      logger, pp_log = get_logger.get_logger(__name__, __file__)
+      logger, pp_log = get_logger(__name__, __file__)
 
   - Logging is initialized once per process.
   - Log file is named after the entry-point script (e.g., wsgi.py → logs/wsgi.log).

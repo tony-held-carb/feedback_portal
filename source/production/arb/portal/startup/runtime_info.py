@@ -25,8 +25,8 @@ from platform import system
 
 from arb.utils.file_io import get_project_root_dir
 
-import arb.__get_logger as get_logger
-logger, pp_log = get_logger.get_logger()
+from arb.__get_logger import get_logger
+logger, pp_log = get_logger()
 
 # ---------------------------------------------------------------------
 # System Platform Detection
@@ -50,6 +50,8 @@ UPLOAD_PATH = PROJECT_ROOT / 'portal_uploads'
 
 # Standard application folders
 LOG_DIR = PROJECT_ROOT / "logs"
+LOG_FILE = LOG_DIR / "arb_portal.log"
+
 STATIC_DIR = PROJECT_ROOT / "arb" / "portal" / "static"
 
 logger.debug(f"{UPLOAD_PATH =}")

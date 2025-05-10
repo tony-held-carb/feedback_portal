@@ -21,10 +21,10 @@ Example:
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 class UploadedFile(db.Model):

@@ -10,7 +10,7 @@ from pathlib import Path
 
 from sqlalchemy.orm.attributes import flag_modified
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
 from arb.utils.excel.xl_parse import get_json_file_name
 from arb.utils.json import json_load_with_meta
@@ -23,7 +23,7 @@ from arb.utils.sql_alchemy import (
 )
 from arb.utils.web_html import upload_single_file
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def get_sector_info(db, base, id_):

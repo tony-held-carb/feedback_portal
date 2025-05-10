@@ -22,7 +22,7 @@ from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
@@ -34,9 +34,10 @@ from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_
   sa_model_diagnostics, sa_model_to_dict
 from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
   wtform_to_model
+from arb.portal.startup.runtime_info import LOG_FILE
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 # Add any additional imports needed from other local modules
 # e.g. from .models import db, SomeModel
@@ -242,7 +243,7 @@ def show_log_file():
   # todo - base this off project root and what the log file name may be
   # todo - resume here
   logger.info(f"Displaying the log file as a diagnostic")
-  with open('logs/flask.log', 'r') as file:
+  with open(LOG_FILE, 'r') as file:
     file_content = file.read()
 
   # result = obj_to_html(file_content)

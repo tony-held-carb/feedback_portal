@@ -18,8 +18,8 @@ from arb.utils.diagnostics import diag_recursive
 from arb.utils.misc import args_to_string
 
 
-import arb.__get_logger as get_logger
-logger, pp_log = get_logger.get_logger()
+from arb.__get_logger import get_logger
+logger, pp_log = get_logger()
 
 
 def configure_flask_app(app: Flask) -> None:

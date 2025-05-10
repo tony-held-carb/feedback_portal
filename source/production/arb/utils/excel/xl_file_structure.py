@@ -22,10 +22,10 @@ Directory structure reference:
                       └── excel/    <-- Excel generation scripts
 """
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.file_io import resolve_project_root
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 # directory structures that contain the project root
 candidate_structures = [

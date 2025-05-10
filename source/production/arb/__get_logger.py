@@ -19,14 +19,14 @@ Usage Example:
 Import and initialize logging in any module (including `__init__.py`):
 
     from arb import __get_logger as get_logger
-    logger, pp_log = get_logger.get_logger(__name__)
+    logger, pp_log = get_logger(__name__)
 
     logger.debug("Simple log message")
     logger.debug(pp_log({"structured": "data", "for": "inspection"}))
 
 You may also specify options:
 
-    logger, pp_log = get_logger.get_logger(
+    logger, pp_log = get_logger(
         name=__name__,
         log_to_console=True,
         force_command_line=False,
@@ -91,6 +91,8 @@ def get_logger(
       - Logs are written to logs/<name>.log or to the specified directory.
       - If the logger was started from `__main__` or `__init__`, the log filename defaults to 'app_logger.log'.
   """
+  # print(f"get_logger() called with {file_stem = }, {file_path =}, {log_to_console =}, {force_command_line =}, {sys.argv = }")
+
   log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
   log_datefmt = "%Y-%m-%d %H:%M:%S"
 
@@ -133,10 +135,10 @@ def get_logger(
     logging.getLogger().addHandler(console_handler)
 
   logger.debug(f"get_logger() called with {file_stem = }, {file_path =}, {log_to_console =}, {force_command_line =}, {sys.argv = }")
-  if not is_logger_already_configured:
-    logging.debug(f"Logging was initialized on first usage. Outputting logs to {file_name}")
-  else:
+  if is_logger_already_configured:
     logging.debug("Logging has already been initialized; configuration will not be changed.")
+  else:
+    logging.debug(f"Logging was initialized on first usage. Outputting logs to {file_name}")
 
   _, pp_log = get_pretty_printer()
   return logger, pp_log
@@ -178,10 +180,8 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, any]:
 if __name__ == "__main__":
   # logger, pp_log = get_logger("test_logger", log_to_console=True)
   # logger, pp_log = get_logger(log_to_console=True)
-  root_logger = file_path=Path(__file__).resolve().parents[3] / "logs"
-  logger, pp_log = get_logger(file_path=root_logger,log_to_console=True)
+  root_logger = file_path = Path(__file__).resolve().parents[3] / "logs"
+  logger, pp_log = get_logger(file_path=root_logger, log_to_console=True)
   logger.debug("Hello, world!")
   logger.debug(pp_log({"hello": "world"}))
   logger.debug(pp_log({"hello": "world", "nested": {"data": "structure"}}))
-
-

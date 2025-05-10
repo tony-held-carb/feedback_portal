@@ -18,11 +18,11 @@ Notes:
 """
 from sqlalchemy import desc, inspect, text
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.misc import log_error
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def sa_model_diagnostics(model, comment: str = "") -> None:

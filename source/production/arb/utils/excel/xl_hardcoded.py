@@ -15,10 +15,10 @@ Contents:
 
 import datetime
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.diagnostics import list_differences
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 # -------------------------------------------------------------------------------------
 # v01_00 schema field types based on legacy old_v01 and old_v02 excel schemas

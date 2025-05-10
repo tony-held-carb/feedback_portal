@@ -17,13 +17,13 @@ To run the app:
 from flask import Flask
 from jinja2 import StrictUndefined
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 # from arb.portal.config import Config, db_create, reflect_database
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.routes import main as main_blueprint
 
-logger, pp_log = get_logger.get_logger()
+logger, pp_log = get_logger()
 
 
 def create_app() -> Flask:
