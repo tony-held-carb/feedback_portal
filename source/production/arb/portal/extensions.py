@@ -20,7 +20,7 @@ from geoalchemy2 import Geometry  # <= not used but must be imported for introsp
 
 import arb.__get_logger as get_logger
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 db = SQLAlchemy()
 # print(f"{type(db)=}")

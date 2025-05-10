@@ -23,7 +23,7 @@ from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.routes import main as main_blueprint
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 
 def create_app() -> Flask:

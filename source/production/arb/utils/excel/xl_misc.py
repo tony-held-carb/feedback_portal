@@ -20,7 +20,7 @@ import pprint
 import arb.__get_logger as get_logger
 from arb.utils.misc import get_nested_value
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 
 def get_excel_row_column(xl_address):

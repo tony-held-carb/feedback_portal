@@ -25,7 +25,7 @@ Directory structure reference:
 import arb.__get_logger as get_logger
 from arb.utils.file_io import resolve_project_root
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 # directory structures that contain the project root
 candidate_structures = [

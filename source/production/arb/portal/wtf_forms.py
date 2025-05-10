@@ -38,7 +38,7 @@ from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
 

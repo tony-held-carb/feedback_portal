@@ -26,7 +26,7 @@ from arb.utils.date_and_time import (
 from arb.utils.diagnostics import list_differences
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 
 def min_decimal_precision(min_digits: int):

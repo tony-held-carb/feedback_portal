@@ -22,7 +22,7 @@ from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 from arb.utils.excel.xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 # Spreadsheet formatting constants
 EXCEL_SCHEMA_TAB_NAME = '_json_schema'

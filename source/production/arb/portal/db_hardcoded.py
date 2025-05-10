@@ -9,7 +9,7 @@ import datetime
 import arb.__get_logger as get_logger
 from arb.utils.web_html import update_selector_dict
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 # Sector classification constants
 OIL_AND_GAS_SECTORS = [

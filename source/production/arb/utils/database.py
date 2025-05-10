@@ -10,7 +10,7 @@ from sqlalchemy.ext.automap import automap_base
 import arb.__get_logger as get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 
 def db_drop_all(flask_app: app, db) -> None:

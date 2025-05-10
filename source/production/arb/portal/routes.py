@@ -36,7 +36,7 @@ from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, 
   wtform_to_model
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 # Add any additional imports needed from other local modules
 # e.g. from .models import db, SomeModel

@@ -24,7 +24,7 @@ from sqlalchemy.sql import func
 import arb.__get_logger as get_logger
 from arb.portal.extensions import db
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 
 class UploadedFile(db.Model):

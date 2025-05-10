@@ -17,7 +17,7 @@ import traceback
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger(__name__, __file__)
+logger, pp_log = get_logger(__name__, log_to_console=__file__)
 
 
 def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:

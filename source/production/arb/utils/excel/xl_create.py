@@ -35,7 +35,7 @@ from arb.utils.json import (
 )
 from arb.utils.misc import ensure_key_value_pair
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger.get_logger()
 
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"
