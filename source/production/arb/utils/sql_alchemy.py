@@ -126,6 +126,8 @@ def get_sa_automap_types(engine, base):
     result[table_name][column_name][kind] = type
     where: kind can be 'database_type', 'sqlalchemy_type', or 'python_type',
   """
+  logger.debug(f"calling get_sa_automap_types()")
+
   result = {}
   inspector = inspect(engine)
 
@@ -171,6 +173,7 @@ def get_sa_automap_types(engine, base):
       result[class_name][column.name]["database_type"] = db_type
       result[class_name][column.name]["sqlalchemy_type"] = sa_type
 
+  logger.debug(f"returning from get_sa_automap_types()")
   return result
 
 

@@ -96,6 +96,8 @@ Note on running Flask Apps:
         * Browser to display detailed error trace
         * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
 
+# todo - work this in, run with: flask --app wsgi run --no-reload
+
 """
 
 from arb.__get_logger import get_logger
