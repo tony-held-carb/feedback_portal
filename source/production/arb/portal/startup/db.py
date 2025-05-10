@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 
-logger, _ = get_logger(__name__, log_to_console=__file__)
+logger, pp_log = get_logger()
 
 
 def reflect_database() -> None:

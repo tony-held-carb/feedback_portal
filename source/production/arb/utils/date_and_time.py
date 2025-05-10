@@ -19,7 +19,7 @@ from dateutil import parser
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger(__name__, log_to_console=__file__)
+logger, pp_log = get_logger()
 
 UTC_TZ = ZoneInfo("UTC")
 PACIFIC_TZ = ZoneInfo("America/Los_Angeles")

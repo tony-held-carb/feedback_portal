@@ -91,8 +91,6 @@ def get_logger(
       - Logs are written to logs/<name>.log or to the specified directory.
       - If the logger was started from `__main__` or `__init__`, the log filename defaults to 'app_logger.log'.
   """
-  # print(f"get_logger() called with {file_stem = }, {file_path =}, {log_to_console =}, {force_command_line =}, {sys.argv = }")
-
   log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
   log_datefmt = "%Y-%m-%d %H:%M:%S"
 
@@ -128,11 +126,17 @@ def get_logger(
       encoding="utf-8",
     )
 
-  # Optional console logging
+  # Optional console logging (only add if one doesn't already exist)
   if log_to_console:
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(logging.Formatter(log_format, datefmt=log_datefmt))
-    logging.getLogger().addHandler(console_handler)
+    root_logger = logging.getLogger()
+    has_console_handler = any(
+        isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler)
+        for handler in root_logger.handlers
+    )
+    if not has_console_handler:
+      console_handler = logging.StreamHandler()
+      console_handler.setFormatter(logging.Formatter(log_format, datefmt=log_datefmt))
+      root_logger.addHandler(console_handler)
 
   logger.debug(f"get_logger() called with {file_stem = }, {file_path =}, {log_to_console =}, {force_command_line =}, {sys.argv = }")
   if is_logger_already_configured:
@@ -178,8 +182,6 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, any]:
 
 
 if __name__ == "__main__":
-  # logger, pp_log = get_logger("test_logger", log_to_console=True)
-  # logger, pp_log = get_logger(log_to_console=True)
   root_logger = file_path = Path(__file__).resolve().parents[3] / "logs"
   logger, pp_log = get_logger(file_path=root_logger, log_to_console=True)
   logger.debug("Hello, world!")
