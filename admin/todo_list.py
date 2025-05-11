@@ -27,20 +27,38 @@ Please create a new function named run_diagnostics that includes testing of key 
 # todo - next steps
 Next steps
 ----------------------------
-* git fixed by changing the version directories to one_drive rather than C:\Users\theld\OneDrive - California Air Resources Board\
+* essential steps to get the app running on the ec2
+  * learn how tags work and how to go to a specific tag
+  * tag/ensure tag for main branch
+  * merge latest changes to main branch
+  * tag the gpt refactored code
+  * learn how to set the port with the wsgi run
+  * learn how to run without the terminal being on
+  * learn how to stop the run in no-hup or background
+  * connect to dan's database
+  * check that the database is working
+  * put password protect for deleting records or disable this ability
+  * update logging to include user, default to anonymous in the mean time so all logging
+    uses same format
+
+* high priority code reorg so that primary keys work as expected and allow for staged changes
+  * figure out when/if incidence primary key can be changed/enabled
+  * figure out if we want data to initially only be cached and then updated afterwards
+  * so you can revert back to old state when you propose a spreadsheet upload
+
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
 
 * code refactor to move file handling out of routes?
-
-* probably want to disable the ability to delete an incidence
-* ask dan for access to new db instance.
-
 * Probably want to have a form passes validation modal after you validate.  Maybe stay on same page?
 
-* preparing to use ChatGPT to restructure code
+* future initiatives
+  * use blueprint structure
+  * add user log-in
+  * update logging based on flask user
+
 
 Forget me nots
 ----------------------------
