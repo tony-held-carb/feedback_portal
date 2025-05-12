@@ -8,8 +8,9 @@
 #   ./stop_with_screen.sh custom_session_name  # stops custom session
 #
 # NOTES:
-#   You can verify it's stopped using:
-#     screen -ls
+#   - You can verify it's stopped using:
+#       screen -ls
+#   - You may need to run chmod +x on this file to make it executable
 # ----------------------------------------------------------------------
 
 SESSION_NAME="${1:-feedback_portal}"

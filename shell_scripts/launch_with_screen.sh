@@ -18,6 +18,8 @@
 #   $3 = PORT      (port number)            [default: 2113]
 #   $4 = DEBUG     (true | false)           [default: true — flask only]
 #
+# NOTES:
+#   - may need to run chmod +x on this file to make it executable
 # ----------------------------------------------------------------------
 
 # Args with defaults
