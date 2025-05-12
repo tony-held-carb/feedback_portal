@@ -28,10 +28,9 @@ Please create a new function named run_diagnostics that includes testing of key 
 Next steps
 ----------------------------
 * essential steps to get the app running on the ec2
-  * learn how tags work and how to go to a specific tag
-  * tag/ensure tag for main branch
   * merge latest changes to main branch
   * tag the gpt refactored code
+  * update the read-me and other documentation to reflect changes
   * learn how to set the port with the wsgi run
   * learn how to run without the terminal being on
   * learn how to stop the run in no-hup or background
@@ -40,7 +39,6 @@ Next steps
   * put password protect for deleting records or disable this ability
   * update logging to include user, default to anonymous in the mean time so all logging
     uses same format
-  * update the read-me and other documentation to reflect changes
 
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
@@ -68,7 +66,5 @@ Forget me nots
 and i was confused, there was some pretty interesting request preprocessing that I would like to revisit
 as I don't know how to do that and it seemed very powerful.  Try to revisit
 
-git tag -a v1.0.0 -m "Debug version 1.0.0. Stable before GPT refactor."
-git tag -a v1.1.0 -m "Debug version 1.1.0. Stable after GPT refactor."
 
 """

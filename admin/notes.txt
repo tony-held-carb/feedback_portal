@@ -324,3 +324,7 @@ remove any directories or projects, then add
 C:\one_drive\code\pycharm\feedback_portal>
 
 the shortcuts for one_drive are likely the source of the problem
+
+git tag -a v1.0.0 -m "Debug version 1.0.0. Stable before GPT refactor."
+git tag -a v1.1.0 -m "Debug version 1.1.0. Stable after GPT refactor."
+git tag -d v1.1.0
