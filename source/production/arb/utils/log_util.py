@@ -50,6 +50,8 @@ import logging
 from functools import wraps
 from typing import Callable
 
+from flask import g, has_request_context
+
 
 def log_function_parameters(logger: logging.Logger | None = None, print_to_console: bool = False) -> None:
   """
@@ -129,3 +131,14 @@ def log_parameters(logger: logging.Logger | None = None, print_to_console: bool 
     return wrapper
 
   return decorator
+
+
+class FlaskUserContextFilter(logging.Filter):
+  """Injects Flask's g.user into log records."""
+
+  def filter(self, record):
+    if has_request_context() and hasattr(g, "user"):
+      record.user = g.user
+    else:
+      record.user = "n/a"
+    return True

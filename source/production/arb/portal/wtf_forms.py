@@ -990,10 +990,10 @@ class LandfillFeedback(FlaskForm):
 
     if emission_identified_test:
       lmr_included_test = self.included_in_last_lmr.data == "No"
-      logger.debug(f"\n\t{lmr_included_test=}")
+      logger.debug(f"{lmr_included_test=}")
       change_validators_on_test(self, lmr_included_test, ["included_in_last_lmr_description"])
 
       lmr_planned_test = self.planned_for_next_lmr.data == "No"
       logger.debug(
-        f"\n\t{lmr_planned_test=}")
+        f"{lmr_planned_test=}")
       change_validators_on_test(self, lmr_planned_test, ["planned_for_next_lmr_description"])

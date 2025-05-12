@@ -51,7 +51,7 @@ def obj_diagnostics(obj: object,
         if include_functions:
           logger.debug(f"{attr_name}(): is function")
       else:
-        logger.debug(f"{attr_name} {type(attr_value)}:\n\t {attr_value}")
+        logger.debug(f"{attr_name} {type(attr_value)}:\t {attr_value}")
 
 
 def list_differences(iterable_01: list | dict,
@@ -82,10 +82,10 @@ def list_differences(iterable_01: list | dict,
   if print_warning:
     if in_iterable_1_only:
       logger.warning(
-        f"Warning: {iterable_01_name} has {len(in_iterable_1_only)} item(s) not in {iterable_02_name}:\n\t{in_iterable_1_only}")
+        f"Warning: {iterable_01_name} has {len(in_iterable_1_only)} item(s) not in {iterable_02_name}:\t{in_iterable_1_only}")
     if in_iterable_2_only:
       logger.warning(
-        f"Warning: {iterable_02_name} has {len(in_iterable_2_only)} item(s) not in {iterable_01_name}:\n\t{in_iterable_2_only}")
+        f"Warning: {iterable_02_name} has {len(in_iterable_2_only)} item(s) not in {iterable_01_name}:\t{in_iterable_2_only}")
 
   return in_iterable_1_only, in_iterable_2_only
 
@@ -232,7 +232,7 @@ def run_diagnostics() -> None:
   """
   Run demonstration of diagnostic utilities with examples.
   """
-  logger.debug("\n\nRunning diagnostics on arb.utils.diagnostics module")
+  logger.debug("Running diagnostics on arb.utils.diagnostics module")
 
   # obj_diagnostics
   class TestClass:
@@ -256,11 +256,11 @@ def run_diagnostics() -> None:
 
   # dict_to_str
   nested_dict = {"a": 1, "b": {"c": 2, "d": {"e": 3}}}
-  logger.debug("dict_to_str output:\n" + dict_to_str(nested_dict))
+  logger.debug("dict_to_str output:\t" + dict_to_str(nested_dict))
 
   # obj_to_html
   html_result = obj_to_html(nested_dict)
-  logger.debug("HTML representation of object (truncated):\n" + html_result[:300])
+  logger.debug("HTML representation of object (truncated):\t" + html_result[:300])
 
   # compare_dicts
   d1 = {"x": 1, "y": 2, "z": 3}

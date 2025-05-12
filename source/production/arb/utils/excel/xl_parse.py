@@ -360,7 +360,7 @@ def test_load_xl_schemas():
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
-  logging.debug(f"\nschemas=\n{pp_log(schemas)}")
+  logging.debug(f"schemas = {pp_log(schemas)}")
   # logging.debug(f"\n schemas= \n{dict_to_str(schemas)}")
 
 

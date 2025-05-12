@@ -289,7 +289,7 @@ def upload_file(message=None):
     logger.debug(f"upload_file called with {message=}")
 
   upload_dir = current_app.config['UPLOAD_FOLDER']
-  logger.debug(f"Request to upload file to server with: \n\t{request.files=}\n\t{upload_dir=}")
+  logger.debug(f"Request to upload file to server with: {request.files=}, {upload_dir=}")
 
   if request.method == 'POST':
     # Re request file upload if no file was in the post

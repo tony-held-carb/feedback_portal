@@ -28,23 +28,24 @@ Please create a new function named run_diagnostics that includes testing of key 
 Next steps
 ----------------------------
 * essential steps to get the app running on the ec2
-  * merge latest changes to main branch
-  * tag the gpt refactored code
   * update the read-me and other documentation to reflect changes
+
   * learn how to set the port with the wsgi run
+      conda activate mini_conda_01
+      flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
   * learn how to run without the terminal being on
   * learn how to stop the run in no-hup or background
-  * connect to dan's database
-  * check that the database is working
-  * put password protect for deleting records or disable this ability
-  * update logging to include user, default to anonymous in the mean time so all logging
-    uses same format
 
+* check that the app/database is working
+  * connect to dan's database
+  * need to test a variety of usage cases to make sure input/output/logging is working as expected.
+  * don't want the site to crash on its initial week ...
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
   * figure out if we want data to initially only be cached and then updated afterwards
   * so you can revert back to old state when you propose a spreadsheet upload
+  * add flask user authentication and add to logging routines
 
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm

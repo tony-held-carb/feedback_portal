@@ -91,7 +91,9 @@ def get_logger(
       - Logs are written to logs/<name>.log or to the specified directory.
       - If the logger was started from `__main__` or `__init__`, the log filename defaults to 'app_logger.log'.
   """
-  log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
+  # log_format_old = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
+  log_format_proposed = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | user:%(user)s | %(message)s"
+  log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
   log_datefmt = "%Y-%m-%d %H:%M:%S"
 
   # Determine file stem based on command-line script if requested
