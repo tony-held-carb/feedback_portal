@@ -39,7 +39,7 @@ def sa_model_diagnostics(model, comment: str = "") -> None:
   logger.debug(f"Diagnostics for model of type {type(model)=}")
   if comment:
     logger.debug(f"{comment}")
-  logger.debug(f"{model=}\n")
+  logger.debug(f"{model=}")
 
   fields = get_sa_fields(model)
   for key in fields:
@@ -85,8 +85,8 @@ def get_sa_column_types(model, is_instance: bool = True) -> dict[str, dict]:
   else:
     inspector = inspect(model)
 
-  logger.debug(f"\n\t{model=}")
-  logger.debug(f"\n\t{inspector=}")
+  logger.debug(f"\t{model=}")
+  logger.debug(f"\t{inspector=}")
 
   columns_info = {}
   for column in inspector.columns:

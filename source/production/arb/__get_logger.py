@@ -93,7 +93,7 @@ def get_logger(
   """
   # log_format_old = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
   log_format_proposed = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | user:%(user)s | %(message)s"
-  log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | %(lineno)-5d | %(filename)-20s | %(message)s | user:anonymous"
+  log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
   log_datefmt = "%Y-%m-%d %H:%M:%S"
 
   # Determine file stem based on command-line script if requested
