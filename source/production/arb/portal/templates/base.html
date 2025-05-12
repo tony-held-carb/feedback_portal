@@ -16,7 +16,8 @@
   {% block header_css_and_js %}
   {% endblock %}
 
-  {% import 'macros.jinja' as macros %}
+  {% import 'macros/utility_macros.jinja' as macros %}
+  {% import 'macros/confirm_macros.jinja' as confirm_macros %}
 
   <title>{% block title %}Portal Placeholder{% endblock %}</title>
 
