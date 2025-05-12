@@ -9,8 +9,6 @@
   <div class="container-fluid bg-image-01 mb-3 pt-1 ">
 
     {% for model_row in model_rows %}
-
-
       <div class="card bg-light mb-3" style="max-width: 24rem;">
         <div class="card-header">
           <a href="{{ url_for('main.incidence_update', id_=model_row['id_incidence']) }}">
@@ -44,11 +42,20 @@
             {% endif %}
           </p>
 
-          <form method="POST"
-                action="{{ url_for('main.incidence_delete', id_=model_row['id_incidence']) }}">
-            <input type="submit" value="Delete Feedback Form" class="btn btn-danger btn-sm"
-                   onclick="return confirm('Are you sure you want to delete this entry?')">
-          </form>
+          <!-- Delete button triggers modal -->
+          <button type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteConfirmModal{{ model_row['id_incidence'] }}">
+            Delete Feedback Form
+          </button>
+
+          <!-- Reusable macro modal -->
+          {{ confirm_macros.render_confirm_modal(
+              modal_id='deleteConfirmModal' ~ model_row['id_incidence'],
+              confirm_phrase='shazam',
+              form_action_url=url_for('main.incidence_delete', id_=model_row['id_incidence'])
+          ) }}
 
         </div>
       </div>
