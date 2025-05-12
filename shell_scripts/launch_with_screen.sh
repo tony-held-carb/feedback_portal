@@ -6,14 +6,9 @@
 # Launches a persistent background Flask or Gunicorn server using screen.
 #
 # USAGE:
-#   ./launch_with_screen.sh                # Defaults to flask mode
+#   ./launch_with_screen.sh                 # Defaults to flask mode
 #   ./launch_with_screen.sh flask          # Flask dev mode
 #   ./launch_with_screen.sh gunicorn       # Gunicorn production mode
-#
-# BEHAVIOR:
-#   - Creates a detached screen session named "feedback_portal"
-#   - Logs stdout/stderr to a timestamped file in ./logs/
-#   - Uses the conda environment: mini_conda_01
 #
 # MANAGING THE SCREEN SESSION:
 #   - List all sessions:     screen -ls
@@ -50,11 +45,28 @@ LOG_DIR="$PROJECT_ROOT/logs"
 TIMESTAMP=$(date +"%Y_%m_%d_%H_%M_%S")
 LOG_FILE="$LOG_DIR/${SESSION_NAME}_${MODE}_$TIMESTAMP.log"
 
+echo "🔍 Launching '$MODE' in screen session '$SESSION_NAME'..."
+echo "📁 Project root:      $PROJECT_ROOT"
+echo "📁 Source directory:  $SOURCE_ROOT"
+echo "📄 Log file:          $LOG_FILE"
+echo "🐍 Conda environment: $CONDA_ENV"
+echo "🌐 Host/Port:         $HOST:$PORT"
+echo "🐞 Debug enabled:     $DEBUG"
+
 mkdir -p "$LOG_DIR"
 
-cd "$SOURCE_ROOT" || exit 1
+# Check that source dir exists
+if [[ ! -d "$SOURCE_ROOT" ]]; then
+  echo "❌ ERROR: Source directory not found: $SOURCE_ROOT"
+  exit 1
+fi
 
-# Construct command for screen session
+cd "$SOURCE_ROOT" || {
+  echo "❌ ERROR: Failed to cd into $SOURCE_ROOT"
+  exit 1
+}
+
+# Construct command
 if [[ "$MODE" == "flask" ]]; then
   CMD="source $CONDA_BASE/etc/profile.d/conda.sh && conda activate $CONDA_ENV && flask --app wsgi run --host=$HOST --port=$PORT"
   if [[ "$DEBUG" == "true" ]]; then
@@ -67,11 +79,32 @@ else
   exit 1
 fi
 
-# Launch in detached screen session
+echo
+echo "🚀 Command to run:"
+echo "$CMD"
+echo
+
+# Wrap command for screen
+SCREEN_CMD="bash -c \"$CMD | tee -a '$LOG_FILE'\""
+
+echo "🖥️ Launching in screen with:"
+echo "screen -S \"$SESSION_NAME\" -dm $SCREEN_CMD"
+echo
+
+# Actually run it
 screen -S "$SESSION_NAME" -dm bash -c "$CMD | tee -a \"$LOG_FILE\""
 
-echo "✅ Started '$MODE' server in detached screen session: $SESSION_NAME"
-echo "   Logging to: $LOG_FILE"
+# Verify
+sleep 2
+if screen -list | grep -q "$SESSION_NAME"; then
+  echo "✅ Screen session '$SESSION_NAME' is running."
+else
+  echo "❌ Screen session did not start properly. Please check:"
+  echo "  - Your conda environment"
+  echo "  - Flask or Gunicorn installation"
+  echo "  - The log file for error output: $LOG_FILE"
+fi
+
 echo
 echo "To reattach:  screen -r $SESSION_NAME"
 echo "To list all:  screen -ls"

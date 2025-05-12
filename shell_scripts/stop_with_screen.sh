@@ -4,6 +4,11 @@
 # stop_with_screen.sh
 #
 # Stops the named screen session used to run your Flask or Gunicorn app.
+#
+# NOTES:
+#   - you may have to make this script executable with
+#       chmod +x stop_with_screen.sh
+#
 # ----------------------------------------------------------------------
 
 SESSION_NAME="feedback_portal"
