@@ -36,10 +36,11 @@ Next steps
   * learn how to stop the run in no-hup or background
   * connect to dan's database
   * check that the database is working
-  * put password protect for deleting records or disable this ability
   * update logging to include user, default to anonymous in the mean time so all logging
     uses same format
 
+* need to test a variety of usage cases to make sure input/output/logging is working as expected.
+* don't want the site to crash on its initial week ...
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
