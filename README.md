@@ -30,7 +30,7 @@
 * Removing the old git repo (if necessary)
   * rm -rf feedback_portal
 * Clone the latest portal repo (if necessary)
-    * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github    * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
+    * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github    
     * git branch -a
     * git checkout ec2_deploy_03 <or your remote branch of interest> 
     * git pull

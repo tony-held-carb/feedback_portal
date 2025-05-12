@@ -1,21 +1,25 @@
 #!/bin/bash
 
 # ----------------------------------------------------------------------
-# stop_with_screen.sh
+# stop_with_screen.sh — Stops a running screen session for your app.
 #
-# Stops the named screen session used to run your Flask or Gunicorn app.
+# USAGE:
+#   ./stop_with_screen.sh                      # stops 'feedback_portal'
+#   ./stop_with_screen.sh custom_session_name  # stops custom session
 #
 # NOTES:
-#   - you may have to make this script executable with
-#       chmod +x stop_with_screen.sh
-#
+#   You can verify it's stopped using:
+#     screen -ls
 # ----------------------------------------------------------------------
 
-SESSION_NAME="feedback_portal"
+SESSION_NAME="${1:-feedback_portal}"
 
-if screen -list | grep -q "$SESSION_NAME"; then
+echo "🛑 Attempting to stop screen session: $SESSION_NAME"
+
+if screen -list | grep -q "\.${SESSION_NAME}"; then
   screen -S "$SESSION_NAME" -X quit
-  echo "🛑 Stopped screen session: $SESSION_NAME"
+  echo "✅ Stopped screen session: $SESSION_NAME"
 else
-  echo "ℹ️  No running screen session named: $SESSION_NAME"
+  echo "⚠️  No active screen session found with name: $SESSION_NAME"
+  echo "ℹ️  Use 'screen -ls' to list available sessions."
 fi
