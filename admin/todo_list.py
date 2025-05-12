@@ -28,10 +28,10 @@ Please create a new function named run_diagnostics that includes testing of key 
 Next steps
 ----------------------------
 * essential steps to get the app running on the ec2
-  * merge latest changes to main branch
-  * tag the gpt refactored code
   * update the read-me and other documentation to reflect changes
   * learn how to set the port with the wsgi run
+      conda activate mini_conda_01
+      flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
   * learn how to run without the terminal being on
   * learn how to stop the run in no-hup or background
   * connect to dan's database
