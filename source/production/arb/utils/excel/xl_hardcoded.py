@@ -1,17 +1,28 @@
 """
-This file contains the hard coded schemas that were created by hand
-versions v01 and v02 by inspecting xl spreadsheets.
+Hardcoded schema definitions and sample payloads for Excel template processing.
 
-This file is still used to create the legacy v01 and v02 schema files, but
-is not actively maintained or updated.
+The new versioning systems uses the naming scheme vxx_yy, where xx represents a major version and
+ yy represents a minor version (without the 'old' in the prefix).
+
+These were manually created by inspecting old_v01 and old_v02 versions of now outdated Excel spreadsheets.
+
+Contents:
+    - `default_value_types_v01_00`: field types for v01_00 based on old_v01 and old_v02 schemas
+    - Sample payloads for oil & gas and landfill forms
+    - `jinja_names_set`: manually compiled field names used in Jinja templates
+    - Diagnostic comparison for field coverage (see `__main__`)
 """
 
 import datetime
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.diagnostics import list_differences
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger()
+
+# -------------------------------------------------------------------------------------
+# v01_00 schema field types based on legacy old_v01 and old_v02 excel schemas
+# -------------------------------------------------------------------------------------
 
 default_value_types_v01_00 = {
   "additional_activities": str,
@@ -71,8 +82,12 @@ default_value_types_v01_00 = {
 }
 
 # todo - see if these payloads still make sense
+#        looks like every value is a string ... not sure if that should be changed
 
-# oil and gas example payload
+# -------------------------------------------------------------------------------------
+# Sample payloads - oil and gas
+# -------------------------------------------------------------------------------------
+
 oil_and_gas_payload_01 = {
 
   "id_incidence": "4321",
@@ -124,7 +139,10 @@ oil_and_gas_payload_02 = {
   "additional_notes": "Q23 Answer.",
 }
 
-# landfill example
+# -------------------------------------------------------------------------------------
+# Sample payloads - landfill
+# -------------------------------------------------------------------------------------
+
 landfill_payload_01 = {
   "id_incidence": "153",
   "id_plume": "447",
@@ -179,38 +197,15 @@ landfill_payload_02 = {
   "additional_notes": "Q31 Answer.",
 }
 
-# this can be deleted, it was just used as a double check
+# -------------------------------------------------------------------------------------
+# Jinja schema field names (used for legacy template validation)
+# -------------------------------------------------------------------------------------
+
 jinja_names_set = {
+  "additional_activities",
   "additional_notes",
   "component_at_source",
   "component_other_description",
-  "contact_email",
-  "contact_name",
-  "contact_phone",
-  "equipment_at_source",
-  "equipment_other_description",
-  "facility_name",
-  "final_repair_concentration",
-  "id_arb_eggrt",
-  "id_incidence",
-  "id_message",
-  "id_plume",
-  "initial_leak_concentration",
-  "initial_mitigation_plan",
-  "lat_carb",
-  "long_carb",
-  "method21_date",
-  "method21_performed",
-  "method21_result",
-  "observation_timestamp",
-  "ogi_date",
-  "ogi_performed",
-  "ogi_result",
-  "repair_description",
-  "repair_timestamp",
-  "venting_description_2",
-  "additional_activities",
-  "additional_notes",
   "contact_email",
   "contact_name",
   "contact_phone",
@@ -222,7 +217,11 @@ jinja_names_set = {
   "emission_location",
   "emission_location_notes",
   "emission_type_fk",
+  "equipment_at_source",
+  "equipment_other_description",
   "facility_name",
+  "final_repair_concentration",
+  "id_arb_eggrt",
   "id_arb_swis",
   "id_incidence",
   "id_message",
@@ -230,6 +229,7 @@ jinja_names_set = {
   "included_in_last_lmr",
   "included_in_last_lmr_description",
   "initial_leak_concentration",
+  "initial_mitigation_plan",
   "inspection_timestamp",
   "instrument",
   "last_component_leak_monitoring_timestamp",
@@ -238,38 +238,19 @@ jinja_names_set = {
   "lat_revised",
   "long_carb",
   "long_revised",
-  "mitigation_actions",
-  "mitigation_timestamp",
-  "observation_timestamp",
-  "planned_for_next_lmr",
-  "planned_for_next_lmr_description",
-  "re_monitored_concentration",
-  "re_monitored_timestamp",
-  "additional_notes",
-  "component_at_source",
-  "component_other_description",
-  "contact_email",
-  "contact_name",
-  "contact_phone",
-  "equipment_at_source",
-  "equipment_other_description",
-  "facility_name",
-  "final_repair_concentration",
-  "id_arb_eggrt",
-  "id_incidence",
-  "id_message",
-  "id_plume",
-  "initial_leak_concentration",
-  "initial_mitigation_plan",
-  "lat_carb",
-  "long_carb",
   "method21_date",
   "method21_performed",
   "method21_result",
+  "mitigation_actions",
+  "mitigation_timestamp",
   "observation_timestamp",
   "ogi_date",
   "ogi_performed",
   "ogi_result",
+  "planned_for_next_lmr",
+  "planned_for_next_lmr_description",
+  "re_monitored_concentration",
+  "re_monitored_timestamp",
   "repair_description",
   "repair_timestamp",
   "venting_description_1",
@@ -281,11 +262,11 @@ if __name__ == "__main__":
   default_names = list(default_value_types_v01_00.keys())
   jinja_names = list(jinja_names_set)
 
-  in_iterable_1_only, in_iterable_2_only = list_differences(
+  in_default_value_types_v01_00_only, in_jinja_names_only = list_differences(
     default_value_types_v01_00, jinja_names,
     iterable_01_name="SQLAlchemy Model JSON",
     iterable_02_name="WTForm Fields",
     print_warning=False
   )
-  print(f"{in_iterable_1_only=}")
-  print(f"{in_iterable_2_only=}")
+  print(f"{in_default_value_types_v01_00_only=}")
+  print(f"{in_jinja_names_only=}")

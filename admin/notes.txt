@@ -270,3 +270,61 @@ class OGFeedback(FlaskForm):
   contact_first_name = StringField(label='Contact First Name:', validators=[InputRequired()])
   contact_last_name = StringField(label='Contact Last Name:', validators=[InputRequired()])
 
+-------------------------------------------------------------------
+Folder structure:
+-------------------------------------------------------------------
+
+/root/
+  ├── branch_01/
+       ├── sub_branch 01/
+       └── sub_branch 02/
+            └── sub_branch 03/
+  ├── branch 02/
+  └── branch 03/
+
+-------------------------------------------------------------------
+If you're working in a Python project, a good structure might be:
+-------------------------------------------------------------------
+/tests/                  # test code itself
+/test_results/           # raw output from test runs
+/reports/                # human-readable reports (e.g., pytest-cov, HTML)
+/diagnostics/            # runtime logs, stack traces, system info dumps
+
+-------------------------------------------------------------------
+Getting ready to create a new feedback_portal pycharm repo because
+it has becoming weird/unstable since i updated pycharm
+
+how to run from command line:
+(mini_conda_01) C:\one_drive\code\pycharm\feedback_portal\source\production\arb>flask --app wsgi run
+
+folders marked as untracked:
+    archive
+    logs
+    portal_uploads
+    source/gpt_recommendations
+    source/production/arb/logs
+    source/tutorials
+
+folders i have as source root
+-------------------------------------------------------------------
+source/production
+
+folders i have marked as template - may need to set jinja as flask env
+-------------------------------------------------------------------
+source/production/arb/portal/templates
+
+pycharm settings
+-------------------------------------------------------------------
+templating language: jinja2
+
+getting git to work correctly
+-------------------------------------------------------------------
+go to settings version control directory mappings
+remove any directories or projects, then add
+C:\one_drive\code\pycharm\feedback_portal>
+
+the shortcuts for one_drive are likely the source of the problem
+
+git tag -a v1.0.0 -m "Debug version 1.0.0. Stable before GPT refactor."
+git tag -a v1.1.0 -m "Debug version 1.1.0. Stable after GPT refactor."
+git tag -d v1.1.0

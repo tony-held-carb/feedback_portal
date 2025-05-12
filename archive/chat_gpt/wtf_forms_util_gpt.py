@@ -1,0 +1,674 @@
+"""
+Functions and helper classes to support WTForms models.
+
+Notes:
+  * Best practice is to keep WTForm models in a separate file located next to the Flask app (e.g., app.py),
+    and place helper routines in this utility module.
+
+"""
+
+import datetime
+import decimal
+import json
+
+from flask_wtf import FlaskForm
+from sqlalchemy.orm.attributes import flag_modified
+from wtforms import SelectField, ValidationError
+from wtforms.fields import DateTimeField, DecimalField
+from wtforms.validators import InputRequired, Optional
+
+import arb.__get_logger as get_logger
+from arb.utils.date_and_time import (
+  ca_naive_to_utc_datetime,
+  datetime_to_ca_naive,
+  iso8601_to_utc_dt
+)
+from arb.utils.diagnostics import list_differences
+
+__version__ = "1.0.0"
+logger, pp_log = get_logger.get_logger(__name__, __file__)
+
+
+def min_decimal_precision(min_digits: int):
+  """
+  Create a WTForms validator to ensure at least `min_digits` after the decimal point.
+
+  Args:
+      min_digits (int): Minimum number of decimal places required.
+
+  Returns:
+      Callable: A validator function to attach to a WTForms DecimalField.
+
+  Example:
+      >>> amount = DecimalField("Amount", validators=[
+      ...     InputRequired(),
+      ...     min_decimal_precision(2)
+      ... ])
+  """
+
+  def _min_decimal_precision(form, field):
+    if field.data is None:
+      return
+
+    try:
+      value_str = str(field.data)
+      if '.' in value_str:
+        _, decimals = value_str.split('.')
+        if len(decimals) < min_digits:
+          raise ValidationError()
+      elif min_digits > 0:
+        raise ValidationError()
+    except (ValueError, TypeError):
+      raise ValidationError(
+        f"Field must be a valid numeric value with at least {min_digits} decimal places."
+      )
+
+  return _min_decimal_precision
+
+
+class RequiredIfTruthy:
+  """
+  WTForms validator: Makes a field required if another field is truthy.
+
+  Notes:
+      - Not currently in use.
+      - Inspired by StackOverflow and WTForms documentation examples.
+
+  Example:
+      class MyForm(FlaskForm):
+          other_field = StringField(...)
+          my_field = StringField(validators=[RequiredIfTruthy('other_field')])
+  """
+
+  field_flags = ("requirediftruthy",)
+
+  def __init__(self, other_field_name: str, message: str | None = None, other_field_invalid_values: list | None = None):
+    self.other_field_name = other_field_name
+    self.message = message
+    if other_field_invalid_values is None:
+      other_field_invalid_values = [False, [], {}, (), '', '0', '0.0', 0, 0.0]
+    self.other_field_invalid_values = other_field_invalid_values
+    logger.debug("RequiredIfTruthy initialized")
+
+  def __call__(self, form, field):
+    other_field = form[self.other_field_name]
+    if other_field is None:
+      raise Exception(f'No field named "{self.other_field_name}" in form')
+
+    if other_field.data not in self.other_field_invalid_values:
+      logger.debug("other_field is truthy → requiring this field")
+      InputRequired(self.message).__call__(form, field)
+    else:
+      logger.debug("other_field is falsy → allowing this field to be optional")
+      Optional(self.message).__call__(form, field)
+
+
+class IfTruthy:
+  """
+  WTForms validator: Choose between InputRequired or Optional depending on truthiness of another field.
+
+  Args:
+      other_field_name (str): Name of the other WTForms field.
+      falsy_values (list | None): List of values considered falsy.
+      mode (str): One of 'required on truthy' or 'optional on truthy'.
+      message (str | None): Validation error message to use.
+
+  Raises:
+      TypeError: If an unknown mode is provided.
+
+  Example:
+      class MyForm(FlaskForm):
+          trigger = BooleanField(...)
+          conditional = StringField(validators=[IfTruthy('trigger', mode='required on truthy')])
+  """
+
+  field_flags = ("iftruthy",)
+
+  def __init__(self, other_field_name: str, falsy_values: list | None = None, mode: str = 'required on truthy', message: str | None = None):
+    self.other_field_name = other_field_name
+    if falsy_values is None:
+      falsy_values = [False, [], {}, (), '', '0', '0.0', 0, 0.0]
+    self.falsy_values = falsy_values
+
+    if mode == 'required on truthy':
+      self.validators = {'truthy': InputRequired, 'falsy': Optional}
+    elif mode == 'optional on truthy':
+      self.validators = {'truthy': Optional, 'falsy': InputRequired}
+    else:
+      raise TypeError(f"Unknown mode: {mode}")
+
+    self.message = message
+
+  def __call__(self, form, field):
+    other_field = form[self.other_field_name]
+    if other_field is None:
+      raise Exception(f'No field named "{self.other_field_name}" in form')
+
+    validator_class = self.validators['truthy'] if other_field.data not in self.falsy_values else self.validators['falsy']
+    validator_class(self.message).__call__(form, field)
+
+
+def remove_validators(form: FlaskForm, field_names: list[str], validators_to_remove: list | None = None) -> None:
+  """
+  Dynamically remove specific validators from WTForms fields.
+
+  Args:
+      form (FlaskForm): The WTForms form instance.
+      field_names (list[str]): List of field names to modify.
+      validators_to_remove (list | None): Validator classes to remove. Defaults to [InputRequired].
+
+  Notes:
+      Useful when validator logic depends on user input or view context.
+  """
+  if validators_to_remove is None:
+    validators_to_remove = [InputRequired]
+
+  fields = get_wtforms_fields(form, include_csrf_token=False)
+  for field in fields:
+    if field in field_names:
+      form[field].validators = [
+        v for v in form[field].validators if not any(isinstance(v, t) for t in validators_to_remove)
+      ]
+
+  def change_validators_on_test(
+      form: FlaskForm,
+      bool_test: bool,
+      required_if_true: list[str],
+      optional_if_true: list[str] | None = None
+  ) -> None:
+    """
+    Switch WTForm validators conditionally based on a boolean test.
+
+    Args:
+        form (FlaskForm): The form whose fields will be modified.
+        bool_test (bool): Condition to control the validator behavior.
+        required_if_true (list[str]): Fields that should be InputRequired if bool_test is True.
+        optional_if_true (list[str] | None): Fields that should be Optional if bool_test is True.
+
+    Example:
+        >>> change_validators_on_test(form, user_is_admin, ["admin_note"], ["user_note"])
+    """
+    if optional_if_true is None:
+      optional_if_true = []
+
+    if bool_test:
+      change_validators(form, required_if_true, Optional, InputRequired)
+      change_validators(form, optional_if_true, InputRequired, Optional)
+    else:
+      change_validators(form, required_if_true, InputRequired, Optional)
+      change_validators(form, optional_if_true, Optional, InputRequired)
+
+
+def change_validators(
+    form: FlaskForm,
+    field_names_to_change: list[str],
+    old_validator,
+    new_validator
+) -> None:
+  """
+  Replace one validator with another for a given set of form fields.
+
+  Args:
+      form (FlaskForm): WTForms form instance.
+      field_names_to_change (list[str]): List of field names to update.
+      old_validator: Validator class to be removed (e.g., Optional).
+      new_validator: Validator class to be added (e.g., InputRequired).
+
+  Example:
+      >>> change_validators(form, ["comment"], Optional, InputRequired)
+  """
+  fields = get_wtforms_fields(form, include_csrf_token=False)
+  for field_name in fields:
+    if field_name in field_names_to_change:
+      validators = form[field_name].validators
+      for i, validator in enumerate(validators):
+        if isinstance(validator, old_validator):
+          validators[i] = new_validator()
+
+
+def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict:
+  """
+  Count errors on a WTForm.
+
+  Args:
+      form (FlaskForm): The form to inspect.
+      log_errors (bool): If True, log all errors to debug log.
+
+  Returns:
+      dict: {
+          'elements_with_errors': int,
+          'element_error_count': int,
+          'wtf_form_error_count': int,
+          'total_error_count': int
+      }
+
+  Example:
+      >>> errors = wtf_count_errors(form)
+      >>> print(errors["total_error_count"])
+  """
+  error_count_dict = {
+    'elements_with_errors': 0,
+    'element_error_count': 0,
+    'wtf_form_error_count': 0,
+    'total_error_count': 0,
+  }
+
+  if log_errors:
+    logger.debug(f"Form errors are: {form.errors}")
+
+  for field, error_list in form.errors.items():
+    if field is None:
+      error_count_dict['wtf_form_error_count'] += len(error_list)
+    else:
+      error_count_dict['elements_with_errors'] += 1
+      error_count_dict['element_error_count'] += len(error_list)
+
+  error_count_dict['total_error_count'] = (
+      error_count_dict['element_error_count'] +
+      error_count_dict['wtf_form_error_count']
+  )
+
+  return error_count_dict
+
+
+def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") -> None:
+  """
+  Populate a WTForm from a SQLAlchemy model's JSON column.
+
+  This function loads the model's JSON field (typically 'misc_json') and
+  sets WTForms field `.data` and `.raw_data` accordingly. Required for correct rendering
+  and validation of pre-filled forms.
+
+  Args:
+      model: SQLAlchemy model instance with a JSON column.
+      wtform (FlaskForm): The WTForm instance to populate.
+      json_column (str): The attribute name of the model's JSON column (default is "misc_json").
+
+  Raises:
+      ValueError: If a datetime field cannot be parsed correctly.
+      TypeError: If an unsupported object type is passed.
+
+  Notes:
+      - Datetime strings are assumed to be in ISO8601 UTC format and converted to Pacific time.
+      - Decimal fields are coerced to float.
+      - Fields in the JSON but not in the form are ignored.
+  """
+  model_json_dict = getattr(model, json_column)
+  logger.debug(f"model_to_wtform called with model={model}, json={model_json_dict}")
+
+  # Ensure dict, not str
+  if isinstance(model_json_dict, str):
+    try:
+      model_json_dict = json.loads(model_json_dict)
+      logger.debug("Parsed JSON string into dict.")
+    except json.JSONDecodeError:
+      logger.warning(f"Invalid JSON in model's '{json_column}' column.")
+      model_json_dict = {}
+
+  if model_json_dict is None:
+    model_json_dict = {}
+
+  form_fields = get_wtforms_fields(wtform)
+  model_fields = list(model_json_dict.keys())
+
+  list_differences(
+    model_fields, form_fields,
+    iterable_01_name="SQLAlchemy Model JSON",
+    iterable_02_name="WTForm Fields",
+    print_warning=False
+  )
+
+  for attr_name in model_fields:
+    if attr_name not in form_fields:
+      continue
+
+    attr_value = model_json_dict.get(attr_name)
+    field = getattr(wtform, attr_name)
+
+    if attr_value is not None:
+      if isinstance(field, DateTimeField):
+        if isinstance(attr_value, str):
+          attr_value = iso8601_to_utc_dt(attr_value)
+          attr_value = datetime_to_ca_naive(attr_value)
+        else:
+          raise ValueError(f"Invalid value for datetime field {attr_name=}: {attr_value=}")
+
+      elif isinstance(field, DecimalField):
+        try:
+          attr_value = float(attr_value)
+        except ValueError:
+          raise ValueError(f"Cannot convert value to DecimalField: {attr_value=}")
+
+    field.data = attr_value
+    field.raw_data = format_raw_data(field, attr_value)
+
+    logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
+
+
+def format_raw_data(field, value) -> list[str]:
+  """
+  Convert a value to WTForms-compatible `raw_data` for rendering.
+
+  Args:
+      field: WTForms field instance.
+      value: The value to convert (str, float, int, datetime).
+
+  Returns:
+      list[str]: A list with one string representation of the value.
+
+  Raises:
+      ValueError: For unsupported types.
+      TypeError: If datetime is not naive when used with DateTimeField.
+
+  Example:
+      >>> format_raw_data(DateTimeField(), datetime.datetime.utcnow())
+      ['2025-04-23T14:00:00']
+  """
+  if value is None:
+    return []
+
+  if isinstance(value, str):
+    return [value]
+  elif isinstance(value, (int, float)):
+    return [str(value)]
+  elif isinstance(value, datetime.datetime):
+    if isinstance(field, DateTimeField):
+      if value.tzinfo is None:
+        return [value.strftime("%Y-%m-%dT%H:%M")]
+      else:
+        raise TypeError(f"Expected naive datetime, got tz-aware: {value}")
+    else:
+      return [value.isoformat()]
+
+  raise ValueError(f"Unsupported value for raw_data: {type(value)} — {value}")
+
+
+def wtform_to_model(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> None:
+  """
+  Update a SQLAlchemy model’s JSON column using data from a WTForm.
+
+  Args:
+      model: SQLAlchemy model instance.
+      wtform (FlaskForm): The form containing updated data.
+      ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
+
+  Example:
+      >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
+  """
+  if ignore_fields is None:
+    ignore_fields = []
+
+  payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
+  logger.info(f"wtform_to_model payload_all: {payload_all}")
+  logger.info(f"wtform_to_model payload_changes: {payload_changes}")
+
+  update_model_with_payload(model, payload_changes)
+
+
+def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
+  """
+  Generate all values and changed values from a form for updating a model.
+
+  Args:
+      model: SQLAlchemy model instance with JSON field `misc_json`.
+      wtform (FlaskForm): The form used to extract updated values.
+      ignore_fields (list[str] | None): Fields to ignore.
+
+  Returns:
+      tuple[dict, dict]: (payload_all, payload_changes)
+          - payload_all: all fields from the form
+          - payload_changes: only changed fields vs. model JSON
+
+  Notes:
+      - Values are compared against existing model JSON to detect changes.
+  """
+  if ignore_fields is None:
+    ignore_fields = []
+
+  payload_all = {}
+  payload_changes = {}
+
+  model_json_dict = getattr(model, "misc_json") or {}
+  logger.debug(f"{model_json_dict=}")
+
+  model_fields = model_json_dict.keys()
+  form_fields = get_wtforms_fields(wtform)
+
+  list_differences(
+    model_fields,
+    form_fields,
+    iterable_01_name="SQLAlchemy Model",
+    iterable_02_name="WTForm Fields",
+    print_warning=False,
+  )
+
+  for attr_name in form_fields:
+    if attr_name in ignore_fields:
+      continue
+
+    attr_value = getattr(wtform, attr_name).data
+    existing_value = model_json_dict.get(attr_name)
+
+    payload_all[attr_name] = attr_value
+
+    if existing_value != attr_value:
+      payload_changes[attr_name] = attr_value
+
+  return payload_all, payload_changes
+
+
+def update_model_with_payload(model, payload: dict, json_field: str = "misc_json") -> None:
+  """
+  Apply a payload (dict) to a model's JSON column and mark it as changed.
+
+  Args:
+      model: SQLAlchemy model instance.
+      payload (dict): Dictionary of key/value updates.
+      json_field (str): Name of the JSON column on the model.
+
+  Notes:
+      - Automatically converts datetime to ISO8601 UTC strings.
+      - Casts Decimal to float to preserve JSON serialization compatibility.
+  """
+  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+  model_json_dict = getattr(model, json_field) or {}
+
+  for key, value in payload.items():
+    if isinstance(value, datetime.datetime):
+      value = ca_naive_to_utc_datetime(value).isoformat()
+    elif isinstance(value, decimal.Decimal):
+      value = float(value)
+
+    if key == "id_incidence" and value is not None:
+      value = int(value)
+    elif key in ["lat_arb", "long_arb"] and value is not None:
+      value = float(value)
+
+    model_json_dict[key] = value
+
+  setattr(model, json_field, model_json_dict)
+  flag_modified(model, json_field)
+
+  logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
+
+
+def get_wtforms_fields(form: FlaskForm, include_csrf_token: bool = False) -> list[str]:
+  """
+  Return the sorted field names associated with a WTForms form.
+
+  Args:
+      form (FlaskForm): The WTForms form instance.
+      include_csrf_token (bool): If True, include the 'csrf_token' field in the returned list.
+          If False, 'csrf_token' will be excluded. Defaults to False.
+
+  Returns:
+      list[str]: A sorted list of field names present in the form.
+
+  Example:
+      >>> class SampleForm(FlaskForm):
+      ...     name = StringField("Name")
+      >>> form = SampleForm()
+      >>> get_wtforms_fields(form)
+      ['name']
+  """
+  field_names = [
+    name for name in form.data
+    if include_csrf_token or name != "csrf_token"
+  ]
+  field_names.sort()
+  return field_names
+
+
+def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> None:
+  """
+  Set default values for uninitialized WTForms SelectFields.
+
+  Args:
+      form (FlaskForm): The form containing SelectField elements.
+      default (str): Default value to assign if the field’s data is None.
+
+  Example:
+      >>> initialize_drop_downs(form, default="-- Choose One --")
+  """
+  logger.debug("Initializing drop-downs...")
+  for field in form:
+    if isinstance(field, SelectField) and field.data is None:
+      logger.debug(f"{field.name} set to default value: {default}")
+      field.data = default
+
+
+def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
+  """
+  Validate SelectFields submitted via GET where default values need to be considered invalid.
+
+  This manually appends an error message for InputRequired fields set to the default placeholder.
+
+  Args:
+      form (FlaskForm): WTForm instance to validate.
+      default (str): Placeholder/default value that should be considered invalid.
+
+  Example:
+      >>> validate_selectors(form)
+  """
+  for field in form:
+    if isinstance(field, SelectField):
+      if field.data is None or field.data == default:
+        for validator in field.validators:
+          if isinstance(validator, InputRequired):
+            msg = "This field is required."
+            if msg not in field.errors:
+              field.errors.append(msg)
+
+
+def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> bool:
+  """
+  Validate a form while skipping CSRF errors.
+
+  This is useful for validating forms submitted via HTTP GET or forms
+  rendered outside of standard POST workflows.
+
+  Args:
+      form (FlaskForm): The form to validate.
+      extra_validators (dict | None): Additional validators for fields.
+
+  Returns:
+      bool: True if form is valid (excluding CSRF errors), False otherwise.
+
+  Example:
+      >>> if validate_no_csrf(form): handle_form()
+  """
+  logger.debug("validate_no_csrf() called...")
+  form.validate(extra_validators=extra_validators)
+
+  if "csrf_token" in form.errors:
+    del form.errors["csrf_token"]
+
+  csrf_field = getattr(form, "csrf_token", None)
+  if csrf_field and "The CSRF token is missing." in csrf_field.errors:
+    csrf_field.errors.remove("The CSRF token is missing.")
+
+  form_valid = not bool(form.errors)
+  logger.debug(f"Form validation result (without CSRF): {form_valid=}, errors={form.errors}")
+  return form_valid
+
+
+def run_diagnostics():
+  """
+  Run a suite of basic diagnostics to verify that the key utilities in `wtf_forms_util.py` function as expected.
+
+  This diagnostic:
+    - Creates a mock WTForm with required fields.
+    - Applies validator modifications.
+    - Transfers data between the form and a fake SQLAlchemy-like model.
+    - Checks form error reporting.
+    - Logs all actions for manual review.
+
+  Notes:
+      This test does not rely on an actual Flask app context or database.
+      It is meant for standalone logic verification and logging demonstration.
+
+  Example:
+      >>> if __name__ == "__main__":
+      ...     run_diagnostics()
+  """
+
+  class DummyModel:
+    """Mock SQLAlchemy model with JSON-like attribute."""
+
+    def __init__(self):
+      self.misc_json = {
+        "name": "Alice",
+        "age": 30,
+        "created_at": "2024-01-01T08:00:00Z"
+      }
+
+  class TestForm(FlaskForm):
+    """Test WTForm."""
+    name = SelectField('Name', choices=[("Please Select", "Please Select"), ("Alice", "Alice"), ("Bob", "Bob")],
+                       validators=[InputRequired()])
+    age = DecimalField('Age', validators=[InputRequired()])
+    created_at = DateTimeField('Created At', format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
+
+  from werkzeug.datastructures import MultiDict
+
+  logger.info("Running WTForms diagnostics...")
+
+  form = TestForm(formdata=MultiDict({
+    "name": "Alice",
+    "age": "30.00",
+    "created_at": "2024-01-01T00:00"
+  }))
+
+  model = DummyModel()
+
+  # Ensure defaults work
+  initialize_drop_downs(form)
+
+  # Transfer model → form
+  model_to_wtform(model, form)
+  logger.info(f"Model → Form: name={form.name.data}, age={form.age.data}, created_at={form.created_at.data}")
+
+  # Form → model (round-trip)
+  wtform_to_model(model, form)
+  logger.info(f"Updated model.misc_json: {model.misc_json}")
+
+  # Count errors
+  error_summary = wtf_count_errors(form, log_errors=True)
+  logger.info(f"Error summary: {error_summary}")
+
+  # Test validator manipulation
+  logger.info("Testing change_validators...")
+  change_validators(form, field_names_to_change=["age"], old_validator=InputRequired, new_validator=Optional)
+  for field_name in ["name", "age", "created_at"]:
+    logger.debug(f"{field_name} validators: {form[field_name].validators}")
+
+  # Test selector validation (simulate bad input)
+  form.name.data = "Please Select"
+  validate_selectors(form)
+  logger.info(f"Name field errors after selector validation: {form.name.errors}")
+
+  # Test CSRF-less validation
+  result = validate_no_csrf(form)
+  logger.info(f"validate_no_csrf result: {result}, errors: {form.errors}")
+
+  logger.info("WTForms diagnostics completed successfully.")

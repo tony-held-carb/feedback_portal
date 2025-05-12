@@ -1,21 +1,44 @@
 """
-Defines WTForms that can be used simplify HTML form creation and validation.
+Defines WTForms that can be used to simplify HTML form creation and validation
+for the Oil & Gas and Landfill feedback workflows.
 
-This module defines the forms that derive from FlaskForm.  General purpose
-wt_forms functions are located in arb.utils.wtf_forms_util.py module.
+This module defines forms derived from FlaskForm. They are used in conjunction
+with templates to render sector-specific feedback forms with conditional logic
+and validators based on user inputs.
+
+General-purpose WTForms utilities are located in:
+    arb.utils.wtf_forms_util.py
+
+Form classes:
+    - OGFeedback: Oil & Gas sector form with conditional validation for venting,
+      OGI/Method 21 logic, and equipment/component descriptions.
+    - LandfillFeedback: Landfill sector form with contingent dropdowns, dynamic
+      validation rules, and optional monitoring logic.
+
+Each form includes:
+    - Rich WTForms field definitions
+    - Conditional validators depending on other fields
+    - Custom validate() methods
+    - Dynamic dropdown logic through determine_contingent_fields()
+
+Example usage in Flask route:
+    >>> form = OGFeedback()
+    >>> if form.validate_on_submit():
+    >>>     save_to_db(form.data)
 """
+
 from flask_wtf import FlaskForm
 from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField)
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger()
 
 DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
 

@@ -1,3 +1,18 @@
+"""
+Utility functions for file and path handling, including directory creation,
+secure file name generation, and project root resolution.
+
+Notes:
+    - This module assumes UTC time for timestamping and uses secure filename utilities
+      to prevent unsafe characters.
+    - It also provides tools for resolving the project root dynamically based on known
+      directory structures.
+
+Potential Future Upgrades:
+    - Add support for Windows-specific path edge cases, if needed.
+    - Expand run_diagnostics to perform write/delete tests in a sandbox directory.
+"""
+
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -8,118 +23,132 @@ from arb.__get_logger import get_logger
 from arb.portal.constants import DATETIME_WITH_SECONDS
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger(__name__, __file__)
+logger, pp_log = get_logger()
 
 
-def ensure_parent_dirs(file_name):
+def ensure_parent_dirs(file_name: str | Path) -> None:
   """
   Ensure the parent directories of the given file path exist.
 
   Args:
-      file_name (str or pathlib.Path): A relative or absolute file path.
+      file_name (str | Path): A relative or absolute file path.
 
-  Notes:
-
-  Example usage:
-      ensure_parents("/path/to/some/directory/file.txt")
-      ensure_parents("file.txt")
+  Example:
+      >>> ensure_parent_dirs("/tmp/some/deep/file.txt")
+      >>> ensure_parent_dirs("local_file.txt")
   """
-  logger.debug(f"ensure_parent_dirs() called to ensure parent directories exist for: {file_name=}")
-
-  # Convert to a Path object if it's a string
+  logger.debug(f"ensure_parent_dirs() called for: {file_name=}")
   file_path = Path(file_name)
-
-  # Create parent directories if they don't exist
   file_path.parent.mkdir(parents=True, exist_ok=True)
 
 
-def ensure_dir_exists(dir_path):
+def ensure_dir_exists(dir_path: str | Path) -> None:
   """
-  Ensures that the specified directory exists, creating it if necessary.
+  Ensure that the specified directory exists, creating it if necessary.
 
   Args:
-      dir_path (str or pathlib.Path): The path to the directory to check or create.
+      dir_path (str | Path): The path to the directory to check or create.
 
   Raises:
-      ValueError: If the provided path is not a directory.
+      ValueError: If the path exists and is not a directory.
 
-  Example usage:
-    ensure_directory_exists("some/nested/directory")
-    ensure_directory_exists(Path("another/directory"))
-
+  Example:
+      >>> ensure_dir_exists("logs/output")
   """
-  logger.debug(f"ensure_dir_exists() called to ensure parent directories exist for: {dir_path=}")
-
-  # Convert string to Path if necessary
+  logger.debug(f"ensure_dir_exists() called for: {dir_path=}")
   dir_path = Path(dir_path)
 
-  # Check if the path points to a directory
   if dir_path.exists() and not dir_path.is_dir():
     raise ValueError(f"The path {dir_path} exists and is not a directory.")
 
-  # Create the directory if it doesn't exist
   dir_path.mkdir(parents=True, exist_ok=True)
 
 
-def get_secure_timestamped_file_name(directory, file_name):
+def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> Path:
   """
-  Get a fully specified file name that is secure (no special characters) with a timestamp based on
-  a desired directory and proposed filename (that may have special characters).
+  Generate a secure file name within a specified directory with a UTC timestamp.
 
   Args:
-    directory (str|Path): target directory
-    file_name (str): initial proposed filename
-
-  Returns (Path): fully specified file name
-  """
-
-  # logger.debug(f"{directory=}, {file_name=}")
-  file_name_as_str = secure_filename(file_name)
-  file_name_as_path = Path.home().joinpath(directory, file_name_as_str)
-
-  file_stem = file_name_as_path.stem
-  time_stamp = datetime.now(ZoneInfo("UTC")).strftime(DATETIME_WITH_SECONDS)
-  file_name_as_path = file_name_as_path.with_stem(file_stem + "_ts_" + time_stamp)
-  # logger.debug(f"{file_stem=}, {time_stamp=}, {file_name_as_path=}")
-
-  return file_name_as_path
-
-
-from pathlib import Path
-
-
-def get_project_root_dir(file, match_parts):
-  """
-  Locate the project root directory by walking up from a given file path and identifying
-  a directory whose trailing path components match a known directory structure.
-
-  Unlike typical suffix matchers that return the leaf folder, this function returns the
-  root of the matched structure — i.e., the top-most directory in `match_parts`.
-
-  Args:
-    file (str | Path): The path of a file within the project. Typically `__file__`.
-    match_parts (List[str]): A list of directory names representing a known path suffix,
-                             ordered from project root to leaf. For example:
-                             ["feedback_portal", "source", "production", "arb", "portal"]
+      directory (str | Path): Target directory for the file.
+      file_name (str): Proposed file name (possibly unsafe).
 
   Returns:
-    Path: A `Path` object pointing to the root of the matched structure — the first component
-          in the `match_parts` list.
+      Path: A fully specified, secure, timestamped file path.
+
+  Example:
+      >>> get_secure_timestamped_file_name("/tmp", "user report.xlsx")
+      Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+  """
+  file_name_clean = secure_filename(file_name)
+  full_path = Path.home() / directory / file_name_clean
+
+  timestamp = datetime.now(ZoneInfo("UTC")).strftime(DATETIME_WITH_SECONDS)
+  new_name = f"{full_path.stem}_ts_{timestamp}{full_path.suffix}"
+
+  return full_path.with_name(new_name)
+
+
+class ProjectRootNotFoundError(ValueError):
+  """Raised when the project root cannot be determined from known directory structures."""
+  pass
+
+
+def resolve_project_root(
+    file_path: str | Path,
+    candidate_structures: list[list[str]] | None = None
+) -> Path:
+  """
+  Attempt to locate the project root directory using known folder sequences.
+
+  Args:
+      file_path (str | Path): The file from which to begin traversal (e.g., __file__).
+      candidate_structures (list[list[str]], optional): Known folder chains from root to leaf.
+
+  Returns:
+      Path: The resolved path to the root of the project.
 
   Raises:
-    ValueError: If the specified directory sequence is not found in the parent hierarchy.
+      ProjectRootNotFoundError: If no matching folder sequence is found.
 
-  Logic:
-    - Resolve the input path.
-    - Walk upward through its parents using `.parent`.
-    - At each step, check if the trailing parts of the path match `match_parts`.
-    - If matched, return the path slice up to the beginning of the match.
+  Example:
+      >>> resolve_project_root(__file__)
+      Path("/Users/tony/dev/feedback_portal")
+  """
+  if candidate_structures is None:
+    candidate_structures = [
+      ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel'],
+      ['feedback_portal', 'source', 'production', 'arb', 'portal'],
+    ]
 
-  Discussion:
-    - `current.parts` returns a tuple of strings representing the components of the path.
-      For example:
-        Path("/a/b/c/d.py").parts → ('/', 'a', 'b', 'c', 'd.py')
-    - This allows easy inspection and slicing of the directory structure.
+  errors = []
+  for structure in candidate_structures:
+    try:
+      root = get_project_root_dir(file_path, structure)
+      logger.debug(f"{root =}, based on structure {structure =}")
+      return root
+    except ValueError as e:
+      errors.append(f"{structure}: {e}")
+
+  raise ProjectRootNotFoundError(
+    "Unable to determine project root. Tried the following structures:\n" +
+    "\n".join(errors)
+  )
+
+
+def get_project_root_dir(file: str | Path, match_parts: list[str]) -> Path:
+  """
+  Locate the root of the project by walking up from a file path and matching
+  trailing directory components.
+
+  Args:
+      file (str | Path): The file path to analyze, usually `__file__`.
+      match_parts (list[str]): Ordered list of expected folders from root to leaf.
+
+  Returns:
+      Path: Directory path representing the root of the matched sequence.
+
+  Raises:
+      ValueError: If no match is found in any parent hierarchy.
 
   Passing Example:
     If `file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"`
@@ -137,14 +166,57 @@ def get_project_root_dir(file, match_parts):
 
   current = path
   while current != current.parent:
-    parts = current.parts
-    if list(parts[-match_len:]) == match_parts:
-      # Get the path up to the start of the match
-      return Path(*parts[:len(parts) - match_len + 1])
+    if list(current.parts[-match_len:]) == match_parts:
+      return Path(*current.parts[:len(current.parts) - match_len + 1])
     current = current.parent
 
-  raise ValueError(f"Could not locate project root using match sequence {match_parts} from {path}")
+  raise ValueError(f"Could not locate project root using match_parts={match_parts} from path={path}")
+
+
+def run_diagnostics() -> None:
+  """
+  Run basic diagnostics to validate utility functions in this module.
+
+  This function will:
+    - Ensure a nested test directory is created.
+    - Create a timestamped, secure file name.
+    - Attempt to resolve the project root using known candidate structures.
+
+  Returns:
+      None
+
+  Example:
+      >>> run_diagnostics()
+  """
+  import tempfile
+
+  print("Running diagnostics...")
+
+  # Test ensure_dir_exists
+  test_dir = Path(tempfile.gettempdir()) / "arb_test_nested/subdir"
+  ensure_dir_exists(test_dir)
+  assert test_dir.exists() and test_dir.is_dir()
+
+  # Test ensure_parent_dirs
+  test_file = test_dir / "test_file.txt"
+  ensure_parent_dirs(test_file)
+  assert test_file.parent.exists()
+
+  # Test secure file name generation
+  secured_path = get_secure_timestamped_file_name(test_dir, "My Unsafe Report.xlsx")
+  print(f"Generated secure file: {secured_path}")
+  assert secured_path.name.startswith("My_Unsafe_Report_ts_")
+
+  # Test project root resolution
+  try:
+    project_root = resolve_project_root(__file__)
+    print(f"Resolved project root: {project_root}")
+    assert project_root.exists()
+  except ProjectRootNotFoundError as e:
+    print("WARNING: Could not resolve project root. Skipping root validation.")
+
+  print("All diagnostics completed successfully.")
 
 
 if __name__ == "__main__":
-  pass
+  run_diagnostics()

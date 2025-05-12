@@ -1,5 +1,7 @@
-import arb.__get_logger as get_logger
+from pathlib import Path
+from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
 
-logger, pp_log = get_logger.get_logger(__name__, __file__, force_command_line=True)
+root_logger = file_path = Path(__file__).resolve().parents[3] / "logs"
+logger, pp_log = get_logger(file_stem="arb_portal", file_path=root_logger, log_to_console=False)

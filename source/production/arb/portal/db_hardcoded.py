@@ -6,10 +6,35 @@ Notes:
 """
 import datetime
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger()
+
+# Sector classification constants
+OIL_AND_GAS_SECTORS = [
+  "Industrial - Other",
+  "Industrial: Other",
+  "Industrial: Oil & Gas",
+  "Industrial: Power Generation",
+  "Oil and Gas",
+  "Oil & Gas",
+]
+
+LANDFILL_SECTORS = [
+  "Agriculture: Dairy (Enteric Fermentation or Manure Management)",
+  "Agriculture: Dairy Digester",
+  "Agriculture: Other",
+  "Anaerobic Digester",
+  "Compost",
+  "Landfill",
+  "Landfills",
+  "Livestock",
+  "Recycling & Waste: Compost",
+  "Recycling & Waste: Anaerobic Digester",
+  "Recycling & Waste: Landfills",
+  "Recycling & Waste: Other",
+]
 
 
 def add_og_dummy_data(db, base, table_name) -> None:

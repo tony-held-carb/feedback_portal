@@ -1,27 +1,47 @@
 """
-Module to prep xl templates and to create new Excel files based on jinja payloads.
+Module to prepare Excel templates and generate new Excel files using Jinja-rendered payloads.
+
+This module performs schema-based templating of Excel spreadsheets for feedback forms,
+injects metadata, applies default values, and renders Excel files based on structured
+JSON payloads.
+
+Typical Workflow:
+  1. Use a spreadsheet with named ranges and Jinja placeholders.
+  2. Generate an initial JSON schema using a VBA macro.
+  3. Refine the schema by injecting typing information.
+  4. Generate default and test payloads.
+  5. Populate Excel files using these payloads.
+
+Run this file directly to create all schema and payload artifacts for landfill,
+oil and gas, and energy templates.
 """
+
 import shutil
 import zipfile
 from functools import partial
+from pathlib import Path
 
 import jinja2
 
-import arb.__get_logger as get_logger
+from arb.__get_logger import get_logger
+from arb.utils.excel.xl_file_structure import (PROCESSED_VERSIONS, PROJECT_ROOT)
 from arb.utils.excel.xl_misc import xl_address_sort
 from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
-from arb.utils.json import compare_json_files, json_load, json_load_with_meta, json_save_with_meta
+from arb.utils.json import (
+  compare_json_files,
+  json_load,
+  json_load_with_meta,
+  json_save_with_meta,
+)
 from arb.utils.misc import ensure_key_value_pair
-from arb.utils.excel.xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger()
 
-# todo - need to remove other references to file structure
-#  trying to make the code more platform neutral - 2025-05-03 10:10
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
 ENERGY_VERSION = "v002"
+
 
 def sort_xl_schema(xl_schema, sort_by="variable_name"):
   """
@@ -31,90 +51,98 @@ def sort_xl_schema(xl_schema, sort_by="variable_name"):
   Sub-schema will be sorted in order of "label", "label_address", "value_address", then "value_type".
 
   Args:
-    xl_schema (dict):
-    sort_by (str, optional): Schema sorting scheme.
-      Can be the html element 'variable_name' or the sub-schema 'label_address'.
+    xl_schema (dict): Schema with variable names as keys and sub-schema dicts as values.
+    sort_by (str, optional): Determines sorting strategy: 'variable_name' (default)
+                             sorts alphabetically by the html element variable name;
+                             'label_address' sorts by row order of the sub-schema 'label_address'.
+
+  Returns:
+      dict: Sorted schema dictionary.
+
+  Raises:
+      ValueError: If sort_by is not recognized.
+
+  Example:
+      >>> sorted_schema = sort_xl_schema(schema, sort_by='label_address')
   """
-  logger.debug(f"sort_xl_schema() called")
+  logger.debug("sort_xl_schema() called")
 
-  variable_names = list(xl_schema.keys())
-  for variable_name in variable_names:
-    sub_schema = xl_schema[variable_name]
-    new_order = {}
-    for field in ("label", "label_address", "value_address", "value_type"):
-      if field in sub_schema:
-        new_order[field] = sub_schema.pop(field)
-    # append all other fields to the end of the dict
-    new_order.update(sub_schema)
-    xl_schema[variable_name] = new_order
+  # Reorder each sub-schema dict
+  for variable_name, sub_schema in xl_schema.items():
+    reordered = {}
+    for key in ("label", "label_address", "value_address", "value_type"):
+      if key in sub_schema:
+        reordered[key] = sub_schema.pop(key)
+    reordered.update(sub_schema)
+    xl_schema[variable_name] = reordered
 
-  # Sort the schema by the desired key
+  # Sort top-level dictionary
   if sort_by == "variable_name":
-    logger.debug(f'sorting by variable_name')
-    # dict.items returns a sequence of tuples where item[0] is the key and item[1] is the value
+    logger.debug("Sorting schema by variable_name")
     sorted_items = dict(sorted(xl_schema.items(), key=lambda item: item[0]))
-    # logger.debug(f"\n\tsorted_items:\n{sorted_items}")
   elif sort_by == "label_address":
-    logger.debug(f'sorting by label_address')
-    # Create a partial function for use as the sort key
-    get_xl_row = partial(xl_address_sort, address_location="value", sort_by="row", sub_keys="label_address")
+    logger.debug("Sorting schema by label_address")
+    get_xl_row = partial(
+      xl_address_sort, address_location="value", sort_by="row", sub_keys="label_address"
+    )
     sorted_items = dict(sorted(xl_schema.items(), key=get_xl_row))
-
   else:
     raise ValueError("sort_by must be 'variable_name' or 'label_address'")
 
   return sorted_items
 
 
-def schema_to_json_file(data, schema_version, file_name=None):
+def schema_to_json_file(data: dict, schema_version: str, file_name: str = None) -> None:
   """
-  Save a schema data to a json file.
+  Save an Excel schema to a JSON file with metadata.
 
   Args:
-    data (dict): data to save in a json file.
-    schema_version (str): description of the schema for metadata
-    file_name (str, optional): json output file path
+      data (dict): The schema to serialize.
+      schema_version (str): Version identifier for the schema.
+      file_name (str, optional): Path to output JSON file. Defaults to "xl_schemas/{schema_version}.json".
+
+  Example:
+      >>> schema_to_json_file(my_schema, schema_version="v01_00")
   """
   logger.debug(f"schema_to_json_file() called with {schema_version=}, {file_name=}")
 
   if file_name is None:
-    file_name = "xl_schemas/" + schema_version + ".json"
+    file_name = f"xl_schemas/{schema_version}.json"
 
   ensure_parent_dirs(file_name)
-
-  # Convert and write JSON object to file
   metadata = {'schema_version': schema_version}
 
-  logger.debug(f"Creating JSON file: {file_name} with metadata: {metadata}")
+  logger.debug(f"Saving schema to: {file_name} with metadata: {metadata}")
+  json_save_with_meta(file_name, data=data, metadata=metadata, json_options=None)
 
-  json_save_with_meta(file_name,
-                      data=data,
-                      metadata=metadata,
-                      json_options=None)
-
-  # Reload data and metadata to ensure it was saved correctly (may want to comment out in the future)
+  # Verify round-trip serialization
   read_data, read_metadata = json_load_with_meta(file_name)
   if read_data == data and read_metadata == metadata:
-    logger.debug("SUCCESS. JSON data serialized/deserialized are equivalent to the original data.")
+    logger.debug("SUCCESS: JSON serialization round-trip matches original.")
   else:
-    logger.warning("FAILURE. JSON data serialized/deserialized are NOT equivalent to the original data.")
+    logger.warning("FAILURE: Mismatch in JSON serialization round-trip.")
 
 
-def update_vba_schema(schema_version,
-                      file_name_in=None,
-                      file_name_out=None,
-                      file_name_default_value_types=None,
-                      ):
+def update_vba_schema(
+    schema_version: str,
+    file_name_in: Path = None,
+    file_name_out: Path = None,
+    file_name_default_value_types: Path = None
+) -> dict:
   """
-  Update a schema created with vba routines and add variable type information and metadata.
+  Update schema generated from VBA with value_type info and re-sort.
 
   Args:
-    schema_version (str): schema version
-    file_name_in (str|Path, optional): input file name
-    file_name_out (str|Path, optional): output file name
-    file_name_default_value_types (str|Path, optional): json file with default typing information
+      schema_version (str): Identifier for the schema version.
+      file_name_in (Path, optional): Path to raw VBA-generated schema JSON.
+      file_name_out (Path, optional): Path to output updated schema JSON.
+      file_name_default_value_types (Path, optional): Path to JSON containing default value types.
 
-  Returns (dict): schema with updated typing
+  Returns:
+      dict: The updated and sorted schema.
+
+  Example:
+      >>> updated = update_vba_schema("landfill_v01_00")
   """
   logger.debug(f"update_vba_schema() called with {schema_version=}, {file_name_in=}, "
                f"{file_name_out=}, {file_name_default_value_types=}")
@@ -130,414 +158,366 @@ def update_vba_schema(schema_version,
   ensure_parent_dirs(file_name_out)
   ensure_parent_dirs(file_name_default_value_types)
 
-  # load in the default typing
   default_value_types, _ = json_load_with_meta(file_name_default_value_types)
-
-  # load the vba generated json file
   schema = json_load(file_name_in, json_options=None)
 
-  # add default variable typing to the schema file and sort
   ensure_key_value_pair(schema, default_value_types, "value_type")
   schema = sort_xl_schema(schema, sort_by="label_address")
 
-  # Save to updated schema file with metadata
   schema_to_json_file(schema, schema_version, file_name=file_name_out)
-
   return schema
 
 
-def update_vba_schemas():
+def update_vba_schemas() -> None:
   """
-  Update multiple schemas created with vba routines using update_vba_schema.
+  Batch update of known VBA-generated schemas using `update_vba_schema()`.
+
+  Example:
+      >>> update_vba_schemas()
   """
-  logger.debug(f"updated_vba_schemas() called")
+  logger.debug("update_vba_schemas() called")
 
-  schema_versions = ['landfill_v01_00', 'oil_and_gas_v01_00']
-
-  for schema_version in schema_versions:
-    update_vba_schema(schema_version,
-                      file_name_in=None,
-                      file_name_out=None,
-                      file_name_default_value_types=None,
-                      )
+  for schema_version in ["landfill_v01_00", "oil_and_gas_v01_00"]:
+    update_vba_schema(schema_version)
 
 
-def schema_to_default_dict(schema_file_name):
+def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
   """
-  Based on an Excel json schema file created with update_vba_schema, return a
-  dictionary with html variable names for keys default values. For drop down cells,
-  the default is 'Please Select'; the default is a blank string for non drop down cells.
+  Generate default values from a schema. Dropdowns default to "Please Select", others to "".
 
   Args:
-    schema_file_name (str|pathlib.Path): path to json Excel schema file
+      schema_file_name (Path): Path to the schema JSON file.
 
-  Returns
-    tuple: A tuple containing the default values and metadata associated with a schema file.
-    - defaults (dict):
-    - metadata (dict):
+  Returns:
+      tuple:
+          - defaults (dict): Mapping of HTML variable names to default values.
+          - metadata (dict): Metadata from the schema file.
+
+  Example:
+      >>> defaults, meta = schema_to_default_dict(Path("xl_schemas/landfill_v01_00.json"))
   """
   logger.debug(f"schema_to_default_dict() called for {schema_file_name=}")
-
-  defaults = {}
 
   data, metadata = json_load_with_meta(schema_file_name)
   logger.debug(f"{metadata=}")
 
-  for variable, sub_schema in data.items():
-    if sub_schema["is_drop_down"] is True:
-      defaults[variable] = "Please Select"
-    else:
-      defaults[variable] = ""
+  defaults = {
+    variable: "Please Select" if sub_schema.get("is_drop_down") else ""
+    for variable, sub_schema in data.items()
+  }
 
   return defaults, metadata
 
 
-def schema_to_default_json(file_name_in,
-                           file_name_out=None,
-                           ):
+def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tuple[dict, dict]:
   """
-  Based on an Excel json schema file created wit update_vba_schema, save a json file
-  with default values and return a dictionary with html variable names for keys default values.
-  For drop down cells, the default is 'Please Select';
-  the default is a blank string for non drop down cells.
+  Save default values extracted from a schema into a separate JSON file.
 
   Args:
-    file_name_in (str|pathlib.Path): json input file path of an Excel schema
-    file_name_out (str|pathlib.Path, optional): json output file path of an Excel schema
+      file_name_in (Path): Input schema JSON path.
+      file_name_out (Path, optional): Output JSON path. Defaults to 'xl_payloads/{schema_version}_defaults.json'.
 
-  Returns
-    tuple: A tuple containing the default values and metadata associated with a schema file.
-    - defaults (dict):
-    - metadata (dict):
+  Returns:
+      tuple:
+          - defaults (dict): Generated default values.
+          - metadata (dict): Metadata used for output JSON.
+
+  Example:
+      >>> schema_to_default_json(Path("xl_schemas/landfill_v01_00.json"))
   """
   logger.debug(f"schema_to_default_json() called for {file_name_in=}")
 
   defaults, metadata = schema_to_default_dict(file_name_in)
-  metadata['notes'] = ("Default values are empty strings unless the field is a drop down cell.  "
-                       "For drop down cells, the default is 'Please Select'.")
+  metadata['notes'] = (
+    "Default values are empty strings unless the field is a drop down cell. "
+    "For drop down cells, the default is 'Please Select'."
+  )
 
   if file_name_out is None:
-    file_name_out = "xl_payloads/" + metadata['schema_version'] + "_defaults.json"
+    file_name_out = f"xl_payloads/{metadata['schema_version']}_defaults.json"
 
   ensure_parent_dirs(file_name_out)
 
-  json_save_with_meta(file_name_out,
-                      data=defaults,
-                      metadata=metadata,
-                      json_options=None)
-
+  json_save_with_meta(file_name_out, data=defaults, metadata=metadata, json_options=None)
   return defaults, metadata
 
 
-def update_xlsx(file_in, file_out, jinja_dict):
+def update_xlsx(file_in: Path, file_out: Path, jinja_dict: dict) -> None:
   """
-  Rewrite a xlsx file by replacing jinja variable placeholders (e.g. {{ my_variable }}) with
-  values from a dictionary of key value pairs.
+  Render a Jinja-templated XLSX file by replacing placeholders with values from a dictionary.
 
   Args:
-      file_in (str|pathlib.Path): Path to the original XLSX file.
-      file_out (str|pathlib.Path): Path to save the processed XLSX file.
-      jinja_dict (dict): Dictionary where dict keys represent jinja template variable names and
-                         dict values represent the jinja variable value.
-  """
-  logger.debug(f"Convertion input file: {file_in} to {file_out} with: {jinja_dict}")
+      file_in (Path): Path to the Jinja-enabled XLSX file.
+      file_out (Path): Path to write the rendered Excel file.
+      jinja_dict (dict): Dictionary mapping Jinja variable names to replacement values.
 
-  with (zipfile.ZipFile(file_in, 'r') as xlsx,
-        zipfile.ZipFile(file_out, 'w') as new_xlsx):
+  Example:
+      >>> update_xlsx(Path("template.xlsx"), Path("output.xlsx"), {"id": "123"})
+  """
+  logger.debug(f"Rendering Excel from {file_in} to {file_out} using {jinja_dict}")
+
+  with zipfile.ZipFile(file_in, 'r') as xlsx, zipfile.ZipFile(file_out, 'w') as new_xlsx:
     for filename in xlsx.namelist():
       with xlsx.open(filename) as file:
         contents = file.read()
-
         if filename == 'xl/sharedStrings.xml':
-          # Perform string replacement for the specific file
-          contents = jinja2.Template(contents.decode('utf-8')).render(jinja_dict)
-          contents = contents.encode('utf-8')
-
+          contents = jinja2.Template(contents.decode('utf-8')).render(jinja_dict).encode('utf-8')
         new_xlsx.writestr(filename, contents)
 
 
-def update_xlsx_payloads(file_in, file_out, payloads):
+def update_xlsx_payloads(file_in: Path, file_out: Path, payloads: list | tuple) -> None:
   """
-  Update an Excel file with key value pairs from payloads.  If the payload is a path
-  to a json file, the payload is the file's data.  Payloads will be processed in order,
-  and will overwrite key's if they duplicate.
-
-  Note: You will very likely want the default payload created with prep_xl_templates()
-  to be your first payload as it will contain default values for the drop-down cells.
+  Merge multiple payloads and use them to render a Jinja-templated Excel file.
 
   Args:
-    file_in (str|pathlib.Path): Path to the original XLSX file.
-    file_out (str|pathlib.Path): Path to save the processed XLSX file.
-    payloads (list|tuple): Sequence of json file names containing a payload or a dictionary.
+      file_in (Path): Input XLSX file with Jinja placeholders.
+      file_out (Path): Output rendered XLSX file.
+      payloads (list | tuple): Sequence of dicts or JSON file paths. Later payloads override earlier ones.
 
+  Note:
+      Typical usage includes a default payload first (as it will contain default values for the drop-down cells)
+      followed by one or more overrides.
+
+  Example:
+      >>> update_xlsx_payloads(
+      >>>     Path("template.xlsx"),
+      >>>     Path("final.xlsx"),
+      >>>     [Path("defaults.json"), {"id_case": "A42"}]
+      >>> )
   """
   logger.debug(f"update_xlsx_payloads() called with: {file_in=}, {file_out=}, {payloads=}")
 
-  # convert payloads that are json files into dicts
-  new_payloads = []
   new_dict = {}
-
-  # Extract payloads from dicts and json files
   for payload in payloads:
     if isinstance(payload, dict):
-      new_payloads.append(payload)
+      data = payload
     else:
-      data, metadata = json_load_with_meta(payload)
-      new_payloads.append(data)
-
-  # create single payload from multiple payloads
-  # subsequent payload will overwrite previous entries
-  for payload in new_payloads:
-    new_dict.update(payload)
+      data, _ = json_load_with_meta(payload)
+    new_dict.update(data)
 
   update_xlsx(file_in, file_out, new_dict)
 
 
-def test_update_xlsx_payloads_01():
+def test_update_xlsx_payloads_01() -> None:
   """
-  Example usage of update_xlsx_payloads.
+  Run sample tests that apply known payloads to known Jinja-templated Excel workbooks.
+
+  This helps verify that the Jinja replacement system is functioning correctly.
+
+  Example:
+      >>> test_update_xlsx_payloads_01()
   """
+  logger.debug("test_update_xlsx_payloads_01() called")
 
-  logger.debug(f"test_update_xlsx_payloads_01() called")
+  # Landfill test with two payloads from file
+  update_xlsx_payloads(
+    PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx",
+    PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx",
+    [
+      PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_defaults.json",
+      PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json",
+    ]
+  )
 
-  # changing to relative references so code will work on ec2, eventually will move to s3
+  # Landfill test with one file payload and one inline dict
+  update_xlsx_payloads(
+    PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx",
+    PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_02.xlsx",
+    [
+      PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json",
+      {"id_incidence": "123456"},
+    ]
+  )
 
-  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
-  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx"
-  payload_01 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_defaults.json"
-  payload_02 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
-  update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
+  # Oil and gas test
+  update_xlsx_payloads(
+    PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx",
+    PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_populated_01.xlsx",
+    [
+      PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_defaults.json",
+      PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01.json",
+    ]
+  )
 
-  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx"
-  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_02.xlsx"
-  payload_01 = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
-  payload_02 = {"id_incidence": "123456"}
-  update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
-
-  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx"
-  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_populated_01.xlsx"
-  payload_01 = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_defaults.json"
-  # payload_02 = {"id_incidence": "456789"}
-  payload_02 = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01.json"
-  update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
-
-  file_name_in = PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx"
-  file_name_out = PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_populated_01.xlsx"
-  payload_01 = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_defaults.json"
-  payload_02 = {"id_incidence": "654321"}
-  update_xlsx_payloads(file_name_in, file_name_out, [payload_01, payload_02])
+  # Energy test with inline payload
+  update_xlsx_payloads(
+    PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx",
+    PROCESSED_VERSIONS / f"xl_workbooks/energy_operator_feedback_{ENERGY_VERSION}_populated_01.xlsx",
+    [
+      PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_defaults.json",
+      {"id_incidence": "654321"},
+    ]
+  )
 
 
-def prep_xl_templates():
+def prep_xl_templates() -> None:
   """
-  Primary entry point to prepare newly created feedback forms into usable templates for
-  operator feedback notifications.
+  Create and populate the working directory with schemas, workbooks, and default payloads.
 
-  Step 1.  Create spreadsheet version with named ranges as defined in RSDAS usage specification.
-  Step 2.  Run VBA subroutine named named_ranges_to_schema_file() to create an initial schema version.
-  Step 3.  Run VBA subroutine named save_with_jinja_template() to create a jinja template for the spreadsheet
-           that can be modified in python.
-  Step 4.  Specify the version, original spreadsheet path, initial schema version path, and jinja template path
-           for further processing below.
-  Step 5.  Specify the file specs below for each group of files you wish to convert to a usable python template file.
+  This is the main entry point for initial Excel form conversion. It:
+    - Copies base Excel files
+    - Copies VBA-generated schema files
+    - Converts and upgrades schema files with types
+    - Creates Jinja-compatible workbook versions
+    - Writes default payloads for web use
+
+  Example:
+      >>> prep_xl_templates()
   """
-  # todo - break this into helper functions
-
-  logger.debug(f"prep_xl_templates() called to create oil & gas, landfill, and energy schemas")
+  logger.debug("prep_xl_templates() called for landfill, oil & gas, and energy schemas")
 
   file_specs = []
-
-  # change input/output at some point for s3 rather than ec2/laptop
-  # input_dir = Path("C:/one_drive/code/pycharm/feedback_portal/feedback_forms/current_versions")
   input_dir = PROJECT_ROOT / "feedback_forms/current_versions"
-  # output_dir = Path(".")
   output_dir = PROJECT_ROOT / "feedback_forms/processed_versions"
 
   ensure_dir_exists(output_dir / "xl_schemas")
   ensure_dir_exists(output_dir / "xl_workbooks")
   ensure_dir_exists(output_dir / "xl_payloads")
 
-  schema_version = "landfill_v01_00"
-  file_spec = {"schema_version": schema_version,
+  template_configs = [
+    ("landfill_v01_00", "landfill_operator_feedback", LANDFILL_VERSION),
+    ("oil_and_gas_v01_00", "oil_and_gas_operator_feedback", OIL_AND_GAS_VERSION),
+    ("energy_v00_01", "energy_operator_feedback", ENERGY_VERSION),
+  ]
 
-               "input_schema_vba_path": input_dir / f"{schema_version}_vba.json",
-               "input_xl_path": input_dir / f"landfill_operator_feedback_{LANDFILL_VERSION}.xlsx",
-               "input_xl_jinja_path": input_dir / f"landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx",
+  for schema_version, prefix, version in template_configs:
+    spec = {
+      "schema_version": schema_version,
+      "input_schema_vba_path": input_dir / f"{schema_version}_vba.json",
+      "input_xl_path": input_dir / f"{prefix}_{version}.xlsx",
+      "input_xl_jinja_path": input_dir / f"{prefix}_{version}_jinja_.xlsx",
+      "output_schema_vba_path": output_dir / "xl_schemas" / f"{schema_version}_vba.json",
+      "output_schema_path": output_dir / "xl_schemas" / f"{schema_version}.json",
+      "output_xl_path": output_dir / "xl_workbooks" / f"{prefix}_{version}.xlsx",
+      "output_xl_jinja_path": output_dir / "xl_workbooks" / f"{prefix}_{version}_jinja_.xlsx",
+      "output_payload_path": output_dir / "xl_payloads" / f"{schema_version}_defaults.json",
+    }
+    file_specs.append(spec)
 
-               "output_schema_vba_path": output_dir / "xl_schemas" / f"{schema_version}_vba.json",
-               "output_schema_path": output_dir / "xl_schemas" / f"{schema_version}.json",
-               "output_xl_path": output_dir / "xl_workbooks" / f"landfill_operator_feedback_{LANDFILL_VERSION}.xlsx",
-               "output_xl_jinja_path": output_dir / "xl_workbooks" / f"landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx",
-               "output_payload_path": output_dir / "xl_payloads" / f"{schema_version}_defaults.json",
-               }
-  file_specs.append(file_spec)
+  for spec in file_specs:
+    logger.debug(f"Processing schema_version {spec['schema_version']}")
 
-  schema_version = "oil_and_gas_v01_00"
-  file_spec = {"schema_version": schema_version,
+    file_map = [(spec["input_schema_vba_path"], spec["output_schema_vba_path"]),
+                (spec["input_xl_path"], spec["output_xl_path"]),
+                (spec["input_xl_jinja_path"], spec["output_xl_jinja_path"]), ]
 
-               "input_schema_vba_path": input_dir / f"{schema_version}_vba.json",
-               "input_xl_path": input_dir / f"oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}.xlsx",
-               "input_xl_jinja_path": input_dir / f"oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx",
+    for file_old, file_new in file_map:
+      logger.debug(f"Copying file from: {file_old} to: {file_new}")
+      shutil.copy(file_old, file_new)
 
-               "output_schema_vba_path": output_dir / "xl_schemas" / f"{schema_version}_vba.json",
-               "output_schema_path": output_dir / "xl_schemas" / f"{schema_version}.json",
-               "output_xl_path": output_dir / "xl_workbooks" / f"oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}.xlsx",
-               "output_xl_jinja_path": output_dir / "xl_workbooks" / f"oil_and_gas_operator_feedback_{OIL_AND_GAS_VERSION}_jinja_.xlsx",
-               "output_payload_path": output_dir / "xl_payloads" / f"{schema_version}_defaults.json",
-               }
-  file_specs.append(file_spec)
+    update_vba_schema(spec["schema_version"],
+                      file_name_in=spec["output_schema_vba_path"],
+                      file_name_out=spec["output_schema_path"])
 
-  schema_version = "energy_v00_01"
-  file_spec = {"schema_version": schema_version,
-
-               "input_schema_vba_path": input_dir / f"{schema_version}_vba.json",
-               "input_xl_path": input_dir / f"energy_operator_feedback_{ENERGY_VERSION}.xlsx",
-               "input_xl_jinja_path": input_dir / f"energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx",
-
-               "output_schema_vba_path": output_dir / "xl_schemas" / f"{schema_version}_vba.json",
-               "output_schema_path": output_dir / "xl_schemas" / f"{schema_version}.json",
-               "output_xl_path": output_dir / "xl_workbooks" / f"energy_operator_feedback_{ENERGY_VERSION}.xlsx",
-               "output_xl_jinja_path": output_dir / "xl_workbooks" / f"energy_operator_feedback_{ENERGY_VERSION}_jinja_.xlsx",
-               "output_payload_path": output_dir / "xl_payloads" / f"{schema_version}_defaults.json",
-               }
-  file_specs.append(file_spec)
-
-  for file_spec in file_specs:
-    logger.debug(f"Processing schema_version {file_spec['schema_version']}")
-
-    logger.debug(f"Copying file from: {file_spec['input_schema_vba_path']} to: {file_spec['output_schema_vba_path']}")
-    shutil.copy(file_spec["input_schema_vba_path"], file_spec["output_schema_vba_path"])
-
-    logger.debug(f"Copying file from: {file_spec['input_xl_path']} to: {file_spec['output_xl_path']}")
-    shutil.copy(file_spec["input_xl_path"], file_spec["output_xl_path"])
-
-    logger.debug(f"Copying file from: {file_spec['input_xl_jinja_path']} to: {file_spec['output_xl_jinja_path']}")
-    shutil.copy(file_spec["input_xl_jinja_path"], file_spec["output_xl_jinja_path"])
-
-    update_vba_schema(file_spec["schema_version"],
-                      file_name_in=file_spec["output_schema_vba_path"],
-                      file_name_out=file_spec["output_schema_path"])
-
-    schema_to_default_json(file_name_in=file_spec["output_schema_path"],
-                           file_name_out=file_spec["output_payload_path"])
+    schema_to_default_json(file_name_in=spec["output_schema_path"],
+                           file_name_out=spec["output_payload_path"])
 
 
-def create_default_types_schema(diagnostics=False):
+def create_default_types_schema(diagnostics: bool = False) -> dict:
   """
-  Based on the default_value_types_v01_00 dict in xl_hardcoded.py,
-  create a json file with the default data type associated with html element names.
-
-  Note, this routine used to use the outdated air campaign schema information that
-  was removed from this file and archived 2025-04-23.
+  Create and optionally log a JSON file that maps variable names to default value types.
 
   Args:
-    diagnostics (bool) : True if you want additional diagnostic info
+      diagnostics (bool): If True, print each variable and type to logger.
+
+  Returns:
+      dict: Mapping of field names to Python types.
+
+  Example:
+      >>> create_default_types_schema(diagnostics=True)
   """
   from arb.utils.excel.xl_hardcoded import default_value_types_v01_00
-  logger.debug(f"create_default_types_schema called to create the default data type dictionary")
+
+  logger.debug("create_default_types_schema() called")
 
   file_name = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00.json"
   file_backup = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00_backup.json"
 
   field_types = dict(sorted(default_value_types_v01_00.items()))
 
-  # print(field_types)
-  # for k, v in field_types.items():
-  #   print(f'"{k}": {v.__name__},')
-
   if diagnostics:
-    for variable_name, type_ in field_types.items():
-      logger.debug(f"'{variable_name}': {type_.__name__},")
+    for name, typ in field_types.items():
+      logger.debug(f"'{name}': {typ.__name__},")
 
   metadata = {"schema_version": "default_value_types_v01_00"}
   json_save_with_meta(file_name, field_types, metadata=metadata)
 
-  # Check that the json file is equivalent to a backup
   if file_name.is_file() and file_backup.is_file():
     compare_json_files(file_name, file_backup)
 
   return field_types
 
 
-def create_payload(payload,
-                   file_name,
-                   schema_version,
-                   metadata=None):
+def create_payload(payload: dict, file_name: Path, schema_version: str, metadata: dict = None) -> None:
   """
-  Create payload with schema version
+  Create a JSON payload file with embedded metadata.
 
   Args:
-    payload (dict): data to store in json file
-    file_name (str, optional): json output file path
-    schema_version (str): description of the schema
-    metadata (dict, optional): metadata to store in json file
-  """
-  logger.debug(f"create_payload() called")
+      payload (dict): Data to store in JSON.
+      file_name (Path): Output file path.
+      schema_version (str): Schema version the payload conforms to.
+      metadata (dict, optional): Additional metadata. Will be updated with schema version and description.
 
-  # Convert and write JSON object to file
+  Example:
+      >>> create_payload({"id_case": "123"}, Path("payload.json"), "v01_00")
+  """
+  logger.debug("create_payload() called")
+
   if metadata is None:
     metadata = {}
 
   metadata["schema_version"] = schema_version
   metadata["payload description"] = "Test of Excel jinja templating system"
 
-  logger.debug(f"Creating JSON file: {file_name} with metadata: {metadata}")
-
-  json_save_with_meta(file_name,
-                      data=payload,
-                      metadata=metadata,
-                      )
+  logger.debug(f"Writing payload to {file_name} with metadata: {metadata}")
+  json_save_with_meta(file_name, data=payload, metadata=metadata)
 
 
-def create_payloads():
+def create_payloads() -> None:
   """
-  Create payloads for testing/development.
+  Write predefined payloads to disk for landfill, oil & gas, and energy forms.
 
-  Returns:
+  Note:
+      These payloads support development and QA for XLSX rendering and form field population.
 
+  Example:
+      >>> create_payloads()
   """
-  logger.debug(f"create_payloads() called")
+  logger.debug("create_payloads() called")
 
   from arb.utils.excel.xl_hardcoded import landfill_payload_01, oil_and_gas_payload_01
 
-  payload = landfill_payload_01
-  schema_version = "landfill_v01_00"
-  file_name = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01.json"
-  file_backup = PROCESSED_VERSIONS / "xl_payloads/landfill_v01_00_payload_01_backup.json"
+  test_sets = [
+    ("landfill_v01_00", landfill_payload_01),
+    ("oil_and_gas_v01_00", oil_and_gas_payload_01),
+    ("energy_v00_01", oil_and_gas_payload_01),  # Reuse oil & gas payload
+  ]
 
-  create_payload(payload, file_name, schema_version, )
-  # Check that the json file is equivalent to a backup
-  if file_name.is_file() and file_backup.is_file():
-    compare_json_files(file_name, file_backup)
+  for schema_version, payload in test_sets:
+    file_name = PROCESSED_VERSIONS / f"xl_payloads/{schema_version}_payload_01.json"
+    file_backup = PROCESSED_VERSIONS / f"xl_payloads/{schema_version}_payload_01_backup.json"
 
-  payload = oil_and_gas_payload_01
-  schema_version = "oil_and_gas_v01_00"
-  file_name = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01.json"
-  file_backup = PROCESSED_VERSIONS / "xl_payloads/oil_and_gas_v01_00_payload_01_backup.json"
+    create_payload(payload, file_name, schema_version)
 
-  create_payload(payload, file_name, schema_version, )
-  # Check that the json file is equivalent to a backup
-  if file_name.is_file() and file_backup.is_file():
-    compare_json_files(file_name, file_backup)
-
-  # Use oil and gas payload for energy since they share many fields in common
-  payload = oil_and_gas_payload_01
-  schema_version = "energy_v00_01"
-  file_name = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_payload_01.json"
-  file_backup = PROCESSED_VERSIONS / "xl_payloads/energy_v00_01_payload_01_backup.json"
-
-  create_payload(payload, file_name, schema_version, )
-  # Check that the json file is equivalent to a backup
-  if file_name.is_file() and file_backup.is_file():
-    compare_json_files(file_name, file_backup)
+    if file_name.is_file() and file_backup.is_file():
+      compare_json_files(file_name, file_backup)
 
 
-def create_schemas_and_payloads():
+def create_schemas_and_payloads() -> None:
   """
-  Create landfill and oil and gas schema and payload json files.
-  """
+  Entry point to create schema files, default value payloads, and test population of Excel files.
 
-  logger.debug(f"create_schemas_and_payloads() called")
+  This orchestrates:
+    - default types schema
+    - upgraded schema files
+    - default value payloads
+    - test payloads
+    - test XLSX rendering
+
+  Example:
+      >>> create_schemas_and_payloads()
+  """
+  logger.debug("create_schemas_and_payloads() called")
 
   ensure_dir_exists(PROCESSED_VERSIONS / "xl_schemas")
   ensure_dir_exists(PROCESSED_VERSIONS / "xl_workbooks")
@@ -549,6 +529,37 @@ def create_schemas_and_payloads():
   test_update_xlsx_payloads_01()
 
 
+def run_diagnostics() -> None:
+  """
+  Run a battery of diagnostic checks to verify schema parsing, default value generation,
+  payload creation, and Excel file population functionality.
+
+  This function is meant to be called interactively or during development to
+  quickly verify that major routines are working as expected.
+
+  Example:
+      >>> run_diagnostics()
+  """
+  logger.info("Running diagnostics...")
+
+  try:
+    logger.info("Step 1: Creating default type schema")
+    create_default_types_schema(diagnostics=True)
+
+    logger.info("Step 2: Creating and verifying schema files and payloads")
+    prep_xl_templates()
+    create_payloads()
+
+    logger.info("Step 3: Performing test Excel generation")
+    test_update_xlsx_payloads_01()
+
+    logger.info("Diagnostics complete. Check output directory and logs for details.")
+
+  except Exception as e:
+    logger.exception(f"Diagnostics failed: {e}")
+
+
 if __name__ == "__main__":
-  pass
   create_schemas_and_payloads()
+  # Uncomment below line to run additional test harness
+  # run_diagnostics()

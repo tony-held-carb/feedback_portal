@@ -1,43 +1,43 @@
 """
-Module to store expected Excel file structure in a platform independent way.
+Module to determine the path to the root of the feedback_portal project in a platform-independent way.
 
-Current directory structure:
-feedback_portal             <-- base of project directory tree
- - feedback_forms
-  - current_versions        <--  current versions of the feedback forms created in excel/vba
-  - processed_versions      <--  updated versions of the "current versions" created in python
-    - xl_payloads
-    - xl_schemas
-    - xl_workbooks
-  - source
-    - production
-    - arb
-      - portal
-    - utils
-      - excel
+This module can be invoked from multiple runtime contexts, including:
+- The `utils.excel` directory (e.g., for standalone Excel/VBA payload generation).
+- The `portal` Flask app directory.
 
-The goal of this module is to determine the path to feedback_portal in a platform independent way,
-independent of whether this module was run from utils.excel directory or a flask app.
+Directory structure reference:
+
+/feedback_portal/                   <-- Base of project directory tree
+  ├── feedback_forms/
+       ├── current_versions/        <-- Current versions of feedback forms (created in Excel/VBA)
+       └── processed_versions/      <-- Updated versions created in Python
+            ├── xl_payloads/
+            ├── xl_schemas/
+            └── xl_workbooks/
+  ├── source/
+       └── production/
+            └── arb/
+                 ├── portal/        <-- Flask app
+                 └── utils/
+                      └── excel/    <-- Excel generation scripts
 """
 
-import arb.__get_logger as get_logger
-from arb.utils.file_io import get_project_root_dir
+from arb.__get_logger import get_logger
+from arb.utils.file_io import resolve_project_root
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+logger, pp_log = get_logger()
 
-try:
-  # project is running from the utils.excel directory
-  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel']
-  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  logger.debug(f"{PROJECT_ROOT =}, determined by {__file__ =} and {app_dir_structure =}")
-except ValueError as e:
-  # project is running from the portal flask app
-  app_dir_structure = ['feedback_portal', 'source', 'production', 'arb', 'portal']
-  PROJECT_ROOT = get_project_root_dir(__file__, app_dir_structure)
-  logger.debug(f"{PROJECT_ROOT =}, determined by {__file__ =} and {app_dir_structure =}")
+# directory structures that contain the project root
+candidate_structures = [
+  ['feedback_portal', 'source', 'production', 'arb', 'utils', 'excel'],
+  ['feedback_portal', 'source', 'production', 'arb', 'portal'],
+]
+
+# Set project root and derived paths
+PROJECT_ROOT = resolve_project_root(__file__, candidate_structures)
 
 FEEDBACK_FORMS = PROJECT_ROOT / "feedback_forms"
 CURRENT_VERSIONS = FEEDBACK_FORMS / "current_versions"
 PROCESSED_VERSIONS = FEEDBACK_FORMS / "processed_versions"
 
-logger.debug(f"{PROJECT_ROOT =}, {FEEDBACK_FORMS = }, {CURRENT_VERSIONS = }, {PROCESSED_VERSIONS = }")
+logger.debug(f"{PROJECT_ROOT =}, {FEEDBACK_FORMS =}, {CURRENT_VERSIONS =}, {PROCESSED_VERSIONS =}")

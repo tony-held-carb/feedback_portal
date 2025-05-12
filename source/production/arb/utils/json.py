@@ -1,6 +1,13 @@
 """
-Module for json related utility functions and classes.
+Module for JSON-related utility functions and classes.
+
+Includes custom serialization for datetime and decimal objects,
+metadata support, and file comparison diagnostics.
+
+Version:
+    1.0.0
 """
+
 import datetime
 import decimal
 import json
@@ -11,39 +18,52 @@ from zoneinfo import ZoneInfo
 from arb.__get_logger import get_logger
 from arb.utils.diagnostics import compare_dicts
 
-# from datetime import datetime
 __version__ = "1.0.0"
-logger, pp_log = get_logger(__name__, __file__)
+logger, pp_log = get_logger()
 
 
-# todo - clean up and integrate new json techniques to the website
-def json_serializer(obj):
+# todo - integrate new json techniques to the website,
+#       make sure time are handled using the new time stamps iso strings and native pacific system
+
+def json_serializer(obj) -> dict:
   """
-  Custom JSON serializer for objects not serializable by default
+  Custom JSON serializer for objects not natively serializable by `json.dump`.
+
+  Args:
+      obj: The object to serialize.
+
+  Returns:
+      dict: A dictionary representation of the object.
+
+  Raises:
+      TypeError: If the object type is unsupported.
+
+  Example:
+      >>> json.dumps(datetime.datetime.now(), default=json_serializer)
   """
-  # logger.debug(f"custom_serializer() called with type= {type(obj)}, obj={obj}")
-  # Check if a variable is a class type (not an object instances)
   if isinstance(obj, type):
-    return_val = {"__class__": obj.__name__, "__module__": obj.__module__}
-    # logger.debug(f"{return_val=}")
-    return return_val
+    return {"__class__": obj.__name__, "__module__": obj.__module__}
   elif isinstance(obj, datetime.datetime):
-    return_val = {"__type__": "datetime.datetime", "value": obj.isoformat()}
-    # logger.debug(f"{return_val=}")
-    return return_val
+    return {"__type__": "datetime.datetime", "value": obj.isoformat()}
   elif isinstance(obj, decimal.Decimal):
-    # Serialize decimal.Decimal as a string
     return {"__type__": "decimal.Decimal", "value": str(obj)}
 
   raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 
-def json_deserializer(obj):
+def json_deserializer(obj: dict) -> object:
   """
-  Custom JSON deserializer for RSDAS objects
-  """
-  # logger.debug(f"deserializer() called with type= {type(obj)}, obj={obj}")
+  Custom JSON deserializer for known class/type representations.
 
+  Args:
+      obj (dict): Dictionary object from JSON file.
+
+  Returns:
+      object: Reconstructed Python object.
+
+  Example:
+      >>> json.loads(json_string, object_hook=json_deserializer)
+  """
   new_obj = obj
 
   if "__class__" in obj:
@@ -58,13 +78,14 @@ def json_deserializer(obj):
       new_obj = bool
     elif obj["__class__"] == "datetime":
       new_obj = datetime.datetime
+    else:
+      raise TypeError(f"Object of type {type(obj).__name__} is not JSON deserializable")
 
   elif "__type__" in obj:
-    # logger.debug(f"{obj['__type__']=} detected in object deserializer.")
-    if obj["__type__"] == "datetime.datetime":
+    type_tag = obj["__type__"]
+    if type_tag == "datetime.datetime":
       new_obj = datetime.datetime.fromisoformat(obj["value"])
-    elif obj["__type__"] == "decimal.Decimal":
-      # Deserialize to decimal.Decimal
+    elif type_tag == "decimal.Decimal":
       new_obj = decimal.Decimal(obj["value"])
     else:
       logger.debug(f"No known conversion type for type {obj['__type__']}")
@@ -74,65 +95,81 @@ def json_deserializer(obj):
   return new_obj
 
 
-def json_save(file_path, data, json_options=None):
+def json_save(file_path: str | pathlib.Path,
+              data,
+              json_options: dict | None = None) -> None:
   """
   Save a data object to a JSON file.
 
   Args:
-      file_path (str): Path to the JSON file.
-      data: The data to save.
-      json_options (dict): JSON options to include with dump function.
+      file_path (str | Path): Output file path.
+      data: Data to serialize and save.
+      json_options (dict | None): Options for `json.dump`. If None, defaults to
+          {'default': json_serializer, 'indent': 4}.
+
+  Example:
+      >>> json_save("output.json", {"x": decimal.Decimal("1.23")})
   """
   logger.debug(f"json_save() called with {file_path=}, {json_options=}, {data=}")
 
   if json_options is None:
-    json_options = {'default': json_serializer, 'indent': 4}
+    json_options = {"default": json_serializer, "indent": 4}
 
-  # Write to JSON file
   with open(file_path, "w", encoding="utf-8") as f:
     json.dump(data, f, **json_options)
+
   logger.debug(f"JSON saved to file: '{file_path}'.")
 
 
-def json_save_with_meta(file_path, data, metadata=None, json_options=None):
+def json_save_with_meta(file_path: str | pathlib.Path,
+                        data,
+                        metadata: dict | None = None,
+                        json_options: dict | None = None) -> None:
   """
-  Save a data object to a JSON file with metadata such as save time and notes.
+  Save data with metadata to a JSON file.
 
   Args:
-      file_path (str|pathlib.Path): Path to the JSON file.
-      data: The data to save.
-      metadata (dict|None): metadata describing the data.
-      json_options (dict|None): JSON options to include with dump function.
+      file_path (str | Path): Output JSON file path.
+      data: Data to be stored under "_data_".
+      metadata (dict | None): Metadata to store under "_metadata_".
+      json_options (dict | None): Options for `json.dump`.
+
+  Example:
+      >>> json_save_with_meta("log.json", {"key": "value"}, {"source": "generated"})
   """
   logger.debug(f"json_save_with_meta() called with {file_path=}, {json_options=}, {metadata=}, {data=}")
 
   if metadata is None:
     metadata = {}
 
-  metadata["File created at"] = datetime.datetime.now(ZoneInfo("UTC")).isoformat()
-  metadata["Serialized with"] = "utils.json.json_save_with_meta"
-  metadata["Deserialize with"] = "utils.json.json_load_with_meta"
+  metadata.update({
+    "File created at": datetime.datetime.now(ZoneInfo("UTC")).isoformat(),
+    "Serialized with": "utils.json.json_save_with_meta",
+    "Deserialize with": "utils.json.json_load_with_meta",
+  })
 
-  # Add meta information to the data
-  data_with_meta = {
+  wrapped = {
     "_metadata_": metadata,
-    "_data_": data
+    "_data_": data,
   }
 
-  # Write to JSON file
-  json_save(file_path, data_with_meta, json_options=json_options)
+  json_save(file_path, wrapped, json_options=json_options)
 
 
-def json_load(file_path, json_options=None):
+def json_load(file_path: str | pathlib.Path,
+              json_options: dict | None = None):
   """
-  Load a JSON file to a python variable.
+  Load JSON data from a file.
 
   Args:
-      file_path (str): Path to the JSON file.
-      json_options (dict | None): Options passed to the `json.load` function.
+      file_path (str | Path): Path to the JSON file.
+      json_options (dict | None): Options for `json.load`.
 
   Returns:
-    data (dict): The deserialized JSON data.
+      object: Deserialized Python object.
+
+  Example:
+      >>> json_load("data.json")
 
   Notes:
     -  encoding="utf-8-sig" will remove (if present) [BOM (Byte Order Mark)] for UTF-8 (\uFEFF)
@@ -142,106 +179,167 @@ def json_load(file_path, json_options=None):
   logger.debug(f"json_load() called with {file_path=}, {json_options=}")
 
   if json_options is None:
-    json_options = {'object_hook': json_deserializer}
+    json_options = {"object_hook": json_deserializer}
 
-  # Read JSON file
   with open(file_path, "r", encoding="utf-8-sig") as f:
-    data = json.load(f, **json_options)
-
-  return data
+    return json.load(f, **json_options)
 
 
-def json_load_with_meta(file_path, json_options=None):
+def json_load_with_meta(file_path: str | pathlib.Path,
+                        json_options: dict | None = None) -> tuple[object, dict]:
   """
-  Load a JSON file separating returning the data and metadata
-  as separate variables (if possible).
-
-  If the json file is a dictionary with a key _data_, then the _data_ and _metadata_
-  (if possible) will  be extracted.  Otherwise, the data is assumed
-  to be the whole JSON file with no metadata.
+  Load a JSON file and separate data from metadata.
 
   Args:
-      file_path (str, Path): Path to the JSON file.
-      json_options (dict | None): Options passed to the `json.load` function.
+      file_path (str | Path): Path to JSON file.
+      json_options (dict | None): Optional `json.load` settings.
 
   Returns:
-      tuple[dict, dict]: A tuple containing:
-          - data (dict): The deserialized JSON data without metadata.
-          - metadata (dict): The deserialized JSON metadata.
+      tuple:
+          - object: Main data under "_data_" (or full file if not present).
+          - dict: Metadata under "_metadata_" (or empty if not present).
+
+  Example:
+      >>> data, meta = json_load_with_meta("example.json")
+
+  Notes:
+      If the json file is a dictionary with a key _data_, then the _data_ and _metadata_
+      (if possible) will  be extracted.  Otherwise, the data is assumed
+      to be the whole JSON file with no metadata.
   """
   logger.debug(f"json_load_with_meta() called with {file_path=}, {json_options=}")
 
   all_data = json_load(file_path, json_options=json_options)
-  data = all_data
-  metadata = {}
+  if isinstance(all_data, dict) and "_data_" in all_data:
+    return all_data["_data_"], all_data.get("_metadata_", {})
 
-  if isinstance(all_data, dict):
-    if "_data_" in all_data:
-      data = all_data["_data_"]
-      if "_metadata_" in all_data:
-        metadata = all_data["_metadata_"]
-
-  return data, metadata
+  return all_data, {}
 
 
-def add_metadata_to_json(file_name_in, file_name_out=None):
+def add_metadata_to_json(file_name_in: str | pathlib.Path,
+                         file_name_out: str | pathlib.Path | None = None) -> None:
   """
-  Add metadata to JSON file.
+  Add or update metadata in a JSON file.
 
   Args:
-    file_name_in (str|Path): Path to the JSON input file.
-    file_name_out (str|Path|None): Path to the JSON output file.
+      file_name_in (str | Path): Input JSON file.
+      file_name_out (str | Path | None): Output file. If None, overwrites input.
 
+  Example:
+      >>> add_metadata_to_json("schema.json")
   """
   logger.debug(f"add_metadata_to_json() called with {file_name_in=}, {file_name_out=}")
 
   if file_name_out is None:
     file_name_out = file_name_in
+
   data = json_load(file_name_in)
-  json_save_with_meta(file_name_out,
-                      data=data,
-                      metadata=None,
-                      json_options=None)
+  json_save_with_meta(file_name_out, data=data)
 
 
-def compare_json_files(file_name_1, file_name_2):
+def compare_json_files(file_name_1: str | pathlib.Path,
+                       file_name_2: str | pathlib.Path) -> None:
   """
-  Compare two json files to see if they have equivalent content.
-
-  Diagnostics are output to logger.
+  Compare two JSON files' metadata and data content.
 
   Args:
-    file_name_1 (str|Path):
-    file_name_2 (str|Path):
+      file_name_1 (str | Path): Path to first file.
+      file_name_2 (str | Path): Path to second file.
 
+  Logs:
+      Outputs detailed comparison diagnostics to logger.
+
+  Example:
+      >>> compare_json_files("old.json", "new.json")
   """
-  logger.debug(f"compare_json_files() called to compare json file contents."
-               f"File Name 1: {file_name_1}, File Name 2: {file_name_2}")
+  logger.debug(f"compare_json_files() comparing {file_name_1} and {file_name_2}")
 
-  data_01, metadata_01 = json_load_with_meta(file_name_1)
-  data_02, metadata_02 = json_load_with_meta(file_name_2)
+  data_1, meta_1 = json_load_with_meta(file_name_1)
+  data_2, meta_2 = json_load_with_meta(file_name_2)
 
-  logger.debug(f"Comparing metadata")
-  result = compare_dicts(metadata_01, metadata_02, "metadata_01", "metadata_02")
-
-  if result is True:
-    logger.debug(f"Metadata are equivalent")
+  logger.debug("Comparing metadata")
+  if compare_dicts(meta_1, meta_2, "metadata_01", "metadata_02") is True:
+    logger.debug("Metadata are equivalent")
   else:
-    logger.debug(f"Metadata differ")
+    logger.debug("Metadata differ")
 
-  logger.debug(f"Comparing data")
-  result = compare_dicts(data_01, data_02, "data_01", "data_02")
-
-  if result is True:
-    logger.debug(f"Data are equivalent")
+  logger.debug("Comparing data")
+  if compare_dicts(data_1, data_2, "data_01", "data_02") is True:
+    logger.debug("Data are equivalent")
   else:
-    logger.debug(f"Data differ")
+    logger.debug("Data differ")
+
+
+def run_diagnostics() -> None:
+  """
+  Run diagnostics to validate core JSON utility functionality.
+
+  This includes:
+    - Custom serialization and deserialization of datetime and decimal types.
+    - Saving and loading JSON with and without metadata.
+    - Adding metadata to a plain JSON file.
+    - Comparing two JSON files for equivalence.
+
+  Example:
+      >>> run_diagnostics()
+  """
+  import tempfile
+  import shutil
+
+  print("Running diagnostics for JSON utilities...")
+
+  temp_dir = pathlib.Path(tempfile.gettempdir()) / "json_utils_test"
+  if temp_dir.exists():
+    shutil.rmtree(temp_dir)
+  temp_dir.mkdir(parents=True)
+
+  try:
+    # Test data
+    data = {
+      "decimal": decimal.Decimal("123.45"),
+      "timestamp": datetime.datetime(2025, 5, 5, 13, 30, 0, tzinfo=ZoneInfo("UTC")),
+      "nested": {"a": 1, "b": 2},
+    }
+
+    # File paths
+    json_file_1 = temp_dir / "test_1.json"
+    json_file_2 = temp_dir / "test_2.json"
+    plain_file = temp_dir / "plain.json"
+
+    # Save and load using json_save/json_load
+    json_save(json_file_1, data)
+    loaded_1 = json_load(json_file_1)
+    assert loaded_1 == data, "Basic save/load failed"
+
+    # Save with metadata and reload
+    meta_info = {"note": "test file"}
+    json_save_with_meta(json_file_2, data, metadata=meta_info)
+    loaded_data, loaded_meta = json_load_with_meta(json_file_2)
+    assert loaded_data == data, "Data mismatch in metadata test"
+    assert "note" in loaded_meta, "Metadata not found"
+
+    # Write plain file, with serializer included, then enrich with metadata
+    with open(plain_file, "w", encoding="utf-8") as f:
+      json.dump(data, f, indent=2, default=json_serializer)
+    add_metadata_to_json(plain_file)
+
+    # Compare metadata-enriched files
+    compare_json_files(json_file_2, plain_file)
+
+    print("All diagnostics completed successfully.")
+
+  except Exception as e:
+    print(f"Diagnostics failed: {e}")
+    raise
 
 
 if __name__ == "__main__":
-  logging.basicConfig(filename="util_json_v01.log",
-                      encoding="utf-8",
-                      level=logging.DEBUG,
-                      format="+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s",
-                      datefmt="%Y-%m-%d %H:%M:%S",
-                      )
+  logging.basicConfig(
+    filename="util_json_v01.log",
+    encoding="utf-8",
+    level=logging.DEBUG,
+    format="+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | "
+           "%(filename)s | %(lineno)d | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+  )
+  run_diagnostics()

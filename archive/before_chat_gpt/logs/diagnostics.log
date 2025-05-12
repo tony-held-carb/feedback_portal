@@ -1,0 +1,101 @@
++2025-05-05 14:35:50.487 | DEBUG    | arb | __get_logger.py | 97 | __get_logger.get_logger() called with name = 'arb', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\source\\production\\arb\\__init__.py', log_to_console =False, force_command_line =True
++2025-05-05 14:35:50.487 | DEBUG    | root | __get_logger.py | 98 | Logging was initialized on first usage.  Outputting logs to logs\diagnostics.log
++2025-05-05 14:35:50.487 | DEBUG    | root | __get_logger.py | 99 | Note: sys.argv = ['C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py']
++2025-05-05 14:35:50.487 | DEBUG    | __main__ | __get_logger.py | 102 | __get_logger.get_logger() called with name = '__main__', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py', log_to_console =False, force_command_line =True
++2025-05-05 14:35:50.488 | DEBUG    | root | __get_logger.py | 103 | Logging has already been initialized so there will be no changes to logging file or options.
++2025-05-05 14:37:36.243 | DEBUG    | arb | __get_logger.py | 97 | __get_logger.get_logger() called with name = 'arb', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\source\\production\\arb\\__init__.py', log_to_console =False, force_command_line =True
++2025-05-05 14:37:36.243 | DEBUG    | root | __get_logger.py | 98 | Logging was initialized on first usage.  Outputting logs to logs\diagnostics.log
++2025-05-05 14:37:36.243 | DEBUG    | root | __get_logger.py | 99 | Note: sys.argv = ['C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py']
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | __get_logger.py | 102 | __get_logger.get_logger() called with name = '__main__', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py', log_to_console =False, force_command_line =True
++2025-05-05 14:37:36.243 | DEBUG    | root | __get_logger.py | 103 | Logging has already been initialized so there will be no changes to logging file or options.
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 232 | 
+
+Running diagnostics on arb.utils.diagnostics module
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 41 | Diagnostics for: <__main__.run_diagnostics.<locals>.TestClass object at 0x000001D24FC9E010>
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 50 | greet(): is function
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 52 | x <class 'int'>:
+	 42
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 52 | y <class 'str'>:
+	 hello
++2025-05-05 14:37:36.243 | WARNING  | __main__ | diagnostics.py | 82 | Warning: List A has 1 item(s) not in List B:
+	['y']
++2025-05-05 14:37:36.243 | WARNING  | __main__ | diagnostics.py | 85 | Warning: List B has 1 item(s) not in List A:
+	['w']
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 108 | diag_recursive diagnostics called
+------------------------------------------------------------------------------------------------------------------------
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 109 | Type: <class 'list'>, Value: [[1, 2], [3, [4, 5]]]
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |     Depth: 1, Index: 0, Type: <class 'list'>, Value: [1, 2]
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 0, Type: <class 'int'>, Value: 1
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 1, Type: <class 'int'>, Value: 2
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |     Depth: 1, Index: 1, Type: <class 'list'>, Value: [3, [4, 5]]
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 0, Type: <class 'int'>, Value: 3
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 1, Type: <class 'list'>, Value: [4, 5]
++2025-05-05 14:37:36.243 | DEBUG    | __main__ | diagnostics.py | 111 |           Depth: 3, Index: 0, Type: <class 'int'>, Value: 4
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 111 |           Depth: 3, Index: 1, Type: <class 'int'>, Value: 5
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 256 | dict_to_str output:
+a:
+   1
+b:
+   c:
+      2
+   d:
+      e:
+         3
+
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 260 | HTML representation of object (truncated):
+<pre>{'a': 1, 'b': {'c': 2, 'd': {'e': 3}}}</pre>
+
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 201 | compare_dicts called to compare First Dict with Second Dict
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 213 | Key differences:
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 215 | - In First Dict but not in Second Dict: ['z']
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 217 | - In Second Dict but not in First Dict: ['w']
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 220 | Value differences:
++2025-05-05 14:37:36.244 | DEBUG    | __main__ | diagnostics.py | 222 | - Key: 'y', First Dict: 2, Second Dict: 99
++2025-05-05 14:37:57.816 | DEBUG    | arb | __get_logger.py | 97 | __get_logger.get_logger() called with name = 'arb', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\source\\production\\arb\\__init__.py', log_to_console =False, force_command_line =True
++2025-05-05 14:37:57.817 | DEBUG    | root | __get_logger.py | 98 | Logging was initialized on first usage.  Outputting logs to logs\diagnostics.log
++2025-05-05 14:37:57.817 | DEBUG    | root | __get_logger.py | 99 | Note: sys.argv = ['C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py']
++2025-05-05 14:37:57.817 | DEBUG    | __main__ | __get_logger.py | 102 | __get_logger.get_logger() called with name = '__main__', file ='C:\\one_drive\\code\\pycharm\\feedback_portal\\archive\\before_chat_gpt\\diagnostics.py', log_to_console =False, force_command_line =True
++2025-05-05 14:37:57.818 | DEBUG    | root | __get_logger.py | 103 | Logging has already been initialized so there will be no changes to logging file or options.
++2025-05-05 14:37:57.818 | DEBUG    | __main__ | diagnostics.py | 232 | 
+
+Running diagnostics on arb.utils.diagnostics module
++2025-05-05 14:37:57.818 | DEBUG    | __main__ | diagnostics.py | 41 | Diagnostics for: <__main__.run_diagnostics.<locals>.TestClass object at 0x000002879963E2D0>
++2025-05-05 14:37:57.818 | DEBUG    | __main__ | diagnostics.py | 50 | greet(): is function
++2025-05-05 14:37:57.818 | DEBUG    | __main__ | diagnostics.py | 52 | x <class 'int'>:
+	 42
++2025-05-05 14:37:57.818 | DEBUG    | __main__ | diagnostics.py | 52 | y <class 'str'>:
+	 hello
++2025-05-05 14:37:57.819 | WARNING  | __main__ | diagnostics.py | 82 | Warning: List A has 1 item(s) not in List B:
+	['y']
++2025-05-05 14:37:57.819 | WARNING  | __main__ | diagnostics.py | 85 | Warning: List B has 1 item(s) not in List A:
+	['w']
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 108 | diag_recursive diagnostics called
+------------------------------------------------------------------------------------------------------------------------
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 109 | Type: <class 'list'>, Value: [[1, 2], [3, [4, 5]]]
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 111 |     Depth: 1, Index: 0, Type: <class 'list'>, Value: [1, 2]
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 0, Type: <class 'int'>, Value: 1
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 1, Type: <class 'int'>, Value: 2
++2025-05-05 14:37:57.819 | DEBUG    | __main__ | diagnostics.py | 111 |     Depth: 1, Index: 1, Type: <class 'list'>, Value: [3, [4, 5]]
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 0, Type: <class 'int'>, Value: 3
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 111 |        Depth: 2, Index: 1, Type: <class 'list'>, Value: [4, 5]
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 111 |           Depth: 3, Index: 0, Type: <class 'int'>, Value: 4
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 111 |           Depth: 3, Index: 1, Type: <class 'int'>, Value: 5
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 256 | dict_to_str output:
+a:
+   1
+b:
+   c:
+      2
+   d:
+      e:
+         3
+
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 260 | HTML representation of object (truncated):
+<pre>{'a': 1, 'b': {'c': 2, 'd': {'e': 3}}}</pre>
+
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 201 | compare_dicts called to compare First Dict with Second Dict
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 213 | Key differences:
++2025-05-05 14:37:57.820 | DEBUG    | __main__ | diagnostics.py | 215 | - In First Dict but not in Second Dict: ['z']
++2025-05-05 14:37:57.821 | DEBUG    | __main__ | diagnostics.py | 217 | - In Second Dict but not in First Dict: ['w']
++2025-05-05 14:37:57.821 | DEBUG    | __main__ | diagnostics.py | 220 | Value differences:
++2025-05-05 14:37:57.821 | DEBUG    | __main__ | diagnostics.py | 222 | - Key: 'y', First Dict: 2, Second Dict: 99

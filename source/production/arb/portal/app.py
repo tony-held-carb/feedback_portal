@@ -1,64 +1,68 @@
 """
-Flask app factory and setup logic.
+Application factory for the ARB Feedback Portal Flask app.
 
-Refactored from original monolithic app.py into a factory pattern
-to allow for better testability, scalability, and deployment compatibility.
+This module defines the `create_app()` function, which initializes the
+Flask application with configuration, extensions, routes, and startup routines.
 
-This file:
-  - Initializes the Flask app
-  - Loads configuration
-  - Reflects the Postgres database schema
-  - Registers blueprints and initializes extensions
+Key responsibilities:
+  - Load configuration dynamically using get_config()
+  - Configure Jinja2 and logging
+  - Initialize database and CSRF protection
+  - Reflect database schema and create tables if needed
+  - Register Flask Blueprints
 
-To run the app:
-  Use wsgi.py or an external WSGI server like Gunicorn.
-
-All prior comments and TODOs retained or moved where appropriate.
+Usage:
+    from arb.portal.app import create_app
+    app = create_app()
 """
 
 from flask import Flask
-from jinja2 import StrictUndefined
 
-import arb.__get_logger as get_logger
-from arb.portal.config import Config, db_create, reflect_database
-from arb.portal.extensions import db
+from arb.portal.config import get_config
+from arb.portal.extensions import csrf, db
+from arb.portal.routes import main  # Replace with modular blueprints if separated
+from arb.portal.startup.db import db_initialize_and_create, reflect_database
+from arb.portal.startup.flask import configure_flask_app
 from arb.portal.globals import Globals
-from arb.portal.routes import main as main_blueprint
+from arb.utils.database import get_reflected_base
 
-logger, pp_log = get_logger.get_logger(__name__, __file__)
+from arb.__get_logger import get_logger
+logger, pp_log = get_logger()
 
 
 def create_app() -> Flask:
   """
-  Application factory function.
+  Application factory for creating a Flask app instance.
 
   Returns:
-    Flask: A configured Flask application instance.
+      app (Flask): The configured Flask application instance.
   """
   app = Flask(__name__)
 
-  # Load configuration into the app
-  Config.configure_flask_app(app)
+  # Load configuration from config/settings.py
+  app.config.from_object(get_config())
 
-  # Jinja2 should raise errors for undefined variables
-  app.jinja_env.undefined = StrictUndefined
+  # Setup Jinja2, logging, and app-wide config
+  configure_flask_app(app)
 
-  # Bind SQLAlchemy to the app
+  # Initialize Flask extensions
   db.init_app(app)
+  # GPT recommends this, but I'm commenting it out for now
+  # csrf.init_app(app)
 
+  # Database initialization and reflection (within app context)
   with app.app_context():
-    # Create database structure if needed
-    db_create(app, db)
+    db_initialize_and_create()
+    reflect_database()
 
-    # Reflect the current Postgres schema into SQLAlchemy
-    base = reflect_database(app, db)
-    app.base = base  # Store for use in routes via current_app.base
+    # Load dropdowns, mappings, and other global data
+    base = get_reflected_base(db)  # reuse db.metadata without hitting DB again
+    app.base = base  # ✅ Attach automap base to app object
 
-    # Load globals
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)
 
-  # Register application blueprints
-  app.register_blueprint(main_blueprint)
+  # Register route blueprints
+  app.register_blueprint(main)
 
   return app
