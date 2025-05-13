@@ -30,15 +30,18 @@
   * git pull
 * Make shell scripts executable (linux only)
   * chmod +x /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
+  * remove the old scripts if you are having git pull issues
+    * rm /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
 * Run the flask app (Standard Recommended Approach)
-  * cd feedback_portal\source\production\arb>
-    * run on local host (for your laptop only) 
-      * flask --app wsgi run -p 2113 --debug
-    * ec2 on public host 
-      * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
     * ec2 to run as a process that will not close after the ssh terminates
-      * ./feedback_portal/shell_scripts/launch_with_screen.sh
-      * ./feedback_portal/shell_scripts/stop_with_screen.sh
+      * ./home/theld/code/git_repos/feedback_portal/shell_scripts/launch_with_screen.sh
+      * ./home/theld/code/git_repos/feedback_portal/shell_scripts/stop_with_screen.sh
+    * ec2 on public host 
+      * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
+      * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
+    * run on local host (for your laptop only) 
+      * cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
+      * flask --app wsgi run -p 2113 --debug
 * Access the app
   * windows: http://127.0.0.1:5000/
   * linux: http://10.93.112.44:2113
