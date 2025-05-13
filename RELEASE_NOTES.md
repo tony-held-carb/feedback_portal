@@ -30,7 +30,7 @@
     - Common practice (PyPI, GitHub, etc.)
   - Creating a tag
     - git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
-    -  git tag -a v1.2.0 -m "Version 1.2.0. Can run on EC2 without interruption." 
+    - git tag -a v1.2.0 -m "Version 1.2.0. Can run on EC2 without interruption." 
   - View tags
     - git tag
     - git show v1.0.0
@@ -44,5 +44,6 @@
 - Archiving after tagging in git
   - After tagging, you can create a snapshot from the command line.  For example:
     - git archive --format=zip --output=feedback_portal_v1.0.0.zip v1.0.0
+    - git archive --format=zip --output=feedback_portal_v1.2.0.zip v1.2.0
   - Benefits include:
     - Can store it offline, S3, external drive, etc.
