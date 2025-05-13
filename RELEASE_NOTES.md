@@ -6,9 +6,9 @@
   - energy_operator_feedback_v002.xlsx (Schema: energy_v00_01.json)
   - landfill_operator_feedback_v070.xlsx (Schema: landfill_v01_00.json)
   - oil_and_gas_operator_feedback_v070.xlsx (Schema: oil_and_gas_v01_00.json)
-- originally committed on 2025-04-28 and then rewritten 2025-05-12
+- originally committed on 2025-04-28 and then rewritten 2025-05-11
 
-## v1.1.0 - 2025-05-12
+## v1.1.0 - 2025-05-11
 - Debug version 1.1.0. Stable after GPT refactor
 - Uses the same spreadsheet schemas as v1.0.0
 - Can be run off EC2

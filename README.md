@@ -32,10 +32,11 @@
   * chmod +x /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
   * remove the old scripts if you are having git pull issues
     * rm /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
-* Run the flask app (Standard Recommended Approach)
+* Run the flask app
     * ec2 to run as a process that will not close after the ssh terminates
-      * ./home/theld/code/git_repos/feedback_portal/shell_scripts/launch_with_screen.sh
-      * ./home/theld/code/git_repos/feedback_portal/shell_scripts/stop_with_screen.sh
+      * cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
+        * ./launch_with_screen.sh
+        * ./stop_with_screen.sh
     * ec2 on public host 
       * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
       * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
@@ -45,12 +46,6 @@
 * Access the app
   * windows: http://127.0.0.1:5000/
   * linux: http://10.93.112.44:2113
-
-### Notes:
-* 'todo (consider)' is used in python comments to indicate optional todo items
-* naming convention
-  * model: an SQLAlchemy model instance
-  * wtf_form: a wtform instance
 
 ### Archiving:
 * portal had a major refactor and the previous project designs were archived.
