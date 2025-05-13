@@ -7,8 +7,9 @@
 # todo - next steps
 Next steps
 ----------------------------
-  * pull in latest code, tag, archive, and create a new branch
+  * come up with utility functions to help chmod/launch, etc
   * figure out where feedback forms and the backups are and archive them
+
   * create a list of must check/functionality for the portal, check it against spreadsheets, etc
   * potentially come up with unit testing
 
