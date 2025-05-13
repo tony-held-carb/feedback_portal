@@ -2,6 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
+  * prep for pycharm uninstall
   * figure out where feedback forms and the backups are and archive them
     * based on: C:\one_drive\code\pycharm\feedback_portal\feedback_forms shortcuts looks like:
       C:\Users\theld\OneDrive - California Air Resources Board\code\operator_feedback_forms

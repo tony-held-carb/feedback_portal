@@ -395,3 +395,10 @@ when i pull the scripts for the first time, i have to chmod +x to make them exec
 branch, i get errors saying that i have to commit these files.
 
 what is your recommended strategy to automate the chmod and allow for the pulls?
+
+Attached is my source code for a flask app that stores/updates user feedback.
+
+Please check the code related to how data are stored and retrieved from the database to look for ways that
+it may become corrupted.  also check how data is converted from sqlalchemy to wtforms and back to see if there
+are any potential errors.  perform any other tests or make any other suggestions on how to ensure that
+the data are properly being stored, retrieved, and updated.
