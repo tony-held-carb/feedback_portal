@@ -3,38 +3,14 @@
 
 
 """
-chatgpt request template
-----------------------------
-I would like ***
-
-1) app.py current has all the routes, please create a file named routes.py that has all routes associated with this project
-2) in the routes file, use a blueprinting system where all the routes will use a newly created 'main' route
-3) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
-
-Please refactor the following python code using the following style preferences:
-1) use google formatting docstrings
-2) use modern type hinting in the docstrings (not in the function definition).
-3) docstring type hinting should be in the format:  variable_name (type_hint): variable description.
-4) Include extensive documentation and examples.
-5) Review all of the code and provide all suggestions in one response, not incrementally prompting me for additional information.
-6) Include the full text for any file you create or propose to change.
-7) Retain, all previous documentation, notes, and todos where possible
-8) do not import typing, rather use modern type hinting such as the | symbol
-9) do not omit any code for brevity, i'm going to copy paste your code into a new file.
-
-Please create a new function named run_diagnostics that includes testing of key features of this file.
 
 # todo - next steps
 Next steps
 ----------------------------
-* essential steps to get the app running on the ec2
-  * update the read-me and other documentation to reflect changes
-
-  * learn how to set the port with the wsgi run
-      conda activate mini_conda_01
-      flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
-  * learn how to run without the terminal being on
-  * learn how to stop the run in no-hup or background
+  * pull in latest code, tag, archive, and create a new branch
+  * figure out where feedback forms and the backups are and archive them
+  * create a list of must check/functionality for the portal, check it against spreadsheets, etc
+  * potentially come up with unit testing
 
 * check that the app/database is working
   * connect to dan's database

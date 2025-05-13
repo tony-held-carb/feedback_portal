@@ -29,10 +29,10 @@ class BaseConfig:
     '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   )
 
-  SQLALCHEMY_ENGINE_OPTIONS = {
-    'connect_args': {
-      'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'
-    }
+  SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {
+    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+  }
   }
 
   SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key-goes-here'

@@ -1,19 +1,9 @@
-### Plume operator portal repo
-### Refactored for Group Dry Run Exercise for the week of 11/18/24
+### Feedback Portal Project Overview
 
-### Versioning:
+* The pycharm project name and github repo for this project are both named 'feedback_portal'.
+  * https://github.com/tony-held-carb/feedback_portal
+  * C:\one_drive\code\pycharm\feedback_portal
 
-* [portal_01](archive/portal_01) - initial design of portal with user authentication
-* [portal_02](archive/portal_02) - June 2024 revised design focusing on incident input
-* [portal_03](archive/portal_03) - November 2024 revised design using the plume tracker database
-* [portal_04](source/production/arb/portal) - November 30, 2024 port to new repository
-* [portal](source/production/arb/portal) - Dec 28, 2024 re-org of source code, 
-  * portal version are named in the __init__ file not as a suffix
-* feedback_portal - reorg on 2025-04-03 because presentation made repo too bulky
-  * archived old portal C:\one_drive\code\pycharm\archive\feedback_portal_backup_2025_04_03
-  * the portal_01, 02, 03 archives are no longer part of this repo, go to feedback_portal_backup_2025_04_03 if they are needed
-  * pycharm uses the mini_conda_01 environment
-* 
 ### Usage:
 * Install mini conda (if not already installed)
   * [mini conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)
@@ -27,63 +17,38 @@
 * Activate mini_conda environment
   * conda deactivate
   * conda activate mini_conda_01
+* Navigate to root path of repos
+  * windows: "C:\one_drive\code\pycharm\"
+  * ec2: cd "/home/theld/code/git_repos"
 * Removing the old git repo (if necessary)
   * rm -rf feedback_portal
 * Clone the latest portal repo (if necessary)
-    * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
-    * git checkout <remote branch of interest>
-    * git pull
-* Change to the working directory of the operator portal
-  * cd versions/portal_04/
+  * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
+  * cd feedback_portal
+  * git branch -a
+  * git checkout ec2_deploy_03 <or your remote branch of interest> 
+  * git pull
+* Make shell scripts executable (linux only)
+  * chmod +x /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
+  * remove the old scripts if you are having git pull issues
+    * rm /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
 * Run the flask app
-  * Turn on debugger --debug
-  * Normal usage
-    * flask run -p 2113 --debug
-    * flask run --host=0.0.0.0 -p 2112
-    * flask run --host=0.0.0.0 -p 2113 --debug
-  * Run app in the background
-    * flask run --host=0.0.0.0 -p 2112 &
-    * flask run --host=0.0.0.0 -p 2113 &
-  * Run app in the background that does not end when you log out
-    * nohup flask run --host=0.0.0.0 -p 2112 &
-    * nohup flask run --host=0.0.0.0 -p 2113 &
+    * ec2 to run as a process that will not close after the ssh terminates
+      * cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
+        * ./launch_with_screen.sh
+        * ./stop_with_screen.sh
+    * ec2 on public host 
+      * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
+      * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
+    * run on local host (for your laptop only) 
+      * cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
+      * flask --app wsgi run -p 2113 --debug
 * Access the app
-  * point browser to http://10.93.112.44:2112
-  * point browser to http://10.93.112.44:2113
+  * windows: http://127.0.0.1:5000/
+  * linux: http://10.93.112.44:2113
 
-### Notes:
-* 'todo (consider)' is used in python comments to indicate optional todo items
-* naming convention
-  * model: an SQLAlchemy model instance
-  * wtf_form: a wtform instance
-
-Possible starting point for best practices for archiving/versioning:
-
-1. Include a RELEASE_NOTES.md file at the root of your file structure.  Example content of this file:
-
-```
-## v1.0.0 - 2025-04-28
-- Feedback portal first stable release using ISD/ED approached spreadsheet feedback forms
-- Current versions of feedback forms
-  - energy_operator_feedback_v002.xlsx (Schema: energy_v00_01.json)
-  - landfill_operator_feedback_v070.xlsx (Schema: landfill_v01_00.json)
-  - oil_and_gas_operator_feedback_v070.xlsx (Schema: oil_and_gas_v01_00.json)
-```
-
-2. There are two options for including a version file at the root of your code, one is to have an __init__.py file with the line:
-__version__ = "1.0.0".
-The other option is to create a file named VERSION that is a plain text file with only one line of non-comments that includes the version number of your code.  For example "1.0.0"
-
-3. Version Tagging in Git
-Example git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
-- Benefits include:
-  - Built-in to Git
-  - Easy to find later
-  - Common practice (PyPI, GitHub, etc.)
-
-4. Create an archive (.zip or .tar.gz)
-
-- After tagging, you can create a snapshot from the command line.  For example:
-  - git archive --format=zip --output=feedback_portal_v1.0.0.zip v1.0.0
-- Benefits include:
-  - Can store it offline, S3, external drive, etc.
+### Archiving:
+* portal had a major refactor and the previous project designs were archived.
+* If the repo is to be archived (it becomes unstable for some reason), save it
+  to: feedback_portal_old_vxx where xx is a 2 digit number for archive before
+  recreating a new feedback_portal.  The next archive should be feedback_portal_old_v04.

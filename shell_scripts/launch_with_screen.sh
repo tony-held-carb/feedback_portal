@@ -3,76 +3,81 @@
 # ----------------------------------------------------------------------
 # launch_with_screen.sh
 #
-# Launches a persistent background Flask or Gunicorn server using screen.
+# This launches a Flask or Gunicorn server in a detached screen session
+# using the conda environment and logs all output to LOG_DIR="$PROJECT_ROOT/logs"
 #
 # USAGE:
-#   ./launch_with_screen.sh                # Defaults to flask mode
-#   ./launch_with_screen.sh flask          # Flask dev mode
-#   ./launch_with_screen.sh gunicorn       # Gunicorn production mode
+#   ./launch_with_screen.sh                        # defaults to flask, 0.0.0.0:2113, debug=true
+#   ./launch_with_screen.sh gunicorn               # gunicorn with defaults
+#   ./launch_with_screen.sh flask 0.0.0.0 5000 true
+#   ./launch_with_screen.sh gunicorn 127.0.0.1 8000 false
 #
-# BEHAVIOR:
-#   - Creates a detached screen session named "feedback_portal"
-#   - Logs stdout/stderr to a timestamped file in ./logs/
-#   - Uses the conda environment: mini_conda_01
+# ARGS:
+#   $1 = MODE      (flask | gunicorn)       [default: flask]
+#   $2 = HOST      (IP or hostname)         [default: 0.0.0.0]
+#   $3 = PORT      (port number)            [default: 2113]
+#   $4 = DEBUG     (true | false)           [default: true — flask only]
 #
-# MANAGING THE SCREEN SESSION:
-#   - List all sessions:     screen -ls
-#   - Reattach to session:   screen -r feedback_portal
-#   - Detach (if attached):  Ctrl-A then D (only needed if manually attached)
-#   - Kill the session:      ./stop_with_screen.sh
-#
-# CONFIGURATION:
-#   - You can edit HOST, PORT, and DEBUG variables below.
-#   - Flask mode honors --debug if DEBUG=true
-#   - Gunicorn mode ignores DEBUG (intended for production)
-#
-# DEFAULTS:
-#   - Mode:    flask
-#   - Host:    0.0.0.0
-#   - Port:    2113
-#   - Debug:   true
+# NOTES:
+#   - may need to run chmod +x on this file to make it executable
+#   - if you wanted to run directly from the command line without shell closing issues:
+#     - flask --app wsgi run --host=0.0.0.0 -p 2113 --debug &    # & runs in the background
+
 # ----------------------------------------------------------------------
 
+# Args with defaults
+MODE="${1:-flask}"
+HOST="${2:-0.0.0.0}"
+PORT="${3:-2113}"
+DEBUG="${4:-true}"
+
+# Config
 SESSION_NAME="feedback_portal"
-MODE="${1:-flask}"  # default to 'flask' mode if not specified
-
-# --- Configurable options ---
 CONDA_ENV="mini_conda_01"
-CONDA_BASE="$HOME/miniconda3"
-HOST="0.0.0.0"
-PORT="2113"
-DEBUG="true"
-# -----------------------------
-
 PROJECT_ROOT="$HOME/code/git_repos/feedback_portal"
-SOURCE_ROOT="$PROJECT_ROOT/source/production"
+WSGI_DIR="$PROJECT_ROOT/source/production/arb"
+PYTHON_ROOT="$PROJECT_ROOT/source/production"
 LOG_DIR="$PROJECT_ROOT/logs"
 TIMESTAMP=$(date +"%Y_%m_%d_%H_%M_%S")
-LOG_FILE="$LOG_DIR/${SESSION_NAME}_${MODE}_$TIMESTAMP.log"
+LOG_FILE="$LOG_DIR/screen_${MODE}_$TIMESTAMP.log"
 
 mkdir -p "$LOG_DIR"
 
-cd "$SOURCE_ROOT" || exit 1
+echo "🔍 Launching $MODE in screen session '$SESSION_NAME'"
+echo "📁 WSGI directory:  $WSGI_DIR"
+echo "🐍 Conda env:       $CONDA_ENV"
+echo "🌐 Host:Port        $HOST:$PORT"
+echo "🐞 Debug mode:      $DEBUG"
+echo "📄 Log file:        $LOG_FILE"
 
-# Construct command for screen session
+# Build command
 if [[ "$MODE" == "flask" ]]; then
-  CMD="source $CONDA_BASE/etc/profile.d/conda.sh && conda activate $CONDA_ENV && flask --app wsgi run --host=$HOST --port=$PORT"
-  if [[ "$DEBUG" == "true" ]]; then
-    CMD="$CMD --debug"
-  fi
+  CMD="cd $WSGI_DIR && conda activate $CONDA_ENV && PYTHONPATH=$PYTHON_ROOT flask --app wsgi run --host=$HOST --port=$PORT"
+  [[ "$DEBUG" == "true" ]] && CMD="$CMD --debug"
 elif [[ "$MODE" == "gunicorn" ]]; then
-  CMD="source $CONDA_BASE/etc/profile.d/conda.sh && conda activate $CONDA_ENV && gunicorn --bind $HOST:$PORT wsgi:app"
+  CMD="cd $WSGI_DIR && conda activate $CONDA_ENV && PYTHONPATH=$PYTHON_ROOT gunicorn --bind $HOST:$PORT wsgi:app"
 else
-  echo "❌ Unknown mode: $MODE. Use 'flask' or 'gunicorn'."
+  echo "❌ Unknown mode: $MODE"
   exit 1
 fi
 
-# Launch in detached screen session
-screen -S "$SESSION_NAME" -dm bash -c "$CMD | tee -a \"$LOG_FILE\""
+echo
+echo "🛠️ Final command:"
+echo "bash -l -c \"$CMD >> $LOG_FILE 2>&1\""
+echo
 
-echo "✅ Started '$MODE' server in detached screen session: $SESSION_NAME"
-echo "   Logging to: $LOG_FILE"
+# Launch in screen
+screen -S "$SESSION_NAME" -dm bash -l -c "$CMD >> \"$LOG_FILE\" 2>&1"
+
+sleep 2
+if screen -list | grep -q "$SESSION_NAME"; then
+  echo "✅ Screen session '$SESSION_NAME' is running."
+else
+  echo "❌ Screen session failed to launch. Check the log:"
+fi
+
+echo "📄 Log file: $LOG_FILE"
 echo
 echo "To reattach:  screen -r $SESSION_NAME"
 echo "To list all:  screen -ls"
-echo "To stop:      ./stop_with_screen.sh"
+echo "To stop:      screen -S $SESSION_NAME -X quit"
