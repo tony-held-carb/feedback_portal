@@ -328,3 +328,56 @@ the shortcuts for one_drive are likely the source of the problem
 git tag -a v1.0.0 -m "Debug version 1.0.0. Stable before GPT refactor."
 git tag -a v1.1.0 -m "Debug version 1.1.0. Stable after GPT refactor."
 git tag -d v1.1.0
+
+
+Possible starting point for best practices for archiving/versioning:
+
+1. Include a RELEASE_NOTES.md file at the root of your file structure.  Example content of this file:
+
+```
+## v1.0.0 - 2025-04-28
+- Feedback portal first stable release using ISD/ED approached spreadsheet feedback forms
+- Current versions of feedback forms
+  - energy_operator_feedback_v002.xlsx (Schema: energy_v00_01.json)
+  - landfill_operator_feedback_v070.xlsx (Schema: landfill_v01_00.json)
+  - oil_and_gas_operator_feedback_v070.xlsx (Schema: oil_and_gas_v01_00.json)
+```
+
+2. There are two options for including a version file at the root of your code, one is to have an __init__.py file with the line:
+__version__ = "1.0.0".
+The other option is to create a file named VERSION that is a plain text file with only one line of non-comments that includes the version number of your code.  For example "1.0.0"
+
+3. Version Tagging in Git
+Example git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
+- Benefits include:
+  - Built-in to Git
+  - Easy to find later
+  - Common practice (PyPI, GitHub, etc.)
+
+4. Create an archive (.zip or .tar.gz)
+
+- After tagging, you can create a snapshot from the command line.  For example:
+  - git archive --format=zip --output=feedback_portal_v1.0.0.zip v1.0.0
+- Benefits include:
+  - Can store it offline, S3, external drive, etc.
+
+chatgpt request template
+----------------------------
+I would like ***
+
+1) app.py current has all the routes, please create a file named routes.py that has all routes associated with this project
+2) in the routes file, use a blueprinting system where all the routes will use a newly created 'main' route
+3) app.py should create a code factory app that is called in a separate wsgi file to make the app more portable.
+
+Please refactor the following python code using the following style preferences:
+1) use google formatting docstrings
+2) use modern type hinting in the docstrings (not in the function definition).
+3) docstring type hinting should be in the format:  variable_name (type_hint): variable description.
+4) Include extensive documentation and examples.
+5) Review all of the code and provide all suggestions in one response, not incrementally prompting me for additional information.
+6) Include the full text for any file you create or propose to change.
+7) Retain, all previous documentation, notes, and todos where possible
+8) do not import typing, rather use modern type hinting such as the | symbol
+9) do not omit any code for brevity, i'm going to copy paste your code into a new file.
+
+Please create a new function named run_diagnostics that includes testing of key features of this file.
