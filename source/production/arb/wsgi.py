@@ -96,6 +96,11 @@ Note on running Flask Apps:
         * Browser to display detailed error trace
         * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
 
+6) Root directory notes:
+  - The project root directory is "feedback_portal"
+  - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
+    - Path(__file__).resolve().parents[3] → .../feedback_portal
+
 # todo - work this in, run with: flask --app wsgi run --no-reload
 
 """

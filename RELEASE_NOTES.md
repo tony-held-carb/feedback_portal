@@ -13,6 +13,11 @@
 - Uses the same spreadsheet schemas as v1.0.0
 - Can be run off EC2
 
+## v1.2.0 - 2025-05-11
+- Debug version 1.2.0. 
+- EC2 now able to run in detached mode without ssh staying open
+- Readme documentation updated for remote usage
+ 
 ## Notes
 - There are two options for including a version file at the root of your code, one is to have an __init__.py file with the line:
   - __version__ = "1.0.0".
