@@ -14,7 +14,7 @@
 - Can be run off EC2
 
 ## v1.2.0 - 2025-05-11
-- Debug version 1.2.0. 
+- Debug version 1.2.0. Can run on EC2 without interruption. 
 - EC2 now able to run in detached mode without ssh staying open
 - Readme documentation updated for remote usage
  
@@ -30,6 +30,7 @@
     - Common practice (PyPI, GitHub, etc.)
   - Creating a tag
     - git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
+    -  git tag -a v1.2.0 -m "Version 1.2.0. Can run on EC2 without interruption." 
   - View tags
     - git tag
     - git show v1.0.0
