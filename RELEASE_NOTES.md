@@ -45,5 +45,6 @@
   - After tagging, you can create a snapshot from the command line.  For example:
     - git archive --format=zip --output=feedback_portal_v1.0.0.zip v1.0.0
     - git archive --format=zip --output=feedback_portal_v1.2.0.zip v1.2.0
+
   - Benefits include:
     - Can store it offline, S3, external drive, etc.
