@@ -3,75 +3,76 @@
 
 {% block content_1 %}
 
-<div class="container-fluid post-nav-padding mb-2">
-  <h2 class="">{% block title %}Operator Feedback Incidence List{% endblock %}</h2>
-</div>
-<div class="container-fluid bg-image-01 mb-3 pt-1 ">
+  <div class="container-fluid post-nav-padding mb-2">
+    <h2 class="">{% block title %}Operator Feedback Incidence List{% endblock %}</h2>
+  </div>
+  <div class="container-fluid bg-image-01 mb-3 pt-1 ">
 
-  {% for model_row in model_rows %}
-  {% set misc = model_row.misc_json %}
-  <div class="card bg-light mb-3" style="max-width: 24rem;">
-    <div class="card-header">
-      <a href="{{ url_for('main.incidence_update', id_=model_row['id_incidence']) }}">
-        Update Incidence # {{ model_row['id_incidence'] }} </a>
-    </div>
+    {% for model_row in model_rows %}
+      {% set misc = model_row.misc_json %}
+      <div class="card bg-light mb-3" style="max-width: 24rem;">
+        <div class="card-header">
+          <a href="{{ url_for('main.incidence_update', id_=model_row['id_incidence']) }}">
+            Update Incidence # {{ model_row['id_incidence'] }} </a>
+        </div>
 
-    <div class="card-body">
-      <h5 class="card-title">
+        <div class="card-body">
+          <h5 class="card-title">
 
-        {% if model_row['source_id'] %}
-          Source ID: {{ model_row['source_id'] }}
-        {% else %}
-          {% if misc and 'facility_name' in misc and misc['facility_name'] %}
-            Facility Name: {{ misc['facility_name'][:30] }}
-          {% else %}
-            Facility Name: <em>Not specified</em>
-          {% endif %}
-        {% endif %}
-        {% endif %}
+            {% if model_row['source_id'] %}
+              Source ID: {{ model_row['source_id'] }}
+            {% else %}
+              Source ID: <em>Not specified</em>
+            {% endif %}
+
+            {% if misc and 'facility_name' in misc and misc['facility_name'] %}
+              Facility Name: {{ misc['facility_name'][:30] }}
+            {% else %}
+              Facility Name: <em>Not specified</em>
+            {% endif %}
 
 
-      </h5>
-      <p class="card-text">
-        {# {% if model_row['description'] %}#}
-        {# {{ model_row['description'][0:75] }}#}
-        {# {% endif %}#}
+          </h5>
+          <p class="card-text">
+            {# {% if model_row['description'] %}#}
+            {# {{ model_row['description'][0:75] }}#}
+            {# {% endif %}#}
 
-        {% if model_row['description'] %}
-          {{ model_row['description'][0:75] }}
-        {% else %}
-          {% if misc and 'observation_timestamp' in misc and misc['observation_timestamp'] %}
-            Plume Observed: {{ model_row['misc_json']['observation_timestamp']|repr_datetime_to_string }}
-          {% else %}
-            Plume Observed: <em>Not specified</em>
-          {% endif %}
-        {% endif %}
-      </p>
+            {% if model_row['description'] %}
+              {{ model_row['description'][0:75] }}
+            {% endif %}
 
-      <!-- Delete button triggers modal -->
-      <button type="button"
-              class="btn btn-danger btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#deleteConfirmModal{{ model_row['id_incidence'] }}">
-        Delete Feedback Form
-      </button>
+            {% if misc and 'observation_timestamp' in misc and misc['observation_timestamp'] %}
+              Plume Observed: {{ model_row['misc_json']['observation_timestamp']|repr_datetime_to_string }}
+            {% else %}
+              Plume Observed: <em>Not specified</em>
+            {% endif %}
+          </p>
 
-      <!-- Reusable macro modal -->
-      {{ confirm_macros.render_confirm_modal(
+          <!-- Delete button triggers modal -->
+          <button type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteConfirmModal{{ model_row['id_incidence'] }}">
+            Delete Feedback Form
+          </button>
+
+          <!-- Reusable macro modal -->
+          {{ confirm_macros.render_confirm_modal(
               modal_id='deleteConfirmModal' ~ model_row['id_incidence'],
               confirm_phrase='shazam',
               form_action_url=url_for('main.incidence_delete', id_=model_row['id_incidence'])
           ) }}
 
-    </div>
-  </div>
-  {% endfor %}
-  {#
+        </div>
+      </div>
+    {% endfor %}
+    {#
   <div class="col-sm-6">#}
-  {# <img src="{{ url_for('static', filename='images/clipboard_02.jpg') }}" alt="clipboard" #}
-  {# class="img-responsive sticky-top float-start">#}
-  {#
+    {# <img src="{{ url_for('static', filename='images/clipboard_02.jpg') }}" alt="clipboard" #}
+    {# class="img-responsive sticky-top float-start">#}
+    {#
   </div>
   #}
-</div>
+  </div>
 {% endblock %}
