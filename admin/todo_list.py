@@ -2,12 +2,6 @@
 
 # todo - Next Steps
 ----------------------------
-  * figure out where feedback forms and the backups are and archive them
-    * based on: C:\one_drive\code\pycharm\feedback_portal\feedback_forms shortcuts looks like:
-      C:\Users\theld\OneDrive - California Air Resources Board\code\operator_feedback_forms
-    * look for other versions and consolidate if necessary
-
-
 * check that the app/database is working
   * create a list of must check/functionality for the portal, check it against spreadsheets, etc
   * need to test a variety of usage cases to make sure input/output/logging/validation is working as expected.
