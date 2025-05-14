@@ -46,6 +46,8 @@
       * cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
         * ./launch_with_screen.sh
         * ./stop_with_screen.sh
+        * logs will go to directory:  /home/theld/code/git_repos/feedback_portal/logs/
+        * cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_05_14_18_59_38.log
     * ec2 on public host 
       * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
       * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
