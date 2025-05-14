@@ -12,15 +12,17 @@ Notes:
   * the type hint for db is:
       db (SQLAlchemy): SQLAlchemy database associated with a flask app
 """
+from pathlib import Path
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 db = SQLAlchemy()
 # print(f"{type(db)=}")

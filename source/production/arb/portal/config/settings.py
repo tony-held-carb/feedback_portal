@@ -16,10 +16,12 @@ Notes:
 """
 
 import os, sys
+from pathlib import Path
 
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 
 class BaseConfig:
@@ -48,6 +50,7 @@ class BaseConfig:
 
   # ---------------------------------------------------------------------
   # Get other relevant environmental variables here and commandline flags here
+  # for example: set FAST_LOAD=true
   # ---------------------------------------------------------------------
   FAST_LOAD = False
   # flask does not allow for custom arguments so the next block is commented out
@@ -55,9 +58,9 @@ class BaseConfig:
   #   print(f"--fast-load detected in CLI arguments")
   #   FAST_LOAD = True
   if os.getenv("FAST_LOAD") == "true":
-    print(f"FAST_LOAD detected in CLI arguments")
+    logger.info(f"FAST_LOAD detected in CLI arguments")
     FAST_LOAD = True
-  print(f"{FAST_LOAD = }")
+  logger.info(f"{FAST_LOAD = }")
 
 
 class DevelopmentConfig(BaseConfig):

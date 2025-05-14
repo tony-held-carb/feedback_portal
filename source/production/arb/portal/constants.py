@@ -12,13 +12,14 @@ Notes:
     * Constants are grouped semantically (e.g., GPS, datetime, spreadsheet).
     * Constants should be referenced from this module rather than redefined inline.
 """
-
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from arb.__get_logger import get_logger
 
 # Initialize module-level logger
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 # -----------------------------------------------------------------------------
 # UI Constants

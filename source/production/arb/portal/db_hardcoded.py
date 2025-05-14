@@ -5,11 +5,13 @@ and related routines associated with the operator portal.
 Notes:
 """
 import datetime
+from pathlib import Path
 
 from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 # Sector classification constants
 OIL_AND_GAS_SECTORS = [

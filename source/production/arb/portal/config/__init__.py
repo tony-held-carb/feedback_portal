@@ -9,11 +9,13 @@ Usage:
     app.config.from_object(get_config())
 """
 import os
-
-from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
+from pathlib import Path
 
 from arb.__get_logger import get_logger
+from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
+
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 
 def get_config():

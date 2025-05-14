@@ -14,6 +14,7 @@ Notes:
 
 import os
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
@@ -22,22 +23,23 @@ from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
 
-from arb.__get_logger import get_logger
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
+from arb.__get_logger import get_logger
 from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
+from arb.portal.startup.runtime_info import LOG_FILE
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
 from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
   wtform_to_model
-from arb.portal.startup.runtime_info import LOG_FILE
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 # Add any additional imports needed from other local modules
 # e.g. from .models import db, SomeModel

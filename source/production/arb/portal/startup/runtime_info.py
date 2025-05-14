@@ -21,12 +21,14 @@ Notes:
     - Path(__file__).resolve().parents[2] → .../source
     - Path(__file__).resolve().parents[3] → .../feedback_portal
 """
+from pathlib import Path
 from platform import system
 
 from arb.__get_logger import get_logger
 from arb.utils.file_io import get_project_root_dir
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 
 # ---------------------------------------------------------------------

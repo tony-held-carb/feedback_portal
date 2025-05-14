@@ -14,6 +14,7 @@ Notes:
     * If a value does not need to be initialized at runtime and does not change, it
       should be in the constants.py file instead.
 """
+from pathlib import Path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -21,6 +22,7 @@ from flask_sqlalchemy import SQLAlchemy
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 
 class Globals:

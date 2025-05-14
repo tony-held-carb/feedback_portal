@@ -27,6 +27,8 @@ Example usage in Flask route:
     >>>     save_to_db(form.data)
 """
 
+from pathlib import Path
+
 from flask_wtf import FlaskForm
 from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField)
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
@@ -39,6 +41,7 @@ from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger()
+logger.debug(f"{Path(__file__).name} loading")
 
 DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
 
