@@ -41,7 +41,7 @@ from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger()
-logger.debug(f'Loading File: "{Path(__file__)}"')
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
 

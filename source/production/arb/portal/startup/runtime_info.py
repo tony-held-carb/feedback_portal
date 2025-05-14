@@ -28,7 +28,7 @@ from arb.__get_logger import get_logger
 from arb.utils.file_io import get_project_root_dir
 
 logger, pp_log = get_logger()
-logger.debug(f'Loading File: "{Path(__file__)}"')
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 # ---------------------------------------------------------------------

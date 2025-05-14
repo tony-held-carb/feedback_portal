@@ -39,7 +39,7 @@ from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, 
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
-logger.debug(f'Loading File: "{Path(__file__)}"')
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Add any additional imports needed from other local modules
 # e.g. from .models import db, SomeModel

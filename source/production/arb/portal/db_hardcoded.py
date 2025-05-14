@@ -11,7 +11,7 @@ from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
 
 logger, pp_log = get_logger()
-logger.debug(f'Loading File: "{Path(__file__)}"')
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Sector classification constants
 OIL_AND_GAS_SECTORS = [
