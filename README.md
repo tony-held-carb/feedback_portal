@@ -53,7 +53,7 @@
       * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
     * run on local host (for your laptop only) 
       * cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
-      * flask --app wsgi run -p 2113 --debug
+      * flask --app wsgi run --debug -p 2113
 * Access the app
   * windows: http://127.0.0.1:5000/
   * linux: http://10.93.112.44:2113

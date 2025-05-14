@@ -32,8 +32,8 @@ class BaseConfig:
   )
 
   SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {
-    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
 
