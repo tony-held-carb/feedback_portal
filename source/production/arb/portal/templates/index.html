@@ -21,7 +21,7 @@
             {% if model_row['source_id'] %}
               Source ID: {{ model_row['source_id'] }}
             {% else %}
-              {% if model_row.get('misc_json') and model_row['misc_json'].get('facility_name') %}
+              {% if model_row.misc_json and model_row.misc_json['facility_name'] is defined %}
                 Facility Name: {{ model_row['misc_json']['facility_name'][0:30] }}
               {% endif %}
             {% endif %}
@@ -36,7 +36,7 @@
             {% if model_row['description'] %}
               {{ model_row['description'][0:75] }}
             {% else %}
-              {% if model_row.get('misc_json') and model_row['misc_json'].get('observation_timestamp') %}
+              {% if model_row.misc_json and model_row.misc_json['observation_timestamp'] is defined %}
                 Plume Observed: {{ model_row['misc_json']['observation_timestamp']|repr_datetime_to_string }}
               {% endif %}
             {% endif %}
