@@ -22,7 +22,7 @@ from flask_sqlalchemy import SQLAlchemy
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__)} loading")
+logger.debug(f'Loading File: "{Path(__file__)}"')
 
 
 class Globals:

@@ -8,5 +8,5 @@ from arb.__get_logger import get_logger
 __version__ = "1.2.0"
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__)} loading")
+logger.debug(f'Loading File: "{Path(__file__)}"')
 
