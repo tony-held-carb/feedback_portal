@@ -388,3 +388,17 @@ Please create a new function named run_diagnostics that includes testing of key 
 * naming convention
   * model: an SQLAlchemy model instance
   * wtf_form: a wtform instance
+
+I have a git repo that has a root directory of /home/theld/code/git_repos/feedback_portal
+In the directory /home/theld/code/git_repos/feedback_portal/shell_scripts I have two shell scripts named launch_with_screen.sh and stop_with_screen.sh
+when i pull the scripts for the first time, i have to chmod +x to make them executable.  When I try to pull in the latest
+branch, i get errors saying that i have to commit these files.
+
+what is your recommended strategy to automate the chmod and allow for the pulls?
+
+Attached is my source code for a flask app that stores/updates user feedback.
+
+Please check the code related to how data are stored and retrieved from the database to look for ways that
+it may become corrupted.  also check how data is converted from sqlalchemy to wtforms and back to see if there
+are any potential errors.  perform any other tests or make any other suggestions on how to ensure that
+the data are properly being stored, retrieved, and updated.
