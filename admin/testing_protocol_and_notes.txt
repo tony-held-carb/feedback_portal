@@ -42,15 +42,23 @@ Testing Protocol for Operator Portal Functionality
 
 7. Create a new landfill incident
     - check to see if initial data population with dummy data makes sense
+        pass
     - delete all data except the incidence id and validate
+        pass
     - populate all fields with new values then validate
+        pass
     - make sure all fields are persisting
+        pass
 
 8. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
     - drop these into the spreadsheet reader and make sure they populate persist
+        - landfill
+        - oil and gas
 
 9. Create example templates for both oil and gas and landfill with all populated entries
     - drop these into the spreadsheet reader and make sure they populate persist
+        - landfill
+        - oil and gas
 
 10. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
