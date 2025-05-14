@@ -24,7 +24,7 @@ from arb.utils.sql_alchemy import (
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 def get_sector_info(db, base, id_):

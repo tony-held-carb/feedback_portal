@@ -27,7 +27,7 @@ from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 class UploadedFile(db.Model):

@@ -21,7 +21,7 @@ from arb.utils.misc import args_to_string
 
 from arb.__get_logger import get_logger
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 def configure_flask_app(app: Flask) -> None:

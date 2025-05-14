@@ -21,7 +21,7 @@ from pathlib import Path
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 class BaseConfig:

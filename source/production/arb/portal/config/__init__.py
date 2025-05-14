@@ -15,7 +15,7 @@ from arb.__get_logger import get_logger
 from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 def get_config():

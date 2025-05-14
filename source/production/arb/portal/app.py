@@ -31,7 +31,7 @@ from arb.utils.database import get_reflected_base
 
 logger, pp_log = get_logger()
 
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 
 def create_app() -> Flask:

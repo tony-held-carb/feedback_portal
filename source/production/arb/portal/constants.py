@@ -19,7 +19,7 @@ from arb.__get_logger import get_logger
 
 # Initialize module-level logger
 logger, pp_log = get_logger()
-logger.debug(f"{Path(__file__).name} loading")
+logger.debug(f"{Path(__file__)} loading")
 
 # -----------------------------------------------------------------------------
 # UI Constants
