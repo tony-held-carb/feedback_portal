@@ -7,24 +7,43 @@ Minimum site functionality
     flask --app wsgi run --debug --no-reload
 3. Confirm C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\arb_portal.log
    is created and logging as expected
+4. check that you can click all diagnostic menus
+5. Click the top 3 incidents in the index to make sure they work
 
+6. Check save/populate for oil & gas and landfill
+   Don't worry about validation yet, just make sure things persist
 
+7. create a new oil & gas incident
+    - check to see if initial data population with dummy data makes sense
+    - delete all data except the incidence id and validate
+    - populate all fields with new values then validate
+    - make sure all fields are persisting
 
-Code profiling:
+8. create a new Landfill incident
+    - check to see if initial data population with dummy data makes sense
+    - delete all data except the incidence id and validate
+    - populate all fields with new values then validate
+    - make sure all fields are persisting
 
-1. creating all tables is slow.  it takes about 6 seconds:
-    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
-    +2025-05-14 08:18:08.041 | DEBUG    | app_logger       | user:anonymous | 64    | db.py                | Database schema created.
+9. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
+    - drop these into the spreadsheet reader and make sure they populate persist
 
-2. reflecting and automapping the database takes about 2 seconds
-    +2025-05-14 08:18:08.042 | INFO     | app_logger       | user:anonymous | 28    | db.py                | Reflecting database metadata.
-    +2025-05-14 08:18:09.002 | DEBUG    | app_logger       | user:anonymous | 30    | db.py                | Reflection complete.
-    +2025-05-14 08:18:09.830 | DEBUG    | app_logger       | user:anonymous | 129   | sql_alchemy.py       | calling get_sa_automap_types()
-    +2025-05-14 08:18:10.244 | WARNING  | app_logger       | user:anonymous | 169   | sql_alchemy.py       | geom is of type: Geometry that is not implemented in python.  Setting python type to None.
+10. Create example templates for both oil and gas and landfill with all populated entries
+    - drop these into the spreadsheet reader and make sure they populate persist
 
-3.
-    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
-    +2025-05-14 08:18:12.645 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
+    - Date fields
+        use incorrectly formated date strings
+        put in words rather than date information
+    - Number fields
+        put in blank strings and/or words
+    - drop these into the spreadsheet reader and make sure they populate persist and log failure warnings
 
+12.  Oil and Gas Validation
+    - Make sure any contingent drop downs are working as expected
+    - Make a list of all logic rules and make sure each is enforced
 
+13.  Landfill Validation
+    - Make sure any contingent drop downs are working as expected
+    - Make a list of all logic rules and make sure each is enforced
 
