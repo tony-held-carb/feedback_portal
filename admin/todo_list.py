@@ -12,6 +12,9 @@
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
             - not sure this really applies as we are udating the json field keys, not db column names.
   * if a incidence passes validation, have it spalsh a success message before going to index
+  * don't let there be a decoupling between the incidence column and the json key:value
+    * don't allow it to be changed after it has been created
+    * maybe block the creation of new incidence from portal
 
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
