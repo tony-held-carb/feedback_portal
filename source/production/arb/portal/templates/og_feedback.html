@@ -155,8 +155,8 @@
           </div>
           <div class="card-body">
 
-            {{ macros.input_element(wtf_form.facility_name) }}
-            {{ macros.input_element(wtf_form.id_arb_eggrt) }}
+            {{ macros.input_element(wtf_form.facility_name, placeholder="Facility Name") }}
+            {{ macros.input_element(wtf_form.id_arb_eggrt, placeholder="ID") }}
             {{ macros.input_element(wtf_form.contact_name, placeholder="Contact Name") }}
             {{ macros.input_element(wtf_form.contact_phone, placeholder="(555) 555-5555") }}
             {{ macros.input_element(wtf_form.contact_email, placeholder="your_name@server.com") }}
@@ -194,7 +194,7 @@
             {{ macros.input_element(wtf_form.method21_performed) }}
             {{ macros.input_element(wtf_form.method21_date) }}
             {{ macros.input_element(wtf_form.method21_result) }}
-            {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="123.45") }}
             {{ macros.input_element(wtf_form.venting_description_2, size=12, rows=3) }}
             {{ macros.input_element(wtf_form.initial_mitigation_plan, size=12, rows=3) }}
 
@@ -214,7 +214,7 @@
             {{ macros.input_element(wtf_form.component_at_source, size=6) }}
             {{ macros.input_element(wtf_form.component_other_description, size=12, rows=1) }}
             {{ macros.input_element(wtf_form.repair_timestamp, size=6) }}
-            {{ macros.input_element(wtf_form.final_repair_concentration, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.final_repair_concentration, size=6, placeholder="1234.56") }}
             {{ macros.input_element(wtf_form.repair_description, size=12, rows=3) }}
 
           </div>

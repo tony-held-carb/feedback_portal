@@ -9,8 +9,9 @@ Testing Protocol for Operator Portal Functionality
         cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
         flask --app wsgi run --debug --no-reload
     from ec2:
+        git checkout qa_qc_of_stable_system_01
         git fetch --all --prune
-        git checkout your_branch
+        git pull
         cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
         ./launch_with_screen.sh
 
@@ -19,16 +20,19 @@ Testing Protocol for Operator Portal Functionality
         dir "C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\"
     from ec2:
         cd "/home/theld/code/git_repos/feedback_portal/logs/"
-        head arb_portal.log
-        tail arb_portal.log
+        head -n 2 arb_portal.log
+        tail -n 2  arb_portal.log
 
 
-4. Check that you can click all diagnostic menus
+4. Check that you can click all diagnostic menus and test search
+    pass
 
 5. Click the top 3 incidents in the index to make sure they work and that their summary data is populating properly
+    pass
 
 6. Create a new oil & gas incident
     - check to see if initial data population with dummy data makes sense
+        created: id 1001
     - delete all data except the incidence id and validate
     - populate all fields with new values then validate
     - make sure all fields are persisting
