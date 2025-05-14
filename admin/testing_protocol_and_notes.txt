@@ -53,11 +53,14 @@ Testing Protocol for Operator Portal Functionality
 8. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
     - drop these into the spreadsheet reader and make sure they populate persist
         - landfill
+            pass
         - oil and gas
+            pass
 
 9. Create example templates for both oil and gas and landfill with all populated entries
     - drop these into the spreadsheet reader and make sure they populate persist
         - landfill
+            pass
         - oil and gas
 
 10. Create example templates for both oil and gas and landfill with deliberately incorrect data types

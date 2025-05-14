@@ -283,6 +283,7 @@ def upload_file(message=None):
     * A file upload from a webpage occurs on a post and the desired file upload can be extracted from the request with:
         request_file = request.files['file']
   """
+  logger.debug(f"upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
 
   if message:
@@ -299,6 +300,7 @@ def upload_file(message=None):
       return redirect(request.url)
 
     logger.debug(f"{request.files['file']=}")
+
     request_file = request.files['file']
 
     if request_file:

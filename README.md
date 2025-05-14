@@ -47,6 +47,7 @@
         * ./launch_with_screen.sh
         * ./stop_with_screen.sh
         * logs will go to directory:  /home/theld/code/git_repos/feedback_portal/logs/
+          * rm /home/theld/code/git_repos/feedback_portal/logs/*.log
         * cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_05_14_18_59_38.log
     * ec2 on public host 
       * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
