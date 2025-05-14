@@ -47,3 +47,5 @@ Testing Protocol for Operator Portal Functionality
 12.  Landfill Validation
     - Make sure any contingent drop downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
+
+Implementing testing 05/14/25
