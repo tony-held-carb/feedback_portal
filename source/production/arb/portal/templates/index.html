@@ -22,7 +22,7 @@
             {% if model_row.source_id %}
               Source ID: {{ model_row.source_id }}
             {% else %}
-              Source ID: <em>Not specified</em>
+              Source ID: Not specified
             {% endif %}
 
             <br />
@@ -32,7 +32,7 @@
             {% if facility_name %}
               Facility Name: {{ facility_name[:30] }}
             {% else %}
-              Facility Name: <em>Not specified</em>
+              Facility Name: Not specified
             {% endif %}
 
           </h5>
@@ -51,7 +51,7 @@
             {% if ts %}
               Plume Observed: {{ ts | repr_datetime_to_string }}
             {% else %}
-              Plume Observed: <em>Not specified</em>
+              Plume Observed: Not specified
             {% endif %}
 
           </p>
