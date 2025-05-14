@@ -32,7 +32,7 @@
             {% if facility_name %}
               Facility Name: {{ facility_name[:30] }}
             {% else %}
-              Facility Name:
+{#              Facility Name:#}
             {% endif %}
 
             <br/>
@@ -42,7 +42,7 @@
             {% if ts %}
               Plume Observed: {{ ts | repr_datetime_to_string }}
             {% else %}
-              Plume Observed:
+{#              Plume Observed:#}
             {% endif %}
 
           </h5>
