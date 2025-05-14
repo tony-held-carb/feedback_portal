@@ -1,37 +1,38 @@
-Minimum site functionality
+Testing Protocol for Operator Portal Functionality
 
 1. (Optional) Clear logs from:
         C:\one_drive\code\pycharm\feedback_portal\logs
         C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
+
 2. Launch portal from laptop dir C:\one_drive\code\pycharm\feedback_portal\source\production\arb> with:
     flask --app wsgi run --debug --no-reload
+
 3. Confirm C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\arb_portal.log
    is created and logging as expected
-4. check that you can click all diagnostic menus
-5. Click the top 3 incidents in the index to make sure they work
 
-6. Check save/populate for oil & gas and landfill
-   Don't worry about validation yet, just make sure things persist
+4. Check that you can click all diagnostic menus
 
-7. create a new oil & gas incident
+5. Click the top 3 incidents in the index to make sure they work and that their summary data is populating properly
+
+6. Create a new oil & gas incident
     - check to see if initial data population with dummy data makes sense
     - delete all data except the incidence id and validate
     - populate all fields with new values then validate
     - make sure all fields are persisting
 
-8. create a new Landfill incident
+7. Create a new landfill incident
     - check to see if initial data population with dummy data makes sense
     - delete all data except the incidence id and validate
     - populate all fields with new values then validate
     - make sure all fields are persisting
 
-9. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
+8. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
     - drop these into the spreadsheet reader and make sure they populate persist
 
-10. Create example templates for both oil and gas and landfill with all populated entries
+9. Create example templates for both oil and gas and landfill with all populated entries
     - drop these into the spreadsheet reader and make sure they populate persist
 
-11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
+10. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
         use incorrectly formated date strings
         put in words rather than date information
@@ -39,11 +40,10 @@ Minimum site functionality
         put in blank strings and/or words
     - drop these into the spreadsheet reader and make sure they populate persist and log failure warnings
 
-12.  Oil and Gas Validation
+11.  Oil and Gas Validation
     - Make sure any contingent drop downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
 
-13.  Landfill Validation
+12.  Landfill Validation
     - Make sure any contingent drop downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
-
