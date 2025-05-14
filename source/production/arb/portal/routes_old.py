@@ -276,52 +276,44 @@ def list_uploads():
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message=None):
   """
-  Flask route to upload a file from client to server.
+  Flask route to upload file from client to server.
 
   Notes:
-    * File upload is via POST. Use request.files['file'] to extract uploaded file.
-    * Drag-and-drop of an open Excel file may fail due to Windows file locking.
+    * For example usage pattern of file upload see: https://flask.palletsprojects.com/en/3.0.x/patterns/fileuploads/
+    * A file upload from a webpage occurs on a post and the desired file upload can be extracted from the request with:
+        request_file = request.files['file']
   """
-  logger.debug("upload_file route called.")
+  logger.debug(f"upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
 
-  # Handle optional URL message
   if message:
+    # Decode URL-encoded message (e.g., '+' to space, '%20' to space, etc.)
     message = unquote(message)
-    logger.debug(f"upload_file called with message: {message}")
+    logger.debug(f"upload_file called with {message=}")
 
   upload_dir = current_app.config['UPLOAD_FOLDER']
-  logger.debug(f"Upload request with: {request.files=}, upload_dir={upload_dir}")
+  logger.debug(f"Request to upload file to server with: {request.files=}, {upload_dir=}")
 
   if request.method == 'POST':
-    try:
-      if 'file' not in request.files or not request.files['file'].filename:
-        logger.warning("No file selected in POST request.")
-        return render_template('upload.html', upload_message="No file selected. Please choose a file.")
+    # Re request file upload if no file was in the post
+    if 'file' not in request.files or request.files['file'].filename == "":
+      return redirect(request.url)
 
-      request_file = request.files['file']
-      logger.debug(f"Received uploaded file: {request_file.filename}")
+    logger.debug(f"{request.files['file']=}")
 
-      if request_file:
-        file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
-        logger.debug(f"{sector=}")
+    request_file = request.files['file']
 
-        if id_:
-          logger.debug(f"Upload successful: redirecting to incidence update for id={id_}")
-          return redirect(url_for('main.incidence_update', id_=id_))
-        else:
-          logger.debug(f"Upload did not match expected format: {file_name=}")
-          return render_template('upload.html', upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
+    if request_file:
+      # todo - update function names for clarity?
+      file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
+      logger.debug(f"{sector=}")
+      if id_:
+        logger.debug(f"upload_file() {id_=}")
+        return redirect(url_for('main.incidence_update', id_=id_))
+      else:
+        logger.debug(f"upload_file() Did not contain feedback format: {file_name=}")
+        return render_template('upload.html', upload_message=f"Successfully uploaded file: {file_name.name}")
 
-    except Exception as e:
-      logger.exception("Error occurred during file upload.")
-      return render_template(
-        'upload.html',
-        upload_message="Error: Could not process the uploaded file. "
-                       "Make sure it is closed and try again."
-      )
-
-  # GET request
   return render_template('upload.html', upload_message=message)
 
 
