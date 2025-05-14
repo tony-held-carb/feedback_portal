@@ -9,6 +9,7 @@
 <div class="container-fluid bg-image-01 mb-3 pt-1 ">
 
   {% for model_row in model_rows %}
+  {% set misc = model_row.misc_json %}
   <div class="card bg-light mb-3" style="max-width: 24rem;">
     <div class="card-header">
       <a href="{{ url_for('main.incidence_update', id_=model_row['id_incidence']) }}">
@@ -21,7 +22,6 @@
         {% if model_row['source_id'] %}
           Source ID: {{ model_row['source_id'] }}
         {% else %}
-          {% set misc = model_row.misc_json %}
           {% if misc and 'facility_name' in misc and misc['facility_name'] %}
             Facility Name: {{ misc['facility_name'][:30] }}
           {% else %}
