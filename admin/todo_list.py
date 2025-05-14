@@ -9,11 +9,14 @@
 
 
 * check that the app/database is working
-  * connect to dan's database
   * create a list of must check/functionality for the portal, check it against spreadsheets, etc
   * need to test a variety of usage cases to make sure input/output/logging/validation is working as expected.
   * potentially come up with unit testing
-  * don't want the site to crash on its initial week ...
+  * connect to dan's database
+  * implement recs from gpt to make the site more robust
+      Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
+        * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
+            - not sure this really applies as we are udating the json field keys, not db column names.
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
@@ -23,6 +26,7 @@
 
 * future initiatives
   * use blueprint structure
+    * Flask App Blueprinting Structure: https://chatgpt.com/share/6823ecba-5fb4-800b-b0b6-0128d6d649d9
   * add user log-in
   * update logging based on flask user
 
