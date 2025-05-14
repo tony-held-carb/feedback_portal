@@ -10,6 +10,7 @@ Example:
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
+from flask import current_app
 
 logger, pp_log = get_logger()
 
@@ -57,6 +58,10 @@ def db_create() -> None:
   """
   # this is slow, consider using a fast load mechanism:
   # https://chatgpt.com/share/681eec4d-8b74-800b-9d0c-bdb08da62fd2
+
+  if current_app.config["FAST_LOAD"] is True:
+    logger.info("Skipping table creation for FAST_LOAD=True.")
+    return
 
   logger.info("Creating all missing tables.")
   db.create_all()

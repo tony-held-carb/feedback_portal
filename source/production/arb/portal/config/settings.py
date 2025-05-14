@@ -15,7 +15,7 @@ Notes:
     it should be defined and initialized in the startup/runtime_info.py file.
 """
 
-import os
+import os, sys
 
 from arb.__get_logger import get_logger
 
@@ -45,6 +45,19 @@ class BaseConfig:
   WTF_CSRF_ENABLED = True
   LOG_LEVEL = "INFO"
   TIMEZONE = "America/Los_Angeles"
+
+  # ---------------------------------------------------------------------
+  # Get other relevant environmental variables here and commandline flags here
+  # ---------------------------------------------------------------------
+  FAST_LOAD = False
+  # flask does not allow for custom arguments so the next block is commented out
+  # if "--fast-load" in sys.argv:
+  #   print(f"--fast-load detected in CLI arguments")
+  #   FAST_LOAD = True
+  if os.getenv("FAST_LOAD") == "true":
+    print(f"FAST_LOAD detected in CLI arguments")
+    FAST_LOAD = True
+  print(f"{FAST_LOAD = }")
 
 
 class DevelopmentConfig(BaseConfig):

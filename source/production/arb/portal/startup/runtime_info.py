@@ -39,14 +39,14 @@ def print_runtime_diagnostics() -> None:
   Example:
       >>> print_runtime_diagnostics()
   """
-  print(f"{'PLATFORM':<20} = {PLATFORM}")
-  print(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")
-  print(f"{'IS_LINUX':<20} = {IS_LINUX}")
-  print(f"{'IS_MAC':<20} = {IS_MAC}")
-  print(f"{'PROJECT_ROOT':<20} = {PROJECT_ROOT}")
-  print(f"{'UPLOAD_PATH':<20} = {UPLOAD_PATH}")
-  print(f"{'LOG_DIR':<20} = {LOG_DIR}")
-  print(f"{'STATIC_DIR':<20} = {STATIC_DIR}")
+  logger.info(f"{'PLATFORM':<20} = {PLATFORM}")
+  logger.info(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")
+  logger.info(f"{'IS_LINUX':<20} = {IS_LINUX}")
+  logger.info(f"{'IS_MAC':<20} = {IS_MAC}")
+  logger.info(f"{'PROJECT_ROOT':<20} = {PROJECT_ROOT}")
+  logger.info(f"{'UPLOAD_PATH':<20} = {UPLOAD_PATH}")
+  logger.info(f"{'LOG_DIR':<20} = {LOG_DIR}")
+  logger.info(f"{'STATIC_DIR':<20} = {STATIC_DIR}")
 
 
 # ---------------------------------------------------------------------
@@ -80,5 +80,9 @@ STATIC_DIR = PROJECT_ROOT / "arb" / "portal" / "static"
 # ---------------------------------------------------------------------
 for required_dir in [UPLOAD_PATH, LOG_DIR]:
   required_dir.mkdir(parents=True, exist_ok=True)
+
+# ---------------------------------------------------------------------
+# Ensure Required Directories Exist
+# ---------------------------------------------------------------------
 
 print_runtime_diagnostics()
