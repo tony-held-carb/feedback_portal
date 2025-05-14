@@ -7,7 +7,6 @@ database metadata, create tables, and register models.
 Example:
     from startup.db import reflect_database, db_initialize_and_create
 """
-from flask_sqlalchemy import SQLAlchemy
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
@@ -75,6 +74,4 @@ def db_initialize_and_create() -> None:
   db_create()
   logger.info("Database initialized and tables ensured.")
 
-
-from sqlalchemy.ext.automap import automap_base
 

@@ -1,2 +1,30 @@
 Minimum site functionality
 
+1. (Optional) Clear logs from:
+        C:\one_drive\code\pycharm\feedback_portal\logs
+        C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
+2. Launch portal from laptop dir C:\one_drive\code\pycharm\feedback_portal\source\production\arb> with:
+    flask --app wsgi run --debug --no-reload
+3. Confirm C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\arb_portal.log
+   is created and logging as expected
+
+
+
+Code profiling:
+
+1. creating all tables is slow.  it takes about 6 seconds:
+    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
+    +2025-05-14 08:18:08.041 | DEBUG    | app_logger       | user:anonymous | 64    | db.py                | Database schema created.
+
+2. reflecting and automapping the database takes about 2 seconds
+    +2025-05-14 08:18:08.042 | INFO     | app_logger       | user:anonymous | 28    | db.py                | Reflecting database metadata.
+    +2025-05-14 08:18:09.002 | DEBUG    | app_logger       | user:anonymous | 30    | db.py                | Reflection complete.
+    +2025-05-14 08:18:09.830 | DEBUG    | app_logger       | user:anonymous | 129   | sql_alchemy.py       | calling get_sa_automap_types()
+    +2025-05-14 08:18:10.244 | WARNING  | app_logger       | user:anonymous | 169   | sql_alchemy.py       | geom is of type: Geometry that is not implemented in python.  Setting python type to None.
+
+3.
+    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
+    +2025-05-14 08:18:12.645 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+
+
+

@@ -52,6 +52,7 @@ Note on running Flask Apps:
       * --app <file_name>
       * --debug or --no-debug
         * determines if the Werkzeug browser debugger is on/off
+      * --no-reload  <-- faster load time and does not restart app on source code changes
 
 4) Source code app arguments:
 

@@ -23,10 +23,31 @@ Notes:
 """
 from platform import system
 
+from arb.__get_logger import get_logger
 from arb.utils.file_io import get_project_root_dir
 
-from arb.__get_logger import get_logger
 logger, pp_log = get_logger()
+
+
+# ---------------------------------------------------------------------
+# Diagnostics Utility
+# ---------------------------------------------------------------------
+def print_runtime_diagnostics() -> None:
+  """
+  Print detected runtime paths and platform flags for debugging.
+
+  Example:
+      >>> print_runtime_diagnostics()
+  """
+  print(f"{'PLATFORM':<20} = {PLATFORM}")
+  print(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")
+  print(f"{'IS_LINUX':<20} = {IS_LINUX}")
+  print(f"{'IS_MAC':<20} = {IS_MAC}")
+  print(f"{'PROJECT_ROOT':<20} = {PROJECT_ROOT}")
+  print(f"{'UPLOAD_PATH':<20} = {UPLOAD_PATH}")
+  print(f"{'LOG_DIR':<20} = {LOG_DIR}")
+  print(f"{'STATIC_DIR':<20} = {STATIC_DIR}")
+
 
 # ---------------------------------------------------------------------
 # System Platform Detection
@@ -54,32 +75,10 @@ LOG_FILE = LOG_DIR / "arb_portal.log"
 
 STATIC_DIR = PROJECT_ROOT / "arb" / "portal" / "static"
 
-logger.debug(f"{UPLOAD_PATH =}")
-logger.debug(f"{LOG_DIR =}")
-logger.debug(f"{STATIC_DIR =}")
-
 # ---------------------------------------------------------------------
 # Ensure Required Directories Exist
 # ---------------------------------------------------------------------
 for required_dir in [UPLOAD_PATH, LOG_DIR]:
   required_dir.mkdir(parents=True, exist_ok=True)
 
-
-# ---------------------------------------------------------------------
-# Diagnostics Utility
-# ---------------------------------------------------------------------
-def print_runtime_diagnostics() -> None:
-  """
-  Print detected runtime paths and platform flags for debugging.
-
-  Example:
-      >>> print_runtime_diagnostics()
-  """
-  print(f"{'PLATFORM':<20} = {PLATFORM}")
-  print(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")
-  print(f"{'IS_LINUX':<20} = {IS_LINUX}")
-  print(f"{'IS_MAC':<20} = {IS_MAC}")
-  print(f"{'PROJECT_ROOT':<20} = {PROJECT_ROOT}")
-  print(f"{'UPLOAD_PATH':<20} = {UPLOAD_PATH}")
-  print(f"{'LOG_DIR':<20} = {LOG_DIR}")
-  print(f"{'STATIC_DIR':<20} = {STATIC_DIR}")
+print_runtime_diagnostics()
