@@ -11,6 +11,8 @@
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
             - not sure this really applies as we are udating the json field keys, not db column names.
+  * if a incidence passes validation, have it spalsh a success message before going to index
+
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
