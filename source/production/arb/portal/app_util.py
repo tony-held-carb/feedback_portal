@@ -286,11 +286,6 @@ def dict_to_database(db, base, data_dict, table_name="incidences", json_field="m
   model_json_dict = getattr(model, json_field) or {}
   model_json_dict["id_incidence"] = id_
 
-  # # todo (consider) - the o&g feedback form does not include a id_plume field,
-  # #  in subsequent source, it can be looked up, but for now, it must be hard coded.
-  # if model_json_dict.get("sector") in ["Oil and Gas", "Oil & Gas"] and not model_json_dict.get("id_plume"):
-  #   model_json_dict["id_plume"] = 123456  # placeholder
-
   setattr(model, json_field, model_json_dict)
   flag_modified(model, json_field)
   session.add(model)

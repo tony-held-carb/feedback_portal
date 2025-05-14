@@ -98,7 +98,7 @@ def get_og_dummy_data():
   """
 
   json_data = {
-    "id_incidence": 1001,
+    "id_incidence": 2001,
     "id_plume": 1001,
     "observation_timestamp": datetime.datetime.now(),
     "lat_carb": 100.05,
@@ -158,7 +158,7 @@ def get_landfill_dummy_data():
     "emission_type_fk": "Please Select",
     "facility_name": "facility_name",
     "id_arb_swis": "id_arb_swis",
-    "id_incidence": 1002,
+    "id_incidence": 200,
     "id_message": "id_message",
     "id_plume": 1002,
     "included_in_last_lmr": "Please Select",
