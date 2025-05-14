@@ -4,11 +4,24 @@ Testing Protocol for Operator Portal Functionality
         C:\one_drive\code\pycharm\feedback_portal\logs
         C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
 
-2. Launch portal from laptop dir C:\one_drive\code\pycharm\feedback_portal\source\production\arb> with:
-    flask --app wsgi run --debug --no-reload
+2. Launch portal
+    from laptop:
+        cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
+        flask --app wsgi run --debug --no-reload
+    from ec2:
+        git fetch --all --prune
+        git checkout your_branch
+        cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
+        ./launch_with_screen.sh
 
-3. Confirm C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\arb_portal.log
-   is created and logging as expected
+3. Confirm logging file is created and logging as expected:
+    from laptop:
+        dir "C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\"
+    from ec2:
+        cd "/home/theld/code/git_repos/feedback_portal/logs/"
+        head arb_portal.log
+        tail arb_portal.log
+
 
 4. Check that you can click all diagnostic menus
 
