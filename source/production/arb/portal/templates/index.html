@@ -22,17 +22,25 @@
             {% if model_row.source_id %}
               Source ID: {{ model_row.source_id }}
             {% else %}
-              Source ID: Not specified
+              Source ID:
             {% endif %}
 
-            <br />
+            <br/>
 
             {# Facility Name #}
             {% set facility_name = misc.get('facility_name') %}
             {% if facility_name %}
               Facility Name: {{ facility_name[:30] }}
             {% else %}
-              Facility Name: Not specified
+              Facility Name:
+            {% endif %}
+
+            {# Observation Timestamp #}
+            {% set ts = misc.get('observation_timestamp') %}
+            {% if ts %}
+              Plume Observed: {{ ts | repr_datetime_to_string }}
+            {% else %}
+              Plume Observed:
             {% endif %}
 
           </h5>
@@ -42,17 +50,11 @@
             {# Description #}
             {% if model_row.description %}
               {{ model_row.description[:75] }}
-            {% endif %}
-
-            <br />
-
-            {# Observation Timestamp #}
-            {% set ts = misc.get('observation_timestamp') %}
-            {% if ts %}
-              Plume Observed: {{ ts | repr_datetime_to_string }}
             {% else %}
-              Plume Observed: Not specified
+              No description provided.
             {% endif %}
+
+            <br/>
 
           </p>
 
