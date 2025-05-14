@@ -34,8 +34,11 @@ Testing Protocol for Operator Portal Functionality
     - check to see if initial data population with dummy data makes sense
         created: id 1001
     - delete all data except the incidence id and validate
+        pass
     - populate all fields with new values then validate
+        pass
     - make sure all fields are persisting
+        pass
 
 7. Create a new landfill incident
     - check to see if initial data population with dummy data makes sense

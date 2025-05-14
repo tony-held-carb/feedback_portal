@@ -138,13 +138,13 @@
               placeholder="Optional valid CA latitude with 5 digits of precision).") }}
             {{ macros.input_element(wtf_form.long_revised, size=6,
               placeholder="Optional valid CA longitude with 5 digits of precision).") }}
-            {{ macros.input_element(wtf_form.emission_type_fk, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.emission_type_fk, size=6) }}
             {{ macros.input_element(wtf_form.emission_location, size=6) }}
             {{ macros.input_element(wtf_form.emission_location_notes, size=12, rows=3,
               placeholder="Description of the location selected above.") }}
-            {{ macros.input_element(wtf_form.emission_cause, size=6, placeholder="TBD") }}
-            {{ macros.input_element(wtf_form.emission_cause_secondary, size=6, placeholder="TBD") }}
-            {{ macros.input_element(wtf_form.emission_cause_tertiary, size=6, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.emission_cause, size=6) }}
+            {{ macros.input_element(wtf_form.emission_cause_secondary, size=6) }}
+            {{ macros.input_element(wtf_form.emission_cause_tertiary, size=6) }}
             {{ macros.input_element(wtf_form.emission_cause_notes, size=12, rows=3,
               placeholder="Additional cause details.") }}
           </div>
@@ -161,10 +161,10 @@
             {{ macros.input_element(wtf_form.re_monitored_timestamp, size=6) }}
             {{ macros.input_element(wtf_form.re_monitored_concentration, size=6,
               placeholder="For example: 123.4") }}
-            {{ macros.input_element(wtf_form.included_in_last_lmr, size=3, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.included_in_last_lmr, size=3) }}
             {{ macros.input_element(wtf_form.included_in_last_lmr_description, size=12, rows=3,
               placeholder="Description") }}
-            {{ macros.input_element(wtf_form.planned_for_next_lmr, size=3, placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.planned_for_next_lmr, size=3) }}
             {{ macros.input_element(wtf_form.planned_for_next_lmr_description, size=12, rows=3,
               placeholder="Description") }}
           </div>
@@ -176,8 +176,7 @@
           </div>
           <div class="card-body">
             {{ macros.input_element(wtf_form.last_surface_monitoring_timestamp, size=6) }}
-            {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6,
-              placeholder="TBD") }}
+            {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6) }}
             {{ macros.input_element(wtf_form.additional_notes, size=12, rows=3) }}
           </div>
         </div>
