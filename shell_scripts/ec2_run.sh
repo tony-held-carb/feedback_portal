@@ -11,7 +11,8 @@
 # Notes:
 # ----------------------------------------------------------------------
 
-echo "Running the Flask Feedback Portal"
-
+echo "Stopping Screen if already running"
 source /home/theld/code/git_repos/feedback_portal/shell_scripts/stop_with_screen.sh
+
+echo
 source /home/theld/code/git_repos/feedback_portal/shell_scripts/launch_with_screen.sh
