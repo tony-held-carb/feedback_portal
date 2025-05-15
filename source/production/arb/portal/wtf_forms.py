@@ -38,7 +38,7 @@ from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MI
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, get_wtforms_fields, validate_selectors, ensure_field_choice
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -291,6 +291,8 @@ class OGFeedback(FlaskForm):
 
     """
     logger.debug(f"validate() called.")
+    form_fields = get_wtforms_fields(self)
+
     # Dictionary to replace standard WTForm messages with alternative message
     error_message_replacement_dict = {"Not a valid float value.": "Not a valid numeric value."}
 
@@ -302,11 +304,11 @@ class OGFeedback(FlaskForm):
     ###################################################################################################
     # Set selectors with values not in their choices list to "Please Select"
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
     for field_name in form_fields:
       field = getattr(self, field_name)
       logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
-      ensure_field_choice(field_name, field)
+      if isinstance(field, SelectField):
+        ensure_field_choice(field_name, field)
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -392,8 +394,6 @@ class OGFeedback(FlaskForm):
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
-
     for field in form_fields:
       field_errors = getattr(self, field).errors
       replace_list_occurrences(field_errors, error_message_replacement_dict)
@@ -811,6 +811,9 @@ class LandfillFeedback(FlaskForm):
     
 
     """
+    logger.debug(f"validate() called.")
+    form_fields = get_wtforms_fields(self)
+
     # Dictionary to replace standard WTForm messages with alternative message
     error_message_replacement_dict = {"Not a valid float value.": "Not a valid numeric value."}
 
@@ -823,11 +826,11 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     # Set selectors with values not in their choices list to "Please Select"
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
     for field_name in form_fields:
       field = getattr(self, field_name)
       logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
-      ensure_field_choice(field_name, field)
+      if isinstance(field, SelectField):
+        ensure_field_choice(field_name, field)
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -923,8 +926,6 @@ class LandfillFeedback(FlaskForm):
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
-
     for field in form_fields:
       field_errors = getattr(self, field).errors
       replace_list_occurrences(field_errors, error_message_replacement_dict)

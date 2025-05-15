@@ -81,6 +81,8 @@ It could turn out to be easy, just check and see if a value is in the choice lis
 May need logic on how to cascade down from the first to the last question, could already sorta be there and you
 just need to validate selectors in the order of how contingent selectors are updated.
 
+I made a fix, just gotta test it and make sure I did not break anything
+
 
 11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
