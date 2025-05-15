@@ -588,6 +588,20 @@ def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> No
       logger.debug(f"{field.name} set to default value: {default}")
       field.data = default
 
+def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
+  """
+  Combine header and choices into a list of triple tuples for WTForms.
+
+  Args:
+      header (list[tuple[str, str, dict]]): The static header items.
+      items (list[str]): Dynamic items to append as (value, value, {}).
+
+  Returns:
+      list[tuple[str, str, dict]]: Combined list.
+  """
+  footer = [(item, item, {}) for item in items]
+  return header + footer
+
 
 def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
   """

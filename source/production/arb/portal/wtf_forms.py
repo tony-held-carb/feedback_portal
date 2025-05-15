@@ -38,7 +38,7 @@ from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MI
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, get_wtforms_fields, validate_selectors, ensure_field_choice
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -298,6 +298,15 @@ class OGFeedback(FlaskForm):
     # Add, Remove, or Modify validation at a field level here before the super is called (for example)
     ###################################################################################################
     self.determine_contingent_fields()
+
+    ###################################################################################################
+    # Set selectors with values not in their choices list to "Please Select"
+    ###################################################################################################
+    form_fields = get_wtforms_fields(self)
+    for field_name in form_fields:
+      field = getattr(self, field_name)
+      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
+      ensure_field_choice(field_name, field)
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -784,27 +793,13 @@ class LandfillFeedback(FlaskForm):
     ]
 
     # Build full choices
-    primary_choices = self._build_choices(primary_header, choices_raw)
-    secondary_tertiary_choices = self._build_choices(secondary_tertiary_header, choices_raw)
+    primary_choices = build_choices(primary_header, choices_raw)
+    secondary_tertiary_choices = build_choices(secondary_tertiary_header, choices_raw)
 
     # Update each field's choices
     self.emission_cause.choices = primary_choices
     self.emission_cause_secondary.choices = secondary_tertiary_choices
     self.emission_cause_tertiary.choices = secondary_tertiary_choices
-
-  def _build_choices(self, header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
-    """
-    Combine header and choices into a list of triple tuples for WTForms.
-
-    Args:
-        header (list[tuple[str, str, dict]]): The static header items.
-        items (list[str]): Dynamic items to append as (value, value, {}).
-
-    Returns:
-        list[tuple[str, str, dict]]: Combined list.
-    """
-    footer = [(item, item, {}) for item in items]
-    return header + footer
 
   def validate(self, extra_validators=None):
     """
@@ -826,18 +821,21 @@ class LandfillFeedback(FlaskForm):
     self.update_contingent_selectors()
 
     ###################################################################################################
+    # Set selectors with values not in their choices list to "Please Select"
+    ###################################################################################################
+    form_fields = get_wtforms_fields(self)
+    for field_name in form_fields:
+      field = getattr(self, field_name)
+      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
+      ensure_field_choice(field_name, field)
+
+    ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
     # This will create the form.errors dictionary.  If there are form_errors they will be in the None key.
     # The form_errors will not affect if validate returns True/False, only the fields are considered.
     ###################################################################################################
     # logger.debug("in the validator before super")
     obj_diagnostics(self, message="in the validator before super")
-    form_fields = get_wtforms_fields(self)
-
-    for field_name in form_fields:
-      field = getattr(self, field_name)
-      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
-      # todo - call _update_selector here
 
     super_return = super().validate(extra_validators=extra_validators)
 
