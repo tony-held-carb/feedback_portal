@@ -62,6 +62,19 @@ Testing Protocol for Operator Portal Functionality
         - landfill
             pass
         - oil and gas
+            fail
+
+Oil and Gas Import Issues:
+The following fields did not import properly (both are drop downs)
+Q10 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
+Q13 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
+
+Related warning on the import
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <ogi_result> value at <$D$56> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <method21_result> value at <$D$59> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
+
 
 10. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
