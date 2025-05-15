@@ -62,27 +62,17 @@ Testing Protocol for Operator Portal Functionality
         - landfill
             pass
         - oil and gas
-            fail
+            pass
 
-Oil and Gas Import Issues:
-The following fields did not import properly (both are drop downs)
-Q10 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
-Q13 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
+10. Use the excel jinja templates, that still have {{ variable }} notation and see what happens when you drop them in
+    make sure to populate the id_incident or else it will make work for dan
+    - drop these into the spreadsheet reader and make sure they populate persist
+        - landfill
+            pass
+        - oil and gas
+            pass
 
-Related warning on the import
-+2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <ogi_result> value at <$D$56> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
-+2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
-+2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <method21_result> value at <$D$59> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
-+2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
-
-fixed those, but I still have these: does not seem to be a big problem to go from int to float ... looks like int is decide by excel
-+2025-05-14 17:49:52.832 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <lat_carb> value at <$D$35> is <32> and is of type <<class 'int'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
-+2025-05-14 17:49:52.832 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <32.0> with type: <<class 'float'>>
-+2025-05-14 17:49:52.833 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <long_carb> value at <$D$36> is <33> and is of type <<class 'int'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
-+2025-05-14 17:49:52.833 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <33.0> with type: <<class 'float'>>
-
-
-10. Create example templates for both oil and gas and landfill with deliberately incorrect data types
+11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
         use incorrectly formated date strings
         put in words rather than date information
@@ -90,11 +80,11 @@ fixed those, but I still have these: does not seem to be a big problem to go fro
         put in blank strings and/or words
     - drop these into the spreadsheet reader and make sure they populate persist and log failure warnings
 
-11.  Oil and Gas Validation
+12.  Oil and Gas Validation
     - Make sure any contingent drop downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
 
-12.  Landfill Validation
+13.  Landfill Validation
     - Make sure any contingent drop downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
 
