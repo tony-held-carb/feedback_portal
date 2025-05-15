@@ -63,13 +63,15 @@ default_value_types_v01_00 = {
   "long_revised": float,
   "method21_date": datetime.datetime,
   "method21_performed": str,
-  "method21_result": float,
+  # "method21_result": float,
+  "method21_result": str, # updated type 2025/05/14
   "mitigation_actions": str,
   "mitigation_timestamp": datetime.datetime,
   "observation_timestamp": datetime.datetime,
   "ogi_date": datetime.datetime,
   "ogi_performed": str,
-  "ogi_result": float,
+  # "ogi_result": float,
+  "ogi_result": str, # updated type 2025/05/14
   "planned_for_next_lmr": str,
   "planned_for_next_lmr_description": str,
   "re_monitored_concentration": float,
