@@ -77,6 +77,10 @@ figure out why some are being coerced and others are not, come up with a general
 the input data are garbage?  It could be that this is not a reasonable test case as it is unlikely total garbage
 would be allowed to be entered into the selector?  Maybe fix the other validations first?
 
+It could turn out to be easy, just check and see if a value is in the choice list and make it None if it is not.
+May need logic on how to cascade down from the first to the last question, could already sorta be there and you
+just need to validate selectors in the order of how contingent selectors are updated.
+
 
 11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields

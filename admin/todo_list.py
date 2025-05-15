@@ -5,6 +5,8 @@
 * check that the app/database is working using testing_protocol_and_notes.txt
 
   * update placeholder for wtforms validation
+  * resume tomorrow making the dropdowns more robust
+
   * if a incidence passes validation, have it spalsh a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value
     * don't allow it to be changed after it has been created
