@@ -34,6 +34,8 @@
         --prune     Removes stale remote-tracking branches that no longer exist on GitHub
   * git branch -a
     * lists all branches
+  * delete a local branch
+    * git branch -d branch_name
   * git checkout your_branch
   * git pull
   * git push
