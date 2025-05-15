@@ -589,6 +589,30 @@ def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> No
       field.data = default
 
 
+def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str, dict]]) -> None:
+  """
+  Ensure that a field's value is in the list of valid choices for a selector.
+  Invalid values are replaced with "Please Select".
+
+  Args:
+      field_name (str): The name of the field (for logging).
+      field: The WTForms field to update.
+      choices (list[tuple[str, str, dict]]): New valid choices.
+  """
+  # todo update raw data as well
+  field.choices = choices
+
+  # choices can be list of tuples that may be 2 to 3 items in length
+  # choices should be a set of the first member in each of these tuples
+  valid_values = {value[0] for value in choices}
+
+  if field.data not in valid_values:
+    logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
+    field.data = "Please Select"
+  # else:
+  #   logger.debug(f"{field_name}.data={field.data!r} is valid")
+
+
 def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
   """
   Validate SelectFields submitted via GET where default values need to be considered invalid.

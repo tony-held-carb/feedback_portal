@@ -38,7 +38,7 @@ from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MI
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors, ensure_field_choice
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -760,6 +760,8 @@ class LandfillFeedback(FlaskForm):
           are WTForms SelectField instances.
         - Globals.drop_downs_contingent contains a nested dict of contingent options.
     """
+    # todo - update contingent dropdowns?
+
     logger.debug("Running update_contingent_selectors()")
 
     emission_location = self.emission_location.data
@@ -786,9 +788,10 @@ class LandfillFeedback(FlaskForm):
     secondary_tertiary_choices = self._build_choices(secondary_tertiary_header, choices_raw)
 
     # Update each field
-    self._update_selector("emission_cause", self.emission_cause, primary_choices)
-    self._update_selector("emission_cause_secondary", self.emission_cause_secondary, secondary_tertiary_choices)
-    self._update_selector("emission_cause_tertiary", self.emission_cause_tertiary, secondary_tertiary_choices)
+    # todo - only set the choices update selector will be called later
+    ensure_field_choice("emission_cause", self.emission_cause, primary_choices)
+    ensure_field_choice("emission_cause_secondary", self.emission_cause_secondary, secondary_tertiary_choices)
+    ensure_field_choice("emission_cause_tertiary", self.emission_cause_tertiary, secondary_tertiary_choices)
 
   def _build_choices(self, header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
     """
@@ -803,24 +806,6 @@ class LandfillFeedback(FlaskForm):
     """
     footer = [(item, item, {}) for item in items]
     return header + footer
-
-  def _update_selector(self, field_name: str, field, choices: list[tuple[str, str, dict]]) -> None:
-    """
-    Update the field's choices and reset data if invalid.
-
-    Args:
-        field_name (str): The name of the field (for logging).
-        field: The WTForms field to update.
-        choices (list[tuple[str, str, dict]]): New valid choices.
-    """
-    field.choices = choices
-    valid_values = {value for value, _, _ in choices}
-
-    if field.data not in valid_values:
-      logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
-      field.data = "Please Select"
-    # else:
-    #   logger.debug(f"{field_name}.data={field.data!r} is valid")
 
   def validate(self, extra_validators=None):
     """
@@ -840,9 +825,6 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     self.determine_contingent_fields()
     self.update_contingent_selectors()
-    # todo - update contingent dropdowns
-    # todo - if you have garbage in the selector (or an invalid choice), maybe here is the place to set
-    # to None so that they will reset from an invalid value to a safe default?
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -856,6 +838,7 @@ class LandfillFeedback(FlaskForm):
     for field_name in form_fields:
       field = getattr(self, field_name)
       logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
+      # todo - call _update_selector here
 
     super_return = super().validate(extra_validators=extra_validators)
 
@@ -910,7 +893,7 @@ class LandfillFeedback(FlaskForm):
         self.mitigation_timestamp.errors.append(
           "Date of mitigation cannot be prior to initial site inspection.")
 
-    # todo - add that 2nd and 3rd can be repeats
+    # todo - add that 2nd and 3rd can't be repeats
     ignore_repeats = ["Please Select",
                       "Not applicable as no leak was detected",
                       "Not applicable as no additional leak cause suspected",
