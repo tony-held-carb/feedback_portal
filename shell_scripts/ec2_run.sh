@@ -12,10 +12,6 @@
 # ----------------------------------------------------------------------
 
 echo "Running the Flask Feedback Portal"
-set -x  # Start command tracing
 
 source /home/theld/code/git_repos/feedback_portal/shell_scripts/stop_with_screen.sh
 source /home/theld/code/git_repos/feedback_portal/shell_scripts/launch_with_screen.sh
-
-set +x  # Stop command tracing
-echo "Flask should be running"
