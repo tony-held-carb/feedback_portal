@@ -20,6 +20,7 @@ Testing Protocol for Operator Portal Functionality
         dir "C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs\"
     from ec2:
         cd "/home/theld/code/git_repos/feedback_portal/logs/"
+        ls "/home/theld/code/git_repos/feedback_portal/logs/"
         head -n 2 arb_portal.log
         tail -n 2  arb_portal.log
 
@@ -69,9 +70,12 @@ Testing Protocol for Operator Portal Functionality
     make sure to populate the id_incident or else it will make work for dan
     - drop these into the spreadsheet reader and make sure they populate persist
         - landfill
-
         - oil and gas
 
+todo - Dropdowns are not all - Please Select, they are often defaulting to the first valid selection, which is confusing,
+figure out why some are being coerced and others are not, come up with a general way to reset to 'Please Select' if
+the input data are garbage?  It could be that this is not a reasonable test case as it is unlikely total garbage
+would be allowed to be entered into the selector?  Maybe fix the other validations first?
 
 
 11. Create example templates for both oil and gas and landfill with deliberately incorrect data types

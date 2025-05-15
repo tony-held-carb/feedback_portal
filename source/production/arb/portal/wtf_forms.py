@@ -828,6 +828,8 @@ class LandfillFeedback(FlaskForm):
 
     Args:
       extra_validators:
+      
+    
 
     """
     # Dictionary to replace standard WTForm messages with alternative message
@@ -839,6 +841,8 @@ class LandfillFeedback(FlaskForm):
     self.determine_contingent_fields()
     self.update_contingent_selectors()
     # todo - update contingent dropdowns
+    # todo - if you have garbage in the selector (or an invalid choice), maybe here is the place to set
+    # to None so that they will reset from an invalid value to a safe default?
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
