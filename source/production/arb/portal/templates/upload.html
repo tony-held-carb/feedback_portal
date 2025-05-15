@@ -16,6 +16,12 @@
     <div>Drop a file into the target area below.</div>
     <div>Alternatively, click the target area to upload a file from your computer.</div>
 
+    <!-- 📢 Persistent warning for locked Excel files -->
+    <div class="alert alert-warning mt-3" role="alert">
+      <strong>Important:</strong> Please close Excel before uploading a file. Files that are still open may be locked
+      and cannot be uploaded.
+    </div>
+
     <div id="drop_zone"
          style="background: url('{{ url_for('static', filename='images/upload_icon.png') }}') no-repeat center center;
              background-size: auto 100%;
