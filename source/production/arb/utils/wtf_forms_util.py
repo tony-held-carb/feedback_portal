@@ -589,28 +589,49 @@ def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> No
       field.data = default
 
 
-def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str, dict]]) -> None:
+def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
   """
-  Ensure that a field's value is in the list of valid choices for a selector.
-  Invalid values are replaced with "Please Select".
+  Ensure that a WTForms field's current value is valid for its available choices.
+
+  If `choices` is provided, this function sets `field.choices` to the new list.
+  If `choices` is None, it uses the field's existing `.choices`. In either case,
+  it validates that the current `field.data` is among the available options and
+  resets it to "Please Select" if not.
+
+  Both `field.data` and `field.raw_data` are reset to keep form behavior consistent.
 
   Args:
-      field_name (str): The name of the field (for logging).
-      field: The WTForms field to update.
-      choices (list[tuple[str, str, dict]]): New valid choices.
-  """
-  # todo update raw data as well
-  field.choices = choices
+      field_name (str): The name of the field (used for logging).
+      field: A WTForms-compatible field object (e.g., SelectField).
+      choices (list[tuple[str, str]] | list[tuple[str, str, dict]] | None): Optional.
+          New valid choices to apply to the field. If omitted, the current field.choices
+          will be used. Each tuple should be:
+            - (value, label), or
+            - (value, label, metadata_dict)
+          Only the first element (`value`) is used for validation.
 
-  # choices can be list of tuples that may be 2 to 3 items in length
-  # choices should be a set of the first member in each of these tuples
-  valid_values = {value[0] for value in choices}
+  Example:
+      >>> ensure_field_choice("sector", form.sector, [("oil", "Oil & Gas"), ("land", "Landfill")])
+      >>> form.sector.choices
+      [('oil', 'Oil & Gas'), ('land', 'Landfill')]
+
+  Note:
+      - Use this with SelectField or similar fields where `.choices` must be explicitly defined.
+      - The reset value "Please Select" should match a placeholder value if one is used in your app.
+  """
+  if choices is None:
+    # Use existing field choices if none are supplied
+    choices = field.choices
+  else:
+    # Apply a new set of choices to the field
+    field.choices = choices
+
+  valid_values = {c[0] for c in choices}
 
   if field.data not in valid_values:
     logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
     field.data = "Please Select"
-  # else:
-  #   logger.debug(f"{field_name}.data={field.data!r} is valid")
+    field.raw_data = [field.data]
 
 
 def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:

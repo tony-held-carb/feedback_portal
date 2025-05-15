@@ -38,7 +38,7 @@ from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MI
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors, ensure_field_choice
+from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -787,11 +787,10 @@ class LandfillFeedback(FlaskForm):
     primary_choices = self._build_choices(primary_header, choices_raw)
     secondary_tertiary_choices = self._build_choices(secondary_tertiary_header, choices_raw)
 
-    # Update each field
-    # todo - only set the choices update selector will be called later
-    ensure_field_choice("emission_cause", self.emission_cause, primary_choices)
-    ensure_field_choice("emission_cause_secondary", self.emission_cause_secondary, secondary_tertiary_choices)
-    ensure_field_choice("emission_cause_tertiary", self.emission_cause_tertiary, secondary_tertiary_choices)
+    # Update each field's choices
+    self.emission_cause.choices = primary_choices
+    self.emission_cause_secondary.choices = secondary_tertiary_choices
+    self.emission_cause_tertiary.choices = secondary_tertiary_choices
 
   def _build_choices(self, header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
     """
