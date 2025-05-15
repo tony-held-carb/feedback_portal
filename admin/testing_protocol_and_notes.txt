@@ -64,13 +64,15 @@ Testing Protocol for Operator Portal Functionality
         - oil and gas
             pass
 
+# todo - resume here for qa/qc
 10. Use the excel jinja templates, that still have {{ variable }} notation and see what happens when you drop them in
     make sure to populate the id_incident or else it will make work for dan
     - drop these into the spreadsheet reader and make sure they populate persist
         - landfill
-            pass
+
         - oil and gas
-            pass
+
+
 
 11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
