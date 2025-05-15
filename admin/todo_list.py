@@ -4,10 +4,9 @@
 ----------------------------
 * check that the app/database is working using testing_protocol_and_notes.txt
 
-  * update placeholder for wtforms validation
   * resume tomorrow making the dropdowns more robust
 
-  * if a incidence passes validation, have it spalsh a success message before going to index
+  * if a incidence passes validation, have it splash a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value
     * don't allow it to be changed after it has been created
     * maybe block the creation of new incidence from portal
@@ -15,7 +14,7 @@
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
-            - not sure this really applies as we are udating the json field keys, not db column names.
+            - not sure this really applies as we are updating the json field keys, not db column names.
 
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
