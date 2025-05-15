@@ -1,7 +1,7 @@
 {
     "_metadata_": {
         "schema_version": "default_value_types_v01_00",
-        "File created at": "2025-05-08T01:18:53.058470+00:00",
+        "File created at": "2025-05-15T00:45:49.903482+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
@@ -159,7 +159,7 @@
             "__module__": "builtins"
         },
         "method21_result": {
-            "__class__": "float",
+            "__class__": "str",
             "__module__": "builtins"
         },
         "mitigation_actions": {
@@ -183,7 +183,7 @@
             "__module__": "builtins"
         },
         "ogi_result": {
-            "__class__": "float",
+            "__class__": "str",
             "__module__": "builtins"
         },
         "planned_for_next_lmr": {
