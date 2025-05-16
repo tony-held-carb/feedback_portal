@@ -5,7 +5,9 @@
 * check that the app/database is working using testing_protocol_and_notes.txt
 
   * update release notes and wsgi for uniform guidance on flask runs
+  * changed drop down to drop-down in python, likely have to make those changes on the spreadsheets at some point.
 
+  * looks like xl_create now logs to arb_portal.log
 
   * if a incidence passes validation, have it splash a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value
