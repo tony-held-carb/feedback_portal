@@ -1,8 +1,8 @@
 Testing Protocol for Operator Portal Functionality
 
 1. (Optional) Clear logs from:
-        C:\one_drive\code\pycharm\feedback_portal\logs
-        C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
+    C:\one_drive\code\pycharm\feedback_portal\logs
+    C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
 
 2. Launch portal
     from laptop:
@@ -22,7 +22,7 @@ Testing Protocol for Operator Portal Functionality
         cd "/home/theld/code/git_repos/feedback_portal/logs/"
         ls "/home/theld/code/git_repos/feedback_portal/logs/"
         head -n 2 arb_portal.log
-        tail -n 2  arb_portal.log
+        tail -n 2 arb_portal.log
 
 4. Check that you can click all diagnostic menus and test search
     pass
@@ -31,7 +31,7 @@ Testing Protocol for Operator Portal Functionality
     pass
 
 6. Create a new oil & gas incident
-    - check to see if initial data population with dummy data makes sense
+    - check to see if an initial data population with dummy data makes sense
         created: id 1001
     - delete all data except the incidence id and validate
         pass
@@ -52,25 +52,25 @@ Testing Protocol for Operator Portal Functionality
 
 8. Create example templates for both oil and gas and landfill with all blank entries except for id_incident
     - drop these into the spreadsheet reader and make sure they populate persist
-        - landfill
-            pass
-        - oil and gas
-            pass
+      - landfill
+          pass
+      - oil and gas
+          pass
 
 9. Create example templates for both oil and gas and landfill with all populated entries
     - drop these into the spreadsheet reader and make sure they populate persist
-        - landfill
-            pass
-        - oil and gas
-            pass
+      - landfill
+          pass
+      - oil and gas
+          pass
 
 10. Use the excel jinja templates, that still have {{ variable }} notation and see what happens when you drop them in
     make sure to populate the id_incident or else it will make work for dan
     - drop these into the spreadsheet reader and make sure they populate persist
-        - landfill
-            pass
-        - oil and gas
-            pass
+      - landfill
+          pass
+      - oil and gas
+          pass
 
 11. Create example templates for both oil and gas and landfill with deliberately incorrect data types
     - Date fields
@@ -80,23 +80,23 @@ Testing Protocol for Operator Portal Functionality
         put in blank strings and/or words
     - drop these into the spreadsheet reader and make sure they populate persist and log failure warnings
 
-12.  Oil and Gas Contingent Drop Downs
-    - Make sure any contingent drop downs are working as expected
+12. Oil and Gas Contingent Drop-downs
+    - Make sure any contingent drop-downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
 
-13.  Landfill Validation Contingent Drop Downs
-    - Make sure any contingent drop downs are working as expected
+13. Landfill Validation Contingent Drop-downs
+    - Make sure any contingent drop-downs are working as expected
     - Make a list of all logic rules and make sure each is enforced
 
-14.  Oil and Gas additional validation
+14. Oil and Gas additional validation
     - List and verify
 
-15.  Landfill additional validation
+15. Landfill additional validation
     - List and verify
 
 16. Compile QA/QC and rerun stack
 
-17. Auto create site documentation and serve
+17. Auto-create site documentation and serve
 
 18. Try to automate unit testing
 
