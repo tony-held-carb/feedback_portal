@@ -785,7 +785,8 @@ class LandfillFeedback(FlaskForm):
     # Define headers
     primary_header = [
       ("Please Select", "Please Select", {"disabled": True}),
-      ("Not applicable as no leak was detected", "Not applicable as no leak was detected", {}),
+      ("Not applicable as no leak was detected",
+       "Not applicable as no leak was detected", {}),
     ]
     secondary_tertiary_header = primary_header + [
       ("Not applicable as no additional leak cause suspected",
@@ -851,6 +852,7 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
+    # todo - move field level validation to separate function
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
       valid_options = ["Please Select",

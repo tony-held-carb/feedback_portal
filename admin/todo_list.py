@@ -4,7 +4,8 @@
 ----------------------------
 * check that the app/database is working using testing_protocol_and_notes.txt
 
-  * resume tomorrow making the dropdowns more robust
+  * update release notes and wsgi for uniform guidance on flask runs
+
 
   * if a incidence passes validation, have it splash a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value

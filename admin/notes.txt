@@ -420,3 +420,16 @@ fixed those, but I still have these: does not seem to be a big problem to go fro
 +2025-05-14 17:49:52.832 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <32.0> with type: <<class 'float'>>
 +2025-05-14 17:49:52.833 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <long_carb> value at <$D$36> is <33> and is of type <<class 'int'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
 +2025-05-14 17:49:52.833 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <33.0> with type: <<class 'float'>>
+
+
+
+todo - Dropdowns are not all - Please Select, they are often defaulting to the first valid selection, which is confusing,
+figure out why some are being coerced and others are not, come up with a general way to reset to 'Please Select' if
+the input data are garbage?  It could be that this is not a reasonable test case as it is unlikely total garbage
+would be allowed to be entered into the selector?  Maybe fix the other validations first?
+
+It could turn out to be easy, just check and see if a value is in the choice list and make it None if it is not.
+May need logic on how to cascade down from the first to the last question, could already sorta be there and you
+just need to validate selectors in the order of how contingent selectors are updated.
+
+I made a fix, just gotta test it and make sure I did not break anything
