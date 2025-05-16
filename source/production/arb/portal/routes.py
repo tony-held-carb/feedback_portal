@@ -220,7 +220,8 @@ def show_feedback_form_structure():
   """
   Flask route to show wtforms structure as a diagnostic.
   """
-  from arb.portal.wtf_forms import OGFeedback, LandfillFeedback
+  from arb.portal.wtf_landfill import LandfillFeedback
+  from arb.portal.wtf_oil_and_gas import OGFeedback
   logger.info(f"Displaying wtforms structure as a diagnostic")
 
   form1 = OGFeedback()
@@ -464,7 +465,8 @@ def incidence_prep(model_row,
   Notes:
 
   """
-  from arb.portal.wtf_forms import OGFeedback, LandfillFeedback
+  from arb.portal.wtf_landfill import LandfillFeedback
+  from arb.portal.wtf_oil_and_gas import OGFeedback
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)
 

@@ -25,18 +25,6 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 # UI Constants
 # -----------------------------------------------------------------------------
 PLEASE_SELECT = 'Please Select'
-"""
-str: Default placeholder label in dropdowns or select boxes.
-
-Used to indicate that the user must actively select a value.
-This constant is typically used in HTML select fields with a disabled attribute.
-
-Example:
-    <select>
-      <option disabled selected>{{ PLEASE_SELECT }}</option>
-      ...
-    </select>
-"""
 
 # -----------------------------------------------------------------------------
 # Geographic Boundaries (California-specific)
@@ -46,16 +34,12 @@ MAX_LATITUDE = 42
 MIN_LONGITUDE = -125
 MAX_LONGITUDE = -114
 GPS_RESOLUTION = 5
-"""
-int: Number of required decimal digits for GPS latitude and longitude inputs.
+LATITUDE_VALIDATION = {"min": MIN_LATITUDE, "max": MAX_LATITUDE,
+                       "message": f"Latitudes must be blank or valid California number between {MIN_LATITUDE} and {MAX_LATITUDE}."}
 
-Example:
-    - 38.581572 → Valid
-    - 38.58     → Invalid (not enough precision)
+LONGITUDE_VALIDATION = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
+                        "message": f"Longitudes must be blank or valid California number between {MIN_LONGITUDE} and {MAX_LONGITUDE}."}
 
-These bounds correspond to California's approximate geographic extents.
-They can be used to validate that user-submitted GPS data is within the target region.
-"""
 
 # -----------------------------------------------------------------------------
 # Time Zones and Datetime Formats
@@ -92,6 +76,7 @@ Example:
     >>> datetime.now().strftime(DATETIME_WITH_SECONDS)
     '2025_05_05_14_30_22'
 """
+
 
 # -----------------------------------------------------------------------------
 # Module Diagnostics (Optional)
