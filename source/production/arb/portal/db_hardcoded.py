@@ -193,10 +193,10 @@ def get_excel_dropdown_data():
   Each tuple is 2 or 3 items in length with the format:
     (select value, select text, and an optional dictionary of additional html formatting)
 
-  # todo - The new drop downs are not context depended like they are in excel and the
+  # todo - The new drop-downs are not context depended like they are in excel and the
            validate logic needs to be updated.
   Returns:
-    drop_downs (list[tuple]): lookup dictionary of drop down key values for each table.
+    drop_downs (list[tuple]): lookup dictionary of drop-down key values for each table.
   """
   # Oil & Gas
   drop_downs = {

@@ -195,7 +195,7 @@ def show_dropdown_dict():
   Flask route to show drop-down data structures as a diagnostic.
   """
   logger.info(f"Determining dropdown dict")
-  # update drop down tables
+  # update drop-down tables
   Globals.load_drop_downs(current_app, db)
   result1 = obj_to_html(Globals.drop_downs)
   result2 = obj_to_html(Globals.drop_downs_contingent)
@@ -400,12 +400,12 @@ def modify_json_content():
 def run_sql_script():
   """
  (Outdated) Flask route to run a sql_script which adds tables & data to the database from a
-  sql text file and convert some tables into drop down structures suitable for select drop-downs.
+  sql text file and convert some tables into drop-down structures suitable for select drop-downs.
   """
   return "This script is no longer in service - it was originally designed for sqlite"
   # logger.info(f"Running sql script")
   # database.add_static_table_content()
-  # # update drop down tables
+  # # update drop-down tables
   # Globals.load_drop_downs(app)
   # return '<h1>SQL script run</h1>'
 
@@ -458,7 +458,7 @@ def incidence_prep(model_row,
     model_row (SQLAlchemy.Model): Single row from a SQLAlchemy model
     crud_type (str): 'update' or 'create'
     sector_type (str): 'Oil & Gas' or 'Landfill'
-    default_dropdown (str): Defaults if no drop down is selected.
+    default_dropdown (str): Defaults if no drop-down is selected.
 
   Returns (str): html for dynamic page
 
@@ -492,7 +492,7 @@ def incidence_prep(model_row,
     if crud_type == 'update':
       validate_no_csrf(wtf_form, extra_validators=None)
 
-  # todo - trying to make sure invalid drop downs become 'Please Select'
+  # todo - trying to make sure invalid drop-downs become 'Please Select'
   #        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)
 
   # Set all select elements that are a default value (None) to "Please Select" value

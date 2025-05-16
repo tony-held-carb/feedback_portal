@@ -133,7 +133,7 @@ This works, but it means that datetimes in models may be strings or actual datet
 if they were created as a python object or deserialized from the database or json file
 
 secondary and tertiary causes are not mapping to their selects properly.
-I think it is because the drop down does not have the same name as the element for the emission_cause and dropdown
+I think it is because the drop-down does not have the same name as the element for the emission_cause and dropdown
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause.  field.data=-1
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_secondary.  field.data='Offline Gas Collection Well(s)'
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_tertiary.  field.data='Construction - New Well Installation'
@@ -404,8 +404,8 @@ are any potential errors.  perform any other tests or make any other suggestions
 the data are properly being stored, retrieved, and updated.
 
 
-Oil and Gas Import Issues that I had to fix to get the drop downs to import properly:
-The following fields did not import properly (both are drop downs)
+Oil and Gas Import Issues that I had to fix to get the drop-downs to import properly:
+The following fields did not import properly (both are drop-downs)
 Q10 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
 Q13 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
 

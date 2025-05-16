@@ -4,7 +4,7 @@
         "File created at": "2025-05-15T00:45:50.241776+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta",
-        "notes": "Default values are empty strings unless the field is a drop down cell. For drop down cells, the default is 'Please Select'."
+        "notes": "Default values are empty strings unless the field is a drop-down cell. For drop-down cells, the default is 'Please Select'."
     },
     "_data_": {
         "id_incidence": "",

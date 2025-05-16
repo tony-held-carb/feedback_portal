@@ -7,7 +7,7 @@ A. Oil and Gas
 ----------------
 
 1. Selector changes
-   1. Drop down choices do not change based on other drop down values - no need to check this feature
+   1. Drop-down choices do not change based on other drop-down values - no need to check this feature
 
 2. Contingent fields
    1. venting_exclusion_test = self.venting_exclusion.data == "Yes"
@@ -34,7 +34,7 @@ B. Landfill
 ----------------
 
 1. Selector changes
-   1. self.emission_location.data should change the following drop down choices:
+   1. self.emission_location.data should change the following drop-down choices:
       1. self.emission_cause.choices
       2. self.emission_cause_secondary.choices
       3. self.emission_cause_tertiary.choices

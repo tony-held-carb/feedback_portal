@@ -195,7 +195,7 @@ def extract_tabs(wb, schema_map, xl_as_dict):
     xl_as_dict (dict): dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
                 parse the tab
   """
-  # todo - this had to be updated because drop downs are no longer foreign keys, test that it still works
+  # todo - this had to be updated because drop-downs are no longer foreign keys, test that it still works
   # todo - payloads may be expressing as datetime objects rather than utc strings, which may lead to inconsistencies
 
   result = copy.deepcopy(xl_as_dict)

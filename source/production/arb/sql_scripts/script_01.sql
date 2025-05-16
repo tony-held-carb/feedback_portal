@@ -84,7 +84,7 @@ insert into measurement_units (description)
 values ('ppmv'),
        ('ug/m^3');
 
--- drop down options from quinn
+-- drop-down options from quinn
 insert into initial_inspections (description)
 values ('Optical gas imaging'),
        ('Method 21');
