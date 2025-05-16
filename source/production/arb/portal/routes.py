@@ -41,16 +41,13 @@ __version__ = "1.0.0"
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
-# Add any additional imports needed from other local modules
-# e.g. from .models import db, SomeModel
-
 main = Blueprint("main", __name__)
 
 
 @main.route('/')
 def index():
   """
-  Flask route to the root of web portal, currently lists incidences.
+  Flask route to the root of the feedback portal - currently lists incidences.
   """
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
@@ -525,14 +522,10 @@ def incidence_prep(model_row,
       if wtf_form.validate():
         return redirect(url_for('main.index'))
     elif button == 'update_incidence_status':
+      # This button is no longer available, but leaving the following in case I want to use it again
       logger.debug(f"update_incidence_status was pressed")
       html_content = f"you clicked update_incidence_status"
-      # todo - implement the status and notes section
       return render_template('diagnostics.html', html_content=html_content)
-      # return render_template('og_carb_notes.html',
-      #                        wtf_form=wtf_form,
-      #                        crud_type=crud_type,
-      #                        error_count_dict=error_count_dict)
 
   error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 

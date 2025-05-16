@@ -5,7 +5,6 @@
 * check that the app/database is working using testing_protocol_and_notes.txt
 
   * update release notes and wsgi for uniform guidance on flask runs
-  * changed drop down to drop-down in python, likely have to make those changes on the spreadsheets at some point.
 
   * looks like xl_create now logs to arb_portal.log
 
@@ -46,5 +45,6 @@ Forget me nots
 1.  I asked chat gpt to make restructure the first time and did not accept them because their were mistakes
 and i was confused, there was some pretty interesting request preprocessing that I would like to revisit
 as I don't know how to do that and it seemed very powerful.  Try to revisit
+2. changed drop down to drop-down in python, likely have to make those changes on the spreadsheets at some point.
 
 """
