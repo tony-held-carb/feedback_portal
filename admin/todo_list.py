@@ -2,6 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
+* update all "Please Select" and 'Please Select' in code base to constants
+
 * check that the app/database is working using testing_protocol_and_notes.txt
 
   * update release notes and wsgi for uniform guidance on flask runs

@@ -450,7 +450,7 @@ def drag_and_drop_01():
 def incidence_prep(model_row,
                    crud_type,
                    sector_type,
-                   default_dropdown="Please Select"):
+                   default_dropdown=None):
   """
   Helper function used by many flask routes to render feedback forms for
   both creation and updating.
@@ -468,8 +468,15 @@ def incidence_prep(model_row,
   """
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
+
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)
+
+  if default_dropdown is None:
+    default_dropdown = PLEASE_SELECT
+
+  if default_dropdown is None:
+    default_dropdown = PLEASE_SELECT
 
   if sector_type == "Oil & Gas":
     logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")

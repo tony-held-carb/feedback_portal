@@ -202,7 +202,7 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
   logger.debug(f"{metadata=}")
 
   defaults = {
-    variable: "Please Select" if sub_schema.get("is_drop_down") else ""
+    variable: PLEASE_SELECT if sub_schema.get("is_drop_down") else ""
     for variable, sub_schema in data.items()
   }
 

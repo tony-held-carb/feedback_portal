@@ -17,6 +17,7 @@ from zoneinfo import ZoneInfo
 from arb.__get_logger import get_logger
 from arb.utils.date_and_time import str_to_datetime
 from arb.utils.file_io import get_secure_timestamped_file_name
+from arb.portal.constants import PLEASE_SELECT
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
@@ -61,7 +62,7 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
       [('Please Select', 'Please Select', {'disabled': True}),
        ('Red', 'Red'), ('Green', 'Green')]
   """
-  result = [("Please Select", "Please Select", {"disabled": True})]
+  result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
   result += [(v, v) for v in values]
   return result
 
@@ -249,7 +250,7 @@ def run_diagnostics() -> None:
 
   # Test selector_list_to_tuples
   selector = selector_list_to_tuples(test_values)
-  assert selector[0][0] == "Please Select"
+  assert selector[0][0] == PLEASE_SELECT
   assert ("A", "A") in selector
 
   # Test list_to_triple_tuple
@@ -263,11 +264,11 @@ def run_diagnostics() -> None:
   # Test update_selector_dict
   test_dict = {"colors": ["red", "green"]}
   updated_dict = update_selector_dict(test_dict)
-  assert "Please Select" in [x[0] for x in updated_dict["colors"]]
+  assert PLEASE_SELECT in [x[0] for x in updated_dict["colors"]]
 
   # Test ensure_placeholder_option
   reordered = ensure_placeholder_option([("X", "X", {})])
-  assert reordered[0][0] == "Please Select"
+  assert reordered[0][0] == PLEASE_SELECT
 
   # Test remove_items
   cleaned = remove_items(triple, "X")

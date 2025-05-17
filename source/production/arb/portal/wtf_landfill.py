@@ -322,7 +322,7 @@ class LandfillFeedback(FlaskForm):
 
     # Define headers
     primary_header = [
-      ("Please Select", "Please Select", {"disabled": True}),
+      (PLEASE_SELECT, PLEASE_SELECT, {"disabled": True}),
       ("Not applicable as no leak was detected",
        "Not applicable as no leak was detected", {}),
     ]
@@ -393,7 +393,7 @@ class LandfillFeedback(FlaskForm):
     # todo - move field level validation to separate function
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
-      valid_options = ["Please Select",
+      valid_options = [PLEASE_SELECT,
                        "Not applicable as no leak was detected",
                        "Not applicable as no additional leak cause suspected",
                        ]
@@ -410,7 +410,7 @@ class LandfillFeedback(FlaskForm):
 
     # Q8 and Q13 should be coupled to Operator-aware response
     elif self.emission_identified_flag_fk.data == "Operator was aware of the leak prior to receiving the CARB plume notification":
-      valid_options = ["Please Select",
+      valid_options = [PLEASE_SELECT,
                        "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation", ]
       if self.emission_type_fk.data not in valid_options:
         self.emission_type_fk.errors.append(f"Q8 and Q13 appear to be inconsistent")
@@ -434,7 +434,7 @@ class LandfillFeedback(FlaskForm):
           "Date of mitigation cannot be prior to initial site inspection.")
 
     # todo - add that 2nd and 3rd can't be repeats
-    ignore_repeats = ["Please Select",
+    ignore_repeats = [PLEASE_SELECT,
                       "Not applicable as no leak was detected",
                       "Not applicable as no additional leak cause suspected",
                       ]

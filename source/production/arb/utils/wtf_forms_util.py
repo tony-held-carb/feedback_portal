@@ -18,6 +18,7 @@ from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
+from arb.portal.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
@@ -571,7 +572,7 @@ def get_wtforms_fields(form: FlaskForm, include_csrf_token: bool = False) -> lis
   return field_names
 
 
-def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> None:
+def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
   """
   Set default values for uninitialized WTForms SelectFields.
 
@@ -582,6 +583,9 @@ def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> No
   Example:
       >>> initialize_drop_downs(form, default="-- Choose One --")
   """
+  if default is None:
+    default = PLEASE_SELECT
+
   logger.debug("Initializing drop-downs...")
   for field in form:
     if isinstance(field, SelectField) and field.data is None:
@@ -643,12 +647,12 @@ def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | 
   valid_values = {c[0] for c in choices}
 
   if field.data not in valid_values:
-    logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
-    field.data = "Please Select"
+    logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to '{PLEASE_SELECT}'")
+    field.data = PLEASE_SELECT
     field.raw_data = [field.data]
 
 
-def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
+def validate_selectors(form: FlaskForm, default: str = None) -> None:
   """
   Validate SelectFields submitted via GET where default values need to be considered invalid.
 
@@ -661,6 +665,9 @@ def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
   Example:
       >>> validate_selectors(form)
   """
+  if default is None:
+    default = PLEASE_SELECT
+
   for field in form:
     if isinstance(field, SelectField):
       if field.data is None or field.data == default:
@@ -742,7 +749,7 @@ def run_diagnostics():
 
   class TestForm(FlaskForm):
     """Test WTForm."""
-    name = SelectField('Name', choices=[("Please Select", "Please Select"), ("Alice", "Alice"), ("Bob", "Bob")],
+    name = SelectField('Name', choices=[(PLEASE_SELECT, PLEASE_SELECT), ("Alice", "Alice"), ("Bob", "Bob")],
                        validators=[InputRequired()])
     age = DecimalField('Age', validators=[InputRequired()])
     created_at = DateTimeField('Created At', format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
@@ -781,7 +788,7 @@ def run_diagnostics():
     logger.debug(f"{field_name} validators: {form[field_name].validators}")
 
   # Test selector validation (simulate bad input)
-  form.name.data = "Please Select"
+  form.name.data = PLEASE_SELECT
   validate_selectors(form)
   logger.info(f"Name field errors after selector validation: {form.name.errors}")
 
