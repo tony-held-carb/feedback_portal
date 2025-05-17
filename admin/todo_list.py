@@ -6,6 +6,10 @@
 
   * update release notes and wsgi for uniform guidance on flask runs
 
+  * on live run with Dan, the selectors are saving "Please Select" to the database,
+    it should actually be None.  Maybe change the initialization so that the html
+    'selected' option is set (not actually setting to please select).
+
   * looks like xl_create now logs to arb_portal.log
 
   * if a incidence passes validation, have it splash a success message before going to index

@@ -1,0 +1,19 @@
+{# templates/includes/route_modal.jinja #}
+
+<!-- Global Route Modal -->
+<div class="modal fade" id="routeModal" tabindex="-1" aria-labelledby="routeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="routeModalLabel">{{ modal_title | default('') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ modal_message | default('') }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Trigger Logic -->
+<script src="{{ url_for('static', filename='js/modal_trigger.js') }}"></script>

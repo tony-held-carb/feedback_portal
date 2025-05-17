@@ -183,7 +183,11 @@ def diagnostics():
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
   html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html', html_content=html_content)
+  return render_template('diagnostics.html',
+                         html_content=html_content,
+                         modal_title="Success",
+                         modal_message="Your submission was saved.",
+                         )
 
 
 @main.route('/show_dropdown_dict')
