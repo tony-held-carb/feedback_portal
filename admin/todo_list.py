@@ -3,9 +3,9 @@
 # todo - Next Steps
 ----------------------------
 
-* check that the app/database is working using testing_protocol_and_notes.txt
+* adding json updating capacity to the portal
 
-  * about to add json updating capacity to the portal
+* check that the app/database is working using testing_protocol_and_notes.txt
 
   * update release notes and wsgi for uniform guidance on flask runs
 
