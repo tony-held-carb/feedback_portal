@@ -18,6 +18,7 @@ from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
+from arb.utils.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
@@ -483,8 +484,7 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
-  # todo - need to turn to list but pycharm freaks out when i do :)
-  model_fields = model_json_dict.keys()
+  model_fields = list(model_json_dict.keys())
   form_fields = get_wtforms_fields(wtform)
 
   list_differences(model_fields,
@@ -498,11 +498,16 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
     if attr_name in ignore_fields:
       continue
 
-    attr_value = getattr(wtform, attr_name).data
-    existing_value = model_json_dict.get(attr_name)
+    field = getattr(wtform, attr_name)
+    attr_value = field.data
+
+    # Skip placeholder only for SelectField or compatible types
+    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
+      continue
 
     payload_all[attr_name] = attr_value
 
+    existing_value = model_json_dict.get(attr_name)
     if existing_value != attr_value:
       payload_changes[attr_name] = attr_value
 
@@ -571,7 +576,7 @@ def get_wtforms_fields(form: FlaskForm, include_csrf_token: bool = False) -> lis
   return field_names
 
 
-def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> None:
+def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
   """
   Set default values for uninitialized WTForms SelectFields.
 
@@ -582,14 +587,76 @@ def initialize_drop_downs(form: FlaskForm, default: str = "Please Select") -> No
   Example:
       >>> initialize_drop_downs(form, default="-- Choose One --")
   """
+  if default is None:
+    default = PLEASE_SELECT
+
   logger.debug("Initializing drop-downs...")
   for field in form:
     if isinstance(field, SelectField) and field.data is None:
       logger.debug(f"{field.name} set to default value: {default}")
       field.data = default
 
+def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
+  """
+  Combine header and choices into a list of triple tuples for WTForms.
 
-def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
+  Args:
+      header (list[tuple[str, str, dict]]): The static header items.
+      items (list[str]): Dynamic items to append as (value, value, {}).
+
+  Returns:
+      list[tuple[str, str, dict]]: Combined list.
+  """
+  footer = [(item, item, {}) for item in items]
+  return header + footer
+
+
+def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
+  """
+  Ensure that a WTForms field's current value is valid for its available choices.
+
+  If `choices` is provided, this function sets `field.choices` to the new list.
+  If `choices` is None, it uses the field's existing `.choices`. In either case,
+  it validates that the current `field.data` is among the available options and
+  resets it to "Please Select" if not.
+
+  Both `field.data` and `field.raw_data` are reset to keep form behavior consistent.
+
+  Args:
+      field_name (str): The name of the field (used for logging).
+      field: A WTForms-compatible field object (e.g., SelectField).
+      choices (list[tuple[str, str]] | list[tuple[str, str, dict]] | None): Optional.
+          New valid choices to apply to the field. If omitted, the current field.choices
+          will be used. Each tuple should be:
+            - (value, label), or
+            - (value, label, metadata_dict)
+          Only the first element (`value`) is used for validation.
+
+  Example:
+      >>> ensure_field_choice("sector", form.sector, [("oil", "Oil & Gas"), ("land", "Landfill")])
+      >>> form.sector.choices
+      [('oil', 'Oil & Gas'), ('land', 'Landfill')]
+
+  Note:
+      - Use this with SelectField or similar fields where `.choices` must be explicitly defined.
+      - The reset value "Please Select" should match a placeholder value if one is used in your app.
+  """
+  if choices is None:
+    # Use existing field choices if none are supplied
+    choices = field.choices
+  else:
+    # Apply a new set of choices to the field
+    field.choices = choices
+
+  valid_values = {c[0] for c in choices}
+
+  if field.data not in valid_values:
+    logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to '{PLEASE_SELECT}'")
+    field.data = PLEASE_SELECT
+    field.raw_data = [field.data]
+
+
+def validate_selectors(form: FlaskForm, default: str = None) -> None:
   """
   Validate SelectFields submitted via GET where default values need to be considered invalid.
 
@@ -602,6 +669,9 @@ def validate_selectors(form: FlaskForm, default: str = "Please Select") -> None:
   Example:
       >>> validate_selectors(form)
   """
+  if default is None:
+    default = PLEASE_SELECT
+
   for field in form:
     if isinstance(field, SelectField):
       if field.data is None or field.data == default:
@@ -683,7 +753,7 @@ def run_diagnostics():
 
   class TestForm(FlaskForm):
     """Test WTForm."""
-    name = SelectField('Name', choices=[("Please Select", "Please Select"), ("Alice", "Alice"), ("Bob", "Bob")],
+    name = SelectField('Name', choices=[(PLEASE_SELECT, PLEASE_SELECT), ("Alice", "Alice"), ("Bob", "Bob")],
                        validators=[InputRequired()])
     age = DecimalField('Age', validators=[InputRequired()])
     created_at = DateTimeField('Created At', format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
@@ -722,7 +792,7 @@ def run_diagnostics():
     logger.debug(f"{field_name} validators: {form[field_name].validators}")
 
   # Test selector validation (simulate bad input)
-  form.name.data = "Please Select"
+  form.name.data = PLEASE_SELECT
   validate_selectors(form)
   logger.info(f"Name field errors after selector validation: {form.name.errors}")
 

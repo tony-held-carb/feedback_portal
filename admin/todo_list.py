@@ -2,21 +2,25 @@
 
 # todo - Next Steps
 ----------------------------
-  * figure out where feedback forms and the backups are and archive them
-    * based on: C:\one_drive\code\pycharm\feedback_portal\feedback_forms shortcuts looks like:
-      C:\Users\theld\OneDrive - California Air Resources Board\code\operator_feedback_forms
-    * look for other versions and consolidate if necessary
 
+* check that the app/database is working using testing_protocol_and_notes.txt
 
-* check that the app/database is working
-  * create a list of must check/functionality for the portal, check it against spreadsheets, etc
-  * need to test a variety of usage cases to make sure input/output/logging/validation is working as expected.
-  * potentially come up with unit testing
-  * connect to dan's database
+  * about to add json updating capacity to the portal
+
+  * update release notes and wsgi for uniform guidance on flask runs
+
+  * looks like xl_create now logs to arb_portal.log, that was not the intent ...
+
+  * if a incidence passes validation, have it splash a success message before going to index
+  * don't let there be a decoupling between the incidence column and the json key:value
+    * don't allow id_incidence to be changed after it has been created
+    * maybe block the creation of new incidence from portal
+
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
-            - not sure this really applies as we are udating the json field keys, not db column names.
+            - not sure this really applies as we are updating the json field keys, not db column names.
+
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
@@ -29,6 +33,7 @@
     * Flask App Blueprinting Structure: https://chatgpt.com/share/6823ecba-5fb4-800b-b0b6-0128d6d649d9
   * add user log-in
   * update logging based on flask user
+  * potentially come up with unit testing
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
@@ -43,5 +48,6 @@ Forget me nots
 1.  I asked chat gpt to make restructure the first time and did not accept them because their were mistakes
 and i was confused, there was some pretty interesting request preprocessing that I would like to revisit
 as I don't know how to do that and it seemed very powerful.  Try to revisit
+2. changed drop down to drop-down in python, likely have to make those changes on the spreadsheets at some point.
 
 """

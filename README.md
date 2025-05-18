@@ -23,11 +23,22 @@
 * Removing the old git repo (if necessary)
   * rm -rf feedback_portal
 * Clone the latest portal repo (if necessary)
+  * ssh to ec2: user theld
+  * cd code/git_repos/
   * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
   * cd feedback_portal
+  * git fetch --all --prune 
+    * updates all branches and removes dead local branches
+        git fetch   Downloads objects and refs from remote (no merge or rebase)
+        --all       Fetches from all remotes (if you have more than origin)
+        --prune     Removes stale remote-tracking branches that no longer exist on GitHub
   * git branch -a
-  * git checkout ec2_deploy_03 <or your remote branch of interest> 
+    * lists all branches
+  * delete a local branch
+    * git branch -d branch_name
+  * git checkout your_branch
   * git pull
+  * git push
 * Make shell scripts executable (linux only)
   * chmod +x /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
   * remove the old scripts if you are having git pull issues
@@ -37,12 +48,15 @@
       * cd "/home/theld/code/git_repos/feedback_portal/shell_scripts"
         * ./launch_with_screen.sh
         * ./stop_with_screen.sh
+        * logs will go to directory:  /home/theld/code/git_repos/feedback_portal/logs/
+          * rm /home/theld/code/git_repos/feedback_portal/logs/*.log
+        * cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_05_14_18_59_38.log
     * ec2 on public host 
       * cd /home/theld/code/git_repos/feedback_portal/source/production/arb
       * flask --app wsgi run --host=0.0.0.0 -p 2113 --debug
     * run on local host (for your laptop only) 
       * cd "C:\one_drive\code\pycharm\feedback_portal\source\production\arb"
-      * flask --app wsgi run -p 2113 --debug
+      * flask --app wsgi run --debug --no-reload -p 2113
 * Access the app
   * windows: http://127.0.0.1:5000/
   * linux: http://10.93.112.44:2113

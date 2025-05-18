@@ -1,7 +1,7 @@
 {
     "_metadata_": {
         "schema_version": "oil_and_gas_v01_00",
-        "File created at": "2025-05-08T01:18:53.207381+00:00",
+        "File created at": "2025-05-16T04:36:44.739472+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
@@ -161,7 +161,7 @@
             "label_address": "$B$56",
             "value_address": "$D$56",
             "value_type": {
-                "__class__": "float",
+                "__class__": "str",
                 "__module__": "builtins"
             },
             "is_drop_down": true
@@ -191,7 +191,7 @@
             "label_address": "$B$59",
             "value_address": "$D$59",
             "value_type": {
-                "__class__": "float",
+                "__class__": "str",
                 "__module__": "builtins"
             },
             "is_drop_down": true

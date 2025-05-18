@@ -133,7 +133,7 @@ This works, but it means that datetimes in models may be strings or actual datet
 if they were created as a python object or deserialized from the database or json file
 
 secondary and tertiary causes are not mapping to their selects properly.
-I think it is because the drop down does not have the same name as the element for the emission_cause and dropdown
+I think it is because the drop-down does not have the same name as the element for the emission_cause and dropdown
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause.  field.data=-1
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_secondary.  field.data='Offline Gas Collection Well(s)'
 +2024-11-15 14:29:32.350 | DEBUG    | portal_03.wtf_util | wtf_util.py | 579 | Initializing emission_cause_tertiary.  field.data='Construction - New Well Installation'
@@ -402,3 +402,34 @@ Please check the code related to how data are stored and retrieved from the data
 it may become corrupted.  also check how data is converted from sqlalchemy to wtforms and back to see if there
 are any potential errors.  perform any other tests or make any other suggestions on how to ensure that
 the data are properly being stored, retrieved, and updated.
+
+
+Oil and Gas Import Issues that I had to fix to get the drop-downs to import properly:
+The following fields did not import properly (both are drop-downs)
+Q10 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
+Q13 was Unintentional-leak in spreadsheet, but did not seem to import (it is Please Select)
+
+Related warning on the import
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <ogi_result> value at <$D$56> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <method21_result> value at <$D$59> is <Unintentional-leak> and is of type <<class 'str'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:35:59.694 | WARNING  | app_logger       | user:anonymous | 236   | xl_parse.py          | Type conversion failed, resetting value to None
+
+fixed those, but I still have these: does not seem to be a big problem to go from int to float ... looks like int is decide by excel
++2025-05-14 17:49:52.832 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <lat_carb> value at <$D$35> is <32> and is of type <<class 'int'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:49:52.832 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <32.0> with type: <<class 'float'>>
++2025-05-14 17:49:52.833 | WARNING  | app_logger       | user:anonymous | 222   | xl_parse.py          | Warning: <long_carb> value at <$D$36> is <33> and is of type <<class 'int'>> whereas it should be of type <<class 'float'>>.  Attempting to convert the value to the correct type
++2025-05-14 17:49:52.833 | INFO     | app_logger       | user:anonymous | 234   | xl_parse.py          | Type conversion successful.  value is now <33.0> with type: <<class 'float'>>
+
+
+
+todo - Dropdowns are not all - Please Select, they are often defaulting to the first valid selection, which is confusing,
+figure out why some are being coerced and others are not, come up with a general way to reset to 'Please Select' if
+the input data are garbage?  It could be that this is not a reasonable test case as it is unlikely total garbage
+would be allowed to be entered into the selector?  Maybe fix the other validations first?
+
+It could turn out to be easy, just check and see if a value is in the choice list and make it None if it is not.
+May need logic on how to cascade down from the first to the last question, could already sorta be there and you
+just need to validate selectors in the order of how contingent selectors are updated.
+
+I made a fix, just gotta test it and make sure I did not break anything

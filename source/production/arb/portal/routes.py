@@ -14,6 +14,7 @@ Notes:
 
 import os
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
@@ -22,25 +23,24 @@ from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
 
-from arb.__get_logger import get_logger
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
+from arb.__get_logger import get_logger
 from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
+from arb.portal.startup.runtime_info import LOG_FILE
+from arb.utils.database import cleanse_misc_json
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
 from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
   wtform_to_model
-from arb.portal.startup.runtime_info import LOG_FILE
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
-
-# Add any additional imports needed from other local modules
-# e.g. from .models import db, SomeModel
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 main = Blueprint("main", __name__)
 
@@ -48,7 +48,7 @@ main = Blueprint("main", __name__)
 @main.route('/')
 def index():
   """
-  Flask route to the root of web portal, currently lists incidences.
+  Flask route to the root of the feedback portal - currently lists incidences.
   """
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
@@ -181,10 +181,17 @@ def diagnostics():
   """
   logger.info(f"diagnostics() called")
 
+  # base = current_app.base  # DeclarativeMeta set in your app factory
+  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select")
+
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
   html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html', html_content=html_content)
+  return render_template('diagnostics.html',
+                         html_content=html_content,
+                         modal_title="Success",
+                         modal_message="Diagnostics completed successfully.",
+                         )
 
 
 @main.route('/show_dropdown_dict')
@@ -193,7 +200,7 @@ def show_dropdown_dict():
   Flask route to show drop-down data structures as a diagnostic.
   """
   logger.info(f"Determining dropdown dict")
-  # update drop down tables
+  # update drop-down tables
   Globals.load_drop_downs(current_app, db)
   result1 = obj_to_html(Globals.drop_downs)
   result2 = obj_to_html(Globals.drop_downs_contingent)
@@ -218,7 +225,8 @@ def show_feedback_form_structure():
   """
   Flask route to show wtforms structure as a diagnostic.
   """
-  from arb.portal.wtf_forms import OGFeedback, LandfillFeedback
+  from arb.portal.wtf_landfill import LandfillFeedback
+  from arb.portal.wtf_oil_and_gas import OGFeedback
   logger.info(f"Displaying wtforms structure as a diagnostic")
 
   form1 = OGFeedback()
@@ -274,42 +282,52 @@ def list_uploads():
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message=None):
   """
-  Flask route to upload file from client to server.
+  Flask route to upload a file from client to server.
 
   Notes:
-    * For example usage pattern of file upload see: https://flask.palletsprojects.com/en/3.0.x/patterns/fileuploads/
-    * A file upload from a webpage occurs on a post and the desired file upload can be extracted from the request with:
-        request_file = request.files['file']
+    * File upload is via POST. Use request.files['file'] to extract uploaded file.
+    * Drag-and-drop of an open Excel file may fail due to Windows file locking.
   """
+  logger.debug("upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
 
+  # Handle optional URL message
   if message:
-    # Decode URL-encoded message (e.g., '+' to space, '%20' to space, etc.)
     message = unquote(message)
-    logger.debug(f"upload_file called with {message=}")
+    logger.debug(f"upload_file called with message: {message}")
 
   upload_dir = current_app.config['UPLOAD_FOLDER']
-  logger.debug(f"Request to upload file to server with: {request.files=}, {upload_dir=}")
+  logger.debug(f"Upload request with: {request.files=}, upload_dir={upload_dir}")
 
   if request.method == 'POST':
-    # Re request file upload if no file was in the post
-    if 'file' not in request.files or request.files['file'].filename == "":
-      return redirect(request.url)
+    try:
+      if 'file' not in request.files or not request.files['file'].filename:
+        logger.warning("No file selected in POST request.")
+        return render_template('upload.html', upload_message="No file selected. Please choose a file.")
 
-    logger.debug(f"{request.files['file']=}")
-    request_file = request.files['file']
+      request_file = request.files['file']
+      logger.debug(f"Received uploaded file: {request_file.filename}")
 
-    if request_file:
-      # todo - update function names for clarity?
-      file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
-      logger.debug(f"{sector=}")
-      if id_:
-        logger.debug(f"upload_file() {id_=}")
-        return redirect(url_for('main.incidence_update', id_=id_))
-      else:
-        logger.debug(f"upload_file() Did not contain feedback format: {file_name=}")
-        return render_template('upload.html', upload_message=f"Successfully uploaded file: {file_name.name}")
+      if request_file:
+        file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
+        logger.debug(f"{sector=}")
 
+        if id_:
+          logger.debug(f"Upload successful: redirecting to incidence update for id={id_}")
+          return redirect(url_for('main.incidence_update', id_=id_))
+        else:
+          logger.debug(f"Upload did not match expected format: {file_name=}")
+          return render_template('upload.html', upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
+
+    except Exception as e:
+      logger.exception("Error occurred during file upload.")
+      return render_template(
+        'upload.html',
+        upload_message="Error: Could not process the uploaded file. "
+                       "Make sure it is closed and try again."
+      )
+
+  # GET request
   return render_template('upload.html', upload_message=message)
 
 
@@ -387,12 +405,12 @@ def modify_json_content():
 def run_sql_script():
   """
  (Outdated) Flask route to run a sql_script which adds tables & data to the database from a
-  sql text file and convert some tables into drop down structures suitable for select drop-downs.
+  sql text file and convert some tables into drop-down structures suitable for select drop-downs.
   """
   return "This script is no longer in service - it was originally designed for sqlite"
   # logger.info(f"Running sql script")
   # database.add_static_table_content()
-  # # update drop down tables
+  # # update drop-down tables
   # Globals.load_drop_downs(app)
   # return '<h1>SQL script run</h1>'
 
@@ -436,7 +454,7 @@ def drag_and_drop_01():
 def incidence_prep(model_row,
                    crud_type,
                    sector_type,
-                   default_dropdown="Please Select"):
+                   default_dropdown=None):
   """
   Helper function used by many flask routes to render feedback forms for
   both creation and updating.
@@ -445,16 +463,24 @@ def incidence_prep(model_row,
     model_row (SQLAlchemy.Model): Single row from a SQLAlchemy model
     crud_type (str): 'update' or 'create'
     sector_type (str): 'Oil & Gas' or 'Landfill'
-    default_dropdown (str): Defaults if no drop down is selected.
+    default_dropdown (str): Defaults if no drop-down is selected.
 
   Returns (str): html for dynamic page
 
   Notes:
 
   """
-  from arb.portal.wtf_forms import OGFeedback, LandfillFeedback
+  from arb.portal.wtf_landfill import LandfillFeedback
+  from arb.portal.wtf_oil_and_gas import OGFeedback
+
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)
+
+  if default_dropdown is None:
+    default_dropdown = PLEASE_SELECT
+
+  if default_dropdown is None:
+    default_dropdown = PLEASE_SELECT
 
   if sector_type == "Oil & Gas":
     logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
@@ -477,6 +503,9 @@ def incidence_prep(model_row,
     # For GET requests for row update, validate (except for the csrf token that is only present for a POST)
     if crud_type == 'update':
       validate_no_csrf(wtf_form, extra_validators=None)
+
+  # todo - trying to make sure invalid drop-downs become "Please Select"
+  #        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)
 
   # Set all select elements that are a default value (None) to "Please Select" value
   initialize_drop_downs(wtf_form, default=default_dropdown)
@@ -508,14 +537,10 @@ def incidence_prep(model_row,
       if wtf_form.validate():
         return redirect(url_for('main.index'))
     elif button == 'update_incidence_status':
+      # This button is no longer available, but leaving the following in case I want to use it again
       logger.debug(f"update_incidence_status was pressed")
       html_content = f"you clicked update_incidence_status"
-      # todo - implement the status and notes section
       return render_template('diagnostics.html', html_content=html_content)
-      # return render_template('og_carb_notes.html',
-      #                        wtf_form=wtf_form,
-      #                        crud_type=crud_type,
-      #                        error_count_dict=error_count_dict)
 
   error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 

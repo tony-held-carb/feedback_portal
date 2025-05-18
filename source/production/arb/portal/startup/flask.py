@@ -6,6 +6,7 @@ This module sets up Jinja environment, logging, and template globals.
 Example:
     from startup.flask import configure_flask_app
 """
+from pathlib import Path
 
 from flask import Flask
 from arb.__get_logger import get_logger
@@ -20,6 +21,7 @@ from arb.utils.misc import args_to_string
 
 from arb.__get_logger import get_logger
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 def configure_flask_app(app: Flask) -> None:

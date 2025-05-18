@@ -7,12 +7,14 @@ database metadata, create tables, and register models.
 Example:
     from startup.db import reflect_database, db_initialize_and_create
 """
-from flask_sqlalchemy import SQLAlchemy
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
+from flask import current_app
+from pathlib import Path
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 def reflect_database() -> None:
@@ -59,6 +61,10 @@ def db_create() -> None:
   # this is slow, consider using a fast load mechanism:
   # https://chatgpt.com/share/681eec4d-8b74-800b-9d0c-bdb08da62fd2
 
+  if current_app.config.get("FAST_LOAD", False) is True:
+    logger.warning("Skipping table creation for FAST_LOAD=True.")
+    return
+
   logger.info("Creating all missing tables.")
   db.create_all()
   logger.debug("Database schema created.")
@@ -75,6 +81,4 @@ def db_initialize_and_create() -> None:
   db_create()
   logger.info("Database initialized and tables ensured.")
 
-
-from sqlalchemy.ext.automap import automap_base
 

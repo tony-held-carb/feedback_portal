@@ -202,7 +202,7 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
   logger.debug(f"{metadata=}")
 
   defaults = {
-    variable: "Please Select" if sub_schema.get("is_drop_down") else ""
+    variable: PLEASE_SELECT if sub_schema.get("is_drop_down") else ""
     for variable, sub_schema in data.items()
   }
 
@@ -229,8 +229,8 @@ def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tu
 
   defaults, metadata = schema_to_default_dict(file_name_in)
   metadata['notes'] = (
-    "Default values are empty strings unless the field is a drop down cell. "
-    "For drop down cells, the default is 'Please Select'."
+    "Default values are empty strings unless the field is a drop-down cell. "
+    "For drop-down cells, the default is 'Please Select'."
   )
 
   if file_name_out is None:

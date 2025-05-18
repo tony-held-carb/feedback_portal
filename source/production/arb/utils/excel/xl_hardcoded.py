@@ -17,6 +17,7 @@ import datetime
 
 from arb.__get_logger import get_logger
 from arb.utils.diagnostics import list_differences
+from arb.utils.constants import PLEASE_SELECT
 
 logger, pp_log = get_logger()
 
@@ -63,13 +64,15 @@ default_value_types_v01_00 = {
   "long_revised": float,
   "method21_date": datetime.datetime,
   "method21_performed": str,
-  "method21_result": float,
+  # "method21_result": float,
+  "method21_result": str, # updated type 2025/05/14
   "mitigation_actions": str,
   "mitigation_timestamp": datetime.datetime,
   "observation_timestamp": datetime.datetime,
   "ogi_date": datetime.datetime,
   "ogi_performed": str,
-  "ogi_result": float,
+  # "ogi_result": float,
+  "ogi_result": str, # updated type 2025/05/14
   "planned_for_next_lmr": str,
   "planned_for_next_lmr_description": str,
   "re_monitored_concentration": float,
@@ -116,19 +119,19 @@ oil_and_gas_payload_02 = {
   "contact_phone": "555-555-5555",
   "contact_email": "me@email.com",
 
-  "venting_exclusion": "Please Select",
+  "venting_exclusion": PLEASE_SELECT,
   "venting_description_1": "Q7 Answer.",
 
   "inspection_timestamp": "08/14/2023 00:00",
-  "inspection_type": "Please Select",
-  "found_source_type": "Please Select",
+  "inspection_type": PLEASE_SELECT,
+  "found_source_type": PLEASE_SELECT,
   "venting_description_2": "Q11 Answer.",
   "initial_mitigation_plan": "Q12 Answer.",
 
-  "ogi_survey": "Please Select",
-  "equipment_at_source": "Please Select",
+  "ogi_survey": PLEASE_SELECT,
+  "equipment_at_source": PLEASE_SELECT,
   "equipment_other_description": "Q15 Answer.",
-  "component_at_source": "Please Select",
+  "component_at_source": PLEASE_SELECT,
   "component_other_description": "Q17 Answer.",
   "initial_method_21_timestamp": "08/13/2023 14:00",
   "initial_leak_concentration": "100",
@@ -172,7 +175,7 @@ landfill_payload_02 = {
 
   "inspection_timestamp": "08/14/2023 00:00",
   "instrument": "Q7 Answer.",
-  "emission_identified_flag_fk": "Please Select",
+  "emission_identified_flag_fk": PLEASE_SELECT,
 
   "initial_leak_concentration": "500",
   "lat_revised": "35.3211",

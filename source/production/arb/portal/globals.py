@@ -14,6 +14,7 @@ Notes:
     * If a value does not need to be initialized at runtime and does not change, it
       should be in the constants.py file instead.
 """
+from pathlib import Path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -21,6 +22,7 @@ from flask_sqlalchemy import SQLAlchemy
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 class Globals:
@@ -52,7 +54,7 @@ class Globals:
     Example:
         >>> Globals.load_drop_downs(app, db)
         >>> print(Globals.drop_downs["ogi_performed"])
-        ['Please Select', 'Yes', 'No']
+        ["Please Select", 'Yes', 'No']
 
     Notes:
         - This function imports a dynamic dropdown generator from `db_hardcoded`.

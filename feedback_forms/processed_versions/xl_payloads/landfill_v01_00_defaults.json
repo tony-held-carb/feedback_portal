@@ -1,10 +1,10 @@
 {
     "_metadata_": {
         "schema_version": "landfill_v01_00",
-        "File created at": "2025-05-08T01:18:53.143420+00:00",
+        "File created at": "2025-05-16T04:36:44.693934+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta",
-        "notes": "Default values are empty strings unless the field is a drop down cell. For drop down cells, the default is 'Please Select'."
+        "notes": "Default values are empty strings unless the field is a drop-down cell. For drop-down cells, the default is 'Please Select'."
     },
     "_data_": {
         "id_incidence": "",

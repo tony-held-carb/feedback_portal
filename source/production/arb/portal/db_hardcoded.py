@@ -5,11 +5,14 @@ and related routines associated with the operator portal.
 Notes:
 """
 import datetime
+from pathlib import Path
 
 from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
+from arb.portal.constants import PLEASE_SELECT
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Sector classification constants
 OIL_AND_GAS_SECTORS = [
@@ -96,7 +99,7 @@ def get_og_dummy_data():
   """
 
   json_data = {
-    "id_incidence": 1001,
+    "id_incidence": 2001,
     "id_plume": 1001,
     "observation_timestamp": datetime.datetime.now(),
     "lat_carb": 100.05,
@@ -107,20 +110,20 @@ def get_og_dummy_data():
     "contact_name": "contact_name response",
     "contact_phone": f"(555) 555-5555",
     "contact_email": "my_email@email.com",
-    "venting_exclusion": "Please Select",
+    "venting_exclusion": PLEASE_SELECT,
     "venting_description_1": "venting_description_1 response",
-    "ogi_performed": "Please Select",
+    "ogi_performed": PLEASE_SELECT,
     "ogi_date": datetime.datetime.now(),
-    "ogi_result": "Please Select",
-    "method21_performed": "Please Select",
+    "ogi_result": PLEASE_SELECT,
+    "method21_performed": PLEASE_SELECT,
     "method21_date": datetime.datetime.now(),
-    "method21_result": "Please Select",
+    "method21_result": PLEASE_SELECT,
     "initial_leak_concentration": 1004,
     "venting_description_2": "venting_description_2 response",
     "initial_mitigation_plan": "initial_mitigation_plan response",
-    "equipment_at_source": "Please Select",
+    "equipment_at_source": PLEASE_SELECT,
     "equipment_other_description": "equipment_other_description response",
-    "component_at_source": "Please Select",
+    "component_at_source": PLEASE_SELECT,
     "component_other_description": "component_other_description response",
     "repair_timestamp": datetime.datetime.now(),
     "final_repair_concentration": 101.05,
@@ -146,20 +149,20 @@ def get_landfill_dummy_data():
     "contact_email": "my_email@email.com",
     "contact_name": "contact_name",
     "contact_phone": f"(555) 555-5555",
-    "emission_cause": "Please Select",
+    "emission_cause": PLEASE_SELECT,
     "emission_cause_notes": "emission_cause_notes",
-    "emission_cause_secondary": "Please Select",
-    "emission_cause_tertiary": "Please Select",
-    "emission_identified_flag_fk": "Please Select",
-    "emission_location": "Please Select",
+    "emission_cause_secondary": PLEASE_SELECT,
+    "emission_cause_tertiary": PLEASE_SELECT,
+    "emission_identified_flag_fk": PLEASE_SELECT,
+    "emission_location": PLEASE_SELECT,
     "emission_location_notes": "emission_location_notes",
-    "emission_type_fk": "Please Select",
+    "emission_type_fk": PLEASE_SELECT,
     "facility_name": "facility_name",
     "id_arb_swis": "id_arb_swis",
-    # "id_incidence": 1003,
+    "id_incidence": 2002,
     "id_message": "id_message",
     "id_plume": 1002,
-    "included_in_last_lmr": "Please Select",
+    "included_in_last_lmr": PLEASE_SELECT,
     "included_in_last_lmr_description": "included_in_last_lmr_description",
     "initial_leak_concentration": 1002.5,
     "inspection_timestamp": datetime.datetime.now(),
@@ -173,7 +176,7 @@ def get_landfill_dummy_data():
     "mitigation_actions": "mitigation_actions",
     "mitigation_timestamp": datetime.datetime.now(),
     "observation_timestamp": datetime.datetime.now(),
-    "planned_for_next_lmr": "Please Select",
+    "planned_for_next_lmr": PLEASE_SELECT,
     "planned_for_next_lmr_description": "planned_for_next_lmr_description",
     "re_monitored_concentration": 1002.5,
     "re_monitored_timestamp": datetime.datetime.now(),
@@ -191,10 +194,10 @@ def get_excel_dropdown_data():
   Each tuple is 2 or 3 items in length with the format:
     (select value, select text, and an optional dictionary of additional html formatting)
 
-  # todo - The new drop downs are not context depended like they are in excel and the
+  # todo - The new drop-downs are not context depended like they are in excel and the
            validate logic needs to be updated.
   Returns:
-    drop_downs (list[tuple]): lookup dictionary of drop down key values for each table.
+    drop_downs (list[tuple]): lookup dictionary of drop-down key values for each table.
   """
   # Oil & Gas
   drop_downs = {
@@ -409,6 +412,6 @@ def get_excel_dropdown_data():
     },
   }
 
-  # Note, the drop_downs get 'Please Select' prepended, but the drop_down_contingent content is not modified
+  # Note, the drop_downs get "Please Select" prepended, but the drop_down_contingent content is not modified
   drop_downs = update_selector_dict(drop_downs)
   return drop_downs, drop_downs_contingent

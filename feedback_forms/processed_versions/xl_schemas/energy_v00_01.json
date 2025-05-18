@@ -1,7 +1,7 @@
 {
     "_metadata_": {
         "schema_version": "energy_v00_01",
-        "File created at": "2025-05-08T01:18:53.290414+00:00",
+        "File created at": "2025-05-16T04:36:44.798469+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
@@ -141,7 +141,7 @@
             "label_address": "$B$46",
             "value_address": "$D$46",
             "value_type": {
-                "__class__": "float",
+                "__class__": "str",
                 "__module__": "builtins"
             },
             "is_drop_down": true
@@ -171,7 +171,7 @@
             "label_address": "$B$49",
             "value_address": "$D$49",
             "value_type": {
-                "__class__": "float",
+                "__class__": "str",
                 "__module__": "builtins"
             },
             "is_drop_down": true

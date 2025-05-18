@@ -18,6 +18,8 @@ Example:
     >>> db.session.commit()
 """
 
+from pathlib import Path
+
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
@@ -25,6 +27,7 @@ from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 class UploadedFile(db.Model):

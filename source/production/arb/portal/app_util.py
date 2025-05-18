@@ -24,6 +24,7 @@ from arb.utils.sql_alchemy import (
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 def get_sector_info(db, base, id_):
@@ -284,11 +285,6 @@ def dict_to_database(db, base, data_dict, table_name="incidences", json_field="m
   id_ = getattr(model, "id_incidence")
   model_json_dict = getattr(model, json_field) or {}
   model_json_dict["id_incidence"] = id_
-
-  # todo (consider) - the o&g feedback form does not include a id_plume field,
-  #  in subsequent source, it can be looked up, but for now, it must be hard coded.
-  if model_json_dict.get("sector") in ["Oil and Gas", "Oil & Gas"] and not model_json_dict.get("id_plume"):
-    model_json_dict["id_plume"] = 123456  # placeholder
 
   setattr(model, json_field, model_json_dict)
   flag_modified(model, json_field)

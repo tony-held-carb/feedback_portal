@@ -11,11 +11,8 @@ Notes on intended utility usage:
   - wtf_forms_util.py   → WTForms form structure and validation routines
 """
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
 from arb.__get_logger import get_logger
-from arb.utils.date_and_time import str_to_datetime
+from arb.utils.constants import PLEASE_SELECT
 from arb.utils.file_io import get_secure_timestamped_file_name
 
 __version__ = "1.0.0"
@@ -58,10 +55,10 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
 
   Example:
       >>> selector_list_to_tuples(["Red", "Green"])
-      [('Please Select', 'Please Select', {'disabled': True}),
+      [("Please Select", "Please Select", {'disabled': True}),
        ('Red', 'Red'), ('Green', 'Green')]
   """
-  result = [("Please Select", "Please Select", {"disabled": True})]
+  result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
   result += [(v, v) for v in values]
   return result
 
@@ -143,7 +140,7 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
 
 def ensure_placeholder_option(
     tuple_list: list[tuple[str, str, dict]],
-    item: str = 'Please Select',
+    item: str | None = None,
     item_dict: dict | None = None,
     ensure_first: bool = True
 ) -> list[tuple[str, str, dict]]:
@@ -159,8 +156,8 @@ def ensure_placeholder_option(
       tuple_list (list[tuple[str, str, dict]]):
           A list of selection options, where each option is a tuple of the form:
           (value, label, metadata_dict). Example: [("CA", "California", {}), ...]
-      item (str):
-          The value and label to use for the placeholder option. Default is 'Please Select'.
+      item (str | None):
+          The value and label to use for the placeholder option. The default is "Please Select".
       item_dict (dict | None):
           The metadata dictionary to associate with the placeholder. If None, defaults to
           {"disabled": True}, which is commonly used to disable the option in HTML.
@@ -174,14 +171,17 @@ def ensure_placeholder_option(
 
   Example:
       >>> ensure_placeholder_option([("CA", "California", {})])
-      [('Please Select', 'Please Select', {'disabled': True}), ('CA', 'California', {})]
+      [("Please Select", "Please Select", {'disabled': True}), ('CA', 'California', {})]
 
       >>> ensure_placeholder_option(
       ...     [("Please Select", "Please Select", {}), ("CA", "California", {})],
       ...     item_dict={"disabled": True}
       ... )
-      [('Please Select', 'Please Select', {}), ('CA', 'California', {})]
+      [("Please Select", "Please Select", {}), ('CA', 'California', {})]
   """
+  if item is None:
+    item = PLEASE_SELECT
+
   if item_dict is None:
     item_dict = {"disabled": True}
 
@@ -249,7 +249,7 @@ def run_diagnostics() -> None:
 
   # Test selector_list_to_tuples
   selector = selector_list_to_tuples(test_values)
-  assert selector[0][0] == "Please Select"
+  assert selector[0][0] == PLEASE_SELECT
   assert ("A", "A") in selector
 
   # Test list_to_triple_tuple
@@ -263,11 +263,11 @@ def run_diagnostics() -> None:
   # Test update_selector_dict
   test_dict = {"colors": ["red", "green"]}
   updated_dict = update_selector_dict(test_dict)
-  assert "Please Select" in [x[0] for x in updated_dict["colors"]]
+  assert PLEASE_SELECT in [x[0] for x in updated_dict["colors"]]
 
   # Test ensure_placeholder_option
   reordered = ensure_placeholder_option([("X", "X", {})])
-  assert reordered[0][0] == "Please Select"
+  assert reordered[0][0] == PLEASE_SELECT
 
   # Test remove_items
   cleaned = remove_items(triple, "X")

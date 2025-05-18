@@ -27,20 +27,22 @@ Example usage in Flask route:
     >>>     save_to_db(form.data)
 """
 
+from pathlib import Path
+
 from flask_wtf import FlaskForm
 from wtforms.fields import (DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField)
 from wtforms.validators import (Email, InputRequired, Length, NumberRange, Optional, Regexp)
 
 from arb.__get_logger import get_logger
-from arb.portal.constants import GPS_RESOLUTION, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, PLEASE_SELECT
+from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, MAX_LATITUDE, MAX_LONGITUDE, MIN_LATITUDE, MIN_LONGITUDE, \
+  PLEASE_SELECT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors
 
 logger, pp_log = get_logger()
-
-DROPDOWN_DATE_FORMAT = "%Y-%m-%dT%H:%M"
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 class OGFeedback(FlaskForm):
@@ -49,13 +51,6 @@ class OGFeedback(FlaskForm):
 
   Notes:
   """
-
-  msg = f"Latitudes must be blank or valid California number between {MIN_LATITUDE} and {MAX_LATITUDE}."
-  latitude_validation = {"min": MIN_LATITUDE, "max": MAX_LATITUDE,
-                         "message": msg}
-  msg = f"Longitudes must be blank or valid California number between  {MIN_LONGITUDE} and {MAX_LONGITUDE}."
-  longitude_validation = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
-                          "message": msg}
 
   # venting through inspection (not through the 95669.1(b)(1) exclusion)
   venting_responses = [
@@ -86,21 +81,21 @@ class OGFeedback(FlaskForm):
   observation_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = "4.  Plume CARB Estimated Latitude"
   lat_carb = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    validators=[InputRequired(), NumberRange(**latitude_validation)],
+    validators=[InputRequired(), NumberRange(**LATITUDE_VALIDATION)],
   )
 
   label = "5.  Plume CARB Estimated Longitude"
   long_carb = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    validators=[InputRequired(), NumberRange(**longitude_validation)],
+    validators=[InputRequired(), NumberRange(**LONGITUDE_VALIDATION)],
   )
 
   label = "6.  CARB Message ID"
@@ -173,7 +168,7 @@ class OGFeedback(FlaskForm):
   ogi_date = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = "Q10. If you answered 'Yes' to Q8, what type of source was found using OGI?"
@@ -194,7 +189,7 @@ class OGFeedback(FlaskForm):
   method21_date = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = "Q13. If you answered 'Yes' to Q11, what type of source was found using Method 21?"
@@ -254,7 +249,7 @@ class OGFeedback(FlaskForm):
   repair_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = f"Q22.  Final repair concentration in ppmv (if applicable)."
@@ -288,6 +283,8 @@ class OGFeedback(FlaskForm):
 
     """
     logger.debug(f"validate() called.")
+    form_fields = get_wtforms_fields(self)
+
     # Dictionary to replace standard WTForm messages with alternative message
     error_message_replacement_dict = {"Not a valid float value.": "Not a valid numeric value."}
 
@@ -295,6 +292,15 @@ class OGFeedback(FlaskForm):
     # Add, Remove, or Modify validation at a field level here before the super is called (for example)
     ###################################################################################################
     self.determine_contingent_fields()
+
+    ###################################################################################################
+    # Set selectors with values not in their choices list to "Please Select"
+    ###################################################################################################
+    for field_name in form_fields:
+      field = getattr(self, field_name)
+      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
+      if isinstance(field, SelectField):
+        ensure_field_choice(field_name, field)
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -380,8 +386,6 @@ class OGFeedback(FlaskForm):
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
-
     for field in form_fields:
       field_errors = getattr(self, field).errors
       replace_list_occurrences(field_errors, error_message_replacement_dict)
@@ -486,13 +490,6 @@ class LandfillFeedback(FlaskForm):
   Notes:
   """
 
-  msg = f"Latitudes must be blank or valid California number between {MIN_LATITUDE} and {MAX_LATITUDE}."
-  latitude_validation = {"min": MIN_LATITUDE, "max": MAX_LATITUDE,
-                         "message": msg}
-  msg = f"Longitudes must be blank or valid California number between  {MIN_LONGITUDE} and {MAX_LONGITUDE}."
-  longitude_validation = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
-                          "message": msg}
-
   # Section 2
   # todo - likely have to change these to InputRequired(), Optional(), blank and removed
   label = "1.  Incidence/Emission ID"
@@ -511,7 +508,7 @@ class LandfillFeedback(FlaskForm):
   observation_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = "4.  Plume Origin CARB Estimated Latitude"
@@ -520,16 +517,16 @@ class LandfillFeedback(FlaskForm):
   lat_carb = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(GPS_RESOLUTION)],
-    validators=[Optional(), NumberRange(**latitude_validation)],
+    # validators=[Optional(), NumberRange(**LATITUDE_VALIDATION), min_decimal_precision(GPS_RESOLUTION)],
+    validators=[Optional(), NumberRange(**LATITUDE_VALIDATION)],
   )
 
   label = "5.  Plume Origin CARB Estimated Longitude"
   long_carb = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(GPS_RESOLUTION)],
-    validators=[Optional(), NumberRange(**longitude_validation)],
+    # validators=[Optional(), NumberRange(**LONGITUDE_VALIDATION), min_decimal_precision(GPS_RESOLUTION)],
+    validators=[Optional(), NumberRange(**LONGITUDE_VALIDATION)],
   )
 
   label = "6.  CARB Message ID"
@@ -576,7 +573,7 @@ class LandfillFeedback(FlaskForm):
   inspection_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired(), ],
-    format=DROPDOWN_DATE_FORMAT,
+    format=HTML_LOCAL_TIME_FORMAT,
   )
 
   label = "Q7.  Instrument used to locate the leak (e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL)."
@@ -609,16 +606,16 @@ class LandfillFeedback(FlaskForm):
   lat_revised = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**latitude_validation), min_decimal_precision(GPS_RESOLUTION)],
-    validators=[Optional(), NumberRange(**latitude_validation)],
+    # validators=[Optional(), NumberRange(**LATITUDE_VALIDATION), min_decimal_precision(GPS_RESOLUTION)],
+    validators=[Optional(), NumberRange(**LATITUDE_VALIDATION)],
   )
 
   label = "Q12.  Please provide a revised longitude if the leak location differs from CARB's estimate in Section 2."
   long_revised = DecimalField(
     label=label,
     places=GPS_RESOLUTION,
-    # validators=[Optional(), NumberRange(**longitude_validation), min_decimal_precision(GPS_RESOLUTION)],
-    validators=[Optional(), NumberRange(**longitude_validation)],
+    # validators=[Optional(), NumberRange(**LONGITUDE_VALIDATION), min_decimal_precision(GPS_RESOLUTION)],
+    validators=[Optional(), NumberRange(**LONGITUDE_VALIDATION)],
   )
 
   label = "Q13:  Please select from the drop-down menu which option best matches the description of the leak."
@@ -682,14 +679,14 @@ class LandfillFeedback(FlaskForm):
   mitigation_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT
+    format=HTML_LOCAL_TIME_FORMAT
   )
 
   label = "Q22.  Re-monitored date."
   re_monitored_timestamp = DateTimeLocalField(
     label=label,
     validators=[Optional()],
-    format=DROPDOWN_DATE_FORMAT
+    format=HTML_LOCAL_TIME_FORMAT
   )
 
   label = "Q23.  Re-monitored methane concentration after repair (ppmv)."
@@ -727,14 +724,14 @@ class LandfillFeedback(FlaskForm):
   last_component_leak_monitoring_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT
+    format=HTML_LOCAL_TIME_FORMAT
   )
 
   label = "Q29.  Date of most recent component leak monitoring event (prior to this notification)."
   last_surface_monitoring_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired()],
-    format=DROPDOWN_DATE_FORMAT
+    format=HTML_LOCAL_TIME_FORMAT
   )
 
   label = "Q30. Additional notes or comments."
@@ -757,6 +754,8 @@ class LandfillFeedback(FlaskForm):
           are WTForms SelectField instances.
         - Globals.drop_downs_contingent contains a nested dict of contingent options.
     """
+    # todo - update contingent dropdowns?
+
     logger.debug("Running update_contingent_selectors()")
 
     emission_location = self.emission_location.data
@@ -771,7 +770,8 @@ class LandfillFeedback(FlaskForm):
     # Define headers
     primary_header = [
       ("Please Select", "Please Select", {"disabled": True}),
-      ("Not applicable as no leak was detected", "Not applicable as no leak was detected", {}),
+      ("Not applicable as no leak was detected",
+       "Not applicable as no leak was detected", {}),
     ]
     secondary_tertiary_header = primary_header + [
       ("Not applicable as no additional leak cause suspected",
@@ -779,45 +779,13 @@ class LandfillFeedback(FlaskForm):
     ]
 
     # Build full choices
-    primary_choices = self._build_choices(primary_header, choices_raw)
-    secondary_tertiary_choices = self._build_choices(secondary_tertiary_header, choices_raw)
+    primary_choices = build_choices(primary_header, choices_raw)
+    secondary_tertiary_choices = build_choices(secondary_tertiary_header, choices_raw)
 
-    # Update each field
-    self._update_selector("emission_cause", self.emission_cause, primary_choices)
-    self._update_selector("emission_cause_secondary", self.emission_cause_secondary, secondary_tertiary_choices)
-    self._update_selector("emission_cause_tertiary", self.emission_cause_tertiary, secondary_tertiary_choices)
-
-  def _build_choices(self, header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
-    """
-    Combine header and choices into a list of triple tuples for WTForms.
-
-    Args:
-        header (list[tuple[str, str, dict]]): The static header items.
-        items (list[str]): Dynamic items to append as (value, value, {}).
-
-    Returns:
-        list[tuple[str, str, dict]]: Combined list.
-    """
-    footer = [(item, item, {}) for item in items]
-    return header + footer
-
-  def _update_selector(self, field_name: str, field, choices: list[tuple[str, str, dict]]) -> None:
-    """
-    Update the field's choices and reset data if invalid.
-
-    Args:
-        field_name (str): The name of the field (for logging).
-        field: The WTForms field to update.
-        choices (list[tuple[str, str, dict]]): New valid choices.
-    """
-    field.choices = choices
-    valid_values = {value for value, _, _ in choices}
-
-    if field.data not in valid_values:
-      logger.debug(f"{field_name}.data={field.data!r} not in valid options, resetting to 'Please Select'")
-      field.data = "Please Select"
-    # else:
-    #   logger.debug(f"{field_name}.data={field.data!r} is valid")
+    # Update each field's choices
+    self.emission_cause.choices = primary_choices
+    self.emission_cause_secondary.choices = secondary_tertiary_choices
+    self.emission_cause_tertiary.choices = secondary_tertiary_choices
 
   def validate(self, extra_validators=None):
     """
@@ -825,8 +793,13 @@ class LandfillFeedback(FlaskForm):
 
     Args:
       extra_validators:
+      
+    
 
     """
+    logger.debug(f"validate() called.")
+    form_fields = get_wtforms_fields(self)
+
     # Dictionary to replace standard WTForm messages with alternative message
     error_message_replacement_dict = {"Not a valid float value.": "Not a valid numeric value."}
 
@@ -835,7 +808,15 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     self.determine_contingent_fields()
     self.update_contingent_selectors()
-    # todo - update contingent dropdowns
+
+    ###################################################################################################
+    # Set selectors with values not in their choices list to "Please Select"
+    ###################################################################################################
+    for field_name in form_fields:
+      field = getattr(self, field_name)
+      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
+      if isinstance(field, SelectField):
+        ensure_field_choice(field_name, field)
 
     ###################################################################################################
     # call the super to perform each fields individual validation (which saves to form.errors)
@@ -844,11 +825,6 @@ class LandfillFeedback(FlaskForm):
     ###################################################################################################
     # logger.debug("in the validator before super")
     obj_diagnostics(self, message="in the validator before super")
-    form_fields = get_wtforms_fields(self)
-
-    for field_name in form_fields:
-      field = getattr(self, field_name)
-      logger.debug(f"field_name: {field_name}, {type(field.data)=}, {field.data=}, {type(field.raw_data)=}")
 
     super_return = super().validate(extra_validators=extra_validators)
 
@@ -861,6 +837,7 @@ class LandfillFeedback(FlaskForm):
     # Perform any field level validation where one field is cross-referenced to another
     # The error will be associated with one of the fields
     ###################################################################################################
+    # todo - move field level validation to separate function
 
     if self.emission_identified_flag_fk.data == "No leak was detected":
       valid_options = ["Please Select",
@@ -903,7 +880,7 @@ class LandfillFeedback(FlaskForm):
         self.mitigation_timestamp.errors.append(
           "Date of mitigation cannot be prior to initial site inspection.")
 
-    # todo - add that 2nd and 3rd can be repeats
+    # todo - add that 2nd and 3rd can't be repeats
     ignore_repeats = ["Please Select",
                       "Not applicable as no leak was detected",
                       "Not applicable as no additional leak cause suspected",
@@ -936,8 +913,6 @@ class LandfillFeedback(FlaskForm):
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################
-    form_fields = get_wtforms_fields(self)
-
     for field in form_fields:
       field_errors = getattr(self, field).errors
       replace_list_occurrences(field_errors, error_message_replacement_dict)

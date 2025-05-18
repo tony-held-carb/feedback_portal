@@ -1,0 +1,43 @@
+----------------------------------------------------------------------------------------------------
+Code profiling,
+
+Does not look like fast_load makes a difference
+
+A. before fast load created:
+
+1. creating all tables is slow.  it takes about 6 seconds:
+    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
+    +2025-05-14 08:18:08.041 | DEBUG    | app_logger       | user:anonymous | 64    | db.py                | Database schema created.
+
+2. reflecting and automapping the database takes about 2 seconds
+    +2025-05-14 08:18:08.042 | INFO     | app_logger       | user:anonymous | 28    | db.py                | Reflecting database metadata.
+    +2025-05-14 08:18:09.002 | DEBUG    | app_logger       | user:anonymous | 30    | db.py                | Reflection complete.
+    +2025-05-14 08:18:09.830 | DEBUG    | app_logger       | user:anonymous | 129   | sql_alchemy.py       | calling get_sa_automap_types()
+    +2025-05-14 08:18:10.244 | WARNING  | app_logger       | user:anonymous | 169   | sql_alchemy.py       | geom is of type: Geometry that is not implemented in python.  Setting python type to None.
+
+3.
+    +2025-05-14 08:18:02.208 | INFO     | app_logger       | user:anonymous | 62    | db.py                | Creating all missing tables.
+    +2025-05-14 08:18:12.645 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+
+B. with fast_load on (11-22 seconds):
+    +2025-05-14 10:43:23.985 | DEBUG    | arb_portal       | user:anonymous | 143   | __get_logger.py      | get_logger() called with file_stem = 'arb_portal', file_path =WindowsPath('C:/Users/theld/OneDrive - California Air Resources Board/code/pycharm/feedback_portal/logs'), log_to_console =False, force_command_line =False, sys.argv = ['C:\\Users\\theld\\AppData\\Local\\miniconda3\\envs\\mini_conda_01\\Scripts\\flask', '--app', 'wsgi', 'run', '--debug', '--no-reload']
+    +2025-05-14 10:43:45.059 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+    22 seconds
+    +2025-05-14 10:45:30.209 | DEBUG    | arb_portal       | user:anonymous | 143   | __get_logger.py      | get_logger() called with file_stem = 'arb_portal', file_path =WindowsPath('C:/Users/theld/OneDrive - California Air Resources Board/code/pycharm/feedback_portal/logs'), log_to_console =False, force_command_line =False, sys.argv = ['C:\\Users\\theld\\AppData\\Local\\miniconda3\\envs\\mini_conda_01\\Scripts\\flask', '--app', 'wsgi', 'run', '--debug', '--no-reload']
+    +2025-05-14 10:45:43.839 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+    13 seconds
+
+    +2025-05-14 10:46:49.255 | DEBUG    | arb_portal       | user:anonymous | 143   | __get_logger.py      | get_logger() called with file_stem = 'arb_portal', file_path =WindowsPath('C:/Users/theld/OneDrive - California Air Resources Board/code/pycharm/feedback_portal/logs'), log_to_console =False, force_command_line =False, sys.argv = ['C:\\Users\\theld\\AppData\\Local\\miniconda3\\envs\\mini_conda_01\\Scripts\\flask', '--app', 'wsgi', 'run', '--debug', '--no-reload']
+    +2025-05-14 10:47:02.734 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+    11 seconds
+
+B. with fast_load off (13-15 seconds):
+    +2025-05-14 10:48:25.076 | DEBUG    | arb_portal       | user:anonymous | 143   | __get_logger.py      | get_logger() called with file_stem = 'arb_portal', file_path =WindowsPath('C:/Users/theld/OneDrive - California Air Resources Board/code/pycharm/feedback_portal/logs'), log_to_console =False, force_command_line =False, sys.argv = ['C:\\Users\\theld\\AppData\\Local\\miniconda3\\envs\\mini_conda_01\\Scripts\\flask', '--app', 'wsgi', 'run', '--debug', '--no-reload']
+    +2025-05-14 10:48:38.725 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+    13 seconds
+
+    +2025-05-14 10:49:46.876 | DEBUG    | arb_portal       | user:anonymous | 143   | __get_logger.py      | get_logger() called with file_stem = 'arb_portal', file_path =WindowsPath('C:/Users/theld/OneDrive - California Air Resources Board/code/pycharm/feedback_portal/logs'), log_to_console =False, force_command_line =False, sys.argv = ['C:\\Users\\theld\\AppData\\Local\\miniconda3\\envs\\mini_conda_01\\Scripts\\flask', '--app', 'wsgi', 'run', '--debug', '--no-reload']
+    +2025-05-14 10:50:01.213 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | Press CTRL+C to quit
+    15 seconds
+
+

@@ -15,11 +15,13 @@ Notes:
     it should be defined and initialized in the startup/runtime_info.py file.
 """
 
-import os
+import os, sys
+from pathlib import Path
 
 from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
 class BaseConfig:
@@ -30,8 +32,8 @@ class BaseConfig:
   )
 
   SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {
-    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
 
@@ -45,6 +47,20 @@ class BaseConfig:
   WTF_CSRF_ENABLED = True
   LOG_LEVEL = "INFO"
   TIMEZONE = "America/Los_Angeles"
+
+  # ---------------------------------------------------------------------
+  # Get other relevant environmental variables here and commandline flags here
+  # for example: set FAST_LOAD=true
+  # ---------------------------------------------------------------------
+  FAST_LOAD = False
+  # flask does not allow for custom arguments so the next block is commented out
+  # if "--fast-load" in sys.argv:
+  #   print(f"--fast-load detected in CLI arguments")
+  #   FAST_LOAD = True
+  if os.getenv("FAST_LOAD") == "true":
+    logger.info(f"FAST_LOAD detected in CLI arguments")
+    FAST_LOAD = True
+  logger.info(f"{FAST_LOAD = }")
 
 
 class DevelopmentConfig(BaseConfig):
