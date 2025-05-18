@@ -20,6 +20,7 @@ Example:
 
 from pathlib import Path
 
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
@@ -101,6 +102,27 @@ class UploadedFile(db.Model):
     return (
       f'<Uploaded File: {self.id_}, Path: {self.path}, '
       f'Description: {self.description}, Status: {self.status}>'
+    )
+
+
+class PortalUpdate(db.Model):
+  """
+  Tracks individual updates to the misc_json column of the incidences table.
+  """
+  __tablename__ = "portal_updates"
+
+  id = Column(Integer, primary_key=True)
+  timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+  key = Column(String(255), nullable=False)
+  old_value = Column(Text, nullable=True)
+  new_value = Column(Text, nullable=False)
+  user = Column(String(255), nullable=False, default="anonymous")
+  comments = Column(Text, nullable=False, default="")
+
+  def __repr__(self):
+    return (
+      f"<PortalUpdate id={self.id} key={self.key!r} old_value={self.old_value!r} "
+      f"new_value={self.new_value!r} user={self.user!r} timestamp={self.timestamp}>"
     )
 
 
