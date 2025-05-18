@@ -7,6 +7,7 @@ from flask import app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm.attributes import flag_modified
 
 from arb.__get_logger import get_logger
 
@@ -67,46 +68,43 @@ def cleanse_misc_json(db,
                       table_name: str,
                       json_column_name: str = "misc_json",
                       remove_value: str = "Please Select",
-                      dry_run: bool = True) -> None:
+                      dry_run: bool = False) -> None:
   """
   Remove key/value pairs from a JSON column where the value matches `remove_value`.
 
   Args:
-      db: Flask-SQLAlchemy `db` object containing the model registry and session.
-      table_name (str): Name of the table to query.
-      json_column_name (str): Name of the JSON column to cleanse.
-      remove_value (str): Value to match for deletion. Matching key/value pairs will be removed.
-      dry_run (bool): If True, shows what would be done without committing changes.
+      db: Flask-SQLAlchemy `db` object.
+      table_name (str): Table name as a string (e.g., "incidences").
+      json_column_name (str): JSON column on the table to clean (default = "misc_json").
+      remove_value (str): Value to remove from the JSON dict.
+      dry_run (bool): If True, makes no changes to the DB.
 
   Raises:
-      ValueError: If table or column is not found.
+      ValueError: If the model class or column does not exist.
   """
-  logger.debug(f"cleanse_misc_json called")
+  # 👇 Use your helper here
+  from arb.utils.sql_alchemy import get_class_from_table_name
+
+  model_cls = get_class_from_table_name(db.Model, table_name)
+  if model_cls is None:
+    raise ValueError(f"Table '{table_name}' not found or not mapped.")
+
+  if not hasattr(model_cls, json_column_name):
+    raise ValueError(f"Column '{json_column_name}' not found on model for table '{table_name}'.")
 
   try:
-    Base = db.Model._decl_class_registry
-    model_cls = next((cls for cls in Base.values()
-                      if hasattr(cls, "__tablename__") and cls.__tablename__ == table_name), None)
-    if model_cls is None:
-      raise ValueError(f"Table '{table_name}' not found in model registry.")
-
-    if not hasattr(model_cls, json_column_name):
-      raise ValueError(f"Column '{json_column_name}' not found in table '{table_name}'.")
-
     rows = db.session.query(model_cls).all()
     count_total = len(rows)
     count_modified = 0
 
     for row in rows:
       json_data = getattr(row, json_column_name) or {}
+      if not isinstance(json_data, dict):
+        continue
 
-      original_keys = set(json_data.keys())
       filtered = {k: v for k, v in json_data.items() if v != remove_value}
-      filtered_keys = set(filtered.keys())
-
-      if original_keys != filtered_keys:
+      if filtered != json_data:
         setattr(row, json_column_name, filtered)
-        from sqlalchemy.orm.attributes import flag_modified
         flag_modified(row, json_column_name)
         count_modified += 1
 
