@@ -484,8 +484,7 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
-  # todo - need to turn to list but pycharm freaks out when i do :)
-  model_fields = model_json_dict.keys()
+  model_fields = list(model_json_dict.keys())
   form_fields = get_wtforms_fields(wtform)
 
   list_differences(model_fields,
@@ -499,11 +498,16 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
     if attr_name in ignore_fields:
       continue
 
-    attr_value = getattr(wtform, attr_name).data
-    existing_value = model_json_dict.get(attr_name)
+    field = getattr(wtform, attr_name)
+    attr_value = field.data
+
+    # Skip placeholder only for SelectField or compatible types
+    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
+      continue
 
     payload_all[attr_name] = attr_value
 
+    existing_value = model_json_dict.get(attr_name)
     if existing_value != attr_value:
       payload_changes[attr_name] = attr_value
 

@@ -31,6 +31,7 @@ from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
+from arb.utils.database import cleanse_misc_json
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
@@ -179,6 +180,8 @@ def diagnostics():
   Flask route to show diagnostic info for code in development.
   """
   logger.info(f"diagnostics() called")
+
+  cleanse_misc_json(db, "incidences", "misc_json", "Please Select")
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
