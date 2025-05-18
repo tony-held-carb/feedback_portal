@@ -181,7 +181,8 @@ def diagnostics():
   """
   logger.info(f"diagnostics() called")
 
-  cleanse_misc_json(db, "incidences", "misc_json", "Please Select")
+  # base = current_app.base  # DeclarativeMeta set in your app factory
+  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select")
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
@@ -189,7 +190,7 @@ def diagnostics():
   return render_template('diagnostics.html',
                          html_content=html_content,
                          modal_title="Success",
-                         modal_message="Your submission was saved.",
+                         modal_message="Diagnostics completed successfully.",
                          )
 
 

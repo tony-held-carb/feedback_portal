@@ -65,6 +65,7 @@ def get_reflected_base(db: SQLAlchemy) -> object:
 
 
 def cleanse_misc_json(db,
+                      base,
                       table_name: str,
                       json_column_name: str = "misc_json",
                       remove_value: str = "Please Select",
@@ -73,19 +74,16 @@ def cleanse_misc_json(db,
   Remove key/value pairs from a JSON column where the value matches `remove_value`.
 
   Args:
-      db: Flask-SQLAlchemy `db` object.
-      table_name (str): Table name as a string (e.g., "incidences").
-      json_column_name (str): JSON column on the table to clean (default = "misc_json").
-      remove_value (str): Value to remove from the JSON dict.
-      dry_run (bool): If True, makes no changes to the DB.
-
-  Raises:
-      ValueError: If the model class or column does not exist.
+      db: SQLAlchemy `db` object.
+      base: DeclarativeMeta base, e.g. `current_app.base`
+      table_name (str): Table name (e.g., 'incidences').
+      json_column_name (str): Name of the JSON column (e.g., 'misc_json').
+      remove_value (str): Any value that, when matched, causes deletion of the key.
+      dry_run (bool): If True, rolls back after showing intended changes.
   """
-  # 👇 Use your helper here
   from arb.utils.sql_alchemy import get_class_from_table_name
 
-  model_cls = get_class_from_table_name(db.Model, table_name)
+  model_cls = get_class_from_table_name(base, table_name)
   if model_cls is None:
     raise ValueError(f"Table '{table_name}' not found or not mapped.")
 
@@ -105,16 +103,17 @@ def cleanse_misc_json(db,
       filtered = {k: v for k, v in json_data.items() if v != remove_value}
       if filtered != json_data:
         setattr(row, json_column_name, filtered)
+        from sqlalchemy.orm.attributes import flag_modified
         flag_modified(row, json_column_name)
         count_modified += 1
 
     if dry_run:
-      print(f"[Dry Run] {count_modified} of {count_total} rows would be modified.")
+      logger.info(f"[Dry Run] {count_modified} of {count_total} rows would be modified.")
       db.session.rollback()
     else:
       db.session.commit()
-      print(f"[Committed] {count_modified} of {count_total} rows modified.")
+      logger.info(f"[Committed] {count_modified} of {count_total} rows modified.")
 
-  except SQLAlchemyError as e:
+  except Exception as e:
     db.session.rollback()
-    raise RuntimeError(f"Database error during cleanse: {e}")
+    raise RuntimeError(f"Error during cleansing: {e}")
