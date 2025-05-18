@@ -24,7 +24,7 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 # -----------------------------------------------------------------------------
 # UI Constants
 # -----------------------------------------------------------------------------
-PLEASE_SELECT = 'Please Select'
+PLEASE_SELECT = "Please Select"
 
 # -----------------------------------------------------------------------------
 # Geographic Boundaries (California-specific)

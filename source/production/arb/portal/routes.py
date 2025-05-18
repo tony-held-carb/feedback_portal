@@ -500,7 +500,7 @@ def incidence_prep(model_row,
     if crud_type == 'update':
       validate_no_csrf(wtf_form, extra_validators=None)
 
-  # todo - trying to make sure invalid drop-downs become 'Please Select'
+  # todo - trying to make sure invalid drop-downs become "Please Select"
   #        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)
 
   # Set all select elements that are a default value (None) to "Please Select" value

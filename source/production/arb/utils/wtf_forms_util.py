@@ -18,7 +18,7 @@ from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
-from arb.portal.constants import PLEASE_SELECT
+from arb.utils.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,

@@ -412,6 +412,6 @@ def get_excel_dropdown_data():
     },
   }
 
-  # Note, the drop_downs get 'Please Select' prepended, but the drop_down_contingent content is not modified
+  # Note, the drop_downs get "Please Select" prepended, but the drop_down_contingent content is not modified
   drop_downs = update_selector_dict(drop_downs)
   return drop_downs, drop_downs_contingent

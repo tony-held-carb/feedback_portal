@@ -54,7 +54,7 @@ class Globals:
     Example:
         >>> Globals.load_drop_downs(app, db)
         >>> print(Globals.drop_downs["ogi_performed"])
-        ['Please Select', 'Yes', 'No']
+        ["Please Select", 'Yes', 'No']
 
     Notes:
         - This function imports a dynamic dropdown generator from `db_hardcoded`.
