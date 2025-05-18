@@ -2,21 +2,18 @@
 
 # todo - Next Steps
 ----------------------------
-* update all "Please Select" and 'Please Select' in code base to constants
 
 * check that the app/database is working using testing_protocol_and_notes.txt
 
+  * about to add json updating capacity to the portal
+
   * update release notes and wsgi for uniform guidance on flask runs
 
-  * on live run with Dan, the selectors are saving "Please Select" to the database,
-    it should actually be None.  Maybe change the initialization so that the html
-    'selected' option is set (not actually setting to please select).
-
-  * looks like xl_create now logs to arb_portal.log
+  * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
   * if a incidence passes validation, have it splash a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value
-    * don't allow it to be changed after it has been created
+    * don't allow id_incidence to be changed after it has been created
     * maybe block the creation of new incidence from portal
 
   * implement recs from gpt to make the site more robust
