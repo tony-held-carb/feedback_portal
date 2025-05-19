@@ -4,6 +4,12 @@
 ----------------------------
 
 * adding json updating capacity to the portal
+  * check and flag with a todo any functions that change misc_json
+  * put at top of function def after comment, if the code block
+    has misc_json on the left side other than ensuring not empty
+     # directly updates misc_json (other than ensuring not empty)
+
+
 
 * check that the app/database is working using testing_protocol_and_notes.txt
 

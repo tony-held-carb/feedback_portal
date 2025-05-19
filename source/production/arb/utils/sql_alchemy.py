@@ -341,7 +341,7 @@ def add_commit_and_log_model(db,
       comment (str): Optional log comment.
       model_before (dict | None): Optional snapshot before changes.
   """
-  # todo - may want to check if this needs to be updated to new payload/db update system
+  # todo - Check if this needs to be updated to new payload/db update system
   if model_before:
     logger.info(f"Before commit {comment=}: {model_before}")
 

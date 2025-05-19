@@ -375,6 +375,8 @@ def modify_json_content():
     - ORM can get confused if you modify the json leading to it not being persisted properly:
       https://bashelton.com/2014/03/updating-postgresql-json-fields-via-sqlalchemy/
   """
+  # directly updates misc_json (other than ensuring not empty)
+
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
 
   id_incidence = 5  # hard coded incidence to modify
