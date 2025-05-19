@@ -11,6 +11,8 @@
      * complete, did not find any other functions that need to be modified
   * looking for any code that calls commit to see if should be flagged for new logging
       # todo (update) - use the payload routine apply_json_patch_and_log
+  * still need to implement the new changelog table to the database
+
 
 
 
