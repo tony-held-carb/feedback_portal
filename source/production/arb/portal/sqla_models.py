@@ -105,25 +105,38 @@ class UploadedFile(db.Model):
     )
 
 
+
 class PortalUpdate(db.Model):
-  """
-  Tracks individual updates to the misc_json column of the incidences table.
-  """
-  __tablename__ = "portal_updates"
+    """
+    Tracks individual updates to the misc_json column of the incidences table.
 
-  id = Column(Integer, primary_key=True)
-  timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
-  key = Column(String(255), nullable=False)
-  old_value = Column(Text, nullable=True)
-  new_value = Column(Text, nullable=False)
-  user = Column(String(255), nullable=False, default="anonymous")
-  comments = Column(Text, nullable=False, default="")
+    Columns:
+        id (int): Primary key.
+        timestamp (datetime): When the update was made (auto-generated).
+        key (str): The misc_json field that was changed.
+        old_value (str): The prior value before the update (nullable).
+        new_value (str): The new value after the update.
+        user (str): The user who made the change (or 'anonymous').
+        comments (str): Optional notes or metadata.
+        foreign_id (int): Reference to id_incidence (or similar), nullable.
+    """
+    __tablename__ = "portal_updates"
 
-  def __repr__(self):
-    return (
-      f"<PortalUpdate id={self.id} key={self.key!r} old_value={self.old_value!r} "
-      f"new_value={self.new_value!r} user={self.user!r} timestamp={self.timestamp}>"
-    )
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+    key = Column(String(255), nullable=False)
+    old_value = Column(Text, nullable=True)
+    new_value = Column(Text, nullable=False)
+    user = Column(String(255), nullable=False, default="anonymous")
+    comments = Column(Text, nullable=False, default="")
+    foreign_id = Column(Integer, nullable=True)
+
+    def __repr__(self):
+        return (
+            f"<PortalUpdate id={self.id} key={self.key!r} old={self.old_value!r} "
+            f"new={self.new_value!r} user={self.user!r} at={self.timestamp}>"
+        )
 
 
 def run_diagnostics() -> None:
