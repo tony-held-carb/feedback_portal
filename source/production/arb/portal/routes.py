@@ -101,6 +101,9 @@ def og_incidence_create():
 
   data_dict = arb.portal.db_hardcoded.get_og_dummy_data()
 
+  # todo - currently the please select from the dummy data is going to the database
+  # lots of ways to avoid this, first step is to update the dummy data so it does not have please select
+
   id_ = dict_to_database(db,
                          base,
                          data_dict,
