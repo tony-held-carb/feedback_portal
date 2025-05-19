@@ -35,7 +35,8 @@ def apply_json_patch_and_log(model,
         old_value=str(old_value) if old_value is not None else None,
         new_value=str(new_value),
         user=user,
-        comments=comments or ""
+        comments=comments or "",
+        id_incidence=model.id_incidence,
       )
       db.session.add(log_entry)
 

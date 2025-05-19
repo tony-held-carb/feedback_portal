@@ -118,7 +118,7 @@ class PortalUpdate(db.Model):
         new_value (str): The new value after the update.
         user (str): The user who made the change (or 'anonymous').
         comments (str): Optional notes or metadata.
-        foreign_id (int): Reference to id_incidence (or similar), nullable.
+        id_incidence (int): Reference to id_incidence (or similar foreign key), nullable.
     """
     __tablename__ = "portal_updates"
 
@@ -130,7 +130,7 @@ class PortalUpdate(db.Model):
     new_value = Column(Text, nullable=False)
     user = Column(String(255), nullable=False, default="anonymous")
     comments = Column(Text, nullable=False, default="")
-    foreign_id = Column(Integer, nullable=True)
+    id_incidence = Column(Integer, nullable=True)
 
     def __repr__(self):
         return (
