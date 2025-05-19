@@ -543,6 +543,7 @@ def update_model_with_payload(model, payload: dict, json_field: str = "misc_json
 
     model_json_dict[key] = value
 
+  # todo - use apply_json_patch_and_log
   setattr(model, json_field, model_json_dict)
   flag_modified(model, json_field)
 

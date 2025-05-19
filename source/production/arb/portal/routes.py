@@ -392,6 +392,8 @@ def modify_json_content():
   time_stamp = datetime.now(ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
   json_content['time_stamp'] = time_stamp
 
+  # todo - update to new logging approach so changes are made to update table
+  #        not sure this route is in use
   model.misc_json = json_content
   flag_modified(model, "misc_json")
   # model.misc_json['temp'] = 123456
