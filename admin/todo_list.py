@@ -8,6 +8,9 @@
   * put at top of function def after comment, if the code block
     has misc_json on the left side other than ensuring not empty
      # directly updates misc_json (other than ensuring not empty)
+     * complete, did not find any other functions that need to be modified
+  * looking for any code that calls commit to see if should be flagged for new logging
+      # todo (update) - use the payload routine apply_json_patch_and_log
 
 
 

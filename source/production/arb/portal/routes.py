@@ -375,8 +375,6 @@ def modify_json_content():
     - ORM can get confused if you modify the json leading to it not being persisted properly:
       https://bashelton.com/2014/03/updating-postgresql-json-fields-via-sqlalchemy/
   """
-  # directly updates misc_json (other than ensuring not empty)
-
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
 
   id_incidence = 5  # hard coded incidence to modify
@@ -394,7 +392,7 @@ def modify_json_content():
   time_stamp = datetime.now(ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
   json_content['time_stamp'] = time_stamp
 
-  # todo - update to new logging approach so changes are made to update table
+  # todo (update) - use the payload routine apply_json_patch_and_log
   #        not sure this route is in use
   model.misc_json = json_content
   flag_modified(model, "misc_json")

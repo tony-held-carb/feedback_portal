@@ -90,7 +90,6 @@ def resolve_sector_type(row, misc_json):
   Returns:
       tuple[str, str]: (sector, sector_type)
   """
-  # directly updates misc_json (other than ensuring not empty)
   logger.debug(f"resolve_sector_type() called with {row=}, {misc_json=}")
   sector = misc_json["sector"]
   sector_type = get_sector_type(sector)
@@ -120,7 +119,6 @@ def resolve_sector(sector_by_foreign_key, row, misc_json):
   Returns:
       str: Final sector value.
   """
-  # directly updates misc_json (other than ensuring not empty)
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
   default_sector = "Oil & Gas"
 
@@ -254,7 +252,6 @@ def dict_to_database(db, base, data_dict, table_name="incidences", json_field="m
   - If data_dict has an id_incidence not in the DB, a new row with that ID is created.
   - If no id_incidence is given, a new row is created and id assigned.
   """
-  # directly updates misc_json (other than ensuring not empty)
   from arb.utils.wtf_forms_util import update_model_with_payload
 
   table = get_class_from_table_name(base, table_name)
@@ -280,8 +277,8 @@ def dict_to_database(db, base, data_dict, table_name="incidences", json_field="m
     model = table(id_incidence=None)
     new_row = True
 
-  # todo (consider) - use the payload routine apply_json_patch_and_log
-  #                 - may have synch issues with json id and row id
+  # todo (update) - use the payload routine apply_json_patch_and_log
+  #               - may have synch issues with json id and row id
   update_model_with_payload(model, data_dict, json_field)
   session.add(model)
   session.commit()
