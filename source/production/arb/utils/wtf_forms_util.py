@@ -7,9 +7,6 @@ Notes:
 
 """
 
-import copy
-import datetime
-import decimal
 import json
 
 from flask_wtf import FlaskForm
@@ -515,31 +512,48 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   return payload_all, payload_changes
 
 
-def prep_payload_for_json(payload: dict) -> dict:
+import copy
+import datetime
+import decimal
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def prep_payload_for_json(payload: dict,
+                          type_matching_dict: dict = None) -> dict:
   """
   Prepare a payload dictionary for JSON serialization.
 
-  Ensures values are transformed to be JSON-safe:
+  Ensures:
     - `datetime` → ISO8601 UTC string
     - `decimal.Decimal` → float
-    - `id_incidence` → int (if not None)
+    - Values in `type_matching_dict` are explicitly cast to the specified types
 
   Args:
       payload (dict): Dictionary of key/value updates for the model.
+      type_matching_dict (dict): Optional mapping of key names to expected types,
+                                 e.g., {"id_incidence": int, "some_flag": bool}.
 
   Returns:
       dict: A transformed copy of the payload suitable for JSON serialization.
   """
+  type_matching_dict = type_matching_dict or {"id_incidence": int}
   new_payload = {}
 
   for key, value in payload.items():
+    # Standard conversions
     if isinstance(value, datetime.datetime):
       value = ca_naive_to_utc_datetime(value).isoformat()
     elif isinstance(value, decimal.Decimal):
       value = float(value)
 
-    if key == "id_incidence" and value is not None:
-      value = int(value)
+    # Apply type matching overrides
+    if key in type_matching_dict and value is not None:
+      try:
+        value = type_matching_dict[key](value)
+      except (ValueError, TypeError) as e:
+        logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
 
     new_payload[key] = value
 
@@ -562,20 +576,19 @@ def update_model_with_payload(model,
   Notes:
       - Calls `prep_payload_for_json` to ensure data integrity.
       - Uses `apply_json_patch_and_log` to track and log changes.
-      - User is currently hardcoded as "anonymous".
+      - Deep-copies the existing JSON field to avoid side effects.
   """
   logger.debug(f"update_model_with_payload: {model=}, {payload=}")
 
-  model_json_dict = copy.deepcopy(getattr(model, json_field) or {})
+  model_json = copy.deepcopy(getattr(model, json_field) or {})
   new_payload = prep_payload_for_json(payload)
-
-  model_json_dict.update(new_payload)
+  model_json.update(new_payload)
 
   # TODO: Integrate real user once authentication is added
   apply_json_patch_and_log(
     model,
     json_field=json_field,
-    updates=model_json_dict,
+    updates=model_json,
     user="anonymous",
     comments=comment,
   )
