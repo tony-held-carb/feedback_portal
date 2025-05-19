@@ -7,12 +7,12 @@ Notes:
 
 """
 
+import copy
 import datetime
 import decimal
 import json
 
 from flask_wtf import FlaskForm
-from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
@@ -515,26 +515,22 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   return payload_all, payload_changes
 
 
-def update_model_with_payload(model,
-                              payload: dict,
-                              json_field: str = "misc_json",
-                              comment: str = "") -> None:
+def prep_payload_for_json(payload: dict) -> dict:
   """
-  Apply a payload (dict) to a model's JSON column and mark it as changed.
+  Prepare a payload dictionary for JSON serialization.
+
+  Ensures values are transformed to be JSON-safe:
+    - `datetime` → ISO8601 UTC string
+    - `decimal.Decimal` → float
+    - `id_incidence` → int (if not None)
 
   Args:
-      model: SQLAlchemy model instance.
-      payload (dict): Dictionary of key/value updates.
-      json_field (str): Name of the JSON column on the model.
-      comment (str): Comment to include with update table commit
+      payload (dict): Dictionary of key/value updates for the model.
 
-  Notes:
-      - Automatically converts datetime to ISO8601 UTC strings.
-      - Casts Decimal to float to preserve JSON serialization compatibility.
+  Returns:
+      dict: A transformed copy of the payload suitable for JSON serialization.
   """
-  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
-
-  model_json_dict = getattr(model, json_field) or {}
+  new_payload = {}
 
   for key, value in payload.items():
     if isinstance(value, datetime.datetime):
@@ -544,20 +540,45 @@ def update_model_with_payload(model,
 
     if key == "id_incidence" and value is not None:
       value = int(value)
-    elif key in ["lat_arb", "long_arb"] and value is not None:
-      value = float(value)
 
-    model_json_dict[key] = value
+    new_payload[key] = value
 
-  # todo - use apply_json_patch_and_log
-  apply_json_patch_and_log(model,
-                           json_field=json_field,
-                           updates=model_json_dict,
-                           user="anonymous",
-                           comments=comment)
+  return new_payload
 
-  # setattr(model, json_field, model_json_dict)
-  # flag_modified(model, json_field)
+
+def update_model_with_payload(model,
+                              payload: dict,
+                              json_field: str = "misc_json",
+                              comment: str = "") -> None:
+  """
+  Apply a JSON-safe payload to a model's JSON column and mark it as changed.
+
+  Args:
+      model: SQLAlchemy model instance to update.
+      payload (dict): Dictionary of updates to apply.
+      json_field (str): Name of the model's JSON column (default is "misc_json").
+      comment (str): Optional comment to include with update logging.
+
+  Notes:
+      - Calls `prep_payload_for_json` to ensure data integrity.
+      - Uses `apply_json_patch_and_log` to track and log changes.
+      - User is currently hardcoded as "anonymous".
+  """
+  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+
+  model_json_dict = copy.deepcopy(getattr(model, json_field) or {})
+  new_payload = prep_payload_for_json(payload)
+
+  model_json_dict.update(new_payload)
+
+  # TODO: Integrate real user once authentication is added
+  apply_json_patch_and_log(
+    model,
+    json_field=json_field,
+    updates=model_json_dict,
+    user="anonymous",
+    comments=comment,
+  )
 
   logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
 
@@ -608,6 +629,7 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
     if isinstance(field, SelectField) and field.data is None:
       logger.debug(f"{field.name} set to default value: {default}")
       field.data = default
+
 
 def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
   """

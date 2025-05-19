@@ -614,9 +614,6 @@ def incidence_prep(model_row,
   if default_dropdown is None:
     default_dropdown = PLEASE_SELECT
 
-  if default_dropdown is None:
-    default_dropdown = PLEASE_SELECT
-
   if sector_type == "Oil & Gas":
     logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
     wtf_form = OGFeedback()

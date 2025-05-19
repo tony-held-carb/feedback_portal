@@ -1,7 +1,7 @@
 """
 Utility to apply updates to a model's JSON field and log each change to the portal_updates table.
 """
-
+import datetime
 from datetime import datetime
 
 from sqlalchemy.orm.attributes import flag_modified
@@ -31,7 +31,7 @@ def apply_json_patch_and_log(model,
     old_value = json_data.get(key)
     if old_value != new_value:
       log_entry = PortalUpdate(
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(datetime.UTC),
         key=key,
         old_value=str(old_value) if old_value is not None else None,
         new_value=str(new_value),

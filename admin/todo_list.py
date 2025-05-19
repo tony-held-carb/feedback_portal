@@ -7,6 +7,8 @@ check out: wtf_forms_util.py has a routine get_payloads that filters out PLEASE_
   I think if you create a form from the new oil and gas or landfill it still entrains
   the please select values ... need to filter these out.
 
+* hmm, may want to rethink how please selects are handled in general?
+
 
   for field, attr_value in payload.items():
       # Skip placeholder only for SelectField or compatible types

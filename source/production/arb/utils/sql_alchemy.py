@@ -318,7 +318,7 @@ def delete_commit_and_log_model(db, model_row, comment: str = "") -> None:
       model_row: ORM model instance.
       comment (str): Optional log comment.
   """
-  # todo (update) - use the payload routine apply_json_patch_and_log
+  # todo (update) - use the payload routine apply_json_patch_and_log and or some way to track change
   logger.info(f"Deleting model {comment=}: {sa_model_to_dict(model_row)}")
 
   try:

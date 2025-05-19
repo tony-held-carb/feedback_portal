@@ -1,0 +1,114 @@
+My current update_model_with_payload is as follows:
+
+def update_model_with_payload(model,
+                              payload: dict,
+                              json_field: str = "misc_json",
+                              comment: str = "") -> None:
+  """
+  Apply a payload (dict) to a model's JSON column and mark it as changed.
+
+  Args:
+      model: SQLAlchemy model instance.
+      payload (dict): Dictionary of key/value updates.
+      json_field (str): Name of the JSON column on the model.
+      comment (str): Comment to include with update table commit
+
+  Notes:
+      - Automatically converts datetime to ISO8601 UTC strings.
+      - Casts Decimal to float to preserve JSON serialization compatibility.
+  """
+  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+
+  model_json_dict = getattr(model, json_field) or {}
+
+  for key, value in payload.items():
+    if isinstance(value, datetime.datetime):
+      value = ca_naive_to_utc_datetime(value).isoformat()
+    elif isinstance(value, decimal.Decimal):
+      value = float(value)
+
+    if key == "id_incidence" and value is not None:
+      value = int(value)
+
+    model_json_dict[key] = value
+
+  # todo - use apply_json_patch_and_log
+  apply_json_patch_and_log(model,
+                           json_field=json_field,
+                           updates=model_json_dict,
+                           user="anonymous",
+                           comments=comment)
+
+  # setattr(model, json_field, model_json_dict)
+  # flag_modified(model, json_field)
+
+  logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
+
+I am considering revising it to the following. Please refactor and provide analysis?
+
+
+
+def prep_payload_for_json(payload):
+  """
+  Prep payload for JSON serialization.
+  Ensures the following:
+    - datetime values are converted to ISO8601 UTC strings.
+    - decimal.Decimal is converted to floats
+    - id_incidence is converted to int
+
+  Args:
+    payload (dict): Dictionary of key/value updates for the model
+
+  Returns (dict): JSON safe dictionary of key/value updates for the model
+
+  """
+  new_payload = {}
+
+  for key, value in payload.items():
+    if isinstance(value, datetime.datetime):
+      value = ca_naive_to_utc_datetime(value).isoformat()
+    elif isinstance(value, decimal.Decimal):
+      value = float(value)
+
+    if key == "id_incidence" and value is not None:
+      value = int(value)
+
+    new_payload[key] = value
+  return new_payload
+
+
+def update_model_with_payload(model,
+                              payload: dict,
+                              json_field: str = "misc_json",
+                              comment: str = "") -> None:
+  """
+  Apply a payload (dict) to a model's JSON column and mark it as changed.
+
+  Args:
+      model: SQLAlchemy model instance.
+      payload (dict): Dictionary of key/value updates.
+      json_field (str): Name of the JSON column on the model.
+      comment (str): Comment to include with update table commit
+
+  Notes:
+      - Automatically converts datetime to ISO8601 UTC strings.
+      - Casts Decimal to float to preserve JSON serialization compatibility.
+  """
+  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+
+  model_json_dict = getattr(model, json_field) or {}
+
+  new_payload = prep_payload_for_json(payload)
+  model_json_dict.update(new_payload)
+
+  # todo - use apply_json_patch_and_log
+  apply_json_patch_and_log(model,
+                           json_field=json_field,
+                           updates=model_json_dict,
+                           user="anonymous",
+                           comments=comment)
+
+  # setattr(model, json_field, model_json_dict)
+  # flag_modified(model, json_field)
+
+  logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")

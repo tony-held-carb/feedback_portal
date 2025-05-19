@@ -277,6 +277,8 @@ def dict_to_database(db, base, data_dict, table_name="incidences", json_field="m
     model = table(id_incidence=None)
     new_row = True
 
+  # todo (consider) - filter out "Please Select"
+
   # todo (update) - use the payload routine apply_json_patch_and_log
   #               - may have synch issues with json id and row id
   update_model_with_payload(model, data_dict, json_field)
