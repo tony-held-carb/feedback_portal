@@ -2,6 +2,17 @@
 
 # todo - Next Steps
 ----------------------------
+* looks like please select is still persisting in the changes ...
+check out: wtf_forms_util.py has a routine get_payloads that filters out PLEASE_SELECT,
+  I think if you create a form from the new oil and gas or landfill it still entrains
+  the please select values ... need to filter these out.
+
+
+  for field, attr_value in payload.items():
+      # Skip placeholder only for SelectField or compatible types
+    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
+      continue
+
 
 * adding json updating capacity to the portal
   * check and flag with a todo any functions that change misc_json
