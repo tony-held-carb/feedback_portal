@@ -329,6 +329,8 @@ def dict_to_database(db,
   # todo (update) - use the payload routine apply_json_patch_and_log
   #               - may have synch issues with json id and row id
 
+  # todo - check to see if this works if there is no id (need to change dummy data)
+
   update_model_with_payload(model, data_dict, json_field=json_field)
 
   session = db.session
