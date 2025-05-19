@@ -22,6 +22,7 @@ from arb.utils.sql_alchemy import (
   sa_model_to_dict,
 )
 from arb.utils.web_html import upload_single_file
+from arb.portal.json_update_util import apply_json_patch_and_log
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
