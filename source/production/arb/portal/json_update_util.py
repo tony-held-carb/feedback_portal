@@ -10,7 +10,11 @@ from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
 
 
-def apply_json_patch_and_log(model, updates: dict, json_field: str = "misc_json", user: str = "anonymous", comments: str = "") -> None:
+def apply_json_patch_and_log(model,
+                             updates: dict,
+                             json_field: str = "misc_json",
+                             user: str = "anonymous",
+                             comments: str = "") -> None:
   """
   Applies updates to a model's JSON field and logs each key/value change in the portal_updates table.
 

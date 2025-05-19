@@ -18,6 +18,7 @@ from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
+from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
@@ -514,7 +515,10 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   return payload_all, payload_changes
 
 
-def update_model_with_payload(model, payload: dict, json_field: str = "misc_json") -> None:
+def update_model_with_payload(model,
+                              payload: dict,
+                              json_field: str = "misc_json",
+                              comment: str = "") -> None:
   """
   Apply a payload (dict) to a model's JSON column and mark it as changed.
 
@@ -522,12 +526,14 @@ def update_model_with_payload(model, payload: dict, json_field: str = "misc_json
       model: SQLAlchemy model instance.
       payload (dict): Dictionary of key/value updates.
       json_field (str): Name of the JSON column on the model.
+      comment (str): Comment to include with update table commit
 
   Notes:
       - Automatically converts datetime to ISO8601 UTC strings.
       - Casts Decimal to float to preserve JSON serialization compatibility.
   """
   logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+
   model_json_dict = getattr(model, json_field) or {}
 
   for key, value in payload.items():
@@ -544,8 +550,14 @@ def update_model_with_payload(model, payload: dict, json_field: str = "misc_json
     model_json_dict[key] = value
 
   # todo - use apply_json_patch_and_log
-  setattr(model, json_field, model_json_dict)
-  flag_modified(model, json_field)
+  apply_json_patch_and_log(model,
+                           json_field=json_field,
+                           updates=model_json_dict,
+                           user="anonymous",
+                           comments=comment)
+
+  # setattr(model, json_field, model_json_dict)
+  # flag_modified(model, json_field)
 
   logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
 

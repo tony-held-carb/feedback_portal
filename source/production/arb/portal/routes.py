@@ -309,6 +309,9 @@ def upload_file(message=None):
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
       if request_file:
+        # todo - little confusing how the update logic works cascading from xl to json, etc
+        #        consider making the steps and function names a little clearer to help the
+        #        update to change logging
         file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
         logger.debug(f"{sector=}")
 
