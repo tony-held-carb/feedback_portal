@@ -18,6 +18,7 @@ from pathlib import Path
 import openpyxl
 
 from arb.__get_logger import get_logger
+from arb.portal.constants import PLEASE_SELECT
 from arb.utils.date_and_time import parse_unknown_datetime
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 from arb.utils.excel.xl_file_structure import PROJECT_ROOT, FEEDBACK_FORMS, CURRENT_VERSIONS, PROCESSED_VERSIONS
@@ -195,7 +196,7 @@ def extract_tabs(wb, schema_map, xl_as_dict):
     xl_as_dict (dict): dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
                 parse the tab
   """
-  # todo - this had to be updated because drop-downs are no longer foreign keys, test that it still works
+  # todo - Filter Out "Please Select" from drop downs
   # todo - payloads may be expressing as datetime objects rather than utc strings, which may lead to inconsistencies
 
   result = copy.deepcopy(xl_as_dict)
@@ -210,7 +211,11 @@ def extract_tabs(wb, schema_map, xl_as_dict):
     for html_field_name, lookup in format_dict.items():
       value_address = lookup['value_address']
       value_type = lookup['value_type']
+      is_drop_down = lookup['is_drop_down']
       value = ws[value_address].value
+
+      if is_drop_down and value==PLEASE_SELECT:
+        logger.debug(f"Skipping {html_field_name} because it is a drop down and is set to {PLEASE_SELECT}")
 
       # Try to cast the spreadsheet data to the desired type if possible
       if value is not None:

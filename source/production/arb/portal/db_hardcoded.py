@@ -176,7 +176,7 @@ def get_landfill_dummy_data():
     "mitigation_actions": "mitigation_actions",
     "mitigation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "observation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
-    "planned_for_next_lmr": PLEASE_SELECT,
+    # "planned_for_next_lmr": PLEASE_SELECT,
     "planned_for_next_lmr_description": "planned_for_next_lmr_description",
     "re_monitored_concentration": 1002.5,
     "re_monitored_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
