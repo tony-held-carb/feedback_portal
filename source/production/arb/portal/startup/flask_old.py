@@ -65,8 +65,4 @@ def configure_flask_app(app: Flask) -> None:
   app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
   app.jinja_env.filters['args_to_string'] = args_to_string
 
-  # Jinja: expose Python ZoneInfo class to templates for local time conversion
-  from zoneinfo import ZoneInfo
-  app.jinja_env.globals["zoneinfo"] = ZoneInfo
-
   logger.debug("Flask Jinja2 globals and logging initialized.")

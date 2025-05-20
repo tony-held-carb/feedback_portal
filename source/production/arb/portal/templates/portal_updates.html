@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Portal Updates{% endblock %}
+{#{% block title %}Portal Updates{% endblock %}#}
 
 {% block header_css_and_js %}
   <!-- jQuery -->
@@ -17,52 +17,64 @@
 {% endblock %}
 
 {% block content_1 %}
-<div class="container mt-4">
-  <h2>Portal Updates Log</h2>
+  <div class="container-fluid post-nav-padding mb-2">
+    <h2 class="">{% block title %}Feedback Portal Updates{% endblock %}</h2>
+    <hr class="mt-1 mb-3"/>
+    <p class="text-muted">
+      This page displays a record of all changes made through the portal. Use the filters below to search by
+      field name, user, comments, time period, or specific ID ranges. You may combine filters as needed.
+    </p>
+    <div class="alert alert-info small">
+      <strong>Filter Tips:</strong> The <code>Incidence ID</code> field supports:
+      exact IDs (<code>123</code>), ranges (<code>100-200</code>), and unbounded ranges (<code>300-</code> or
+      <code>-250</code>).
+      Separate multiple entries with commas: <code>123,150-200,300-</code>.
+    </div>
 
-  <form method="get" class="mb-3">
-    <div class="row gx-2 gy-2 align-items-center">
-      <div class="col-md-auto">
-        <input type="text" name="filter_key" value="{{ filter_key }}" class="form-control" placeholder="Field key">
-      </div>
-      <div class="col-md-auto">
-        <input type="text" name="filter_user" value="{{ filter_user }}" class="form-control" placeholder="User">
-      </div>
-      <div class="col-md-auto">
-        <input type="text" name="filter_comments" value="{{ filter_comments }}" class="form-control" placeholder="Comment">
-      </div>
-      <div class="col-md-auto">
-        <input type="text" name="filter_id_incidence" value="{{ filter_id_incidence }}" class="form-control"
-       placeholder="e.g. -5, 50, 60-70, 100-">
-
-{#        <input type="text" name="filter_id_incidence" value="{{ filter_id_incidence }}" class="form-control" placeholder="Incidence ID">#}
-      </div>
-      <div class="col-md-auto">
-        <input type="text" name="start_date" id="start_date" value="{{ start_date }}" class="form-control" placeholder="Start date">
-      </div>
-      <div class="col-md-auto">
-        <input type="text" name="end_date" id="end_date" value="{{ end_date }}" class="form-control" placeholder="End date">
-      </div>
-      <div class="col-md-auto">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-      </div>
-      <div class="col-md-auto">
-        <a href="{{ url_for('main.export_portal_updates',
+    <form method="get" class="mb-3">
+      <div class="row gx-2 gy-2 align-items-center">
+        <div class="col-md-auto">
+          <input type="text" name="filter_key" value="{{ filter_key }}" class="form-control" placeholder="Field key">
+        </div>
+        <div class="col-md-auto">
+          <input type="text" name="filter_user" value="{{ filter_user }}" class="form-control" placeholder="User">
+        </div>
+        <div class="col-md-auto">
+          <input type="text" name="filter_comments" value="{{ filter_comments }}" class="form-control"
+                 placeholder="Comment">
+        </div>
+        <div class="col-md-auto">
+          <input type="text" name="filter_id_incidence" value="{{ filter_id_incidence }}" class="form-control"
+                 placeholder="Incidence ID">
+        </div>
+        <div class="col-md-auto">
+          <input type="text" name="start_date" id="start_date" value="{{ start_date }}" class="form-control"
+                 placeholder="Start date">
+        </div>
+        <div class="col-md-auto">
+          <input type="text" name="end_date" id="end_date" value="{{ end_date }}" class="form-control"
+                 placeholder="End date">
+        </div>
+        <div class="col-md-auto">
+          <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </div>
+        <div class="col-md-auto">
+          <a href="{{ url_for('main.export_portal_updates',
                             filter_key=filter_key,
                             filter_user=filter_user,
                             filter_comments=filter_comments,
                             filter_id_incidence=filter_id_incidence,
                             start_date=start_date,
                             end_date=end_date) }}"
-           class="btn btn-outline-secondary">
-          Download CSV
-        </a>
+             class="btn btn-outline-secondary">
+            Download CSV
+          </a>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
 
-  <table id="updatesTable" class="table table-bordered table-striped table-sm">
-    <thead>
+    <table id="updatesTable" class="table table-bordered table-striped table-sm">
+      <thead>
       <tr>
         <th>Timestamp</th>
         <th>Key</th>
@@ -72,8 +84,8 @@
         <th>Comments</th>
         <th>Incidence ID</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       {% for update in updates %}
         <tr>
           <td>{{ update.timestamp }}</td>
@@ -85,20 +97,20 @@
           <td>{{ update.id_incidence or "" }}</td>
         </tr>
       {% endfor %}
-    </tbody>
-  </table>
-</div>
+      </tbody>
+    </table>
+  </div>
 
-<script>
-  $(document).ready(function () {
-    $('#updatesTable').DataTable({
-      pageLength: 100,
-      lengthMenu: [50, 100, 200, 500],
-      order: [[0, 'desc']]
-    });
+  <script>
+      $(document).ready(function () {
+          $('#updatesTable').DataTable({
+              pageLength: 100,
+              lengthMenu: [50, 100, 200, 500],
+              order: [[0, 'desc']]
+          });
 
-    flatpickr("#start_date", { dateFormat: "Y-m-d" });
-    flatpickr("#end_date", { dateFormat: "Y-m-d" });
-  });
-</script>
+          flatpickr("#start_date", {dateFormat: "Y-m-d"});
+          flatpickr("#end_date", {dateFormat: "Y-m-d"});
+      });
+  </script>
 {% endblock %}
