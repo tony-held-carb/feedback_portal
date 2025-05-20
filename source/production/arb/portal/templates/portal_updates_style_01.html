@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{#{% block title %}Portal Updates{% endblock %}#}
+
 {% block header_css_and_js %}
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -17,76 +19,39 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+  <!-- Custom CSS to prevent wrapping in timestamp column -->
   <style>
-      body {
-          background-color: #f7f9fc;
-      }
-
-      #updatesTable thead th,
-      .fixedHeader-floating th {
-          background-color: #6c757d !important;
-          color: #ffffff !important;
-          font-weight: 700;
-          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-          vertical-align: middle;
-      }
-
-
-      #updatesTable tbody tr:nth-child(odd) {
-          background-color: #ffffff;
-      }
-
-      #updatesTable tbody tr:nth-child(even) {
-          background-color: #f4f7fb;
-      }
-
-      #updatesTable tbody tr:hover {
-          background-color: #e9f2fb;
-      }
-
       #updatesTable th:first-child,
       #updatesTable td:first-child {
           white-space: nowrap;
           min-width: 140px;
       }
-
-      /* Make the DataTable search input bigger and cleaner */
-      .dataTables_filter label {
-          font-weight: 600;
-          font-size: 1rem;
-          color: #3d7d75; /* Icy Teal */
-      }
-
-      .dataTables_filter input[type="search"] {
-          width: 300px !important;
-          padding: 6px 10px;
-          font-size: 0.95rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-      }
   </style>
-
-
 {% endblock %}
 
 {% block content_1 %}
-  <div class="container-fluid post-nav-padding mb-3">
+  <div class="container-fluid post-nav-padding mb-2">
 
-    <!-- Top Bar: Icy Teal -->
-    <div class="p-3 rounded text-white mb-3" style="background-color: #3d7d75;">
-      <h2 class="mb-0">Feedback Portal Updates</h2>
-      <small>All changes made in the portal are listed below. Times are California local.</small>
+    <!-- Banner -->
+    <div class="p-3 mb-3 bg-light border rounded shadow-sm">
+      <h2 class="mb-1">{% block title %}Feedback Portal Updates{% endblock %}</h2>
+      <p class="text-muted mb-0">
+        View and export portal activity logs. Use filters below to find specific changes.
+      </p>
     </div>
 
-    <button class="btn btn-sm btn-outline-primary mb-2" type="button" data-bs-toggle="collapse"
-            data-bs-target="#filtersCollapse" aria-expanded="false">
-      Toggle Filters
-    </button>
+    <!-- Filter Tips -->
+    <div class="alert alert-info small mb-3">
+      <strong>Filter Tips:</strong>
+      <code>Incidence ID</code> accepts: exact IDs (<code>123</code>),
+      ranges (<code>100-200</code>), and unbounded (<code>300-</code>, <code>-250</code>).
+    </div>
 
-    <div class="collapse show" id="filtersCollapse">
-      <div class="p-3 rounded mb-3" style="background-color: #edf3f9; border: 1px solid #c9d9e6;">
+    <!-- Filter Form -->
+    <div class="card mb-3">
+      <div class="card-body">
         <form method="get">
-          <div class="row gy-2 gx-2 align-items-center">
+          <div class="row gx-2 gy-2 align-items-center">
             <div class="col-md-auto"><input type="text" name="filter_key" value="{{ filter_key }}" class="form-control"
                                             placeholder="Field key"></div>
             <div class="col-md-auto"><input type="text" name="filter_user" value="{{ filter_user }}"
@@ -100,21 +65,17 @@
             <div class="col-md-auto"><input type="text" name="end_date" id="end_date" value="{{ end_date }}"
                                             class="form-control" placeholder="End date"></div>
             <div class="col-md-auto">
-              <button type="submit" class="btn btn-primary">Apply Filters</button>
+              <button type="submit" class="btn btn-primary">Apply</button>
             </div>
             <div class="col-md-auto">
               <a href="{{ url_for('main.export_portal_updates',
                       filter_key=filter_key, filter_user=filter_user,
                       filter_comments=filter_comments, filter_id_incidence=filter_id_incidence,
                       start_date=start_date, end_date=end_date) }}"
-                 class="btn btn-secondary">Download CSV</a>
+                 class="btn btn-outline-secondary">Download CSV</a>
             </div>
           </div>
         </form>
-        <small class="text-muted mt-2 d-block">
-          Tip: <code>Incidence ID</code> supports ranges like <code>100-200</code>, or unbounded <code>300-</code>, or a
-          comma separated mix <code>-5, 12-17, 28, 100-</code>.
-        </small>
       </div>
     </div>
 
@@ -122,12 +83,12 @@
       <thead>
       <tr>
         <th>Timestamp</th>
-        <th>Field Name</th>
+        <th>Key</th>
         <th>Old Value</th>
         <th>New Value</th>
         <th>User</th>
         <th>Comments</th>
-        <th>Inc. ID</th>
+        <th>Incidence ID</th>
       </tr>
       </thead>
       <tbody>

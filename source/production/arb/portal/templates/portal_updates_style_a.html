@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{#{% block title %}Portal Updates{% endblock %}#}
+
 {% block header_css_and_js %}
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -17,74 +19,33 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+  <!-- Custom CSS to prevent wrapping in timestamp column -->
   <style>
-      body {
-          background-color: #f7f9fc;
-      }
-
-      #updatesTable thead th,
-      .fixedHeader-floating th {
-          background-color: #6c757d !important;
-          color: #ffffff !important;
-          font-weight: 700;
-          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-          vertical-align: middle;
-      }
-
-
-      #updatesTable tbody tr:nth-child(odd) {
-          background-color: #ffffff;
-      }
-
-      #updatesTable tbody tr:nth-child(even) {
-          background-color: #f4f7fb;
-      }
-
-      #updatesTable tbody tr:hover {
-          background-color: #e9f2fb;
-      }
-
       #updatesTable th:first-child,
       #updatesTable td:first-child {
           white-space: nowrap;
           min-width: 140px;
       }
-
-      /* Make the DataTable search input bigger and cleaner */
-      .dataTables_filter label {
-          font-weight: 600;
-          font-size: 1rem;
-          color: #3d7d75; /* Icy Teal */
-      }
-
-      .dataTables_filter input[type="search"] {
-          width: 300px !important;
-          padding: 6px 10px;
-          font-size: 0.95rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-      }
   </style>
-
-
 {% endblock %}
+
 
 {% block content_1 %}
   <div class="container-fluid post-nav-padding mb-3">
 
-    <!-- Top Bar: Icy Teal -->
-    <div class="p-3 rounded text-white mb-3" style="background-color: #3d7d75;">
-      <h2 class="mb-0">Feedback Portal Updates</h2>
-      <small>All changes made in the portal are listed below. Times are California local.</small>
-    </div>
+    <!-- Top Bar -->
+<div class="bg-primary text-white p-3 rounded shadow-sm mb-3">
+  <h2 class="mb-0">Feedback Portal Updates</h2>
+  <small>All changes made in the portal are listed below. Times are California local.</small>
+</div>
 
     <button class="btn btn-sm btn-outline-primary mb-2" type="button" data-bs-toggle="collapse"
             data-bs-target="#filtersCollapse" aria-expanded="false">
       Toggle Filters
     </button>
 
-    <div class="collapse show" id="filtersCollapse">
-      <div class="p-3 rounded mb-3" style="background-color: #edf3f9; border: 1px solid #c9d9e6;">
+<div class="collapse show" id="filtersCollapse">
+  <div class="p-3 rounded mb-3" style="background-color: #f0f4ff; border: 1px solid #d0dff7;">
         <form method="get">
           <div class="row gy-2 gx-2 align-items-center">
             <div class="col-md-auto"><input type="text" name="filter_key" value="{{ filter_key }}" class="form-control"
@@ -107,13 +68,12 @@
                       filter_key=filter_key, filter_user=filter_user,
                       filter_comments=filter_comments, filter_id_incidence=filter_id_incidence,
                       start_date=start_date, end_date=end_date) }}"
-                 class="btn btn-secondary">Download CSV</a>
+                 class="btn btn-outline-light">Download CSV</a>
             </div>
           </div>
         </form>
         <small class="text-muted mt-2 d-block">
-          Tip: <code>Incidence ID</code> supports ranges like <code>100-200</code>, or unbounded <code>300-</code>, or a
-          comma separated mix <code>-5, 12-17, 28, 100-</code>.
+          Tip: <code>Incidence ID</code> supports ranges like <code>100-200</code>, or unbounded <code>300-</code>.
         </small>
       </div>
     </div>
@@ -122,12 +82,12 @@
       <thead>
       <tr>
         <th>Timestamp</th>
-        <th>Field Name</th>
+        <th>Key</th>
         <th>Old Value</th>
         <th>New Value</th>
         <th>User</th>
         <th>Comments</th>
-        <th>Inc. ID</th>
+        <th>Incidence ID</th>
       </tr>
       </thead>
       <tbody>
