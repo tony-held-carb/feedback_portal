@@ -1,0 +1,64 @@
+/* static/css/portal_updates.css */
+
+/* Main body background */
+body {
+    background-color: #d7dee2;
+}
+
+/* Custom background colors */
+.bg-dark-teal {
+    background-color: #3d7d75 !important;
+}
+
+/* Used in filter group */
+.bg-light-panel {
+    background-color: #f0f2f5 !important;
+}
+
+/* Custom border color */
+.border-blue-gray {
+    border: 1px solid #c9d9e6 !important;
+}
+
+
+#updatesTable thead th,
+.fixedHeader-floating th {
+    background-color: #6c757d !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    vertical-align: middle;
+}
+
+#updatesTable tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#updatesTable tbody tr:nth-child(even) {
+    background-color: #f4f7fb;
+}
+
+#updatesTable tbody tr:hover {
+    background-color: #e9f2fb;
+}
+
+#updatesTable th:first-child,
+#updatesTable td:first-child {
+    white-space: nowrap;
+    min-width: 140px;
+}
+
+/* Make the DataTable search input bigger and cleaner */
+.dataTables_filter label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #3d7d75;
+}
+
+.dataTables_filter input[type="search"] {
+    width: 300px !important;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
