@@ -26,7 +26,7 @@ from werkzeug.exceptions import abort
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.__get_logger import get_logger
-from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
+from arb.portal.app_util import apply_portal_update_filters, dict_to_database, get_sector_info, upload_and_update_db
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
@@ -454,47 +454,16 @@ def drag_and_drop_01():
 
 @main.route("/portal_updates")
 def view_portal_updates():
-  """
-  Displays a sortable, filterable, paginated view of the portal_updates audit log.
-  """
   from arb.portal.sqla_models import PortalUpdate
-  from flask import request
-  from datetime import datetime
+  from flask import request, render_template
 
   sort_by = request.args.get("sort_by", "timestamp")
   direction = request.args.get("direction", "desc")
   page = int(request.args.get("page", 1))
   per_page = int(request.args.get("per_page", 100))
 
-  filter_key = request.args.get("filter_key", "").strip()
-  filter_user = request.args.get("filter_user", "").strip()
-  filter_comments = request.args.get("filter_comments", "").strip()
-  filter_id_incidence = request.args.get("id_incidence", "").strip()
-  start_date_str = request.args.get("start_date", "").strip()
-  end_date_str = request.args.get("end_date", "").strip()
-
   query = db.session.query(PortalUpdate)
-
-  if filter_key:
-    query = query.filter(PortalUpdate.key.ilike(f"%{filter_key}%"))
-  if filter_user:
-    query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
-  if filter_comments:
-    query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
-  if filter_id_incidence.isdigit():
-    query = query.filter(PortalUpdate.id_incidence == int(filter_id_incidence))
-
-  # 🕒 Date filtering
-  try:
-    if start_date_str:
-      start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
-      query = query.filter(PortalUpdate.timestamp >= start_dt)
-    if end_date_str:
-      end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
-      end_dt = end_dt.replace(hour=23, minute=59, second=59)
-      query = query.filter(PortalUpdate.timestamp <= end_dt)
-  except ValueError:
-    pass
+  query = apply_portal_update_filters(query, PortalUpdate, request.args)
 
   updates = query.order_by(PortalUpdate.timestamp.desc()).all()
 
@@ -505,58 +474,27 @@ def view_portal_updates():
     direction=direction,
     page=page,
     per_page=per_page,
-    total_pages=1,  # not needed with client-side pagination
-    filter_key=filter_key,
-    filter_user=filter_user,
-    filter_comments=filter_comments,
-    filter_id_incidence=filter_id_incidence,
-    start_date=start_date_str,
-    end_date=end_date_str,
+    total_pages=1,
+    filter_key=request.args.get("filter_key", "").strip(),
+    filter_user=request.args.get("filter_user", "").strip(),
+    filter_comments=request.args.get("filter_comments", "").strip(),
+    filter_id_incidence=request.args.get("filter_id_incidence", "").strip(),
+    start_date=request.args.get("start_date", "").strip(),
+    end_date=request.args.get("end_date", "").strip(),
   )
 
 
 @main.route("/portal_updates/export")
 def export_portal_updates():
-  """
-  Exports filtered portal_updates log as a CSV file.
-  """
   from arb.portal.sqla_models import PortalUpdate
   from flask import request, Response
-  from datetime import datetime
-  import csv
   from io import StringIO
-
-  filter_key = request.args.get("filter_key", "").strip()
-  filter_user = request.args.get("filter_user", "").strip()
-  filter_comments = request.args.get("filter_comments", "").strip()
-  filter_id_incidence = request.args.get("filter_id_incidence", "").strip()
-  start_date_str = request.args.get("start_date", "").strip()
-  end_date_str = request.args.get("end_date", "").strip()
+  import csv
 
   query = db.session.query(PortalUpdate)
+  query = apply_portal_update_filters(query, PortalUpdate, request.args)
 
-  if filter_key:
-    query = query.filter(PortalUpdate.key.ilike(f"%{filter_key}%"))
-  if filter_user:
-    query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
-  if filter_comments:
-    query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
-  if filter_id_incidence.isdigit():
-    query = query.filter(PortalUpdate.id_incidence == int(filter_id_incidence))
-
-  try:
-    if start_date_str:
-      start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
-      query = query.filter(PortalUpdate.timestamp >= start_dt)
-    if end_date_str:
-      end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
-      end_dt = end_dt.replace(hour=23, minute=59, second=59)
-      query = query.filter(PortalUpdate.timestamp <= end_dt)
-  except ValueError:
-    pass
-
-  query = query.order_by(PortalUpdate.timestamp.desc())
-  updates = query.all()
+  updates = query.order_by(PortalUpdate.timestamp.desc()).all()
 
   si = StringIO()
   writer = csv.writer(si)

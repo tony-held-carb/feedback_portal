@@ -367,3 +367,63 @@ def add_file_to_upload_table(db, file_name, status=None, description=None):
   db.session.add(model_uploaded_file)
   db.session.commit()
   logger.debug(f"{model_uploaded_file=}")
+
+
+def apply_portal_update_filters(query, PortalUpdate, args):
+  """
+  Applies filters to a SQLAlchemy query for PortalUpdate entries.
+
+  Args:
+      query (Query): SQLAlchemy query object.
+      PortalUpdate (Base): PortalUpdate SQLAlchemy model.
+      args (dict): Dictionary of GET parameters (e.g., request.args).
+
+  Returns:
+      Query: Filtered query.
+  """
+  from datetime import datetime
+
+  filter_key = args.get("filter_key", "").strip()
+  filter_user = args.get("filter_user", "").strip()
+  filter_comments = args.get("filter_comments", "").strip()
+  filter_id_incidence = args.get("filter_id_incidence", "").strip()
+  start_date_str = args.get("start_date", "").strip()
+  end_date_str = args.get("end_date", "").strip()
+
+  if filter_key:
+    query = query.filter(PortalUpdate.key.ilike(f"%{filter_key}%"))
+  if filter_user:
+    query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
+  if filter_comments:
+    query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
+
+  if filter_id_incidence:
+    id_values = set()
+    for part in filter_id_incidence.split(","):
+      part = part.strip()
+      if not part:
+        continue
+      if "-" in part:
+        try:
+          start, end = map(int, part.split("-"))
+          if start <= end:
+            id_values.update(range(start, end + 1))
+        except ValueError:
+          continue
+      elif part.isdigit():
+        id_values.add(int(part))
+    if id_values:
+      query = query.filter(PortalUpdate.id_incidence.in_(sorted(id_values)))
+
+  try:
+    if start_date_str:
+      start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
+      query = query.filter(PortalUpdate.timestamp >= start_dt)
+    if end_date_str:
+      end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
+      end_dt = end_dt.replace(hour=23, minute=59, second=59)
+      query = query.filter(PortalUpdate.timestamp <= end_dt)
+  except ValueError:
+    pass
+
+  return query
