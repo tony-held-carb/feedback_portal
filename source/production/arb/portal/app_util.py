@@ -6,8 +6,10 @@ Notes:
       should be placed in arb.util so they can be reused in other projects.
 """
 
+from datetime import datetime
 from pathlib import Path
 
+from sqlalchemy import or_
 from sqlalchemy.orm.attributes import flag_modified
 
 from arb.__get_logger import get_logger
@@ -373,16 +375,30 @@ def apply_portal_update_filters(query, PortalUpdate, args):
   """
   Applies filters to a SQLAlchemy query for PortalUpdate entries.
 
+  This function supports filtering by:
+  - Field key (partial match)
+  - User (partial match)
+  - Comments (partial match)
+  - Timestamp range (start_date, end_date in YYYY-MM-DD format)
+  - ID incidence (exact matches, bounded ranges, unbounded ranges)
+
+  Supported ID formats (via filter_id_incidence):
+  ------------------------------------------------
+  - "123"                  → Matches ID 123 exactly
+  - "100-200"              → Matches IDs from 100 to 200 inclusive
+  - "-250"                 → Matches all IDs ≤ 250
+  - "300-"                 → Matches all IDs ≥ 300
+  - "123,150-200,250-"     → Mixed exacts and ranges
+  - "abc, 100-xyz, 222"    → Invalid parts are ignored
+
   Args:
       query (Query): SQLAlchemy query object.
-      PortalUpdate (Base): PortalUpdate SQLAlchemy model.
+      PortalUpdate (Base): PortalUpdate SQLAlchemy model class.
       args (dict): Dictionary of GET parameters (e.g., request.args).
 
   Returns:
-      Query: Filtered query.
+      Query: Filtered SQLAlchemy query.
   """
-  from datetime import datetime
-
   filter_key = args.get("filter_key", "").strip()
   filter_user = args.get("filter_user", "").strip()
   filter_comments = args.get("filter_comments", "").strip()
@@ -398,22 +414,41 @@ def apply_portal_update_filters(query, PortalUpdate, args):
     query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
 
   if filter_id_incidence:
-    id_values = set()
+    id_exact = set()
+    id_range_clauses = []
+
     for part in filter_id_incidence.split(","):
       part = part.strip()
       if not part:
         continue
       if "-" in part:
         try:
-          start, end = map(int, part.split("-"))
-          if start <= end:
-            id_values.update(range(start, end + 1))
+          start, end = part.split("-")
+          start = start.strip()
+          end = end.strip()
+          if start and end:
+            start_val = int(start)
+            end_val = int(end)
+            if start_val <= end_val:
+              id_range_clauses.append(PortalUpdate.id_incidence.between(start_val, end_val))
+          elif start:
+            start_val = int(start)
+            id_range_clauses.append(PortalUpdate.id_incidence >= start_val)
+          elif end:
+            end_val = int(end)
+            id_range_clauses.append(PortalUpdate.id_incidence <= end_val)
         except ValueError:
-          continue
+          continue  # Ignore malformed part
       elif part.isdigit():
-        id_values.add(int(part))
-    if id_values:
-      query = query.filter(PortalUpdate.id_incidence.in_(sorted(id_values)))
+        id_exact.add(int(part))
+
+    clause_list = []
+    if id_exact:
+      clause_list.append(PortalUpdate.id_incidence.in_(sorted(id_exact)))
+    clause_list.extend(id_range_clauses)
+
+    if clause_list:
+      query = query.filter(or_(*clause_list))
 
   try:
     if start_date_str:
@@ -424,6 +459,6 @@ def apply_portal_update_filters(query, PortalUpdate, args):
       end_dt = end_dt.replace(hour=23, minute=59, second=59)
       query = query.filter(PortalUpdate.timestamp <= end_dt)
   except ValueError:
-    pass
+    pass  # Silently ignore invalid date inputs
 
   return query
