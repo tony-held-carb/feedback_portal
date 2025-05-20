@@ -503,6 +503,10 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
     if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
       continue
 
+    # Skip empty strings
+    if attr_value == "":
+      continue
+
     payload_all[attr_name] = attr_value
 
     existing_value = model_json_dict.get(attr_name)
@@ -554,12 +558,6 @@ def prep_payload_for_json(payload: dict,
         value = type_matching_dict[key](value)
       except (ValueError, TypeError) as e:
         logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
-
-    # Filter out "Please Select" placeholder values
-    # Todo - if in the very unlikely event that a key is named "Please Select"
-    #        we could end up overwriting a real value. Need to think about this.
-    # if isinstance(value, str) and value == PLEASE_SELECT:
-    #   continue
 
     new_payload[key] = value
 

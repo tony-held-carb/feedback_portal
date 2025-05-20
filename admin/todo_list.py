@@ -10,10 +10,6 @@ check out: wtf_forms_util.py has a routine get_payloads that filters out PLEASE_
 * hmm, may want to rethink how please selects are handled in general?
 
 
-  for field, attr_value in payload.items():
-      # Skip placeholder only for SelectField or compatible types
-    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
-      continue
 
 
 * adding json updating capacity to the portal
