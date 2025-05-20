@@ -469,7 +469,7 @@ def view_portal_updates():
   filter_key = request.args.get("filter_key", "").strip()
   filter_user = request.args.get("filter_user", "").strip()
   filter_comments = request.args.get("filter_comments", "").strip()
-  filter_foreign_id = request.args.get("filter_foreign_id", "").strip()
+  filter_id_incidence = request.args.get("id_incidence", "").strip()
   start_date_str = request.args.get("start_date", "").strip()
   end_date_str = request.args.get("end_date", "").strip()
 
@@ -481,8 +481,8 @@ def view_portal_updates():
     query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
   if filter_comments:
     query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
-  if filter_foreign_id.isdigit():
-    query = query.filter(PortalUpdate.foreign_id == int(filter_foreign_id))
+  if filter_id_incidence.isdigit():
+    query = query.filter(PortalUpdate.id_incidence == int(filter_id_incidence))
 
   # 🕒 Date filtering
   try:
@@ -509,7 +509,7 @@ def view_portal_updates():
     filter_key=filter_key,
     filter_user=filter_user,
     filter_comments=filter_comments,
-    filter_foreign_id=filter_foreign_id,
+    filter_id_incidence=filter_id_incidence,
     start_date=start_date_str,
     end_date=end_date_str,
   )
@@ -529,7 +529,7 @@ def export_portal_updates():
   filter_key = request.args.get("filter_key", "").strip()
   filter_user = request.args.get("filter_user", "").strip()
   filter_comments = request.args.get("filter_comments", "").strip()
-  filter_foreign_id = request.args.get("filter_foreign_id", "").strip()
+  filter_id_incidence = request.args.get("filter_id_incidence", "").strip()
   start_date_str = request.args.get("start_date", "").strip()
   end_date_str = request.args.get("end_date", "").strip()
 
@@ -541,8 +541,8 @@ def export_portal_updates():
     query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
   if filter_comments:
     query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
-  if filter_foreign_id.isdigit():
-    query = query.filter(PortalUpdate.foreign_id == int(filter_foreign_id))
+  if filter_id_incidence.isdigit():
+    query = query.filter(PortalUpdate.id_incidence == int(filter_id_incidence))
 
   try:
     if start_date_str:
@@ -560,7 +560,7 @@ def export_portal_updates():
 
   si = StringIO()
   writer = csv.writer(si)
-  writer.writerow(["timestamp", "key", "old_value", "new_value", "user", "comments", "foreign_id"])
+  writer.writerow(["timestamp", "key", "old_value", "new_value", "user", "comments", "id_incidence"])
 
   for u in updates:
     writer.writerow([
@@ -570,7 +570,7 @@ def export_portal_updates():
       u.new_value,
       u.user,
       u.comments,
-      u.foreign_id or ""
+      u.id_incidence or ""
     ])
 
   return Response(

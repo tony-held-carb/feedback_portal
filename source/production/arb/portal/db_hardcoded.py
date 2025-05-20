@@ -62,7 +62,7 @@ def add_og_dummy_data(db, base, table_name) -> None:
     id_plume = i + 100
     lat_arb = i + 50.
     long_arb = i + 75.
-    observation_timestamp = datetime.datetime.now()
+    observation_timestamp = datetime.datetime.now().replace(second=0, microsecond=0)
 
     facility_name = f"facility_{i}"
     contact_name = f"contact_name_{i}"
@@ -101,22 +101,22 @@ def get_og_dummy_data():
   json_data = {
     "id_incidence": 2001,
     "id_plume": 1001,
-    "observation_timestamp": datetime.datetime.now(),
+    "observation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "lat_carb": 100.05,
     "long_carb": 100.06,
     "id_message": "id_message response",
     "facility_name": "facility_name response",
-    "id_arb_eggrt": 1001,
+    "id_arb_eggrt": "1001",
     "contact_name": "contact_name response",
     "contact_phone": f"(555) 555-5555",
     "contact_email": "my_email@email.com",
     # "venting_exclusion": PLEASE_SELECT,
     "venting_description_1": "venting_description_1 response",
     # "ogi_performed": PLEASE_SELECT,
-    "ogi_date": datetime.datetime.now(),
+    "ogi_date": datetime.datetime.now().replace(second=0, microsecond=0),
     # "ogi_result": PLEASE_SELECT,
     # "method21_performed": PLEASE_SELECT,
-    "method21_date": datetime.datetime.now(),
+    "method21_date": datetime.datetime.now().replace(second=0, microsecond=0),
     # "method21_result": PLEASE_SELECT,
     "initial_leak_concentration": 1004,
     "venting_description_2": "venting_description_2 response",
@@ -125,7 +125,7 @@ def get_og_dummy_data():
     "equipment_other_description": "equipment_other_description response",
     # "component_at_source": PLEASE_SELECT,
     "component_other_description": "component_other_description response",
-    "repair_timestamp": datetime.datetime.now(),
+    "repair_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "final_repair_concentration": 101.05,
     "repair_description": "repair_description response",
     "additional_notes": "additional_notes response",
@@ -165,21 +165,21 @@ def get_landfill_dummy_data():
     # "included_in_last_lmr": PLEASE_SELECT,
     "included_in_last_lmr_description": "included_in_last_lmr_description",
     "initial_leak_concentration": 1002.5,
-    "inspection_timestamp": datetime.datetime.now(),
+    "inspection_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "instrument": "instrument",
-    "last_component_leak_monitoring_timestamp": datetime.datetime.now(),
-    "last_surface_monitoring_timestamp": datetime.datetime.now(),
+    "last_component_leak_monitoring_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
+    "last_surface_monitoring_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "lat_carb": 102.5,
     "lat_revised": 103.5,
     "long_carb": 104.5,
     "long_revised": 105.5,
     "mitigation_actions": "mitigation_actions",
-    "mitigation_timestamp": datetime.datetime.now(),
-    "observation_timestamp": datetime.datetime.now(),
+    "mitigation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
+    "observation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "planned_for_next_lmr": PLEASE_SELECT,
     "planned_for_next_lmr_description": "planned_for_next_lmr_description",
     "re_monitored_concentration": 1002.5,
-    "re_monitored_timestamp": datetime.datetime.now(),
+    "re_monitored_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
 
     "sector": "Landfill",
     "sector_type": "Landfill",

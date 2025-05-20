@@ -555,6 +555,12 @@ def prep_payload_for_json(payload: dict,
       except (ValueError, TypeError) as e:
         logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
 
+    # Filter out "Please Select" placeholder values
+    # Todo - if in the very unlikely event that a key is named "Please Select"
+    #        we could end up overwriting a real value. Need to think about this.
+    if isinstance(value, str) and value == PLEASE_SELECT:
+      continue
+
     new_payload[key] = value
 
   return new_payload
