@@ -2,31 +2,14 @@
 
 # todo - Next Steps
 ----------------------------
-* looks like please select is still persisting in the changes ...
-check out: wtf_forms_util.py has a routine get_payloads that filters out PLEASE_SELECT,
-  I think if you create a form from the new oil and gas or landfill it still entrains
-  the please select values ... need to filter these out.
 
-* hmm, may want to rethink how please selects are handled in general?
+* 'Please Selects' should no longer persist to database, but
+  may want to rethink how please selects are handled in general?
 
-
-
-
-* adding json updating capacity to the portal
-  * check and flag with a todo any functions that change misc_json
-  * put at top of function def after comment, if the code block
-    has misc_json on the left side other than ensuring not empty
-     # directly updates misc_json (other than ensuring not empty)
-     * complete, did not find any other functions that need to be modified
-  * looking for any code that calls commit to see if should be flagged for new logging
-      # todo (update) - use the payload routine apply_json_patch_and_log
-  * still need to implement the new changelog table to the database
-
-
+* check that change log is working properly, there may be trouble with empty strings or None's ...
 
 
 * check that the app/database is working using testing_protocol_and_notes.txt
-
   * update release notes and wsgi for uniform guidance on flask runs
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
