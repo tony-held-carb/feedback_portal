@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{#{% block title %}Portal Updates{% endblock %}#}
+
+{% block header_css_and_js %}
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- DataTables FixedHeader -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- Custom CSS to prevent wrapping in timestamp column -->
+  <style>
+      #updatesTable th:first-child,
+      #updatesTable td:first-child {
+          white-space: nowrap;
+          min-width: 140px;
+      }
+  </style>
+{% endblock %}
+
+
+{% block content_1 %}
+  <div class="container-fluid post-nav-padding mb-3">
+
+    <!-- Top Bar -->
+    <div class="bg-secondary text-white p-3 rounded shadow-sm mb-3">
+      <h2 class="mb-0">Feedback Portal Updates</h2>
+      <small>All changes made in the portal are listed below. Times are California local.</small>
+    </div>
+
+    <button class="btn btn-sm btn-outline-primary mb-2" type="button" data-bs-toggle="collapse"
+            data-bs-target="#filtersCollapse" aria-expanded="false">
+      Toggle Filters
+    </button>
+
+    <div class="collapse show" id="filtersCollapse">
+      <div class="card card-body mb-3">
+        <form method="get">
+          <div class="row gy-2 gx-2 align-items-center">
+            <div class="col-md-auto"><input type="text" name="filter_key" value="{{ filter_key }}" class="form-control"
+                                            placeholder="Field key"></div>
+            <div class="col-md-auto"><input type="text" name="filter_user" value="{{ filter_user }}"
+                                            class="form-control" placeholder="User"></div>
+            <div class="col-md-auto"><input type="text" name="filter_comments" value="{{ filter_comments }}"
+                                            class="form-control" placeholder="Comment"></div>
+            <div class="col-md-auto"><input type="text" name="filter_id_incidence" value="{{ filter_id_incidence }}"
+                                            class="form-control" placeholder="Incidence ID"></div>
+            <div class="col-md-auto"><input type="text" name="start_date" id="start_date" value="{{ start_date }}"
+                                            class="form-control" placeholder="Start date"></div>
+            <div class="col-md-auto"><input type="text" name="end_date" id="end_date" value="{{ end_date }}"
+                                            class="form-control" placeholder="End date"></div>
+            <div class="col-md-auto">
+              <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </div>
+            <div class="col-md-auto">
+              <a href="{{ url_for('main.export_portal_updates',
+                      filter_key=filter_key, filter_user=filter_user,
+                      filter_comments=filter_comments, filter_id_incidence=filter_id_incidence,
+                      start_date=start_date, end_date=end_date) }}"
+                 class="btn btn-outline-light">Download CSV</a>
+            </div>
+          </div>
+        </form>
+        <small class="text-muted mt-2 d-block">
+          Tip: <code>Incidence ID</code> supports ranges like <code>100-200</code>, or unbounded <code>300-</code>.
+        </small>
+      </div>
+    </div>
+
+    <table id="updatesTable" class="table table-bordered table-striped table-sm">
+      <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Key</th>
+        <th>Old Value</th>
+        <th>New Value</th>
+        <th>User</th>
+        <th>Comments</th>
+        <th>Incidence ID</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for update in updates %}
+        <tr>
+          <td>{{ update.timestamp.astimezone(california_tz).strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ update.key }}</td>
+          <td>{{ update.old_value }}</td>
+          <td>{{ update.new_value }}</td>
+          <td>{{ update.user }}</td>
+          <td>{{ update.comments }}</td>
+          <td>{{ update.id_incidence or "" }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+      $(document).ready(function () {
+          var table = $('#updatesTable').DataTable({
+              pageLength: 100,
+              lengthMenu: [50, 100, 200, 500],
+              order: [[0, 'desc']],
+              fixedHeader: {
+                  header: true,
+                  headerOffset: $('.navbar').outerHeight() || 56  // default to 56px if navbar is missing
+              }
+          });
+
+          flatpickr("#start_date", {dateFormat: "Y-m-d"});
+          flatpickr("#end_date", {dateFormat: "Y-m-d"});
+      });
+  </script>
+{% endblock %}

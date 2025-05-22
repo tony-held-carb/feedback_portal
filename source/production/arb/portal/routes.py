@@ -26,12 +26,11 @@ from werkzeug.exceptions import abort
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.__get_logger import get_logger
-from arb.portal.app_util import dict_to_database, get_sector_info, upload_and_update_db
+from arb.portal.app_util import apply_portal_update_filters, dict_to_database, get_sector_info, upload_and_update_db
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
-from arb.utils.database import cleanse_misc_json
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
@@ -101,6 +100,9 @@ def og_incidence_create():
   col_name = 'misc_json'
 
   data_dict = arb.portal.db_hardcoded.get_og_dummy_data()
+
+  # todo - currently the please select from the dummy data is going to the database
+  # lots of ways to avoid this, first step is to update the dummy data so it does not have please select
 
   id_ = dict_to_database(db,
                          base,
@@ -309,6 +311,9 @@ def upload_file(message=None):
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
       if request_file:
+        # todo - little confusing how the update logic works cascading from xl to json, etc
+        #        consider making the steps and function names a little clearer to help the
+        #        update to change logging
         file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
         logger.debug(f"{sector=}")
 
@@ -392,6 +397,8 @@ def modify_json_content():
   time_stamp = datetime.now(ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
   json_content['time_stamp'] = time_stamp
 
+  # todo (update) - use the payload routine apply_json_patch_and_log
+  #        not sure this route is in use
   model.misc_json = json_content
   flag_modified(model, "misc_json")
   # model.misc_json['temp'] = 123456
@@ -445,6 +452,72 @@ def drag_and_drop_01():
   return render_template('drag_and_drop_01.html')
 
 
+@main.route("/portal_updates")
+def view_portal_updates():
+  from arb.portal.sqla_models import PortalUpdate
+  from flask import request, render_template
+
+  sort_by = request.args.get("sort_by", "timestamp")
+  direction = request.args.get("direction", "desc")
+  page = int(request.args.get("page", 1))
+  per_page = int(request.args.get("per_page", 100))
+
+  query = db.session.query(PortalUpdate)
+  query = apply_portal_update_filters(query, PortalUpdate, request.args)
+
+  updates = query.order_by(PortalUpdate.timestamp.desc()).all()
+
+  return render_template(
+    "portal_updates.html",
+    updates=updates,
+    sort_by=sort_by,
+    direction=direction,
+    page=page,
+    per_page=per_page,
+    total_pages=1,
+    filter_key=request.args.get("filter_key", "").strip(),
+    filter_user=request.args.get("filter_user", "").strip(),
+    filter_comments=request.args.get("filter_comments", "").strip(),
+    filter_id_incidence=request.args.get("filter_id_incidence", "").strip(),
+    start_date=request.args.get("start_date", "").strip(),
+    end_date=request.args.get("end_date", "").strip(),
+  )
+
+
+@main.route("/portal_updates/export")
+def export_portal_updates():
+  from arb.portal.sqla_models import PortalUpdate
+  from flask import request, Response
+  from io import StringIO
+  import csv
+
+  query = db.session.query(PortalUpdate)
+  query = apply_portal_update_filters(query, PortalUpdate, request.args)
+
+  updates = query.order_by(PortalUpdate.timestamp.desc()).all()
+
+  si = StringIO()
+  writer = csv.writer(si)
+  writer.writerow(["timestamp", "key", "old_value", "new_value", "user", "comments", "id_incidence"])
+
+  for u in updates:
+    writer.writerow([
+      u.timestamp,
+      u.key,
+      u.old_value,
+      u.new_value,
+      u.user,
+      u.comments,
+      u.id_incidence or ""
+    ])
+
+  return Response(
+    si.getvalue(),
+    mimetype="text/csv",
+    headers={"Content-Disposition": "attachment; filename=portal_updates_export.csv"}
+  )
+
+
 # ------------------------------------------------------------
 # Functions that return render_template
 # (all other helper functions should be considered moving to app_util.py)
@@ -475,9 +548,6 @@ def incidence_prep(model_row,
 
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)
-
-  if default_dropdown is None:
-    default_dropdown = PLEASE_SELECT
 
   if default_dropdown is None:
     default_dropdown = PLEASE_SELECT

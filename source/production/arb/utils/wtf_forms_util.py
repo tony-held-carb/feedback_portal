@@ -7,17 +7,15 @@ Notes:
 
 """
 
-import datetime
-import decimal
 import json
 
 from flask_wtf import FlaskForm
-from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
+from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
@@ -505,6 +503,10 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
     if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
       continue
 
+    # Skip empty strings
+    if attr_value == "":
+      continue
+
     payload_all[attr_name] = attr_value
 
     existing_value = model_json_dict.get(attr_name)
@@ -514,37 +516,86 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   return payload_all, payload_changes
 
 
-def update_model_with_payload(model, payload: dict, json_field: str = "misc_json") -> None:
+import copy
+import datetime
+import decimal
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def prep_payload_for_json(payload: dict,
+                          type_matching_dict: dict = None) -> dict:
   """
-  Apply a payload (dict) to a model's JSON column and mark it as changed.
+  Prepare a payload dictionary for JSON serialization.
+
+  Ensures:
+    - `datetime` → ISO8601 UTC string
+    - `decimal.Decimal` → float
+    - Values in `type_matching_dict` are explicitly cast to the specified types
 
   Args:
-      model: SQLAlchemy model instance.
-      payload (dict): Dictionary of key/value updates.
-      json_field (str): Name of the JSON column on the model.
+      payload (dict): Dictionary of key/value updates for the model.
+      type_matching_dict (dict): Optional mapping of key names to expected types,
+                                 e.g., {"id_incidence": int, "some_flag": bool}.
 
-  Notes:
-      - Automatically converts datetime to ISO8601 UTC strings.
-      - Casts Decimal to float to preserve JSON serialization compatibility.
+  Returns:
+      dict: A transformed copy of the payload suitable for JSON serialization.
   """
-  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
-  model_json_dict = getattr(model, json_field) or {}
+  type_matching_dict = type_matching_dict or {"id_incidence": int}
+  new_payload = {}
 
   for key, value in payload.items():
+    # Standard conversions
     if isinstance(value, datetime.datetime):
       value = ca_naive_to_utc_datetime(value).isoformat()
     elif isinstance(value, decimal.Decimal):
       value = float(value)
 
-    if key == "id_incidence" and value is not None:
-      value = int(value)
-    elif key in ["lat_arb", "long_arb"] and value is not None:
-      value = float(value)
+    # Apply type matching overrides
+    if key in type_matching_dict and value is not None:
+      try:
+        value = type_matching_dict[key](value)
+      except (ValueError, TypeError) as e:
+        logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
 
-    model_json_dict[key] = value
+    new_payload[key] = value
 
-  setattr(model, json_field, model_json_dict)
-  flag_modified(model, json_field)
+  return new_payload
+
+
+def update_model_with_payload(model,
+                              payload: dict,
+                              json_field: str = "misc_json",
+                              comment: str = "") -> None:
+  """
+  Apply a JSON-safe payload to a model's JSON column and mark it as changed.
+
+  Args:
+      model: SQLAlchemy model instance to update.
+      payload (dict): Dictionary of updates to apply.
+      json_field (str): Name of the model's JSON column (default is "misc_json").
+      comment (str): Optional comment to include with update logging.
+
+  Notes:
+      - Calls `prep_payload_for_json` to ensure data integrity.
+      - Uses `apply_json_patch_and_log` to track and log changes.
+      - Deep-copies the existing JSON field to avoid side effects.
+  """
+  logger.debug(f"update_model_with_payload: {model=}, {payload=}")
+
+  model_json = copy.deepcopy(getattr(model, json_field) or {})
+  new_payload = prep_payload_for_json(payload)
+  model_json.update(new_payload)
+
+  # TODO: Integrate real user once authentication is added
+  apply_json_patch_and_log(
+    model,
+    json_field=json_field,
+    updates=model_json,
+    user="anonymous",
+    comments=comment,
+  )
 
   logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
 
@@ -595,6 +646,7 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
     if isinstance(field, SelectField) and field.data is None:
       logger.debug(f"{field.name} set to default value: {default}")
       field.data = default
+
 
 def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list[tuple[str, str, dict]]:
   """

@@ -20,6 +20,7 @@ Example:
 
 from pathlib import Path
 
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
@@ -102,6 +103,40 @@ class UploadedFile(db.Model):
       f'<Uploaded File: {self.id_}, Path: {self.path}, '
       f'Description: {self.description}, Status: {self.status}>'
     )
+
+
+
+class PortalUpdate(db.Model):
+    """
+    Tracks individual updates to the misc_json column of the incidences table.
+
+    Columns:
+        id (int): Primary key.
+        timestamp (datetime): When the update was made (auto-generated).
+        key (str): The misc_json field that was changed.
+        old_value (str): The prior value before the update (nullable).
+        new_value (str): The new value after the update.
+        user (str): The user who made the change (or 'anonymous').
+        comments (str): Optional notes or metadata.
+        id_incidence (int): Reference to id_incidence (or similar foreign key), nullable.
+    """
+    __tablename__ = "portal_updates"
+
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+    key = Column(String(255), nullable=False)
+    old_value = Column(Text, nullable=True)
+    new_value = Column(Text, nullable=False)
+    user = Column(String(255), nullable=False, default="anonymous")
+    comments = Column(Text, nullable=False, default="")
+    id_incidence = Column(Integer, nullable=True)
+
+    def __repr__(self):
+        return (
+            f"<PortalUpdate id={self.id} key={self.key!r} old={self.old_value!r} "
+            f"new={self.new_value!r} user={self.user!r} at={self.timestamp}>"
+        )
 
 
 def run_diagnostics() -> None:

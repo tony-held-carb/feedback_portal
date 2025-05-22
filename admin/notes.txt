@@ -433,3 +433,9 @@ May need logic on how to cascade down from the first to the last question, could
 just need to validate selectors in the order of how contingent selectors are updated.
 
 I made a fix, just gotta test it and make sure I did not break anything
+
+getting the git history from command line with date information:
+TZ=America/Los_Angeles git log --since="21 days ago" --pretty=format:"%ad %an %s" --date=format-local:"%a %Y-%m-%d %H:%M:%S %Z" >> git_status.txt
+
+adding to git from linux
+git add git_status.txt && git commit -m "adding status" && git push

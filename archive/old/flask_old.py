@@ -7,7 +7,6 @@ Example:
     from startup.flask import configure_flask_app
 """
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 import werkzeug
 from flask import Flask
@@ -66,6 +65,4 @@ def configure_flask_app(app: Flask) -> None:
   app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
   app.jinja_env.filters['args_to_string'] = args_to_string
 
-  # Jinja: expose Python ZoneInfo class to templates for local time conversion
-  app.jinja_env.globals["california_tz"] = ZoneInfo("America/Los_Angeles")
   logger.debug("Flask Jinja2 globals and logging initialized.")

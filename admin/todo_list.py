@@ -3,10 +3,13 @@
 # todo - Next Steps
 ----------------------------
 
+* 'Please Selects' should no longer persist to database, but
+  may want to rethink how please selects are handled in general?
+
+* check that change log is working properly, there may be trouble with empty strings or None's ...
+
+
 * check that the app/database is working using testing_protocol_and_notes.txt
-
-  * about to add json updating capacity to the portal
-
   * update release notes and wsgi for uniform guidance on flask runs
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
