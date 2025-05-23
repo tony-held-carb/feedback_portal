@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block header_css_and_js %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/drag_and_drop.css') }}">
+  {#  The portal_style_01 import may be redundant, but keeping it here just in case during a refactor#}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_styles_01.css') }}">
   <script defer src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>
 {% endblock %}
 
@@ -18,8 +19,10 @@
 
     <!-- 📢 Persistent warning for locked Excel files -->
     <div class="alert alert-warning mt-3" role="alert">
-      <strong>Important:</strong> Please close any files before uploading a file. Files that are still open may be locked
-      and cannot be uploaded.  If you try to upload a file that is locked, you will receive an error message "This site can’t be reached".
+      <strong>Important:</strong> Please close any files before uploading a file. Files that are still open may be
+      locked
+      and cannot be uploaded. If you try to upload a file that is locked, you will receive an error message "This site
+      can’t be reached".
     </div>
 
     <div id="drop_zone"

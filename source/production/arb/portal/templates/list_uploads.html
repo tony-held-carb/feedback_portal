@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block header_css_and_js %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/drag_and_drop.css') }}">
+  {#  The portal_style_01 import may be redundant, but keeping it here just in case during a refactor#}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_styles_01.css') }}">
   <script defer src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>
 {% endblock %}
 

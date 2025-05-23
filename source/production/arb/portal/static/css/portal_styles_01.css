@@ -1,27 +1,96 @@
-/* portal_styles_01.css */
-/* Global sitewide styles for the Methane Satellite Portal UI */
-
 /* ─────────────────────────────────────────────
-   🌐 Global Layout & Background
+   🌐 Global Site Styles & Layout
 ───────────────────────────────────────────── */
 body {
-    background-color: #f4f8fc; /* ultra-light blue-gray for soft backdrop */
+    background-color: #f4f8fc;
+}
+
+
+.post-nav-padding {
+    padding-top: 60px; /* Adjust for navbar height */
 }
 
 /* ─────────────────────────────────────────────
-   🎨 Themed Backgrounds
+   🎨 Backgrounds & Panels
+───────────────────────────────────────────── */
+.neutral-background {
+    background-color: #004A2A; /* deep green tone */
+}
+
+.bg-image-01 {
+    background-image: url("../images/clipboard_01.jpeg");
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* ─────────────────────────────────────────────
+   🧭 Header Panel & Section Titles
 ───────────────────────────────────────────── */
 .bg-main-header {
-    background-color: #2c5d9d !important; /* strong blue header */
-    /* Try alternatives: #3f6488, #406080, #4c6e91, #5a7690 */
+    background-color: #2c5d9d !important;
 }
 
 .bg-light-panel {
-    background-color: #dbe5f1 !important; /* soft blue panel background */
+    background-color: #dbe5f1 !important;
 }
 
 .border-blue-gray {
-    border: 1px solid #b0c6e0 !important; /* light border for panel sections */
+    border: 1px solid #b0c6e0 !important;
+}
+
+/* ─────────────────────────────────────────────
+   📂 Drag & Drop Upload Styles
+───────────────────────────────────────────── */
+.upload-drop-zone,
+#drop_zone {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+.upload-drop-zone.dragging,
+#drop_zone.dragging {
+    background-color: #e2e6ea;
+}
+
+.drag-and-drop-h1 {
+    color: #333;
+}
+
+.drag-and-drop-ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.drag-and-drop-li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.drag-and-drop-a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.drag-and-drop-a:hover {
+    background-color: #0056b3;
 }
 
 /* ─────────────────────────────────────────────
@@ -55,7 +124,7 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   🔍 DataTables Search Input
+   🔍 Search Box
 ───────────────────────────────────────────── */
 .dataTables_filter label {
     font-weight: 600;
@@ -72,10 +141,10 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   🧰 Filter Buttons
+   🧰 Button Styling
 ───────────────────────────────────────────── */
 .btn-toggle-filters {
-    background-color: #d0ddc6; /* softened sage green */
+    background-color: #d0ddc6;
     color: #1f2712;
     font-weight: 600;
     border: none;
@@ -101,4 +170,46 @@ body {
 .btn-apply-filters:hover {
     background-color: #5a935a;
     color: white;
+}
+
+
+/* ─────────────────────────────────────────────
+   🌈 Gradient Backgrounds (Legacy or Login Styles)
+───────────────────────────────────────────── */
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /*background: -webkit-linear-gradient(to right, #1e8abe, #fdb62b,#2fad9c,  #0e597c);*/
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /*background: linear-gradient(to right, #1e8abe, #fdb62b,#2fad9c,  #0e597c);*/
+}
+
+.gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    /*background: -webkit-linear-gradient(to right, #0e597c, #0e597c, #0e597c,#1e8abe, #1e8abe,  #1e8abe, #fdb62b);*/
+    background: -webkit-linear-gradient(to right, #0e597c, #1e8abe);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #0e597c, #1e8abe);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
 }
