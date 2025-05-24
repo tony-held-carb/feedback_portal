@@ -18,7 +18,8 @@ from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
-from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, url_for  # to access app context
+from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, \
+  url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
@@ -31,6 +32,7 @@ from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
+from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
@@ -292,6 +294,7 @@ def upload_file(message=None):
   """
   logger.debug("upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  form = UploadForm()
 
   # Handle optional URL message
   if message:
@@ -322,7 +325,7 @@ def upload_file(message=None):
           return redirect(url_for('main.incidence_update', id_=id_))
         else:
           logger.debug(f"Upload did not match expected format: {file_name=}")
-          return render_template('upload.html', upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
+          return render_template('upload.html', form=form, upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
 
     except Exception as e:
       logger.exception("Error occurred during file upload.")
@@ -333,7 +336,7 @@ def upload_file(message=None):
       )
 
   # GET request
-  return render_template('upload.html', upload_message=message)
+  return render_template('upload.html', form=form, upload_message=message)
 
 
 @main.route("/uploads/<path:filename>")

@@ -20,11 +20,13 @@
     <!-- Upload Drop Zone Container -->
     <div class="d-flex justify-content-center align-items-center mt-4">
       <div id="drop_zone" class="upload-drop-zone">
-        Drag & Drop Files Here
+        <div class="drop-zone-text">Drag & Drop File Here</div>
+        <img src="{{ url_for('static', filename='images/upload_icon.png') }}"
+             class="drop-zone-icon" alt="Upload Icon">
       </div>
     </div>
 
-    <!-- File Input (Fallback or Trigger) -->
+    <!-- File Input -->
     <div class="text-center mt-3">
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
@@ -35,9 +37,33 @@
     </div>
 
     <div class="alert alert-warning mt-3" role="alert">
-      <strong>Important:</strong> Please close Excel before uploading a file. Files that are still open may be locked
-      and cannot be uploaded.
+      <strong>Important:</strong> Please close Excel before uploading a file. Files that are still open may be locked and cannot be uploaded.
     </div>
 
   </div>
+{% endblock %}
+
+{% block content_2 %}
+<!-- Spinner Overlay (initially hidden) -->
+<div id="upload-spinner-overlay" class="spinner-overlay d-none">
+  <div class="spinner-container">
+    <div class="spinner-border text-primary" role="status"></div>
+    <div class="mt-3 text-white fw-bold">Uploading... Please wait.</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const overlay = document.getElementById("upload-spinner-overlay");
+
+    if (form && overlay) {
+      form.addEventListener("submit", function () {
+        overlay.classList.remove("d-none");
+      });
+    }
+  });
+</script>
 {% endblock %}
