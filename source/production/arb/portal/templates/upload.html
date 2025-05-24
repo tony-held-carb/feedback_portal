@@ -17,7 +17,7 @@
       <small>Please ensure the Excel file is closed before uploading.</small>
     </div>
 
-    <!-- Upload Drop Zone Container -->
+    <!-- Upload Drop Zone -->
     <div class="d-flex justify-content-center align-items-center mt-4">
       <div id="drop_zone" class="upload-drop-zone">
         <div class="drop-zone-text">Drag & Drop File Here</div>
@@ -28,7 +28,7 @@
 
     <!-- File Input -->
     <div class="text-center mt-3">
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('main.upload_file') }}">
         {{ form.hidden_tag() }}
         {{ form.file.label(class="form-label") }}
         {{ form.file(class="form-control mb-2") }}
@@ -37,14 +37,14 @@
     </div>
 
     <div class="alert alert-warning mt-3" role="alert">
-      <strong>Important:</strong> Please close Excel before uploading a file. Files that are still open may be locked and cannot be uploaded.
+      <strong>Important:</strong> Please close Excel before uploading a file.
     </div>
 
   </div>
 {% endblock %}
 
 {% block content_2 %}
-<!-- Spinner Overlay (initially hidden) -->
+<!-- Spinner Overlay -->
 <div id="upload-spinner-overlay" class="spinner-overlay d-none">
   <div class="spinner-container">
     <div class="spinner-border text-primary" role="status"></div>
@@ -60,7 +60,8 @@
     const overlay = document.getElementById("upload-spinner-overlay");
 
     if (form && overlay) {
-      form.addEventListener("submit", function () {
+      form.addEventListener("submit", function (event) {
+        console.log("📤 Submitting form...");
         overlay.classList.remove("d-none");
       });
     }

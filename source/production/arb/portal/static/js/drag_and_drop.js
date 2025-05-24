@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   const dropZone = document.getElementById("drop_zone");
   const fileInput = document.querySelector('input[type="file"]');
+  const form = document.querySelector("form");
 
-  if (!dropZone || !fileInput) {
-    console.warn("Drag-and-drop zone or file input not found.");
+  if (!dropZone || !fileInput || !form) {
+    console.warn("Drop zone, file input, or form not found.");
     return;
   }
 
-  // 🔁 Highlight drop zone on drag events
   function highlight(event) {
     event.preventDefault();
     dropZone.classList.add("dragging");
@@ -18,30 +18,38 @@ document.addEventListener("DOMContentLoaded", function () {
     dropZone.classList.remove("dragging");
   }
 
-  // 📦 Handle file drop
   function handleDrop(event) {
     event.preventDefault();
     unhighlight(event);
 
     const files = event.dataTransfer.files;
+
     if (files.length > 0) {
       fileInput.files = files;
 
-      // Optional: auto-submit form if only one file is expected
-      const form = fileInput.closest("form");
-      if (form) {
-        form.submit();
+      const overlay = document.getElementById("upload-spinner-overlay");
+      if (overlay) {
+        overlay.classList.remove("d-none");
       }
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+          if (submitBtn) {
+            submitBtn.click();
+          } else {
+            form.submit();  // Fallback if button not found
+          }
+        }, 0);
+      });
     }
   }
 
-  // ⛔ Prevent default browser behavior
   ["dragenter", "dragover", "dragleave", "drop"].forEach(eventType => {
     dropZone.addEventListener(eventType, event => event.preventDefault());
     document.body.addEventListener(eventType, event => event.preventDefault());
   });
 
-  // 🧲 Bind events
   dropZone.addEventListener("dragenter", highlight);
   dropZone.addEventListener("dragover", highlight);
   dropZone.addEventListener("dragleave", unhighlight);
