@@ -192,6 +192,8 @@ def diagnostics():
 
   html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
   return render_template('diagnostics.html',
+                         header="Auto-Increment Check",
+                         subheader="Next available ID value in the 'incidences' table.",
                          html_content=html_content,
                          modal_title="Success",
                          modal_message="Diagnostics completed successfully.",
@@ -210,7 +212,11 @@ def show_dropdown_dict():
   result2 = obj_to_html(Globals.drop_downs_contingent)
   result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p>"
             f"<p><strong>Globals.drop_downs_contingent=</strong></p> <p>{result2}</p>")
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Dropdown Dictionaries",
+                         subheader="Loaded dropdown values and contingent mappings.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_database_structure')
@@ -221,7 +227,11 @@ def show_database_structure():
   logger.info(f"Displaying database structure")
   result = obj_to_html(Globals.db_column_types)
   result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Database Structure Overview",
+                         subheader="Reflecting SQLAlchemy model metadata.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_feedback_form_structure')
@@ -244,7 +254,11 @@ def show_feedback_form_structure():
   result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p>"
             f"<p><strong>WTF LandfillFeedback Form Structure=</strong></p> <p>{result2}</p>")
 
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="WTForms Feedback Form Structure",
+                         subheader="Inspecting field mappings in Oil & Gas and Landfill feedback forms.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_log_file')
@@ -252,15 +266,17 @@ def show_log_file():
   """
   Flask route to show the log file as a diagnostic.
   """
-  # todo - base this off project root and what the log file name may be
-  # todo - resume here
   logger.info(f"Displaying the log file as a diagnostic")
   with open(LOG_FILE, 'r') as file:
     file_content = file.read()
 
   # result = obj_to_html(file_content)
   result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Log File Contents",
+                         # subheader="Full log output from the running server instance.",
+                         html_content=result,
+                         )
 
 
 # Index route: list files in the uploads folder
