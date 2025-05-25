@@ -1,4 +1,5 @@
 // Misc javaScript routines for the portal
+// about to delete the content
 
 const form = document.querySelector('form');
 
