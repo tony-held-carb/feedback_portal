@@ -12,6 +12,9 @@
 
 * check that change log is working properly, there may be trouble with empty strings or None's ...
 
+* looks like if you back arrow to the page with 'please updating' the spinner will still be there.
+
+* want to have links in the portal updates for incidence so you can jump to the desired page.
 
 * check that the app/database is working using testing_protocol_and_notes.txt
   * update release notes and wsgi for uniform guidance on flask runs
