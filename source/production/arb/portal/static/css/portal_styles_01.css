@@ -5,10 +5,11 @@ body {
     background-color: #f4f8fc;
 }
 
-
-.post-nav-padding {
-    padding-top: 60px; /* Adjust for navbar height */
+body {
+  padding-top: 66px; /* this matches the height of the navbar in chrome ... not sure if will work on other browsers*/
 }
+
+
 
 /* ─────────────────────────────────────────────
    🎨 Backgrounds & Panels
