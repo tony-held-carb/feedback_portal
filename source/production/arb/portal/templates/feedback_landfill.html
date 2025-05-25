@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% if crud_type == "update" %}
   {% set title = "Update Incidence " ~ wtf_form['id_incidence'].data %}
   {% set banner_title = "Operator Feedback Form (Landfill)" %}
@@ -14,14 +13,14 @@
 {% endblock %}
 
 {% block content_1 %}
-  <div class="container-fluid page-container">
+  <div class="container-fluid post-nav-buffer">
 
     <!-- Sticky Header with Validate Button -->
     <div
-        class="sticky-diagnostic-header bg-main-header text-white p-3 rounded d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">{{ banner_title }}</h4>
+        class="sticky-diagnostic-header bg-main-header text-white py-3 px-3 rounded d-flex justify-content-between align-items-start">
+      <h2 class="mb-0">{{ banner_title }}</h2>
       <button form="landfill-form" type="submit" name="submit_button" value="validate_and_submit"
-              class="btn btn-success btn-sm fw-semibold">
+              class="btn btn-success btn-sm fw-semibold mt-1">
         Validate & Submit
       </button>
     </div>
@@ -58,6 +57,7 @@
 
       {{ macros.section_close() }}
 
+
       <form id="landfill-form" method="post" novalidate>
         {{ wtf_form.csrf_token }}
 
@@ -71,8 +71,7 @@
         {{ macros.input_element(wtf_form.long_carb, size=8,
               placeholder="Optional valid CA longitude (5 digits of precision preferred).") }}
         {{ macros.input_element(wtf_form.id_message, size=8, placeholder="Optional CARB Message ID") }}
-        {#          </div>#}
-        {#        </div>#}
+
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 3. Facility Information") }}
@@ -82,6 +81,7 @@
         {{ macros.input_element(wtf_form.contact_name, placeholder="Contact Name") }}
         {{ macros.input_element(wtf_form.contact_phone, placeholder="(555) 555-5555") }}
         {{ macros.input_element(wtf_form.contact_email, placeholder="your_name@server.com") }}
+
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 4. Follow-up Ground Monitoring Results") }}
@@ -91,6 +91,7 @@
               placeholder="(e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL)") }}
         {{ macros.input_element(wtf_form.emission_identified_flag_fk, size=6) }}
         {{ macros.input_element(wtf_form.additional_activities, size=12, rows=3, placeholder="") }}
+
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 5. Detailed Ground Monitoring Results") }}
@@ -110,6 +111,7 @@
         {{ macros.input_element(wtf_form.emission_cause_tertiary, size=6) }}
         {{ macros.input_element(wtf_form.emission_cause_notes, size=12, rows=3,
               placeholder="Additional cause details.") }}
+
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 6. Follow-up Actions") }}
@@ -126,6 +128,7 @@
         {{ macros.input_element(wtf_form.planned_for_next_lmr, size=3) }}
         {{ macros.input_element(wtf_form.planned_for_next_lmr_description, size=12, rows=3,
               placeholder="Description") }}
+
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 7. Supplemental") }}
@@ -133,6 +136,7 @@
         {{ macros.input_element(wtf_form.last_surface_monitoring_timestamp, size=6) }}
         {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6) }}
         {{ macros.input_element(wtf_form.additional_notes, size=12, rows=3) }}
+
         {{ macros.section_close() }}
 
       </form>
