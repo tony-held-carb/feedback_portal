@@ -18,7 +18,7 @@ from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
-from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, \
+from flask import Blueprint, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from sqlalchemy.orm.attributes import flag_modified
@@ -624,3 +624,15 @@ def incidence_prep(model_row,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
                          )
+
+@main.route("/test_spinner", methods=["GET", "POST"])
+def test_spinner():
+    if request.method == "POST":
+        file = request.files.get("file")
+        if file:
+            import time
+            time.sleep(2)  # simulate processing delay
+            flash(f"File '{file.filename}' uploaded successfully.", "success")
+        return redirect(url_for("main.test_spinner"))
+
+    return render_template("test_spinner.html")
