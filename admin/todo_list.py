@@ -5,6 +5,8 @@
 
 * the new portal updates has a nice style, going to implement it into the oil and gas and landfill forms
 
+* just revamped the css and style, the drag and drop is much better.  Continue updating the rest of the site.
+
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
 
