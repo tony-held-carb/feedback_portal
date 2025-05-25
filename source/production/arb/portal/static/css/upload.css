@@ -35,3 +35,12 @@
 .spinner-container {
   text-align: center;
 }
+
+.drop-zone-icon {
+  max-width: 50%;
+  transition: max-width 0.2s ease;
+}
+
+.drop-zone.dragging .drop-zone-icon {
+  max-width: 75%;
+}
