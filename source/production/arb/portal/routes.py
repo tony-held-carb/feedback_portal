@@ -521,11 +521,11 @@ def incidence_prep(model_row,
   if sector_type == "Oil & Gas":
     logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
     wtf_form = OGFeedback()
-    template_file = 'og_feedback.html'
+    template_file = 'feedback_oil_and_gas.html'
   elif sector_type == "Landfill":
     logger.debug(f"({sector_type=}) will use a Landfill Feedback Form")
     wtf_form = LandfillFeedback()
-    template_file = 'landfill_feedback.html'
+    template_file = 'feedback_landfill.html'
   else:
     raise ValueError(f"Unknown sector type: '{sector_type}'.")
 
