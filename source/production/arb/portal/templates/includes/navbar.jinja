@@ -35,6 +35,8 @@
                 Gas)</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.landfill_incidence_create') }}">Create Incidence
                 (Landfill)</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.view_portal_updates') }}">Portal Updates</a></li>
+
               <li><a class="dropdown-item disabled" href="{{ url_for('main.incidence_update', id_=1) }}">Update
                 Incidence</a></li>
             </ul>
@@ -54,7 +56,6 @@
                 Structure</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Diagnostics</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.view_portal_updates') }}">Portal Updates</a></li>
 
               <li><a class="dropdown-item disabled" aria-disabled="true" href="{{ url_for('main.run_sql_script') }}">Run
                 SQL Script</a></li>
