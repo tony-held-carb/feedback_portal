@@ -107,3 +107,23 @@
   </div>
 {% endmacro %}
 
+
+{# ─────────────────────────────────────────────
+   🔧 Section Layout Defaults
+───────────────────────────────────────────── #}
+{% set card_style = "card bg-light mb-3" %}
+{% set card_header_style = "bg-light-panel border-bottom px-3 py-2 rounded-top" %}
+{% set card_header_text_class = "mb-0 text-primary fw-semibold" %}
+
+{% macro section_open(title) %}
+  <div class="{{ card_style }}">
+    <div class="{{ card_header_style }}">
+      <h5 class="{{ card_header_text_class }}">{{ title }}</h5>
+    </div>
+    <div class="card-body">
+{% endmacro %}
+
+{% macro section_close() %}
+    </div>
+  </div>
+{% endmacro %}

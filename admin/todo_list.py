@@ -5,6 +5,7 @@
 
 * the new portal updates has a nice style, going to implement it into the oil and gas and landfill forms
 
+* add error count to the banner for the update incidence so you can see your errors
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?

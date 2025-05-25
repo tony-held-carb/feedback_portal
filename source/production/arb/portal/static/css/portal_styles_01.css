@@ -279,3 +279,14 @@ body {
     top: var(--navbar-height); /* match navbar height to avoid navbar obscurement */
     z-index: 990; /* Below Bootstrap dropdowns */
 }
+
+.section-wrapper {
+  border: 1px solid #b0c6e0;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.bg-card-custom {
+  background-color: #f1f3f6 !important;
+}
