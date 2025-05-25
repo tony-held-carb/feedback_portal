@@ -8,7 +8,7 @@
     <h2 class="mb-0">
       {{ header | default("Diagnostic Output") }}
     </h2>
-    {% if subheader %}
+    {% if subheader is defined %}
       <p class="mb-0 small text-white-50">{{ subheader }}</p>
     {% endif %}
   </div>
