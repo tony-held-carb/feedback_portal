@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("upload-form");
   const dropZone = document.getElementById("drop_zone");
-  const fileInput = dropZone.querySelector('input[type="file"]');
+  const fileInput = document.getElementById("hidden-file-input");
   const overlay = document.getElementById("spinner-overlay");
 
   if (!form || !fileInput || !dropZone || !overlay) {
@@ -9,29 +9,40 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // ✅ Unified form submission handler
+  // ✅ Unified form submission with validation and spinner
   function handleValidatedSubmit(event) {
     event.preventDefault();
 
     if (!form.checkValidity()) {
-      form.classList.add("was-validated");  // Bootstrap visual feedback
-      return;  // ❌ Don't submit or show spinner
+      form.classList.add("was-validated");  // Bootstrap validation styling
+      return;
     }
 
-    // ✅ Spinner before submission
     overlay.classList.remove("d-none");
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        form.submit();
+        form.submit();  // Resume normal submission after spinner is visible
       }, 0);
     });
   }
 
-  // ✅ Manual button submit
+  // ✅ Form submit via button or requestSubmit
   form.addEventListener("submit", handleValidatedSubmit);
 
-  // ✅ Drag-and-drop styling
+  // ✅ Click-to-open file browser
+  dropZone.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  // ✅ Automatically submit form when file selected via file picker
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      form.requestSubmit();
+    }
+  });
+
+  // ✅ Drag-and-drop visuals
   ["dragenter", "dragover"].forEach(eventType => {
     dropZone.addEventListener(eventType, e => {
       e.preventDefault();
@@ -46,12 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ✅ Drag-and-drop file and auto-submit
+  // ✅ Handle dropped files
   dropZone.addEventListener("drop", function (event) {
     const files = event.dataTransfer.files;
     if (files.length > 0) {
       fileInput.files = files;
-      form.requestSubmit();  // triggers unified handler
+      form.requestSubmit();
     }
   });
 });
