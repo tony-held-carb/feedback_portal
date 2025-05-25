@@ -290,3 +290,11 @@ body {
 .bg-card-custom {
   background-color: #f1f3f6 !important;
 }
+
+.card-border-thick {
+  border: 2px solid #2c5d9d; /* Your dark blue-gray */
+}
+
+.card-accent {
+  border: 1.5px solid #6da86d;  /* Your btn-apply-filters green */
+}
