@@ -354,26 +354,6 @@ def uploaded_file(filename):
 # Diagnostic and developer endpoints
 #####################################################################
 
-@main.route('/background/', methods=('GET', 'POST'))
-def background():
-  """
-  Flask route to experiment with differing background approaches.
-  """
-  logger.debug(f"In background route:")
-
-  return render_template('background.html')
-
-
-@main.route('/sticky/', methods=('GET', 'POST'))
-def sticky():
-  """
-  Flask route to experiment with differing formatting structures.
-  """
-  logger.debug(f"In sticky route:")
-
-  return render_template('sticky.html')
-
-
 @main.route('/modify_json_content')
 def modify_json_content():
   """
@@ -436,23 +416,6 @@ def add_form_dummy_data():
   arb.portal.db_hardcoded.add_og_dummy_data(db, base, 'incidences')
 
   return '<h1>Dummy Feedback Form Data Created</h1>'
-
-
-@main.route('/drag_and_drop', methods=['GET', 'POST'])
-def drag_and_drop_01():
-  """
-  (Outdated) Flask route to output diagnostics to get drag and drop functionality working
-  """
-  if request.method == 'POST':
-    if 'file' not in request.files:
-      return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-      return redirect(request.url)
-    if file:
-      file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename))
-      return redirect(url_for('main.drag_and_drop_01'))
-  return render_template('drag_and_drop_01.html')
 
 
 @main.route("/portal_updates")
@@ -625,14 +588,15 @@ def incidence_prep(model_row,
                          error_count_dict=error_count_dict,
                          )
 
+
 @main.route("/test_spinner", methods=["GET", "POST"])
 def test_spinner():
-    if request.method == "POST":
-        file = request.files.get("file")
-        if file:
-            import time
-            time.sleep(2)  # simulate processing delay
-            flash(f"File '{file.filename}' uploaded successfully.", "success")
-        return redirect(url_for("main.test_spinner"))
+  if request.method == "POST":
+    file = request.files.get("file")
+    if file:
+      import time
+      time.sleep(2)  # simulate processing delay
+      flash(f"File '{file.filename}' uploaded successfully.", "success")
+    return redirect(url_for("main.test_spinner"))
 
-    return render_template("test_spinner.html")
+  return render_template("test_spinner.html")
