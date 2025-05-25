@@ -9,15 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // ✅ Defensive: Always hide overlay on initial load
-  overlay.classList.add("d-none");
-
   // ✅ Unified form submission with validation and spinner
   function handleValidatedSubmit(event) {
     event.preventDefault();
 
     if (!form.checkValidity()) {
-      form.classList.add("was-validated");
+      form.classList.add("was-validated");  // Bootstrap validation styling
       return;
     }
 
@@ -25,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        form.submit();
+        form.submit();  // Resume normal submission after spinner is visible
       }, 0);
     });
   }
 
-  // ✅ Form submit via button or JS
+  // ✅ Form submit via button or requestSubmit
   form.addEventListener("submit", handleValidatedSubmit);
 
   // ✅ Click-to-open file browser
@@ -38,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fileInput.click();
   });
 
-  // ✅ Auto-submit after choosing file
+  // ✅ Automatically submit form when file selected via file picker
   fileInput.addEventListener("change", () => {
     if (fileInput.files.length > 0) {
       form.requestSubmit();
@@ -66,13 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (files.length > 0) {
       fileInput.files = files;
       form.requestSubmit();
-    }
-  });
-
-  // ✅ Hide spinner if returning via browser Back button
-  window.addEventListener("pageshow", function (event) {
-    if (event.persisted || (window.performance && performance.navigation.type === 2)) {
-      overlay.classList.add("d-none");
     }
   });
 });

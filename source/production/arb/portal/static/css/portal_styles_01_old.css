@@ -5,40 +5,14 @@ body {
     background-color: #f4f8fc;
 }
 
-/* ─────────────────────────────────────────────
-   📏 Navbar Height Custom Property
-───────────────────────────────────────────── */
-
-/**
- * We define --navbar-height as a CSS variable (custom property)
- * so it can be used consistently across all layout elements.
- * This ensures the body padding, sticky headers, etc., always
- * match the actual navbar height — and are easy to update.
- */
-:root {
-    --navbar-height: 66px; /* default height for full-size navbars */
-}
-
+/* The Navbar covers the first 66px (in chrome, not sure if will work on other browsers)
+   this will try to ensure that the body text is not covered by the navbar.*/
 body {
-    padding-top: var(--navbar-height);
+  padding-top: 66px;
 }
-
-/**
- * If the navbar is shorter on smaller screens (e.g. mobile),
- * we override the --navbar-height using a media query.
- *
- * @media (max-width: 576px) targets screens ≤ 576px wide.
- * This keeps layout spacing correct across all devices.
- */
-@media (max-width: 576px) {
-    :root {
-        --navbar-height: 58px; /* shorter nav height on mobile */
-    }
-}
-
 
 .post-nav-buffer {
-    margin-top: 1.0rem; /* or 1.5rem, 2rem depending on desired spacing */
+  margin-top: 1.0rem; /* or 1.5rem, 2rem depending on desired spacing */
 }
 
 /* ─────────────────────────────────────────────
@@ -75,51 +49,51 @@ body {
 ──────────────────────────────── */
 .upload-drop-zone,
 #drop_zone {
-    position: relative;
-    border: 2px dashed #007bff;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    transition: background-color 0.3s, border-color 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    width: 400px;
-    height: 400px;
-    max-width: 90vw;
-    margin-top: 20px;
+  position: relative;
+  border: 2px dashed #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  width: 400px;
+  height: 400px;
+  max-width: 90vw;
+  margin-top: 20px;
 }
 
 .upload-drop-zone.dragging,
 #drop_zone.dragging {
-    background-color: #e2f0fb;
-    border-color: #0056b3;
+  background-color: #e2f0fb;
+  border-color: #0056b3;
 }
 
 .upload-drop-zone:hover {
-    background-color: #eef8ff;
-    border-color: #3399ff;
+  background-color: #eef8ff;
+  border-color: #3399ff;
 }
 
 /* Top-centered drag text */
 .drop-zone-text {
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 /* Icon sizing with animation */
 .drop-zone-icon {
-    max-width: 50%;
-    transition: max-width 0.2s ease;
+  max-width: 50%;
+  transition: max-width 0.2s ease;
 }
 
 .upload-drop-zone.dragging .drop-zone-icon,
 #drop_zone.dragging .drop-zone-icon {
-    max-width: 75%;
+  max-width: 75%;
 }
 
 /* ─────────────────────────────────────────────
@@ -247,20 +221,20 @@ body {
    Upload Spinner Overlay
 ──────────────────────────────── */
 .spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spinner-container {
-    text-align: center;
+  text-align: center;
 }
 
 
@@ -297,50 +271,50 @@ body {
    🧭 Layout Spacing Helpers
 ──────────────────────────────── */
 .page-container {
-    margin-top: 2rem; /* consistent space below navbar */
+  margin-top: 2rem; /* consistent space below navbar */
 }
 
 /* ──────────────────────────────
    📘 Card & Section Styling
 ──────────────────────────────── */
 .border-blue-gray {
-    border: 1px solid #b0c6e0 !important;
+  border: 1px solid #b0c6e0 !important;
 }
 
 .bg-light-panel {
-    background-color: #dbe5f1 !important;
+  background-color: #dbe5f1 !important;
 }
 
 .bg-main-header {
-    background-color: #2c5d9d !important;
+  background-color: #2c5d9d !important;
 }
 
 .rounded-top {
-    border-top-left-radius: 0.375rem !important;
-    border-top-right-radius: 0.375rem !important;
+  border-top-left-radius: 0.375rem !important;
+  border-top-right-radius: 0.375rem !important;
 }
 
 .rounded-bottom {
-    border-bottom-left-radius: 0.375rem !important;
-    border-bottom-right-radius: 0.375rem !important;
+  border-bottom-left-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
 }
 
 /* ──────────────────────────────
    🪟 Shadow + Striping Helpers
 ──────────────────────────────── */
 .shadow-sm {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
 .border-start {
-    border-left: 4px solid !important;
+  border-left: 4px solid !important;
 }
 
 /* ──────────────────────────────
    📌 Sticky Diagnostic Header
 ──────────────────────────────── */
-.sticky-diagnostic-header {
-    position: sticky;
-    top: var(--navbar-height); /* match navbar height to avoid navbar obscurement */
-    z-index: 1030; /* sit above content, below modal */
-}
+/*.sticky-diagnostic-header {*/
+/*  position: sticky;*/
+/*  top: 56px; !* match your navbar height *!*/
+/*  z-index: 1030; !* sit above content, below modal *!*/
+/*}*/

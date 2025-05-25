@@ -5,14 +5,11 @@
 
 * the new portal updates has a nice style, going to implement it into the oil and gas and landfill forms
 
-* just revamped the css and style, the drag and drop is much better.  Continue updating the rest of the site.
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
 
 * check that change log is working properly, there may be trouble with empty strings or None's ...
-
-* looks like if you back arrow to the page with 'please updating' the spinner will still be there.
 
 * want to have links in the portal updates for incidence so you can jump to the desired page.
 
