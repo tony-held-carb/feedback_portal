@@ -41,11 +41,19 @@ body {
     margin-top: 1.0rem; /* or 1.5rem, 2rem depending on desired spacing */
 }
 
+/**
+ * Wrapper for any page content below navbar.
+ * Used in diagnostics, uploads, and other views.
+ */
+.page-container {
+    margin-top: 2rem;
+}
+
 /* ─────────────────────────────────────────────
    🎨 Backgrounds & Panels
 ───────────────────────────────────────────── */
 .neutral-background {
-    background-color: #004A2A; /* deep green tone */
+    background-color: #004A2A;
 }
 
 .bg-image-01 {
@@ -70,57 +78,57 @@ body {
     border: 1px solid #b0c6e0 !important;
 }
 
-/* ──────────────────────────────
-   Upload Drop Zone Styles
-──────────────────────────────── */
-.upload-drop-zone,
-#drop_zone {
-    position: relative;
-    border: 2px dashed #007bff;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    transition: background-color 0.3s, border-color 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    width: 400px;
-    height: 400px;
-    max-width: 90vw;
-    margin-top: 20px;
-}
+/*!* ──────────────────────────────*/
+/*   Upload Drop Zone Styles*/
+/*──────────────────────────────── *!*/
+/*.upload-drop-zone,*/
+/*#drop_zone {*/
+/*    position: relative;*/
+/*    border: 2px dashed #007bff;*/
+/*    border-radius: 10px;*/
+/*    padding: 20px;*/
+/*    background-color: #f8f9fa;*/
+/*    transition: background-color 0.3s, border-color 0.3s;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    color: #333;*/
+/*    width: 400px;*/
+/*    height: 400px;*/
+/*    max-width: 90vw;*/
+/*    margin-top: 20px;*/
+/*}*/
 
-.upload-drop-zone.dragging,
-#drop_zone.dragging {
-    background-color: #e2f0fb;
-    border-color: #0056b3;
-}
+/*.upload-drop-zone.dragging,*/
+/*#drop_zone.dragging {*/
+/*    background-color: #e2f0fb;*/
+/*    border-color: #0056b3;*/
+/*}*/
 
-.upload-drop-zone:hover {
-    background-color: #eef8ff;
-    border-color: #3399ff;
-}
+/*.upload-drop-zone:hover {*/
+/*    background-color: #eef8ff;*/
+/*    border-color: #3399ff;*/
+/*}*/
 
-/* Top-centered drag text */
-.drop-zone-text {
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 1rem;
-}
+/*!* Top-centered drag text *!*/
+/*.drop-zone-text {*/
+/*    font-size: 1.1rem;*/
+/*    font-weight: 500;*/
+/*    text-align: center;*/
+/*    margin-bottom: 1rem;*/
+/*}*/
 
-/* Icon sizing with animation */
-.drop-zone-icon {
-    max-width: 50%;
-    transition: max-width 0.2s ease;
-}
+/*!* Icon sizing with animation *!*/
+/*.drop-zone-icon {*/
+/*    max-width: 50%;*/
+/*    transition: max-width 0.2s ease;*/
+/*}*/
 
-.upload-drop-zone.dragging .drop-zone-icon,
-#drop_zone.dragging .drop-zone-icon {
-    max-width: 75%;
-}
+/*.upload-drop-zone.dragging .drop-zone-icon,*/
+/*#drop_zone.dragging .drop-zone-icon {*/
+/*    max-width: 75%;*/
+/*}*/
 
 /* ─────────────────────────────────────────────
    📊 Table Styling (DataTables)
@@ -342,5 +350,5 @@ body {
 .sticky-diagnostic-header {
     position: sticky;
     top: var(--navbar-height); /* match navbar height to avoid navbar obscurement */
-    z-index: 1030; /* sit above content, below modal */
+    z-index: 990; /* Below Bootstrap dropdowns */
 }
