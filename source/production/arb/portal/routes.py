@@ -295,7 +295,7 @@ def list_uploads():
   files = [x.name for x in upload_folder.iterdir() if x.is_file()]
   logger.debug(f"{files=}")
 
-  return render_template('list_uploads.html', files=files)
+  return render_template('uploads_list.html', files=files)
 
 
 @main.route('/upload', methods=['GET', 'POST'])
