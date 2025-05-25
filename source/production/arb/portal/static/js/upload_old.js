@@ -4,34 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileInput = dropZone.querySelector('input[type="file"]');
   const overlay = document.getElementById("spinner-overlay");
 
-  if (!form || !fileInput || !dropZone || !overlay) {
-    console.warn("Upload: missing DOM elements.");
-    return;
-  }
-
-  // ✅ Unified form submission handler
-  function handleValidatedSubmit(event) {
+  // ✅ Show spinner before submitting
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
-
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");  // Bootstrap visual feedback
-      return;  // ❌ Don't submit or show spinner
-    }
-
-    // ✅ Spinner before submission
-    overlay.classList.remove("d-none");
+    if (overlay) overlay.classList.remove("d-none");
 
     requestAnimationFrame(() => {
       setTimeout(() => {
         form.submit();
       }, 0);
     });
-  }
+  });
 
-  // ✅ Manual button submit
-  form.addEventListener("submit", handleValidatedSubmit);
-
-  // ✅ Drag-and-drop styling
+  // ✅ Drag styling
   ["dragenter", "dragover"].forEach(eventType => {
     dropZone.addEventListener(eventType, e => {
       e.preventDefault();
@@ -46,12 +31,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ✅ Drag-and-drop file and auto-submit
+  // ✅ Handle dropped file
   dropZone.addEventListener("drop", function (event) {
     const files = event.dataTransfer.files;
     if (files.length > 0) {
       fileInput.files = files;
-      form.requestSubmit();  // triggers unified handler
+      form.requestSubmit();
     }
   });
 });
