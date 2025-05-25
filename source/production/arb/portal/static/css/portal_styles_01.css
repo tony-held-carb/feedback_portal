@@ -5,11 +5,15 @@ body {
     background-color: #f4f8fc;
 }
 
+/* The Navbar covers the first 66px (in chrome, not sure if will work on other browsers)
+   this will try to ensure that the body text is not covered by the navbar.*/
 body {
-  padding-top: 66px; /* this matches the height of the navbar in chrome ... not sure if will work on other browsers*/
+  padding-top: 66px;
 }
 
-
+.post-nav-buffer {
+  margin-top: 1.0rem; /* or 1.5rem, 2rem depending on desired spacing */
+}
 
 /* ─────────────────────────────────────────────
    🎨 Backgrounds & Panels
@@ -235,7 +239,7 @@ body {
 
 
 /* ──────────────────────────────
-   Getting list uploads formatting to work
+   Route list_uploads.html formatting
 ──────────────────────────────── */
 .list-uploads-h1 {
     color: #333;
