@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
 
-{#Formatting settings#}
-{% set card_style="card bg-light mb-3" %}
-{% set card_header_style="card-header text-bg-primary" %}
-
 {% if crud_type=="update" %}
   {% set title= "Update Feedback Incidence " ~ wtf_form['id_incidence'].data %}
-  {#  {% set banner_title= "Update Operator Feedback Form " ~ wtf_form['id_incidence'].data %}#}
   {% set banner_title= "Operator Feedback Form (Oil & Gas)" %}
 {% else %}
   {% set title= "New Feedback" %}
-  {#  {% set banner_title= "Create New Operator Feedback Form" %}#}
   {% set banner_title= "Operator Feedback Form (Oil & Gas)" %}
 {% endif %}
 
@@ -20,75 +14,61 @@
 
 {% block content_1 %}
 
-  {#  <p>The form type is: {{ crud_type }}</p>  #}
-  {#  <p>{{ wtf_form['id_incidence']|debug }}</p>  #}
-  {#  <p>{{ wtf_form['id_incidence'].data|debug }}</p>  #}
+  <div class="container-fluid post-nav-buffer">
 
-  {#  <p>{{ wtf_form|debug }}</p>  #}
-  {#  <p>{{ error_count_dict|debug }}</p>   #}
+    <!-- Sticky Header with Validate Button -->
+    <div
+        class="sticky-diagnostic-header bg-main-header text-white py-3 px-3 rounded d-flex justify-content-between align-items-start">
+      <h2 class="mb-0">{{ banner_title }}</h2>
+      <button form="oil-and-gas-form" type="submit" name="submit_button" value="validate_and_submit"
+              class="btn btn-success btn-sm fw-semibold mt-1">
+        Validate & Submit
+      </button>
+    </div>
 
-  <div class="container-fluid bg-secondary post-nav-buffer"
-       style="
-           min-width: 300px;
-           {#--bs-bg-opacity: .75;  {# Comment this line out if you want the full opacity #}
-           "
-  >
-    <div class="container-fluid mb-3 pt-1 ">
+    {{ macros.error_header(wtf_form, error_count_dict) }}
 
-      <div class="mb-2 p-3 bg-success text-white rounded">
-        {#      <div class="mb-2 p-3 text-white rounded" style="background-color: #3d7d75;">#}
-        <h1>{% block banner_title %}
-          {{ banner_title }}
-        {% endblock %}</h1>
+    <!-- White Form Wrapper -->
+    <div class="bg-white border border-blue-gray rounded shadow-sm mt-3 mb-3 pt-4 pb-2 ps-3 pe-3">
 
-        <p>{% block banner_subtitle %}
-        {% endblock %}</p>
-      </div>
+      {{ macros.section_open("Section 1. Instructions") }}
 
-      {{ macros.error_header(wtf_form, error_count_dict) }}
+      <ul class="mb-0">
+        <li>
+          Owners/operators must inspect their facility within 5 days of this plume notification.
+        </li>
+        <li>
+          If a ground inspection is required per Section 6, relevant sections of this form must be reported
+          within 72 hours (3 days) of completion of the inspection (not to exceed 8 days after the initial
+          notification).
+        </li>
+        <li>
+          If the plume is due to a planned maintenance activity, please submit relevant sections of this
+          this form within 5 days of receiving the notification.
+        </li>
+        <li>
+          If a non-venting source is found, please submit your responses to Sections 7 and 8 within 5 days
+          of repairing a leak.
+        </li>
+        <li>
+          Not all sections and fields may apply to your facility for the suspected plume.
+        </li>
+        <li>
+          If a data request does not apply, leave the response blank (or 'Please Select' if it is a drop
+          down field).
+        </li>
+        <li>Use the local date/time at the facility for timestamp related questions.</li>
+        <li>
+          Detailed data requirements and timelines are specified in the Oil and Gas Methane Regulation (see
+          Section 2 below).
+        </li>
+        <li>
+          If it is unclear how to respond to a request or how to interpret the regulations, please elaborate
+          in the 'Additional Comments' Section.
+        </li>
+      </ul>
 
-      <div class="{{ card_style }}">
-        <div class="{{ card_header_style }}">
-          <h3>Section 1. Instructions</h3>
-        </div>
-        <div class="card-body">
-
-          <ul class="mb-0">
-            <li>
-              Owners/operators must inspect their facility within 5 days of this plume notification.
-            </li>
-            <li>
-              If a ground inspection is required per Section 6, relevant sections of this form must be reported
-              within 72 hours (3 days) of completion of the inspection (not to exceed 8 days after the initial
-              notification).
-            </li>
-            <li>
-              If the plume is due to a planned maintenance activity, please submit relevant sections of this
-              this form within 5 days of receiving the notification.
-            </li>
-            <li>
-              If a non-venting source is found, please submit your responses to Sections 7 and 8 within 5 days
-              of repairing a leak.
-            </li>
-            <li>
-              Not all sections and fields may apply to your facility for the suspected plume.
-            </li>
-            <li>
-              If a data request does not apply, leave the response blank (or 'Please Select' if it is a drop
-              down field).
-            </li>
-            <li>Use the local date/time at the facility for timestamp related questions.</li>
-            <li>
-              Detailed data requirements and timelines are specified in the Oil and Gas Methane Regulation (see
-              Section 2 below).
-            </li>
-            <li>
-              If it is unclear how to respond to a request or how to interpret the regulations, please elaborate
-              in the 'Additional Comments' Section.
-            </li>
-          </ul>
-        </div>
-      </div>
+      {{ macros.section_close() }}
 
       <div class="{{ card_style }}">
         <div class="{{ card_header_style }}">
@@ -239,8 +219,5 @@
       </form>
     </div>
   </div>
-
-  {# <p> debug info: </p>#}
-  {# <p>{{ wtf_form|debug }}</p>#}
 
 {% endblock %}

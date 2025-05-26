@@ -3,6 +3,10 @@
 # todo - Next Steps
 ----------------------------
 
+* todo - resume here:
+* update oil and gas feedback to be similar to landfill feedback
+
+
 * the new portal updates has a nice style, going to implement it into the oil and gas and landfill forms
 
 * add error count to the banner for the update incidence so you can see your errors
