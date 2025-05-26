@@ -349,10 +349,15 @@ class OGFeedback(FlaskForm):
     if self.method21_performed.data == "No":
       if self.method21_date.data:
         self.method21_date.errors.append("Can't have an Method 21 inspection date if Method 21 was not performed")
+      if self.initial_leak_concentration.data:
+        self.initial_leak_concentration.errors.append("Can't have an Method 21 concentration if Method 21 was not performed")
       # print(f"{self.method21_result.data=}")
       if self.method21_result.data != PLEASE_SELECT:
         if self.method21_result.data != "Not applicable as Method 21 was not performed":
           self.method21_result.errors.append("Can't have an Method 21 result if Method 21 was not performed")
+
+    if self.venting_exclusion.data == "No" and self.ogi_performed.data == "No" and self.method21_performed.data == "No":
+      self.method21_performed.errors.append("If you do not claim a venting exclusion, Method 21 or OGI must be performed.")
 
     # todo (consider) - you could also remove the option for not applicable rather than the following two tests
     if self.ogi_performed.data == "Yes":
