@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% set form_id = "landfill-form" %}
 
 {% if crud_type == "update" %}
   {% set title = "Update Incidence " ~ wtf_form['id_incidence'].data %}
@@ -10,6 +11,10 @@
 
 {% block title %}
   {{ title }}
+{% endblock %}
+
+{% block footer_js %}
+  <script src="{{ url_for('static', filename='js/unsaved_changes.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -44,45 +49,6 @@
 
     <!-- White Form Wrapper -->
     <div class="bg-white border border-blue-gray rounded shadow-sm mt-3 mb-3 pt-4 pb-2 ps-3 pe-3">
-
-
-      <script>
-          document.addEventListener("DOMContentLoaded", function () {
-              const form = document.querySelector("#landfill-form");
-              if (!form) return;
-
-              const indicator = document.getElementById("unsaved-indicator");
-              let isDirty = false;
-
-              const markDirty = () => {
-                  if (!isDirty) {
-                      indicator.classList.remove("d-none");
-                      isDirty = true;
-                  }
-              };
-
-              const fields = form.querySelectorAll("input, textarea, select");
-              fields.forEach(field => {
-                  field.addEventListener("change", markDirty);
-                  field.addEventListener("input", markDirty);
-              });
-
-              window.addEventListener("beforeunload", function (e) {
-                  if (isDirty) {
-                      e.preventDefault();
-                      e.returnValue = ""; // Required for Chrome to show the dialog
-                  }
-              });
-
-              form.addEventListener("submit", function () {
-                  isDirty = false;
-                  indicator.classList.add("d-none");
-                  window.removeEventListener("beforeunload", () => {
-                  });
-              });
-          });
-      </script>
-
 
       {{ macros.section_open("Section 1. Instructions") }}
 
