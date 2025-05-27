@@ -45,12 +45,11 @@ class LandfillFeedback(FlaskForm):
 
   # Section 2
   # todo - likely have to change these to InputRequired(), Optional(), blank and removed
-  # label = "1.  Incidence/Emission ID"
+  label = "1.  Incidence/Emission ID"
   id_incidence = IntegerField(
-    "Incidence/Emission ID",
-    validators=[Optional()],
-    render_kw={"readonly": True}
-  )
+    label=label,
+    validators=[InputRequired(), NumberRange(min=1, message="Emission ID must be a positive integer")],
+  )  # REFERENCES incidences (id_incidence)
 
   label = "2.  Plume ID(s)"
   id_plume = IntegerField(

@@ -570,10 +570,10 @@ def incidence_prep(model_row,
 
     # Diagnostics of model before updating with wtform values
     model_before = sa_model_to_dict(model_row)
-    wtform_to_model(model_row, wtf_form)
+    wtform_to_model(model_row, wtf_form, ignore_fields=["id_incidence"])
     add_commit_and_log_model(db,
                              model_row,
-                             comment='call to wtform_to_model(model_row, wtf_form)',
+                             comment='call to wtform_to_model()',
                              model_before=model_before)
     # todo - need to include logic here to retain the new id that is assigned from adding a new model?
     # looks like the id_incidence in the json is decoupled from the row id_incidence, which can lead to funny behavior

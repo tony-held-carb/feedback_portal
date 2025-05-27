@@ -2,14 +2,19 @@
 
 # todo - Next Steps
 ----------------------------
-* just merged refactor_and_styling_v01 and branched on refactor_and_styling_v02
 
-* looks like the new look and feel is stable.  Still have some refactoring to work on,
-  but i'm going to merge the branch and put the new site on main so it can be run on ec2
+* consider new color for validate that stands out more
+* consider diff blue for card headers
+
 
 * include a link to plume tracker from a feedback form, it might make sense to make this the
   incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
   logic perhaps, but this seems a reasonable fix
+
+  * if a incidence passes validation, have it splash a success message before going to index
+  * don't let there be a decoupling between the incidence column and the json key:value
+    * don't allow id_incidence to be changed after it has been created
+    * maybe block the creation of new incidence from portal
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
@@ -21,10 +26,6 @@
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
-  * if a incidence passes validation, have it splash a success message before going to index
-  * don't let there be a decoupling between the incidence column and the json key:value
-    * don't allow id_incidence to be changed after it has been created
-    * maybe block the creation of new incidence from portal
 
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
