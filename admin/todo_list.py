@@ -2,6 +2,12 @@
 
 # todo - Next Steps
 ----------------------------
+* looks like the new look and feel is stable.  Still have some refactoring to work on,
+  but i'm going to merge the branch and put the new site on main so it can be run on ec2
+
+* include a link to plume tracker from a feedback form, it might make sense to make this the
+  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
+  logic perhaps, but this seems a reasonable fix
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
