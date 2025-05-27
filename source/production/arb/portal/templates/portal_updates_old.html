@@ -100,15 +100,7 @@
           <td>{{ update.new_value }}</td>
           <td>{{ update.user }}</td>
           <td>{{ update.comments }}</td>
-          <td>
-            {% if update.id_incidence %}
-              <a href="{{ url_for('main.incidence_update', id_=update.id_incidence) }}">
-                {{ update.id_incidence }}
-              </a>
-            {% else %}
-              &mdash;
-            {% endif %}
-          </td>
+          <td>{{ update.id_incidence or "" }}</td>
         </tr>
       {% endfor %}
       </tbody>

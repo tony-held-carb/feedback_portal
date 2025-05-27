@@ -3,18 +3,10 @@
 # todo - Next Steps
 ----------------------------
 
-* todo - resume here:
-
-* add a unsaved-changes alert button when the user has modified a form field and has not validated it yet
-
-* add error count to the banner for the update incidence so you can see your errors
-
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
 
 * check that change log is working properly, there may be trouble with empty strings or None's ...
-
-* want to have links in the portal updates for incidence so you can jump to the desired page.
 
 * check that the app/database is working using testing_protocol_and_notes.txt
   * update release notes and wsgi for uniform guidance on flask runs
@@ -30,7 +22,6 @@
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
             - not sure this really applies as we are updating the json field keys, not db column names.
-
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
