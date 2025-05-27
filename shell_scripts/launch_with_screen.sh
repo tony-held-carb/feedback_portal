@@ -7,6 +7,7 @@
 # using the conda environment and logs all output to LOG_DIR="$PROJECT_ROOT/logs"
 #
 # USAGE:
+#   cd ~/code/git_repos/feedback_portal/shell_scripts
 #   ./launch_with_screen.sh                        # defaults to flask, 0.0.0.0:2113, debug=true
 #   ./launch_with_screen.sh gunicorn               # gunicorn with defaults
 #   ./launch_with_screen.sh flask 0.0.0.0 5000 true

@@ -17,15 +17,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_updates.css') }}">
 {% endblock %}
 
 {% block content_1 %}
-  <div class="container-fluid post-nav-padding mb-3">
+  <div class="container-fluid mb-3 post-nav-buffer">
 
     <!-- Top Bar -->
-    <div class="p-3 rounded text-white mb-3 bg-dark-teal">
+    <div class="p-3 rounded text-white mb-3 bg-main-header">
       <h2 class="mb-0">Feedback Portal Updates</h2>
       <small>All changes made in the portal are listed below. Times are California local.</small>
     </div>
@@ -102,7 +100,15 @@
           <td>{{ update.new_value }}</td>
           <td>{{ update.user }}</td>
           <td>{{ update.comments }}</td>
-          <td>{{ update.id_incidence or "" }}</td>
+          <td>
+            {% if update.id_incidence %}
+              <a href="{{ url_for('main.incidence_update', id_=update.id_incidence) }}">
+                {{ update.id_incidence }}
+              </a>
+            {% else %}
+              &mdash;
+            {% endif %}
+          </td>
         </tr>
       {% endfor %}
       </tbody>

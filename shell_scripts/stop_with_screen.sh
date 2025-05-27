@@ -4,6 +4,7 @@
 # stop_with_screen.sh — Stops a running screen session for your app.
 #
 # USAGE:
+#   cd ~/code/git_repos/feedback_portal/shell_scripts
 #   ./stop_with_screen.sh                      # stops 'feedback_portal'
 #   ./stop_with_screen.sh custom_session_name  # stops custom session
 #

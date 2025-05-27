@@ -12,11 +12,11 @@
 {% block content_1 %}
   <div class="container-fluid post-nav-padding mb-2">
 
-    <h1 class="drag-and-drop-h1">Uploaded Files</h1>
-    <a class="drag-and-drop-a mt-3 mb-3" href="{{ url_for('main.upload_file') }}">Upload New File</a>
-    <ul class="drag-and-drop-ul">
+    <h1 class="list-uploads-h1">Uploaded Files</h1>
+    <a class="list-uploads-a mt-3 mb-3" href="{{ url_for('main.upload_file') }}">Upload New File</a>
+    <ul class="list-uploads-ul">
       {% for file in files %}
-        <li class="drag-and-drop-li">
+        <li class="list-uploads-li">
           <a href="{{ url_for('main.uploaded_file', filename=file) }}">{{ file }}</a>
         </li>
       {% endfor %}

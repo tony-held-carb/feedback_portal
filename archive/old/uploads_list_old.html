@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  File List
+{% endblock %}
+
+{% block header_css_and_js %}
+  {#  The portal_style_01 import may be redundant, but keeping it here just in case during a refactor#}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_styles_01.css') }}">
+  {#  <script defer src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>#}
+{% endblock %}
+
+{% block content_1 %}
+  <div class="container-fluid mb-2 post-nav-buffer">
+
+    <h1 class="list-uploads-h1">Uploaded Files</h1>
+    <a class="list-uploads-a mt-3 mb-3" href="{{ url_for('main.upload_file') }}">Upload New File</a>
+    <ul class="list-uploads-ul">
+      {% for file in files %}
+        <li class="list-uploads-li">
+          <a href="{{ url_for('main.uploaded_file', filename=file) }}">{{ file }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+{% endblock %}

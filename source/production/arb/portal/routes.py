@@ -18,7 +18,8 @@ from pathlib import Path
 from urllib.parse import unquote
 from zoneinfo import ZoneInfo
 
-from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, url_for  # to access app context
+from flask import Blueprint, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
+  url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
@@ -31,6 +32,7 @@ from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
+from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
@@ -190,6 +192,8 @@ def diagnostics():
 
   html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
   return render_template('diagnostics.html',
+                         header="Auto-Increment Check",
+                         subheader="Next available ID value in the 'incidences' table.",
                          html_content=html_content,
                          modal_title="Success",
                          modal_message="Diagnostics completed successfully.",
@@ -208,7 +212,11 @@ def show_dropdown_dict():
   result2 = obj_to_html(Globals.drop_downs_contingent)
   result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p>"
             f"<p><strong>Globals.drop_downs_contingent=</strong></p> <p>{result2}</p>")
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Dropdown Dictionaries",
+                         subheader="Loaded dropdown values and contingent mappings.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_database_structure')
@@ -219,7 +227,11 @@ def show_database_structure():
   logger.info(f"Displaying database structure")
   result = obj_to_html(Globals.db_column_types)
   result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Database Structure Overview",
+                         subheader="Reflecting SQLAlchemy model metadata.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_feedback_form_structure')
@@ -242,7 +254,11 @@ def show_feedback_form_structure():
   result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p>"
             f"<p><strong>WTF LandfillFeedback Form Structure=</strong></p> <p>{result2}</p>")
 
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="WTForms Feedback Form Structure",
+                         subheader="Inspecting field mappings in Oil & Gas and Landfill feedback forms.",
+                         html_content=result,
+                         )
 
 
 @main.route('/show_log_file')
@@ -250,15 +266,17 @@ def show_log_file():
   """
   Flask route to show the log file as a diagnostic.
   """
-  # todo - base this off project root and what the log file name may be
-  # todo - resume here
   logger.info(f"Displaying the log file as a diagnostic")
   with open(LOG_FILE, 'r') as file:
     file_content = file.read()
 
   # result = obj_to_html(file_content)
   result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
-  return render_template('diagnostics.html', html_content=result)
+  return render_template('diagnostics.html',
+                         header="Log File Contents",
+                         # subheader="Full log output from the running server instance.",
+                         html_content=result,
+                         )
 
 
 # Index route: list files in the uploads folder
@@ -277,7 +295,7 @@ def list_uploads():
   files = [x.name for x in upload_folder.iterdir() if x.is_file()]
   logger.debug(f"{files=}")
 
-  return render_template('list_uploads.html', files=files)
+  return render_template('uploads_list.html', files=files)
 
 
 @main.route('/upload', methods=['GET', 'POST'])
@@ -292,6 +310,7 @@ def upload_file(message=None):
   """
   logger.debug("upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  form = UploadForm()
 
   # Handle optional URL message
   if message:
@@ -322,7 +341,7 @@ def upload_file(message=None):
           return redirect(url_for('main.incidence_update', id_=id_))
         else:
           logger.debug(f"Upload did not match expected format: {file_name=}")
-          return render_template('upload.html', upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
+          return render_template('upload.html', form=form, upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
 
     except Exception as e:
       logger.exception("Error occurred during file upload.")
@@ -333,7 +352,7 @@ def upload_file(message=None):
       )
 
   # GET request
-  return render_template('upload.html', upload_message=message)
+  return render_template('upload.html', form=form, upload_message=message)
 
 
 @main.route("/uploads/<path:filename>")
@@ -350,26 +369,6 @@ def uploaded_file(filename):
 #####################################################################
 # Diagnostic and developer endpoints
 #####################################################################
-
-@main.route('/background/', methods=('GET', 'POST'))
-def background():
-  """
-  Flask route to experiment with differing background approaches.
-  """
-  logger.debug(f"In background route:")
-
-  return render_template('background.html')
-
-
-@main.route('/sticky/', methods=('GET', 'POST'))
-def sticky():
-  """
-  Flask route to experiment with differing formatting structures.
-  """
-  logger.debug(f"In sticky route:")
-
-  return render_template('sticky.html')
-
 
 @main.route('/modify_json_content')
 def modify_json_content():
@@ -433,23 +432,6 @@ def add_form_dummy_data():
   arb.portal.db_hardcoded.add_og_dummy_data(db, base, 'incidences')
 
   return '<h1>Dummy Feedback Form Data Created</h1>'
-
-
-@main.route('/drag_and_drop', methods=['GET', 'POST'])
-def drag_and_drop_01():
-  """
-  (Outdated) Flask route to output diagnostics to get drag and drop functionality working
-  """
-  if request.method == 'POST':
-    if 'file' not in request.files:
-      return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-      return redirect(request.url)
-    if file:
-      file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename))
-      return redirect(url_for('main.drag_and_drop_01'))
-  return render_template('drag_and_drop_01.html')
 
 
 @main.route("/portal_updates")
@@ -555,11 +537,11 @@ def incidence_prep(model_row,
   if sector_type == "Oil & Gas":
     logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
     wtf_form = OGFeedback()
-    template_file = 'og_feedback.html'
+    template_file = 'feedback_oil_and_gas.html'
   elif sector_type == "Landfill":
     logger.debug(f"({sector_type=}) will use a Landfill Feedback Form")
     wtf_form = LandfillFeedback()
-    template_file = 'landfill_feedback.html'
+    template_file = 'feedback_landfill.html'
   else:
     raise ValueError(f"Unknown sector type: '{sector_type}'.")
 
@@ -621,3 +603,16 @@ def incidence_prep(model_row,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
                          )
+
+
+@main.route("/test_spinner", methods=["GET", "POST"])
+def test_spinner():
+  if request.method == "POST":
+    file = request.files.get("file")
+    if file:
+      import time
+      time.sleep(2)  # simulate processing delay
+      flash(f"File '{file.filename}' uploaded successfully.", "success")
+    return redirect(url_for("main.test_spinner"))
+
+  return render_template("test_spinner.html")

@@ -2,12 +2,17 @@
 
 # todo - Next Steps
 ----------------------------
+* looks like the new look and feel is stable.  Still have some refactoring to work on,
+  but i'm going to merge the branch and put the new site on main so it can be run on ec2
+
+* include a link to plume tracker from a feedback form, it might make sense to make this the
+  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
+  logic perhaps, but this seems a reasonable fix
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
 
 * check that change log is working properly, there may be trouble with empty strings or None's ...
-
 
 * check that the app/database is working using testing_protocol_and_notes.txt
   * update release notes and wsgi for uniform guidance on flask runs
@@ -23,7 +28,6 @@
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
         * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
             - not sure this really applies as we are updating the json field keys, not db column names.
-
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled

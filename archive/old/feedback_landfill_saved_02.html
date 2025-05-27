@@ -1,17 +1,14 @@
 {% extends 'base.html' %}
 
-{#Formatting settings#}
-{% set card_style="card bg-light mb-3" %}
-{% set card_header_style="card-header text-bg-primary" %}
+{% set card_style = "card bg-light mb-3" %}
+{% set card_header_style = "card-header text-bg-primary" %}
 
-{% if crud_type=="update" %}
-  {% set title= "Update Incidence " ~ wtf_form['id_incidence'].data %}
-  {#  {% set banner_title= "Update Operator Feedback Form " ~ wtf_form['id_incidence'].data %}#}
-  {% set banner_title= "Operator Feedback Form (Landfill)" %}
+{% if crud_type == "update" %}
+  {% set title = "Update Incidence " ~ wtf_form['id_incidence'].data %}
+  {% set banner_title = "Operator Feedback Form (Landfill)" %}
 {% else %}
-  {% set title= "New Feedback" %}
-  {#  {% set banner_title= "Create New Operator Feedback Form" %}#}
-  {% set banner_title= "Operator Feedback Form (Landfill)" %}
+  {% set title = "New Feedback" %}
+  {% set banner_title = "Operator Feedback Form (Landfill)" %}
 {% endif %}
 
 {% block title %}
@@ -19,37 +16,30 @@
 {% endblock %}
 
 {% block content_1 %}
+  <div class="container-fluid page-container">
 
-  {#  <p>The form type is: {{ crud_type }}</p>#}
-  {#  <p>{{ wtf_form['id_incidence']|debug }}</p>#}
-  {#  <p>{{ wtf_form['id_incidence'].data|debug }}</p>#}
+    <!-- Sticky Header with Validate Button -->
+    <div
+        class="sticky-diagnostic-header bg-main-header text-white p-3 rounded d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">{{ banner_title }}</h4>
+      <button form="landfill-form" type="submit" name="submit_button" value="validate_and_submit"
+              class="btn btn-success btn-sm fw-semibold">
+        Validate & Submit
+      </button>
+    </div>
 
-  {#  <p>{{ wtf_form|debug }}</p>#}
-  {#  <p>{{ error_count_dict|debug }}</p>#}
+    {{ macros.error_header(wtf_form, error_count_dict) }}
 
-  {#
-<div class="container-fluid bg-image-02 pt-3">#}
-  {#
-  <div class="container-fluid pt-3" style="background-color:tan;">#}
-  <div class="container-fluid post-nav-padding bg-secondary" style="min-width: 300px;">
+    <!-- White Form Wrapper -->
+    <div class="bg-white border border-blue-gray rounded shadow-sm mt-3 p-4">
 
-    <div class="container-fluid mb-3 pt-1 ">
-
-      <div class="mb-2 p-3 bg-success text-white rounded">
-        <h1>{% block banner_title %}
-          {{ banner_title }}
-        {% endblock %}</h1>
-
-        {% block banner_subtitle %}
-        {% endblock %}
-      </div>
-
-      {{ macros.error_header(wtf_form, error_count_dict) }}
 
       <div class="{{ card_style }}">
-        <div class="{{ card_header_style }}">
-          <h3>Section 1. Instructions</h3>
+
+        <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+          <h5 class="mb-0 text-primary fw-semibold">Section 1. Instructions</h5>
         </div>
+
         <div class="card-body">
 
           <ul class="mb-0">
@@ -78,13 +68,16 @@
         </div>
       </div>
 
-      <form method="post" novalidate>
+      <form id="landfill-form" method="post" novalidate>
         {{ wtf_form.csrf_token }}
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3>Section 2. Emission Detection Information Provided by CARB </h3>
+
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 2. Emission Detection Information Provided by CARB</h5>
           </div>
+
+
           <div class="card-body">
 
             {{ macros.input_element(wtf_form.id_incidence, size=8, placeholder="ID as Integer") }}
@@ -99,9 +92,11 @@
         </div>
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3>Section 3. Facility Information</h3>
+
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 3. Facility Information</h5>
           </div>
+
           <div class="card-body">
 
             {{ macros.input_element(wtf_form.facility_name, placeholder="Facility Name") }}
@@ -114,9 +109,10 @@
         </div>
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3>Section 4. Follow-up Ground Monitoring Results</h3>
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 4. Follow-up Ground Monitoring Results</h5>
           </div>
+
           <div class="card-body">
 
             {{ macros.input_element(wtf_form.inspection_timestamp, size=6) }}
@@ -128,9 +124,11 @@
         </div>
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3>Section 5. Detailed Ground Monitoring Results</h3>
+
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 5. Detailed Ground Monitoring Results</h5>
           </div>
+
           <div class="card-body">
             {{ macros.input_element(wtf_form.initial_leak_concentration, size=6,
               placeholder="For example: 123.4") }}
@@ -151,9 +149,11 @@
         </div>
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3> Section 6. Follow-up Actions</h3>
+
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 6. Follow-up Actions</h5>
           </div>
+
           <div class="card-body">
             {{ macros.input_element(wtf_form.mitigation_actions, size=12, rows=3,
               placeholder="Mitigation actions details") }}
@@ -171,9 +171,10 @@
         </div>
 
         <div class="{{ card_style }}">
-          <div class="{{ card_header_style }}">
-            <h3>Section 7. Supplemental</h3>
+          <div class="bg-light-panel border-bottom px-3 py-2 rounded-top">
+            <h5 class="mb-0 text-primary fw-semibold">Section 7. Supplemental</h5>
           </div>
+
           <div class="card-body">
             {{ macros.input_element(wtf_form.last_surface_monitoring_timestamp, size=6) }}
             {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6) }}
@@ -181,16 +182,6 @@
           </div>
         </div>
 
-        <button type="submit" name="submit_button" value="validate_and_submit" class="btn btn-success m-3 btn-lg">
-          Validate & Submit
-        </button>
-        {#
-          <button type="submit" name="submit_button" value="update_incidence_status" class="btn btn-success m-3 btn-lg">
-            #}
-        {# Update Incidence Status#}
-        {#
-          </button>
-          #}
 
       </form>
     </div>

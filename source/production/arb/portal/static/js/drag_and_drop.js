@@ -1,34 +1,57 @@
-const dropZone = document.getElementById('drop_zone');
-const fileInput = document.getElementById('file_input');
-const fileForm = document.getElementById('file_form');
+document.addEventListener("DOMContentLoaded", function () {
+  const dropZone = document.getElementById("drop_zone");
+  const fileInput = document.querySelector('input[type="file"]');
+  const form = document.querySelector("form");
 
-// Handle file drag and drop
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('dragover');
-});
+  if (!dropZone || !fileInput || !form) {
+    console.warn("Drop zone, file input, or form not found.");
+    return;
+  }
 
-dropZone.addEventListener('dragleave', (e) => {
-    dropZone.classList.remove('dragover');
-});
+  function highlight(event) {
+    event.preventDefault();
+    dropZone.classList.add("dragging");
+  }
 
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('dragover');
-    const files = e.dataTransfer.files;
+  function unhighlight(event) {
+    event.preventDefault();
+    dropZone.classList.remove("dragging");
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    unhighlight(event);
+
+    const files = event.dataTransfer.files;
+
     if (files.length > 0) {
-        fileInput.files = files;
-        fileForm.submit();
-    }
-});
+      fileInput.files = files;
 
-// Handle clicking to upload
-dropZone.addEventListener('click', () => {
-    fileInput.click();
-});
+      const overlay = document.getElementById("upload-spinner-overlay");
+      if (overlay) {
+        overlay.classList.remove("d-none");
+      }
 
-fileInput.addEventListener('change', () => {
-    if (fileInput.files.length > 0) {
-        fileForm.submit();
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+          if (submitBtn) {
+            submitBtn.click();
+          } else {
+            form.submit();  // Fallback if button not found
+          }
+        }, 0);
+      });
     }
+  }
+
+  ["dragenter", "dragover", "dragleave", "drop"].forEach(eventType => {
+    dropZone.addEventListener(eventType, event => event.preventDefault());
+    document.body.addEventListener(eventType, event => event.preventDefault());
+  });
+
+  dropZone.addEventListener("dragenter", highlight);
+  dropZone.addEventListener("dragover", highlight);
+  dropZone.addEventListener("dragleave", unhighlight);
+  dropZone.addEventListener("drop", handleDrop);
 });
