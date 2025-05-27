@@ -2,6 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
+* just merged refactor_and_styling_v01 and branched on refactor_and_styling_v02
+
 * looks like the new look and feel is stable.  Still have some refactoring to work on,
   but i'm going to merge the branch and put the new site on main so it can be run on ec2
 
