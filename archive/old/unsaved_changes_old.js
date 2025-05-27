@@ -1,6 +1,6 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-  const formId = document.body.getAttribute("data-form-id");
+  const scriptTag = document.currentScript;
+  const formId = scriptTag.getAttribute("data-form-id") || "unspecified-form-id";
   const form = document.querySelector(`#${formId}`);
   const indicator = document.getElementById("unsaved-indicator");
 

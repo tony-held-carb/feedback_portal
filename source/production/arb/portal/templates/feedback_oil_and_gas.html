@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% set form_id = "oil-and-gas-form" %}
 
 {% if crud_type=="update" %}
   {% set title= "Update Feedback Incidence " ~ wtf_form['id_incidence'].data %}
@@ -12,10 +14,8 @@
   {{ title }}
 {% endblock %}
 
-{% block header_css_and_js %}
-  <script src="{{ url_for('static', filename='js/unsaved_changes.js') }}"
-        data-form-id="oil-and-gas-form"
-        defer></script>
+{% block footer_js %}
+  <script src="{{ url_for('static', filename='js/unsaved_changes.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
