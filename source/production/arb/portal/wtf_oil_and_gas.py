@@ -55,11 +55,13 @@ class OGFeedback(FlaskForm):
   ]
 
   # Section 3
+  # This field is read-only and displayed for context only. It should not be edited or submitted.
   label = "1.  Incidence/Emission ID"
   id_incidence = IntegerField(
-    label=label,
-    validators=[InputRequired(), NumberRange(min=1, message="Emission ID must be a positive integer")],
-  )  # REFERENCES incidences (id_incidence)
+    label,
+    validators=[Optional()],
+    render_kw={"readonly": True}
+  )
 
   label = "2.  Plume ID(s)"
   id_plume = IntegerField(

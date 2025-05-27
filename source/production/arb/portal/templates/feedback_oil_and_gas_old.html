@@ -113,24 +113,7 @@
 
         {{ macros.section_open("Section 3. Emission Detection Information Provided by CARB") }}
 
-        <div class="mb-3 row">
-          <label for="id_incidence" class="col-sm-4 col-form-label">1. Incidence/Emission ID</label>
-          <div class="col-sm-8">
-            {% if wtf_form.id_incidence.data %}
-              <div class="form-control d-flex align-items-center" style="background-color: #e9ecef;">
-                <a href="http://10.93.112.44:5003/incidence/{{ wtf_form.id_incidence.data }}"
-                   style="color: #20625e;" class="fw-semibold text-decoration-none"
-                   target="_blank" rel="noopener noreferrer">
-                  Plume Tracker Incidence {{ wtf_form.id_incidence.data }} Link
-                </a>
-              </div>
-            {% else %}
-              <span class="form-control-plaintext text-muted">N/A</span>
-            {% endif %}
-          </div>
-        </div>
-
-
+        {{ macros.input_element(wtf_form.id_incidence, size=8, placeholder="ID as Integer") }}
         {{ macros.input_element(wtf_form.id_plume, size=8, placeholder="ID as Integer") }}
         {{ macros.input_element(wtf_form.observation_timestamp, size=8) }}
         {{ macros.input_element(wtf_form.lat_carb, size=8,

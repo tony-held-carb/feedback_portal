@@ -5,8 +5,11 @@ import datetime
 
 from sqlalchemy.orm.attributes import flag_modified
 
+from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
+
+logger, pp_log = get_logger()
 
 
 def apply_json_patch_and_log(model,
@@ -25,6 +28,18 @@ def apply_json_patch_and_log(model,
       comments (str): Optional comment for the update.
   """
   json_data = getattr(model, json_field) or {}
+
+  # Consistency check
+  if "id_incidence" in json_data and json_data["id_incidence"] != model.id_incidence:
+    logger.warning(f"[apply_json_patch_and_log] MISMATCH: model.id_incidence={model.id_incidence} "
+                   f"!= misc_json['id_incidence']={json_data['id_incidence']}")
+
+  # Remove id_incidence from updates to avoid contaminating misc_json
+  if "id_incidence" in updates:
+      if updates["id_incidence"] != model.id_incidence:
+          logger.warning(f"[json_update] Removing conflicting id_incidence from updates: "
+                         f"{updates['id_incidence']}")
+      del updates["id_incidence"]
 
   for key, new_value in updates.items():
     old_value = json_data.get(key)

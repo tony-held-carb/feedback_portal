@@ -3,13 +3,17 @@
 # todo - Next Steps
 ----------------------------
 
+* todo - start here ...
+* include a link to plume tracker from a feedback form, it might make sense to make this the
+  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
+  logic perhaps, but this seems a reasonable fix
+    * need to update consistency checks because i think they are blocking the link from working when it was created on dans side
+
 * consider new color for validate that stands out more
 * consider diff blue for card headers
 
 
-* include a link to plume tracker from a feedback form, it might make sense to make this the
-  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
-  logic perhaps, but this seems a reasonable fix
+
 
   * if a incidence passes validation, have it splash a success message before going to index
   * don't let there be a decoupling between the incidence column and the json key:value

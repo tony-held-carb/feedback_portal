@@ -340,6 +340,10 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
   if model_json_dict is None:
     model_json_dict = {}
 
+  if "id_incidence" in model_json_dict and model_json_dict["id_incidence"] != model.id_incidence:
+    logger.warning(f"[model_to_wtform] MISMATCH: model.id_incidence={model.id_incidence} "
+                   f"!= misc_json['id_incidence']={model_json_dict['id_incidence']}")
+
   form_fields = get_wtforms_fields(wtform)
   model_fields = list(model_json_dict.keys())
 
