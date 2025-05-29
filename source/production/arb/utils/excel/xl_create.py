@@ -24,6 +24,7 @@ from pathlib import Path
 import jinja2
 
 from arb.__get_logger import get_logger
+from arb.utils.constants import PLEASE_SELECT
 from arb.utils.excel.xl_file_structure import (PROCESSED_VERSIONS, PROJECT_ROOT)
 from arb.utils.excel.xl_misc import xl_address_sort
 from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
@@ -40,7 +41,7 @@ logger, pp_log = get_logger()
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
-ENERGY_VERSION = "v002"
+ENERGY_VERSION = "v003"
 
 
 def sort_xl_schema(xl_schema, sort_by="variable_name"):

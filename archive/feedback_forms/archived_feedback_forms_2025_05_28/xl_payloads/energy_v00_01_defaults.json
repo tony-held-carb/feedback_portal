@@ -1,7 +1,7 @@
 {
     "_metadata_": {
         "schema_version": "energy_v00_01",
-        "File created at": "2025-05-29T00:19:44.531209+00:00",
+        "File created at": "2025-05-16T04:36:44.832369+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta",
         "notes": "Default values are empty strings unless the field is a drop-down cell. For drop-down cells, the default is 'Please Select'."
@@ -14,6 +14,7 @@
         "long_carb": "",
         "id_message": "",
         "facility_name": "",
+        "id_arb_eggrt": "",
         "contact_name": "",
         "contact_phone": "",
         "contact_email": "",
@@ -26,8 +27,10 @@
         "initial_leak_concentration": "",
         "venting_description_2": "",
         "initial_mitigation_plan": "",
-        "equipment_at_source": "",
-        "component_at_source": "",
+        "equipment_at_source": "Please Select",
+        "equipment_other_description": "",
+        "component_at_source": "Please Select",
+        "component_other_description": "",
         "repair_timestamp": "",
         "final_repair_concentration": "",
         "repair_description": "",
