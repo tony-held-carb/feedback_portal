@@ -588,6 +588,11 @@ def incidence_prep(model_row,
       logger.debug(f"validate_and_submit was pressed")
       if wtf_form.validate():
         return redirect(url_for('main.index'))
+    elif button == 'update_incidence_status':
+      # This button is no longer available, but leaving the following in case I want to use it again
+      logger.debug(f"update_incidence_status was pressed")
+      html_content = f"you clicked update_incidence_status"
+      return render_template('diagnostics.html', html_content=html_content)
 
   error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 
@@ -598,7 +603,6 @@ def incidence_prep(model_row,
                          wtf_form=wtf_form,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
-                         id_incidence=model_row.id_incidence,
                          )
 
 
