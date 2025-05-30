@@ -4,15 +4,20 @@
 ----------------------------
 
 * todo - start here ...
-* include a link to plume tracker from a feedback form, it might make sense to make this the
-  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
-  logic perhaps, but this seems a reasonable fix
-    * need to update consistency checks because i think they are blocking the link from working when it was created on dans side
+
+* link to plume tracker now works off row id rather than misc_json contents.
+  * it may be possible to get rid of id_incidence entirely from misc_json, but
+    that will require wtforms to be changed and the filter logic.  keeping it in for now.
+  * there was some logic 'NA' that was used to create the tracker link that can likely be stripped out.
 
 * consider new color for validate that stands out more
 * consider diff blue for card headers
 
+* if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
+upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
 
+* id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
+  alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
 
 
   * if a incidence passes validation, have it splash a success message before going to index
