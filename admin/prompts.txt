@@ -32,7 +32,6 @@ def update_model_with_payload(model,
 
     model_json_dict[key] = value
 
-  # todo - use apply_json_patch_and_log
   apply_json_patch_and_log(model,
                            json_field=json_field,
                            updates=model_json_dict,
@@ -101,7 +100,6 @@ def update_model_with_payload(model,
   new_payload = prep_payload_for_json(payload)
   model_json_dict.update(new_payload)
 
-  # todo - use apply_json_patch_and_log
   apply_json_patch_and_log(model,
                            json_field=json_field,
                            updates=model_json_dict,

@@ -5,6 +5,9 @@
 
 * todo - start here ...
 
+  * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
+    * I don't know that you need default payloads anymore ... seems like everything should automatically go to Please Select
+
   * merge in the new code for the ec2
 
   * if a incidence passes validation, have it splash a success message before going to index
@@ -12,6 +15,7 @@
   * don't let there be a decoupling between the incidence column and the json key:value
     * don't allow id_incidence to be changed after it has been created
     * maybe block the creation of new incidence from portal
+    * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
 
 * consider new color for validate that stands out more

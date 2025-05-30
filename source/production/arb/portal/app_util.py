@@ -157,7 +157,6 @@ def get_sector_type(sector):
   Raises:
       ValueError: If sector is unknown.
   """
-  # todo - add ValueError: Unknown sector type: 'Recycling & Waste: Landfills'.
 
   if sector in OIL_AND_GAS_SECTORS:
     return "Oil & Gas"

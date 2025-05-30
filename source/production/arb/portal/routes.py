@@ -287,7 +287,6 @@ def list_uploads():
   """
   Flask route to list files in the uploads folder.
   """
-  # todo - use alternative approach/location for uploads rather than hardcoding
   logger.debug(f"in list_uploads")
   upload_folder = current_app.config["UPLOAD_FOLDER"]
   # up_dir = Path("portal/static/uploads")
@@ -593,7 +592,6 @@ def incidence_prep(model_row,
 
   logger.debug(f"incidence_prep() about to render get template")
 
-  # todo - pass in id_incidence here rather than
   return render_template(template_file,
                          wtf_form=wtf_form,
                          crud_type=crud_type,
