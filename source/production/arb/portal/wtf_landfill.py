@@ -294,6 +294,12 @@ class LandfillFeedback(FlaskForm):
     validators=[],
   )
 
+  label = "CARB internal notes"
+  carb_notes = TextAreaField(
+    label=label,
+    validators=[],
+  )
+
   def update_contingent_selectors(self):
     """
     Update selector choices for emission causes based on the selected emission location.

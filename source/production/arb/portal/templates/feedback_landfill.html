@@ -39,7 +39,7 @@
                 name="submit_button"
                 value="validate_and_submit"
                 class="btn btn-success btn-sm fw-semibold">
-          Validate & Submit
+          Save Changes
         </button>
       </div>
 
@@ -173,6 +173,10 @@
         {{ macros.input_element(wtf_form.last_component_leak_monitoring_timestamp, size=6) }}
         {{ macros.input_element(wtf_form.additional_notes, size=12, rows=3) }}
 
+        {{ macros.section_close() }}
+
+        {{ macros.section_open("Section A. CARB Staff Only") }}
+        {{ macros.input_element(wtf_form.carb_notes, size=12, rows=3) }}
         {{ macros.section_close() }}
 
       </form>

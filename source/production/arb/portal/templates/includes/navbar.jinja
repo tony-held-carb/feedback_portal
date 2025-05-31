@@ -64,6 +64,7 @@
                 Dummy Data</a></li>
             </ul>
           </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false">
@@ -78,18 +79,44 @@
               <li><a class="dropdown-item disabled" href="#">Something else here</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Help
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/CalSMP%20Plume%20Processing%20Resources.docx?d=w033362d49d444a1a837352a7a4a1be55&csf=1&web=1&e=j04CSV">
+                  CalSMP Plume Processing Resources
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/Daily%20CalSMP%20Protocol.docx?d=w9f7f6eadcfe04db5821bc23a70b7991a&csf=1&web=1&e=vEyuJy">
+                  CalSMP Daily Protocol
+                </a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('main.index') }}">Index</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                 name="navbar_search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
+          {#          <li class="nav-item">#}
+          {#            <a class="nav-link disabled" aria-disabled="true">Disabled</a>#}
+          {#          </li>#}
+
+
+          {#          <li class="nav-item">#}
+          {#            <a class="nav-link" href="{{ url_for('main.index') }}">Index</a>#}
+          {#          </li>#}
+          {#        </ul>#}
+
+
+          <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                   name="navbar_search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
       </div>
     </div>
   </nav>

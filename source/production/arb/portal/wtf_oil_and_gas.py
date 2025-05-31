@@ -263,6 +263,12 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
+  label = "CARB internal notes"
+  carb_notes = TextAreaField(
+    label=label,
+    validators=[],
+  )
+
   def update_contingent_selectors(self):
     pass
 
