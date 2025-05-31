@@ -186,8 +186,8 @@ def diagnostics():
   """
   logger.info(f"diagnostics() called")
 
-  base = current_app.base  # DeclarativeMeta set in your app factory
-  cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
+  # base = current_app.base  # DeclarativeMeta set in your app factory
+  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
@@ -419,19 +419,6 @@ def run_sql_script():
   # # update drop-down tables
   # Globals.load_drop_downs(app)
   # return '<h1>SQL script run</h1>'
-
-
-@main.route('/add_form_dummy_data')
-def add_form_dummy_data():
-  """
-  Flask route to add random dummy oil and gas data to the incidence table for diagnostics.
-  """
-  logger.info(f"Adding dummy data for feedback forms")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
-
-  arb.portal.db_hardcoded.add_og_dummy_data(db, base, 'incidences')
-
-  return '<h1>Dummy Feedback Form Data Created</h1>'
 
 
 @main.route("/portal_updates")

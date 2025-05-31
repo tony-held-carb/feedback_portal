@@ -439,3 +439,26 @@ TZ=America/Los_Angeles git log --since="21 days ago" --pretty=format:"%ad %an %s
 
 adding to git from linux
 git add git_status.txt && git commit -m "adding status" && git push
+
+Looking for ways that 'Please Select' could be written to the database.
+Routines that can affect the database have "session." in them
+    - dict_to_database
+    - add_commit_and_log_model  <-- maybe use dict_to_database instead?
+
+    - looks like those both call update_model_with_payload, maybe filter there for please selects?
+
+    - the routine apply_json_patch_and_log updates the portal change table, seems like that should always be the mechanism to update the table
+      even in deletes
+
+     - ok seems like all changes to the json should be made via dict to database so that uniform
+       logging will happen
+     - when a row is deleted, consider doing a dict to database with an empty dictionary or some
+       other way to indiciate deletion
+     - have the search portal deal with missing incidences (if they are deleted)
+     - have links to be missing tracker be dealt with?
+
+     1st, figure out where direct injection of dummy data happens
+
+
+
+
