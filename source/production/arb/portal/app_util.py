@@ -461,3 +461,4 @@ def apply_portal_update_filters(query, PortalUpdate, args):
     pass  # Silently ignore invalid date inputs
 
   return query
+

@@ -156,6 +156,8 @@ def incidence_delete(id_):
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
   model_row = db.session.query(table).get_or_404(id_)
+
+  # todo - ensure portal changes are properly updated
   arb.utils.sql_alchemy.delete_commit_and_log_model(db,
                                                     model_row,
                                                     comment=f'Deleting incidence row {id_}')
@@ -280,9 +282,6 @@ def show_log_file():
                          )
 
 
-# Index route: list files in the uploads folder
-
-
 @main.route('/list_uploads')
 def list_uploads():
   """
@@ -355,8 +354,17 @@ def upload_file(message=None):
   return render_template('upload.html', form=form, upload_message=message)
 
 
-@main.route("/uploads/<path:filename>")
-def uploaded_file(filename):
+@main.route("/serve_file/<path:filename>")
+def serve_file(filename):
+  """
+  Present or download a file from the server.
+
+  Args:
+    filename:
+
+  Returns:
+
+  """
   upload_folder = current_app.config["UPLOAD_FOLDER"]
   file_path = os.path.join(upload_folder, filename)
 
@@ -364,61 +372,6 @@ def uploaded_file(filename):
     abort(404)
 
   return send_from_directory(upload_folder, filename)
-
-
-#####################################################################
-# Diagnostic and developer endpoints
-#####################################################################
-
-@main.route('/modify_json_content')
-def modify_json_content():
-  """
-  Flask route to demonstrate how to update a json field in a postgres column.
-
-  Notes:
-    - ORM can get confused if you modify the json leading to it not being persisted properly:
-      https://bashelton.com/2014/03/updating-postgresql-json-fields-via-sqlalchemy/
-  """
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
-
-  id_incidence = 5  # hard coded incidence to modify
-
-  # for i, map_name in enumerate(Base.classes):
-  #   table_name = str(map_name.__table__.name)
-  #   print(i, table_name)
-  incidences = base.classes.incidences
-
-  session = db.session
-  model = session.query(incidences).get(id_incidence)
-  logger.debug(f"{model=}")
-  json_content = model.misc_json
-
-  time_stamp = datetime.now(ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
-  json_content['time_stamp'] = time_stamp
-
-  # todo (update) - use the payload routine apply_json_patch_and_log
-  #        not sure this route is in use
-  model.misc_json = json_content
-  flag_modified(model, "misc_json")
-  # model.misc_json['temp'] = 123456
-  db.session.add(model)
-  db.session.commit()
-
-  return json_content
-
-
-@main.route('/run_sql_script')
-def run_sql_script():
-  """
- (Outdated) Flask route to run a sql_script which adds tables & data to the database from a
-  sql text file and convert some tables into drop-down structures suitable for select drop-downs.
-  """
-  return "This script is no longer in service - it was originally designed for sqlite"
-  # logger.info(f"Running sql script")
-  # database.add_static_table_content()
-  # # update drop-down tables
-  # Globals.load_drop_downs(app)
-  # return '<h1>SQL script run</h1>'
 
 
 @main.route("/portal_updates")
@@ -485,6 +438,10 @@ def export_portal_updates():
     mimetype="text/csv",
     headers={"Content-Disposition": "attachment; filename=portal_updates_export.csv"}
   )
+
+#####################################################################
+# Diagnostic and developer endpoints
+#####################################################################
 
 
 # ------------------------------------------------------------
@@ -586,16 +543,3 @@ def incidence_prep(model_row,
                          error_count_dict=error_count_dict,
                          id_incidence=model_row.id_incidence,
                          )
-
-
-@main.route("/test_spinner", methods=["GET", "POST"])
-def test_spinner():
-  if request.method == "POST":
-    file = request.files.get("file")
-    if file:
-      import time
-      time.sleep(2)  # simulate processing delay
-      flash(f"File '{file.filename}' uploaded successfully.", "success")
-    return redirect(url_for("main.test_spinner"))
-
-  return render_template("test_spinner.html")
