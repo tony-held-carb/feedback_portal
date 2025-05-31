@@ -57,7 +57,7 @@
 
   {% if error_count_dict['total_error_count'] >0 %}
     {#    <div class="alert alert-danger alert-dismissible fade show">#}
-{#    <div class="alert alert-danger alert-dismissible fade show my-3">#}
+    {#    <div class="alert alert-danger alert-dismissible fade show my-3">#}
     <div class="alert alert-danger alert-dismissible fade show my-3 py-2">
 
       <strong> {{ error_count_dict['total_error_count'] }} validation error(s) was/were detected.</strong>
@@ -79,37 +79,6 @@
     </div>
   {% endif %}
 {% endmacro %}
-
-{% macro drop_down_list(data_dict,
-                        drop_down_dict,
-                        name,
-                        description,
-                        size=9) %}
-  {#
-  Notes:
-    - this macro is likely outdated, but being kept as a reference for a bit ...
-    - Be careful on the types associated with drop-downs!
-    - Sometimes db store items as number and when they are compared to text there are equality/type issues.
-    - As an initial strategy, I recommend that you always cast selectors to strings for equality determination.
-    - Also, use int instead of boolean because it avoids some logic pitfalls of type conversions using this algorithm.
-  #}
-
-  {% set label_size = 12 - size %}
-
-  <div class="row mb-2">
-    <label class="col-sm-{{ label_size }} col-form-label" for="{{ name }}">{{ description }}</label>
-    <div class="col-sm-{{ size }}">
-      <select class="form-select" name="{{ name }}" id="{{ name }}">
-        <option value="" selected disabled>Please Select</option>
-        {% for key_, value_ in drop_down_dict[name].items() %}
-          <option value="{{ key_ }}"
-              {% if key_|string == data_dict[name]|string %} selected {% endif %} >{{ value_ }}</option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
-{% endmacro %}
-
 
 {# ─────────────────────────────────────────────
    🔧 Section Layout Defaults
