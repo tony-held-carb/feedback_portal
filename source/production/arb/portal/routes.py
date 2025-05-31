@@ -13,32 +13,26 @@ Notes:
 """
 
 import os
-from datetime import datetime
 from pathlib import Path
 from urllib.parse import unquote
-from zoneinfo import ZoneInfo
 
-from flask import Blueprint, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
+from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
-from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.exceptions import abort
 
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.__get_logger import get_logger
-from arb.portal.app_util import apply_portal_update_filters, dict_to_database, get_sector_info, upload_and_update_db
+from arb.portal.app_util import apply_portal_update_filters, dict_to_database, get_sector_info, incidence_prep, upload_and_update_db
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.wtf_upload import UploadForm
-from arb.utils.database import cleanse_misc_json
 from arb.utils.diagnostics import obj_to_html
-from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
-  sa_model_diagnostics, sa_model_to_dict
-from arb.utils.wtf_forms_util import get_wtforms_fields, initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
-  wtform_to_model
+from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
+from arb.utils.wtf_forms_util import get_wtforms_fields
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
@@ -163,123 +157,6 @@ def incidence_delete(id_):
                                                     comment=f'Deleting incidence row {id_}')
 
   return redirect(url_for('main.index'))
-
-
-@main.route('/search/', methods=('GET', 'POST'))
-def search():
-  """
-  Flask route to conduct a search from the nav bar.
-  Currently, in development and will only echo the search string.
-  """
-  logger.debug(f"In search route:")
-  logger.debug(f"{request.form=}")
-  search_string = request.form.get('navbar_search')
-  logger.debug(f"{search_string=}")
-
-  return render_template('search.html',
-                         search_string=search_string,
-                         )
-
-
-@main.route('/diagnostics')
-def diagnostics():
-  """
-  Flask route to show diagnostic info for code in development.
-  """
-  logger.info(f"diagnostics() called")
-
-  # base = current_app.base  # DeclarativeMeta set in your app factory
-  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
-
-  result = find_auto_increment_value(db, "incidences", "id_incidence")
-
-  html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html',
-                         header="Auto-Increment Check",
-                         subheader="Next available ID value in the 'incidences' table.",
-                         html_content=html_content,
-                         modal_title="Success",
-                         modal_message="Diagnostics completed successfully.",
-                         )
-
-
-@main.route('/show_dropdown_dict')
-def show_dropdown_dict():
-  """
-  Flask route to show drop-down data structures as a diagnostic.
-  """
-  logger.info(f"Determining dropdown dict")
-  # update drop-down tables
-  Globals.load_drop_downs(current_app, db)
-  result1 = obj_to_html(Globals.drop_downs)
-  result2 = obj_to_html(Globals.drop_downs_contingent)
-  result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p>"
-            f"<p><strong>Globals.drop_downs_contingent=</strong></p> <p>{result2}</p>")
-  return render_template('diagnostics.html',
-                         header="Dropdown Dictionaries",
-                         subheader="Loaded dropdown values and contingent mappings.",
-                         html_content=result,
-                         )
-
-
-@main.route('/show_database_structure')
-def show_database_structure():
-  """
-  Flask route to show database structure as a diagnostic
-  """
-  logger.info(f"Displaying database structure")
-  result = obj_to_html(Globals.db_column_types)
-  result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
-  return render_template('diagnostics.html',
-                         header="Database Structure Overview",
-                         subheader="Reflecting SQLAlchemy model metadata.",
-                         html_content=result,
-                         )
-
-
-@main.route('/show_feedback_form_structure')
-def show_feedback_form_structure():
-  """
-  Flask route to show wtforms structure as a diagnostic.
-  """
-  from arb.portal.wtf_landfill import LandfillFeedback
-  from arb.portal.wtf_oil_and_gas import OGFeedback
-  logger.info(f"Displaying wtforms structure as a diagnostic")
-
-  form1 = OGFeedback()
-  fields1 = get_wtforms_fields(form1)
-  result1 = obj_to_html(fields1)
-
-  form2 = LandfillFeedback()
-  fields2 = get_wtforms_fields(form2)
-  result2 = obj_to_html(fields2)
-
-  result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p>"
-            f"<p><strong>WTF LandfillFeedback Form Structure=</strong></p> <p>{result2}</p>")
-
-  return render_template('diagnostics.html',
-                         header="WTForms Feedback Form Structure",
-                         subheader="Inspecting field mappings in Oil & Gas and Landfill feedback forms.",
-                         html_content=result,
-                         )
-
-
-@main.route('/show_log_file')
-def show_log_file():
-  """
-  Flask route to show the log file as a diagnostic.
-  """
-  logger.info(f"Displaying the log file as a diagnostic")
-  with open(LOG_FILE, 'r') as file:
-    file_content = file.read()
-
-  # result = obj_to_html(file_content)
-  result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
-  return render_template('diagnostics.html',
-                         header="Log File Contents",
-                         # subheader="Full log output from the running server instance.",
-                         html_content=result,
-                         )
 
 
 @main.route('/list_uploads')
@@ -439,107 +316,123 @@ def export_portal_updates():
     headers={"Content-Disposition": "attachment; filename=portal_updates_export.csv"}
   )
 
+
+@main.route('/search/', methods=('GET', 'POST'))
+def search():
+  """
+  Flask route to conduct a search from the nav bar.
+  Currently, in development and will only echo the search string.
+  """
+  logger.debug(f"In search route:")
+  logger.debug(f"{request.form=}")
+  search_string = request.form.get('navbar_search')
+  logger.debug(f"{search_string=}")
+
+  return render_template('search.html',
+                         search_string=search_string,
+                         )
+
+
 #####################################################################
 # Diagnostic and developer endpoints
 #####################################################################
 
-
-# ------------------------------------------------------------
-# Functions that return render_template
-# (all other helper functions should be considered moving to app_util.py)
-# ------------------------------------------------------------
-
-# todo - move to app_util.py?
-def incidence_prep(model_row,
-                   crud_type,
-                   sector_type,
-                   default_dropdown=None):
+@main.route('/diagnostics')
+def diagnostics():
   """
-  Helper function used by many flask routes to render feedback forms for
-  both creation and updating.
+  Flask route to show diagnostic info for code in development.
+  """
+  logger.info(f"diagnostics() called")
 
-  Args:
-    model_row (SQLAlchemy.Model): Single row from a SQLAlchemy model
-    crud_type (str): 'update' or 'create'
-    sector_type (str): 'Oil & Gas' or 'Landfill'
-    default_dropdown (str): Defaults if no drop-down is selected.
+  # base = current_app.base  # DeclarativeMeta set in your app factory
+  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
 
-  Returns (str): html for dynamic page
+  result = find_auto_increment_value(db, "incidences", "id_incidence")
 
-  Notes:
+  html_content = f"<p><strong>Diagnostic Results=</strong></p> <p>{result}</p>"
+  return render_template('diagnostics.html',
+                         header="Auto-Increment Check",
+                         subheader="Next available ID value in the 'incidences' table.",
+                         html_content=html_content,
+                         modal_title="Success",
+                         modal_message="Diagnostics completed successfully.",
+                         )
 
+
+@main.route('/show_dropdown_dict')
+def show_dropdown_dict():
+  """
+  Flask route to show drop-down data structures as a diagnostic.
+  """
+  logger.info(f"Determining dropdown dict")
+  # update drop-down tables
+  Globals.load_drop_downs(current_app, db)
+  result1 = obj_to_html(Globals.drop_downs)
+  result2 = obj_to_html(Globals.drop_downs_contingent)
+  result = (f"<p><strong>Globals.drop_downs=</strong></p> <p>{result1}</p>"
+            f"<p><strong>Globals.drop_downs_contingent=</strong></p> <p>{result2}</p>")
+  return render_template('diagnostics.html',
+                         header="Dropdown Dictionaries",
+                         subheader="Loaded dropdown values and contingent mappings.",
+                         html_content=result,
+                         )
+
+
+@main.route('/show_database_structure')
+def show_database_structure():
+  """
+  Flask route to show database structure as a diagnostic
+  """
+  logger.info(f"Displaying database structure")
+  result = obj_to_html(Globals.db_column_types)
+  result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
+  return render_template('diagnostics.html',
+                         header="Database Structure Overview",
+                         subheader="Reflecting SQLAlchemy model metadata.",
+                         html_content=result,
+                         )
+
+
+@main.route('/show_feedback_form_structure')
+def show_feedback_form_structure():
+  """
+  Flask route to show wtforms structure as a diagnostic.
   """
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
+  logger.info(f"Displaying wtforms structure as a diagnostic")
 
-  logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
-  sa_model_diagnostics(model_row)
+  form1 = OGFeedback()
+  fields1 = get_wtforms_fields(form1)
+  result1 = obj_to_html(fields1)
 
-  if default_dropdown is None:
-    default_dropdown = PLEASE_SELECT
+  form2 = LandfillFeedback()
+  fields2 = get_wtforms_fields(form2)
+  result2 = obj_to_html(fields2)
 
-  if sector_type == "Oil & Gas":
-    logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
-    wtf_form = OGFeedback()
-    template_file = 'feedback_oil_and_gas.html'
-  elif sector_type == "Landfill":
-    logger.debug(f"({sector_type=}) will use a Landfill Feedback Form")
-    wtf_form = LandfillFeedback()
-    template_file = 'feedback_landfill.html'
-  else:
-    raise ValueError(f"Unknown sector type: '{sector_type}'.")
+  result = (f"<p><strong>WTF OGFeedback Form Structure=</strong></p> <p>{result1}</p>"
+            f"<p><strong>WTF LandfillFeedback Form Structure=</strong></p> <p>{result2}</p>")
 
-  if request.method == 'GET':
-    # Populate wtform from model data
-    model_to_wtform(model_row, wtf_form)
-    # todo - maybe put update contingencies here?
-    # obj_diagnostics(wtf_form, message="wtf_form in incidence_prep() after model_to_wtform")
+  return render_template('diagnostics.html',
+                         header="WTForms Feedback Form Structure",
+                         subheader="Inspecting field mappings in Oil & Gas and Landfill feedback forms.",
+                         html_content=result,
+                         )
 
-    # For GET requests for row creation, don't validate and error_count_dict will be all zeros
-    # For GET requests for row update, validate (except for the csrf token that is only present for a POST)
-    if crud_type == 'update':
-      validate_no_csrf(wtf_form, extra_validators=None)
 
-  # todo - trying to make sure invalid drop-downs become "Please Select"
-  #        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)
+@main.route('/show_log_file')
+def show_log_file():
+  """
+  Flask route to show the log file as a diagnostic.
+  """
+  logger.info(f"Displaying the log file as a diagnostic")
+  with open(LOG_FILE, 'r') as file:
+    file_content = file.read()
 
-  # Set all select elements that are a default value (None) to "Please Select" value
-  initialize_drop_downs(wtf_form, default=default_dropdown)
-  # logger.debug(f"\n\t{wtf_form.data=}")
-
-  if request.method == 'POST':
-    # Validate and count errors
-    wtf_form.validate()
-    error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
-
-    # Diagnostics of model before updating with wtform values
-    model_before = sa_model_to_dict(model_row)
-    wtform_to_model(model_row, wtf_form, ignore_fields=["id_incidence"])
-    add_commit_and_log_model(db,
-                             model_row,
-                             comment='call to wtform_to_model()',
-                             model_before=model_before)
-    # todo - need to include logic here to retain the new id that is assigned from adding a new model?
-    # looks like the id_incidence in the json is decoupled from the row id_incidence, which can lead to funny behavior
-    # when an incidence is added it will get an auto generated id, which needs to propagate tot he wtform and model
-    # need to check ahead of time if you are duplicating id so you don't get uniqueness issues
-    # will likely break the spread sheet import process on initial refactor ...
-
-    # Determine course of action for successful database update based on which button was submitted
-    button = request.form.get('submit_button')
-
-    if button == 'validate_and_submit':
-      logger.debug(f"validate_and_submit was pressed")
-      if wtf_form.validate():
-        return redirect(url_for('main.index'))
-
-  error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
-
-  logger.debug(f"incidence_prep() about to render get template")
-
-  return render_template(template_file,
-                         wtf_form=wtf_form,
-                         crud_type=crud_type,
-                         error_count_dict=error_count_dict,
-                         id_incidence=model_row.id_incidence,
+  # result = obj_to_html(file_content)
+  result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
+  return render_template('diagnostics.html',
+                         header="Log File Contents",
+                         # subheader="Full log output from the running server instance.",
+                         html_content=result,
                          )
