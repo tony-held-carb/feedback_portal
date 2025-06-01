@@ -35,6 +35,9 @@ def get_sector_info(db, base, id_):
   """
   Given an incidence primary key, return the sector and sector type.
 
+  The sector and sector type can be in the foreign table sources, in its sector column
+  and/or can be in the misc_json field.
+
   Args:
     db (SQLAlchemy session): Database connection.
     base (SQLAlchemy base): Declarative base object for model reflection.
@@ -49,7 +52,10 @@ def get_sector_info(db, base, id_):
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
   json_column = "misc_json"
+  sector = None
+  sector_type = None
 
+  # Find the sector from the foreign table if incidence was created by plume tracker.
   sector_by_foreign_key = get_foreign_value(
     db, base,
     primary_table_name=primary_table_name,
@@ -59,6 +65,7 @@ def get_sector_info(db, base, id_):
     primary_table_pk_value=id_,
   )
 
+  # Get the row and misc_json field from the incidence table
   row, misc_json = get_table_row_and_column(
     db, base,
     table_name=primary_table_name,
@@ -69,45 +76,10 @@ def get_sector_info(db, base, id_):
   if misc_json is None:
     misc_json = {}
 
-  row_before = sa_model_to_dict(row)
-  _ = resolve_sector(sector_by_foreign_key, row, misc_json)
-  sector, sector_type = resolve_sector_type(row, misc_json)
-
-  add_commit_and_log_model(
-    db, row,
-    comment="resolving sector and sector_type",
-    model_before=row_before,
-  )
-
-  logger.debug(f"get_sector_info() returning {sector=} {sector_type=}")
-  return sector, sector_type
-
-
-def resolve_sector_type(row, misc_json):
-  """
-  Resolve the sector_type value based on the sector in misc_json.
-
-  Args:
-      row (SQLAlchemy model): Database model instance for the row.
-      misc_json (dict): Dictionary from the misc_json column.
-
-  Returns:
-      tuple[str, str]: (sector, sector_type)
-  """
-  logger.debug(f"resolve_sector_type() called with {row=}, {misc_json=}")
-  sector = misc_json["sector"]
+  sector = resolve_sector(sector_by_foreign_key, row, misc_json)
   sector_type = get_sector_type(sector)
 
-  if "sector_type" not in misc_json:
-    misc_json["sector_type"] = sector_type
-    flag_modified(row, "misc_json")
-    logger.debug(f"sector_type initialized to: {sector_type}")
-  elif misc_json["sector_type"] != sector_type:
-    logger.warning(
-      f"Sector Type mismatch; JSON will not be adjusted from {misc_json['sector_type']} to {sector_type=}"
-    )
-
-  logger.debug(f"resolve_sector_type() returning with {sector=}, {sector_type=}")
+  logger.debug(f"get_sector_info() returning {sector=} {sector_type=}")
   return sector, sector_type
 
 
@@ -124,26 +96,28 @@ def resolve_sector(sector_by_foreign_key, row, misc_json):
       str: Final sector value.
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
-  default_sector = "Oil & Gas"
+  sector = None
+  sector_by_json = misc_json.get("sector")
 
   if sector_by_foreign_key is None:
     logger.warning("sector column value in sources table is None.")
-  elif "sector" not in misc_json:
-    logger.warning(f"Sector undefined in JSON. Setting to {sector_by_foreign_key=}")
-    misc_json["sector"] = sector_by_foreign_key
-    flag_modified(row, "misc_json")
-  elif sector_by_foreign_key != misc_json["sector"]:
-    logger.warning(
-      f"Sector mismatch, JSON data not adjusted. {sector_by_foreign_key=}, {misc_json['sector']=}"
-    )
 
-  # Ensure json entry for sector
-  if "sector" not in misc_json:
-    misc_json["sector"] = default_sector
-    flag_modified(row, "misc_json")
+  if sector_by_json is None:
+    logger.warning("'sector' not in misc_json")
 
-  logger.debug(f"resolve_sector() returning {misc_json['sector']=}")
-  return misc_json["sector"]
+  if sector_by_foreign_key is None and sector_by_json is None:
+    logger.error("Can't determine incidence sector")
+    raise ValueError("Can't determine incidence sector")
+
+  if sector_by_foreign_key is not None and sector_by_json is not None:
+    if sector_by_foreign_key != sector_by_json:
+      logger.error(f"Sector mismatch: {sector_by_foreign_key=}, {sector_by_json=}")
+      raise ValueError("Can't determine incidence sector")
+
+  sector = sector_by_foreign_key or sector_by_json
+
+  logger.debug(f"resolve_sector() returning {sector=}")
+  return sector
 
 
 def get_sector_type(sector):
@@ -328,12 +302,6 @@ def dict_to_database(db,
     data_dict[primary_key] = id_
 
   # todo (consider) - filter out "Please Select"
-
-  # todo (update) - use the payload routine apply_json_patch_and_log
-  #               - may have synch issues with json id and row id
-
-  # todo - check to see if this works if there is no id (need to change dummy data)
-
   update_model_with_payload(model, data_dict, json_field=json_field)
 
   session = db.session

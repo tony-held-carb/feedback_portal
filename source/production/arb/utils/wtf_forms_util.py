@@ -438,7 +438,9 @@ def format_raw_data(field, value) -> list[str]:
   raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
-def wtform_to_model(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> None:
+def wtform_to_model(model,
+                    wtform: FlaskForm,
+                    ignore_fields: list[str] | None = None) -> None:
   """
   Update a SQLAlchemy model’s JSON column using data from a WTForm.
 

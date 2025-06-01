@@ -33,6 +33,7 @@ from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.wtf_upload import UploadForm
+from arb.utils.database import cleanse_misc_json
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import add_commit_and_log_model, find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name, \
   sa_model_diagnostics, sa_model_to_dict
@@ -155,6 +156,8 @@ def incidence_delete(id_):
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
   model_row = db.session.query(table).get_or_404(id_)
+
+  # todo - ensure portal changes are properly updated
   arb.utils.sql_alchemy.delete_commit_and_log_model(db,
                                                     model_row,
                                                     comment=f'Deleting incidence row {id_}')
@@ -186,7 +189,7 @@ def diagnostics():
   logger.info(f"diagnostics() called")
 
   # base = current_app.base  # DeclarativeMeta set in your app factory
-  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select")
+  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
@@ -279,15 +282,11 @@ def show_log_file():
                          )
 
 
-# Index route: list files in the uploads folder
-
-
 @main.route('/list_uploads')
 def list_uploads():
   """
   Flask route to list files in the uploads folder.
   """
-  # todo - use alternative approach/location for uploads rather than hardcoding
   logger.debug(f"in list_uploads")
   upload_folder = current_app.config["UPLOAD_FOLDER"]
   # up_dir = Path("portal/static/uploads")
@@ -355,8 +354,17 @@ def upload_file(message=None):
   return render_template('upload.html', form=form, upload_message=message)
 
 
-@main.route("/uploads/<path:filename>")
-def uploaded_file(filename):
+@main.route("/serve_file/<path:filename>")
+def serve_file(filename):
+  """
+  Present or download a file from the server.
+
+  Args:
+    filename:
+
+  Returns:
+
+  """
   upload_folder = current_app.config["UPLOAD_FOLDER"]
   file_path = os.path.join(upload_folder, filename)
 
@@ -364,74 +372,6 @@ def uploaded_file(filename):
     abort(404)
 
   return send_from_directory(upload_folder, filename)
-
-
-#####################################################################
-# Diagnostic and developer endpoints
-#####################################################################
-
-@main.route('/modify_json_content')
-def modify_json_content():
-  """
-  Flask route to demonstrate how to update a json field in a postgres column.
-
-  Notes:
-    - ORM can get confused if you modify the json leading to it not being persisted properly:
-      https://bashelton.com/2014/03/updating-postgresql-json-fields-via-sqlalchemy/
-  """
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
-
-  id_incidence = 5  # hard coded incidence to modify
-
-  # for i, map_name in enumerate(Base.classes):
-  #   table_name = str(map_name.__table__.name)
-  #   print(i, table_name)
-  incidences = base.classes.incidences
-
-  session = db.session
-  model = session.query(incidences).get(id_incidence)
-  logger.debug(f"{model=}")
-  json_content = model.misc_json
-
-  time_stamp = datetime.now(ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
-  json_content['time_stamp'] = time_stamp
-
-  # todo (update) - use the payload routine apply_json_patch_and_log
-  #        not sure this route is in use
-  model.misc_json = json_content
-  flag_modified(model, "misc_json")
-  # model.misc_json['temp'] = 123456
-  db.session.add(model)
-  db.session.commit()
-
-  return json_content
-
-
-@main.route('/run_sql_script')
-def run_sql_script():
-  """
- (Outdated) Flask route to run a sql_script which adds tables & data to the database from a
-  sql text file and convert some tables into drop-down structures suitable for select drop-downs.
-  """
-  return "This script is no longer in service - it was originally designed for sqlite"
-  # logger.info(f"Running sql script")
-  # database.add_static_table_content()
-  # # update drop-down tables
-  # Globals.load_drop_downs(app)
-  # return '<h1>SQL script run</h1>'
-
-
-@main.route('/add_form_dummy_data')
-def add_form_dummy_data():
-  """
-  Flask route to add random dummy oil and gas data to the incidence table for diagnostics.
-  """
-  logger.info(f"Adding dummy data for feedback forms")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
-
-  arb.portal.db_hardcoded.add_og_dummy_data(db, base, 'incidences')
-
-  return '<h1>Dummy Feedback Form Data Created</h1>'
 
 
 @main.route("/portal_updates")
@@ -498,6 +438,10 @@ def export_portal_updates():
     mimetype="text/csv",
     headers={"Content-Disposition": "attachment; filename=portal_updates_export.csv"}
   )
+
+#####################################################################
+# Diagnostic and developer endpoints
+#####################################################################
 
 
 # ------------------------------------------------------------
@@ -588,32 +532,14 @@ def incidence_prep(model_row,
       logger.debug(f"validate_and_submit was pressed")
       if wtf_form.validate():
         return redirect(url_for('main.index'))
-    elif button == 'update_incidence_status':
-      # This button is no longer available, but leaving the following in case I want to use it again
-      logger.debug(f"update_incidence_status was pressed")
-      html_content = f"you clicked update_incidence_status"
-      return render_template('diagnostics.html', html_content=html_content)
 
   error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 
   logger.debug(f"incidence_prep() about to render get template")
 
-  # todo - pass in id_incidence here rather than
   return render_template(template_file,
                          wtf_form=wtf_form,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
+                         id_incidence=model_row.id_incidence,
                          )
-
-
-@main.route("/test_spinner", methods=["GET", "POST"])
-def test_spinner():
-  if request.method == "POST":
-    file = request.files.get("file")
-    if file:
-      import time
-      time.sleep(2)  # simulate processing delay
-      flash(f"File '{file.filename}' uploaded successfully.", "success")
-    return redirect(url_for("main.test_spinner"))
-
-  return render_template("test_spinner.html")

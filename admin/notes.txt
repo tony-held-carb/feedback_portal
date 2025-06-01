@@ -440,14 +440,36 @@ TZ=America/Los_Angeles git log --since="21 days ago" --pretty=format:"%ad %an %s
 adding to git from linux
 git add git_status.txt && git commit -m "adding status" && git push
 
+-------------------------------------------------------------------------------
 Looking for ways that 'Please Select' could be written to the database.
+Will likely update the logging of portal changes and portal_update_table changes
+-------------------------------------------------------------------------------
 Routines that can affect the database have "session." in them
     - dict_to_database
+        - called by
+            - xl_dict_to_database
+            - og_incidence_create
+            - landfill_incidence_create
     - add_commit_and_log_model  <-- maybe use dict_to_database instead?
+        - called by
+            - get_sector_info
+            - incidence_prep
+    - update_model_with_payload
+        - called by
+            - dict_to_database
+            - wtform_to_model
+                - Could remove 'Please Select' from here, but if the model used to have
+                  a valid response, then you would not be changing it to a new value?
+                  I guess I don't remember how the update/overwrite works ....
+    - apply_json_patch_and_log
+        - called by
+            - update_model_with_payload
 
-    - looks like those both call update_model_with_payload, maybe filter there for please selects?
+    Notes
+        dict_to_database seems to only update the json column (may create primary key)
+        add_commit_and_log_model seems to
 
-    - the routine apply_json_patch_and_log updates the portal change table, seems like that should always be the mechanism to update the table
+        - updates the portal change table, seems like that should always be the mechanism to update the table
       even in deletes
 
      - ok seems like all changes to the json should be made via dict to database so that uniform
@@ -459,7 +481,9 @@ Routines that can affect the database have "session." in them
 
      1st, figure out where direct injection of dummy data happens
         dummy uses dict_to_database
-        
+
+
+
 
 
 
