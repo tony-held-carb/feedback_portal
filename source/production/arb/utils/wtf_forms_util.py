@@ -7,6 +7,9 @@ Notes:
 
 """
 
+import copy
+import datetime
+import decimal
 import json
 
 from flask_wtf import FlaskForm
@@ -462,7 +465,9 @@ def wtform_to_model(model,
   update_model_with_payload(model, payload_changes)
 
 
-def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
+def get_payloads(model,
+                 wtform: FlaskForm,
+                 ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
   """
   Generate all values and changed values from a form for updating a model.
 
@@ -488,46 +493,44 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
-  model_fields = list(model_json_dict.keys())
-  form_fields = get_wtforms_fields(wtform)
+  model_field_names = list(model_json_dict.keys())
+  form_field_names = get_wtforms_fields(wtform)
 
-  list_differences(model_fields,
-                   form_fields,
+  list_differences(model_field_names,
+                   form_field_names,
                    iterable_01_name="SQLAlchemy Model",
                    iterable_02_name="WTForm Fields",
                    print_warning=False,
                    )
 
-  for attr_name in form_fields:
-    if attr_name in ignore_fields:
+  for form_field_name in form_field_names:
+    field = getattr(wtform, form_field_name)
+    field_value = field.data
+    model_value = model_json_dict.get(form_field_name)
+
+    if form_field_name in ignore_fields:
       continue
 
-    field = getattr(wtform, attr_name)
-    attr_value = field.data
+    # todo (consider) skipping empty strings
+    # if field_value == "":
+    #   continue
 
-    # Skip placeholder only for SelectField or compatible types
-    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
+    # todo - make sure this works
+    # If a selector element is 'Please Select' you can ignore it, unless the model already has
+    # the key, in which case you need to set it to None to indicated it no longer has a value
+    if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
+      if form_field_name in model_field_names:
+        payload_all[form_field_name] = None
+        if model_value is not None:
+          payload_changes[form_field_name] = None
       continue
 
-    # Skip empty strings
-    if attr_value == "":
-      continue
+    payload_all[form_field_name] = field_value
 
-    payload_all[attr_name] = attr_value
-
-    existing_value = model_json_dict.get(attr_name)
-    if existing_value != attr_value:
-      payload_changes[attr_name] = attr_value
+    if model_value != field_value:
+      payload_changes[form_field_name] = field_value
 
   return payload_all, payload_changes
-
-
-import copy
-import datetime
-import decimal
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 def prep_payload_for_json(payload: dict,

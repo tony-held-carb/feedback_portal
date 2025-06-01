@@ -452,7 +452,6 @@ Routines that can affect the database have "session." in them
             - landfill_incidence_create
     - add_commit_and_log_model  <-- maybe use dict_to_database instead?
         - called by
-            - get_sector_info
             - incidence_prep
     - update_model_with_payload
         - called by
