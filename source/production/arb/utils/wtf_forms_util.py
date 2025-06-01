@@ -511,9 +511,10 @@ def get_payloads(model,
     if form_field_name in ignore_fields:
       continue
 
-    # todo (consider) skipping empty strings
-    # if field_value == "":
-    #   continue
+    # skipping empty strings if the model is "" or None
+    if field_value == "":
+      if model_value in [None, ""]:
+        continue
 
     # todo - make sure this works
     # If a selector element is 'Please Select' you can ignore it, unless the model already has
@@ -527,6 +528,8 @@ def get_payloads(model,
 
     payload_all[form_field_name] = field_value
 
+    # todo - object types are not being seen as equivalent (because they are serialized strings)
+    #        need to update logic - check out prep_payload_for_json for uniform approach
     if model_value != field_value:
       payload_changes[form_field_name] = field_value
 
