@@ -5,6 +5,9 @@
 
 * todo - start here ...
 
+  * continue refactor json serialization/deserialization of misc_json content
+
+
   * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
     * I don't know that you need default payloads anymore ... seems like everything should automatically go to Please Select
 
@@ -24,6 +27,8 @@
     * maybe block the creation of new incidence from portal
     * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
+  * json files with meta are serialized/deserialized differently than how misc_json is done,
+    consider aligning them better if possible.
 
 * consider new color for validate that stands out more
 * consider diff blue for card headers
