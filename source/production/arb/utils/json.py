@@ -20,6 +20,11 @@ from wtforms.fields import DateTimeField, DecimalField
 from arb.__get_logger import get_logger
 from arb.utils.date_and_time import ca_naive_to_utc_datetime
 from arb.utils.diagnostics import compare_dicts
+from arb.utils.date_and_time import (
+  ca_naive_to_utc_datetime,
+  datetime_to_ca_naive,
+  iso8601_to_utc_dt
+)
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
@@ -275,7 +280,8 @@ def compare_json_files(file_name_1: str | pathlib.Path,
 
 def make_dict_serializeable(
     input_dict: dict,
-    type_map: dict[str, type] = None
+    type_map: dict[str, type] = None,
+    convert_time_to_ca=False,
 ) -> dict:
   """
   Convert a dictionary to ensure all keys are strings and all values are JSON-serializable.
@@ -283,7 +289,8 @@ def make_dict_serializeable(
   Args:
       input_dict (dict): Input dictionary with possibly complex Python objects.
       type_map (dict[str, type], optional): Optional mapping of keys to types to cast values to.
-
+      convert_time_to_ca (bool): True to assume that a timestamp with no timezone info is california time
+                                 False to leave in UTC with timezone info.
   Returns:
       dict: A new dictionary with string keys and JSON-serializable values.
 
@@ -303,9 +310,10 @@ def make_dict_serializeable(
         raise ValueError(f"Failed to cast key '{key}' to {type_map[key]}: {e}")
 
     if isinstance(value, datetime.datetime):
-      # todo - should probably simply convert to iso with a option to convert
-      #        native times to utc
-      value = ca_naive_to_utc_datetime(value).isoformat()
+      if convert_time_to_ca:
+        value = ca_naive_to_utc_datetime(value)
+      value = value.isoformat()
+
     elif isinstance(value, decimal.Decimal):
       value = float(value)
 
@@ -316,7 +324,8 @@ def make_dict_serializeable(
 
 def deserialize_dict(
     input_dict: dict,
-    type_map: dict[str, type]
+    type_map: dict[str, type],
+    convert_time_to_ca = False,
 ) -> dict:
   """
   Deserialize a dictionary's values based on a type map, casting string values to target types.
@@ -324,7 +333,8 @@ def deserialize_dict(
   Args:
       input_dict (dict): Dictionary with string keys and values to deserialize.
       type_map (dict[str, type]): Mapping of keys to desired types (e.g., int, float, datetime).
-
+      convert_time_to_ca (bool): True to convert datetime to california local with no timezone info
+                                 False to leave in UTC with timezone info.
   Returns:
       dict: A new dictionary with values cast to their specified types.
 
@@ -342,8 +352,9 @@ def deserialize_dict(
       target_type = type_map[key]
       try:
         if target_type == datetime.datetime:
-          # todo - include option to convert this to ca local with no timezone
-          value = datetime.datetime.fromisoformat(value)
+          value = iso8601_to_utc_dt(value)
+          if convert_time_to_ca:
+            value = datetime_to_ca_naive(value)
         elif target_type == decimal.Decimal:
           value = decimal.Decimal(value)
         else:

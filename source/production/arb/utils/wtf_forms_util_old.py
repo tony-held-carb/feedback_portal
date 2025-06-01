@@ -28,9 +28,6 @@ from arb.utils.date_and_time import (
 from arb.utils.diagnostics import list_differences
 
 __version__ = "1.0.0"
-
-from arb.utils.json import make_dict_serializeable
-
 logger, pp_log = get_logger()
 
 
@@ -558,10 +555,25 @@ def prep_payload_for_json(payload: dict,
       dict: A transformed copy of the payload suitable for JSON serialization.
   """
   type_matching_dict = type_matching_dict or {"id_incidence": int}
+  new_payload = {}
 
-  return make_dict_serializeable(payload,
-                                 type_matching_dict,
-                                 convert_time_to_ca=True)
+  for key, value in payload.items():
+    # Standard conversions
+    if isinstance(value, datetime.datetime):
+      value = ca_naive_to_utc_datetime(value).isoformat()
+    elif isinstance(value, decimal.Decimal):
+      value = float(value)
+
+    # Apply type matching overrides
+    if key in type_matching_dict and value is not None:
+      try:
+        value = type_matching_dict[key](value)
+      except (ValueError, TypeError) as e:
+        logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
+
+    new_payload[key] = value
+
+  return new_payload
 
 
 def update_model_with_payload(model,

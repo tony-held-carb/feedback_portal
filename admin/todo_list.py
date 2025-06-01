@@ -6,6 +6,8 @@
 * todo - start here ...
 
   * continue refactor json serialization/deserialization of misc_json content
+    * check that I did make_dict_serializeable correct
+    * refactor to use deserialize_dict in wtform_to_model
 
 
   * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
