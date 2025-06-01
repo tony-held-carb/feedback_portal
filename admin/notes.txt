@@ -383,8 +383,10 @@ Please refactor the following python code using the following style preferences:
 Please create a new function named run_diagnostics that includes testing of key features of this file.
 
 
-### Notes on todo, and considers:
-* 'todo (consider)' is used in python comments to indicate optional todo items
+### Notes on naming systems:
+* todo (consider) is used in python comments to indicate optional todo items
+* todo (future) a potential item to address in the future
+
 * naming convention
   * model: an SQLAlchemy model instance
   * wtf_form: a wtform instance

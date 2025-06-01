@@ -600,7 +600,7 @@ def update_model_with_payload(model,
   new_payload = prep_payload_for_json(payload)
   model_json.update(new_payload)
 
-  # TODO: Integrate real user once authentication is added
+  # todo (future): Integrate real user once authentication is added
   apply_json_patch_and_log(
     model,
     json_field=json_field,
