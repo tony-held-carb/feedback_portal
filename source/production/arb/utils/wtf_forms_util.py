@@ -9,7 +9,6 @@ Notes:
 
 import copy
 import datetime
-import decimal
 import json
 
 from flask_wtf import FlaskForm
@@ -21,7 +20,6 @@ from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.date_and_time import (
-  ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
   iso8601_to_utc_dt
 )
@@ -309,7 +307,9 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict:
   return error_count_dict
 
 
-def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") -> None:
+def model_to_wtform(model,
+                    wtform: FlaskForm,
+                    json_column: str = "misc_json") -> None:
   """
   Populate a WTForm from a SQLAlchemy model's JSON column.
 
@@ -360,32 +360,31 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
     print_warning=False
   )
 
-  for attr_name in model_fields:
-    if attr_name not in form_fields:
-      continue
+  # todo - seems like the casting should be in json, but I guess I can leave it here ...
 
-    attr_value = model_json_dict.get(attr_name)
-    field = getattr(wtform, attr_name)
+  for field_name in form_fields:
+    field = getattr(wtform, field_name)
+    model_value = model_json_dict.get(field_name)
 
-    if attr_value is not None:
+    if model_value is not None:
       if isinstance(field, DateTimeField):
-        if isinstance(attr_value, str):
-          attr_value = iso8601_to_utc_dt(attr_value)
-          attr_value = datetime_to_ca_naive(attr_value)
+        if isinstance(model_value, str):
+          model_value = iso8601_to_utc_dt(model_value)
+          model_value = datetime_to_ca_naive(model_value)
         else:
-          raise ValueError(f"Invalid value for datetime field {attr_name=}: {attr_value=}")
+          raise ValueError(f"Invalid value for datetime field {field_name=}: {model_value=}")
 
       elif isinstance(field, DecimalField):
         try:
-          attr_value = float(attr_value)
+          model_value = float(model_value)
         except ValueError:
-          raise ValueError(f"Cannot convert value to DecimalField: {attr_value=}")
+          raise ValueError(f"Cannot convert value to DecimalField: {model_value=}")
 
     # Set field data and raw_data for proper rendering/validation
-    field.data = attr_value
-    field.raw_data = format_raw_data(field, attr_value)
+    field.data = model_value
+    field.raw_data = format_raw_data(field, model_value)
 
-    logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
+    logger.debug(f"Set {field_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
 def format_raw_data(field, value) -> list[str]:

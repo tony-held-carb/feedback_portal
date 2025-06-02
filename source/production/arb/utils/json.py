@@ -18,13 +18,12 @@ from zoneinfo import ZoneInfo
 from wtforms.fields import DateTimeField, DecimalField
 
 from arb.__get_logger import get_logger
-from arb.utils.date_and_time import ca_naive_to_utc_datetime
-from arb.utils.diagnostics import compare_dicts
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
   iso8601_to_utc_dt
 )
+from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
@@ -325,7 +324,7 @@ def make_dict_serializeable(
 def deserialize_dict(
     input_dict: dict,
     type_map: dict[str, type],
-    convert_time_to_ca = False,
+    convert_time_to_ca=False,
 ) -> dict:
   """
   Deserialize a dictionary's values based on a type map, casting string values to target types.
@@ -367,27 +366,36 @@ def deserialize_dict(
   return result
 
 
-def build_type_map_from_wtform(wtform) -> dict[str, type]:
+def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]:
   """
-  Constructs a dictionary mapping field names to complex Python types that require explicit deserialization.
+  Constructs two dictionaries from a WTForm instance:
 
-  Only includes field types that cannot be trivially deserialized from JSON, such as datetime and Decimal.
+  1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
+  2. A dictionary of field data values for all fields.
 
   Args:
       wtform (FlaskForm): WTForms instance.
 
   Returns:
-      dict[str, type]: Field name to type mapping for deserialization.
+      tuple:
+          - dict[str, type]: Field name to type mapping for deserialization.
+          - dict[str, object]: Field name to current value mapping.
   """
 
   type_map = {}
+  field_data = {}
+
   for name, field in wtform._fields.items():
+    # Field data for all fields
+    field_data[name] = field.data
+
+    # Only include non-trivial types in type map
     if isinstance(field, DateTimeField):
       type_map[name] = datetime.datetime
     elif isinstance(field, DecimalField):
       type_map[name] = decimal.Decimal
 
-  return type_map
+  return type_map, field_data
 
 
 def run_diagnostics() -> None:
