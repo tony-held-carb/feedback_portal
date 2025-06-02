@@ -27,7 +27,7 @@ from arb.utils.diagnostics import list_differences
 
 __version__ = "1.0.0"
 
-from arb.utils.json import make_dict_serializeable
+from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
 
 logger, pp_log = get_logger()
 
@@ -360,25 +360,13 @@ def model_to_wtform(model,
     print_warning=False
   )
 
-  # todo - seems like the casting should be in json, but I guess I can leave it here ...
+  # Use utilities to get type map and convert model dict
+  type_map, _ = wtform_types_and_values(wtform)
+  parsed_dict = deserialize_dict(model_json_dict, type_map, convert_time_to_ca=True)
 
   for field_name in form_fields:
     field = getattr(wtform, field_name)
-    model_value = model_json_dict.get(field_name)
-
-    if model_value is not None:
-      if isinstance(field, DateTimeField):
-        if isinstance(model_value, str):
-          model_value = iso8601_to_utc_dt(model_value)
-          model_value = datetime_to_ca_naive(model_value)
-        else:
-          raise ValueError(f"Invalid value for datetime field {field_name=}: {model_value=}")
-
-      elif isinstance(field, DecimalField):
-        try:
-          model_value = float(model_value)
-        except ValueError:
-          raise ValueError(f"Cannot convert value to DecimalField: {model_value=}")
+    model_value = parsed_dict.get(field_name)
 
     # Set field data and raw_data for proper rendering/validation
     field.data = model_value

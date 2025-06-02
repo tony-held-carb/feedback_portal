@@ -277,6 +277,72 @@ def compare_json_files(file_name_1: str | pathlib.Path,
     logger.debug("Data differ")
 
 
+def cast_model_value(value, value_type, convert_time_to_ca=False):
+  """
+  Deserialize a value stored in JSON as a string to its Python type for
+  use in a WTForm field.
+
+  Args:
+      value (string): Model value stored in JSON as a string.
+      value_type: Python type of value to be stored in a WTForm.
+      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
+                                 False to leave in UTC with timezone info.
+
+  Returns:
+      The value cast to the appropriate Python type.
+
+  Raises:
+      ValueError: If the value cannot be cast to the given type.
+  """
+  try:
+    if value_type == str:
+      # No need to cast a string
+      return value
+    elif value_type in [bool, int, float]:
+      return value_type(value)
+    elif value_type == datetime.datetime:
+      dt = iso8601_to_utc_dt(value)
+      return datetime_to_ca_naive(dt) if convert_time_to_ca else dt
+    elif value_type == decimal.Decimal:
+      return decimal.Decimal(value)
+    else:
+      raise ValueError(f"Unsupported type for casting: {value_type}")
+  except Exception as e:
+    raise ValueError(f"Failed to cast {value!r} to {value_type}: {e}")
+
+
+def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]:
+  """
+  Constructs two dictionaries from a WTForm instance:
+
+  1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
+  2. A dictionary of field data values for all fields.
+
+  Args:
+      wtform (FlaskForm): WTForms instance.
+
+  Returns:
+      tuple:
+          - dict[str, type]: Field name to type mapping for deserialization.
+          - dict[str, object]: Field name to current value mapping.
+  """
+
+  type_map = {}
+  field_data = {}
+
+  for name, field in wtform._fields.items():
+    # Field data for all fields
+    field_data[name] = field.data
+
+    # Only include non-trivial types in type map
+    if isinstance(field, DateTimeField):
+      type_map[name] = datetime.datetime
+    elif isinstance(field, DecimalField):
+      type_map[name] = decimal.Decimal
+
+  return type_map, field_data
+
+
 def make_dict_serializeable(
     input_dict: dict,
     type_map: dict[str, type] = None,
@@ -332,8 +398,9 @@ def deserialize_dict(
   Args:
       input_dict (dict): Dictionary with string keys and values to deserialize.
       type_map (dict[str, type]): Mapping of keys to desired types (e.g., int, float, datetime).
-      convert_time_to_ca (bool): True to convert datetime to california local with no timezone info
+      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
                                  False to leave in UTC with timezone info.
+
   Returns:
       dict: A new dictionary with values cast to their specified types.
 
@@ -348,54 +415,11 @@ def deserialize_dict(
       raise TypeError(f"All keys must be strings. Invalid key: {key} ({type(key)})")
 
     if key in type_map:
-      target_type = type_map[key]
-      try:
-        if target_type == datetime.datetime:
-          value = iso8601_to_utc_dt(value)
-          if convert_time_to_ca:
-            value = datetime_to_ca_naive(value)
-        elif target_type == decimal.Decimal:
-          value = decimal.Decimal(value)
-        else:
-          value = target_type(value)
-      except Exception as e:
-        raise ValueError(f"Failed to cast key '{key}' to {target_type}: {e}")
-
-    result[key] = value
+      result[key] = cast_model_value(value, type_map[key], convert_time_to_ca)
+    else:
+      result[key] = value
 
   return result
-
-
-def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]:
-  """
-  Constructs two dictionaries from a WTForm instance:
-
-  1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
-  2. A dictionary of field data values for all fields.
-
-  Args:
-      wtform (FlaskForm): WTForms instance.
-
-  Returns:
-      tuple:
-          - dict[str, type]: Field name to type mapping for deserialization.
-          - dict[str, object]: Field name to current value mapping.
-  """
-
-  type_map = {}
-  field_data = {}
-
-  for name, field in wtform._fields.items():
-    # Field data for all fields
-    field_data[name] = field.data
-
-    # Only include non-trivial types in type map
-    if isinstance(field, DateTimeField):
-      type_map[name] = datetime.datetime
-    elif isinstance(field, DecimalField):
-      type_map[name] = decimal.Decimal
-
-  return type_map, field_data
 
 
 def run_diagnostics() -> None:
