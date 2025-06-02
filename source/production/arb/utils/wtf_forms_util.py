@@ -507,7 +507,7 @@ def get_payloads(model,
       if model_value in [None, ""]:
         continue
 
-    # skipping Please Select if the model is "" or None
+    # Only persist "Please Select" if overwriting a meaningful value.
     if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
       if model_value in [None, ""]:
         continue

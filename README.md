@@ -61,6 +61,9 @@
   * windows: http://127.0.0.1:5000/
   * linux: http://10.93.112.44:2113
 
+### Data Contracts:
+  * misc_json only contains "Please Select" when it replaces a previously valid value.
+  * 
 ### Archiving:
 * portal had a major refactor and the previous project designs were archived.
 * If the repo is to be archived (it becomes unstable for some reason), save it
