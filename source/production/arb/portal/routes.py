@@ -98,9 +98,6 @@ def og_incidence_create():
 
   data_dict = arb.portal.db_hardcoded.get_og_dummy_data()
 
-  # todo - currently the please select from the dummy data is going to the database
-  # lots of ways to avoid this, first step is to update the dummy data so it does not have please select
-
   id_ = dict_to_database(db,
                          base,
                          data_dict,
@@ -343,9 +340,6 @@ def diagnostics():
   Flask route to show diagnostic info for code in development.
   """
   logger.info(f"diagnostics() called")
-
-  # base = current_app.base  # DeclarativeMeta set in your app factory
-  # cleanse_misc_json(db, base, "incidences", "misc_json", "Please Select", dry_run=True)
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 

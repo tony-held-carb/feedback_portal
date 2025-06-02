@@ -301,7 +301,6 @@ def dict_to_database(db,
     logger.debug(f"Backfilling {primary_key} = {id_} into payload")
     data_dict[primary_key] = id_
 
-  # todo (consider) - filter out "Please Select"
   update_model_with_payload(model, data_dict, json_field=json_field)
 
   session = db.session

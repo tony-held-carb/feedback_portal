@@ -17,6 +17,10 @@ from zoneinfo import ZoneInfo
 
 from wtforms.fields import DateTimeField, DecimalField
 
+from wtforms import DateTimeField, DecimalField, BooleanField, SelectField, IntegerField, StringField
+import datetime
+import decimal
+
 from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
@@ -316,7 +320,7 @@ def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]
   Constructs two dictionaries from a WTForm instance:
 
   1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
-  2. A dictionary of field data values for all fields.
+  2. A dictionary of field data values for all fields (including 'Please Select').
 
   Args:
       wtform (FlaskForm): WTForms instance.
@@ -324,24 +328,28 @@ def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]
   Returns:
       tuple:
           - dict[str, type]: Field name to type mapping for deserialization.
-          - dict[str, object]: Field name to current value mapping.
+          - dict[str, object]: Field name to current value mapping (may include 'Please Select').
   """
-
   type_map = {}
   field_data = {}
 
   for name, field in wtform._fields.items():
-    # Field data for all fields
-    field_data[name] = field.data
+    value = field.data
+    field_data[name] = value
 
-    # Only include non-trivial types in type map
+    # Identify complex field types for type mapping
     if isinstance(field, DateTimeField):
       type_map[name] = datetime.datetime
     elif isinstance(field, DecimalField):
       type_map[name] = decimal.Decimal
+    elif isinstance(field, BooleanField):
+      type_map[name] = bool
+    elif isinstance(field, IntegerField):
+      type_map[name] = int
+    elif isinstance(field, SelectField):
+      type_map[name] = str  # 'Please Select' is valid
 
   return type_map, field_data
-
 
 def make_dict_serializeable(
     input_dict: dict,

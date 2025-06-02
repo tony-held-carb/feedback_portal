@@ -44,7 +44,7 @@ def add_og_dummy_data(db, base, table_name) -> None:
   """
   Add dummy data to incidence table for diagnostics.
   This routine is likely outdated and is kept only as a template.
-  Don't assign drop-downs to 'Please Select' in dummy data.
+  It is valid, but not necessary to specify 'Please Select' in dummy data.
 
   Args:
     db (SQLAlchemy): SQLAlchemy database associated with a flask app
@@ -98,7 +98,7 @@ def get_og_dummy_data():
   """
   Create a model with dummy data for debugging purposes.
 
-  Don't use Please Select, don't assign key value pairs for unknown drop-downs
+  It is valid, but not necessary to specify 'Please Select' in dummy data.
   """
 
   json_data = {

@@ -24,6 +24,7 @@ from arb.utils.date_and_time import (
   iso8601_to_utc_dt
 )
 from arb.utils.diagnostics import list_differences
+from arb.utils.json import make_dict_serializeable
 
 __version__ = "1.0.0"
 
@@ -506,15 +507,10 @@ def get_payloads(model,
       if model_value in [None, ""]:
         continue
 
-    # todo - make sure this works
-    # If a selector element is 'Please Select' you can ignore it, unless the model already has
-    # the key, in which case you need to set it to None to indicated it no longer has a value
+    # skipping Please Select if the model is "" or None
     if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
-      if form_field_name in model_field_names:
-        payload_all[form_field_name] = None
-        if model_value is not None:
-          payload_changes[form_field_name] = None
-      continue
+      if model_value in [None, ""]:
+        continue
 
     payload_all[form_field_name] = field_value
 
@@ -526,20 +522,23 @@ def get_payloads(model,
   return payload_all, payload_changes
 
 
+
 def prep_payload_for_json(payload: dict,
                           type_matching_dict: dict = None) -> dict:
   """
   Prepare a payload dictionary for JSON serialization.
 
+  Allows 'Please Select' to be stored as-is.
+
   Ensures:
-    - `datetime` → ISO8601 UTC string
-    - `decimal.Decimal` → float
+    - datetime → ISO8601 UTC string
+    - decimal.Decimal → float
     - Values in `type_matching_dict` are explicitly cast to the specified types
 
   Args:
       payload (dict): Dictionary of key/value updates for the model.
       type_matching_dict (dict): Optional mapping of key names to expected types,
-                                 e.g., {"id_incidence": int, "some_flag": bool}.
+                                 e.g., {"id_incidence": int, "some_flag": bool}
 
   Returns:
       dict: A transformed copy of the payload suitable for JSON serialization.
@@ -547,8 +546,9 @@ def prep_payload_for_json(payload: dict,
   type_matching_dict = type_matching_dict or {"id_incidence": int}
 
   return make_dict_serializeable(payload,
-                                 type_matching_dict,
+                                 type_map=type_matching_dict,
                                  convert_time_to_ca=True)
+
 
 
 def update_model_with_payload(model,

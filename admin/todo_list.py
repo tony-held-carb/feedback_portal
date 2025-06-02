@@ -4,6 +4,9 @@
 ----------------------------
 
 * todo - start here ...
+  * I'm changing the philosophy to now allow "Please Select" to be stored in misc_json.
+    this will allow for cleaner code, and less likely to make mistakes, the
+    field will get a little bloated, but there are tradeoffs either way.
 
   * continue refactor json serialization/deserialization of misc_json content
     * check that I did make_dict_serializeable correct
