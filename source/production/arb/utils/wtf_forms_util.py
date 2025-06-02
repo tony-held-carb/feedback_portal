@@ -24,11 +24,10 @@ from arb.utils.date_and_time import (
   iso8601_to_utc_dt
 )
 from arb.utils.diagnostics import list_differences
-from arb.utils.json import make_dict_serializeable
+from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
 
 __version__ = "1.0.0"
 
-from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
 
 logger, pp_log = get_logger()
 
@@ -376,60 +375,32 @@ def model_to_wtform(model,
     logger.debug(f"Set {field_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-def format_raw_data(field, value) -> list[str]:
-  """
-  Generate WTForms-compatible raw_data from a Python value.
+from decimal import Decimal
 
-  This helper function is used to populate the `.raw_data` attribute
-  of WTForms fields. This is critical for validation, especially when
-  the form has not been submitted via POST but needs to render with
-  default or pre-populated values.
+def format_raw_data(field, value):
+  """
+  Convert a field value to a format suitable for raw_data so WTForms can render it correctly.
 
   Args:
-      field : A WTForms field object (e.g., StringField, DateTimeField).
-      value : The value to be assigned to the field. Can be a string, number, or datetime.
+      field: A WTForms field instance.
+      value: The value to convert for raw_data.
 
   Returns:
-      list[str]: A list with a single string element representing the value, as expected by WTForms.
+      list[str]: A list of strings representing the raw input value.
 
   Raises:
-      ValueError: If the value is of an unsupported type.
-
-  Examples:
-      >>> from wtforms.fields import DateTimeField, StringField
-      >>> from datetime import datetime, timezone
-      >>> field = DateTimeField()
-      >>> dt = datetime(2025, 4, 22, 18, 30, tzinfo=timezone.utc)
-      >>> format_raw_data(field, dt)
-      ['2025-04-22T11:30:00']  # Converted to Pacific
-
-      >>> format_raw_data(field, "hello")
-      ['hello']
-
-  Notes:
-      - Datetime objects must be naive local times.
-      - Floats, ints, and strings are stringified.
-      - Complex or nested structures will raise an exception unless explicitly supported.
+      ValueError: If the value type is unsupported.
   """
   if value is None:
     return []
-
-  if isinstance(value, str):
-    return [value]
-
-  elif isinstance(value, (int, float, complex)):
+  elif isinstance(value, (str, int, float)):
     return [str(value)]
-
+  elif isinstance(value, Decimal):
+    return [str(float(value))]  # Cast to float before converting to string
   elif isinstance(value, datetime.datetime):
-    if isinstance(field, DateTimeField):
-      if value.tzinfo is None:
-        return [value.strftime("%Y-%m-%dT%H:%M")]
-      else:
-        raise TypeError(f"Attempt to set a DateTimeField with non-naive datetime object {value=!r}")
-    else:
-      return [value.isoformat()]
-
-  raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
+    return [value.isoformat()]
+  else:
+    raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
 def wtform_to_model(model,
@@ -478,6 +449,8 @@ def get_payloads(model,
   if ignore_fields is None:
     ignore_fields = []
 
+  skip_empty_fields = False  # Yes if you wish to skip blank fields from being updated when feasible
+
   payload_all = {}
   payload_changes = {}
 
@@ -502,15 +475,16 @@ def get_payloads(model,
     if form_field_name in ignore_fields:
       continue
 
-    # skipping empty strings if the model is "" or None
-    if field_value == "":
-      if model_value in [None, ""]:
-        continue
+    if skip_empty_fields is True:
+      # skipping empty strings if the model is "" or None
+      if field_value == "":
+        if model_value in [None, ""]:
+          continue
 
-    # Only persist "Please Select" if overwriting a meaningful value.
-    if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
-      if model_value in [None, ""]:
-        continue
+      # Only persist "Please Select" if overwriting a meaningful value.
+      if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
+        if model_value in [None, ""]:
+          continue
 
     payload_all[form_field_name] = field_value
 
