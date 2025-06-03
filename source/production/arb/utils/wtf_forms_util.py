@@ -13,6 +13,7 @@ import json
 from decimal import Decimal
 
 from flask_wtf import FlaskForm
+from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
@@ -470,6 +471,8 @@ def get_payloads(model,
                  wtform: FlaskForm,
                  ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
   """
+  Deprecated: Use `wtform_to_model()` instead.
+
   Generate all values and changed values from a form for updating a model.
 
   Args:
@@ -527,7 +530,7 @@ def get_payloads(model,
 
     payload_all[form_field_name] = field_value
 
-    # todo - object types are not being seen as equivalent (because they are serialized strings)
+    # todo (depreciated) - object types are not being seen as equivalent (because they are serialized strings)
     #        need to update logic - check out prep_payload_for_json for uniform approach
     if model_value != field_value:
       payload_changes[form_field_name] = field_value
@@ -586,7 +589,6 @@ def update_model_with_payload(model,
   new_payload = prep_payload_for_json(payload)
   model_json.update(new_payload)
 
-  # todo (future): Integrate real user once authentication is added
   apply_json_patch_and_log(
     model,
     json_field=json_field,

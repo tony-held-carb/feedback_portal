@@ -447,21 +447,26 @@ Looking for ways that 'Please Select' could be written to the database.
 Will likely update the logging of portal changes and portal_update_table changes
 -------------------------------------------------------------------------------
 Routines that can affect the database have "session." in them
+    - apply_json_patch_and_log
+        - called by
+            - update_model_with_payload
+            - wtform_to_model
+    - update_model_with_payload
+        - called by
+            - dict_to_database
     - dict_to_database
         - called by
             - xl_dict_to_database
             - og_incidence_create
             - landfill_incidence_create
-    - add_commit_and_log_model  <-- maybe use dict_to_database instead?
+    - wtform_to_model
         - called by
             - incidence_prep
-    - update_model_with_payload
+    - add_commit_and_log_model
         - called by
-            - dict_to_database
-    - apply_json_patch_and_log
-        - called by
-            - update_model_with_payload
-            - wtform_to_model
+            - incidence_prep
+        - this adds the whole row (not just the misc_json)
+        - likely outdated and just for logging
 
     Notes
         dict_to_database seems to only update the json column (may create primary key)
