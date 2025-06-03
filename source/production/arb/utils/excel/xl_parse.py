@@ -19,7 +19,7 @@ import openpyxl
 
 from arb.__get_logger import get_logger
 from arb.portal.constants import PLEASE_SELECT
-from arb.utils.date_and_time import parse_unknown_datetime
+from arb.utils.date_and_time import is_datetime_naive, parse_unknown_datetime
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 
@@ -196,7 +196,7 @@ def extract_tabs(wb, schema_map, xl_as_dict):
     xl_as_dict (dict): dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
                 parse the tab
   """
-  # todo - payloads may be expressing as datetime objects rather than utc strings, which may lead to inconsistencies
+  skip_please_selects = False
 
   result = copy.deepcopy(xl_as_dict)
 
@@ -213,9 +213,10 @@ def extract_tabs(wb, schema_map, xl_as_dict):
       is_drop_down = lookup['is_drop_down']
       value = ws[value_address].value
 
-      if is_drop_down and value == PLEASE_SELECT:
-        logger.debug(f"Skipping {html_field_name} because it is a drop down and is set to {PLEASE_SELECT}")
-        continue
+      if skip_please_selects is True:
+        if is_drop_down and value == PLEASE_SELECT:
+          logger.debug(f"Skipping {html_field_name} because it is a drop down and is set to {PLEASE_SELECT}")
+          continue
 
       # Try to cast the spreadsheet data to the desired type if possible
       if value is not None:
@@ -231,7 +232,9 @@ def extract_tabs(wb, schema_map, xl_as_dict):
               # convert to datetime using a parser if possible
               if value_type == datetime.datetime:
                 local_datetime = parse_unknown_datetime(value)
-                # utc_datetime = local_datetime.astimezone(ZoneInfo("UTC")) # If you wanted to cast
+                if not is_datetime_naive(local_datetime):
+                  logger.warning(f"Date time {value} is not a naive datetime, skipping to avoid data corruption")
+                  continue
                 value = local_datetime
               else:
                 # Use default repr-like conversion if not a datetime

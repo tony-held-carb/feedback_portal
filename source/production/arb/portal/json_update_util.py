@@ -8,6 +8,7 @@ from sqlalchemy.orm.attributes import flag_modified
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
+from arb.utils.constants import PLEASE_SELECT
 
 logger, pp_log = get_logger()
 
@@ -27,7 +28,7 @@ def apply_json_patch_and_log(model,
       user (str): Current user (or 'anonymous').
       comments (str): Optional comment for the update.
   """
-  # todo - may want to tweak this so you get predictable results on newly created incidences
+  # In the future, may want to handle new rows differently
   json_data = getattr(model, json_field)
   if json_data is None:
     json_data = {}
@@ -49,12 +50,17 @@ def apply_json_patch_and_log(model,
 
   for key, new_value in updates.items():
 
-    # todo - likely a good spot to update new versus update
-    # likely want to put in some logic about "", None, etc and have predictable results ... especially with Please Select
-    if is_new_row:
-      old_value = "None"
-    else:
-      old_value = json_data.get(key)
+    old_value = json_data.get(key)
+    json_data[key] = new_value
+
+    # Filter out non-useful updates
+    if old_value is None and new_value is None:
+      continue
+    if old_value is None and new_value == "":
+      continue
+    # Note, on the rare situation that "Please Select" is a valid entry in a string field, it will be filtered out
+    if old_value is None and new_value == PLEASE_SELECT:
+      continue
 
     if old_value != new_value:
       log_entry = PortalUpdate(
@@ -67,8 +73,6 @@ def apply_json_patch_and_log(model,
         id_incidence=model.id_incidence,
       )
       db.session.add(log_entry)
-
-    json_data[key] = new_value
 
   setattr(model, json_field, json_data)
   flag_modified(model, json_field)

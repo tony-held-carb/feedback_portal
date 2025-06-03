@@ -311,6 +311,31 @@ def parse_unknown_datetime(date_str: str) -> datetime | None:
     return None
 
 
+def is_datetime_naive(dt: datetime) -> bool:
+  """
+  Determine whether a datetime object is naive (i.e., lacks timezone information).
+
+  A naive datetime has no tzinfo or has a tzinfo that returns None for utcoffset(),
+  meaning it does not represent an absolute point in time.
+
+  Args:
+      dt (datetime): The datetime object to check.
+
+  Returns:
+      bool: True if the datetime is naive, False if it is timezone-aware.
+
+  Example:
+      >>> is_datetime_naive(datetime.now())
+      True
+
+      >>> import zoneinfo
+      >>> aware = datetime.datetime.now(tz=zoneinfo.ZoneInfo("UTC"))
+      >>> is_datetime_naive(aware)
+      False
+  """
+  return dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None
+
+
 def run_diagnostics():
   """
   Run basic diagnostics on datetime utilities for correctness.

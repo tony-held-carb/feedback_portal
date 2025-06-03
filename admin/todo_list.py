@@ -16,7 +16,6 @@
 
   * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
 
-    Step 1. Cleanse any 'Please Select' from DB
     Step 2. Figure out where writes to db happen and make sure Please Selects are removed
     Step 3. Figure out how to default to please select in any page generations
 
