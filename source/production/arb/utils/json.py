@@ -15,10 +15,20 @@ import logging
 import pathlib
 from zoneinfo import ZoneInfo
 
+from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
+
 from arb.__get_logger import get_logger
+from arb.utils.date_and_time import (
+  ca_naive_to_utc_datetime,
+  datetime_to_ca_naive,
+  iso8601_to_utc_dt
+)
 from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
+
+from arb.utils.misc import safe_cast
+
 logger, pp_log = get_logger()
 
 
@@ -268,6 +278,162 @@ def compare_json_files(file_name_1: str | pathlib.Path,
     logger.debug("Data are equivalent")
   else:
     logger.debug("Data differ")
+
+
+def cast_model_value(value, value_type, convert_time_to_ca=False):
+  """
+  Deserialize a value stored in JSON as a string to its Python type for
+  use in a WTForm field.
+
+  Args:
+      value (string): Model value stored in JSON as a string.
+      value_type: Python type of value to be stored in a WTForm.
+      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
+                                 False to leave in UTC with timezone info.
+
+  Returns:
+      The value cast to the appropriate Python type.
+
+  Raises:
+      ValueError: If the value cannot be cast to the given type.
+  """
+  try:
+    if value_type == str:
+      # No need to cast a string
+      return value
+    elif value_type in [bool, int, float]:
+      return value_type(value)
+    elif value_type == datetime.datetime:
+      dt = iso8601_to_utc_dt(value)
+      return datetime_to_ca_naive(dt) if convert_time_to_ca else dt
+    elif value_type == decimal.Decimal:
+      return decimal.Decimal(value)
+    else:
+      raise ValueError(f"Unsupported type for casting: {value_type}")
+  except Exception as e:
+    raise ValueError(f"Failed to cast {value!r} to {value_type}: {e}")
+
+
+def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]:
+  """
+  Constructs two dictionaries from a WTForm instance:
+
+  1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
+  2. A dictionary of field data values for all fields (including 'Please Select').
+
+  Args:
+      wtform (FlaskForm): WTForms instance.
+
+  Returns:
+      tuple:
+          - dict[str, type]: Field name to type mapping for deserialization.
+          - dict[str, object]: Field name to current value mapping (may include 'Please Select').
+  """
+  type_map = {}
+  field_data = {}
+
+  for name, field in wtform._fields.items():
+    value = field.data
+    field_data[name] = value
+
+    # Identify complex field types for type mapping
+    if isinstance(field, DateTimeField):
+      type_map[name] = datetime.datetime
+    elif isinstance(field, DecimalField):
+      type_map[name] = decimal.Decimal
+    elif isinstance(field, BooleanField):
+      type_map[name] = bool
+    elif isinstance(field, IntegerField):
+      type_map[name] = int
+    elif isinstance(field, SelectField):
+      type_map[name] = str  # 'Please Select' is valid
+
+  return type_map, field_data
+
+
+def make_dict_serializeable(
+    input_dict: dict,
+    type_map: dict[str, type] = None,
+    convert_time_to_ca: bool = False,
+) -> dict:
+  """
+  Convert a dictionary to ensure all keys are strings and all values are JSON-serializable.
+
+  Values like datetime and decimal.Decimal are transformed to ISO strings or floats.
+  If a type_map is provided, values will be safely cast to their specified types
+  before serialization. The function skips casting if the value is already of the
+  correct type.
+
+  Args:
+      input_dict (dict): Input dictionary with possibly complex Python objects.
+      type_map (dict[str, type], optional): Optional mapping of keys to types to cast values to.
+      convert_time_to_ca (bool): If True, convert naive or local datetime to UTC before serializing.
+
+  Returns:
+      dict: A new dictionary with string keys and JSON-serializable values.
+
+  Raises:
+      TypeError: If any key is not a string.
+      ValueError: If type casting fails for a key.
+  """
+  result = {}
+
+  for key, value in input_dict.items():
+    if not isinstance(key, str):
+      raise TypeError(f"All keys must be strings. Invalid key: {key} ({type(key)})")
+
+    if type_map and key in type_map:
+      try:
+        value = safe_cast(value, type_map[key])
+      except Exception as e:
+        raise ValueError(f"Failed to cast key '{key}' to {type_map[key]}: {e}")
+
+    if isinstance(value, datetime.datetime):
+      if convert_time_to_ca:
+        value = ca_naive_to_utc_datetime(value)
+      value = value.isoformat()
+
+    elif isinstance(value, decimal.Decimal):
+      value = float(value)
+
+    result[key] = value
+
+  return result
+
+
+def deserialize_dict(
+    input_dict: dict,
+    type_map: dict[str, type],
+    convert_time_to_ca=False,
+) -> dict:
+  """
+  Deserialize a dictionary's values based on a type map, casting string values to target types.
+
+  Args:
+      input_dict (dict): Dictionary with string keys and values to deserialize.
+      type_map (dict[str, type]): Mapping of keys to desired types (e.g., int, float, datetime).
+      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
+                                 False to leave in UTC with timezone info.
+
+  Returns:
+      dict: A new dictionary with values cast to their specified types.
+
+  Raises:
+      TypeError: If any key is not a string.
+      ValueError: If value casting fails for a key.
+  """
+  result = {}
+
+  for key, value in input_dict.items():
+    if not isinstance(key, str):
+      raise TypeError(f"All keys must be strings. Invalid key: {key} ({type(key)})")
+
+    if key in type_map and value is not None:
+      result[key] = cast_model_value(value, type_map[key], convert_time_to_ca)
+    else:
+      result[key] = value
+
+  return result
 
 
 def run_diagnostics() -> None:

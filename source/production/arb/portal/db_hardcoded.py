@@ -44,6 +44,7 @@ def add_og_dummy_data(db, base, table_name) -> None:
   """
   Add dummy data to incidence table for diagnostics.
   This routine is likely outdated and is kept only as a template.
+  It is valid, but not necessary to specify 'Please Select' in dummy data.
 
   Args:
     db (SQLAlchemy): SQLAlchemy database associated with a flask app
@@ -96,6 +97,8 @@ def add_og_dummy_data(db, base, table_name) -> None:
 def get_og_dummy_data():
   """
   Create a model with dummy data for debugging purposes.
+
+  It is valid, but not necessary to specify 'Please Select' in dummy data.
   """
 
   json_data = {
@@ -194,7 +197,7 @@ def get_excel_dropdown_data():
   Each tuple is 2 or 3 items in length with the format:
     (select value, select text, and an optional dictionary of additional html formatting)
 
-  # todo - The new drop-downs are not context depended like they are in excel and the
+  # todo - The new drop-downs are not context dependent like they are in excel and the
            validate logic needs to be updated.
   Returns:
     drop_downs (list[tuple]): lookup dictionary of drop-down key values for each table.

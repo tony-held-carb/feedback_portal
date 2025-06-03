@@ -152,6 +152,28 @@ def log_error(e: Exception) -> None:
   raise e
 
 
+def safe_cast(value, expected_type):
+  """
+  Cast a value to the expected type only if it's not already of that type.
+
+  Args:
+      value (Any): The value to check and potentially cast.
+      expected_type (type): The target Python type to cast to.
+
+  Returns:
+      Any: The original or casted value.
+
+  Raises:
+      ValueError: If the cast fails or is inappropriate for the type.
+  """
+  try:
+    if not isinstance(value, expected_type):
+      value = expected_type(value)
+    return value
+  except Exception as e:
+    raise ValueError(f"Failed to cast value {value!r} to {expected_type}: {e}")
+
+
 def run_diagnostics() -> None:
   """
   Run diagnostics to validate functionality of misc.py utilities.

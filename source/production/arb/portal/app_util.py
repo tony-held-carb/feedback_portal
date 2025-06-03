@@ -9,21 +9,23 @@ Notes:
 from datetime import datetime
 from pathlib import Path
 
+from flask import redirect, render_template, request, url_for
 from sqlalchemy import or_
 from sqlalchemy.orm.attributes import flag_modified
 
 from arb.__get_logger import get_logger
+from arb.portal.constants import PLEASE_SELECT
 from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
+from arb.portal.extensions import db
 from arb.utils.excel.xl_parse import get_json_file_name
 from arb.utils.json import json_load_with_meta
-from arb.utils.sql_alchemy import (
-  add_commit_and_log_model,
-  get_class_from_table_name,
-  get_foreign_value,
-  get_table_row_and_column,
-  sa_model_to_dict,
-)
+from arb.utils.sql_alchemy import add_commit_and_log_model, get_class_from_table_name, get_foreign_value, get_table_row_and_column, \
+  sa_model_diagnostics, sa_model_to_dict
 from arb.utils.web_html import upload_single_file
+from arb.utils.wtf_forms_util import (
+  initialize_drop_downs, model_to_wtform,
+  validate_no_csrf, wtf_count_errors, wtform_to_model
+)
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -32,6 +34,9 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 def get_sector_info(db, base, id_):
   """
   Given an incidence primary key, return the sector and sector type.
+
+  The sector and sector type can be in the foreign table sources, in its sector column
+  and/or can be in the misc_json field.
 
   Args:
     db (SQLAlchemy session): Database connection.
@@ -47,7 +52,10 @@ def get_sector_info(db, base, id_):
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
   json_column = "misc_json"
+  sector = None
+  sector_type = None
 
+  # Find the sector from the foreign table if incidence was created by plume tracker.
   sector_by_foreign_key = get_foreign_value(
     db, base,
     primary_table_name=primary_table_name,
@@ -57,6 +65,7 @@ def get_sector_info(db, base, id_):
     primary_table_pk_value=id_,
   )
 
+  # Get the row and misc_json field from the incidence table
   row, misc_json = get_table_row_and_column(
     db, base,
     table_name=primary_table_name,
@@ -67,45 +76,10 @@ def get_sector_info(db, base, id_):
   if misc_json is None:
     misc_json = {}
 
-  row_before = sa_model_to_dict(row)
-  _ = resolve_sector(sector_by_foreign_key, row, misc_json)
-  sector, sector_type = resolve_sector_type(row, misc_json)
-
-  add_commit_and_log_model(
-    db, row,
-    comment="resolving sector and sector_type",
-    model_before=row_before,
-  )
-
-  logger.debug(f"get_sector_info() returning {sector=} {sector_type=}")
-  return sector, sector_type
-
-
-def resolve_sector_type(row, misc_json):
-  """
-  Resolve the sector_type value based on the sector in misc_json.
-
-  Args:
-      row (SQLAlchemy model): Database model instance for the row.
-      misc_json (dict): Dictionary from the misc_json column.
-
-  Returns:
-      tuple[str, str]: (sector, sector_type)
-  """
-  logger.debug(f"resolve_sector_type() called with {row=}, {misc_json=}")
-  sector = misc_json["sector"]
+  sector = resolve_sector(sector_by_foreign_key, row, misc_json)
   sector_type = get_sector_type(sector)
 
-  if "sector_type" not in misc_json:
-    misc_json["sector_type"] = sector_type
-    flag_modified(row, "misc_json")
-    logger.debug(f"sector_type initialized to: {sector_type}")
-  elif misc_json["sector_type"] != sector_type:
-    logger.warning(
-      f"Sector Type mismatch; JSON will not be adjusted from {misc_json['sector_type']} to {sector_type=}"
-    )
-
-  logger.debug(f"resolve_sector_type() returning with {sector=}, {sector_type=}")
+  logger.debug(f"get_sector_info() returning {sector=} {sector_type=}")
   return sector, sector_type
 
 
@@ -122,26 +96,28 @@ def resolve_sector(sector_by_foreign_key, row, misc_json):
       str: Final sector value.
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
-  default_sector = "Oil & Gas"
+  sector = None
+  sector_by_json = misc_json.get("sector")
 
   if sector_by_foreign_key is None:
     logger.warning("sector column value in sources table is None.")
-  elif "sector" not in misc_json:
-    logger.warning(f"Sector undefined in JSON. Setting to {sector_by_foreign_key=}")
-    misc_json["sector"] = sector_by_foreign_key
-    flag_modified(row, "misc_json")
-  elif sector_by_foreign_key != misc_json["sector"]:
-    logger.warning(
-      f"Sector mismatch, JSON data not adjusted. {sector_by_foreign_key=}, {misc_json['sector']=}"
-    )
 
-  # Ensure json entry for sector
-  if "sector" not in misc_json:
-    misc_json["sector"] = default_sector
-    flag_modified(row, "misc_json")
+  if sector_by_json is None:
+    logger.warning("'sector' not in misc_json")
 
-  logger.debug(f"resolve_sector() returning {misc_json['sector']=}")
-  return misc_json["sector"]
+  if sector_by_foreign_key is None and sector_by_json is None:
+    logger.error("Can't determine incidence sector")
+    raise ValueError("Can't determine incidence sector")
+
+  if sector_by_foreign_key is not None and sector_by_json is not None:
+    if sector_by_foreign_key != sector_by_json:
+      logger.error(f"Sector mismatch: {sector_by_foreign_key=}, {sector_by_json=}")
+      raise ValueError("Can't determine incidence sector")
+
+  sector = sector_by_foreign_key or sector_by_json
+
+  logger.debug(f"resolve_sector() returning {sector=}")
+  return sector
 
 
 def get_sector_type(sector):
@@ -157,7 +133,6 @@ def get_sector_type(sector):
   Raises:
       ValueError: If sector is unknown.
   """
-  # todo - add ValueError: Unknown sector type: 'Recycling & Waste: Landfills'.
 
   if sector in OIL_AND_GAS_SECTORS:
     return "Oil & Gas"
@@ -255,11 +230,13 @@ def get_ensured_row(db,
       id_ (int): Optional. Value of the primary key to fetch or create.
 
   Returns:
-      tuple: A tuple of (model instance, primary key value).
+      tuple: A tuple of (model instance, primary key value, is_new_row).
 
   Raises:
       AttributeError: If the specified primary key column does not exist on the model.
   """
+  is_new_row = False
+
   session = db.session
   table = get_class_from_table_name(base, table_name)
 
@@ -267,9 +244,11 @@ def get_ensured_row(db,
     logger.debug(f"Retrieving {table_name} row with {primary_key_name}={id_}")
     model = session.get(table, id_)
     if model is None:
+      is_new_row = True
       logger.debug(f"No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
       model = table(**{primary_key_name: id_})
   else:
+    is_new_row = True
     logger.debug(f"Creating new {table_name} row with auto-generated {primary_key_name}")
     model = table(**{primary_key_name: None})
     session.add(model)
@@ -277,7 +256,7 @@ def get_ensured_row(db,
     id_ = getattr(model, primary_key_name)
     logger.debug(f"{table_name} row created with {primary_key_name}={id_}")
 
-  return model, id_
+  return model, id_, is_new_row
 
 
 def dict_to_database(db,
@@ -311,9 +290,8 @@ def dict_to_database(db,
     raise ValueError(msg)
 
   id_ = data_dict.get(primary_key)
-  new_row = id_ is None
 
-  model, id_ = get_ensured_row(
+  model, id_, is_new_row = get_ensured_row(
     db=db,
     base=base,
     table_name=table_name,
@@ -322,16 +300,9 @@ def dict_to_database(db,
   )
 
   # Backfill generated primary key into payload if it was not supplied
-  if new_row:
+  if is_new_row:
     logger.debug(f"Backfilling {primary_key} = {id_} into payload")
     data_dict[primary_key] = id_
-
-  # todo (consider) - filter out "Please Select"
-
-  # todo (update) - use the payload routine apply_json_patch_and_log
-  #               - may have synch issues with json id and row id
-
-  # todo - check to see if this works if there is no id (need to change dummy data)
 
   update_model_with_payload(model, data_dict, json_field=json_field)
 
@@ -462,3 +433,98 @@ def apply_portal_update_filters(query, PortalUpdate, args):
     pass  # Silently ignore invalid date inputs
 
   return query
+
+
+def incidence_prep(model_row,
+                   crud_type,
+                   sector_type,
+                   default_dropdown=None):
+  """
+  Helper function used by many flask routes to render feedback forms for
+  both creation and updating.
+
+  Args:
+    model_row (SQLAlchemy.Model): Single row from a SQLAlchemy model
+    crud_type (str): 'update' or 'create'
+    sector_type (str): 'Oil & Gas' or 'Landfill'
+    default_dropdown (str): Defaults if no drop-down is selected.
+
+  Returns (str): html for dynamic page
+
+  Notes:
+
+  """
+  # imports below can't be moved to top of file because they require Globals to be initialized
+  # prior to first use (Globals.load_drop_downs(app, db)).
+  from arb.portal.wtf_landfill import LandfillFeedback
+  from arb.portal.wtf_oil_and_gas import OGFeedback
+
+  logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
+  sa_model_diagnostics(model_row)
+
+  if default_dropdown is None:
+    default_dropdown = PLEASE_SELECT
+
+  if sector_type == "Oil & Gas":
+    logger.debug(f"({sector_type=}) will use an Oil & Gas Feedback Form")
+    wtf_form = OGFeedback()
+    template_file = 'feedback_oil_and_gas.html'
+  elif sector_type == "Landfill":
+    logger.debug(f"({sector_type=}) will use a Landfill Feedback Form")
+    wtf_form = LandfillFeedback()
+    template_file = 'feedback_landfill.html'
+  else:
+    raise ValueError(f"Unknown sector type: '{sector_type}'.")
+
+  if request.method == 'GET':
+    # Populate wtform from model data
+    model_to_wtform(model_row, wtf_form)
+    # todo - maybe put update contingencies here?
+    # obj_diagnostics(wtf_form, message="wtf_form in incidence_prep() after model_to_wtform")
+
+    # For GET requests for row creation, don't validate and error_count_dict will be all zeros
+    # For GET requests for row update, validate (except for the csrf token that is only present for a POST)
+    if crud_type == 'update':
+      validate_no_csrf(wtf_form, extra_validators=None)
+
+  # todo - trying to make sure invalid drop-downs become "Please Select"
+  #        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)
+
+  # Set all select elements that are a default value (None) to "Please Select" value
+  initialize_drop_downs(wtf_form, default=default_dropdown)
+  # logger.debug(f"\n\t{wtf_form.data=}")
+
+  if request.method == 'POST':
+    # Validate and count errors
+    wtf_form.validate()
+    error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
+
+    # Diagnostics of model before updating with wtform values
+    # Likely can comment out model_before and add_commit_and_log_model
+    # if you want less diagnostics and redundant commits
+    model_before = sa_model_to_dict(model_row)
+    wtform_to_model(model_row, wtf_form, ignore_fields=["id_incidence"])
+    add_commit_and_log_model(db,
+                             model_row,
+                             comment='call to wtform_to_model()',
+                             model_before=model_before)
+
+    # Determine course of action for successful database update based on which button was submitted
+    button = request.form.get('submit_button')
+
+    # todo - change the button name to save?
+    if button == 'validate_and_submit':
+      logger.debug(f"validate_and_submit was pressed")
+      if wtf_form.validate():
+        return redirect(url_for('main.index'))
+
+  error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
+
+  logger.debug(f"incidence_prep() about to render get template")
+
+  return render_template(template_file,
+                         wtf_form=wtf_form,
+                         crud_type=crud_type,
+                         error_count_dict=error_count_dict,
+                         id_incidence=model_row.id_incidence,
+                         )

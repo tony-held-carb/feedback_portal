@@ -383,8 +383,10 @@ Please refactor the following python code using the following style preferences:
 Please create a new function named run_diagnostics that includes testing of key features of this file.
 
 
-### Notes on todo, and considers:
-* 'todo (consider)' is used in python comments to indicate optional todo items
+### Notes on naming systems:
+* todo (consider) is used in python comments to indicate optional todo items
+* todo (future) a potential item to address in the future
+
 * naming convention
   * model: an SQLAlchemy model instance
   * wtf_form: a wtform instance
@@ -423,7 +425,6 @@ fixed those, but I still have these: does not seem to be a big problem to go fro
 
 
 
-todo - Dropdowns are not all - Please Select, they are often defaulting to the first valid selection, which is confusing,
 figure out why some are being coerced and others are not, come up with a general way to reset to 'Please Select' if
 the input data are garbage?  It could be that this is not a reasonable test case as it is unlikely total garbage
 would be allowed to be entered into the selector?  Maybe fix the other validations first?
@@ -439,3 +440,132 @@ TZ=America/Los_Angeles git log --since="21 days ago" --pretty=format:"%ad %an %s
 
 adding to git from linux
 git add git_status.txt && git commit -m "adding status" && git push
+
+-------------------------------------------------------------------------------
+Looking for ways that 'Please Select' could be written to the database.
+Will likely update the logging of portal changes and portal_update_table changes
+-------------------------------------------------------------------------------
+Routines that can affect the database have "session." in them
+    - apply_json_patch_and_log
+        - called by
+            - update_model_with_payload
+            - wtform_to_model
+    - update_model_with_payload
+        - called by
+            - dict_to_database
+    - dict_to_database
+        - called by
+            - xl_dict_to_database
+            - og_incidence_create
+            - landfill_incidence_create
+    - wtform_to_model
+        - called by
+            - incidence_prep
+    - add_commit_and_log_model
+        - called by
+            - incidence_prep
+        - this adds the whole row (not just the misc_json)
+        - likely outdated and just for logging
+
+    Notes
+        dict_to_database seems to only update the json column (may create primary key)
+        add_commit_and_log_model seems to
+
+        - updates the portal change table, seems like that should always be the mechanism to update the table
+      even in deletes
+
+     - ok seems like all changes to the json should be made via dict to database so that uniform
+       logging will happen
+     - when a row is deleted, consider doing a dict to database with an empty dictionary or some
+       other way to indiciate deletion
+     - have the search portal deal with missing incidences (if they are deleted)
+     - have links to be missing tracker be dealt with?
+
+     1st, figure out where direct injection of dummy data happens
+        dummy uses dict_to_database
+
+created:
+{"id_plume": 1001, "observation_timestamp": "2025-06-03T00:43:00+00:00", "lat_carb": 100.05, "long_carb": 100.06, "id_message": "id_message response", "facility_name": "facility_name response", "id_arb_eggrt": "1001", "contact_name": "contact_name response", "contact_phone": "(555) 555-5555", "contact_email": "my_email@email.com", "venting_description_1": "venting_description_1 response", "ogi_date": "2025-06-03T00:43:00+00:00", "method21_date": "2025-06-03T00:43:00+00:00", "initial_leak_concentration": 1004, "venting_description_2": "venting_description_2 response", "initial_mitigation_plan": "initial_mitigation_plan response", "equipment_other_description": "equipment_other_description response", "component_other_description": "component_other_description response", "repair_timestamp": "2025-06-03T00:43:00+00:00", "final_repair_concentration": 101.05, "repair_description": "repair_description response", "additional_notes": "additional_notes response", "sector": "Oil & Gas", "sector_type": "Oil & Gas"}
+
+looks like timestamps are loosing their +00:00
+{"id_plume": 1001, "observation_timestamp": "2025-06-02T17:43:00"      , "lat_carb": 100.05, "long_carb": 100.06, "id_message": "id_message response", "facility_name": "facility_name response", "id_arb_eggrt": "1001", "contact_name": "contact_name response", "contact_phone": "(555) 555-5555", "contact_email": "my_email@email.com", "venting_description_1": "venting_description_1 response", "ogi_date": "2025-06-02T17:43:00"      , "method21_date": "2025-06-02T17:43:00"      , "initial_leak_concentration": 1004, "venting_description_2": "venting_description_2 response", "initial_mitigation_plan": "initial_mitigation_plan response", "equipment_other_description": "equipment_other_description response", "component_other_description": "component_other_description response", "repair_timestamp": "2025-06-02T17:43:00"      , "final_repair_concentration": 101.05, "repair_description": "repair_description response", "additional_notes": "additional_notes response", "sector": null, "sector_type": null, "carb_notes": "", "equipment_at_source": "Please Select", "ogi_result": "Please Select", "method21_performed": "Please Select", "venting_exclusion": "Please Select", "component_at_source": "Please Select", "method21_result": "Please Select", "ogi_performed": "Please Select"}
+
+
+looks like there is an error on how timestamps are being saved on the webform.  Here is the log when i add a new oil and gas incidence.  after I save the form, it seems to corrupt the timestamp resulting in the following error
+
++2025-06-02 18:04:14.597 | INFO     | app_logger       | user:anonymous | 441   | wtf_forms_util.py    | wtform_to_model payload_changes: {'carb_notes': '', 'component_at_source': 'Please Select', 'equipment_at_source': 'Please Select', 'method21_date': '2025-06-02T18:04:00', 'method21_performed': 'Please Select', 'method21_result': 'Please Select', 'observation_timestamp': '2025-06-02T18:04:00', 'ogi_date': '2025-06-02T18:04:00', 'ogi_performed': 'Please Select', 'ogi_result': 'Please Select', 'repair_timestamp': '2025-06-02T18:04:00', 'venting_exclusion': 'Please Select'}
+
+
+ValueError
+ValueError: Failed to cast '2025-06-02T18:04:00' to <class 'datetime.datetime'>: Missing timezone info in ISO 8601 string.
+
+Traceback (most recent call last)
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\utils\json.py", line 307, in cast_model_value
+dt = iso8601_to_utc_dt(value)
+     ^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\utils\date_and_time.py", line 165, in iso8601_to_utc_dt
+  except (ValueError, TypeError) as e:
+    raise ValueError(f"Invalid ISO 8601 datetime string: '{iso_string}'") from e
+
+  if dt.tzinfo is None:
+    if error_on_missing_tz:
+      raise ValueError("Missing timezone info in ISO 8601 string.")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    logger.warning(f"Assuming UTC for naive ISO string: {iso_string}")
+    dt = dt.replace(tzinfo=UTC_TZ)
+
+  return dt.astimezone(UTC_TZ)
+
+During handling of the above exception, another exception occurred:
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 1498, in __call__
+return self.wsgi_app(environ, start_response)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 1476, in wsgi_app
+response = self.handle_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+response = self.full_dispatch_request()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+rv = self.handle_user_exception(e)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+rv = self.dispatch_request()
+     ^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\portal\routes.py", line 83, in incidence_update
+return incidence_prep(model_row,
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\portal\app_util.py", line 478, in incidence_prep
+model_to_wtform(model_row, wtf_form)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\utils\wtf_forms_util.py", line 362, in model_to_wtform
+parsed_dict = deserialize_dict(model_json_dict, type_map, convert_time_to_ca=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\utils\json.py", line 432, in deserialize_dict
+result[key] = cast_model_value(value, type_map[key], convert_time_to_ca)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\theld\OneDrive - California Air Resources Board\code\pycharm\feedback_portal\source\production\arb\utils\json.py", line 314, in cast_model_value
+raise ValueError(f"Failed to cast {value!r} to {value_type}: {e}")
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Failed to cast '2025-06-02T18:04:00' to <class 'datetime.datetime'>: Missing timezone info in ISO 8601 string.
+The debugger caught an exception in your WSGI application. You can now look at the traceback which led to the error.
+To switch between the interactive traceback and the plaintext one, you can click on the "Traceback" headline. From the text traceback you can also create a paste of it. For code execution mouse-over the frame you want to debug and click on the console icon on the right side.
+
+You can execute arbitrary Python code in the stack frames and there are some extra helpers available for introspection:
+
+dump() shows all variables in the frame
+dump(obj) dumps all that's known about the object
+Brought to you by DON'T PANIC, your friendly Werkzeug powered traceback interpreter.
+
+
+creating oil & gas feedback json on first creation:
+{"id_incidence": 2001, "id_plume": 1001, "observation_timestamp": "2025-06-03T18:21:00+00:00", "lat_carb": 100.05, "long_carb": 100.06, "id_message": "id_message response", "facility_name": "facility_name response", "id_arb_eggrt": "1001", "contact_name": "contact_name response", "contact_phone": "(555) 555-5555", "contact_email": "my_email@email.com", "venting_description_1": "venting_description_1 response", "ogi_date": "2025-06-03T18:21:00+00:00", "method21_date": "2025-06-03T18:21:00+00:00", "initial_leak_concentration": 1004, "venting_description_2": "venting_description_2 response", "initial_mitigation_plan": "initial_mitigation_plan response", "equipment_other_description": "equipment_other_description response", "component_other_description": "component_other_description response", "repair_timestamp": "2025-06-03T18:21:00+00:00", "final_repair_concentration": 101.05, "repair_description": "repair_description response", "additional_notes": "additional_notes response", "sector": "Oil & Gas", "sector_type": "Oil & Gas"}
+{"id_incidence": 2001, "id_plume": 1001, "observation_timestamp": "2025-06-03T18:21:00+00:00", "lat_carb": 100.05, "long_carb": 100.06, "id_message": "id_message response", "facility_name": "facility_name response", "id_arb_eggrt": "1001", "contact_name": "contact_name response", "contact_phone": "(555) 555-5555", "contact_email": "my_email@email.com", "venting_description_1": "venting_description_1 response", "ogi_date": "2025-06-03T18:21:00+00:00", "method21_date": "2025-06-03T18:21:00+00:00", "initial_leak_concentration": 1004, "venting_description_2": "venting_description_2 response", "initial_mitigation_plan": "initial_mitigation_plan response", "equipment_other_description": "equipment_other_description response", "component_other_description": "component_other_description response", "repair_timestamp": "2025-06-03T18:21:00+00:00", "final_repair_concentration": 101.05, "repair_description": "repair_description response", "additional_notes": "additional_notes response", "sector": "Oil & Gas", "sector_type": "Oil & Gas", "carb_notes": "", "component_at_source": "Please Select", "equipment_at_source": "Please Select", "method21_performed": "Please Select", "method21_result": "Please Select", "ogi_performed": "Please Select", "ogi_result": "Please Select", "venting_exclusion": "Please Select"}
+{"id_incidence": 2001, "id_plume": null, "observation_timestamp": "2025-06-03T18:21:00+00:00", "lat_carb": null, "long_carb": null, "id_message": "", "facility_name": "", "id_arb_eggrt": "", "contact_name": "", "contact_phone": "", "contact_email": "", "venting_description_1": "", "ogi_date": null, "method21_date": null, "initial_leak_concentration": null, "venting_description_2": "", "initial_mitigation_plan": "", "equipment_other_description": "", "component_other_description": "", "repair_timestamp": null, "final_repair_concentration": null, "repair_description": "repair_description response", "additional_notes": "", "sector": "Oil & Gas", "sector_type": "Oil & Gas", "carb_notes": "", "component_at_source": "Please Select", "equipment_at_source": "Please Select", "method21_performed": "Please Select", "method21_result": "Please Select", "ogi_performed": "Please Select", "ogi_result": "Please Select", "venting_exclusion": "Please Select"}
+{"id_incidence": 2001, "id_plume": null, "observation_timestamp": null, "lat_carb": null, "long_carb": null, "id_message": "", "facility_name": "", "id_arb_eggrt": "", "contact_name": "", "contact_phone": "", "contact_email": "", "venting_description_1": "", "ogi_date": null, "method21_date": null, "initial_leak_concentration": null, "venting_description_2": "", "initial_mitigation_plan": "", "equipment_other_description": "", "component_other_description": "", "repair_timestamp": null, "final_repair_concentration": null, "repair_description": "repair_description response", "additional_notes": "", "sector": "Oil & Gas", "sector_type": "Oil & Gas", "carb_notes": "", "component_at_source": "Please Select", "equipment_at_source": "Please Select", "method21_performed": "Please Select", "method21_result": "Please Select", "ogi_performed": "Please Select", "ogi_result": "Please Select", "venting_exclusion": "Please Select"}
+
+  # db_create is slow, consider using a fast load mechanism:
+  # https://chatgpt.com/share/681eec4d-8b74-800b-9d0c-bdb08da62fd2

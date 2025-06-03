@@ -2,12 +2,37 @@
 
 # todo - Next Steps
 ----------------------------
-* looks like the new look and feel is stable.  Still have some refactoring to work on,
-  but i'm going to merge the branch and put the new site on main so it can be run on ec2
 
-* include a link to plume tracker from a feedback form, it might make sense to make this the
-  incidence id (usually number 1 entry) - that way it is read only.  need to update the backend
-  logic perhaps, but this seems a reasonable fix
+    * merging new branch into main for local and ec2
+
+    * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
+
+    * need to figure out what to do with delete incidences? (may not really happen often)
+    Step 3. Figure out how to default to please select in any page generations
+
+
+  * merge in the new code for the ec2
+
+  * if a incidence passes validation, have it splash a success message before going to index
+
+
+  * json files with meta are serialized/deserialized differently than how misc_json is done,
+    consider aligning them better if possible.
+
+* consider new color for validate that stands out more
+* consider diff blue for card headers
+
+* if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
+upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
+
+
+
+* link to plume tracker now works off row id rather than misc_json contents.
+  * it may be possible to get rid of id_incidence entirely from misc_json, but
+    that will require wtforms to be changed and the filter logic.  keeping it in for now.
+* id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
+  alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
+
 
 * 'Please Selects' should no longer persist to database, but
   may want to rethink how please selects are handled in general?
@@ -19,10 +44,6 @@
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
-  * if a incidence passes validation, have it splash a success message before going to index
-  * don't let there be a decoupling between the incidence column and the json key:value
-    * don't allow id_incidence to be changed after it has been created
-    * maybe block the creation of new incidence from portal
 
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8

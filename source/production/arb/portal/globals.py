@@ -51,11 +51,6 @@ class Globals:
     Returns:
         None
 
-    Example:
-        >>> Globals.load_drop_downs(app, db)
-        >>> print(Globals.drop_downs["ogi_performed"])
-        ["Please Select", 'Yes', 'No']
-
     Notes:
         - This function imports a dynamic dropdown generator from `db_hardcoded`.
         - Cached values are used globally for all WTForms rendering.

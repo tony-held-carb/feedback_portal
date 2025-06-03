@@ -1,15 +1,15 @@
 {
     "_metadata_": {
         "schema_version": "energy_v00_01",
-        "File created at": "2025-05-16T04:36:44.798469+00:00",
+        "File created at": "2025-06-03T21:15:10.400845+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
     "_data_": {
         "id_incidence": {
             "label": "1.  Incidence/Emission ID",
-            "label_address": "$B$27",
-            "value_address": "$D$27",
+            "label_address": "$B$20",
+            "value_address": "$D$20",
             "value_type": {
                 "__class__": "int",
                 "__module__": "builtins"
@@ -18,8 +18,8 @@
         },
         "id_plume": {
             "label": "2.  Plume ID(s)",
-            "label_address": "$B$28",
-            "value_address": "$D$28",
+            "label_address": "$B$21",
+            "value_address": "$D$21",
             "value_type": {
                 "__class__": "int",
                 "__module__": "builtins"
@@ -28,8 +28,8 @@
         },
         "observation_timestamp": {
             "label": "3.  Plume Observation Timestamp(s)",
-            "label_address": "$B$29",
-            "value_address": "$D$29",
+            "label_address": "$B$22",
+            "value_address": "$D$22",
             "value_type": {
                 "__class__": "datetime",
                 "__module__": "datetime"
@@ -38,8 +38,8 @@
         },
         "lat_carb": {
             "label": "4.  Plume CARB Estimated Latitude",
-            "label_address": "$B$30",
-            "value_address": "$D$30",
+            "label_address": "$B$23",
+            "value_address": "$D$23",
             "value_type": {
                 "__class__": "float",
                 "__module__": "builtins"
@@ -48,8 +48,8 @@
         },
         "long_carb": {
             "label": "5.  Plume CARB Estimated Longitude",
-            "label_address": "$B$31",
-            "value_address": "$D$31",
+            "label_address": "$B$24",
+            "value_address": "$D$24",
             "value_type": {
                 "__class__": "float",
                 "__module__": "builtins"
@@ -58,8 +58,8 @@
         },
         "id_message": {
             "label": "6.  CARB message ID",
-            "label_address": "$B$32",
-            "value_address": "$D$32",
+            "label_address": "$B$25",
+            "value_address": "$D$25",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -68,18 +68,8 @@
         },
         "facility_name": {
             "label": "Q1.  Facility Name",
-            "label_address": "$B$36",
-            "value_address": "$D$36",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": false
-        },
-        "id_arb_eggrt": {
-            "label": "Q2.  Facility's Cal e-GGRT ARB ID (if known)",
-            "label_address": "$B$37",
-            "value_address": "$D$37",
+            "label_address": "$B$29",
+            "value_address": "$D$29",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -87,9 +77,9 @@
             "is_drop_down": false
         },
         "contact_name": {
-            "label": "Q3.  Contact Name",
-            "label_address": "$B$38",
-            "value_address": "$D$38",
+            "label": "Q2.  Contact Name",
+            "label_address": "$B$30",
+            "value_address": "$D$30",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -97,9 +87,9 @@
             "is_drop_down": false
         },
         "contact_phone": {
-            "label": "Q4.  Contact Phone Number",
-            "label_address": "$B$39",
-            "value_address": "$D$39",
+            "label": "Q3.  Contact Phone Number",
+            "label_address": "$B$31",
+            "value_address": "$D$31",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -107,9 +97,9 @@
             "is_drop_down": false
         },
         "contact_email": {
-            "label": "Q5.  Contact Email Address",
-            "label_address": "$B$40",
-            "value_address": "$D$40",
+            "label": "Q4.  Contact Email Address",
+            "label_address": "$B$32",
+            "value_address": "$D$32",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -117,9 +107,9 @@
             "is_drop_down": false
         },
         "ogi_performed": {
-            "label": "Q6.  Was an OGI inspection performed?",
-            "label_address": "$B$44",
-            "value_address": "$D$44",
+            "label": "Q5.  Was an OGI inspection performed?",
+            "label_address": "$B$36",
+            "value_address": "$D$36",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -127,9 +117,9 @@
             "is_drop_down": true
         },
         "ogi_date": {
-            "label": "Q7.  If you answered 'Yes' to Q6, what date and time was the OGI inspection performed?",
-            "label_address": "$B$45",
-            "value_address": "$D$45",
+            "label": "Q6.  If you answered 'Yes' to Q5, what date and time was the OGI inspection performed?",
+            "label_address": "$B$37",
+            "value_address": "$D$37",
             "value_type": {
                 "__class__": "datetime",
                 "__module__": "datetime"
@@ -137,9 +127,9 @@
             "is_drop_down": false
         },
         "ogi_result": {
-            "label": "Q8.  If you answered 'Yes' to Q6, what type of source was found using OGI?",
-            "label_address": "$B$46",
-            "value_address": "$D$46",
+            "label": "Q7.  If you answered 'Yes' to Q5, what type of source was found using OGI?",
+            "label_address": "$B$38",
+            "value_address": "$D$38",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -147,9 +137,9 @@
             "is_drop_down": true
         },
         "method21_performed": {
-            "label": "Q9.  Was a Method 21 inspection performed?",
-            "label_address": "$B$47",
-            "value_address": "$D$47",
+            "label": "Q8.  Was a Method 21 inspection performed?",
+            "label_address": "$B$39",
+            "value_address": "$D$39",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -157,9 +147,9 @@
             "is_drop_down": true
         },
         "method21_date": {
-            "label": "Q10.  If you answered 'Yes' to Q9, what date and time was the Method 21 inspection performed?",
-            "label_address": "$B$48",
-            "value_address": "$D$48",
+            "label": "Q9.  If you answered 'Yes' to Q8, what date and time was the Method 21 inspection performed?",
+            "label_address": "$B$40",
+            "value_address": "$D$40",
             "value_type": {
                 "__class__": "datetime",
                 "__module__": "datetime"
@@ -167,9 +157,9 @@
             "is_drop_down": false
         },
         "method21_result": {
-            "label": "Q11.  If you answered 'Yes' to Q9, what type of source was found using Method 21?",
-            "label_address": "$B$49",
-            "value_address": "$D$49",
+            "label": "Q10.  If you answered 'Yes' to Q8, what type of source was found using Method 21?",
+            "label_address": "$B$41",
+            "value_address": "$D$41",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -177,9 +167,9 @@
             "is_drop_down": true
         },
         "initial_leak_concentration": {
-            "label": "Q12. If you answered 'Yes' to Q9, what was the initial leak concentration in ppmv (if applicable)?",
-            "label_address": "$B$50",
-            "value_address": "$D$50",
+            "label": "Q11. If you answered 'Yes' to Q8, what was the initial leak concentration in ppmv (if applicable)?",
+            "label_address": "$B$42",
+            "value_address": "$D$42",
             "value_type": {
                 "__class__": "float",
                 "__module__": "builtins"
@@ -187,9 +177,9 @@
             "is_drop_down": false
         },
         "venting_description_2": {
-            "label": "Q13.  If you answered 'Venting' to Q8 or Q11, please provide a brief summary of the source of the venting discovered during the ground inspection and why the venting occurred.",
-            "label_address": "$B$51",
-            "value_address": "$D$51",
+            "label": "Q12.  If you answered 'Venting' to Q7 or Q10, please provide a brief summary of the source of the venting discovered during the ground inspection and why the venting occurred.",
+            "label_address": "$B$43",
+            "value_address": "$D$43",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"
@@ -197,7 +187,57 @@
             "is_drop_down": false
         },
         "initial_mitigation_plan": {
-            "label": "Q14.  If you answered a 'Unintentional-leak' or 'Unintentional-non-component' to Q8 or Q11, please provide a description of your initial mitigation plan.",
+            "label": "Q13.  If you answered a 'Unintentional-leak' or 'Unintentional-non-component' to Q7 or Q10, please provide a description of your initial mitigation plan.",
+            "label_address": "$B$44",
+            "value_address": "$D$44",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "equipment_at_source": {
+            "label": "Q14.  What type of equipment is at the source of the emissions?",
+            "label_address": "$B$48",
+            "value_address": "$D$48",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "component_at_source": {
+            "label": "Q15.  If your source is a component, what type of component is at the source of the emissions?",
+            "label_address": "$B$49",
+            "value_address": "$D$49",
+            "value_type": {
+                "__class__": "str",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "repair_timestamp": {
+            "label": "Q16.  Repair/mitigation completion date & time (if applicable).",
+            "label_address": "$B$50",
+            "value_address": "$D$50",
+            "value_type": {
+                "__class__": "datetime",
+                "__module__": "datetime"
+            },
+            "is_drop_down": false
+        },
+        "final_repair_concentration": {
+            "label": "Q17.  Final repair concentration in ppmv (if applicable).",
+            "label_address": "$B$51",
+            "value_address": "$D$51",
+            "value_type": {
+                "__class__": "float",
+                "__module__": "builtins"
+            },
+            "is_drop_down": false
+        },
+        "repair_description": {
+            "label": "Q18.  Repair/Mitigation actions taken (if applicable).",
             "label_address": "$B$52",
             "value_address": "$D$52",
             "value_type": {
@@ -206,80 +246,10 @@
             },
             "is_drop_down": false
         },
-        "equipment_at_source": {
-            "label": "Q15.  What type of equipment is at the source of the emissions?",
+        "additional_notes": {
+            "label": "Q19.  Additional notes or comments.",
             "label_address": "$B$56",
             "value_address": "$D$56",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": true
-        },
-        "equipment_other_description": {
-            "label": "Q16.  If you answered 'Other' for Q15, please provide an additional description of the equipment.",
-            "label_address": "$B$57",
-            "value_address": "$D$57",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": false
-        },
-        "component_at_source": {
-            "label": "Q17.  If your source is a component, what type of component is at the source of the emissions?",
-            "label_address": "$B$58",
-            "value_address": "$D$58",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": true
-        },
-        "component_other_description": {
-            "label": "Q18.  If you answered 'Other' for Q17, please provide an additional description of the component.",
-            "label_address": "$B$59",
-            "value_address": "$D$59",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": false
-        },
-        "repair_timestamp": {
-            "label": "Q19.  Repair/mitigation completion date & time (if applicable).",
-            "label_address": "$B$60",
-            "value_address": "$D$60",
-            "value_type": {
-                "__class__": "datetime",
-                "__module__": "datetime"
-            },
-            "is_drop_down": false
-        },
-        "final_repair_concentration": {
-            "label": "Q20.  Final repair concentration in ppmv (if applicable).",
-            "label_address": "$B$61",
-            "value_address": "$D$61",
-            "value_type": {
-                "__class__": "float",
-                "__module__": "builtins"
-            },
-            "is_drop_down": false
-        },
-        "repair_description": {
-            "label": "Q21.  Repair/Mitigation actions taken (if applicable).",
-            "label_address": "$B$62",
-            "value_address": "$D$62",
-            "value_type": {
-                "__class__": "str",
-                "__module__": "builtins"
-            },
-            "is_drop_down": false
-        },
-        "additional_notes": {
-            "label": "Q22.  Additional notes or comments.",
-            "label_address": "$B$66",
-            "value_address": "$D$66",
             "value_type": {
                 "__class__": "str",
                 "__module__": "builtins"

@@ -7,9 +7,13 @@ Notes:
 
 """
 
+import copy
+import datetime
 import json
+from decimal import Decimal
 
 from flask_wtf import FlaskForm
+from sqlalchemy.orm.attributes import flag_modified
 from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
 from wtforms.validators import InputRequired, Optional
@@ -17,14 +21,13 @@ from wtforms.validators import InputRequired, Optional
 from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
-from arb.utils.date_and_time import (
-  ca_naive_to_utc_datetime,
-  datetime_to_ca_naive,
-  iso8601_to_utc_dt
-)
-from arb.utils.diagnostics import list_differences
+from arb.utils.diagnostics import get_changed_fields, list_differences
+from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
 
 __version__ = "1.0.0"
+
+from arb.utils.sql_alchemy import load_model_json_column
+
 logger, pp_log = get_logger()
 
 
@@ -303,7 +306,9 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict:
   return error_count_dict
 
 
-def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") -> None:
+def model_to_wtform(model,
+                    wtform: FlaskForm,
+                    json_column: str = "misc_json") -> None:
   """
   Populate a WTForm from a SQLAlchemy model's JSON column.
 
@@ -340,6 +345,10 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
   if model_json_dict is None:
     model_json_dict = {}
 
+  if "id_incidence" in model_json_dict and model_json_dict["id_incidence"] != model.id_incidence:
+    logger.warning(f"[model_to_wtform] MISMATCH: model.id_incidence={model.id_incidence} "
+                   f"!= misc_json['id_incidence']={model_json_dict['id_incidence']}")
+
   form_fields = get_wtforms_fields(wtform)
   model_fields = list(model_json_dict.keys())
 
@@ -350,114 +359,120 @@ def model_to_wtform(model, wtform: FlaskForm, json_column: str = "misc_json") ->
     print_warning=False
   )
 
-  for attr_name in model_fields:
-    if attr_name not in form_fields:
-      continue
+  # Use utilities to get type map and convert model dict
+  type_map, _ = wtform_types_and_values(wtform)
+  parsed_dict = deserialize_dict(model_json_dict, type_map, convert_time_to_ca=True)
 
-    attr_value = model_json_dict.get(attr_name)
-    field = getattr(wtform, attr_name)
-
-    if attr_value is not None:
-      if isinstance(field, DateTimeField):
-        if isinstance(attr_value, str):
-          attr_value = iso8601_to_utc_dt(attr_value)
-          attr_value = datetime_to_ca_naive(attr_value)
-        else:
-          raise ValueError(f"Invalid value for datetime field {attr_name=}: {attr_value=}")
-
-      elif isinstance(field, DecimalField):
-        try:
-          attr_value = float(attr_value)
-        except ValueError:
-          raise ValueError(f"Cannot convert value to DecimalField: {attr_value=}")
+  for field_name in form_fields:
+    field = getattr(wtform, field_name)
+    model_value = parsed_dict.get(field_name)
 
     # Set field data and raw_data for proper rendering/validation
-    field.data = attr_value
-    field.raw_data = format_raw_data(field, attr_value)
+    field.data = model_value
+    field.raw_data = format_raw_data(field, model_value)
 
-    logger.debug(f"Set {attr_name=}, data={field.data}, raw_data={field.raw_data}")
+    logger.debug(f"Set {field_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-def format_raw_data(field, value) -> list[str]:
+def format_raw_data(field, value):
   """
-  Generate WTForms-compatible raw_data from a Python value.
-
-  This helper function is used to populate the `.raw_data` attribute
-  of WTForms fields. This is critical for validation, especially when
-  the form has not been submitted via POST but needs to render with
-  default or pre-populated values.
+  Convert a field value to a format suitable for raw_data so WTForms can render it correctly.
 
   Args:
-      field : A WTForms field object (e.g., StringField, DateTimeField).
-      value : The value to be assigned to the field. Can be a string, number, or datetime.
+      field: A WTForms field instance.
+      value: The value to convert for raw_data.
 
   Returns:
-      list[str]: A list with a single string element representing the value, as expected by WTForms.
+      list[str]: A list of strings representing the raw input value.
 
   Raises:
-      ValueError: If the value is of an unsupported type.
-
-  Examples:
-      >>> from wtforms.fields import DateTimeField, StringField
-      >>> from datetime import datetime, timezone
-      >>> field = DateTimeField()
-      >>> dt = datetime(2025, 4, 22, 18, 30, tzinfo=timezone.utc)
-      >>> format_raw_data(field, dt)
-      ['2025-04-22T11:30:00']  # Converted to Pacific
-
-      >>> format_raw_data(field, "hello")
-      ['hello']
-
-  Notes:
-      - Datetime objects must be naive local times.
-      - Floats, ints, and strings are stringified.
-      - Complex or nested structures will raise an exception unless explicitly supported.
+      ValueError: If the value type is unsupported.
   """
   if value is None:
     return []
-
-  if isinstance(value, str):
-    return [value]
-
-  elif isinstance(value, (int, float, complex)):
+  elif isinstance(value, (str, int, float)):
     return [str(value)]
-
+  elif isinstance(value, Decimal):
+    return [str(float(value))]  # Cast to float before converting to string
   elif isinstance(value, datetime.datetime):
-    if isinstance(field, DateTimeField):
-      if value.tzinfo is None:
-        return [value.strftime("%Y-%m-%dT%H:%M")]
-      else:
-        raise TypeError(f"Attempt to set a DateTimeField with non-naive datetime object {value=!r}")
-    else:
-      return [value.isoformat()]
-
-  raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
+    return [value.isoformat()]
+  else:
+    raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
-def wtform_to_model(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> None:
+def wtform_to_model(
+    model,
+    wtform,
+    json_column: str = "misc_json",
+    user: str = "anonymous",
+    comments: str = "",
+    ignore_fields: list[str] = None,
+    type_matching_dict: dict[str, type] = None
+) -> None:
   """
-  Update a SQLAlchemy model’s JSON column using data from a WTForm.
+  Extract data from a WTForm and apply it to a model's JSON column. Log changes.
 
   Args:
       model: SQLAlchemy model instance.
-      wtform (FlaskForm): The form containing updated data.
-      ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
-
-  Example:
-      >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
+      wtform (FlaskForm): WTForm with typed Python values.
+      json_column (str): JSON column name on the model.
+      user (str): Username for logging.
+      comments (str): Optional update comment.
+      ignore_fields (list[str], optional): Fields to exclude from update.
+      type_matching_dict (dict[str, type], optional): Manual types to enforce (e.g. {"id_incidence": int})
   """
-  if ignore_fields is None:
-    ignore_fields = []
+  ignore_fields = set(ignore_fields or [])
 
-  payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
+  payload_all = {
+    field_name: getattr(wtform, field_name).data
+    for field_name in get_wtforms_fields(wtform)
+    if field_name not in ignore_fields
+  }
+
+  # Use manual overrides only — no type_map from form
+  payload_all = make_dict_serializeable(payload_all, type_map=type_matching_dict, convert_time_to_ca=True)
+
+  existing_json = load_model_json_column(model, json_column)
+  existing_serialized = make_dict_serializeable(existing_json, type_map=type_matching_dict, convert_time_to_ca=True)
+
+  payload_changes = get_changed_fields(payload_all, existing_serialized)
+  if payload_changes:
+    logger.info(f"wtform_to_model payload_changes: {payload_changes}")
+    apply_json_patch_and_log(model, payload_changes, json_column, user=user, comments=comments)
+
   logger.info(f"wtform_to_model payload_all: {payload_all}")
-  logger.info(f"wtform_to_model payload_changes: {payload_changes}")
-
-  update_model_with_payload(model, payload_changes)
 
 
-def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
+# def wtform_to_model(model,
+#                     wtform: FlaskForm,
+#                     ignore_fields: list[str] | None = None) -> None:
+#   """
+#   Update a SQLAlchemy model’s JSON column using data from a WTForm.
+#
+#   Args:
+#       model: SQLAlchemy model instance.
+#       wtform (FlaskForm): The form containing updated data.
+#       ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
+#
+#   Example:
+#       >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
+#   """
+#   if ignore_fields is None:
+#     ignore_fields = []
+#
+#   payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
+#   logger.info(f"wtform_to_model payload_all: {payload_all}")
+#   logger.info(f"wtform_to_model payload_changes: {payload_changes}")
+#
+#   update_model_with_payload(model, payload_changes)
+
+
+def get_payloads(model,
+                 wtform: FlaskForm,
+                 ignore_fields: list[str] | None = None) -> tuple[dict, dict]:
   """
+  Deprecated: Use `wtform_to_model()` instead.
+
   Generate all values and changed values from a form for updating a model.
 
   Args:
@@ -476,52 +491,51 @@ def get_payloads(model, wtform: FlaskForm, ignore_fields: list[str] | None = Non
   if ignore_fields is None:
     ignore_fields = []
 
+  skip_empty_fields = False  # Yes if you wish to skip blank fields from being updated when feasible
+
   payload_all = {}
   payload_changes = {}
 
   model_json_dict = getattr(model, "misc_json") or {}
   logger.debug(f"{model_json_dict=}")
 
-  model_fields = list(model_json_dict.keys())
-  form_fields = get_wtforms_fields(wtform)
+  model_field_names = list(model_json_dict.keys())
+  form_field_names = get_wtforms_fields(wtform)
 
-  list_differences(model_fields,
-                   form_fields,
+  list_differences(model_field_names,
+                   form_field_names,
                    iterable_01_name="SQLAlchemy Model",
                    iterable_02_name="WTForm Fields",
                    print_warning=False,
                    )
 
-  for attr_name in form_fields:
-    if attr_name in ignore_fields:
+  for form_field_name in form_field_names:
+    field = getattr(wtform, form_field_name)
+    field_value = field.data
+    model_value = model_json_dict.get(form_field_name)
+
+    if form_field_name in ignore_fields:
       continue
 
-    field = getattr(wtform, attr_name)
-    attr_value = field.data
+    if skip_empty_fields is True:
+      # skipping empty strings if the model is "" or None
+      if field_value == "":
+        if model_value in [None, ""]:
+          continue
 
-    # Skip placeholder only for SelectField or compatible types
-    if isinstance(field, SelectField) and attr_value == PLEASE_SELECT:
-      continue
+      # Only persist "Please Select" if overwriting a meaningful value.
+      if isinstance(field, SelectField) and field_value == PLEASE_SELECT:
+        if model_value in [None, ""]:
+          continue
 
-    # Skip empty strings
-    if attr_value == "":
-      continue
+    payload_all[form_field_name] = field_value
 
-    payload_all[attr_name] = attr_value
-
-    existing_value = model_json_dict.get(attr_name)
-    if existing_value != attr_value:
-      payload_changes[attr_name] = attr_value
+    # todo (depreciated) - object types are not being seen as equivalent (because they are serialized strings)
+    #        need to update logic - check out prep_payload_for_json for uniform approach
+    if model_value != field_value:
+      payload_changes[form_field_name] = field_value
 
   return payload_all, payload_changes
-
-
-import copy
-import datetime
-import decimal
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 def prep_payload_for_json(payload: dict,
@@ -529,39 +543,26 @@ def prep_payload_for_json(payload: dict,
   """
   Prepare a payload dictionary for JSON serialization.
 
+  Allows 'Please Select' to be stored as-is.
+
   Ensures:
-    - `datetime` → ISO8601 UTC string
-    - `decimal.Decimal` → float
+    - datetime → ISO8601 UTC string
+    - decimal.Decimal → float
     - Values in `type_matching_dict` are explicitly cast to the specified types
 
   Args:
       payload (dict): Dictionary of key/value updates for the model.
       type_matching_dict (dict): Optional mapping of key names to expected types,
-                                 e.g., {"id_incidence": int, "some_flag": bool}.
+                                 e.g., {"id_incidence": int, "some_flag": bool}
 
   Returns:
       dict: A transformed copy of the payload suitable for JSON serialization.
   """
   type_matching_dict = type_matching_dict or {"id_incidence": int}
-  new_payload = {}
 
-  for key, value in payload.items():
-    # Standard conversions
-    if isinstance(value, datetime.datetime):
-      value = ca_naive_to_utc_datetime(value).isoformat()
-    elif isinstance(value, decimal.Decimal):
-      value = float(value)
-
-    # Apply type matching overrides
-    if key in type_matching_dict and value is not None:
-      try:
-        value = type_matching_dict[key](value)
-      except (ValueError, TypeError) as e:
-        logger.warning(f"Could not cast key {key} to {type_matching_dict[key]}: {e}")
-
-    new_payload[key] = value
-
-  return new_payload
+  return make_dict_serializeable(payload,
+                                 type_map=type_matching_dict,
+                                 convert_time_to_ca=True)
 
 
 def update_model_with_payload(model,
@@ -588,7 +589,6 @@ def update_model_with_payload(model,
   new_payload = prep_payload_for_json(payload)
   model_json.update(new_payload)
 
-  # TODO: Integrate real user once authentication is added
   apply_json_patch_and_log(
     model,
     json_field=json_field,
@@ -663,7 +663,9 @@ def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list
   return header + footer
 
 
-def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
+def ensure_field_choice(field_name: str,
+                        field,
+                        choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
   """
   Ensure that a WTForms field's current value is valid for its available choices.
 

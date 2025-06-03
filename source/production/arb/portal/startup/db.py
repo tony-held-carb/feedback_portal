@@ -58,8 +58,6 @@ def db_create() -> None:
 
   Should be safe to run multiple times (uses SQLAlchemy's create_all()).
   """
-  # this is slow, consider using a fast load mechanism:
-  # https://chatgpt.com/share/681eec4d-8b74-800b-9d0c-bdb08da62fd2
 
   if current_app.config.get("FAST_LOAD", False) is True:
     logger.warning("Skipping table creation for FAST_LOAD=True.")
