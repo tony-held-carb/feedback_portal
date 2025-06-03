@@ -10,6 +10,7 @@ Notes:
 import copy
 import datetime
 import json
+from decimal import Decimal
 
 from flask_wtf import FlaskForm
 from wtforms import SelectField, ValidationError
@@ -372,9 +373,6 @@ def model_to_wtform(model,
     logger.debug(f"Set {field_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-from decimal import Decimal
-
-
 def format_raw_data(field, value):
   """
   Convert a field value to a format suitable for raw_data so WTForms can render it correctly.
@@ -425,9 +423,9 @@ def wtform_to_model(
   ignore_fields = set(ignore_fields or [])
 
   payload_all = {
-      field_name: getattr(wtform, field_name).data
-      for field_name in get_wtforms_fields(wtform)
-      if field_name not in ignore_fields
+    field_name: getattr(wtform, field_name).data
+    for field_name in get_wtforms_fields(wtform)
+    if field_name not in ignore_fields
   }
 
   # Use manual overrides only — no type_map from form
