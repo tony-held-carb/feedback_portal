@@ -428,7 +428,7 @@ def deserialize_dict(
     if not isinstance(key, str):
       raise TypeError(f"All keys must be strings. Invalid key: {key} ({type(key)})")
 
-    if key in type_map:
+    if key in type_map and value is not None:
       result[key] = cast_model_value(value, type_map[key], convert_time_to_ca)
     else:
       result[key] = value

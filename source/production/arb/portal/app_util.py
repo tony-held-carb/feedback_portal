@@ -230,11 +230,13 @@ def get_ensured_row(db,
       id_ (int): Optional. Value of the primary key to fetch or create.
 
   Returns:
-      tuple: A tuple of (model instance, primary key value).
+      tuple: A tuple of (model instance, primary key value, is_new_row).
 
   Raises:
       AttributeError: If the specified primary key column does not exist on the model.
   """
+  is_new_row = False
+
   session = db.session
   table = get_class_from_table_name(base, table_name)
 
@@ -242,9 +244,11 @@ def get_ensured_row(db,
     logger.debug(f"Retrieving {table_name} row with {primary_key_name}={id_}")
     model = session.get(table, id_)
     if model is None:
+      is_new_row = True
       logger.debug(f"No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
       model = table(**{primary_key_name: id_})
   else:
+    is_new_row = True
     logger.debug(f"Creating new {table_name} row with auto-generated {primary_key_name}")
     model = table(**{primary_key_name: None})
     session.add(model)
@@ -252,7 +256,7 @@ def get_ensured_row(db,
     id_ = getattr(model, primary_key_name)
     logger.debug(f"{table_name} row created with {primary_key_name}={id_}")
 
-  return model, id_
+  return model, id_, is_new_row
 
 
 def dict_to_database(db,
@@ -286,9 +290,8 @@ def dict_to_database(db,
     raise ValueError(msg)
 
   id_ = data_dict.get(primary_key)
-  new_row = id_ is None
 
-  model, id_ = get_ensured_row(
+  model, id_, is_new_row = get_ensured_row(
     db=db,
     base=base,
     table_name=table_name,
@@ -297,7 +300,7 @@ def dict_to_database(db,
   )
 
   # Backfill generated primary key into payload if it was not supplied
-  if new_row:
+  if is_new_row:
     logger.debug(f"Backfilling {primary_key} = {id_} into payload")
     data_dict[primary_key] = id_
 

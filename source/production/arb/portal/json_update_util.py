@@ -27,7 +27,13 @@ def apply_json_patch_and_log(model,
       user (str): Current user (or 'anonymous').
       comments (str): Optional comment for the update.
   """
-  json_data = getattr(model, json_field) or {}
+  # todo - may want to tweak this so you get predictable results on newly created incidences
+  json_data = getattr(model, json_field)
+  if json_data is None:
+    json_data = {}
+    is_new_row = True
+  else:
+    is_new_row = False
 
   # Consistency check
   if "id_incidence" in json_data and json_data["id_incidence"] != model.id_incidence:
@@ -36,18 +42,25 @@ def apply_json_patch_and_log(model,
 
   # Remove id_incidence from updates to avoid contaminating misc_json
   if "id_incidence" in updates:
-      if updates["id_incidence"] != model.id_incidence:
-          logger.warning(f"[json_update] Removing conflicting id_incidence from updates: "
-                         f"{updates['id_incidence']}")
+    if updates["id_incidence"] != model.id_incidence:
+      logger.warning(f"[json_update] Removing conflicting id_incidence from updates: "
+                     f"{updates['id_incidence']}")
       del updates["id_incidence"]
 
   for key, new_value in updates.items():
-    old_value = json_data.get(key)
+
+    # todo - likely a good spot to update new versus update
+    # likely want to put in some logic about "", None, etc and have predictable results ... especially with Please Select
+    if is_new_row:
+      old_value = "None"
+    else:
+      old_value = json_data.get(key)
+
     if old_value != new_value:
       log_entry = PortalUpdate(
         timestamp=datetime.datetime.now(datetime.UTC),
         key=key,
-        old_value=str(old_value) if old_value is not None else None,
+        old_value=str(old_value),
         new_value=str(new_value),
         user=user,
         comments=comments or "",

@@ -12,16 +12,13 @@
     * check that I did make_dict_serializeable correct
     * refactor to use deserialize_dict in wtform_to_model
     * make sure payload_all and payload_changes are working properly
-
+    * need to figure out what to do with delete incidences? (may not really happen often)
 
   * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
-    * I don't know that you need default payloads anymore ... seems like everything should automatically go to Please Select
 
     Step 1. Cleanse any 'Please Select' from DB
     Step 2. Figure out where writes to db happen and make sure Please Selects are removed
     Step 3. Figure out how to default to please select in any page generations
-    Step 4. remove the default payload advice because 'Please Selects' are not required
-            to get the payloads working
 
 
   * merge in the new code for the ec2

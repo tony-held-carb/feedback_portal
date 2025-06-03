@@ -102,3 +102,17 @@ Testing Protocol for Operator Portal Functionality
 
 
 Implementing testing 05/14/25
+
+Refactered and retesting 6/2/25
+1. creating 2001, make sure portal changes update and logging still works.
+2. clear out all values - test logging, portal changes
+3. check usage now that it is mostly blank
+4. repopulate and make sure it persists
+6. same with 2002
+7. add all the test spreadsheets
+8. 
+
+
+5. loop through all incidences and make sure you don't get any sector or sector_type not found errors
+
+it is a little confusing on how some things go from None to blank string ...
