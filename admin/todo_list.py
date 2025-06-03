@@ -2,8 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-
-    * merging new branch into main for local and ec2
+    * work through todos and notes below for next refactor
 
     * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
