@@ -497,21 +497,19 @@ def incidence_prep(model_row,
     error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 
     # Diagnostics of model before updating with wtform values
+    # Likely can comment out model_before and add_commit_and_log_model
+    # if you want less diagnostics and redundant commits
     model_before = sa_model_to_dict(model_row)
     wtform_to_model(model_row, wtf_form, ignore_fields=["id_incidence"])
     add_commit_and_log_model(db,
                              model_row,
                              comment='call to wtform_to_model()',
                              model_before=model_before)
-    # todo - need to include logic here to retain the new id that is assigned from adding a new model?
-    # looks like the id_incidence in the json is decoupled from the row id_incidence, which can lead to funny behavior
-    # when an incidence is added it will get an auto generated id, which needs to propagate tot he wtform and model
-    # need to check ahead of time if you are duplicating id so you don't get uniqueness issues
-    # will likely break the spread sheet import process on initial refactor ...
 
     # Determine course of action for successful database update based on which button was submitted
     button = request.form.get('submit_button')
 
+    # todo - change the button name to save?
     if button == 'validate_and_submit':
       logger.debug(f"validate_and_submit was pressed")
       if wtf_form.validate():

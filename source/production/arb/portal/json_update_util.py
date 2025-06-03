@@ -59,3 +59,4 @@ def apply_json_patch_and_log(model,
 
   setattr(model, json_field, json_data)
   flag_modified(model, json_field)
+  db.session.commit()

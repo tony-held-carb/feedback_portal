@@ -458,13 +458,10 @@ Routines that can affect the database have "session." in them
     - update_model_with_payload
         - called by
             - dict_to_database
-            - wtform_to_model
-                - Could remove 'Please Select' from here, but if the model used to have
-                  a valid response, then you would not be changing it to a new value?
-                  I guess I don't remember how the update/overwrite works ....
     - apply_json_patch_and_log
         - called by
             - update_model_with_payload
+            - wtform_to_model
 
     Notes
         dict_to_database seems to only update the json column (may create primary key)
