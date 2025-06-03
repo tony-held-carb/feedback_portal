@@ -228,6 +228,27 @@ def compare_dicts(dict1: dict,
   return True
 
 
+def get_changed_fields(new_dict: dict, old_dict: dict) -> dict:
+  """
+  Return a dictionary of updated values from new_dict that differ from old_dict.
+
+  Only keys present in new_dict are considered. This prevents unrelated fields
+  from being overwritten when merging partial form data into a larger stored structure.
+
+  Args:
+      new_dict (dict): The updated values, e.g., from a WTForm.
+      old_dict (dict): The current values, e.g., from the model's misc_json.
+
+  Returns:
+      dict: A dictionary of keys from new_dict where the value differs from old_dict.
+  """
+  changes = {}
+  for key in new_dict:
+    if new_dict[key] != old_dict.get(key):
+      changes[key] = new_dict[key]
+  return changes
+
+
 def run_diagnostics() -> None:
   """
   Run demonstration of diagnostic utilities with examples.

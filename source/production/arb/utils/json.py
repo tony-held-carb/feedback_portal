@@ -15,11 +15,7 @@ import logging
 import pathlib
 from zoneinfo import ZoneInfo
 
-from wtforms.fields import DateTimeField, DecimalField
-
-from wtforms import DateTimeField, DecimalField, BooleanField, SelectField, IntegerField, StringField
-import datetime
-import decimal
+from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
 from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
@@ -30,6 +26,9 @@ from arb.utils.date_and_time import (
 from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
+
+from arb.utils.misc import safe_cast
+
 logger, pp_log = get_logger()
 
 
@@ -351,24 +350,31 @@ def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]
 
   return type_map, field_data
 
+
 def make_dict_serializeable(
     input_dict: dict,
     type_map: dict[str, type] = None,
-    convert_time_to_ca=False,
+    convert_time_to_ca: bool = False,
 ) -> dict:
   """
   Convert a dictionary to ensure all keys are strings and all values are JSON-serializable.
 
+  Values like datetime and decimal.Decimal are transformed to ISO strings or floats.
+  If a type_map is provided, values will be safely cast to their specified types
+  before serialization. The function skips casting if the value is already of the
+  correct type.
+
   Args:
       input_dict (dict): Input dictionary with possibly complex Python objects.
       type_map (dict[str, type], optional): Optional mapping of keys to types to cast values to.
-      convert_time_to_ca (bool): True to assume that a timestamp with no timezone info is california time
-                                 False to leave in UTC with timezone info.
+      convert_time_to_ca (bool): If True, convert naive or local datetime to UTC before serializing.
+
   Returns:
       dict: A new dictionary with string keys and JSON-serializable values.
 
   Raises:
       TypeError: If any key is not a string.
+      ValueError: If type casting fails for a key.
   """
   result = {}
 
@@ -378,7 +384,7 @@ def make_dict_serializeable(
 
     if type_map and key in type_map:
       try:
-        value = type_map[key](value)
+        value = safe_cast(value, type_map[key])
       except Exception as e:
         raise ValueError(f"Failed to cast key '{key}' to {type_map[key]}: {e}")
 

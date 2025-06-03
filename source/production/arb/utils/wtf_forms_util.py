@@ -19,15 +19,12 @@ from wtforms.validators import InputRequired, Optional
 from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
-from arb.utils.date_and_time import (
-  datetime_to_ca_naive,
-  iso8601_to_utc_dt
-)
-from arb.utils.diagnostics import list_differences
+from arb.utils.diagnostics import get_changed_fields, list_differences
 from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
 
 __version__ = "1.0.0"
 
+from arb.utils.sql_alchemy import load_model_json_column
 
 logger, pp_log = get_logger()
 
@@ -377,6 +374,7 @@ def model_to_wtform(model,
 
 from decimal import Decimal
 
+
 def format_raw_data(field, value):
   """
   Convert a field value to a format suitable for raw_data so WTForms can render it correctly.
@@ -403,28 +401,71 @@ def format_raw_data(field, value):
     raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
-def wtform_to_model(model,
-                    wtform: FlaskForm,
-                    ignore_fields: list[str] | None = None) -> None:
+def wtform_to_model(
+    model,
+    wtform,
+    json_column: str = "misc_json",
+    user: str = "anonymous",
+    comments: str = "",
+    ignore_fields: list[str] = None,
+    type_matching_dict: dict[str, type] = None
+) -> None:
   """
-  Update a SQLAlchemy model’s JSON column using data from a WTForm.
+  Extract data from a WTForm and apply it to a model's JSON column. Log changes.
 
   Args:
       model: SQLAlchemy model instance.
-      wtform (FlaskForm): The form containing updated data.
-      ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
-
-  Example:
-      >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
+      wtform (FlaskForm): WTForm with typed Python values.
+      json_column (str): JSON column name on the model.
+      user (str): Username for logging.
+      comments (str): Optional update comment.
+      ignore_fields (list[str], optional): Fields to exclude from update.
+      type_matching_dict (dict[str, type], optional): Manual types to enforce (e.g. {"id_incidence": int})
   """
-  if ignore_fields is None:
-    ignore_fields = []
+  ignore_fields = set(ignore_fields or [])
 
-  payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
+  payload_all = {
+      field_name: getattr(wtform, field_name).data
+      for field_name in get_wtforms_fields(wtform)
+      if field_name not in ignore_fields
+  }
+
+  # Use manual overrides only — no type_map from form
+  payload_all = make_dict_serializeable(payload_all, type_map=type_matching_dict, convert_time_to_ca=True)
+
+  existing_json = load_model_json_column(model, json_column)
+  existing_serialized = make_dict_serializeable(existing_json, type_map=type_matching_dict, convert_time_to_ca=True)
+
+  payload_changes = get_changed_fields(payload_all, existing_serialized)
+  if payload_changes:
+    logger.info(f"wtform_to_model payload_changes: {payload_changes}")
+    apply_json_patch_and_log(model, payload_changes, json_column, user=user, comments=comments)
+
   logger.info(f"wtform_to_model payload_all: {payload_all}")
-  logger.info(f"wtform_to_model payload_changes: {payload_changes}")
 
-  update_model_with_payload(model, payload_changes)
+
+# def wtform_to_model(model,
+#                     wtform: FlaskForm,
+#                     ignore_fields: list[str] | None = None) -> None:
+#   """
+#   Update a SQLAlchemy model’s JSON column using data from a WTForm.
+#
+#   Args:
+#       model: SQLAlchemy model instance.
+#       wtform (FlaskForm): The form containing updated data.
+#       ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
+#
+#   Example:
+#       >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
+#   """
+#   if ignore_fields is None:
+#     ignore_fields = []
+#
+#   payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
+#   logger.info(f"wtform_to_model payload_all: {payload_all}")
+#   logger.info(f"wtform_to_model payload_changes: {payload_changes}")
+#
+#   update_model_with_payload(model, payload_changes)
 
 
 def get_payloads(model,
@@ -496,7 +537,6 @@ def get_payloads(model,
   return payload_all, payload_changes
 
 
-
 def prep_payload_for_json(payload: dict,
                           type_matching_dict: dict = None) -> dict:
   """
@@ -522,7 +562,6 @@ def prep_payload_for_json(payload: dict,
   return make_dict_serializeable(payload,
                                  type_map=type_matching_dict,
                                  convert_time_to_ca=True)
-
 
 
 def update_model_with_payload(model,

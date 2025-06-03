@@ -16,6 +16,8 @@ Notes:
     - Assumes SQLAlchemy ORM with automap or declarative base integration.
     - Logs all major operations for debugging and auditing.
 """
+import json
+
 from sqlalchemy import desc, inspect, text
 
 from arb.__get_logger import get_logger
@@ -464,6 +466,38 @@ def find_auto_increment_value(db, table_name: str, column_name: str) -> str:
     next_val = connection.execute(text(sql_nextval)).scalar()
 
     return f"Table '{table_name}' column '{column_name}' sequence '{sequence_name}' next value is '{next_val}'"
+
+
+def load_model_json_column(model, column_name: str) -> dict:
+  """
+  Safely extract and normalize a JSON dictionary from a model's column.
+
+  This helper ensures that the value stored in a model's JSON column is returned
+  as a Python dictionary, regardless of whether it's stored as a JSON string or
+  native dict in the database.
+
+  If the value is a malformed JSON string, a warning is logged and an empty dict is returned.
+
+  Args:
+      model: SQLAlchemy model instance.
+      column_name (str): Name of the attribute on the model (e.g., 'misc_json').
+
+  Returns:
+      dict: Parsed dictionary from the JSON column. Defaults to {} on failure or None.
+  """
+  raw_value = getattr(model, column_name)
+  if isinstance(raw_value, str):
+    try:
+      return json.loads(raw_value)
+    except json.JSONDecodeError:
+      logger.warning(f"Corrupt JSON found in {column_name}, resetting to empty dict.")
+      return {}
+  elif raw_value is None:
+    return {}
+  elif isinstance(raw_value, dict):
+    return raw_value
+  else:
+    raise TypeError(f"Expected str, dict, or None for {column_name}, got {type(raw_value).__name__}")
 
 
 def run_diagnostics(db, base, session) -> None:
