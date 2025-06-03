@@ -3,7 +3,7 @@
 # todo - Next Steps
 ----------------------------
 
-    * rerun the spreadsheet creations and make sure that the payloads work
+    * merging new branch into main for local and ec2
 
     * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
