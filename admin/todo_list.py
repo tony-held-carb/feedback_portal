@@ -3,20 +3,11 @@
 # todo - Next Steps
 ----------------------------
 
-* todo - start here ...
-  * I'm changing the philosophy to now allow "Please Select" to be stored in misc_json.
-    this will allow for cleaner code, and less likely to make mistakes, the
-    field will get a little bloated, but there are tradeoffs either way.
+    * rerun the spreadsheet creations and make sure that the payloads work
 
-  * continue refactor json serialization/deserialization of misc_json content
-    * check that I did make_dict_serializeable correct
-    * refactor to use deserialize_dict in wtform_to_model
-    * make sure payload_all and payload_changes are working properly
+    * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
+
     * need to figure out what to do with delete incidences? (may not really happen often)
-
-  * so many todos are associated with Please Select.  May want to make sure that is all working and move on ...
-
-    Step 2. Figure out where writes to db happen and make sure Please Selects are removed
     Step 3. Figure out how to default to please select in any page generations
 
 
@@ -24,10 +15,6 @@
 
   * if a incidence passes validation, have it splash a success message before going to index
 
-  * don't let there be a decoupling between the incidence column and the json key:value
-    * don't allow id_incidence to be changed after it has been created
-    * maybe block the creation of new incidence from portal
-    * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
   * json files with meta are serialized/deserialized differently than how misc_json is done,
     consider aligning them better if possible.

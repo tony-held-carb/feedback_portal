@@ -663,7 +663,9 @@ def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list
   return header + footer
 
 
-def ensure_field_choice(field_name: str, field, choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
+def ensure_field_choice(field_name: str,
+                        field,
+                        choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
   """
   Ensure that a WTForms field's current value is valid for its available choices.
 

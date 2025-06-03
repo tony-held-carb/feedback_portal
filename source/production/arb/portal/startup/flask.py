@@ -61,8 +61,8 @@ def configure_flask_app(app: Flask) -> None:
 
   # Jinja: custom filters for debugging and string manipulation
   app.jinja_env.filters['debug'] = diag_recursive
+  # todo - make sure these datetime filters work in light of the use of native and UTC timestamps
   app.jinja_env.filters['date_to_string'] = date_to_string
-  # todo - repr_datetime_to_string modified and this may no longer work ...
   app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
   app.jinja_env.filters['args_to_string'] = args_to_string
 

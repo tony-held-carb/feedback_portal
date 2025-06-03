@@ -232,7 +232,7 @@ def extract_tabs(wb, schema_map, xl_as_dict):
               # convert to datetime using a parser if possible
               if value_type == datetime.datetime:
                 local_datetime = parse_unknown_datetime(value)
-                if not is_datetime_naive(local_datetime):
+                if local_datetime and not is_datetime_naive(local_datetime):
                   logger.warning(f"Date time {value} is not a naive datetime, skipping to avoid data corruption")
                   continue
                 value = local_datetime

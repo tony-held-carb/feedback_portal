@@ -129,7 +129,6 @@ def get_sa_automap_types(engine, base):
     where: kind can be 'database_type', 'sqlalchemy_type', or 'python_type',
   """
   logger.debug(f"calling get_sa_automap_types()")
-  # todo - consider a fast load method here too
 
   result = {}
   inspector = inspect(engine)
