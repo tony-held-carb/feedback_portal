@@ -1,11 +1,19 @@
 """
 Module for JSON-related utility functions and classes.
 
-Includes custom serialization for datetime and decimal objects,
-metadata support, and file comparison diagnostics.
+Includes:
+  - Custom serialization for datetime and decimal objects
+  - Metadata support for enhanced JSON files
+  - File-based diagnostics and JSON comparison utilities
+  - WTForms integration for form data extraction and casting
 
 Version:
     1.0.0
+
+Notes:
+    - Designed for structured JSON handling across ARB portal utilities.
+    - Emphasizes ISO 8601 datetime formats and consistent value type casting.
+    - Supports "Pacific Time naive" conversion via ZoneInfo-aware logic.
 """
 
 import datetime
@@ -35,15 +43,15 @@ logger, pp_log = get_logger()
 # todo - integrate new json techniques to the website,
 #       make sure time are handled using the new time stamps iso strings and native pacific system
 
-def json_serializer(obj) -> dict:
+def json_serializer(obj: object) -> dict:
   """
   Custom JSON serializer for objects not natively serializable by `json.dump`.
 
   Args:
-      obj: The object to serialize.
+      obj (object): The object to serialize.
 
   Returns:
-      dict: A dictionary representation of the object.
+      dict: A JSON-compatible dictionary representation of the object.
 
   Raises:
       TypeError: If the object type is unsupported.
@@ -63,10 +71,10 @@ def json_serializer(obj) -> dict:
 
 def json_deserializer(obj: dict) -> object:
   """
-  Custom JSON deserializer for known class/type representations.
+  Custom JSON deserializer for class/type representations created by `json_serializer`.
 
   Args:
-      obj (dict): Dictionary object from JSON file.
+      obj (dict): Dictionary object from JSON with special tags for known types.
 
   Returns:
       object: Reconstructed Python object.
@@ -105,18 +113,18 @@ def json_deserializer(obj: dict) -> object:
   return new_obj
 
 
-def json_save(file_path: str | pathlib.Path,
-              data,
-              json_options: dict | None = None) -> None:
+def json_save(
+    file_path: str | pathlib.Path,
+    data: object,
+    json_options: dict | None = None
+) -> None:
   """
-  Save a data object to a JSON file.
+  Save a Python object to a JSON file with optional serialization settings.
 
   Args:
-      file_path (str | Path): Output file path.
-      data: Data to serialize and save.
-      json_options (dict | None): Options for `json.dump`. If None, defaults to
-          {'default': json_serializer, 'indent': 4}.
-
+      file_path (str | Path): Path to write the JSON file.
+      data (object): Data to serialize and write.
+      json_options (dict | None): Options to pass to `json.dump`.
   Example:
       >>> json_save("output.json", {"x": decimal.Decimal("1.23")})
   """
@@ -131,19 +139,20 @@ def json_save(file_path: str | pathlib.Path,
   logger.debug(f"JSON saved to file: '{file_path}'.")
 
 
-def json_save_with_meta(file_path: str | pathlib.Path,
-                        data,
-                        metadata: dict | None = None,
-                        json_options: dict | None = None) -> None:
+def json_save_with_meta(
+    file_path: str | pathlib.Path,
+    data: object,
+    metadata: dict | None = None,
+    json_options: dict | None = None
+) -> None:
   """
-  Save data with metadata to a JSON file.
+  Save data with metadata to a JSON file under special keys.
 
   Args:
       file_path (str | Path): Output JSON file path.
-      data: Data to be stored under "_data_".
-      metadata (dict | None): Metadata to store under "_metadata_".
+      data (object): Primary data to store under "_data_".
+      metadata (dict | None): Optional metadata under "_metadata_".
       json_options (dict | None): Options for `json.dump`.
-
   Example:
       >>> json_save_with_meta("log.json", {"key": "value"}, {"source": "generated"})
   """
@@ -166,18 +175,19 @@ def json_save_with_meta(file_path: str | pathlib.Path,
   json_save(file_path, wrapped, json_options=json_options)
 
 
-def json_load(file_path: str | pathlib.Path,
-              json_options: dict | None = None):
+def json_load(
+    file_path: str | pathlib.Path,
+    json_options: dict | None = None
+) -> object:
   """
-  Load JSON data from a file.
+  Load and deserialize data from a JSON file.
 
   Args:
       file_path (str | Path): Path to the JSON file.
-      json_options (dict | None): Options for `json.load`.
+      json_options (dict | None): Optional options passed to `json.load`.
 
   Returns:
       object: Deserialized Python object.
-
   Example:
       >>> json_load("data.json")
 
@@ -198,16 +208,16 @@ def json_load(file_path: str | pathlib.Path,
 def json_load_with_meta(file_path: str | pathlib.Path,
                         json_options: dict | None = None) -> tuple[object, dict]:
   """
-  Load a JSON file and separate data from metadata.
+  Load a JSON file and return both data and metadata if present.
 
   Args:
-      file_path (str | Path): Path to JSON file.
-      json_options (dict | None): Optional `json.load` settings.
+      file_path (str | Path): Path to the JSON file.
+      json_options (dict | None): Optional options passed to `json.load`.
 
   Returns:
       tuple:
-          - object: Main data under "_data_" (or full file if not present).
-          - dict: Metadata under "_metadata_" (or empty if not present).
+          - object: Deserialized data in "_data_" (or full file if not present).
+          - dict: Deserialized Metadata in "_metadata_" (or empty if not present).
 
   Example:
       >>> data, meta = json_load_with_meta("example.json")
@@ -226,15 +236,16 @@ def json_load_with_meta(file_path: str | pathlib.Path,
   return all_data, {}
 
 
-def add_metadata_to_json(file_name_in: str | pathlib.Path,
-                         file_name_out: str | pathlib.Path | None = None) -> None:
+def add_metadata_to_json(
+    file_name_in: str | pathlib.Path,
+    file_name_out: str | pathlib.Path | None = None
+) -> None:
   """
-  Add or update metadata in a JSON file.
+  Add metadata to an existing JSON file or overwrite it in-place.
 
   Args:
-      file_name_in (str | Path): Input JSON file.
-      file_name_out (str | Path | None): Output file. If None, overwrites input.
-
+      file_name_in (str | Path): Input JSON file path.
+      file_name_out (str | Path | None): Output file path. If None, overwrites input.
   Example:
       >>> add_metadata_to_json("schema.json")
   """
@@ -247,17 +258,19 @@ def add_metadata_to_json(file_name_in: str | pathlib.Path,
   json_save_with_meta(file_name_out, data=data)
 
 
-def compare_json_files(file_name_1: str | pathlib.Path,
-                       file_name_2: str | pathlib.Path) -> None:
+def compare_json_files(
+    file_name_1: str | pathlib.Path,
+    file_name_2: str | pathlib.Path
+) -> None:
   """
-  Compare two JSON files' metadata and data content.
+  Compare the contents of two JSON files including metadata and values.
 
   Args:
-      file_name_1 (str | Path): Path to first file.
-      file_name_2 (str | Path): Path to second file.
+      file_name_1 (str | Path): Path to the first file.
+      file_name_2 (str | Path): Path to the second file.
 
   Logs:
-      Outputs detailed comparison diagnostics to logger.
+      Differences or matches are logged at debug level.
 
   Example:
       >>> compare_json_files("old.json", "new.json")
@@ -280,19 +293,21 @@ def compare_json_files(file_name_1: str | pathlib.Path,
     logger.debug("Data differ")
 
 
-def cast_model_value(value, value_type, convert_time_to_ca=False):
+def cast_model_value(
+    value: str,
+    value_type: type,
+    convert_time_to_ca: bool = False
+) -> object:
   """
-  Deserialize a value stored in JSON as a string to its Python type for
-  use in a WTForm field.
+  Cast a stringified JSON value into a Python object of the expected type.
 
   Args:
-      value (string): Model value stored in JSON as a string.
-      value_type: Python type of value to be stored in a WTForm.
-      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
-                                 False to leave in UTC with timezone info.
+      value (str): Input value to cast.
+      value_type (type): Python type to cast to.
+      convert_time_to_ca (bool): If True, convert UTC to California naive datetime.
 
   Returns:
-      The value cast to the appropriate Python type.
+      object: Value converted to the target Python type.
 
   Raises:
       ValueError: If the value cannot be cast to the given type.
@@ -314,12 +329,11 @@ def cast_model_value(value, value_type, convert_time_to_ca=False):
     raise ValueError(f"Failed to cast {value!r} to {value_type}: {e}")
 
 
-def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]:
+def wtform_types_and_values(
+    wtform
+) -> tuple[dict[str, type], dict[str, object]]:
   """
-  Constructs two dictionaries from a WTForm instance:
-
-  1. A type map for fields requiring explicit type conversion (e.g., datetime, decimal).
-  2. A dictionary of field data values for all fields (including 'Please Select').
+  Extract field types and current data values from a WTForm.
 
   Args:
       wtform (FlaskForm): WTForms instance.
@@ -353,28 +367,23 @@ def wtform_types_and_values(wtform) -> tuple[dict[str, type], dict[str, object]]
 
 def make_dict_serializeable(
     input_dict: dict,
-    type_map: dict[str, type] = None,
-    convert_time_to_ca: bool = False,
+    type_map: dict[str, type] | None = None,
+    convert_time_to_ca: bool = False
 ) -> dict:
   """
-  Convert a dictionary to ensure all keys are strings and all values are JSON-serializable.
-
-  Values like datetime and decimal.Decimal are transformed to ISO strings or floats.
-  If a type_map is provided, values will be safely cast to their specified types
-  before serialization. The function skips casting if the value is already of the
-  correct type.
+  Transform a dictionary to ensure JSON compatibility of its values.
 
   Args:
-      input_dict (dict): Input dictionary with possibly complex Python objects.
-      type_map (dict[str, type], optional): Optional mapping of keys to types to cast values to.
-      convert_time_to_ca (bool): If True, convert naive or local datetime to UTC before serializing.
+      input_dict (dict): Original dictionary to process.
+      type_map (dict[str, type] | None): Optional field-to-type map for casting.
+      convert_time_to_ca (bool): Convert datetimes to CA time before serialization.
 
   Returns:
-      dict: A new dictionary with string keys and JSON-serializable values.
+      dict: A dictionary with only JSON-serializable values.
 
   Raises:
       TypeError: If any key is not a string.
-      ValueError: If type casting fails for a key.
+      ValueError: If value cannot be cast to expected type.
   """
   result = {}
 
@@ -404,19 +413,16 @@ def make_dict_serializeable(
 def deserialize_dict(
     input_dict: dict,
     type_map: dict[str, type],
-    convert_time_to_ca=False,
+    convert_time_to_ca: bool = False
 ) -> dict:
   """
-  Deserialize a dictionary's values based on a type map, casting string values to target types.
-
   Args:
-      input_dict (dict): Dictionary with string keys and values to deserialize.
-      type_map (dict[str, type]): Mapping of keys to desired types (e.g., int, float, datetime).
-      convert_time_to_ca (bool): True to convert datetime to California local with no timezone info.
-                                 False to leave in UTC with timezone info.
+      input_dict (dict): Dictionary of raw values.
+      type_map (dict[str, type]): Field-to-type mapping for deserialization.
+      convert_time_to_ca (bool): If True, converts datetime to CA time.
 
   Returns:
-      dict: A new dictionary with values cast to their specified types.
+      dict: Fully deserialized dictionary.
 
   Raises:
       TypeError: If any key is not a string.
@@ -438,16 +444,16 @@ def deserialize_dict(
 
 def run_diagnostics() -> None:
   """
-  Run diagnostics to validate core JSON utility functionality.
+  Run internal validation for all JSON utilities.
 
-  This includes:
-    - Custom serialization and deserialization of datetime and decimal types.
-    - Saving and loading JSON with and without metadata.
-    - Adding metadata to a plain JSON file.
-    - Comparing two JSON files for equivalence.
+  Tests:
+    - Custom serializer/deserializer
+    - JSON saving and loading (with and without metadata)
+    - Metadata updating
+    - File comparison
 
-  Example:
-      >>> run_diagnostics()
+  Raises:
+      Exception: If any test fails.
   """
   import tempfile
   import shutil
