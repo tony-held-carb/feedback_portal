@@ -1,11 +1,15 @@
 """
-Module for diagnostic related functions and utilities.
+Diagnostic utilities for inspecting and logging Python objects.
 
 Provides:
-- Attribute introspection and logging (`obj_diagnostics`)
-- Dictionary comparisons and diffing
-- Recursive structure analysis and formatting
-- Object HTML conversion for safe diagnostic display in web environments
+- Object introspection for development/debugging
+- Attribute/value logging (including hidden and callable members)
+- Dictionary comparisons and formatting
+- Recursive HTML-safe rendering of complex data structures
+- Integration with Flask for developer-oriented diagnostics
+
+Intended primarily for use in debug environments, template rendering,
+or ad-hoc inspection of application state during development.
 """
 
 import pprint
@@ -23,22 +27,19 @@ def obj_diagnostics(obj: object,
                     include_functions: bool = False,
                     message: str | None = None) -> None:
   """
-  Log diagnostics about an object's attributes and values.
+  Log detailed diagnostics about an object's attributes and values.
 
   Args:
-      obj: The object to diagnose.
-      include_hidden: If True, include attributes starting with '_'.
-      include_functions: If True, include callable attributes.
-      message: Optional message to log before diagnostics.
+      obj (object): The object to inspect.
+      include_hidden (bool): Whether to include private attributes (starting with `_`).
+      include_functions (bool): Whether to include methods or callable attributes.
+      message (str | None): Optional prefix message to label the diagnostic output.
 
   Returns:
       None
 
-  Examples:
-      >>> class Sample:
-      ...     x = 1
-      ...     def hello(self): return "hi"
-      >>> obj_diagnostics(Sample(), include_functions=True)
+  Example:
+      >>> obj_diagnostics(my_object, include_hidden=True, include_functions=True)
   """
   logger.debug(f"Diagnostics for: {obj}")
   if message:
@@ -60,18 +61,19 @@ def list_differences(iterable_01: list | dict,
                      iterable_02_name: str = "List 2",
                      print_warning: bool = False) -> tuple[list, list]:
   """
-  Identify differences between two iterables.
+  Identify differences between two iterable objects (list or dict).
 
   Args:
-      iterable_01: First list or dict.
-      iterable_02: Second list or dict.
-      iterable_01_name: Label for first iterable in logs.
-      iterable_02_name: Label for second iterable in logs.
-      print_warning: If True, emit warnings for non-overlapping items.
+      iterable_01 (list | dict): First iterable object to compare.
+      iterable_02 (list | dict): Second iterable object to compare.
+      iterable_01_name (str): Label for the first iterable in log messages.
+      iterable_02_name (str): Label for the second iterable in log messages.
+      print_warning (bool): If True, logs warnings for non-overlapping items.
 
   Returns:
-      Tuple of items only in iterable_01 and only in iterable_02.
-
+      tuple[list, list]:
+          - Items in `iterable_01` but not in `iterable_02`
+          - Items in `iterable_02` but not in `iterable_01`
   Examples:
       >>> list_differences(["a", "b"], ["b", "c"])
       (["a"], ["c"])
@@ -92,12 +94,12 @@ def list_differences(iterable_01: list | dict,
 
 def diag_recursive(x: object, depth: int = 0, index: int = 0) -> None:
   """
-  Recursively log structure and contents of an object.
+  Recursively log the structure and values of a nested iterable.
 
   Args:
-      x: Object to introspect.
-      depth: Recursion level.
-      index: Element index at this level.
+      x (object): Input object to inspect.
+      depth (int): Current recursion depth.
+      index (int): Index at the current level (if applicable).
 
   Returns:
       None
@@ -122,14 +124,14 @@ def diag_recursive(x: object, depth: int = 0, index: int = 0) -> None:
 
 def dict_to_str(x: dict, depth: int = 0) -> str:
   """
-  Convert a dictionary to a string with one entry per line, recursively.
+  Convert a dictionary to a pretty-printed multiline string.
 
   Args:
-      x: Dictionary to format.
-      depth: Nesting level for indentation.
+      x (dict): Dictionary to convert.
+      depth (int): Current indentation depth for nested dictionaries.
 
   Returns:
-      String with one line per key/value.
+      str: String representation of dictionary with indentation.
 
   Examples:
       >>> d = {"a": 1, "b": {"c": 2}}
@@ -153,13 +155,13 @@ def dict_to_str(x: dict, depth: int = 0) -> str:
 
 def obj_to_html(obj: object) -> str:
   """
-  Convert a Python object into HTML-safe string for rendering in Jinja templates.
+  Convert any Python object to a formatted HTML string for Jinja rendering.
 
   Args:
-      obj: Any printable Python object.
+      obj (object): A Python object suitable for `pprint`.
 
   Returns:
-      HTML string suitable for Jinja `|safe` rendering.
+      str: HTML string wrapped in <pre> tags that is safe for use with `|safe` in templates.
 
   Notes:
       The HTML content must be marked `|safe` in the template to avoid escaping.
@@ -184,13 +186,13 @@ def compare_dicts(dict1: dict,
   Compare two dictionaries and log differences in keys and values.
 
   Args:
-      dict1: First dictionary.
-      dict2: Second dictionary.
-      dict1_name: Name label for first dictionary.
-      dict2_name: Name label for second dictionary.
+      dict1 (dict): First dictionary.
+      dict2 (dict): Second dictionary.
+      dict1_name (str | None): Optional label for first dictionary in logs.
+      dict2_name (str | None): Optional label for second dictionary in logs.
 
   Returns:
-      True if dictionaries are equal, False otherwise.
+      bool: True if dictionaries are equivalent; False otherwise.
 
   Examples:
       >>> dict1 = {"a": 1, "b": 2, "c": 3}
@@ -230,18 +232,20 @@ def compare_dicts(dict1: dict,
 
 def get_changed_fields(new_dict: dict, old_dict: dict) -> dict:
   """
-  Return a dictionary of updated values from new_dict that differ from old_dict.
-
-  Only keys present in new_dict are considered. This prevents unrelated fields
-  from being overwritten when merging partial form data into a larger stored structure.
+  Extract fields from new_dict that differ from old_dict.
 
   Args:
-      new_dict (dict): The updated values, e.g., from a WTForm.
-      old_dict (dict): The current values, e.g., from the model's misc_json.
+      new_dict (dict): New/updated values (e.g., from a form).
+      old_dict (dict): Old/reference values (e.g., from model JSON).
 
   Returns:
-      dict: A dictionary of keys from new_dict where the value differs from old_dict.
+      dict: Keys with values that have changed.
+
+  Notes:
+  - Only keys present in new_dict are considered. This prevents unrelated fields
+    from being overwritten when merging partial form data into a larger stored structure.
   """
+
   changes = {}
   for key in new_dict:
     if new_dict[key] != old_dict.get(key):
@@ -251,7 +255,9 @@ def get_changed_fields(new_dict: dict, old_dict: dict) -> dict:
 
 def run_diagnostics() -> None:
   """
-  Run demonstration of diagnostic utilities with examples.
+  Run example-based tests for diagnostic functions in this module.
+
+  Logs example output for each function.
   """
   logger.debug("Running diagnostics on arb.utils.diagnostics module")
 
