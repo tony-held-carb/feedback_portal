@@ -17,7 +17,15 @@
 - Debug version 1.2.0. Can run on EC2 without interruption. 
 - EC2 now able to run in detached mode without ssh staying open
 - Readme documentation updated for remote usage
+
+## v1.3.0 - 2025-05-11
+- Debug version 1.3.0.  Stable, needs to be externally tested.
+- New page to view portal changes.
+- JSON persisting updated to make storage more robust
+- Uniform treatment of drop-downs.
+- 
  
+
 ## Notes
 - There are two options for including a version file at the root of your code, one is to have an __init__.py file with the line:
   - __version__ = "1.0.0".
@@ -30,7 +38,7 @@
     - Common practice (PyPI, GitHub, etc.)
   - Creating a tag
     - git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
-    - git tag -a v1.2.0 -m "Version 1.2.0. Can run on EC2 without interruption." 
+    - git tag -a v1.3.0 -m "Version 1.3.0. New portal changes page, more robust json storage." 
   - View tags
     - git tag
     - git show v1.0.0
