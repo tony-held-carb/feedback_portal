@@ -263,7 +263,7 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
-  label = "CARB internal notes"
+  label = "1. CARB internal notes"
   carb_notes = TextAreaField(
     label=label,
     validators=[],
