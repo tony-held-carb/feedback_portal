@@ -2,6 +2,9 @@
 
 # todo - Next Steps
 ----------------------------
+    * resume below for docstrings ...
+    * Excellent — the arb/portal/app_util.py file is now loaded and parsed.
+
     * work through todos and notes below for next refactor
     * relaunch the v1.3.0 to ec2
 
