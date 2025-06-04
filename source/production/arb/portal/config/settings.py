@@ -1,19 +1,19 @@
 """
 Environment-specific configuration classes for the Flask application.
 
-This file contains distinct configuration classes for development, production,
-and testing environments. Each inherits from the BaseConfig class and can override
-or extend configuration values as needed.
+This file defines base and environment-specific configuration classes used
+by the ARB portal Flask app. Each class inherits from `BaseConfig` and may
+override or extend configuration parameters.
 
 Usage:
-    from config.settings import DevelopmentConfig
+  from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 Notes:
-  - All variables in this file are not dependent on runtime conditions other than
-    OS environment variables.
-  - If a variable is a setting defined at runtime, such as platform type or root directory,
-    it should be defined and initialized in the startup/runtime_info.py file.
+  - All config values here are static or driven by OS environment variables.
+  - If a setting depends on runtime context (platform, root paths, etc.),
+    it should be defined in `startup/runtime_info.py`.
 """
+
 
 import os, sys
 from pathlib import Path
@@ -25,7 +25,17 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 
 class BaseConfig:
-  """Base configuration shared by all environments."""
+  """
+  Base configuration shared across all environments.
+
+  Includes database settings, engine options, and common secrets.
+
+  Attributes:
+    POSTGRES_DB_URI (str): Default PostgreSQL URI used if no env var is set.
+    SQLALCHEMY_ENGINE_OPTIONS (dict): Custom SQLAlchemy engine settings.
+    SECRET_KEY (str): Flask session key.
+    SQLALCHEMY_DATABASE_URI (str): Final database URI for the app.
+  """
   POSTGRES_DB_URI = (
     'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
     '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
@@ -64,7 +74,12 @@ class BaseConfig:
 
 
 class DevelopmentConfig(BaseConfig):
-  """Development-specific settings."""
+  """
+  Development-specific configuration.
+
+  - Enables Flask debug mode and testing behaviors.
+  - Intended for local use by developers.
+  """
   DEBUG = True
   FLASK_ENV = "development"
   # EXPLAIN_TEMPLATE_LOADING = True
@@ -72,7 +87,12 @@ class DevelopmentConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
-  """Production-specific settings."""
+  """
+  Production-specific configuration.
+
+  - Enables production flags.
+  - Should only be used in deployed environments.
+  """
   DEBUG = False
   FLASK_ENV = "production"
   WTF_CSRF_ENABLED = True
@@ -80,7 +100,12 @@ class ProductionConfig(BaseConfig):
 
 
 class TestingConfig(BaseConfig):
-  """Settings used for unit tests and CI environments."""
+  """
+  Configuration for test environments.
+
+  - Enables isolated testing flags.
+  - Should be used when running CI tests or pytest suites.
+  """
   TESTING = True
   DEBUG = True
   FLASK_ENV = "testing"

@@ -1,12 +1,18 @@
 """
-Database initialization and reflection routines.
+Database initialization and reflection routines for the ARB Feedback Portal.
 
-These functions are meant to be called during `create_app()` to set up
-database metadata, create tables, and register models.
+These functions are intended to be called during Flask app startup
+(from `create_app()`) to configure SQLAlchemy metadata, initialize models,
+and create missing tables.
 
-Example:
-    from startup.db import reflect_database, db_initialize_and_create
+Usage:
+  from startup.db import reflect_database, db_initialize_and_create
+
+Notes:
+  - Model registration requires explicit import before table creation.
+  - Logging is enabled to trace startup sequence and database state.
 """
+
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
@@ -19,13 +25,15 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 def reflect_database() -> None:
   """
-  Reflect the existing database into SQLAlchemy's metadata.
+  Reflect the existing database into SQLAlchemy metadata.
 
-  Use this when you want to interact with existing tables
-  without defining all models.
+  This enables access to tables without defining ORM classes.
 
   Example:
-      reflect_database()
+    reflect_database()
+
+  Logs:
+    - Emits info and debug logs for traceability.
   """
   logger.info("Reflecting database metadata.")
   db.metadata.reflect(bind=db.engine)
@@ -34,16 +42,17 @@ def reflect_database() -> None:
 
 def db_initialize() -> None:
   """
-  Initialize or register database models.
+  Import and register SQLAlchemy model classes.
 
-  Customize this to bind models or run other initialization routines.
-
-  Example source code for model registration:
-    import arb.portal.sqla_models as models
+  This step is necessary to ensure models are registered
+  before invoking `db.create_all()`.
 
   Notes:
-    - You must import models below (even if they are not used) so registration works properly
-    - Import all models before calling create_all() if you want them to reflect the database.
+    - The model import must be executed, even if unused, to trigger registration.
+    - Adjust this function if additional model setup is needed.
+
+  Example:
+    import arb.portal.sqla_models as models
   """
   logger.info("Initializing database models.")
   # Add model registration below
@@ -54,11 +63,15 @@ def db_initialize() -> None:
 
 def db_create() -> None:
   """
-  Create missing tables in the database.
+  Create all missing tables in the database.
 
-  Should be safe to run multiple times (uses SQLAlchemy's create_all()).
+  Uses SQLAlchemy’s `create_all()` to ensure schema is present.
+  Will skip execution if the `FAST_LOAD` config flag is enabled.
+
+  Logs:
+    - Warns if table creation is skipped
+    - Info and debug messages upon schema creation
   """
-
   if current_app.config.get("FAST_LOAD", False) is True:
     logger.warning("Skipping table creation for FAST_LOAD=True.")
     return
@@ -70,10 +83,14 @@ def db_create() -> None:
 
 def db_initialize_and_create() -> None:
   """
-  Combine db_initialize and db_create for convenience.
+  Run both model registration and table creation.
 
-  Example:
-      db_initialize_and_create()
+  This is a convenience wrapper for calling:
+    db_initialize()
+    db_create()
+
+  Logs:
+    - Indicates database schema is ensured
   """
   db_initialize()
   db_create()

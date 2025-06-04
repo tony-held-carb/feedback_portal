@@ -8,18 +8,21 @@ This module defines:
   - Diagnostic tools for runtime environment inspection
 
 Example usage:
-    from startup.runtime_info import (
-        PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
-        IS_WINDOWS, IS_LINUX, IS_MAC,
-        print_runtime_diagnostics
-    )
+  from startup.runtime_info import (
+    PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
+    IS_WINDOWS, IS_LINUX, IS_MAC,
+    print_runtime_diagnostics
+  )
+
 Notes:
-  - The project root directory is "feedback_portal"
-  - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
-    - Path(__file__).resolve().parents[0] → .../arb
-    - Path(__file__).resolve().parents[1] → .../production
-    - Path(__file__).resolve().parents[2] → .../source
-    - Path(__file__).resolve().parents[3] → .../feedback_portal
+  - The project root directory is assumed to be named "feedback_portal".
+  - If the app is run from:
+      feedback_portal/source/production/arb/wsgi.py
+    then directory resolution is:
+      Path(__file__).resolve().parents[0] → .../arb
+      Path(__file__).resolve().parents[1] → .../production
+      Path(__file__).resolve().parents[2] → .../source
+      Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 from pathlib import Path
 from platform import system
@@ -38,8 +41,13 @@ def print_runtime_diagnostics() -> None:
   """
   Print detected runtime paths and platform flags for debugging.
 
+  Logs the following:
+    - OS platform and detection flags
+    - Project root directory
+    - Upload, log, and static directory paths
+
   Example:
-      >>> print_runtime_diagnostics()
+    >>> print_runtime_diagnostics()
   """
   logger.info(f"{'PLATFORM':<20} = {PLATFORM}")
   logger.info(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")
