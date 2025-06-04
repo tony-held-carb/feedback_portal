@@ -1,20 +1,33 @@
 """
-WTForm class representing the Oil & Gas feedback form.
+Oil & Gas Feedback Form (WTForms) for the ARB Feedback Portal.
 
-This form implements the structure and validation logic found in the
-Excel Oil & Gas feedback spreadsheet. It supports detailed input
-from both CARB and operators for emissions, responses, and facility
-metadata.
+Defines the `OGFeedback` class, a complex feedback form used for collecting structured data
+about methane emission incidents in the oil and gas sector. The form logic mirrors the official
+O&G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
+timestamp-based consistency checks.
 
 Key Features:
-  - Conditional logic for dynamic dropdowns and dependencies
-  - Validation rules reflecting sector-specific workflows
-  - Alignment with CARB protocols for compliance tracking
+-------------
+- Enforces correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
+- Includes geospatial validation and timestamp sequencing checks.
+- Cross-field validation logic implemented in `validate()`.
+- Supports conditional validation with custom helpers like `change_validators_on_test()`.
+
+Usage:
+------
+  form = OGFeedback()
+  form.process(request.form)
+
+  if form.validate_on_submit():
+    process_feedback_data(form.data)
 
 Notes:
-  - Contingent field handling is performed via `validate()` and `determine_contingent_fields()`.
-  - Dropdown logic is updated dynamically using `update_contingent_selectors()`.
+------
+- Fields such as `id_incidence` are read-only and display-only.
+- Contingent dropdowns are updated via `update_contingent_selectors()`.
+- Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.
 """
+
 from pathlib import Path
 
 from flask_wtf import FlaskForm
@@ -33,9 +46,26 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 class OGFeedback(FlaskForm):
   """
-  Oil & Gas feedback form designed to be consistent with the O&G feedback spreadsheet.
+  WTForms class for collecting feedback on Oil & Gas methane emissions.
+
+  This form models the structure of the O&G feedback spreadsheet and enforces
+  regulatory logic outlined in California methane rules (e.g., 95669.1).
+  Sections include metadata, inspection information, emissions details,
+  mitigation actions, and contact data.
+
+  Core Features:
+    - Uses standard WTForms field types, with conditionally required fields.
+    - Dropdowns update dynamically based on user selections.
+    - Includes geospatial coordinates and timestamp logic.
+    - Implements cross-field validation for inspection results and mitigation status.
+
+  Used by:
+    - The web-based feedback form in the ARB Feedback Portal.
+    - Routes such as `og_incidence_create` and `incidence_update`.
 
   Notes:
+    - Sector-specific contingent dropdowns are handled via Globals.
+    - Validators are adjusted at runtime depending on the selected conditions.
   """
 
   # venting through inspection (not through the 95669.1(b)(1) exclusion)
@@ -267,14 +297,14 @@ class OGFeedback(FlaskForm):
 
   def update_contingent_selectors(self) -> None:
     """
-    Updates selector choices for contingent dropdown fields based on form values.
-    It ensures the form's choices reflect current user selections and
-    comply with Oil & Gas workflow rules.
+    Update dropdown field options based on dependent selector fields.
 
-    Notes:
-      - Field choices for root cause or emission category may change depending
-        on user inputs or prior responses.
-      - Must be called before rendering to ensure options are accurate.
+    Dynamically replaces `.choices` for contingent fields depending on
+    parent selections. Uses the `Globals.drop_downs_contingent` structure
+    for Oil & Gas to determine appropriate mappings.
+
+    Examples:
+      - not implemented yet
 
     Returns:
       None
@@ -283,20 +313,23 @@ class OGFeedback(FlaskForm):
 
   def validate(self, extra_validators=None) -> bool:
     """
-    Performs custom validation across Oil & Gas form fields.
+      Override the default WTForms validation logic with cross-field rules
+      specific to Oil & Gas reporting.
 
-    Overrides `FlaskForm.validate()` to implement business-specific rules for
-    the O&G sector. Examples include:
-      - Ensuring contingent fields are filled based on dropdown selections
-      - Validating operator vs. CARB-provided fields for consistency
-      - Enforcing conditional requirements for detection and response actions
+      Invokes:
+        - `determine_contingent_fields()` to update validators before validation.
+        - `super().validate()` to apply all field and form-level validations.
 
-    Args:
-      extra_validators (dict, optional): Additional validators provided at runtime.
+      Custom checks include:
+        - Required fields based on mitigation status or inspection outcomes.
+        - Logical enforcement of conditional relationships between fields.
 
-    Returns:
-      bool: True if form passes validation, False otherwise.
-    """
+      Args:
+        extra_validators (dict, optional): Additional validators provided at runtime.
+
+      Returns:
+        bool: True if form passes all validation rules, otherwise False.
+      """
     logger.debug(f"validate() called.")
     form_fields = get_wtforms_fields(self)
 
@@ -421,11 +454,13 @@ class OGFeedback(FlaskForm):
 
   def determine_contingent_fields(self) -> None:
     """
-    Identifies fields that require conditional validation logic.
+    Adjust validators based on user selections that imply exclusions or
+    optional behavior.
 
-    This method determines which fields are required based on the values of
-    related inputs. For instance, if a dropdown is set to "Other", its
-    corresponding detail text box becomes required.
+    Affects validation logic such as:
+      - 95669.1(b)(1) exclusions where OGI inspection is not required.
+      - Skipping downstream fields when "No leak was detected" is selected.
+      - Making "Other" explanations required only if "Other" is selected.
 
     Notes:
       - Should be called before validation to sync rules with input state.
