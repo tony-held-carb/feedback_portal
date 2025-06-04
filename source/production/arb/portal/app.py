@@ -1,20 +1,26 @@
 """
-Application factory for the ARB Feedback Portal Flask app.
+Application factory for the ARB Feedback Portal (Flask app).
 
-This module defines the `create_app()` function, which initializes the
-Flask application with configuration, extensions, routes, and startup routines.
+This module defines the `create_app()` function, which initializes and configures
+the Flask application with all required extensions, configuration, routes, and
+startup behavior.
 
-Key responsibilities:
-  - Load configuration dynamically using get_config()
-  - Configure Jinja2 and logging
-  - Initialize database and CSRF protection
-  - Reflect database schema and create tables if needed
-  - Register Flask Blueprints
+Key Responsibilities:
+---------------------
+- Load Flask configuration dynamically using `get_config()`
+- Configure Jinja2 templating and logging
+- Initialize SQLAlchemy and CSRF protection
+- Reflect and optionally create the application database schema
+- Register core Flask blueprints (routes)
 
 Usage:
+------
+Typical entry point in `wsgi.py` or CLI tools:
+
     from arb.portal.app import create_app
     app = create_app()
 """
+
 
 from pathlib import Path
 
@@ -36,14 +42,16 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 def create_app() -> Flask:
   """
-  Creates and configures the Flask application.
+  Initialize and configure the ARB Feedback Portal Flask app.
 
-  Args:
-    config_object (str): Import path to a configuration class.
+  This function follows the Flask application factory pattern. It loads
+  configuration, sets up database bindings, initializes extensions, and
+  registers routes and startup hooks.
 
   Returns:
-    Flask: Configured Flask application instance.
+    Flask: The fully configured Flask application instance.
   """
+
   app = Flask(__name__)
 
   # Load configuration from config/settings.py
