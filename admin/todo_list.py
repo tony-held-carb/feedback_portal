@@ -3,6 +3,7 @@
 # todo - Next Steps
 ----------------------------
     * work through todos and notes below for next refactor
+    * relaunch the v1.3.0 to ec2
 
     * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
 
