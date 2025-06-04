@@ -1,4 +1,6 @@
 """
+todo - update docstring
+
 app_util.py has utility functions specific to the feedback_portal app.
 
 Notes:
@@ -31,23 +33,19 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def get_sector_info(db, base, id_):
+def get_sector_info(db, base, id_) -> tuple[str, str]:
   """
-  Given an incidence primary key, return the sector and sector type.
+  Get the sector and sector type for a given incidence ID.
 
-  The sector and sector type can be in the foreign table sources, in its sector column
-  and/or can be in the misc_json field.
+  This checks both foreign key values and misc_json for sector classification.
 
   Args:
-    db (SQLAlchemy session): Database connection.
-    base (SQLAlchemy base): Declarative base object for model reflection.
+    db:
+    base (SQLAlchemy base): Declarative base.
     id_ (int): Primary key of the 'incidences' table.
 
   Returns:
     tuple[str, str]: (sector, sector_type)
-      sector: Name of the sector (e.g., "Oil & Gas").
-      sector_type: Grouping of the sector (e.g., "Oil & Gas", "Landfill").
-
   """
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
@@ -85,15 +83,15 @@ def get_sector_info(db, base, id_):
 
 def resolve_sector(sector_by_foreign_key, row, misc_json):
   """
-  Attempt to reconcile sector mismatches between JSON and FK values.
+  Reconciles differences between sector from a foreign key and sector in JSON.
 
   Args:
-      sector_by_foreign_key (str | None): Sector from foreign key relationship.
-      row (SQLAlchemy model): Row model to update if needed.
-      misc_json (dict): Dictionary for misc_json column.
+    sector_by_foreign_key (str | None): Sector from foreign key relationship.
+    row (SQLAlchemy model): Row to update.
+    misc_json (dict): Dictionary from misc_json column.
 
   Returns:
-      str: Final sector value.
+    str: Final resolved sector.
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
   sector = None
@@ -122,16 +120,16 @@ def resolve_sector(sector_by_foreign_key, row, misc_json):
 
 def get_sector_type(sector):
   """
-  Determine sector_type grouping from specific sector name.
+  Determines the high-level sector group from a sector name.
 
   Args:
-      sector (str): Name of the sector.
+    sector (str): Sector name (e.g., "Oil & Gas").
 
   Returns:
-      str: Sector type ("Oil & Gas" or "Landfill").
+    str: Sector type (e.g., "Oil & Gas", "Landfill").
 
   Raises:
-      ValueError: If sector is unknown.
+    ValueError: If the sector is not recognized.
   """
 
   if sector in OIL_AND_GAS_SECTORS:
@@ -142,18 +140,18 @@ def get_sector_type(sector):
     raise ValueError(f"Unknown sector type: '{sector}'.")
 
 
-def upload_and_update_db(db, upload_dir, request_file, base):
+def upload_and_update_db(db, upload_dir, request_file, base) -> tuple[str, int | None, str | None]:
   """
-  Upload a file from a web form, parse it, and update the database.
+  Uploads a file, stores it, parses it, and updates the database.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      upload_dir (str | Path): Directory to store uploaded file.
-      request_file (FileStorage): Uploaded file from request.files.
-      base (SQLAlchemy base): Declarative base.
+    db (SQLAlchemy session): Database connection.
+    upload_dir (str | Path): Target directory for uploaded file.
+    request_file (FileStorage): File from request.files.
+    base (SQLAlchemy base): Declarative base for model reflection.
 
   Returns:
-      tuple[str, int | None, str | None]: Filename, id_incidence, sector.
+    tuple: (filename, id_incidence, sector)
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -171,17 +169,17 @@ def upload_and_update_db(db, upload_dir, request_file, base):
   return file_name, id_, sector
 
 
-def json_file_to_db(db, file_name, base):
+def json_file_to_db(db, file_name, base) -> tuple[int, str]:
   """
-  Load JSON from file and update the database.
+  Loads a JSON file and inserts the record into the database.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      file_name (str | Path): Path to JSON file.
-      base (SQLAlchemy base): Declarative base.
+    db:
+    file_name (str | Path): File path to JSON.
+    base (SQLAlchemy base): Declarative base for schema.
 
   Returns:
-      tuple[int, str]: ID and sector from inserted record.
+    tuple[int, str]: Inserted ID and sector.
   """
   json_as_dict, metadata = json_load_with_meta(file_name)
   return xl_dict_to_database(db, base, json_as_dict)

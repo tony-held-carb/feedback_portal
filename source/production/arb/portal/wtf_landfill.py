@@ -38,11 +38,23 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 class LandfillFeedback(FlaskForm):
   """
-  Landfill feedback form designed to be consistent with the Landfill feedback spreadsheet.
+    WTForm class representing the Landfill feedback form.
 
-  Notes:
+    This form replicates the structure and logic of the Landfill feedback
+    spreadsheet used by CARB and operators. It defines fields for emission
+    detection, investigation, and resolution activities, with validation rules
+    tailored to sector-specific workflows.
+
+    Key Features:
+      - Rich field definitions for operator and CARB responses
+      - Contingent validation and conditional requirements
+      - Dynamic dropdowns populated at runtime
+      - Integration with dropdown utilities and global constants
+
+    Notes:
+      - Conditional logic is implemented via `validate()` and `determine_contingent_fields()`.
+      - Dropdown options are updated via `update_contingent_selectors()`.
   """
-
   # Section 2
   # todo - likely have to change these to InputRequired(), Optional(), blank and removed
   # label = "1.  Incidence/Emission ID"
@@ -300,19 +312,23 @@ class LandfillFeedback(FlaskForm):
     validators=[],
   )
 
-  def update_contingent_selectors(self):
+  def update_contingent_selectors(self) -> None:
     """
-    Update selector choices for emission causes based on the selected emission location.
+    Updates selector choices for emission causes based on the selected emission location.
 
-    This method dynamically updates the primary, secondary, and tertiary emission cause fields
-    based on the value of self.emission_location. It sets valid choices and resets any invalid
-    selection to a safe default.
+    This method dynamically updates the primary, secondary, and tertiary
+    emission cause fields based on the value of `self.emission_location`. It
+    ensures valid dropdown options and clears invalid selections.
 
     Assumes:
-        - self.emission_location, self.emission_cause,
-          self.emission_cause_secondary, and self.emission_cause_tertiary
-          are WTForms SelectField instances.
-        - Globals.drop_downs_contingent contains a nested dict of contingent options.
+      - `self.emission_location`, `self.emission_cause`,
+        `self.emission_cause_secondary`, and `self.emission_cause_tertiary`
+        are all `SelectField` instances.
+      - `Globals.drop_downs_contingent` contains a nested dictionary of
+        location-contingent dropdown options.
+
+    Returns:
+      None
     """
     # todo - update contingent dropdowns?
 
@@ -349,13 +365,22 @@ class LandfillFeedback(FlaskForm):
 
   def validate(self, extra_validators=None):
     """
-    Overriding validate to allow for form-level validation and inter-comparing fields.
+    Performs custom form-wide validation and enforces inter-field dependencies.
+
+    This method overrides `FlaskForm.validate()` to add cross-field checks,
+    contingent field requirements, and business rules specific to Landfill
+    workflows.
+
+    Examples of logic:
+      - Required fields only if related field is selected
+      - Disallow conflicting responses between operator and CARB fields
+      - Validate paired datetime and response selections
 
     Args:
-      extra_validators:
+      extra_validators (dict, optional): Additional validators to apply.
 
-
-
+    Returns:
+      bool: True if form is valid, False otherwise.
     """
     logger.debug(f"validate() called.")
     form_fields = get_wtforms_fields(self)
@@ -485,13 +510,20 @@ class LandfillFeedback(FlaskForm):
 
     return form_valid
 
-  def determine_contingent_fields(self) -> None:
+  def determine_contingent_fields(self):
     """
-    Some fields change from Required to Optional (or vice versa), or are required if another field selected is 'other',
-    This function updates all the contingent fields so they consistent with the input business logic.
+   Updates contingent fields that require dynamic validation logic.
 
-    #Consider making validation more robust, for example, we may want to
-    reorder so that the venting exclusion is last, (I tried this before, but it may break the biz logic)
+    These fields toggle between required and optional depending on related
+    field values (e.g., dropdowns that are set to "Other", or location-dependent fields).
+    Some validation rules involve mutually exclusive or fallback logic.
+
+    Notes:
+      - This function should be called before validation to sync requirements.
+      - May need to re-order exclusions (e.g., venting) for edge cases.
+
+    Returns:
+      list[str]: List of field names whose validation status depends on other inputs.
     """
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_emission_identified = [

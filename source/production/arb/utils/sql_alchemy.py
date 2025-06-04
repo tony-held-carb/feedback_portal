@@ -31,12 +31,14 @@ def sa_model_diagnostics(model, comment: str = "") -> None:
   """
   Log diagnostic details about a SQLAlchemy model instance.
 
+  This includes table name, column names, and values.
+
   Args:
-      model: SQLAlchemy model instance.
-      comment (str): Optional header for logs.
+    model: SQLAlchemy model instance.
+    comment (str): Optional comment header for log output.
 
   Example:
-      >>> sa_model_diagnostics(user, comment="Inspecting User")
+    >>> sa_model_diagnostics(user, comment="Inspecting User")
   """
   logger.debug(f"Diagnostics for model of type {type(model)=}")
   if comment:
@@ -51,17 +53,17 @@ def sa_model_diagnostics(model, comment: str = "") -> None:
 
 def get_sa_fields(model) -> list[str]:
   """
-  Get sorted list of column names for a SQLAlchemy model.
+  Get a sorted list of column names for a SQLAlchemy model.
 
   Args:
-      model: SQLAlchemy ORM model instance or class.
+    model: SQLAlchemy model instance or class.
 
   Returns:
-      list[str]: List of column/attribute names.
+    list[str]: Alphabetically sorted list of column/attribute names.
 
   Example:
-      >>> get_sa_fields(user)
-      ['email', 'id', 'name']
+    >>> get_sa_fields(User)
+    ['email', 'id', 'name']
   """
   inst = inspect(model)
   model_fields = [c_attr.key for c_attr in inst.mapper.column_attrs]
@@ -69,16 +71,23 @@ def get_sa_fields(model) -> list[str]:
   return model_fields
 
 
-def get_sa_column_types(model, is_instance: bool = True) -> dict[str, dict]:
+def get_sa_column_types(model, is_instance: bool = False) -> dict:
   """
-  Get SQLAlchemy and Python types for each column of a model.
+  Return a mapping of each column to its SQLAlchemy and Python types.
 
   Args:
-      model: SQLAlchemy model instance or class.
-      is_instance (bool): True if model is an instance, False if a class.
+    model: SQLAlchemy model instance or class.
+    is_instance (bool): True if `model` is an instance, False if a class.
 
   Returns:
-      dict: Mapping of column names to type information.
+    dict: Mapping from column names to a dict with 'sa_type' and 'py_type'.
+
+  Example:
+    >>> get_sa_column_types(User)
+    {
+      'id': {'sa_type': 'Integer', 'py_type': 'int'},
+      'email': {'sa_type': 'String', 'py_type': 'str'}
+    }
   """
 
   # Get the table inspector for the model

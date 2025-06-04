@@ -36,10 +36,13 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 def create_app() -> Flask:
   """
-  Application factory for creating a Flask app instance.
+  Creates and configures the Flask application.
+
+  Args:
+    config_object (str): Import path to a configuration class.
 
   Returns:
-      app (Flask): The configured Flask application instance.
+    Flask: Configured Flask application instance.
   """
   app = Flask(__name__)
 

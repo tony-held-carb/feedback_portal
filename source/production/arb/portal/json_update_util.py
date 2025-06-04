@@ -1,5 +1,6 @@
 """
-Utility to apply updates to a model's JSON field and log each change to the portal_updates table.
+Utility functions to apply updates to a SQLAlchemy model's JSON field and
+log each change to the portal_updates table for auditing purposes.
 """
 import datetime
 
@@ -19,14 +20,30 @@ def apply_json_patch_and_log(model,
                              user: str = "anonymous",
                              comments: str = "") -> None:
   """
-  Applies updates to a model's JSON field and logs each key/value change in the portal_updates table.
+  Applies updates to a model's JSON field and logs each changed key-value pair.
+
+  This function compares the existing values in a model's JSON field (usually
+  `misc_json`) to a provided dictionary of updates. If a key's value differs,
+  the function:
+    - Updates the model's JSON field
+    - Flags the field as modified for SQLAlchemy tracking
+    - Writes a record to the portal_updates audit table
 
   Args:
-      model: SQLAlchemy model instance with a JSON column like 'misc_json'.
-      updates (dict): Dictionary of key/value pairs to apply.
-      json_field (str): Name of the JSON column on the model.
-      user (str): Current user (or 'anonymous').
-      comments (str): Optional comment for the update.
+    model (SQLAlchemy model): An instance of a SQLAlchemy model with a JSON column.
+    updates (dict): Dictionary of key-value pairs to apply.
+    json_field (str): Name of the JSON field in the model (default is "misc_json").
+    user (str): Identifier for the user making the change (default is "anonymous").
+    comments (str): Optional comment or description for the update.
+
+  Returns:
+    None
+
+  Raises:
+    AttributeError: If the specified JSON field does not exist on the model.
+
+  Example:
+    >>> apply_json_patch_and_log(incidence, {"status": "resolved"}, user="admin")
   """
   # In the future, may want to handle new rows differently
   json_data = getattr(model, json_field)
