@@ -1,23 +1,19 @@
 """
-# todo - resume documentation here ...
+SQLAlchemy model definitions for the ARB Feedback Portal.
 
-sqla_models.py stores the SQLAlchemy class/models to allow for Python interaction with databases.
+This module defines ORM classes that map to key tables in the database,
+including uploaded file metadata and portal JSON update logs.
 
 Notes:
-    * Since the migration from SQLite to PostgreSQL, most database models have been discovered and
-      loaded through SQLAlchemy introspection rather than explicit class definitions.
-    * Only classes defined here that inherit from db.Model will have corresponding tables created
-      by SQLAlchemy migrations.
-    * To introspect the rest of the schema, use `db.Model.metadata.reflect()` or automap techniques.
+  * Only models explicitly defined here will be created by SQLAlchemy via `db.create_all()`.
+  * Most schema inspection and data access for `incidences` is handled dynamically via reflection.
+  * Timezone-aware UTC timestamps are used on all tracked models.
+  * All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
 
 Example:
-    >>> new_file = UploadedFile(
-    ...     path="/uploads/report1.xlsx",
-    ...     description="Monthly emissions report",
-    ...     status="pending"
-    ... )
-    >>> db.session.add(new_file)
-    >>> db.session.commit()
+  >>> file = UploadedFile(path="uploads/report.xlsx", status="pending")
+  >>> db.session.add(file)
+  >>> db.session.commit()
 """
 
 from pathlib import Path
@@ -35,31 +31,32 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 class UploadedFile(db.Model):
   """
-  SQLAlchemy model representing an uploaded file record.
+    SQLAlchemy model representing a user-uploaded file.
 
-  This model stores metadata for files uploaded via the portal, including file path,
-  optional description, processing status, and timestamps.
+    Stores metadata for files uploaded via the portal interface, including
+    the file path, status, and optional description. Automatically tracks
+    creation and last modification timestamps.
 
-  Table Name:
-    uploaded_files
+    Table Name:
+      uploaded_files
 
-  Columns:
-    id_ (int): Primary key.
-    path (str): File system path to the uploaded file.
-    description (str | None): Optional human-readable file description.
-    status (str | None): Status such as 'pending', 'processed', or 'error'.
-    created_timestamp (datetime): UTC timestamp of record creation.
-    modified_timestamp (datetime): UTC timestamp of last modification.
+    Columns:
+      id_ (int): Primary key.
+      path (str): Filesystem path to the uploaded file.
+      description (str | None): Optional human-friendly explanation.
+      status (str | None): Upload status, e.g., 'pending', 'processed', or 'error'.
+      created_timestamp (datetime): UTC timestamp of initial creation.
+      modified_timestamp (datetime): UTC timestamp of last update.
 
-  Example:
-    >>> file = UploadedFile(path="uploads/test.xlsx", status="pending")
-    >>> db.session.add(file)
-    >>> db.session.commit()
+    Example:
+      >>> file = UploadedFile(path="uploads/test.xlsx", status="pending")
+      >>> db.session.add(file)
+      >>> db.session.commit()
 
-  Notes:
-    - Timestamps are in UTC.
-    - Consider adding user tracking fields in future iterations.
-  """
+    Notes:
+      - Timestamps use UTC and are timezone-aware.
+      - This table is managed by SQLAlchemy directly (not introspected).
+    """
 
   __tablename__ = "uploaded_files"
 
@@ -95,24 +92,29 @@ class UploadedFile(db.Model):
 
 class PortalUpdate(db.Model):
   """
-  Tracks JSON updates to the misc_json field of an incidence record.
+  SQLAlchemy model tracking updates to the misc_json field on incidence records.
 
-  This audit log model stores the history of individual key/value changes
-  applied to the JSON column of the 'incidences' table.
+  Used for auditing key/value changes made through the portal interface. Each row
+  represents a single change to a single field on a specific incidence.
+
+  Table Name:
+    portal_updates
 
   Columns:
     id (int): Primary key.
-    timestamp (datetime): UTC time the update was recorded.
-    key (str): JSON field key that was modified.
-    old_value (str): Previous value.
+    timestamp (datetime): UTC time when the change was logged.
+    key (str): JSON key that was modified.
+    old_value (str | None): Previous value (nullable).
     new_value (str): New value.
-    user (str): User who made the change.
-    comments (str): Optional note or reason for the change.
-    id_incidence (int): Foreign key to associated incidence record.
+    user (str): Username or identifier of the user making the change.
+    comments (str): Optional explanatory comment.
+    id_incidence (int | None): Foreign key to the modified incidence (nullable).
 
   Notes:
-    - Used by apply_json_patch_and_log() for change tracking.
+    - Automatically populated by `apply_json_patch_and_log()`.
+    - Used for rendering the `portal_updates.html` table.
   """
+
   __tablename__ = "portal_updates"
 
   id = Column(Integer, primary_key=True)
@@ -134,21 +136,23 @@ class PortalUpdate(db.Model):
 
 def run_diagnostics() -> None:
   """
-  Runs a test insert/fetch/rollback sequence to validate the UploadedFile model.
+  Run a test transaction to validate UploadedFile model functionality.
 
-  This is used to confirm that model definitions and database connectivity are
-  working as expected. All actions are rolled back at the end of the test.
+  This utility performs an insert, fetch, and rollback on the UploadedFile
+  model to verify that the ORM mapping and database connection are working.
 
-  Example:
-    >>> run_diagnostics()
+  Returns:
+    None
 
   Raises:
-    RuntimeError: If session errors or connection issues are detected.
+    RuntimeError: If database access or fetch fails.
 
   Notes:
-    - Use only in test or dev environments.
-    - Ensures model mappings and migrations are functional.
+    - Meant for developer use in test environments only.
+    - This function leaves no data in the database due to rollback.
+    - Logs diagnostic information using the project logger.
   """
+
   logger.info("Running UploadedFile diagnostics...")
 
   try:

@@ -7,13 +7,14 @@ data structures such as dropdown selectors and database column type mappings.
 Primary Uses:
   - Prevent circular imports in SQLAlchemy/Flask environments
   - Store shared type and dropdown definitions used throughout the app
+  - Enable lazy initialization of values dependent on app context
 
 Notes:
-    * Globals are not intended to be mutable after initialization.
-    * This pattern centralizes dropdown and type mapping logic for app-wide reuse.
-    * If a value does not need to be initialized at runtime and does not change, it
-      should be in the constants.py file instead.
+  - Globals are not intended to be mutable after initialization.
+  - Centralizes dropdown and type mapping logic for app-wide reuse.
+  - Static values that do not require runtime context should live in `constants.py`.
 """
+
 from pathlib import Path
 
 from flask import Flask
@@ -30,9 +31,11 @@ class Globals:
   Central class for holding runtime-global mappings used in the Flask app.
 
   Attributes:
-      db_column_types (dict): Mapping of database columns to SQLAlchemy and Python types.
-      drop_downs (dict): HTML <select> dropdown mappings for form fields.
-      drop_downs_contingent (dict): Conditional dropdown logic for dependent selectors.
+    db_column_types (dict[str, dict[str, dict[str, Any]]]): Mapping of table.column
+      to SQLAlchemy type metadata (includes 'db_type', 'sa_type', 'py_type').
+    drop_downs (dict[str, list[str]]): Field name to independent dropdown options.
+    drop_downs_contingent (dict[str, dict[str, list[str]]]): Parent-dependent options
+      for contingent dropdowns (e.g., county → list of sub-counties).
   """
 
   db_column_types = {}
@@ -42,19 +45,21 @@ class Globals:
   @classmethod
   def load_drop_downs(cls, flask_app: Flask, db: SQLAlchemy) -> None:
     """
-    Load dropdown data from hardcoded configuration and cache it in the Globals class.
+    Load dropdown data from hardcoded configuration and cache it globally.
 
     Args:
-        flask_app (Flask): The Flask application instance (used for context safety).
-        db (SQLAlchemy): SQLAlchemy database instance (not used here but included for consistency).
+      flask_app (Flask): The active Flask app instance.
+      db (SQLAlchemy): SQLAlchemy instance (not used in this function but passed for consistency).
 
     Returns:
-        None
+      None
 
     Notes:
-        - This function imports a dynamic dropdown generator from `db_hardcoded`.
-        - Cached values are used globally for all WTForms rendering.
+      - Uses `get_excel_dropdown_data()` from `db_hardcoded` to populate form options.
+      - Populates both `Globals.drop_downs` and `Globals.drop_downs_contingent`.
+      - Should be called once after app startup or reflection.
     """
+
     from arb.portal.db_hardcoded import get_excel_dropdown_data
 
     logger.debug("In load_drop_downs()")
@@ -67,25 +72,26 @@ class Globals:
   @classmethod
   def load_type_mapping(cls, flask_app: Flask, db: SQLAlchemy, base) -> None:
     """
-    Determine and store the SQLAlchemy and Python types for each database column.
+    Populate column type metadata for all reflected tables in the SQLAlchemy base.
 
     Args:
-        flask_app (Flask): The Flask application instance.
-        db (SQLAlchemy): SQLAlchemy instance bound to a live DB.
-        base (DeclarativeMeta): Reflected SQLAlchemy automap base.
+      flask_app (Flask): The current Flask application (used for context scoping).
+      db (SQLAlchemy): SQLAlchemy instance, already bound to a live database engine.
+      base (AutomapBase): Reflected SQLAlchemy metadata containing all mapped models.
 
     Returns:
-        None
+      None
 
     Example:
-        >>> Globals.load_type_mapping(app, db, base)
-        >>> print(Globals.db_column_types["incidence"]["id_plume"])
-        {'db_type': 'INTEGER', 'sa_type': Integer, 'py_type': <class 'int'>}
+      >>> Globals.load_type_mapping(app, db, base)
+      >>> Globals.db_column_types["incidences"]["id_plume"]
+      {'db_type': 'INTEGER', 'sa_type': Integer, 'py_type': <class 'int'>}
 
     Notes:
-        - This routine relies on `arb.utils.sql_alchemy.get_sa_automap_types`
-          to extract engine metadata for all tables in the reflected base.
+      - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.
+      - The resulting `Globals.db_column_types` is used in form pre-population and validation.
     """
+
     from arb.utils.sql_alchemy import get_sa_automap_types
 
     with flask_app.app_context():
