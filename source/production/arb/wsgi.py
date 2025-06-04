@@ -1,7 +1,11 @@
 """
 WSGI entry point for serving the Flask app.
 
-This file allows the application to be run using a WSGI server like Gunicorn or uWSGI.
+This file enables the application to be run via a WSGI server
+(e.g., Gunicorn or uWSGI) or directly via `flask run` or `python wsgi.py`.
+
+It provides detailed notes for various execution contexts, Flask CLI behavior,
+debugging strategies, and developer workflows including PyCharm integration.
 
 Note on running Flask Apps:
 

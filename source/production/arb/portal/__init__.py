@@ -7,19 +7,16 @@ data models, and configuration logic.
 
 Key Responsibilities:
 ---------------------
-- Sets the `__version__` for the portal subpackage.
-- Configures the package logger using `__get_logger`.
-- Logs file load events to aid with diagnostics and traceability.
+- Defines the `__version__` string for the portal subpackage.
+- Initializes the shared `logger` and `pp_log` formatter using `__get_logger`.
+- Logs file load events to aid diagnostics and traceability.
 
 Recommendation:
 ---------------
-Import `logger` and `pp_log` from this module when working within the portal package:
+To reuse the package-wide logger and formatter:
 
   from arb.portal import logger, pp_log
 """
-
-
-
 from pathlib import Path
 
 from arb.__get_logger import get_logger

@@ -9,10 +9,9 @@ Usage:
   from startup.db import reflect_database, db_initialize_and_create
 
 Notes:
-  - Model registration requires explicit import before table creation.
-  - Logging is enabled to trace startup sequence and database state.
+  - SQLAlchemy models must be explicitly imported to register before table creation.
+  - Logging is enabled throughout to trace database state and startup flow.
 """
-
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
@@ -27,13 +26,14 @@ def reflect_database() -> None:
   """
   Reflect the existing database into SQLAlchemy metadata.
 
-  This enables access to tables without defining ORM classes.
+  This enables access to existing tables even without defined ORM models.
 
-  Example:
-    reflect_database()
+  Returns:
+    None
 
   Logs:
-    - Emits info and debug logs for traceability.
+    - Info: Start of reflection
+    - Debug: Completion of reflection
   """
   logger.info("Reflecting database metadata.")
   db.metadata.reflect(bind=db.engine)
@@ -42,14 +42,12 @@ def reflect_database() -> None:
 
 def db_initialize() -> None:
   """
-  Import and register SQLAlchemy model classes.
+  Import and register SQLAlchemy ORM models.
 
-  This step is necessary to ensure models are registered
-  before invoking `db.create_all()`.
+  This ensures model classes are registered before calling `db.create_all()`.
 
   Notes:
-    - The model import must be executed, even if unused, to trigger registration.
-    - Adjust this function if additional model setup is needed.
+    - Import must be executed (even if unused) to register models.
 
   Example:
     import arb.portal.sqla_models as models
@@ -63,14 +61,17 @@ def db_initialize() -> None:
 
 def db_create() -> None:
   """
-  Create all missing tables in the database.
+  Create all tables defined in SQLAlchemy metadata if they don’t exist.
 
-  Uses SQLAlchemy’s `create_all()` to ensure schema is present.
-  Will skip execution if the `FAST_LOAD` config flag is enabled.
+  Skips creation if `FAST_LOAD=True` is set in the app config.
+
+  Returns:
+    None
 
   Logs:
-    - Warns if table creation is skipped
-    - Info and debug messages upon schema creation
+    - Warn: If creation is skipped due to FAST_LOAD
+    - Info: When table creation begins
+    - Debug: After schema creation completes
   """
   if current_app.config.get("FAST_LOAD", False) is True:
     logger.warning("Skipping table creation for FAST_LOAD=True.")
@@ -83,14 +84,15 @@ def db_create() -> None:
 
 def db_initialize_and_create() -> None:
   """
-  Run both model registration and table creation.
+  Register models and create missing tables in one call.
 
-  This is a convenience wrapper for calling:
-    db_initialize()
-    db_create()
+  Combines `db_initialize()` and `db_create()` for convenience.
+
+  Returns:
+    None
 
   Logs:
-    - Indicates database schema is ensured
+    - Info: Upon successful database initialization
   """
   db_initialize()
   db_create()

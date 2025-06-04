@@ -1,17 +1,15 @@
 """
 Environment-specific configuration classes for the Flask application.
 
-This file defines base and environment-specific configuration classes used
-by the ARB portal Flask app. Each class inherits from `BaseConfig` and may
-override or extend configuration parameters.
+Defines base and derived configuration classes used by the ARB portal.
+Each config class inherits from `BaseConfig` and may override environment-specific values.
 
 Usage:
   from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 Notes:
-  - All config values here are static or driven by OS environment variables.
-  - If a setting depends on runtime context (platform, root paths, etc.),
-    it should be defined in `startup/runtime_info.py`.
+  - Static and environment-derived values belong here.
+  - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
 
@@ -28,13 +26,17 @@ class BaseConfig:
   """
   Base configuration shared across all environments.
 
-  Includes database settings, engine options, and common secrets.
-
   Attributes:
-    POSTGRES_DB_URI (str): Default PostgreSQL URI used if no env var is set.
-    SQLALCHEMY_ENGINE_OPTIONS (dict): Custom SQLAlchemy engine settings.
+    POSTGRES_DB_URI (str): Default PostgreSQL URI if DATABASE_URI is unset.
+    SQLALCHEMY_ENGINE_OPTIONS (dict): Connection settings for SQLAlchemy.
     SECRET_KEY (str): Flask session key.
-    SQLALCHEMY_DATABASE_URI (str): Final database URI for the app.
+    SQLALCHEMY_DATABASE_URI (str): Final URI used by the app.
+    SQLALCHEMY_TRACK_MODIFICATIONS (bool): SQLAlchemy event system flag.
+    EXPLAIN_TEMPLATE_LOADING (bool): Whether to trace template resolution errors.
+    WTF_CSRF_ENABLED (bool): Cross-site request forgery protection toggle.
+    LOG_LEVEL (str): Default logging level.
+    TIMEZONE (str): Target timezone for timestamp formatting.
+    FAST_LOAD (bool): Enables performance optimizations at startup.
   """
   POSTGRES_DB_URI = (
     'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
@@ -75,10 +77,12 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig):
   """
-  Development-specific configuration.
+  Configuration for local development.
 
-  - Enables Flask debug mode and testing behaviors.
-  - Intended for local use by developers.
+  Attributes:
+    DEBUG (bool): Enables debug mode.
+    FLASK_ENV (str): Flask environment indicator.
+    LOG_LEVEL (str): Logging level (default: "DEBUG").
   """
   DEBUG = True
   FLASK_ENV = "development"
@@ -88,10 +92,13 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
   """
-  Production-specific configuration.
+  Configuration for deployed production environments.
 
-  - Enables production flags.
-  - Should only be used in deployed environments.
+  Attributes:
+    DEBUG (bool): Disables debug features.
+    FLASK_ENV (str): Environment label for Flask runtime.
+    WTF_CSRF_ENABLED (bool): Enables CSRF protection.
+    LOG_LEVEL (str): Logging level (default: "INFO").
   """
   DEBUG = False
   FLASK_ENV = "production"
@@ -101,10 +108,14 @@ class ProductionConfig(BaseConfig):
 
 class TestingConfig(BaseConfig):
   """
-  Configuration for test environments.
+  Configuration for isolated testing environments.
 
-  - Enables isolated testing flags.
-  - Should be used when running CI tests or pytest suites.
+  Attributes:
+    TESTING (bool): Enables Flask test mode.
+    DEBUG (bool): Enables debug logging.
+    FLASK_ENV (str): Flask environment label.
+    WTF_CSRF_ENABLED (bool): Disables CSRF for test convenience.
+    LOG_LEVEL (str): Logging level (default: "WARNING").
   """
   TESTING = True
   DEBUG = True

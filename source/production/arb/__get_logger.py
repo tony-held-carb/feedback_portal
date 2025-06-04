@@ -2,7 +2,7 @@
 Centralized logging utility for use across the ARB portal (or any Python project).
 
 This module should be imported first in any file that requires logging. It is
-deliberately named `__get_logger.py` to ensure that it appears first when imports
+deliberately named `__get_logger.py` to ensure it appears first when imports
 are sorted alphabetically—ensuring logging is configured before any modules emit log messages.
 
 Key Features:
@@ -17,20 +17,20 @@ Usage Examples:
 ---------------
 Import and initialize the logger in any module:
 
-    from arb import __get_logger as get_logger
-    logger, pp_log = get_logger(__name__)
+  from arb import __get_logger as get_logger
+  logger, pp_log = get_logger(__name__)
 
-    logger.debug("Basic log message")
-    logger.debug(pp_log({"structured": "data", "for": "inspection"}))
+  logger.debug("Basic log message")
+  logger.debug(pp_log({"structured": "data", "for": "inspection"}))
 
 To customize behavior:
 
-    logger, pp_log = get_logger(
-      file_stem=__name__,
-      log_to_console=True,
-      force_command_line=False,
-      file_path="custom_logs/"
-    )
+  logger, pp_log = get_logger(
+    file_stem=__name__,
+    log_to_console=True,
+    force_command_line=False,
+    file_path="custom_logs/"
+  )
 
 Configuration Behavior:
 -----------------------
@@ -43,8 +43,6 @@ Recommendation:
 ---------------
 Place `__get_logger.py` near the root of your source tree and import it as early
 as possible in each module to guarantee consistent logging setup.
-
-This ensures predictable, centralized logging behavior across your entire project.
 """
 
 import logging
@@ -61,31 +59,20 @@ def get_logger(
     force_command_line: bool = False
 ) -> tuple[Logger, any]:
   """
-  Return a configured logger for a module with an optional pretty-print helper.
-
-  This function configures the logger only once per process. Log messages
-  are written to a file (default: logs/<stem>.log) and optionally echoed
-  to the console. A pretty-print function is returned for structured logging.
+  Return a configured logger instance and a structured logging helper.
 
   Args:
-    file_stem (str): The stem name for the logger and log file.
-    file_path (str | Path | None): Optional path to the log directory (default: logs/).
-    log_to_console (bool): Whether to stream log output to the console.
-    force_command_line (bool): If True, use the script name as the log file stem.
+    file_stem (str | None): Name used for the logger and log filename.
+    file_path (str | Path | None): Directory path to store logs (default: `logs/`).
+    log_to_console (bool): Whether to also output logs to the console.
+    force_command_line (bool): Use command-line filename as logger name.
 
   Returns:
-    tuple:
-      - logging.Logger: Configured logger instance.
-      - (object) -> str: Pretty-print formatter for structured logs.
-
-  Examples:
-    >>> logger, pp_log = get_logger("my_module")
-    >>> logger.info(pp_log({"status": "success"}))
+    tuple[Logger, callable]: A configured logger and a pretty-print function.
 
   Notes:
-    - Log file path defaults to logs/<file_stem>.log
-    - If logger is started from `__main__`, the stem defaults to 'app_logger'
-    - Logging configuration is skipped if already initialized
+    - Logging setup is only performed once per process.
+    - Default log filename: `logs/<file_stem>.log`.
   """
   # log_format_old = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
   log_format_proposed = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | user:%(user)s | %(message)s"
@@ -146,7 +133,7 @@ def get_logger(
   return logger, pp_log
 
 
-def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, any]:
+def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, callable]:
   """
   Return a `PrettyPrinter` instance and a formatting function for structured logging.
 
@@ -154,19 +141,13 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, any]:
   or deeply nested lists.
 
   Args:
-    **kwargs: Optional arguments for `pprint.PrettyPrinter`. Defaults include:
-      - indent (int): Number of spaces per indent level (default: 4)
-      - sort_dicts (bool): Whether to sort dictionary keys (default: False)
-      - width (int): Maximum output line width (default: 120)
+    **kwargs: Options passed to `pprint.PrettyPrinter`, including:
+      - indent (int): Indentation level (default: 4).
+      - sort_dicts (bool): Whether to sort dictionary keys (default: False).
+      - width (int): Max character width per line (default: 120).
 
   Returns:
-    tuple:
-      - pprint.PrettyPrinter: Pretty printer instance.
-      - (object) -> str: Function to format structured objects as strings.
-
-  Example:
-    >>> _, pp = get_pretty_printer(indent=2)
-    >>> logger.debug(pp({"a": [1, 2, 3], "b": {"nested": True}}))
+    tuple[PrettyPrinter, callable]: Printer object and its .pformat method.
   """
   options = {
     "indent": 4,

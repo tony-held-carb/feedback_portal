@@ -1,8 +1,8 @@
 """
 Dynamic configuration loader for the Flask application.
 
-This module provides the `get_config()` function to dynamically determine which
-Flask configuration class to use based on environment variables.
+This module provides the `get_config()` function to dynamically determine
+which Flask configuration class to use based on environment variables.
 
 Key Features:
 -------------
@@ -17,8 +17,8 @@ Usage:
 
 Environment Variables:
 ----------------------
-- CONFIG_TYPE: Explicit config selector (e.g., "production", "testing")
-- FLASK_ENV: Flask's default config selector if CONFIG_TYPE is unset
+- CONFIG_TYPE (str): Explicit config selector (e.g., "production", "testing").
+- FLASK_ENV (str): Flask’s default config selector, used if CONFIG_TYPE is unset.
 """
 
 import os
@@ -31,16 +31,16 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def get_config():
+def get_config() -> type:
   """
-  Return the appropriate configuration class based on environment variables.
+  Return the appropriate Flask configuration class.
 
   Resolution Order:
-    1. CONFIG_TYPE (if set) takes priority
-    2. FLASK_ENV (as fallback)
+    1. CONFIG_TYPE (highest priority)
+    2. FLASK_ENV (fallback)
 
   Returns:
-    type: A configuration class such as ProductionConfig, TestingConfig, or DevelopmentConfig.
+    type: One of ProductionConfig, TestingConfig, or DevelopmentConfig.
   """
   env = os.environ.get("FLASK_ENV", "").lower()
   override = os.environ.get("CONFIG_TYPE", "").lower()

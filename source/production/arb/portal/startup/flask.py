@@ -7,7 +7,7 @@ This module configures Flask app behavior, including:
   - Flask logger settings
   - Custom template filters and globals
 
-This function should be called during Flask app creation.
+Should be invoked during application factory setup:
 
 Example:
   from startup.flask import configure_flask_app
@@ -33,16 +33,22 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 def configure_flask_app(app: Flask) -> None:
   """
-  Apply Flask app-wide configuration for Jinja2, uploads, and logging.
-
-  Configures:
-    - Jinja2 environment: strict mode, whitespace handling, and custom filters
-    - Upload behavior: upload folder and max content length
-    - Logger level: sets logger to app.config["LOG_LEVEL"]
-    - Template globals: application name and California timezone
+  Apply global configuration to the Flask app instance.
 
   Args:
-    app (Flask): The Flask application instance to configure.
+    app (Flask): The Flask application to configure.
+
+  Configures:
+    - Jinja2 environment:
+        * Enables strict mode for undefined variables
+        * Trims and left-strips whitespace blocks
+        * Registers custom filters and timezone globals
+    - Upload settings:
+        * Sets `UPLOAD_FOLDER` to the shared upload path
+        * Limits `MAX_CONTENT_LENGTH` to 16MB
+    - Logger:
+        * Applies `LOG_LEVEL` from app config
+        * Disables Werkzeug color log markup
   """
   logger.debug("configure_flask_app() called")
 
