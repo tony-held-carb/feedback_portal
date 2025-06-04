@@ -1,16 +1,20 @@
 """
-Blueprint-based routes for the main application.
+Blueprint-based route definitions for the ARB Feedback Portal.
 
-This file contains all route definitions originally in app.py,
-migrated to a Flask Blueprint for modularity.
+This module defines all Flask routes that were originally in `app.py`,
+now attached to the `main` Blueprint for modularity and reuse.
 
-Routes are attached to the 'main' Blueprint.
+Routes cover:
+  - Upload form rendering and submission
+  - Viewing existing uploads
+  - Diagnostic tools
+  - Feedback form creation and updates
 
 Notes:
-    * All prior documentation, TODOs, and inline comments are retained.
-    * Requires that create_app() in app.py registers this blueprint.
-
+  - All routes require that `create_app()` registers the `main` blueprint.
+  - Inline TODOs and developer notes are retained for context.
 """
+
 
 import os
 from pathlib import Path
@@ -41,10 +45,14 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 main = Blueprint("main", __name__)
 
 
-@main.route('/')
-def index():
+@main.route('/incidence_update/<int:id_>/', methods=('GET', 'POST'))
+def incidence_update(id_):
   """
-  Flask route to the root of the feedback portal - currently lists incidences.
+  Display and update a specific incidence record by ID.
+
+  If the ID is not found, the user is redirected to the upload form.
+  If multiple records match, returns 500 error.
+  Calls `incidence_prep()` to generate the edit view.
   """
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
@@ -89,7 +97,10 @@ def incidence_update(id_):
 @main.route('/og_incidence_create/', methods=('GET', 'POST'))
 def og_incidence_create():
   """
-  Flask route to create new Oil & Gas incidence via web interface.
+  Create a new Oil & Gas incidence from hardcoded dummy data.
+
+  Inserts the record directly into the database and redirects
+  to the incidence update form for further editing.
   """
   logger.debug(f"og_incidence_create() - beginning.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
@@ -112,7 +123,9 @@ def og_incidence_create():
 @main.route('/landfill_incidence_create/', methods=('GET', 'POST'))
 def landfill_incidence_create():
   """
-  Flask route to create new Landfill incidence via web interface.
+  Create a new Landfill incidence from hardcoded dummy data.
+
+  Same behavior as `og_incidence_create()`, using a different payload.
   """
   logger.debug(f"landfill_incidence_create called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
@@ -135,11 +148,11 @@ def landfill_incidence_create():
 @main.post('/incidence_delete/<int:id_>/')
 def incidence_delete(id_):
   """
-  Flask route to delete an incidence given its incidence_id.
+  Delete an incidence record from the database.
 
   Notes:
-    * This will allow one to delete an incidence from the database from the portal interface
-      which may be something that requires a carb password to avoid accidental deletion.
+    * This is a hard delete and should be secured with authentication in production.
+    * Logs deletion to the portal update table.
   """
   logger.debug(f"Updating database with route incidence_delete for id= {id_}:")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
@@ -159,7 +172,9 @@ def incidence_delete(id_):
 @main.route('/list_uploads')
 def list_uploads():
   """
-  Flask route to list files in the uploads folder.
+  Display all files in the configured upload directory.
+
+  Lists server-side files available for download or inspection.
   """
   logger.debug(f"in list_uploads")
   upload_folder = current_app.config["UPLOAD_FOLDER"]
@@ -175,11 +190,12 @@ def list_uploads():
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message=None):
   """
-  Flask route to upload a file from client to server.
+  Upload and process an Excel file containing new incidence data.
 
   Notes:
-    * File upload is via POST. Use request.files['file'] to extract uploaded file.
-    * Drag-and-drop of an open Excel file may fail due to Windows file locking.
+    * Supports drag-and-drop or file picker input.
+    * Validates upload presence and format.
+    * Redirects to update form upon successful parsing.
   """
   logger.debug("upload_file route called.")
   base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
@@ -231,13 +247,13 @@ def upload_file(message=None):
 @main.route("/serve_file/<path:filename>")
 def serve_file(filename):
   """
-  Present or download a file from the server.
+  Serve or download a file from the upload directory.
 
   Args:
-    filename:
+    filename (str): Relative path of file to serve.
 
   Returns:
-
+    Response: File stream for download or preview.
   """
   upload_folder = current_app.config["UPLOAD_FOLDER"]
   file_path = os.path.join(upload_folder, filename)
@@ -250,6 +266,11 @@ def serve_file(filename):
 
 @main.route("/portal_updates")
 def view_portal_updates():
+  """
+  Display a table of all logged updates to portal data.
+
+  Supports filtering by timestamp, user, key, comment, and incidence ID.
+  """
   from arb.portal.sqla_models import PortalUpdate
   from flask import request, render_template
 
@@ -282,6 +303,11 @@ def view_portal_updates():
 
 @main.route("/portal_updates/export")
 def export_portal_updates():
+  """
+  Export portal update logs as a downloadable CSV file.
+
+  Applies filters to match the display view.
+  """
   from arb.portal.sqla_models import PortalUpdate
   from flask import request, Response
   from io import StringIO
@@ -317,8 +343,9 @@ def export_portal_updates():
 @main.route('/search/', methods=('GET', 'POST'))
 def search():
   """
-  Flask route to conduct a search from the nav bar.
-  Currently, in development and will only echo the search string.
+  Development route for simple search functionality.
+
+  Currently echoes the submitted search string only.
   """
   logger.debug(f"In search route:")
   logger.debug(f"{request.form=}")
@@ -337,7 +364,9 @@ def search():
 @main.route('/diagnostics')
 def diagnostics():
   """
-  Flask route to show diagnostic info for code in development.
+  Run a diagnostic check on the next auto-increment ID in `incidences`.
+
+  Renders results in a developer-facing diagnostics view.
   """
   logger.info(f"diagnostics() called")
 
@@ -356,7 +385,9 @@ def diagnostics():
 @main.route('/show_dropdown_dict')
 def show_dropdown_dict():
   """
-  Flask route to show drop-down data structures as a diagnostic.
+  Display currently loaded dropdown and contingent dropdown dictionaries.
+
+  Useful for debugging form logic and dynamic selection rules.
   """
   logger.info(f"Determining dropdown dict")
   # update drop-down tables
@@ -375,7 +406,9 @@ def show_dropdown_dict():
 @main.route('/show_database_structure')
 def show_database_structure():
   """
-  Flask route to show database structure as a diagnostic
+  Visualize the current database schema (column types, tables).
+
+  Renders an HTML-friendly diagnostic report of SQLAlchemy introspection.
   """
   logger.info(f"Displaying database structure")
   result = obj_to_html(Globals.db_column_types)
@@ -390,7 +423,9 @@ def show_database_structure():
 @main.route('/show_feedback_form_structure')
 def show_feedback_form_structure():
   """
-  Flask route to show wtforms structure as a diagnostic.
+  Visualize the field structures of all WTForms-based feedback forms.
+
+  Shows current structure of Oil & Gas and Landfill forms for validation.
   """
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
@@ -417,7 +452,9 @@ def show_feedback_form_structure():
 @main.route('/show_log_file')
 def show_log_file():
   """
-  Flask route to show the log file as a diagnostic.
+  Display the application log file contents for debugging.
+
+  Helpful for reviewing startup logs, errors, and recent operations.
   """
   logger.info(f"Displaying the log file as a diagnostic")
   with open(LOG_FILE, 'r') as file:
