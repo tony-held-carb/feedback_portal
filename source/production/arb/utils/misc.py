@@ -1,15 +1,31 @@
 """
-Module for miscellaneous utility functions and classes.
+misc.py
 
-Includes:
-    - Deep access to nested dictionaries
-    - Sub-dictionary default injection
-    - In-place list value replacement
-    - Error logging with full trace
-    - Argument formatting
+Miscellaneous utility functions for common tasks including dictionary traversal,
+default injection, argument formatting, exception logging, and safe type casting.
 
+Functions included:
+    - get_nested_value: Safely access deeply nested values in a dictionary.
+    - ensure_key_value_pair: Add missing keys to sub-dictionaries using defaults.
+    - replace_list_occurrences: Modify list elements in-place based on a mapping.
+    - args_to_string: Format argument lists into padded strings.
+    - log_error: Log full exception tracebacks and re-raise.
+    - safe_cast: Convert values to expected types if needed.
+    - run_diagnostics: Test suite for all utilities.
+
+Intended Use:
+    - Shared helpers for Flask or CLI-based Python applications.
+    - Improves code reuse and diagnostic traceability.
+
+Dependencies:
+    - Python standard library
+    - Logging provided by arb.__get_logger
+
+Version:
+    1.0.0
 TODO:
     - Consider converting log_error into a structured 500 error response for Flask apps
+
 """
 
 import traceback
@@ -68,7 +84,7 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
       sub_key (str): The key that must exist in each sub-dictionary.
 
   Raises:
-      TypeError: If the sub_key is missing and there's no fallback in default_dict.
+      TypeError: If the sub_key is missing and no fallback is found in default_dict.
 
   Example:
       >>> dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
@@ -138,6 +154,9 @@ def log_error(e: Exception) -> None:
   Args:
       e (Exception): The exception to log.
 
+  Raises:
+      Exception: Always re-raises the input exception after logging.
+
   Notes:
       - Outputs full traceback to logger.
       - Re-raises the original exception.
@@ -152,7 +171,7 @@ def log_error(e: Exception) -> None:
   raise e
 
 
-def safe_cast(value, expected_type):
+def safe_cast(value, expected_type: type) -> object:
   """
   Cast a value to the expected type only if it's not already of that type.
 
@@ -161,11 +180,12 @@ def safe_cast(value, expected_type):
       expected_type (type): The target Python type to cast to.
 
   Returns:
-      Any: The original or casted value.
+      object: The original or casted value.
 
   Raises:
       ValueError: If the cast fails or is inappropriate for the type.
   """
+
   try:
     if not isinstance(value, expected_type):
       value = expected_type(value)
