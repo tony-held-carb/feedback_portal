@@ -20,6 +20,12 @@ Directory structure reference:
                  ├── portal/        <-- Flask app
                  └── utils/
                       └── excel/    <-- Excel generation scripts
+
+Attributes:
+  PROJECT_ROOT (Path): Resolved root directory of the project.
+  FEEDBACK_FORMS (Path): Path to the 'feedback_forms' directory.
+  CURRENT_VERSIONS (Path): Path to Excel files from current official versions.
+  PROCESSED_VERSIONS (Path): Path to output files generated via Python processing.
 """
 
 from arb.__get_logger import get_logger
