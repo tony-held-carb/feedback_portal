@@ -1,0 +1,18 @@
+site_name: CalSMP Feedback Portal Documentation
+site_url: https://tony-held-carb.github.io/feedback_portal
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+
+nav:
+  - Home: index.md
+  - Portal:
+      - App Utils: portal/app_util.md
+      - Routes: portal/routes.md
+  - Utils:
+      - Database: utils/database.md
+      - Excel Parse: utils/excel/xl_parse.md

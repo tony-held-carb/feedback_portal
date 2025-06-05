@@ -1,0 +1,54 @@
+# mini_conda_01.yml
+# -------------------------------------------------------------------------------------------------
+# Purpose:
+# --------
+#   - Requirements file for the creation of the conda environment suitable for flask web development
+#
+# Creating the virtual environment:
+# ---------------------------------
+#   - conda env create -f "C:\one_drive\code\requirements\mini_conda_01.yml"
+#
+# Updating the conda environment:
+# ------------------------------
+#   - conda activate mini_conda_01
+#   - conda env update --file "C:\one_drive\code\requirements\mini_conda_01.yml" --prune
+#
+# -------------------------------------------------------------------------------------------------
+
+name: mini_conda_01
+channels:
+  - defaults
+  # Uncomment below if you want access to conda-forge packages
+  # - conda-forge
+
+dependencies:
+  - python=3.11.*
+  - flask
+  - flask-login
+  - flask-sqlalchemy
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib
+  - seaborn
+  - plotly
+  - jupyter
+  - notebook
+  - scikit-learn
+  - openpyxl
+  - xlwings
+  - sqlalchemy-utils
+  - more-itertools
+  - conda-forge::wtforms=3.1
+  - Flask-WTF
+  - psycopg2
+  - pip
+  - pip:
+      - email_validator
+      - Flask-Migrate
+      - geoalchemy2
+      - mkdocs
+      - mkdocs-material
+      - mkdocstrings[python]
+      - wget
+      - WTForms-Alchemy
