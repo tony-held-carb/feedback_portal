@@ -50,7 +50,7 @@ import pprint
 import sys
 from logging import Logger
 from pathlib import Path
-
+from typing import Any
 
 def get_logger(
     file_stem: str | None = "app_logger",
@@ -133,7 +133,7 @@ def get_logger(
   return logger, pp_log
 
 
-def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, callable]:
+def get_pretty_printer(**kwargs: Any) -> tuple[pprint.PrettyPrinter, callable]:
   """
   Return a `PrettyPrinter` instance and a formatting function for structured logging.
 
@@ -141,7 +141,7 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, callable]:
   or deeply nested lists.
 
   Args:
-    **kwargs: Options passed to `pprint.PrettyPrinter`, including:
+    **kwargs (Any): Options passed to `pprint.PrettyPrinter`, including:
       - indent (int): Indentation level (default: 4).
       - sort_dicts (bool): Whether to sort dictionary keys (default: False).
       - width (int): Max character width per line (default: 120).
