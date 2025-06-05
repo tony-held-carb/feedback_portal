@@ -1,18 +1,23 @@
 """
-Misc Excel utility functions for parsing and sorting Excel-style cell addresses.
+Excel address parsing and sorting utilities.
 
-These utilities are typically used to extract row and column references from Excel addresses
-(e.g., "$A$1", "$BB$15") and to enable sorting structures based on those references.
+This module provides helper functions for interpreting Excel-style address strings
+(such as "$A$1") and using them for sorting data structures. These utilities are
+used during schema generation, payload creation, and Excel form manipulation.
 
-Examples:
-    >>> get_excel_row_column("$C$4")
-    ('C', 4)
+Functions:
+  - get_excel_row_column(): Parses an Excel address into column and row components.
+  - xl_address_sort(): Extracts a sortable row or column value from an Excel address.
+  - run_diagnostics(): Test harness for verifying address parsing and sorting behavior.
 
-    >>> xl_address_sort(("$A$2", "some value"), address_location="key", sort_by="row")
-    2
+Typical Use Case:
+  These functions are primarily invoked when organizing Excel schema dictionaries
+  by their physical layout in the worksheet, either by row or column position.
 
-    >>> xl_address_sort(("row1", {"cell": "$D$15"}), address_location="value", sort_by="column", sub_keys="cell")
-    'D'
+Notes:
+  - Assumes absolute Excel address formatting (e.g., "$A$1").
+  - Designed to be used by other modules like xl_create and xl_file_structure.
+
 """
 
 import pprint

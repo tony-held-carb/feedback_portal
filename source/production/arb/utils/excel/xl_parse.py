@@ -1,15 +1,19 @@
 """
 Module to parse and ingest Excel spreadsheet contents.
 
-Notes on usage.
-  - A schema_file_map is a dictionary where the keys are schema name and the values
-    are the path to the json file associated with the schema.
-  - A schema_map is a dictionary where the keys are schema name values are a sub-dictionary
-    of the form: {"schema": schema, "metadata": metadata}
-  - Example usage:
-      xl_schema_map["oil_and_gas_v03"]["schema"]   <--- results in the schema dict for oil and gas
+This module provides logic to convert Excel forms into structured dictionary representations,
+including extraction of tab contents, metadata, and schema references. It is primarily used
+to support automated feedback template parsing.
 
+Notes:
+  - `schema_file_map` is a dict where keys are schema names and values are paths to JSON files.
+  - `schema_map` is a dict where keys are schema names and values are:
+      {"schema": schema_dict, "metadata": metadata_dict}
+
+Example:
+  >>> xl_schema_map["oil_and_gas_v03"]["schema"]
 """
+
 import copy
 import datetime
 import logging
@@ -35,14 +39,26 @@ xl_schema_file_map = {}
 xl_schema_map = {}
 
 
-def initialize_module():
+def initialize_module() -> None:
+  """
+  Initialize the module by calling set_globals().
+
+  This function loads default schema mappings into global variables.
+  """
   logger.debug(f"initialize_module() called")
   set_globals()
 
 
-def set_globals(xl_schema_file_map_=None):
+def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
   """
-  Set global variables.
+  Set module-level global variables for schema file map and loaded schema map.
+
+  Args:
+    xl_schema_file_map_ (dict[str, Path] | None): Optional override for schema file map.
+      If not provided, uses a default list of pre-defined schema files.
+
+  Notes:
+    - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.
   """
   global xl_schema_file_map, xl_schema_map
   # todo - update default roots with module paths, may make sense to remove globals and have
@@ -67,15 +83,17 @@ def set_globals(xl_schema_file_map_=None):
   logger.debug(f"globals are now: {xl_schema_file_map=}, {xl_schema_map=}")
 
 
-def load_schema_file_map(schema_file_map):
+def load_schema_file_map(schema_file_map: dict[str, Path]) -> dict[str, dict]:
   """
-  Return the schema and metadata given a dict where keys are schema names
-  and values are the path the json file associated with that schema.
+  Load JSON schema and metadata from a mapping of schema name to file path.
 
   Args:
-    schema_file_map (dict): dict of schema names and associated json file paths
+    schema_file_map (dict[str, Path]): Keys are schema names, values are JSON schema file paths.
 
-  Returns (dict): dict of schema names and the schema and metadata associated from json files.
+  Returns:
+    dict[str, dict]: Dictionary where keys are schema names and values are dicts with:
+      - "schema": The schema dictionary.
+      - "metadata": Metadata extracted from the JSON.
   """
   logger.debug(f"load_schema_file_map() called with {schema_file_map=}")
 
@@ -88,16 +106,17 @@ def load_schema_file_map(schema_file_map):
   return schema_map
 
 
-def create_schema_file_map(schema_path=None, schema_names=None):
+def create_schema_file_map(schema_path: str | Path | None = None,
+                           schema_names: list[str] | None = None) -> dict[str, Path]:
   """
-  Create a map of schema names and json file locations that can be loaded with load_schema_file_map.
-  Assumes that the json file name is the same as the schema name (with .json appended).
+  Create a dictionary mapping schema names to their JSON file paths.
 
   Args:
-    schema_path (str, Path, optional): Path to json schema directory.
-    schema_names (list[str], optional): List of schema names.
+    schema_path (str | Path | None): Folder containing schema files. Defaults to processed versions dir.
+    schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.
 
-  Returns (dict): dict of schema names and associated json file paths
+  Returns:
+    dict[str, Path]: Map from schema name to schema file path.
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
   if schema_path is None:
@@ -117,18 +136,15 @@ def create_schema_file_map(schema_path=None, schema_names=None):
   return schema_file_map
 
 
-def load_xl_schema(file_name):
+def load_xl_schema(file_name: str | Path) -> tuple[dict, dict]:
   """
-  Load an Excel schemas from a json file into a dictionary.
+  Load schema and metadata from a JSON file.
 
   Args:
-    file_name (str, Path): Path to json schema.
+    file_name (str | Path): Path to a JSON schema file.
 
   Returns:
-      tuple[dict, dict]: A tuple containing:
-          - schema (dict): The xl schema.
-          - metadata (dict): The JSON metadata associated with the schema file.
-
+    tuple[dict, dict]: Tuple of (schema dict, metadata dict).
   """
   logger.debug(f"load_xl_schema() called with {file_name=}")
   schema, metadata = json_load_with_meta(file_name)
@@ -137,17 +153,17 @@ def load_xl_schema(file_name):
 
 def parse_xl_file(xl_path, schema_map=None):
   """
-  Parse a spreadsheet path and return a dictionary representation of the spreadsheet
-  based on a schema dictionary.
+  Parse a spreadsheet and return a dictionary representation using the given schema.
 
   Args:
-    xl_path (str|Path): Path to the spreadsheet file
-    schema_map (dict): xl schema dictionary
+    xl_path (str | Path): Path to the Excel spreadsheet.
+    schema_map (dict[str, dict] | None): Map of schema names to their definitions.
 
-  Returns (dict): A dictionary representation of the spreadsheet
+  Returns:
+    dict: Dictionary with extracted metadata, schemas, and tab contents.
 
   Notes:
-    * tutorial on openpyxl: https://openpyxl.readthedocs.io/en/stable/tutorial.html
+  - tutorial on openpyxl: https://openpyxl.readthedocs.io/en/stable/tutorial.html
   """
   logger.debug(f"parse_xl_with_schema_dict() called with {xl_path=}, {schema_map=}")
 
@@ -186,16 +202,23 @@ def parse_xl_file(xl_path, schema_map=None):
   return new_result
 
 
-def extract_tabs(wb, schema_map, xl_as_dict):
+def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
+                 schema_map: dict[str, dict],
+                 xl_as_dict: dict) -> dict:
   """
   Extract data from the data tabs that are enumerated in the schema tab.
 
   Args:
-    wb (openpyxl.workbook.workbook.Workbook): openpyxl workbook
-    schema_map (dict): xl schema dictionary
-    xl_as_dict (dict): dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
-                parse the tab
+    wb (Workbook): OpenPyXL workbook object.
+    schema_map (dict[str, dict]): Schema map with schema definitions.
+    xl_as_dict (dict): Parsed Excel content, including 'schemas' and 'metadata'.
+                       Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
+                       parse the tab.
+
+  Returns:
+    dict: Updated xl_as_dict including parsed 'tab_contents'.
   """
+
   skip_please_selects = False
 
   result = copy.deepcopy(xl_as_dict)
@@ -264,13 +287,18 @@ def extract_tabs(wb, schema_map, xl_as_dict):
   return result
 
 
-def split_compound_keys(dict_) -> None:
+def split_compound_keys(dict_: dict) -> None:
   """
+  Decompose compound keys into atomic fields.
+
   Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs
   that are more atomic.
 
   Args:
-    dict_ (dict): dictionary representation of the spreadsheet key/value pairs that may have compound keys
+    dict_ (dict): Dictionary with potentially compound fields (e.g., lat_and_long).
+
+  Raises:
+    ValueError: If 'lat_and_long' is improperly formatted.
   """
   for html_field_name in list(dict_.keys()):
     value = dict_[html_field_name]
@@ -286,19 +314,21 @@ def split_compound_keys(dict_) -> None:
       del dict_[html_field_name]
 
 
-def get_spreadsheet_key_value_pairs(wb, tab_name, top_left_cell):
+def get_spreadsheet_key_value_pairs(wb: openpyxl.workbook.workbook.Workbook,
+                                    tab_name: str,
+                                    top_left_cell: str) -> dict[str, str | None]:
   """
-  Starting in the top left cell of a worksheet table, read in key value pairs
-  until a blank key is detected.
+  Read key-value pairs from a worksheet starting at a given cell.
 
   Args:
-    wb (openpyxl.workbook.workbook.Workbook): worksheet with key value pairs
-    tab_name (str): name of tab with key value pairs
-    top_left_cell (str): top left cell of key value pair table
+    wb (Workbook): OpenPyXL workbook object.
+    tab_name (str): Name of the worksheet tab.
+    top_left_cell (str): Top-left cell of the key/value pair region.
 
-  Returns (dict): dictionary of key value pairs detected in the spreadsheet tab
-
+  Returns:
+    dict[str, str | None]: Parsed key-value pairs.
   """
+
   # logger.debug(f"{type(wb)=}, ")
   ws = wb[tab_name]
 
@@ -321,21 +351,26 @@ def get_spreadsheet_key_value_pairs(wb, tab_name, top_left_cell):
 
 # todo - make sure this still works in the website
 #          likely should be broken up into sub components
-def get_json_file_name(file_name: Path):
+def get_json_file_name(file_name: Path) -> Path | None:
   """
-  Given a file_name on the server, return its json file name if possible.
+  Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.
 
-  If the file_name is a json file (has .json extension), the file_name is the json_file_name.
-  If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name
-  of the parsed contents.
-  If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
+  Args:
+    file_name (Path): The uploaded file.
 
-  Returns (Path|None):
-    If the file was already a json file, return the file name unaltered.
-    If the file was an Excel file, return the json file that its data was extracted to.
-    For all other file types return None.
+  Returns:
+    Path | None: JSON file path if parsed or detected, otherwise None.
 
+  Notes:
+  - If the file_name is a json file (has .json extension), the file_name is the json_file_name.
+  - If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name
+    of the parsed contents.
+  - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
+  - If the file was already a json file, return the file name unaltered.
+  - If the file was an Excel file, return the json file that its data was extracted to.
+  - For all other file types return None.
   """
+
   json_file_name = None
 
   extension = file_name.suffix
@@ -357,14 +392,20 @@ def get_json_file_name(file_name: Path):
   return json_file_name
 
 
-def test_load_schema_file_map():
+def test_load_schema_file_map() -> None:
+  """
+  Debug test for loading schema file map and displaying contents.
+  """
   logger.debug(f"test_load_schema_file_map() called")
   schema_map = create_schema_file_map()
   schemas = load_schema_file_map(schema_map)
   logger.debug(f"{schemas=}")
 
 
-def test_load_xl_schemas():
+def test_load_xl_schemas() -> None:
+  """
+  Debug test for loading default schemas from xl_schema_file_map.
+  """
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
@@ -372,14 +413,9 @@ def test_load_xl_schemas():
   # logging.debug(f"\n schemas= \n{dict_to_str(schemas)}")
 
 
-def test_parse_xl_file():
+def test_parse_xl_file() -> None:
   """
-  Parse a spreadsheet path and return a dictionary representation of the spreadsheet
-  based on a json file with schema data.
-
-  Notes:
-    xl_path (str|Path): Path to the spreadsheet file
-    schema_path (str|Path): Path to the JSON file with schema data
+  Debug test to parse a known Excel file into dictionary form using schemas.
   """
   logger.debug(f"test_parse_xl_file() called")
   xl_path = PROCESSED_VERSIONS / "xl_workbooks" / "landfill_operator_feedback_v070_populated_01.xlsx"
@@ -389,7 +425,10 @@ def test_parse_xl_file():
 
 
 # todo - may want to create a pretty printer with the logger since they go together well
-def main():
+def main() -> None:
+  """
+  Run all schema and Excel file parsing test functions for diagnostic purposes.
+  """
   test_load_xl_schemas()
   test_load_schema_file_map()
   test_parse_xl_file()
