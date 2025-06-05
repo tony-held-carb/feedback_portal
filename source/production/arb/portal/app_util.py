@@ -27,6 +27,7 @@ from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 from sqlalchemy.ext.automap import AutomapBase
+from sqlalchemy.ext.declarative import DeclarativeMeta
 from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
@@ -96,14 +97,14 @@ def get_sector_info(db: SQLAlchemy,
 
 
 def resolve_sector(sector_by_foreign_key: str | None,
-                   row,
+                   row: DeclarativeMeta,
                    misc_json: dict) -> str:
   """
   Determine the appropriate sector from FK and JSON sources.
 
   Args:
     sector_by_foreign_key (str | None): Sector from `sources` table.
-    row: Row from `incidences` table (SQLAlchemy result).
+    row (DeclarativeMeta): Row from `incidences` table (SQLAlchemy result).
     misc_json (dict): Parsed `misc_json` content.
 
   Returns:
@@ -402,7 +403,7 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
   - "123,150-200,250-"     → Mixed exacts and ranges
   - "abc, 100-xyz, 222"    → Invalid parts are ignored
 
-  Returns:
+  Returns (SQLAlchemy Query):
     SQLAlchemy query: Modified query with filters applied.
   """
   filter_key = args.get("filter_key", "").strip()
@@ -470,7 +471,7 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
   return query
 
 
-def incidence_prep(model_row,
+def incidence_prep(model_row: DeclarativeMeta,
                    crud_type: str,
                    sector_type: str,
                    default_dropdown: str) -> str:
@@ -482,7 +483,7 @@ def incidence_prep(model_row,
   dropdown resets, CSRF-less validation, and feedback record persistence.
 
   Args:
-    model_row: SQLAlchemy model row for the feedback entry.
+    model_row (DeclarativeMeta): SQLAlchemy model row for the feedback entry.
     crud_type (str): 'create' or 'update'.
     sector_type (str): 'Oil & Gas' or 'Landfill'.
     default_dropdown (str): Value used to fill in blank selects.

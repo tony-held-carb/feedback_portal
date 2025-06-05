@@ -19,7 +19,7 @@ import os
 from pathlib import Path
 from urllib.parse import unquote
 
-from flask import Blueprint, abort, current_app, redirect, render_template, request, send_from_directory, \
+from flask import Blueprint, Response, abort, current_app, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
 from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from werkzeug.exceptions import abort
@@ -45,7 +45,7 @@ main = Blueprint("main", __name__)
 
 
 @main.route('/')
-def index():
+def index() -> str:
   """
   Display the homepage with a list of all existing incidence records.
 
@@ -65,7 +65,7 @@ def index():
 
 
 @main.route('/incidence_update/<int:id_>/', methods=('GET', 'POST'))
-def incidence_update(id_):
+def incidence_update(id_) -> str | Response:
   """
   Display and edit a specific incidence record by ID.
 
@@ -73,7 +73,7 @@ def incidence_update(id_):
     id_ (int): Primary key of the incidence to edit.
 
   Returns:
-    str: Rendered HTML of the feedback form for the selected incidence,
+    str|Response: Rendered HTML of the feedback form for the selected incidence,
          or a redirect to the upload page if the ID is missing.
 
   Raises:
@@ -111,7 +111,7 @@ def incidence_update(id_):
 
 
 @main.route('/og_incidence_create/', methods=('GET', 'POST'))
-def og_incidence_create():
+def og_incidence_create() -> Response:
   """
   Create a new dummy Oil & Gas incidence and redirect to its edit form.
 
@@ -140,7 +140,7 @@ def og_incidence_create():
 
 
 @main.route('/landfill_incidence_create/', methods=('GET', 'POST'))
-def landfill_incidence_create():
+def landfill_incidence_create() -> Response:
   """
   Create a new dummy Landfill incidence and redirect to its edit form.
 
@@ -170,7 +170,7 @@ def landfill_incidence_create():
 
 
 @main.post('/incidence_delete/<int:id_>/')
-def incidence_delete(id_):
+def incidence_delete(id_) -> Response:
   """
   Delete a specified incidence from the database.
 
@@ -199,7 +199,7 @@ def incidence_delete(id_):
 
 
 @main.route('/list_uploads')
-def list_uploads():
+def list_uploads() -> str:
   """
   List all files in the upload directory.
 
@@ -219,7 +219,7 @@ def list_uploads():
 
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
-def upload_file(message=None):
+def upload_file(message=None) -> str | Response:
   """
   Upload an Excel file and process its contents.
 
@@ -282,7 +282,7 @@ def upload_file(message=None):
 
 
 @main.route("/serve_file/<path:filename>")
-def serve_file(filename):
+def serve_file(filename) -> Response:
   """
   Serve a file from the server’s upload directory.
 
@@ -306,7 +306,7 @@ def serve_file(filename):
 
 
 @main.route("/portal_updates")
-def view_portal_updates():
+def view_portal_updates() -> str:
   """
   Display a table of all updates recorded in `portal_updates`.
 
@@ -348,7 +348,7 @@ def view_portal_updates():
 
 
 @main.route("/portal_updates/export")
-def export_portal_updates():
+def export_portal_updates() -> Response:
   """
   Export filtered portal update logs as a downloadable CSV file.
 
@@ -392,7 +392,7 @@ def export_portal_updates():
 
 
 @main.route('/search/', methods=('GET', 'POST'))
-def search():
+def search() -> str:
   """
   Search route triggered by the navigation bar (stub for future use).
 
@@ -417,7 +417,7 @@ def search():
 #####################################################################
 
 @main.route('/diagnostics')
-def diagnostics():
+def diagnostics() -> str:
   """
   Run diagnostics on the 'incidences' table and show next ID.
 
@@ -440,7 +440,7 @@ def diagnostics():
 
 
 @main.route('/show_dropdown_dict')
-def show_dropdown_dict():
+def show_dropdown_dict() -> str:
   """
   Display current dropdown and contingent dropdown values.
 
@@ -466,7 +466,7 @@ def show_dropdown_dict():
 
 
 @main.route('/show_database_structure')
-def show_database_structure():
+def show_database_structure() -> str:
   """
   Show structure of all reflected database columns.
 
@@ -485,7 +485,7 @@ def show_database_structure():
 
 
 @main.route('/show_feedback_form_structure')
-def show_feedback_form_structure():
+def show_feedback_form_structure() -> str:
   """
   Inspect and display WTForms structure for feedback forms.
 
@@ -519,7 +519,7 @@ def show_feedback_form_structure():
 
 
 @main.route('/show_log_file')
-def show_log_file():
+def show_log_file() -> str:
   """
   Display the contents of the server's current log file.
 

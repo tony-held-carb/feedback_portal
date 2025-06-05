@@ -23,6 +23,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.automap import AutomapBase, automap_base
 from sqlalchemy.orm.attributes import flag_modified
+import sqlite3
 
 from arb.__get_logger import get_logger
 
@@ -50,15 +51,14 @@ def db_drop_all(flask_app: Flask, db: SQLAlchemy) -> None:
 
 
 def execute_sql_script(script_path: str | Path = None,
-                       connection = None) -> None:
+                       connection: sqlite3.Connection | None = None) -> None:
   """
   Execute a SQL script using a provided or default SQLite connection.
 
   Args:
     script_path (str | Path | None): Path to the `.sql` script. Defaults to `../sql_scripts/script_01.sql`.
-    connection: SQLite connection (defaults to `sqlite3.connect('app.db')` if None).
+    connection (sqlite3.Connection | None): SQLite connection (defaults to `sqlite3.connect('app.db')` if None).
   """
-  import sqlite3
   logger.debug(f"execute_sql_script() called with {script_path=}, {connection=}")
 
   if script_path is None:

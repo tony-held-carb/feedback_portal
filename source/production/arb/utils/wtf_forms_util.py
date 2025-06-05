@@ -10,6 +10,7 @@ import copy
 import datetime
 import json
 from decimal import Decimal
+from typing import Callable
 
 from flask_wtf import FlaskForm
 from sqlalchemy.orm.attributes import flag_modified
@@ -32,7 +33,7 @@ from arb.utils.sql_alchemy import load_model_json_column
 logger, pp_log = get_logger()
 
 
-def min_decimal_precision(min_digits: int):
+def min_decimal_precision(min_digits: int) -> Callable:
   """
   Return a validator for WTForms DecimalField enforcing minimum decimal precision.
 
@@ -394,7 +395,7 @@ def model_to_wtform(model: DeclarativeMeta,
     logger.debug(f"Set {field_name=}, data={field.data}, raw_data={field.raw_data}")
 
 
-def format_raw_data(field: Field, value):
+def format_raw_data(field: Field, value) -> list[str]:
   """
   Convert a field value to a format suitable for WTForms `.raw_data`.
 
@@ -819,7 +820,7 @@ def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> b
   return form_valid
 
 
-def run_diagnostics():
+def run_diagnostics() -> None:
   """
   Run a full diagnostics suite for WTForms utility testing.
 

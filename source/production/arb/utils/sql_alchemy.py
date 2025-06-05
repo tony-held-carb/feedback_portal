@@ -279,7 +279,7 @@ def table_to_list(base: DeclarativeMeta, session: Session, table_name: str) -> l
   return result
 
 
-def get_class_from_table_name(base: DeclarativeMeta, table_name: str):
+def get_class_from_table_name(base: DeclarativeMeta| None, table_name: str):
   """
   Retrieves the mapped class for a given table name.
 
