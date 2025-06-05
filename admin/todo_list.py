@@ -2,33 +2,19 @@
 
 # todo - Next Steps
 ----------------------------
-    * resume below for docstrings ...
-    * Excellent — the arb/portal/app_util.py file is now loaded and parsed.
 
-    * work through todos and notes below for next refactor
-    * relaunch the v1.3.0 to ec2
-
-    * seems like i have to strip out some logic and todo's since the templates now work off the row id rather than json field id
+- looks like i got the docstrings and type hinting updated properly
+- tried to gen documenation based on docstrings, but need more time for that
 
     * need to figure out what to do with delete incidences? (may not really happen often)
-    Step 3. Figure out how to default to please select in any page generations
-
-
-  * merge in the new code for the ec2
 
   * if a incidence passes validation, have it splash a success message before going to index
-
-
-  * json files with meta are serialized/deserialized differently than how misc_json is done,
-    consider aligning them better if possible.
 
 * consider new color for validate that stands out more
 * consider diff blue for card headers
 
 * if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
 upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
-
-
 
 * link to plume tracker now works off row id rather than misc_json contents.
   * it may be possible to get rid of id_incidence entirely from misc_json, but
