@@ -32,7 +32,7 @@ class Globals:
 
   Attributes:
     db_column_types (dict[str, dict[str, dict[str, Any]]]): Mapping of table.column
-      to SQLAlchemy type metadata (includes 'db_type', 'sa_type', 'py_type').
+      to SQLAlchemy type metadata (includes `db_type`, `sa_type`, `py_type`).
     drop_downs (dict[str, list[str]]): Field name to independent dropdown options.
     drop_downs_contingent (dict[str, dict[str, list[str]]]): Parent-dependent options
       for contingent dropdowns (e.g., county → list of sub-counties).
@@ -84,8 +84,8 @@ class Globals:
 
     Example:
       >>> Globals.load_type_mapping(app, db, base)
-      >>> Globals.db_column_types["incidences"]["id_plume"]
-      {'db_type': 'INTEGER', 'sa_type': Integer, 'py_type': <class 'int'>}
+      >>> Globals.db_column_types['incidences']['id_plume']
+      {`db_type`: `INTEGER`, `sa_type`: Integer, `py_type`: <class 'int'>}
 
     Notes:
       - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.

@@ -39,9 +39,9 @@ import json
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc, inspect, text
+from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
-from sqlalchemy.engine import Engine
 
 from arb.__get_logger import get_logger
 from arb.utils.misc import log_error
@@ -279,7 +279,8 @@ def table_to_list(base: DeclarativeMeta, session: Session, table_name: str) -> l
   return result
 
 
-def get_class_from_table_name(base: DeclarativeMeta| None, table_name: str):
+def get_class_from_table_name(base: DeclarativeMeta | None,
+                              table_name: str) -> DeclarativeMeta | None:
   """
   Retrieves the mapped class for a given table name.
 

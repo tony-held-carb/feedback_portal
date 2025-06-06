@@ -84,7 +84,7 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
       sub_key (str): The key that must exist in each sub-dictionary.
 
   Raises:
-      TypeError: If the sub_key is missing and no fallback is found in default_dict.
+      TypeError: If the sub_key is missing, and no fallback is found in default_dict.
 
   Example:
       >>> dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
