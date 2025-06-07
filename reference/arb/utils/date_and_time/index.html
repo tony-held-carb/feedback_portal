@@ -1,0 +1,3677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tony-held-carb.github.io/feedback_portal/reference/arb/utils/date_and_time/">
+      
+      
+        <link rel="prev" href="../database/">
+      
+      
+        <link rel="next" href="../diagnostics/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>arb.utils.date_and_time - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../stylesheets/hide-sidebar-title.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbutilsdate_and_time" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CalSMP Operator Feedback Portal Documentation & Source Code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              arb.utils.date_and_time
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CalSMP Operator Feedback Portal Documentation & Source Code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome &amp; Instructions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arb
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arb
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../__get_logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.__get_logger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wsgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Portal
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Portal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/app_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/db_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.db_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/globals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.globals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/json_update_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.json_update_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.routes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/sqla_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.sqla_models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/wtf_landfill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_landfill
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/wtf_oil_and_gas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/wtf_upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_upload
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_13" id="__nav_2_1_3_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Config
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/config/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.config.settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_14" id="__nav_2_1_3_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Startup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            Startup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/startup/db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.db
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/startup/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../portal/startup/runtime_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.runtime_info
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4" id="__nav_2_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      date_and_time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="date_and_time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.ca_naive_to_utc_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      ca_naive_to_utc_datetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.convert_ca_naive_datetimes_to_utc" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_ca_naive_datetimes_to_utc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.convert_datetimes_to_ca_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_datetimes_to_ca_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.date_to_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      date_to_string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.datetime_to_ca_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      datetime_to_ca_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.is_datetime_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_datetime_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.is_iso8601" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_iso8601
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.iso8601_to_utc_dt" class="md-nav__link">
+    <span class="md-ellipsis">
+      iso8601_to_utc_dt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.parse_unknown_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse_unknown_datetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.repr_datetime_to_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      repr_datetime_to_string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.run_diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      run_diagnostics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.str_to_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      str_to_datetime
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diagnostics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.diagnostics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.file_io
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.json
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../log_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.log_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_alchemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.sql_alchemy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.web_html
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_forms_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.wtf_forms_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4_12" id="__nav_2_1_4_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Excel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            Excel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/xl_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_create
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/xl_file_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_file_structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/xl_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/xl_misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/xl_parse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      date_and_time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="date_and_time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.ca_naive_to_utc_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      ca_naive_to_utc_datetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.convert_ca_naive_datetimes_to_utc" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_ca_naive_datetimes_to_utc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.convert_datetimes_to_ca_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_datetimes_to_ca_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.date_to_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      date_to_string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.datetime_to_ca_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      datetime_to_ca_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.is_datetime_naive" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_datetime_naive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.is_iso8601" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_iso8601
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.iso8601_to_utc_dt" class="md-nav__link">
+    <span class="md-ellipsis">
+      iso8601_to_utc_dt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.parse_unknown_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse_unknown_datetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.repr_datetime_to_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      repr_datetime_to_string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.run_diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      run_diagnostics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.date_and_time.str_to_datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      str_to_datetime
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arbutilsdate_and_time"><code>arb.utils.date_and_time</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="arb.utils.date_and_time" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">arb.utils.date_and_time</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Datetime parsing and timezone utilities for ISO 8601, UTC/Pacific conversion,
+repr-format recovery, and recursive datetime transformation in nested structures.</p>
+<p>Features:
+- ISO 8601 validation and parsing (via <code>dateutil</code>)
+- Conversion between UTC and naive Pacific time (Los Angeles)
+- Safe handling of repr-formatted datetime strings (e.g., "datetime.datetime(...)")
+- Recursive datetime transformations within nested dicts/lists/sets/tuples</p>
+<p>Timezone policy:
+- <code>UTC_TZ</code> and <code>PACIFIC_TZ</code> are globally defined using <code>zoneinfo.ZoneInfo</code>
+- Naive timestamps are only assumed to be UTC if explicitly configured via arguments</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.ca_naive_to_utc_datetime" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">ca_naive_to_utc_datetime</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">ca_naive_to_utc_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a naive Pacific Time datetime to a UTC-aware datetime.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt</code>
+            </td>
+            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A naive datetime.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>datetime</code></td>            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A UTC-aware datetime.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the input is not naive (i.e., has timezone info).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ca_naive_to_utc_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a naive Pacific Time datetime to a UTC-aware datetime.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      dt (datetime): A naive datetime.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      datetime: A UTC-aware datetime.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      ValueError: If the input is not naive (i.e., has timezone info).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected naive datetime, got </span><span class="si">{</span><span class="n">dt</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">PACIFIC_TZ</span><span class="p">)</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">UTC_TZ</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.convert_ca_naive_datetimes_to_utc" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">convert_ca_naive_datetimes_to_utc</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Recursively convert all naive Pacific Time datetimes in a nested structure to UTC-aware datetimes.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A nested structure (e.g., dict, list, tuple).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>object</code></td>            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The same structure with datetime values converted to UTC-aware format.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Recursively convert all naive Pacific Time datetimes in a nested structure to UTC-aware datetimes.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      data (object): A nested structure (e.g., dict, list, tuple).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      object: The same structure with datetime values converted to UTC-aware format.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ca_naive_to_utc_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+  <span class="k">return</span> <span class="n">data</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.convert_datetimes_to_ca_naive" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">convert_datetimes_to_ca_naive</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">utc_strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Recursively convert all datetime objects in a nested structure to naive Pacific Time.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A structure that may include datetime values (dict, list, etc.).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>assume_naive_is_utc</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to treat naive datetimes as UTC.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>utc_strict</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to enforce that input datetimes are explicitly UTC.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>object</code></td>            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A structure of the same shape, with datetime values converted to naive Pacific.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)):</span> <span class="p">[</span>
+<span class="gp">... </span>        <span class="p">{</span><span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)),)</span>
+<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">nested</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">    datetime.datetime(2025, 4, 23, 8, 0): [</span>
+<span class="go">        {&quot;created&quot;: datetime.datetime(2025, 4, 23, 11, 0)},</span>
+<span class="go">        (datetime.datetime(2025, 4, 23, 13, 0),)</span>
+<span class="go">    ]</span>
+<span class="go">}</span>
+</code></pre></div>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Recursively convert all datetime objects in a nested structure to naive Pacific Time.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      data (object): A structure that may include datetime values (dict, list, etc.).</span>
+<span class="sd">      assume_naive_is_utc (bool): Whether to treat naive datetimes as UTC.</span>
+<span class="sd">      utc_strict (bool): Whether to enforce that input datetimes are explicitly UTC.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      object: A structure of the same shape, with datetime values converted to naive Pacific.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">      &gt;&gt;&gt; from datetime import datetime</span>
+<span class="sd">      &gt;&gt;&gt; from zoneinfo import ZoneInfo</span>
+<span class="sd">      &gt;&gt;&gt; nested = {</span>
+<span class="sd">      ...     datetime(2025, 4, 23, 15, 0, tzinfo=ZoneInfo(&quot;UTC&quot;)): [</span>
+<span class="sd">      ...         {&quot;created&quot;: datetime(2025, 4, 23, 18, 0)},</span>
+<span class="sd">      ...         (datetime(2025, 4, 23, 20, 0, tzinfo=ZoneInfo(&quot;UTC&quot;)),)</span>
+<span class="sd">      ...     ]</span>
+<span class="sd">      &gt;&gt;&gt; convert_datetimes_to_ca_naive(nested)</span>
+<span class="sd">      {</span>
+<span class="sd">          datetime.datetime(2025, 4, 23, 8, 0): [</span>
+<span class="sd">              {&quot;created&quot;: datetime.datetime(2025, 4, 23, 11, 0)},</span>
+<span class="sd">              (datetime.datetime(2025, 4, 23, 13, 0),)</span>
+<span class="sd">          ]</span>
+<span class="sd">      }</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime_to_ca_naive</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">):</span>
+        <span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="p">,</span> <span class="n">utc_strict</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+  <span class="k">return</span> <span class="n">data</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.date_to_string" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">date_to_string</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">date_to_string</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a datetime object to a formatted string.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt</code>
+            </td>
+            <td>
+                  <code><span title="datetime.datetime">datetime</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A datetime object or None.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>str_format</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Format string used with <code>strftime</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;%Y-%m-%dT%H:%M&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>str | None: The formatted string if input is not None; otherwise, None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>x</code> is not a datetime object.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">date_to_string</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">str_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a datetime object to a formatted string.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      dt (datetime | None): A datetime object or None.</span>
+<span class="sd">      str_format (str): Format string used with `strftime`.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      str | None: The formatted string if input is not None; otherwise, None.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      TypeError: If `x` is not a datetime object.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">if</span> <span class="n">dt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x must be datetime.datetime or None. </span><span class="si">{</span><span class="n">dt</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">str_format</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.datetime_to_ca_naive" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">datetime_to_ca_naive</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">datetime_to_ca_naive</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">assume_naive_is_utc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">utc_strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a datetime (UTC or naive) to naive Pacific Time.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt</code>
+            </td>
+            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The datetime to convert.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>assume_naive_is_utc</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, interpret naive datetime as UTC.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>utc_strict</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, raise an error unless datetime is explicitly UTC.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>datetime</code></td>            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A naive Pacific Time datetime.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If datetime is naive and <code>assume_naive_is_utc</code> is False,
+        or if UTC check fails under <code>utc_strict</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">datetime_to_ca_naive</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                         <span class="n">assume_naive_is_utc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="n">utc_strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a datetime (UTC or naive) to naive Pacific Time.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      dt (datetime): The datetime to convert.</span>
+<span class="sd">      assume_naive_is_utc (bool): If True, interpret naive datetime as UTC.</span>
+<span class="sd">      utc_strict (bool): If True, raise an error unless datetime is explicitly UTC.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      datetime: A naive Pacific Time datetime.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      ValueError: If datetime is naive and `assume_naive_is_utc` is False,</span>
+<span class="sd">                  or if UTC check fails under `utc_strict`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">assume_naive_is_utc</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Assuming UTC for naive datetime.&quot;</span><span class="p">)</span>
+      <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">UTC_TZ</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Naive datetime provided without assume_naive_is_utc=True&quot;</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">utc_strict</span> <span class="ow">and</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="o">!=</span> <span class="n">UTC_TZ</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;datetime must be UTC when utc_strict=True&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">PACIFIC_TZ</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.is_datetime_naive" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">is_datetime_naive</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">is_datetime_naive</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Check whether a datetime object is naive (lacks timezone info).</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt</code>
+            </td>
+            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A datetime instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>bool</code></td>            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>True if the datetime is naive (tzinfo is None or utcoffset is None); False otherwise.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">is_datetime_naive</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="go">True</span>
+</code></pre></div>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_datetime_naive</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)))</span>
+<span class="go">False</span>
+</code></pre></div>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_datetime_naive</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check whether a datetime object is naive (lacks timezone info).</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      dt (datetime): A datetime instance.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      bool: True if the datetime is naive (tzinfo is None or utcoffset is None); False otherwise.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">      &gt;&gt;&gt; is_datetime_naive(datetime.now())</span>
+<span class="sd">      True</span>
+
+<span class="sd">      &gt;&gt;&gt; from zoneinfo import ZoneInfo</span>
+<span class="sd">      &gt;&gt;&gt; is_datetime_naive(datetime.now(tz=ZoneInfo(&quot;UTC&quot;)))</span>
+<span class="sd">      False</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="o">.</span><span class="n">utcoffset</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.is_iso8601" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">is_iso8601</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">is_iso8601</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Determine whether a string is a valid ISO 8601 datetime.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>string</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The string to validate.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>bool</code></td>            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>True if the string conforms to ISO 8601 datetime format, False otherwise.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Uses <code>dateutil.parser.isoparse</code> for strict ISO 8601 parsing.</li>
+<li>ISO 8601 requires a full date (YYYY-MM-DD) at minimum. Time-only strings are invalid.</li>
+<li>This does not validate durations, ordinal dates, or week dates.</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Valid cases (returns True):
+    - "2024-12-31"
+    - "2024-12-31T23:59:59"
+    - "2024-12-31T23:59:59Z"             # UTC/Zulu time
+    - "2024-12-31T23:59:59+00:00"        # Timezone offset
+    - "2024-12-31T23:59:59.123456"       # Microsecond precision
+    - "2024-12-31T23:59:59.123+02:00"    # Fractional seconds with TZ</p>
+<p>Invalid cases (returns False):
+    - "12/31/2024"            # US-style date format
+    - "2024-31-12"            # Invalid format (day and month swapped)
+    - "2024"                  # Year only, not a complete date or datetime
+    - "P1Y2M"                 # ISO 8601 duration, not a datetime
+    - "Just some text"        # Clearly not a date
+    - "2024-12-31 23:59:59"   # Space instead of 'T' (technically invalid ISO 8601)</p>
+<div class="codehilite"><pre><span></span><code># Time-only values — invalid because ISO 8601 requires at least a full date
+- &quot;23:59&quot;                 # Just time (no date)
+- &quot;23:59:59&quot;              # Time only, still invalid
+- &quot;T23:59:59Z&quot;            # Prefixed with &#39;T&#39; but still no date
+- &quot;23:59:59+00:00&quot;        # Time with timezone, but missing a date
+- &quot;T23:59:59.123456&quot;      # Microsecond time, still not valid without date
+</code></pre></div>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>ISO 8601 datetimes require at least a full date (YYYY-MM-DD). Time-only strings are not valid by themselves.</li>
+<li>This does not validate ISO 8601 durations, ordinal dates, or week dates.</li>
+<li>This routine strictly uses <code>dateutil.parser.isoparse</code>, which rejects incomplete formats like time-only values.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_iso8601</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Determine whether a string is a valid ISO 8601 datetime.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      string (str): The string to validate.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      bool: True if the string conforms to ISO 8601 datetime format, False otherwise.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">      - Uses `dateutil.parser.isoparse` for strict ISO 8601 parsing.</span>
+<span class="sd">      - ISO 8601 requires a full date (YYYY-MM-DD) at minimum. Time-only strings are invalid.</span>
+<span class="sd">      - This does not validate durations, ordinal dates, or week dates.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">      Valid cases (returns True):</span>
+<span class="sd">          - &quot;2024-12-31&quot;</span>
+<span class="sd">          - &quot;2024-12-31T23:59:59&quot;</span>
+<span class="sd">          - &quot;2024-12-31T23:59:59Z&quot;             # UTC/Zulu time</span>
+<span class="sd">          - &quot;2024-12-31T23:59:59+00:00&quot;        # Timezone offset</span>
+<span class="sd">          - &quot;2024-12-31T23:59:59.123456&quot;       # Microsecond precision</span>
+<span class="sd">          - &quot;2024-12-31T23:59:59.123+02:00&quot;    # Fractional seconds with TZ</span>
+
+<span class="sd">      Invalid cases (returns False):</span>
+<span class="sd">          - &quot;12/31/2024&quot;            # US-style date format</span>
+<span class="sd">          - &quot;2024-31-12&quot;            # Invalid format (day and month swapped)</span>
+<span class="sd">          - &quot;2024&quot;                  # Year only, not a complete date or datetime</span>
+<span class="sd">          - &quot;P1Y2M&quot;                 # ISO 8601 duration, not a datetime</span>
+<span class="sd">          - &quot;Just some text&quot;        # Clearly not a date</span>
+<span class="sd">          - &quot;2024-12-31 23:59:59&quot;   # Space instead of &#39;T&#39; (technically invalid ISO 8601)</span>
+
+<span class="sd">          # Time-only values — invalid because ISO 8601 requires at least a full date</span>
+<span class="sd">          - &quot;23:59&quot;                 # Just time (no date)</span>
+<span class="sd">          - &quot;23:59:59&quot;              # Time only, still invalid</span>
+<span class="sd">          - &quot;T23:59:59Z&quot;            # Prefixed with &#39;T&#39; but still no date</span>
+<span class="sd">          - &quot;23:59:59+00:00&quot;        # Time with timezone, but missing a date</span>
+<span class="sd">          - &quot;T23:59:59.123456&quot;      # Microsecond time, still not valid without date</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">      - ISO 8601 datetimes require at least a full date (YYYY-MM-DD). Time-only strings are not valid by themselves.</span>
+<span class="sd">      - This does not validate ISO 8601 durations, ordinal dates, or week dates.</span>
+<span class="sd">      - This routine strictly uses `dateutil.parser.isoparse`, which rejects incomplete formats like time-only values.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">isoparse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
+  <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.iso8601_to_utc_dt" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">iso8601_to_utc_dt</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">iso8601_to_utc_dt</span><span class="p">(</span><span class="n">iso_string</span><span class="p">,</span> <span class="n">error_on_missing_tz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Parse an ISO 8601 string and return a timezone-aware datetime object in UTC.</p>
+<p>This function uses <code>dateutil.parser.isoparse()</code> for robust ISO 8601 parsing,
+including support for variations like 'Z' (UTC shorthand) and missing separators.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>iso_string</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An ISO 8601-formatted datetime string.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>error_on_missing_tz</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, raises a ValueError when the string has no timezone info.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A timezone-aware datetime object in UTC.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the input string is invalid or lacks timezone info and
+        <code>error_on_missing_tz</code> is True.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">iso8601_to_utc_dt</span><span class="p">(</span><span class="s2">&quot;2025-04-20T14:30:00+00:00&quot;</span><span class="p">)</span>
+<span class="go">datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+</code></pre></div>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">iso8601_to_utc_dt</span><span class="p">(</span><span class="s2">&quot;2025-04-20T14:30:00Z&quot;</span><span class="p">)</span>
+<span class="go">datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+</code></pre></div>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">iso8601_to_utc_dt</span><span class="p">(</span><span class="s2">&quot;2025-04-20 14:30:00&quot;</span><span class="p">,</span> <span class="n">error_on_missing_tz</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iso8601_to_utc_dt</span><span class="p">(</span><span class="s2">&quot;2025-04-20T14:30:00Z&quot;</span><span class="p">)</span>
+<span class="go">datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&#39;UTC&#39;))</span>
+</code></pre></div>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">iso8601_to_utc_dt</span><span class="p">(</span><span class="n">iso_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error_on_missing_tz</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Parse an ISO 8601 string and return a timezone-aware datetime object in UTC.</span>
+
+<span class="sd">  This function uses `dateutil.parser.isoparse()` for robust ISO 8601 parsing,</span>
+<span class="sd">  including support for variations like &#39;Z&#39; (UTC shorthand) and missing separators.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      iso_string: An ISO 8601-formatted datetime string.</span>
+<span class="sd">      error_on_missing_tz: If True, raises a ValueError when the string has no timezone info.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      A timezone-aware datetime object in UTC.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      ValueError: If the input string is invalid or lacks timezone info and</span>
+<span class="sd">                  `error_on_missing_tz` is True.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">      &gt;&gt;&gt; iso8601_to_utc_dt(&quot;2025-04-20T14:30:00+00:00&quot;)</span>
+<span class="sd">      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+
+<span class="sd">      &gt;&gt;&gt; iso8601_to_utc_dt(&quot;2025-04-20T14:30:00Z&quot;)</span>
+<span class="sd">      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+
+<span class="sd">      &gt;&gt;&gt; iso8601_to_utc_dt(&quot;2025-04-20 14:30:00&quot;, error_on_missing_tz=False)</span>
+<span class="sd">      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&quot;UTC&quot;))</span>
+<span class="sd">      &gt;&gt;&gt; iso8601_to_utc_dt(&quot;2025-04-20T14:30:00Z&quot;)</span>
+<span class="sd">      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo(&#39;UTC&#39;))</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">isoparse</span><span class="p">(</span><span class="n">iso_string</span><span class="p">)</span>
+  <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid ISO 8601 datetime string: &#39;</span><span class="si">{</span><span class="n">iso_string</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+  <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">error_on_missing_tz</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing timezone info in ISO 8601 string.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Assuming UTC for naive ISO string: </span><span class="si">{</span><span class="n">iso_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">UTC_TZ</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">UTC_TZ</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.parse_unknown_datetime" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">parse_unknown_datetime</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">parse_unknown_datetime</span><span class="p">(</span><span class="n">date_str</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Attempt to parse an arbitrary string into a datetime using <code>dateutil.parser.parse()</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>date_str</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A date or datetime string in an unknown format.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="datetime.datetime">datetime</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>datetime | None: Parsed datetime object if successful; otherwise, None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Gracefully handles errors internally.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>This method is lenient and accepts a wide range of human-readable formats.</li>
+<li>Returns None if the string is empty, not a string, or unparseable.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_unknown_datetime</span><span class="p">(</span><span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Attempt to parse an arbitrary string into a datetime using `dateutil.parser.parse()`.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      date_str (str): A date or datetime string in an unknown format.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      datetime | None: Parsed datetime object if successful; otherwise, None.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      None: Gracefully handles errors internally.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">      - This method is lenient and accepts a wide range of human-readable formats.</span>
+<span class="sd">      - Returns None if the string is empty, not a string, or unparseable.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">date_str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">None</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">date_str</span><span class="p">)</span>
+  <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.repr_datetime_to_string" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">repr_datetime_to_string</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">repr_datetime_to_string</span><span class="p">(</span><span class="n">datetime_string</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a repr-formatted datetime string into an ISO 8601 string.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>datetime_string</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A string in the format "datetime.datetime(...)"</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>str | None: ISO 8601 string or None if parsing fails or input is None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">repr_datetime_to_string</span><span class="p">(</span><span class="n">datetime_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a repr-formatted datetime string into an ISO 8601 string.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      datetime_string (str | None): A string in the format &quot;datetime.datetime(...)&quot;</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      str | None: ISO 8601 string or None if parsing fails or input is None.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">datetime_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">None</span>
+  <span class="n">dt</span> <span class="o">=</span> <span class="n">str_to_datetime</span><span class="p">(</span><span class="n">datetime_string</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">if</span> <span class="n">dt</span> <span class="k">else</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.run_diagnostics" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">run_diagnostics</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">run_diagnostics</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Run a series of diagnostic operations to verify correctness of datetime utilities.</p>
+
+
+<details class="demonstrates" open>
+  <summary>Demonstrates</summary>
+  <ul>
+<li>ISO 8601 parsing to UTC</li>
+<li>Conversion to naive Pacific time</li>
+<li>Round-trip UTC conversion</li>
+<li>Recursive conversion in nested data structures</li>
+</ul>
+</details>
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Run a series of diagnostic operations to verify correctness of datetime utilities.</span>
+
+<span class="sd">  Demonstrates:</span>
+<span class="sd">      - ISO 8601 parsing to UTC</span>
+<span class="sd">      - Conversion to naive Pacific time</span>
+<span class="sd">      - Round-trip UTC conversion</span>
+<span class="sd">      - Recursive conversion in nested data structures</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running diagnostics on datetime utilities...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="n">sample_iso</span> <span class="o">=</span> <span class="s2">&quot;2025-05-05T10:00:00Z&quot;</span>
+  <span class="n">dt</span> <span class="o">=</span> <span class="n">iso8601_to_utc_dt</span><span class="p">(</span><span class="n">sample_iso</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsed ISO 8601 to UTC:&quot;</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+  <span class="n">naive_pacific</span> <span class="o">=</span> <span class="n">datetime_to_ca_naive</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converted to naive Pacific:&quot;</span><span class="p">,</span> <span class="n">naive_pacific</span><span class="p">)</span>
+
+  <span class="n">round_trip</span> <span class="o">=</span> <span class="n">ca_naive_to_utc_datetime</span><span class="p">(</span><span class="n">naive_pacific</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Round-trip back to UTC:&quot;</span><span class="p">,</span> <span class="n">round_trip</span><span class="p">)</span>
+
+  <span class="n">nested_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="n">dt</span><span class="p">},</span>
+      <span class="p">(</span><span class="n">dt</span><span class="p">,)</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+
+  <span class="n">pacific_data</span> <span class="o">=</span> <span class="n">convert_datetimes_to_ca_naive</span><span class="p">(</span><span class="n">nested_data</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Converted nested UTC datetimes to Pacific:&quot;</span><span class="p">)</span>
+  <span class="n">pprint</span><span class="p">(</span><span class="n">pacific_data</span><span class="p">)</span>
+
+  <span class="n">restored</span> <span class="o">=</span> <span class="n">convert_ca_naive_datetimes_to_utc</span><span class="p">(</span><span class="n">pacific_data</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Restored nested Pacific datetimes to UTC:&quot;</span><span class="p">)</span>
+  <span class="n">pprint</span><span class="p">(</span><span class="n">restored</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.date_and_time.str_to_datetime" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">str_to_datetime</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">str_to_datetime</span><span class="p">(</span><span class="n">datetime_str</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a <code>repr()</code>-formatted string into a datetime object.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>datetime_str</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Example: "datetime.datetime(2024, 11, 15, 14, 30, 45)"</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="datetime.datetime">datetime</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>datetime | None: Parsed datetime object if matched; otherwise, None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>This reverses <code>repr(datetime)</code> stringification for debugging recovery.</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\date_and_time.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">str_to_datetime</span><span class="p">(</span><span class="n">datetime_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a `repr()`-formatted string into a datetime object.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      datetime_str (str): Example: &quot;datetime.datetime(2024, 11, 15, 14, 30, 45)&quot;</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      datetime | None: Parsed datetime object if matched; otherwise, None.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">      This reverses `repr(datetime)` stringification for debugging recovery.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;datetime\.datetime\(([^)]+)\)&quot;</span><span class="p">,</span> <span class="n">datetime_str</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+    <span class="n">date_parts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="p">(</span><span class="o">*</span><span class="n">date_parts</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

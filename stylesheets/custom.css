@@ -1,0 +1,4 @@
+/* Customize font, spacing, or header styles if desired */
+.md-typeset h1, .md-typeset h2 {
+    font-weight: 600;
+}

@@ -1,0 +1,1691 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tony-held-carb.github.io/feedback_portal/reference/arb/wsgi/">
+      
+      
+        <link rel="prev" href="../__get_logger/">
+      
+      
+        <link rel="next" href="../portal/app/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>arb.wsgi - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/hide-sidebar-title.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbwsgi" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CalSMP Operator Feedback Portal Documentation & Source Code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              arb.wsgi
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CalSMP Operator Feedback Portal Documentation & Source Code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome &amp; Instructions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arb
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arb
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../__get_logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.__get_logger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.wsgi" class="md-nav__link">
+    <span class="md-ellipsis">
+      wsgi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wsgi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload" class="md-nav__link">
+    <span class="md-ellipsis">
+      todo - work this in, run with: flask --app wsgi run --no-reload
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Portal
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Portal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/app_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/db_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.db_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/globals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.globals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/json_update_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.json_update_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.routes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/sqla_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.sqla_models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/wtf_landfill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_landfill
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/wtf_oil_and_gas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/wtf_upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_upload
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_13" id="__nav_2_1_3_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Config
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/config/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.config.settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_14" id="__nav_2_1_3_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Startup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            Startup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/startup/db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.db
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/startup/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portal/startup/runtime_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.runtime_info
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4" id="__nav_2_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/date_and_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/diagnostics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.diagnostics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/file_io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.file_io
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.json
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/log_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.log_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/sql_alchemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.sql_alchemy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/web_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.web_html
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/wtf_forms_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.wtf_forms_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4_12" id="__nav_2_1_4_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Excel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            Excel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/excel/xl_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_create
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/excel/xl_file_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_file_structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/excel/xl_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/excel/xl_misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/excel/xl_parse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.wsgi" class="md-nav__link">
+    <span class="md-ellipsis">
+      wsgi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wsgi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload" class="md-nav__link">
+    <span class="md-ellipsis">
+      todo - work this in, run with: flask --app wsgi run --no-reload
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arbwsgi"><code>arb.wsgi</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="arb.wsgi" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">arb.wsgi</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>WSGI entry point for serving the Flask app.</p>
+<p>This file enables the application to be run via a WSGI server
+(e.g., Gunicorn or uWSGI) or directly via <code>flask run</code> or <code>python wsgi.py</code>.</p>
+<p>It provides detailed notes for various execution contexts, Flask CLI behavior,
+debugging strategies, and developer workflows including PyCharm integration.</p>
+<p>Note on running Flask Apps:</p>
+<p>1) You can run a flask app from the CLI in two ways:</p>
+<ul>
+<li>python <file_name_with_app><ul>
+<li>run flask app directly from python without the flask CLI</li>
+<li>Errors shown in terminal; browser only shows generic 500 unless debug=True in source code</li>
+</ul>
+</li>
+<li>flask run <optional_file_name_with_app><ul>
+<li>uses the Flask CLI</li>
+<li>makes use of Flask related environment variables and command line arguments</li>
+</ul>
+</li>
+</ul>
+<p>2) Flask configuration precedence:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">The</span><span class="w"> </span><span class="n">effective</span><span class="w"> </span><span class="n">behavior</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">Flask</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="n">depends</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">it</span><span class="s1">&#39;s launched and which</span>
+<span class="n">configuration</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">various</span><span class="w"> </span><span class="n">levels</span><span class="o">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">precedence</span><span class="w"> </span><span class="n">applies</span><span class="p">:</span>
+
+<span class="n">Precedence</span><span class="w"> </span><span class="n">Order</span><span class="w"> </span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="n">strongest</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">weakest</span><span class="p">):</span>
+
+<span class="w">  </span><span class="mf">1.</span><span class="w"> </span><span class="n">Arguments</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="n">directly</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="err">`</span>
+<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">These</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="n">everything</span><span class="w"> </span><span class="k">else</span><span class="p">,</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span>
+
+<span class="w">  </span><span class="mf">2.</span><span class="w"> </span><span class="n">Flask</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="n">command</span><span class="o">-</span><span class="n">line</span><span class="w"> </span><span class="n">options</span>
+<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="err">`</span><span class="n">flask</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="o">--</span><span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="err">`</span><span class="w"> </span><span class="n">overrides</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">FLASK_RUN_PORT</span><span class="w"> </span><span class="n">setting</span><span class="o">.</span>
+
+<span class="w">  </span><span class="mf">3.</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_ENV</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_DEBUG</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_RUN_PORT</span>
+</code></pre></div>
+
+<p>2) Environmental variables and running from the Flask CLI</p>
+<ul>
+<li>FLASK_APP:
+      sets the default name for the flask app if not specified.
+      "flask run" is equivalent to "flask --app FLASK_APP run"
+      Likely FLASK_APP=app.py or FLASK_APP=wsgi</li>
+<li>FLASK_ENV:
+      can be 'development' or 'production'
+      development enables debug mode, auto-reload, and detailed error pages,
+      production disables them.
+      Likely will allways want FLASK_ENV=development for CARB development</li>
+<li>FLASK_DEBUG:
+      1 enables the interactive browser debugger (Werkzeug);
+      0 disables it.</li>
+<li>PYTHONPATH:
+      Adds directories to Python's module resolution path (sometimes needed for imports)</li>
+</ul>
+<p>3) Flask CLI arguments
+    * key options
+      * --app <file_name>
+      * --debug or --no-debug
+        * determines if the Werkzeug browser debugger is on/off
+      * --no-reload  &lt;-- faster load time and does not restart app on source code changes</p>
+<p>4) Source code app arguments:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Commonly</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">arguments</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="err">`</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="err">`</span><span class="p">:</span>
+
+<span class="n">Args</span><span class="p">:</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">bind</span><span class="w"> </span><span class="n">to</span><span class="o">.</span>
+<span class="w">      </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="err">`</span><span class="o">.</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="err">`</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="err">`</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">app</span>
+<span class="w">      </span><span class="n">publicly</span><span class="w"> </span><span class="n">accessible</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">network</span><span class="p">)</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">listen</span><span class="w"> </span><span class="n">on</span><span class="o">.</span>
+<span class="w">      </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="mi">5000</span><span class="err">`</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">activates</span>
+<span class="w">      </span><span class="n">auto</span><span class="o">-</span><span class="n">reload</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">interactive</span><span class="w"> </span><span class="n">browser</span><span class="w"> </span><span class="n">debugger</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">None</span><span class="err">`</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">use_reloader</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">auto</span><span class="o">-</span><span class="n">reloader</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">restart</span>
+<span class="w">      </span><span class="n">the</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="n">changes</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">enabled</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">use_debugger</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">interactive</span><span class="w"> </span><span class="n">debugger</span>
+<span class="w">      </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">browser</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="n">occur</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">enabled</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">threaded</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">multithreaded</span><span class="w"> </span><span class="n">mode</span><span class="o">.</span>
+<span class="w">      </span><span class="n">Useful</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">handling</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="n">concurrent</span><span class="w"> </span><span class="n">requests</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">False</span><span class="err">`</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">processes</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="n">processes</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">handling</span><span class="w"> </span><span class="n">requests</span><span class="o">.</span>
+<span class="w">      </span><span class="n">Mutually</span><span class="w"> </span><span class="n">exclusive</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="err">`</span><span class="n">threaded</span><span class="o">=</span><span class="n">True</span><span class="err">`</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="mi">1</span><span class="err">`</span><span class="o">.</span>
+<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">load_dotenv</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Whether</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">from</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="err">`</span><span class="o">.</span><span class="n">env</span><span class="err">`</span><span class="w"> </span><span class="n">file</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="o">.</span>
+</code></pre></div>
+
+<p>5) Best practices:
+  1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
+    * will give you access to Browser-based call trace or python debugger depending on other factors
+  2. Use 'development' over 'production' until product is final.
+  3. testing web interactions in browser without python debugger
+    * flask run --app wsgi
+  4. Debugging with PyCharm (breakpoints + console)
+    * Use a Run Configuration:
+        * Script: wsgi.py
+        * Working Dir: production/arb
+        * Env vars: FLASK_ENV=development, FLASK_DEBUG=0
+        * app.run(debug=True) in wsgi.py
+  5. Combined Workflow (PyCharm + Browser)
+    * Run wsgi.py in PyCharm with debug=True
+    * Set FLASK_ENV=development, FLASK_DEBUG=1
+      * This allows:
+        * PyCharm to log &amp; capture
+        * Browser to display detailed error trace
+        * Breakpoints still work (though sometimes suppressed by Werkzeug internals)</p>
+<p>6) Root directory notes:
+  - The project root directory is "feedback_portal"
+  - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
+    - Path(<strong>file</strong>).resolve().parents[3] → .../feedback_portal</p>
+<h3 id="arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload">todo - work this in, run with: flask --app wsgi run --no-reload</h3>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2507 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tony-held-carb.github.io/feedback_portal/reference/arb/portal/wtf_oil_and_gas/">
+      
+      
+        <link rel="prev" href="../wtf_landfill/">
+      
+      
+        <link rel="next" href="../wtf_upload/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>arb.portal.wtf_oil_and_gas - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../stylesheets/hide-sidebar-title.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbportalwtf_oil_and_gas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CalSMP Operator Feedback Portal Documentation & Source Code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              arb.portal.wtf_oil_and_gas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CalSMP Operator Feedback Portal Documentation & Source Code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome &amp; Instructions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arb
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arb
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../__get_logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.__get_logger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wsgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Portal
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Portal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.db_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../globals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.globals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_update_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.json_update_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.routes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqla_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.sqla_models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_landfill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_landfill
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      wtf_oil_and_gas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wtf_oil_and_gas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      OGFeedback
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OGFeedback">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.determine_contingent_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      determine_contingent_fields
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.update_contingent_selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_contingent_selectors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      validate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_upload
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_13" id="__nav_2_1_3_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Config
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.config.settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_14" id="__nav_2_1_3_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Startup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            Startup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.db
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/runtime_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.runtime_info
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4" id="__nav_2_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/date_and_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/diagnostics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.diagnostics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/file_io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.file_io
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.json
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/log_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.log_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/sql_alchemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.sql_alchemy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/web_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.web_html
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/wtf_forms_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.wtf_forms_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4_12" id="__nav_2_1_4_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Excel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            Excel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_create
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_file_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_file_structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_parse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      wtf_oil_and_gas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wtf_oil_and_gas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      OGFeedback
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OGFeedback">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.determine_contingent_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      determine_contingent_fields
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.update_contingent_selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_contingent_selectors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.wtf_oil_and_gas.OGFeedback.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      validate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arbportalwtf_oil_and_gas"><code>arb.portal.wtf_oil_and_gas</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="arb.portal.wtf_oil_and_gas" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">arb.portal.wtf_oil_and_gas</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Oil &amp; Gas Feedback Form (WTForms) for the ARB Feedback Portal.</p>
+<p>Defines the <code>OGFeedback</code> class, a complex feedback form used for collecting structured data
+about methane emission incidents in the oil and gas sector. The form logic mirrors the official
+O&amp;G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
+timestamp-based consistency checks.</p>
+<h4 id="arb.portal.wtf_oil_and_gas--key-features">Key Features:</h4>
+<ul>
+<li>Enforces correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).</li>
+<li>Includes geospatial validation and timestamp sequencing checks.</li>
+<li>Cross-field validation logic implemented in <code>validate()</code>.</li>
+<li>Supports conditional validation with custom helpers like <code>change_validators_on_test()</code>.</li>
+</ul>
+<h4 id="arb.portal.wtf_oil_and_gas--usage">Usage:</h4>
+<p>form = OGFeedback()
+  form.process(request.form)</p>
+<p>if form.validate_on_submit():
+    process_feedback_data(form.data)</p>
+<h4 id="arb.portal.wtf_oil_and_gas--notes">Notes:</h4>
+<ul>
+<li>Fields such as <code>id_incidence</code> are read-only and display-only.</li>
+<li>Contingent dropdowns are updated via <code>update_contingent_selectors()</code>.</li>
+<li>Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="arb.portal.wtf_oil_and_gas.OGFeedback" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">OGFeedback</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="flask_wtf.FlaskForm">FlaskForm</span></code></p>
+
+
+        <p>WTForms class for collecting feedback on Oil &amp; Gas methane emissions.</p>
+<p>This form models the structure of the O&amp;G feedback spreadsheet and enforces
+regulatory logic outlined in California methane rules (e.g., 95669.1).
+Sections include metadata, inspection information, emissions details,
+mitigation actions, and contact data.</p>
+
+
+<details class="core-features" open>
+  <summary>Core Features</summary>
+  <ul>
+<li>Uses standard WTForms field types, with conditionally required fields.</li>
+<li>Dropdowns update dynamically based on user selections.</li>
+<li>Includes geospatial coordinates and timestamp logic.</li>
+<li>Implements cross-field validation for inspection results and mitigation status.</li>
+</ul>
+</details>
+
+<details class="used-by" open>
+  <summary>Used by</summary>
+  <ul>
+<li>The web-based feedback form in the ARB Feedback Portal.</li>
+<li>Routes such as <code>og_incidence_create</code> and <code>incidence_update</code>.</li>
+</ul>
+</details>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Sector-specific contingent dropdowns are handled via Globals.</li>
+<li>Validators are adjusted at runtime depending on the selected conditions.</li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="arb.portal.wtf_oil_and_gas.OGFeedback.determine_contingent_fields" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">determine_contingent_fields</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">determine_contingent_fields</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Adjust validators based on user selections that imply exclusions or
+optional behavior.</p>
+
+
+<details class="affects-validation-logic-such-as" open>
+  <summary>Affects validation logic such as</summary>
+  <ul>
+<li>95669.1(b)(1) exclusions where OGI inspection is not required.</li>
+<li>Skipping downstream fields when "No leak was detected" is selected.</li>
+<li>Making "Other" explanations required only if "Other" is selected.</li>
+</ul>
+</details>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Should be called before validation to sync rules with input state.</li>
+<li>Venting-related exclusions may need careful ordering to preserve business logic.</li>
+</ul>
+</details>
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Adjust validators based on user selections that imply exclusions or</span>
+<span class="sd">  optional behavior.</span>
+
+<span class="sd">  Affects validation logic such as:</span>
+<span class="sd">    - 95669.1(b)(1) exclusions where OGI inspection is not required.</span>
+<span class="sd">    - Skipping downstream fields when &quot;No leak was detected&quot; is selected.</span>
+<span class="sd">    - Making &quot;Other&quot; explanations required only if &quot;Other&quot; is selected.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Should be called before validation to sync rules with input state.</span>
+<span class="sd">    - Venting-related exclusions may need careful ordering to preserve business logic.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    None.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># logger.debug(f&quot;In determine_contingent_fields()&quot;)</span>
+
+  <span class="c1"># If a venting exclusion is claimed, then a venting description is required and many fields become optional</span>
+  <span class="n">required_if_venting_exclusion</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;venting_description_1&quot;</span><span class="p">,</span> <span class="p">]</span>
+  <span class="n">optional_if_venting_exclusion</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ogi_performed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ogi_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ogi_result&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;method21_performed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;method21_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;method21_result&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;initial_leak_concentration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;venting_description_2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;initial_mitigation_plan&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equipment_at_source&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equipment_other_description&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;component_at_source&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;component_other_description&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;repair_timestamp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;final_repair_concentration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;repair_description&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;additional_notes&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">venting_exclusion_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span>
+  <span class="c1"># logger.debug(f&quot;\n\t{venting_exclusion_test=}, {self.venting_exclusion_test.data=}&quot;)</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">venting_exclusion_test</span><span class="p">,</span> <span class="n">required_if_venting_exclusion</span><span class="p">,</span> <span class="n">optional_if_venting_exclusion</span><span class="p">)</span>
+
+  <span class="n">required_if_ogi_performed</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ogi_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ogi_result&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">ogi_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ogi_test</span><span class="p">,</span> <span class="n">required_if_ogi_performed</span><span class="p">)</span>
+
+  <span class="n">required_if_method21_performed</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;method21_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;method21_result&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;initial_leak_concentration&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">method21_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method21_test</span><span class="p">,</span> <span class="n">required_if_method21_performed</span><span class="p">)</span>
+
+  <span class="n">required_if_venting_on_inspection</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;venting_description_2&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">venting2_test</span> <span class="o">=</span> <span class="kc">False</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_responses</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_responses</span><span class="p">:</span>
+    <span class="n">venting2_test</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">venting2_test</span><span class="p">,</span> <span class="n">required_if_venting_on_inspection</span><span class="p">)</span>
+
+  <span class="n">required_if_unintentional</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;initial_mitigation_plan&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equipment_at_source&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;repair_timestamp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;final_repair_concentration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;repair_description&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">unintentional_test</span> <span class="o">=</span> <span class="kc">False</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unintentional_leak</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unintentional_leak</span><span class="p">:</span>
+    <span class="n">unintentional_test</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unintentional_test</span><span class="p">,</span> <span class="n">required_if_unintentional</span><span class="p">)</span>
+
+  <span class="n">required_if_equipment_other</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;equipment_other_description&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">equipment_other_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equipment_at_source</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Other&quot;</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equipment_other_test</span><span class="p">,</span> <span class="n">required_if_equipment_other</span><span class="p">)</span>
+
+  <span class="n">required_if_component_other</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;component_other_description&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="n">component_other_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_at_source</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Other&quot;</span>
+  <span class="n">change_validators_on_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component_other_test</span><span class="p">,</span> <span class="n">required_if_component_other</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="arb.portal.wtf_oil_and_gas.OGFeedback.update_contingent_selectors" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">update_contingent_selectors</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">update_contingent_selectors</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Update dropdown field options based on dependent selector fields.</p>
+<p>Dynamically replaces <code>.choices</code> for contingent fields depending on
+parent selections. Uses the <code>Globals.drop_downs_contingent</code> structure
+for Oil &amp; Gas to determine appropriate mappings.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <ul>
+<li>not implemented yet</li>
+</ul>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Update dropdown field options based on dependent selector fields.</span>
+
+<span class="sd">  Dynamically replaces `.choices` for contingent fields depending on</span>
+<span class="sd">  parent selections. Uses the `Globals.drop_downs_contingent` structure</span>
+<span class="sd">  for Oil &amp; Gas to determine appropriate mappings.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    - not implemented yet</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="arb.portal.wtf_oil_and_gas.OGFeedback.validate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">validate</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Override the default WTForms validation logic with cross-field rules
+specific to Oil &amp; Gas reporting.</p>
+
+
+<details class="invokes" open>
+  <summary>Invokes</summary>
+  <ul>
+<li><code>determine_contingent_fields()</code> to update validators before validation.</li>
+<li><code>super().validate()</code> to apply all field and form-level validations.</li>
+</ul>
+</details>
+
+<details class="custom-checks-include" open>
+  <summary>Custom checks include</summary>
+  <ul>
+<li>Required fields based on mitigation status or inspection outcomes.</li>
+<li>Logical enforcement of conditional relationships between fields.</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>extra_validators</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional validators provided at runtime.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>bool</code></td>            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>True if form passes all validation rules, otherwise False.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Override the default WTForms validation logic with cross-field rules</span>
+<span class="sd">    specific to Oil &amp; Gas reporting.</span>
+
+<span class="sd">    Invokes:</span>
+<span class="sd">      - `determine_contingent_fields()` to update validators before validation.</span>
+<span class="sd">      - `super().validate()` to apply all field and form-level validations.</span>
+
+<span class="sd">    Custom checks include:</span>
+<span class="sd">      - Required fields based on mitigation status or inspection outcomes.</span>
+<span class="sd">      - Logical enforcement of conditional relationships between fields.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      extra_validators (dict, optional): Additional validators provided at runtime.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      bool: True if form passes all validation rules, otherwise False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
+  <span class="n">form_fields</span> <span class="o">=</span> <span class="n">get_wtforms_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+  <span class="c1"># Dictionary to replace standard WTForm messages with alternative message</span>
+  <span class="n">error_message_replacement_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Not a valid float value.&quot;</span><span class="p">:</span> <span class="s2">&quot;Not a valid numeric value.&quot;</span><span class="p">}</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Add, Remove, or Modify validation at a field level here before the super is called (for example)</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">determine_contingent_fields</span><span class="p">()</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Set selectors with values not in their choices list to &quot;Please Select&quot;</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">form_fields</span><span class="p">:</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;field_name: </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">raw_data</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">SelectField</span><span class="p">):</span>
+      <span class="n">ensure_field_choice</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># call the super to perform each fields individual validation (which saves to form.errors)</span>
+  <span class="c1"># This will create the form.errors dictionary.  If there are form_errors they will be in the None key.</span>
+  <span class="c1"># The form_errors will not affect if validate returns True/False, only the fields are considered.</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># logger.debug(&quot;in the validator before super&quot;)</span>
+  <span class="n">super_return</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="n">validate_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PLEASE_SELECT</span><span class="p">)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Perform any field level validation where one field is cross-referenced to another</span>
+  <span class="c1"># The error will be associated with one of the fields</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">ogi_date</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s2">&quot;Initial OGI timestamp must be after the plume observation timestamp&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s2">&quot;Initial Method 21 timestamp must be after the plume observation timestamp&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">repair_timestamp</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_timestamp</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">repair_timestamp</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s2">&quot;Repair timestamp must be after the plume observation timestamp&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Unintentional-leak&quot;</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;If you claim a venting exclusion, you can&#39;t also have a leak detected with OGI.&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Unintentional-leak&quot;</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;If you claim a venting exclusion, you can&#39;t also have a leak detected with Method 21.&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unintentional_leak</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;If a leak was detected via OGI, Method 21 must be performed.&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;No&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">ogi_date</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Can&#39;t have an OGI inspection date if OGI was not performed&quot;</span><span class="p">)</span>
+    <span class="c1"># print(f&quot;{self.ogi_result.data=}&quot;)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="n">PLEASE_SELECT</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="s2">&quot;Not applicable as OGI was not performed&quot;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Can&#39;t have an OGI result if OGI was not performed&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;No&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">method21_date</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Can&#39;t have an Method 21 inspection date if Method 21 was not performed&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_leak_concentration</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">initial_leak_concentration</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Can&#39;t have an Method 21 concentration if Method 21 was not performed&quot;</span><span class="p">)</span>
+    <span class="c1"># print(f&quot;{self.method21_result.data=}&quot;)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="n">PLEASE_SELECT</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="s2">&quot;Not applicable as Method 21 was not performed&quot;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Can&#39;t have an Method 21 result if Method 21 was not performed&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;No&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;No&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;No&quot;</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;If you do not claim a venting exclusion, Method 21 or OGI must be performed.&quot;</span><span class="p">)</span>
+
+  <span class="c1"># todo (consider) - you could also remove the option for not applicable rather than the following two tests</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Not applicable as OGI was not performed&quot;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Invalid response given your Q8 answer&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;Not applicable as Method 21 was not performed&quot;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Invalid response given your Q11 answer&quot;</span><span class="p">)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># perform any form level validation and append it to the form_errors property</span>
+  <span class="c1"># This may not be useful, but if you want to have form level errors appear at the top of the error</span>
+  <span class="c1"># header, put the logic here.</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># self.form_errors.append(&quot;I&#39;m a form level error #1&quot;)</span>
+  <span class="c1"># self.form_errors.append(&quot;I&#39;m a form level error #2&quot;)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Search and replace the error messages associated with input fields to a custom message</span>
+  <span class="c1"># For instance, the default &#39;float&#39; error is changed because a typical user will not know what a</span>
+  <span class="c1"># float value is (they will be more comfortable with the word &#39;numeric&#39;)</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">form_fields</span><span class="p">:</span>
+    <span class="n">field_errors</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span><span class="o">.</span><span class="n">errors</span>
+    <span class="n">replace_list_occurrences</span><span class="p">(</span><span class="n">field_errors</span><span class="p">,</span> <span class="n">error_message_replacement_dict</span><span class="p">)</span>
+
+  <span class="c1">###################################################################################################</span>
+  <span class="c1"># Current logic to determine if form is valid the error dict must be empty.</span>
+  <span class="c1"># #Consider other approaches</span>
+  <span class="c1">###################################################################################################</span>
+  <span class="n">form_valid</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;after validate(): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">form_valid</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

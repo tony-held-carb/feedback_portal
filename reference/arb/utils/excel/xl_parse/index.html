@@ -1,0 +1,3474 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tony-held-carb.github.io/feedback_portal/reference/arb/utils/excel/xl_parse/">
+      
+      
+        <link rel="prev" href="../xl_misc/">
+      
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>arb.utils.excel.xl_parse - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/hide-sidebar-title.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbutilsexcelxl_parse" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CalSMP Operator Feedback Portal Documentation & Source Code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              arb.utils.excel.xl_parse
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CalSMP Operator Feedback Portal Documentation & Source Code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome &amp; Instructions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arb
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arb
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../__get_logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.__get_logger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../wsgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Portal
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Portal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/app_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/db_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.db_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/globals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.globals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/json_update_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.json_update_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.routes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/sqla_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.sqla_models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/wtf_landfill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_landfill
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/wtf_oil_and_gas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/wtf_upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_upload
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_13" id="__nav_2_1_3_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Config
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/config/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.config.settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_14" id="__nav_2_1_3_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Startup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            Startup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/startup/db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.db
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/startup/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../portal/startup/runtime_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.runtime_info
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4" id="__nav_2_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../date_and_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagnostics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.diagnostics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.file_io
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.json
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../log_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.log_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_alchemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.sql_alchemy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.web_html
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wtf_forms_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.wtf_forms_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_4_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4_12" id="__nav_2_1_4_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Excel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_4_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            Excel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xl_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_create
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xl_file_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_file_structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xl_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xl_misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      xl_parse
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xl_parse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.create_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.extract_tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_tabs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.get_json_file_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_json_file_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.get_spreadsheet_key_value_pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_spreadsheet_key_value_pairs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.initialize_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      initialize_module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.load_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.load_xl_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_xl_schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      main
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.parse_xl_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse_xl_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.set_globals" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_globals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.split_compound_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      split_compound_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_load_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_load_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_load_xl_schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_load_xl_schemas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_parse_xl_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_parse_xl_file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      xl_parse
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xl_parse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.create_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.extract_tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_tabs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.get_json_file_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_json_file_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.get_spreadsheet_key_value_pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_spreadsheet_key_value_pairs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.initialize_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      initialize_module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.load_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.load_xl_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      load_xl_schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      main
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.parse_xl_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse_xl_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.set_globals" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_globals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.split_compound_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      split_compound_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_load_schema_file_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_load_schema_file_map
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_load_xl_schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_load_xl_schemas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.utils.excel.xl_parse.test_parse_xl_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_parse_xl_file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arbutilsexcelxl_parse"><code>arb.utils.excel.xl_parse</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="arb.utils.excel.xl_parse" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">arb.utils.excel.xl_parse</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Module to parse and ingest Excel spreadsheet contents.</p>
+<p>This module provides logic to convert Excel forms into structured dictionary representations,
+including extraction of tab contents, metadata, and schema references. It is primarily used
+to support automated feedback template parsing.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li><code>schema_file_map</code> is a dict where keys are schema names and values are paths to JSON files.</li>
+<li><code>schema_map</code> is a dict where keys are schema names and values are:
+    {"schema": schema_dict, "metadata": metadata_dict}</li>
+</ul>
+</details>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>xl_schema_map["oil_and_gas_v03"]["schema"]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.create_schema_file_map" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_schema_file_map</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">create_schema_file_map</span><span class="p">(</span><span class="n">schema_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">schema_names</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a dictionary mapping schema names to their JSON file paths.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>schema_path</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Folder containing schema files. Defaults to processed versions dir.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>schema_names</code>
+            </td>
+            <td>
+                  <code><span title="list">list</span>[<span title="str">str</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Names of schemas to include. Defaults to known schemas.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>dict[str, Path]: Map from schema name to schema file path.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_schema_file_map</span><span class="p">(</span><span class="n">schema_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">schema_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Create a dictionary mapping schema names to their JSON file paths.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    schema_path (str | Path | None): Folder containing schema files. Defaults to processed versions dir.</span>
+<span class="sd">    schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict[str, Path]: Map from schema name to schema file path.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_schema_file_map() called with </span><span class="si">{</span><span class="n">schema_path</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">schema_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">schema_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">schema_path</span> <span class="o">=</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas&quot;</span>
+  <span class="k">if</span> <span class="n">schema_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">schema_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;landfill_v01_00&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;oil_and_gas_v01_00&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;energy_v00_01&quot;</span><span class="p">,</span> <span class="p">]</span>
+
+  <span class="n">schema_file_map</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="k">for</span> <span class="n">schema_name</span> <span class="ow">in</span> <span class="n">schema_names</span><span class="p">:</span>
+    <span class="n">schema_file_name</span> <span class="o">=</span> <span class="n">schema_name</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
+    <span class="n">schema_file_path</span> <span class="o">=</span> <span class="n">schema_path</span> <span class="o">/</span> <span class="n">schema_file_name</span>
+    <span class="n">schema_file_map</span><span class="p">[</span><span class="n">schema_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">schema_file_path</span>
+
+  <span class="k">return</span> <span class="n">schema_file_map</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.extract_tabs" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">extract_tabs</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">extract_tabs</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">schema_map</span><span class="p">,</span> <span class="n">xl_as_dict</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Extract data from the data tabs that are enumerated in the schema tab.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>wb</code>
+            </td>
+            <td>
+                  <code><span title="Workbook">Workbook</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>OpenPyXL workbook object.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>schema_map</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="dict">dict</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Schema map with schema definitions.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>xl_as_dict</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Parsed Excel content, including 'schemas' and 'metadata'.
+                 Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
+                 parse the tab.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>dict</code></td>            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Updated xl_as_dict including parsed 'tab_contents'.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_tabs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
+                 <span class="n">schema_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span>
+                 <span class="n">xl_as_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Extract data from the data tabs that are enumerated in the schema tab.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    wb (Workbook): OpenPyXL workbook object.</span>
+<span class="sd">    schema_map (dict[str, dict]): Schema map with schema definitions.</span>
+<span class="sd">    xl_as_dict (dict): Parsed Excel content, including &#39;schemas&#39; and &#39;metadata&#39;.</span>
+<span class="sd">                       Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to</span>
+<span class="sd">                       parse the tab.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict: Updated xl_as_dict including parsed &#39;tab_contents&#39;.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">skip_please_selects</span> <span class="o">=</span> <span class="kc">False</span>
+
+  <span class="n">result</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">xl_as_dict</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">tab_name</span><span class="p">,</span> <span class="n">formatting_schema</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;schemas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Extracting data from &#39;</span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2">&#39;, using the formatting schema &#39;</span><span class="si">{</span><span class="n">formatting_schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">wb</span><span class="p">[</span><span class="n">tab_name</span><span class="p">]</span>
+    <span class="n">format_dict</span> <span class="o">=</span> <span class="n">schema_map</span><span class="p">[</span><span class="n">formatting_schema</span><span class="p">][</span><span class="s1">&#39;schema&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">html_field_name</span><span class="p">,</span> <span class="n">lookup</span> <span class="ow">in</span> <span class="n">format_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="n">value_address</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;value_address&#39;</span><span class="p">]</span>
+      <span class="n">value_type</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;value_type&#39;</span><span class="p">]</span>
+      <span class="n">is_drop_down</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;is_drop_down&#39;</span><span class="p">]</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">value_address</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+      <span class="k">if</span> <span class="n">skip_please_selects</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_drop_down</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">==</span> <span class="n">PLEASE_SELECT</span><span class="p">:</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">html_field_name</span><span class="si">}</span><span class="s2"> because it is a drop down and is set to </span><span class="si">{</span><span class="n">PLEASE_SELECT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="k">continue</span>
+
+      <span class="c1"># Try to cast the spreadsheet data to the desired type if possible</span>
+      <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">):</span>
+          <span class="c1"># if it is not supposed to be of type string, but it is a zero length string, turn it to None</span>
+          <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: &lt;</span><span class="si">{</span><span class="n">html_field_name</span><span class="si">}</span><span class="s2">&gt; value at &lt;</span><span class="si">{</span><span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;value_address&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&gt; is &lt;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&gt; &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;and is of type &lt;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&gt; whereas it should be of type &lt;</span><span class="si">{</span><span class="n">value_type</span><span class="si">}</span><span class="s2">&gt;.  &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;Attempting to convert the value to the correct type&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+              <span class="c1"># convert to datetime using a parser if possible</span>
+              <span class="k">if</span> <span class="n">value_type</span> <span class="o">==</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
+                <span class="n">local_datetime</span> <span class="o">=</span> <span class="n">parse_unknown_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">local_datetime</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_datetime_naive</span><span class="p">(</span><span class="n">local_datetime</span><span class="p">):</span>
+                  <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Date time </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> is not a naive datetime, skipping to avoid data corruption&quot;</span><span class="p">)</span>
+                  <span class="k">continue</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">local_datetime</span>
+              <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Use default repr-like conversion if not a datetime</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+              <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion successful.  value is now &lt;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&gt; with type: &lt;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+              <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion failed, resetting value to None&quot;</span><span class="p">)</span>
+              <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+
+      <span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">][</span><span class="n">html_field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+      <span class="k">if</span> <span class="s1">&#39;label_address&#39;</span> <span class="ow">in</span> <span class="n">lookup</span> <span class="ow">and</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">lookup</span><span class="p">:</span>
+        <span class="n">label_address</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;label_address&#39;</span><span class="p">]</span>
+        <span class="n">label_xl</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">label_address</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">label_schema</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">label_xl</span> <span class="o">!=</span> <span class="n">label_schema</span><span class="p">:</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schema data label and spreadsheet data label differ.&quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">schema label = </span><span class="si">{</span><span class="n">label_schema</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">spreadsheet label (</span><span class="si">{</span><span class="n">label_address</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">label_xl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial spreadsheet extraction of &#39;</span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2">&#39; yields </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Some cells should be spit into multiple dictionary entries (such as full name, lat/log)</span>
+    <span class="n">split_compound_keys</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">])</span>
+    <span class="c1"># Excel drop-downs save the value not the key, so you have to reverse lookup their values</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final corrected spreadsheet extraction of &#39;</span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2">&#39; yields </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.get_json_file_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_json_file_name</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_name</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The uploaded file.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="pathlib.Path">Path</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path | None: JSON file path if parsed or detected, otherwise None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Notes:
+- If the file_name is a json file (has .json extension), the file_name is the json_file_name.
+- If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name
+  of the parsed contents.
+- If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
+- If the file was already a json file, return the file name unaltered.
+- If the file was an Excel file, return the json file that its data was extracted to.
+- For all other file types return None.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    file_name (Path): The uploaded file.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Path | None: JSON file path if parsed or detected, otherwise None.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">  - If the file_name is a json file (has .json extension), the file_name is the json_file_name.</span>
+<span class="sd">  - If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name</span>
+<span class="sd">    of the parsed contents.</span>
+<span class="sd">  - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.</span>
+<span class="sd">  - If the file was already a json file, return the file name unaltered.</span>
+<span class="sd">  - If the file was an Excel file, return the json file that its data was extracted to.</span>
+<span class="sd">  - For all other file types return None.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">json_file_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="n">extension</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">suffix</span>
+  <span class="c1"># logger.debug(f&quot;{extension=}&quot;)</span>
+  <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.xlsx&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Excel file upload detected.  File name: </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># xl_as_dict = xl_path_to_dict(file_name)</span>
+    <span class="n">xl_as_dict</span> <span class="o">=</span> <span class="n">parse_xl_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xl_as_dict</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving extracted data from Excel as: </span><span class="si">{</span><span class="n">json_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">json_save_with_meta</span><span class="p">(</span><span class="n">json_file_name</span><span class="p">,</span> <span class="n">xl_as_dict</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Json file upload detected.  File name: </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown file type upload detected.  File name: </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">json_file_name</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.get_spreadsheet_key_value_pairs" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_spreadsheet_key_value_pairs</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">,</span> <span class="n">top_left_cell</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Read key-value pairs from a worksheet starting at a given cell.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>wb</code>
+            </td>
+            <td>
+                  <code><span title="Workbook">Workbook</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>OpenPyXL workbook object.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>tab_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the worksheet tab.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>top_left_cell</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Top-left cell of the key/value pair region.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="str">str</span> | None]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>dict[str, str | None]: Parsed key-value pairs.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
+                                    <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                    <span class="n">top_left_cell</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Read key-value pairs from a worksheet starting at a given cell.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    wb (Workbook): OpenPyXL workbook object.</span>
+<span class="sd">    tab_name (str): Name of the worksheet tab.</span>
+<span class="sd">    top_left_cell (str): Top-left cell of the key/value pair region.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict[str, str | None]: Parsed key-value pairs.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># logger.debug(f&quot;{type(wb)=}, &quot;)</span>
+  <span class="n">ws</span> <span class="o">=</span> <span class="n">wb</span><span class="p">[</span><span class="n">tab_name</span><span class="p">]</span>
+
+  <span class="c1"># logger.debug(f&quot;{type(ws)=}, &quot;)</span>
+
+  <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="n">row_offset</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">top_left_cell</span><span class="p">]</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">row_offset</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">top_left_cell</span><span class="p">]</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">row_offset</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+      <span class="n">return_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+      <span class="n">row_offset</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">break</span>
+
+  <span class="k">return</span> <span class="n">return_dict</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.initialize_module" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">initialize_module</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">initialize_module</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize the module by calling set_globals().</p>
+<p>This function loads default schema mappings into global variables.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">initialize_module</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Initialize the module by calling set_globals().</span>
+
+<span class="sd">  This function loads default schema mappings into global variables.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;initialize_module() called&quot;</span><span class="p">)</span>
+  <span class="n">set_globals</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.load_schema_file_map" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load_schema_file_map</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load_schema_file_map</span><span class="p">(</span><span class="n">schema_file_map</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Load JSON schema and metadata from a mapping of schema name to file path.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>schema_file_map</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Keys are schema names, values are JSON schema file paths.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="dict">dict</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>dict[str, dict]: Dictionary where keys are schema names and values are dicts with:
+- "schema": The schema dictionary.
+- "metadata": Metadata extracted from the JSON.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_schema_file_map</span><span class="p">(</span><span class="n">schema_file_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Load JSON schema and metadata from a mapping of schema name to file path.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    schema_file_map (dict[str, Path]): Keys are schema names, values are JSON schema file paths.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict[str, dict]: Dictionary where keys are schema names and values are dicts with:</span>
+<span class="sd">      - &quot;schema&quot;: The schema dictionary.</span>
+<span class="sd">      - &quot;metadata&quot;: Metadata extracted from the JSON.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;load_schema_file_map() called with </span><span class="si">{</span><span class="n">schema_file_map</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="n">schema_map</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="k">for</span> <span class="n">schema_name</span><span class="p">,</span> <span class="n">json_path</span> <span class="ow">in</span> <span class="n">schema_file_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">schema</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="n">schema_map</span><span class="p">[</span><span class="n">schema_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="n">schema</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">schema_map</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.load_xl_schema" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load_xl_schema</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load_xl_schema</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Load schema and metadata from a JSON file.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to a JSON schema file.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="dict">dict</span>, <span title="dict">dict</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tuple[dict, dict]: Tuple of (schema dict, metadata dict).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_xl_schema</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Load schema and metadata from a JSON file.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    file_name (str | Path): Path to a JSON schema file.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[dict, dict]: Tuple of (schema dict, metadata dict).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;load_xl_schema() called with </span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">schema</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">schema</span><span class="p">,</span> <span class="n">metadata</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.main" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">main</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">main</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Run all schema and Excel file parsing test functions for diagnostic purposes.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Run all schema and Excel file parsing test functions for diagnostic purposes.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">test_load_xl_schemas</span><span class="p">()</span>
+  <span class="n">test_load_schema_file_map</span><span class="p">()</span>
+  <span class="n">test_parse_xl_file</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.parse_xl_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">parse_xl_file</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">schema_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Parse a spreadsheet and return a dictionary representation using the given schema.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>xl_path</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to the Excel spreadsheet.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>schema_map</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="dict">dict</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Map of schema names to their definitions.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>dict</code></td>            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary with extracted metadata, schemas, and tab contents.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Notes:
+- tutorial on openpyxl: <a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html">https://openpyxl.readthedocs.io/en/stable/tutorial.html</a></p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">schema_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Parse a spreadsheet and return a dictionary representation using the given schema.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    xl_path (str | Path): Path to the Excel spreadsheet.</span>
+<span class="sd">    schema_map (dict[str, dict] | None): Map of schema names to their definitions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict: Dictionary with extracted metadata, schemas, and tab contents.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">  - tutorial on openpyxl: https://openpyxl.readthedocs.io/en/stable/tutorial.html</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parse_xl_with_schema_dict() called with </span><span class="si">{</span><span class="n">xl_path</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">schema_map</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">schema_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">schema_map</span> <span class="o">=</span> <span class="n">xl_schema_map</span>
+
+  <span class="c1"># Dictionary data structure to store Excel contents</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">result</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">result</span><span class="p">[</span><span class="s1">&#39;schemas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="c1"># Notes on data_only argument.  By default, .value returns the &#39;formula&#39; in the cell.</span>
+  <span class="c1"># If data_only=True, then .value  returns the last &#39;value&#39; that was evaluated at the cell.</span>
+  <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">keep_vba</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">data_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="c1"># Extract metadata and schema information from hidden tabs</span>
+  <span class="k">if</span> <span class="n">EXCEL_METADATA_TAB_NAME</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheetnames</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;metadata tab detected in Excel file&quot;</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span>
+                                                         <span class="n">EXCEL_METADATA_TAB_NAME</span><span class="p">,</span>
+                                                         <span class="n">EXCEL_TOP_LEFT_KEY_VALUE_CELL</span>
+                                                         <span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">EXCEL_SCHEMA_TAB_NAME</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheetnames</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schema tab detected in Excel file&quot;</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="s1">&#39;schemas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span>
+                                                        <span class="n">EXCEL_SCHEMA_TAB_NAME</span><span class="p">,</span>
+                                                        <span class="n">EXCEL_TOP_LEFT_KEY_VALUE_CELL</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Spreadsheet must have a </span><span class="si">{</span><span class="n">EXCEL_SCHEMA_TAB_NAME</span><span class="si">}</span><span class="s1"> tab&#39;</span><span class="p">)</span>
+
+  <span class="c1"># extract data tabs content using specified schemas</span>
+  <span class="n">new_result</span> <span class="o">=</span> <span class="n">extract_tabs</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">schema_map</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">new_result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.set_globals" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">set_globals</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_globals</span><span class="p">(</span><span class="n">xl_schema_file_map_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Set module-level global variables for schema file map and loaded schema map.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>xl_schema_file_map_</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional override for schema file map.
+If not provided, uses a default list of pre-defined schema files.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Calls <code>load_schema_file_map()</code> to populate xl_schema_map from JSON files.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_globals</span><span class="p">(</span><span class="n">xl_schema_file_map_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Set module-level global variables for schema file map and loaded schema map.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    xl_schema_file_map_ (dict[str, Path] | None): Optional override for schema file map.</span>
+<span class="sd">      If not provided, uses a default list of pre-defined schema files.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">global</span> <span class="n">xl_schema_file_map</span><span class="p">,</span> <span class="n">xl_schema_map</span>
+  <span class="c1"># todo - update default roots with module paths, may make sense to remove globals and have</span>
+  <span class="c1"># a different logic since this is outdated given the project root approach</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set_globals() called with </span><span class="si">{</span><span class="n">xl_schema_file_map_</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="c1"># todo - not sure if these should be hard coded here ...</span>
+  <span class="k">if</span> <span class="n">xl_schema_file_map_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">xl_schema_file_map</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;landfill_v01_00&quot;</span><span class="p">:</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas&quot;</span> <span class="o">/</span> <span class="s2">&quot;landfill_v01_00.json&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;oil_and_gas_v01_00&quot;</span><span class="p">:</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas&quot;</span> <span class="o">/</span> <span class="s2">&quot;oil_and_gas_v01_00.json&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;energy_v00_01&quot;</span><span class="p">:</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas&quot;</span> <span class="o">/</span> <span class="s2">&quot;energy_v00_01.json&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">xl_schema_file_map</span> <span class="o">=</span> <span class="n">xl_schema_file_map_</span>
+
+  <span class="c1"># load all the schemas</span>
+  <span class="k">if</span> <span class="n">xl_schema_file_map</span><span class="p">:</span>
+    <span class="n">xl_schema_map</span> <span class="o">=</span> <span class="n">load_schema_file_map</span><span class="p">(</span><span class="n">xl_schema_file_map</span><span class="p">)</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;globals are now: </span><span class="si">{</span><span class="n">xl_schema_file_map</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">xl_schema_map</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.split_compound_keys" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">split_compound_keys</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">split_compound_keys</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Decompose compound keys into atomic fields.</p>
+<p>Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs
+that are more atomic.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary with potentially compound fields (e.g., lat_and_long).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If 'lat_and_long' is improperly formatted.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">split_compound_keys</span><span class="p">(</span><span class="n">dict_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Decompose compound keys into atomic fields.</span>
+
+<span class="sd">  Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs</span>
+<span class="sd">  that are more atomic.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    dict_ (dict): Dictionary with potentially compound fields (e.g., lat_and_long).</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If &#39;lat_and_long&#39; is improperly formatted.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">for</span> <span class="n">html_field_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dict_</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">dict_</span><span class="p">[</span><span class="n">html_field_name</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">html_field_name</span> <span class="o">==</span> <span class="s1">&#39;lat_and_long&#39;</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+        <span class="n">lat_longs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_longs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+          <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;lat_arb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_longs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+          <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;long_arb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_longs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lat long must be a blank or a comma separated list of lat/long pairs&quot;</span><span class="p">)</span>
+      <span class="k">del</span> <span class="n">dict_</span><span class="p">[</span><span class="n">html_field_name</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.test_load_schema_file_map" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">test_load_schema_file_map</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">test_load_schema_file_map</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Debug test for loading schema file map and displaying contents.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_schema_file_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Debug test for loading schema file map and displaying contents.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_load_schema_file_map() called&quot;</span><span class="p">)</span>
+  <span class="n">schema_map</span> <span class="o">=</span> <span class="n">create_schema_file_map</span><span class="p">()</span>
+  <span class="n">schemas</span> <span class="o">=</span> <span class="n">load_schema_file_map</span><span class="p">(</span><span class="n">schema_map</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schemas</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.test_load_xl_schemas" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">test_load_xl_schemas</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">test_load_xl_schemas</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Debug test for loading default schemas from xl_schema_file_map.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_xl_schemas</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Debug test for loading default schemas from xl_schema_file_map.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing load_xl_schemas() with test_load_xl_schemas&quot;</span><span class="p">)</span>
+  <span class="n">schemas</span> <span class="o">=</span> <span class="n">load_schema_file_map</span><span class="p">(</span><span class="n">xl_schema_file_map</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing load_xl_schemas() with test_load_xl_schemas&quot;</span><span class="p">)</span>
+  <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;schemas = </span><span class="si">{</span><span class="n">pp_log</span><span class="p">(</span><span class="n">schemas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.utils.excel.xl_parse.test_parse_xl_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">test_parse_xl_file</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">test_parse_xl_file</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Debug test to parse a known Excel file into dictionary form using schemas.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_parse_xl_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Debug test to parse a known Excel file into dictionary form using schemas.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_parse_xl_file() called&quot;</span><span class="p">)</span>
+  <span class="n">xl_path</span> <span class="o">=</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_workbooks&quot;</span> <span class="o">/</span> <span class="s2">&quot;landfill_operator_feedback_v070_populated_01.xlsx&quot;</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xl_path</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">xl_schema_map</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

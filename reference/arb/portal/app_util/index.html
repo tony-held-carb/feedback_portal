@@ -1,0 +1,4325 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tony-held-carb.github.io/feedback_portal/reference/arb/portal/app_util/">
+      
+      
+        <link rel="prev" href="../app/">
+      
+      
+        <link rel="next" href="../constants/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>arb.portal.app_util - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../stylesheets/hide-sidebar-title.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbportalapp_util" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CalSMP Operator Feedback Portal Documentation & Source Code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              arb.portal.app_util
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CalSMP Operator Feedback Portal Documentation & Source Code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome &amp; Instructions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arb
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arb
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../__get_logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.__get_logger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wsgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.wsgi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Portal
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Portal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.app_util
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.portal.app_util" class="md-nav__link">
+    <span class="md-ellipsis">
+      app_util
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="app_util">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util--key-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Capabilities:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util--typical-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typical Usage:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.add_file_to_upload_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_file_to_upload_table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.apply_portal_update_filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_portal_update_filters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="apply_portal_update_filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.apply_portal_update_filters--supported-id-formats-via-filter_id_incidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported ID formats (via filter_id_incidence):
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.dict_to_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      dict_to_database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_ensured_row" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ensured_row
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_sector_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_sector_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_sector_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_sector_type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.incidence_prep" class="md-nav__link">
+    <span class="md-ellipsis">
+      incidence_prep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.json_file_to_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      json_file_to_db
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.resolve_sector" class="md-nav__link">
+    <span class="md-ellipsis">
+      resolve_sector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.upload_and_update_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      upload_and_update_db
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.xl_dict_to_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      xl_dict_to_database
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.db_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../globals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.globals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_update_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.json_update_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.routes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqla_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.sqla_models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_landfill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_landfill
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_oil_and_gas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_oil_and_gas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wtf_upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.wtf_upload
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_13" id="__nav_2_1_3_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Config
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.config.settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3_14" id="__nav_2_1_3_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Startup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            Startup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.db
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/runtime_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.portal.startup.runtime_info
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4" id="__nav_2_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/date_and_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.date_and_time
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/diagnostics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.diagnostics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/file_io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.file_io
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.json
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/log_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.log_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/sql_alchemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.sql_alchemy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/web_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.web_html
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/wtf_forms_util/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.wtf_forms_util
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_4_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_4_12" id="__nav_2_1_4_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Excel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            Excel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_create
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_file_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_file_structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_hardcoded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_hardcoded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_misc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_misc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/excel/xl_parse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    arb.utils.excel.xl_parse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arb.portal.app_util" class="md-nav__link">
+    <span class="md-ellipsis">
+      app_util
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="app_util">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util--key-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Capabilities:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util--typical-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typical Usage:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.add_file_to_upload_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_file_to_upload_table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.apply_portal_update_filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_portal_update_filters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="apply_portal_update_filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.apply_portal_update_filters--supported-id-formats-via-filter_id_incidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported ID formats (via filter_id_incidence):
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.dict_to_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      dict_to_database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_ensured_row" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ensured_row
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_sector_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_sector_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.get_sector_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_sector_type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.incidence_prep" class="md-nav__link">
+    <span class="md-ellipsis">
+      incidence_prep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.json_file_to_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      json_file_to_db
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.resolve_sector" class="md-nav__link">
+    <span class="md-ellipsis">
+      resolve_sector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.upload_and_update_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      upload_and_update_db
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arb.portal.app_util.xl_dict_to_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      xl_dict_to_database
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arbportalapp_util"><code>arb.portal.app_util</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="arb.portal.app_util" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">arb.portal.app_util</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Application-specific utility functions for the ARB Feedback Portal.</p>
+<p>This module provides helpers for resolving sector data, handling file uploads,
+preparing database rows, and integrating WTForms with SQLAlchemy models.</p>
+<h4 id="arb.portal.app_util--key-capabilities">Key Capabilities:</h4>
+<ul>
+<li>Resolve sector and sector_type for an incidence</li>
+<li>Insert or update rows from Excel/JSON payloads</li>
+<li>Reflect and verify database schema and rows</li>
+<li>Track uploaded files via the UploadedFile table</li>
+<li>Apply filter logic to the portal_updates log view</li>
+<li>Generate context and form logic for feedback pages</li>
+</ul>
+<h4 id="arb.portal.app_util--typical-usage">Typical Usage:</h4>
+<ul>
+<li>File ingestion and incidence row creation</li>
+<li>Dynamic form loading from model rows</li>
+<li>Sector/type resolution from related tables</li>
+<li>Upload tracking and file diagnostics</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.add_file_to_upload_table" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">add_file_to_upload_table</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Insert a record into the <code>UploadedFile</code> table for audit and diagnostics.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>File path or name to be recorded.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>status</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional upload status label.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>description</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional notes for the upload event.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                             <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Insert a record into the `UploadedFile` table for audit and diagnostics.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    file_name (str | Path): File path or name to be recorded.</span>
+<span class="sd">    status (str | None): Optional upload status label.</span>
+<span class="sd">    description (str | None): Optional notes for the upload event.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># todo (consider) to wrap commit in log?</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.portal.sqla_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadedFile</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding uploaded file to upload table: </span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">model_uploaded_file</span> <span class="o">=</span> <span class="n">UploadedFile</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">),</span>
+    <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+  <span class="p">)</span>
+  <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model_uploaded_file</span><span class="p">)</span>
+  <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_uploaded_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.apply_portal_update_filters" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">apply_portal_update_filters</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">apply_portal_update_filters</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">PortalUpdate</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Apply user-defined filters to a <code>PortalUpdate</code> SQLAlchemy query.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>query</code>
+            </td>
+            <td>
+                  <code>SQLAlchemy Query</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Query to be filtered.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>PortalUpdate</code>
+            </td>
+            <td>
+                  <code><span title="Base">Base</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>ORM model class for the portal_updates table.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>args</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Typically from <code>request.args</code>, containing filter values.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="supported-filters" open>
+  <summary>Supported filters</summary>
+  <ul>
+<li>Substring matches on key, user, comments</li>
+<li>ID exact match or range parsing (e.g. "100-200, 250")</li>
+<li>Date range filtering via <code>start_date</code> and <code>end_date</code></li>
+</ul>
+</details>        <h5 id="arb.portal.app_util.apply_portal_update_filters--supported-id-formats-via-filter_id_incidence">Supported ID formats (via filter_id_incidence):</h5>
+<ul>
+<li>"123"                  → Matches ID 123 exactly</li>
+<li>"100-200"              → Matches IDs from 100 to 200 inclusive</li>
+<li>"-250"                 → Matches all IDs ≤ 250</li>
+<li>"300-"                 → Matches all IDs ≥ 300</li>
+<li>"123,150-200,250-"     → Mixed exacts and ranges</li>
+<li>"abc, 100-xyz, 222"    → Invalid parts are ignored</li>
+</ul>
+<p>Returns (SQLAlchemy Query):
+  SQLAlchemy query: Modified query with filters applied.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_portal_update_filters</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">PortalUpdate</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    query (SQLAlchemy Query): Query to be filtered.</span>
+<span class="sd">    PortalUpdate (Base): ORM model class for the portal_updates table.</span>
+<span class="sd">    args (dict): Typically from `request.args`, containing filter values.</span>
+
+<span class="sd">  Supported filters:</span>
+<span class="sd">    - Substring matches on key, user, comments</span>
+<span class="sd">    - ID exact match or range parsing (e.g. &quot;100-200, 250&quot;)</span>
+<span class="sd">    - Date range filtering via `start_date` and `end_date`</span>
+
+<span class="sd">  Supported ID formats (via filter_id_incidence):</span>
+<span class="sd">  ------------------------------------------------</span>
+<span class="sd">  - &quot;123&quot;                  → Matches ID 123 exactly</span>
+<span class="sd">  - &quot;100-200&quot;              → Matches IDs from 100 to 200 inclusive</span>
+<span class="sd">  - &quot;-250&quot;                 → Matches all IDs ≤ 250</span>
+<span class="sd">  - &quot;300-&quot;                 → Matches all IDs ≥ 300</span>
+<span class="sd">  - &quot;123,150-200,250-&quot;     → Mixed exacts and ranges</span>
+<span class="sd">  - &quot;abc, 100-xyz, 222&quot;    → Invalid parts are ignored</span>
+
+<span class="sd">  Returns (SQLAlchemy Query):</span>
+<span class="sd">    SQLAlchemy query: Modified query with filters applied.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">filter_key</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_key&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_user</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_user&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_comments</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_id_incidence</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_id_incidence&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">start_date_str</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_date&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">end_date_str</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_date&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+  <span class="k">if</span> <span class="n">filter_key</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_key</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">filter_user</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_user</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">filter_comments</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_comments</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+
+  <span class="k">if</span> <span class="n">filter_id_incidence</span><span class="p">:</span>
+    <span class="n">id_exact</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">id_range_clauses</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">filter_id_incidence</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+      <span class="n">part</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+          <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="k">if</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">start_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="n">end_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start_val</span> <span class="o">&lt;=</span> <span class="n">end_val</span><span class="p">:</span>
+              <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">id_incidence</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">start_val</span><span class="p">,</span> <span class="n">end_val</span><span class="p">))</span>
+          <span class="k">elif</span> <span class="n">start</span><span class="p">:</span>
+            <span class="n">start_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">id_incidence</span> <span class="o">&gt;=</span> <span class="n">start_val</span><span class="p">)</span>
+          <span class="k">elif</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">end_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">id_incidence</span> <span class="o">&lt;=</span> <span class="n">end_val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+          <span class="k">continue</span>  <span class="c1"># Ignore malformed part</span>
+      <span class="k">elif</span> <span class="n">part</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">id_exact</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">part</span><span class="p">))</span>
+
+    <span class="n">clause_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">id_exact</span><span class="p">:</span>
+      <span class="n">clause_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">id_incidence</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">id_exact</span><span class="p">)))</span>
+    <span class="n">clause_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">id_range_clauses</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">clause_list</span><span class="p">:</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="o">*</span><span class="n">clause_list</span><span class="p">))</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">start_date_str</span><span class="p">:</span>
+      <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_date_str</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">start_dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">end_date_str</span><span class="p">:</span>
+      <span class="n">end_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_date_str</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">end_dt</span> <span class="o">=</span> <span class="n">end_dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">59</span><span class="p">)</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PortalUpdate</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&lt;=</span> <span class="n">end_dt</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>  <span class="c1"># Silently ignore invalid date inputs</span>
+
+  <span class="k">return</span> <span class="n">query</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.dict_to_database" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">dict_to_database</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="s1">&#39;misc_json&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Insert or update a row in the specified table using a dictionary payload.</p>
+<p>The payload is merged into a model instance and committed to the database.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>data_dict</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary containing payload data.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>table_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Table name to modify. Defaults to 'incidences'.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;incidences&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>primary_key</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the primary key field. Defaults to 'id_incidence'.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;id_incidence&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>json_field</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the JSON field to update. Defaults to 'misc_json'.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;misc_json&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>int</code></td>            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Final value of the primary key for the affected row.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If data_dict is empty.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AttributeError">AttributeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the resulting model does not expose the primary key.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span>
+                     <span class="n">base</span><span class="p">,</span>
+                     <span class="n">data_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                     <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;incidences&quot;</span><span class="p">,</span>
+                     <span class="n">primary_key</span><span class="o">=</span><span class="s2">&quot;id_incidence&quot;</span><span class="p">,</span>
+                     <span class="n">json_field</span><span class="o">=</span><span class="s2">&quot;misc_json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Insert or update a row in the specified table using a dictionary payload.</span>
+
+<span class="sd">  The payload is merged into a model instance and committed to the database.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    data_dict (dict): Dictionary containing payload data.</span>
+<span class="sd">    table_name (str): Table name to modify. Defaults to &#39;incidences&#39;.</span>
+<span class="sd">    primary_key (str): Name of the primary key field. Defaults to &#39;id_incidence&#39;.</span>
+<span class="sd">    json_field (str): Name of the JSON field to update. Defaults to &#39;misc_json&#39;.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    int: Final value of the primary key for the affected row.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If data_dict is empty.</span>
+<span class="sd">    AttributeError: If the resulting model does not expose the primary key.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.wtf_forms_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_model_with_payload</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">data_dict</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Attempt to add empty entry to database&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+  <span class="n">id_</span> <span class="o">=</span> <span class="n">data_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
+
+  <span class="n">model</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">is_new_row</span> <span class="o">=</span> <span class="n">get_ensured_row</span><span class="p">(</span>
+    <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+    <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+    <span class="n">primary_key_name</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span>
+    <span class="n">id_</span><span class="o">=</span><span class="n">id_</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Backfill generated primary key into payload if it was not supplied</span>
+  <span class="k">if</span> <span class="n">is_new_row</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backfilling </span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2"> into payload&quot;</span><span class="p">)</span>
+    <span class="n">data_dict</span><span class="p">[</span><span class="n">primary_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_</span>
+
+  <span class="n">update_model_with_payload</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="n">json_field</span><span class="p">)</span>
+
+  <span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
+  <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+  <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+  <span class="c1"># Final safety: extract final PK from model</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model has no attribute &#39;</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.get_ensured_row" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_ensured_row</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_ensured_row</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key_name</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve or create a row in the specified table using a primary key.</p>
+<p>If the row exists, it is returned. Otherwise, a new row is created and committed.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>table_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Table name to operate on. Defaults to 'incidences'.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;incidences&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>primary_key_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the primary key column. Defaults to 'id_incidence'.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;id_incidence&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>id_</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Primary key value. If None, a new row is created.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>tuple</code></td>            <td>
+                  <code><span title="tuple">tuple</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(model, id_, is_new_row)
+- model: SQLAlchemy ORM instance
+- id_: Primary key value
+- is_new_row: Whether a new row was created (True/False)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AttributeError">AttributeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the model class lacks the specified primary key.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ensured_row</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;incidences&quot;</span><span class="p">,</span> <span class="n">primary_key_name</span><span class="o">=</span><span class="s2">&quot;id_incidence&quot;</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Retrieve or create a row in the specified table using a primary key.</span>
+
+<span class="sd">  If the row exists, it is returned. Otherwise, a new row is created and committed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    table_name (str): Table name to operate on. Defaults to &#39;incidences&#39;.</span>
+<span class="sd">    primary_key_name (str): Name of the primary key column. Defaults to &#39;id_incidence&#39;.</span>
+<span class="sd">    id_ (int | None): Primary key value. If None, a new row is created.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: (model, id_, is_new_row)</span>
+<span class="sd">      - model: SQLAlchemy ORM instance</span>
+<span class="sd">      - id_: Primary key value</span>
+<span class="sd">      - is_new_row: Whether a new row was created (True/False)</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    AttributeError: If the model class lacks the specified primary key.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">False</span>
+
+  <span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="n">get_class_from_table_name</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">id_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">id_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">True</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No existing row found; creating new </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">model</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">primary_key_name</span><span class="p">:</span> <span class="n">id_</span><span class="p">})</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating new </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with auto-generated </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">primary_key_name</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">id_</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">primary_key_name</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row created with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">is_new_row</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.get_sector_info" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_sector_info</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_sector_info</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">id_</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Resolve the sector and sector_type for a given incidence ID.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy automapped declarative base.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>id_</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>ID of the row in the <code>incidences</code> table.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tuple[str, str]: (sector, sector_type)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_info</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
+                    <span class="n">id_</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Resolve the sector and sector_type for a given incidence ID.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): SQLAlchemy automapped declarative base.</span>
+<span class="sd">    id_ (int): ID of the row in the `incidences` table.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[str, str]: (sector, sector_type)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;get_sector_info() called to determine sector &amp; sector type for </span><span class="si">{</span><span class="n">id_</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">primary_table_name</span> <span class="o">=</span> <span class="s2">&quot;incidences&quot;</span>
+  <span class="n">json_column</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">sector_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="c1"># Find the sector from the foreign table if incidence was created by plume tracker.</span>
+  <span class="n">sector_by_foreign_key</span> <span class="o">=</span> <span class="n">get_foreign_value</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span>
+    <span class="n">primary_table_name</span><span class="o">=</span><span class="n">primary_table_name</span><span class="p">,</span>
+    <span class="n">foreign_table_name</span><span class="o">=</span><span class="s2">&quot;sources&quot;</span><span class="p">,</span>
+    <span class="n">primary_table_fk_name</span><span class="o">=</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span>
+    <span class="n">foreign_table_column_name</span><span class="o">=</span><span class="s2">&quot;sector&quot;</span><span class="p">,</span>
+    <span class="n">primary_table_pk_value</span><span class="o">=</span><span class="n">id_</span><span class="p">,</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Get the row and misc_json field from the incidence table</span>
+  <span class="n">row</span><span class="p">,</span> <span class="n">misc_json</span> <span class="o">=</span> <span class="n">get_table_row_and_column</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">primary_table_name</span><span class="p">,</span>
+    <span class="n">column_name</span><span class="o">=</span><span class="n">json_column</span><span class="p">,</span>
+    <span class="n">id_</span><span class="o">=</span><span class="n">id_</span><span class="p">,</span>
+  <span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">misc_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">misc_json</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">misc_json</span><span class="p">)</span>
+  <span class="n">sector_type</span> <span class="o">=</span> <span class="n">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;get_sector_info() returning </span><span class="si">{</span><span class="n">sector</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">sector_type</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sector</span><span class="p">,</span> <span class="n">sector_type</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.get_sector_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_sector_type</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Map a sector name to its broad classification.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>sector</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input sector label.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>str</code></td>            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>One of "Oil &amp; Gas" or "Landfill".</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>On unknown sector input.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Map a sector name to its broad classification.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    sector (str): Input sector label.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    str: One of &quot;Oil &amp; Gas&quot; or &quot;Landfill&quot;.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: On unknown sector input.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">if</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">OIL_AND_GAS_SECTORS</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Oil &amp; Gas&quot;</span>
+  <span class="k">elif</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">LANDFILL_SECTORS</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Landfill&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown sector type: &#39;</span><span class="si">{</span><span class="n">sector</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.incidence_prep" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">incidence_prep</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">incidence_prep</span><span class="p">(</span><span class="n">model_row</span><span class="p">,</span> <span class="n">crud_type</span><span class="p">,</span> <span class="n">sector_type</span><span class="p">,</span> <span class="n">default_dropdown</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate the context and render the HTML template for a feedback record.</p>
+<p>Populates WTForms fields from the model and applies validation logic
+depending on the request method (GET/POST). Integrates conditional
+dropdown resets, CSRF-less validation, and feedback record persistence.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model_row</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.declarative.DeclarativeMeta">DeclarativeMeta</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy model row for the feedback entry.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>crud_type</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>'create' or 'update'.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sector_type</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>'Oil &amp; Gas' or 'Landfill'.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>default_dropdown</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Value used to fill in blank selects.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>str</code></td>            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Rendered HTML from the appropriate feedback template.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the sector type is invalid.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">incidence_prep</span><span class="p">(</span><span class="n">model_row</span><span class="p">:</span> <span class="n">DeclarativeMeta</span><span class="p">,</span>
+                   <span class="n">crud_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                   <span class="n">sector_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                   <span class="n">default_dropdown</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Generate the context and render the HTML template for a feedback record.</span>
+
+<span class="sd">  Populates WTForms fields from the model and applies validation logic</span>
+<span class="sd">  depending on the request method (GET/POST). Integrates conditional</span>
+<span class="sd">  dropdown resets, CSRF-less validation, and feedback record persistence.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    model_row (DeclarativeMeta): SQLAlchemy model row for the feedback entry.</span>
+<span class="sd">    crud_type (str): &#39;create&#39; or &#39;update&#39;.</span>
+<span class="sd">    sector_type (str): &#39;Oil &amp; Gas&#39; or &#39;Landfill&#39;.</span>
+<span class="sd">    default_dropdown (str): Value used to fill in blank selects.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    str: Rendered HTML from the appropriate feedback template.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If the sector type is invalid.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># imports below can&#39;t be moved to top of file because they require Globals to be initialized</span>
+  <span class="c1"># prior to first use (Globals.load_drop_downs(app, db)).</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.portal.wtf_landfill</span><span class="w"> </span><span class="kn">import</span> <span class="n">LandfillFeedback</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.portal.wtf_oil_and_gas</span><span class="w"> </span><span class="kn">import</span> <span class="n">OGFeedback</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;incidence_prep() called with </span><span class="si">{</span><span class="n">crud_type</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">sector_type</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">sa_model_diagnostics</span><span class="p">(</span><span class="n">model_row</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">default_dropdown</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">default_dropdown</span> <span class="o">=</span> <span class="n">PLEASE_SELECT</span>
+
+  <span class="k">if</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">&quot;Oil &amp; Gas&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">sector_type</span><span class="si">=}</span><span class="s2">) will use an Oil &amp; Gas Feedback Form&quot;</span><span class="p">)</span>
+    <span class="n">wtf_form</span> <span class="o">=</span> <span class="n">OGFeedback</span><span class="p">()</span>
+    <span class="n">template_file</span> <span class="o">=</span> <span class="s1">&#39;feedback_oil_and_gas.html&#39;</span>
+  <span class="k">elif</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">&quot;Landfill&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">sector_type</span><span class="si">=}</span><span class="s2">) will use a Landfill Feedback Form&quot;</span><span class="p">)</span>
+    <span class="n">wtf_form</span> <span class="o">=</span> <span class="n">LandfillFeedback</span><span class="p">()</span>
+    <span class="n">template_file</span> <span class="o">=</span> <span class="s1">&#39;feedback_landfill.html&#39;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown sector type: &#39;</span><span class="si">{</span><span class="n">sector_type</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+    <span class="c1"># Populate wtform from model data</span>
+    <span class="n">model_to_wtform</span><span class="p">(</span><span class="n">model_row</span><span class="p">,</span> <span class="n">wtf_form</span><span class="p">)</span>
+    <span class="c1"># todo - maybe put update contingencies here?</span>
+    <span class="c1"># obj_diagnostics(wtf_form, message=&quot;wtf_form in incidence_prep() after model_to_wtform&quot;)</span>
+
+    <span class="c1"># For GET requests for row creation, don&#39;t validate and error_count_dict will be all zeros</span>
+    <span class="c1"># For GET requests for row update, validate (except for the csrf token that is only present for a POST)</span>
+    <span class="k">if</span> <span class="n">crud_type</span> <span class="o">==</span> <span class="s1">&#39;update&#39;</span><span class="p">:</span>
+      <span class="n">validate_no_csrf</span><span class="p">(</span><span class="n">wtf_form</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="c1"># todo - trying to make sure invalid drop-downs become &quot;Please Select&quot;</span>
+  <span class="c1">#        may want to look into using validate_no_csrf or initialize_drop_downs (or combo)</span>
+
+  <span class="c1"># Set all select elements that are a default value (None) to &quot;Please Select&quot; value</span>
+  <span class="n">initialize_drop_downs</span><span class="p">(</span><span class="n">wtf_form</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default_dropdown</span><span class="p">)</span>
+  <span class="c1"># logger.debug(f&quot;\n\t{wtf_form.data=}&quot;)</span>
+
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="c1"># Validate and count errors</span>
+    <span class="n">wtf_form</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="n">error_count_dict</span> <span class="o">=</span> <span class="n">wtf_count_errors</span><span class="p">(</span><span class="n">wtf_form</span><span class="p">,</span> <span class="n">log_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Diagnostics of model before updating with wtform values</span>
+    <span class="c1"># Likely can comment out model_before and add_commit_and_log_model</span>
+    <span class="c1"># if you want less diagnostics and redundant commits</span>
+    <span class="n">model_before</span> <span class="o">=</span> <span class="n">sa_model_to_dict</span><span class="p">(</span><span class="n">model_row</span><span class="p">)</span>
+    <span class="n">wtform_to_model</span><span class="p">(</span><span class="n">model_row</span><span class="p">,</span> <span class="n">wtf_form</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id_incidence&quot;</span><span class="p">])</span>
+    <span class="n">add_commit_and_log_model</span><span class="p">(</span><span class="n">db</span><span class="p">,</span>
+                             <span class="n">model_row</span><span class="p">,</span>
+                             <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;call to wtform_to_model()&#39;</span><span class="p">,</span>
+                             <span class="n">model_before</span><span class="o">=</span><span class="n">model_before</span><span class="p">)</span>
+
+    <span class="c1"># Determine course of action for successful database update based on which button was submitted</span>
+    <span class="n">button</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;submit_button&#39;</span><span class="p">)</span>
+
+    <span class="c1"># todo - change the button name to save?</span>
+    <span class="k">if</span> <span class="n">button</span> <span class="o">==</span> <span class="s1">&#39;validate_and_submit&#39;</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate_and_submit was pressed&quot;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">wtf_form</span><span class="o">.</span><span class="n">validate</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;main.index&#39;</span><span class="p">))</span>
+
+  <span class="n">error_count_dict</span> <span class="o">=</span> <span class="n">wtf_count_errors</span><span class="p">(</span><span class="n">wtf_form</span><span class="p">,</span> <span class="n">log_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;incidence_prep() about to render get template&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">,</span>
+                         <span class="n">wtf_form</span><span class="o">=</span><span class="n">wtf_form</span><span class="p">,</span>
+                         <span class="n">crud_type</span><span class="o">=</span><span class="n">crud_type</span><span class="p">,</span>
+                         <span class="n">error_count_dict</span><span class="o">=</span><span class="n">error_count_dict</span><span class="p">,</span>
+                         <span class="n">id_incidence</span><span class="o">=</span><span class="n">model_row</span><span class="o">.</span><span class="n">id_incidence</span><span class="p">,</span>
+                         <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.json_file_to_db" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">json_file_to_db</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Load a JSON file and insert its contents into the <code>incidences</code> table.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy session used to commit the new row.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to the JSON file on disk.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy automapped metadata base.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the specified file path does not exist.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="json.JSONDecodeError">JSONDecodeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the file is not valid JSON.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Load a JSON file and insert its contents into the `incidences` table.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy session used to commit the new row.</span>
+<span class="sd">    file_name (str | Path): Path to the JSON file on disk.</span>
+<span class="sd">    base (AutomapBase): SQLAlchemy automapped metadata base.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    FileNotFoundError: If the specified file path does not exist.</span>
+<span class="sd">    json.JSONDecodeError: If the file is not valid JSON.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">json_as_dict</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">json_as_dict</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.resolve_sector" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">resolve_sector</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">misc_json</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Determine the appropriate sector from FK and JSON sources.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>sector_by_foreign_key</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sector from <code>sources</code> table.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>row</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.declarative.DeclarativeMeta">DeclarativeMeta</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Row from <code>incidences</code> table (SQLAlchemy result).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>misc_json</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Parsed <code>misc_json</code> content.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>str</code></td>            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sector string.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If values are missing or conflict.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">row</span><span class="p">:</span> <span class="n">DeclarativeMeta</span><span class="p">,</span>
+                   <span class="n">misc_json</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Determine the appropriate sector from FK and JSON sources.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    sector_by_foreign_key (str | None): Sector from `sources` table.</span>
+<span class="sd">    row (DeclarativeMeta): Row from `incidences` table (SQLAlchemy result).</span>
+<span class="sd">    misc_json (dict): Parsed `misc_json` content.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    str: Sector string.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If values are missing or conflict.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;resolve_sector() called with </span><span class="si">{</span><span class="n">sector_by_foreign_key</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">row</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">misc_json</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">sector_by_json</span> <span class="o">=</span> <span class="n">misc_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;sector column value in sources table is None.&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&#39;sector&#39; not in misc_json&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="o">!=</span> <span class="n">sector_by_json</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sector mismatch: </span><span class="si">{</span><span class="n">sector_by_foreign_key</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">sector_by_json</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
+
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">sector_by_foreign_key</span> <span class="ow">or</span> <span class="n">sector_by_json</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;resolve_sector() returning </span><span class="si">{</span><span class="n">sector</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.upload_and_update_db" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">upload_and_update_db</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Save uploaded file, parse contents, and insert or update DB rows.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>upload_dir</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Directory where file will be saved.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>request_file</code>
+            </td>
+            <td>
+                  <code><span title="werkzeug.datastructures.FileStorage">FileStorage</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flask <code>request.files[...]</code> object.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Automapped schema metadata.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="str">str</span>, <span title="int">int</span> | None, <span title="str">str</span> | None]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tuple[str, int | None, str | None]: Filename, id_incidence, sector.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                         <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                         <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
+                         <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Save uploaded file, parse contents, and insert or update DB rows.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): Database instance.</span>
+<span class="sd">    upload_dir (str | Path): Directory where file will be saved.</span>
+<span class="sd">    request_file (FileStorage): Flask `request.files[...]` object.</span>
+<span class="sd">    base (AutomapBase): Automapped schema metadata.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[str, int | None, str | None]: Filename, id_incidence, sector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upload_and_update_db() called with </span><span class="si">{</span><span class="n">request_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">id_</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="n">file_name</span> <span class="o">=</span> <span class="n">upload_single_file</span><span class="p">(</span><span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">)</span>
+  <span class="n">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;File Added&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="c1"># if file is xl and can be converted to json,</span>
+  <span class="c1"># save a json version of the file and return the filename</span>
+  <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">json_file_name</span><span class="p">:</span>
+    <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span> <span class="o">=</span> <span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">json_file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.app_util.xl_dict_to_database" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">xl_dict_to_database</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Insert or update a row from an Excel-parsed JSON dictionary into the database.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>db</code>
+            </td>
+            <td>
+                  <code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base</code>
+            </td>
+            <td>
+                  <code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>xl_dict</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Parsed Excel document with 'metadata' and 'tab_contents'.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>tab_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the worksheet tab to extract.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\app_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Insert or update a row from an Excel-parsed JSON dictionary into the database.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    xl_dict (dict): Parsed Excel document with &#39;metadata&#39; and &#39;tab_contents&#39;.</span>
+<span class="sd">    tab_name (str): Name of the worksheet tab to extract.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;xl_dict_to_database() called with </span><span class="si">{</span><span class="n">xl_dict</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span>
+  <span class="n">tab_data</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;tab_contents&quot;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span>
+  <span class="n">tab_data</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector</span>
+
+  <span class="n">id_</span> <span class="o">=</span> <span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">tab_data</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
