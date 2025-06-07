@@ -1,15 +1,26 @@
-site_name: CalSMP Operator Feedback Portal Documentation & Source Code
-site_url: https://tony-held-carb.github.io/feedback_portal
-
+site_name: Arb Feedback Portal Documentation
+site_url: https://your-github-username.github.io/your-repo-name
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: indigo
+    - scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
   features:
+    - navigation.tabs
     - navigation.sections
-    - navigation.expand        # Fully expanded left nav
+    - navigation.expand
     - navigation.top
+    - toc.integrate
     - navigation.instant
-    - content.code.annotate    # Show code comments on hover
-
+#  custom_dir: docs/overrides
+  favicon: assets/favicon.ico
 
 markdown_extensions:
   - admonition
@@ -21,9 +32,6 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.magiclink
-
-extra_css:
-  - stylesheets/hide-sidebar-title.css
 
 plugins:
   - search
@@ -37,12 +45,16 @@ plugins:
         python:
           options:
             show_source: true
-            docstring_style: google
             show_root_heading: true
             show_signature: true
             separate_signature: true
             heading_level: 2
+            docstring_style: google
             merge_init_into_class: true
 
-# No `nav:` section means index.md is the top page,
-# and literate-nav + gen-files control everything else
+extra_css:
+  - stylesheets/custom.css
+
+nav:
+  - Home: index.md
+  - Reference: reference/
