@@ -1,15 +1,21 @@
 """
-Utility functions associated with website development that do not fit neatly in other modules.
+HTML and WTForms utility functions for form handling and file uploads.
 
-To avoid circular imports, the web_util functions should not import from other util routines.
-Instead, other util routines may import this module.
+This module provides helper functions for:
+  - Uploading user files with sanitized names
+  - Generating WTForms-compatible selector lists
+  - Managing triple tuples for dynamic dropdown metadata
 
-Notes on intended utility usage:
-  - db_portal.py        → SQLAlchemy database routines
-  - spreadsheet_util.py → Excel-related utilities
-  - web_html.py         → HTML + WTForms form helpers (this file)
-  - wtf_forms_util.py   → WTForms form structure and validation routines
+Notes:
+    - Avoids circular imports by not depending on other utility modules.
+    - Other utility modules (e.g., Excel, DB) may safely import this one.
+    - Adds "Please Select" logic to dropdowns using `arb.utils.constants`.
+
+Example Usage:
+    from arb.utils.web_html import upload_single_file, selector_list_to_tuples
 """
+from pathlib import Path
+from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
@@ -19,20 +25,23 @@ __version__ = "1.0.0"
 logger, pp_log = get_logger()
 
 
-def upload_single_file(upload_dir, request_file):
+def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Path:
   """
-  Save a user-uploaded file to the server using a sanitized and timestamped filename.
+  Save a user-uploaded file to the server using a secure, timestamped filename.
 
   Args:
-      upload_dir (str | Path): Destination directory where the file will be saved.
-      request_file: A FileStorage object (e.g., request.files['file']) from Flask.
+      upload_dir (str | Path): Directory to save the uploaded file.
+      request_file (FileStorage): Werkzeug object from `request.files['<field>']`.
 
   Returns:
-      Path: Path to the uploaded file on disk.
+      Path: Full path to the uploaded file on disk.
+
+  Raises:
+      OSError: If the file cannot be written to disk.
 
   Example:
-      >>> file = request.files['document']
-      >>> path = upload_single_file("/uploads", file)
+      >>> file = request.files['data']
+      >>> path = upload_single_file("/data/uploads", file)
   """
   logger.debug(f"Attempting to upload {request_file.filename=}")
   file_name = get_secure_timestamped_file_name(upload_dir, request_file.filename)
@@ -43,19 +52,20 @@ def upload_single_file(upload_dir, request_file):
 
 def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[str, str, dict]]:
   """
-  Convert a list of strings into WTForms-friendly selector tuples.
+  Convert a list of values into WTForms-compatible dropdown tuples.
 
-  Adds a "Please Select" option at the top of the returned list.
+  Adds a disabled "Please Select" entry at the top of the list.
 
   Args:
-      values (list[str]): List of string values for the HTML dropdown.
+      values (list[str]): Dropdown options (excluding "Please Select").
 
   Returns:
-      list: List of (value, label) or (value, label, dict) tuples.
+      list[tuple[str, str] | tuple[str, str, dict]]:
+          WTForms selector list including a disabled "Please Select" entry.
 
   Example:
       >>> selector_list_to_tuples(["Red", "Green"])
-      [("Please Select", "Please Select", {'disabled': True}),
+      [('Please Select', 'Please Select', {'disabled': True}),
        ('Red', 'Red'), ('Green', 'Green')]
   """
   result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
@@ -65,13 +75,15 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
 
 def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
   """
-  Convert a list of values to WTForms triple tuples: (value, label, metadata).
+  Convert a list of strings into WTForms triple tuples.
+
+  Each tuple contains (value, label, metadata).
 
   Args:
-      values (list[str]): Values to convert.
+      values (list[str]): List of form options.
 
   Returns:
-      list[tuple[str, str, dict]]: List of triple tuples.
+      list[tuple[str, str, dict]]: Triple tuples for WTForms SelectField.
 
   Example:
       >>> list_to_triple_tuple(["A", "B"])
@@ -80,30 +92,32 @@ def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
   return [(v, v, {}) for v in values]
 
 
-def update_triple_tuple_dict(tuple_list: list[tuple[str, str, dict]],
-                             match_list: list[str],
-                             match_update_dict: dict,
-                             unmatch_update_dict: dict | None = None
-                             ) -> list[tuple[str, str, dict]]:
+def update_triple_tuple_dict(
+    tuple_list: list[tuple[str, str, dict]],
+    match_list: list[str],
+    match_update_dict: dict,
+    unmatch_update_dict: dict | None = None
+) -> list[tuple[str, str, dict]]:
   """
-  Update WTForms selector triple tuples based on match conditions.
+  Update the metadata dict of each WTForms triple tuple based on value match.
 
   Args:
-      tuple_list (list): List of (key, value, dict) tuples.
-      match_list (list): List of keys to apply match_update_dict to.
-      match_update_dict (dict): Metadata to merge for matched keys.
-      unmatch_update_dict (dict | None): Metadata to apply to unmatched keys.
+      tuple_list (list[tuple[str, str, dict]]): Existing list of selector tuples.
+      match_list (list[str]): Values to match against.
+      match_update_dict (dict): Metadata to apply if value is in `match_list`.
+      unmatch_update_dict (dict | None): Metadata to apply otherwise (optional).
 
   Returns:
-      list: Updated list of selector tuples.
+      list[tuple[str, str, dict]]: Updated list of selector tuples.
 
   Example:
       >>> update_triple_tuple_dict(
-      ...     [("a", "A", {}), ("b", "B", {})],
-      ...     ["a"],
-      ...     {"selected": True}
+      ...     [('A', 'A', {}), ('B', 'B', {})],
+      ...     ['A'],
+      ...     {'disabled': True},
+      ...     {'class': 'available'}
       ... )
-      [('a', 'A', {'selected': True}), ('b', 'B', {})]
+      [('A', 'A', {'disabled': True}), ('B', 'B', {'class': 'available'})]
   """
   if unmatch_update_dict is None:
     unmatch_update_dict = {}
@@ -119,11 +133,15 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
   """
   Convert dictionary of string lists into selector-style tuple lists.
 
+  Each list is transformed to include a "Please Select" disabled option
+  followed by (value, label) tuples.
+
   Args:
       input_dict (dict[str, list[str]]): Dict of dropdown options per field.
 
   Returns:
-      dict[str, list[tuple]]: Dict with WTForms-ready selector tuples.
+      dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
+          Dict with WTForms-ready selector tuples.
 
   Example:
       >>> update_selector_dict({"colors": ["Red", "Blue"]})
@@ -140,12 +158,12 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
 
 def ensure_placeholder_option(
     tuple_list: list[tuple[str, str, dict]],
-    item: str | None = None,
-    item_dict: dict | None = None,
+    item: str = PLEASE_SELECT,
+    item_dict: dict = {"disabled": True},
     ensure_first: bool = True
 ) -> list[tuple[str, str, dict]]:
   """
-  Add or reposition a placeholder option in a selector dropdown list.
+  Ensure a placeholder entry is present in the tuple list.
 
   This function ensures that a specified "placeholder" option (typically used to prompt
   users to select a value, such as "Please Select") exists in the given list of
@@ -153,32 +171,19 @@ def ensure_placeholder_option(
   exists but is not the first item, it is optionally moved to the first position.
 
   Args:
-      tuple_list (list[tuple[str, str, dict]]):
-          A list of selection options, where each option is a tuple of the form:
-          (value, label, metadata_dict). Example: [("CA", "California", {}), ...]
-      item (str | None):
-          The value and label to use for the placeholder option. The default is "Please Select".
-      item_dict (dict | None):
-          The metadata dictionary to associate with the placeholder. If None, defaults to
-          {"disabled": True}, which is commonly used to disable the option in HTML.
-      ensure_first (bool):
-          If True (default), and the placeholder is already in the list but not in
-          the first position, it will be moved to the top.
+      tuple_list (list[tuple[str, str, dict]]): Original selector list.
+      item (str): Value for the placeholder. Default is "Please Select".
+      item_dict (dict): Metadata for the placeholder. Default disables the option.
+      ensure_first (bool): If True, move placeholder to top if found elsewhere.
 
   Returns:
-      list[tuple[str, str, dict]]:
-          The updated list of tuples with the placeholder properly inserted or reordered.
+      list[tuple[str, str, dict]]: Updated tuple list with ensured placeholder.
 
   Example:
-      >>> ensure_placeholder_option([("CA", "California", {})])
-      [("Please Select", "Please Select", {'disabled': True}), ('CA', 'California', {})]
-
-      >>> ensure_placeholder_option(
-      ...     [("Please Select", "Please Select", {}), ("CA", "California", {})],
-      ...     item_dict={"disabled": True}
-      ... )
-      [("Please Select", "Please Select", {}), ('CA', 'California', {})]
+      >>> ensure_placeholder_option([("A", "A", {})])
+      [('Please Select', 'Please Select', {'disabled': True}), ('A', 'A', {})]
   """
+
   if item is None:
     item = PLEASE_SELECT
 
@@ -212,14 +217,14 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
                  remove_items: str | list[str]
                  ) -> list[tuple[str, str, dict]]:
   """
-  Remove specified keys from a selector tuple list.
+  Remove one or more values from a tuple list by matching the first element.
 
   Args:
-      tuple_list (list): List of WTForms triple tuples.
-      remove_items (str | list[str]): One or more keys to exclude.
+      tuple_list (list[tuple[str, str, dict]]): Selector tuples.
+      remove_items (str | list[str]): One or more values to remove by key match.
 
   Returns:
-      list: Filtered tuple list.
+      list[tuple[str, str, dict]]: Filtered list excluding the removed values.
 
   Example:
       >>> remove_items([("A", "A", {}), ("B", "B", {})], "B")
@@ -231,14 +236,17 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
 
 def run_diagnostics() -> None:
   """
-  Run diagnostics to validate HTML selector utilities.
+  Run assertions to validate selector utility behavior.
 
-  This includes:
+  Tests:
     - Conversion of string lists to selector tuples
-    - Metadata update logic
-    - Placeholder addition and ordering
-    - Tuple list item removal
-    - Dictionary-based selector transformation
+    - Tuple updating with metadata
+    - Placeholder insertion
+    - Value removal from selector lists
+    - Dict transformation to tuple selectors
+
+  Returns:
+      None
 
   Example:
       >>> run_diagnostics()

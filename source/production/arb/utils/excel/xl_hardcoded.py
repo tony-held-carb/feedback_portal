@@ -25,6 +25,7 @@ logger, pp_log = get_logger()
 # v01_00 schema field types based on legacy old_v01 and old_v02 excel schemas
 # -------------------------------------------------------------------------------------
 
+# Maps field names to expected Python types for value validation and deserialization
 default_value_types_v01_00 = {
   "additional_activities": str,
   "additional_notes": str,
@@ -91,8 +92,8 @@ default_value_types_v01_00 = {
 # Sample payloads - oil and gas
 # -------------------------------------------------------------------------------------
 
+# Sample payload for oil and gas template version v01_00 — minimal metadata only
 oil_and_gas_payload_01 = {
-
   "id_incidence": "4321",
   "id_plume": "1234",
   "observation_timestamp": "06/25/2024 00:00",
@@ -106,8 +107,8 @@ oil_and_gas_payload_01 = {
   "contact_email": "me@email.com",
 }
 
+# Extended payload with representative answers and drop-down values
 oil_and_gas_payload_02 = {
-
   "id_incidence": "1000011",
   "id_plume": "1234",
   "observation_timestamp": "06/25/2024 00:00",
@@ -146,6 +147,7 @@ oil_and_gas_payload_02 = {
 # Sample payloads - landfill
 # -------------------------------------------------------------------------------------
 
+# Minimal landfill payload for template testing
 landfill_payload_01 = {
   "id_incidence": "153",
   "id_plume": "447",
@@ -161,6 +163,7 @@ landfill_payload_01 = {
   "contact_email": "me@email.com",
 }
 
+# More complete landfill payload including timestamp and text responses
 landfill_payload_02 = {
   "id_incidence": "153",
   "id_plume": "447",
@@ -204,6 +207,7 @@ landfill_payload_02 = {
 # Jinja schema field names (used for legacy template validation)
 # -------------------------------------------------------------------------------------
 
+# Set of variable names expected in Jinja-formatted Excel templates (used for diagnostics)
 jinja_names_set = {
   "additional_activities",
   "additional_notes",
@@ -262,6 +266,8 @@ jinja_names_set = {
 }
 
 if __name__ == "__main__":
+  # Compare schema field definitions vs Jinja template fields to find mismatches
+
   default_names = list(default_value_types_v01_00.keys())
   jinja_names = list(jinja_names_set)
 

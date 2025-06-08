@@ -1,21 +1,19 @@
 """
-sqla_models.py stores the SQLAlchemy class/models to allow for Python interaction with databases.
+SQLAlchemy model definitions for the ARB Feedback Portal.
+
+This module defines ORM classes that map to key tables in the database,
+including uploaded file metadata and portal JSON update logs.
 
 Notes:
-    * Since the migration from SQLite to PostgreSQL, most database models have been discovered and
-      loaded through SQLAlchemy introspection rather than explicit class definitions.
-    * Only classes defined here that inherit from db.Model will have corresponding tables created
-      by SQLAlchemy migrations.
-    * To introspect the rest of the schema, use `db.Model.metadata.reflect()` or automap techniques.
+  * Only models explicitly defined here will be created by SQLAlchemy via `db.create_all()`.
+  * Most schema inspection and data access for `incidences` is handled dynamically via reflection.
+  * Timezone-aware UTC timestamps are used on all tracked models.
+  * All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
 
 Example:
-    >>> new_file = UploadedFile(
-    ...     path="/uploads/report1.xlsx",
-    ...     description="Monthly emissions report",
-    ...     status="pending"
-    ... )
-    >>> db.session.add(new_file)
-    >>> db.session.commit()
+  >>> file = UploadedFile(path="uploads/report.xlsx", status="pending")
+  >>> db.session.add(file)
+  >>> db.session.commit()
 """
 
 from pathlib import Path
@@ -33,46 +31,33 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 class UploadedFile(db.Model):
   """
-  SQLAlchemy model representing an uploaded file record.
+    SQLAlchemy model representing a user-uploaded file.
 
-  This table stores metadata related to each file uploaded via the feedback portal, such as
-  its file system path, optional description, upload status, and creation/modification timestamps.
+    Stores metadata for files uploaded via the portal interface, including
+    the file path, status, and optional description. Automatically tracks
+    creation and last modification timestamps.
 
-  Table Name:
+    Table Name:
       uploaded_files
 
-  Columns:
-      id_ (int): Primary key. Unique identifier for each uploaded file.
-      path (str): File system path (absolute or relative) to the uploaded file. Required.
-      description (str | None): Optional human-readable description of the file.
-      status (str | None): Optional status (e.g., 'pending', 'processed', 'error').
-      created_timestamp (datetime): Time the record was created (server-default UTC).
-      modified_timestamp (datetime): Time the record was last modified (server-default UTC).
+    Columns:
+      id_ (int): Primary key.
+      path (str): Filesystem path to the uploaded file.
+      description (str | None): Optional human-friendly explanation.
+      status (str | None): Upload status, e.g., 'pending', 'processed', or 'error'.
+      created_timestamp (datetime): UTC timestamp of initial creation.
+      modified_timestamp (datetime): UTC timestamp of last update.
 
-  Example:
-      >>> file = UploadedFile(
-      ...     path="uploads/form_0425.xlsx",
-      ...     description="April survey results",
-      ...     status="submitted"
-      ... )
+    Example:
+      >>> file = UploadedFile(path="uploads/test.xlsx", status="pending")
       >>> db.session.add(file)
       >>> db.session.commit()
 
-      # Fetching it back
-      >>> UploadedFile.query.get(file.id_)
-      <Uploaded File: 1, Path: uploads/form_0425.xlsx, Description: April survey results, Status: submitted>
+    Notes:
+      - Timestamps use UTC and are timezone-aware.
+      - This table is managed by SQLAlchemy directly (not introspected).
+    """
 
-  Notes:
-      * Timestamps use server-side defaults and should reflect UTC times by default.
-      * This model supports automated creation and schema migration using Flask-Migrate/Alembic.
-
-  TODO:
-      Consider adding:
-        - `user_id` foreign key (for multi-user attribution)
-        - `error_log` (if file processing fails)
-        - `uploaded_by_ip` for better traceability
-        - make sure timezone is consistent across all models and project
-  """
   __tablename__ = "uploaded_files"
 
   id_ = db.Column(db.Integer, primary_key=True)
@@ -105,60 +90,69 @@ class UploadedFile(db.Model):
     )
 
 
-
 class PortalUpdate(db.Model):
-    """
-    Tracks individual updates to the misc_json column of the incidences table.
+  """
+  SQLAlchemy model tracking updates to the misc_json field on incidence records.
 
-    Columns:
-        id (int): Primary key.
-        timestamp (datetime): When the update was made (auto-generated).
-        key (str): The misc_json field that was changed.
-        old_value (str): The prior value before the update (nullable).
-        new_value (str): The new value after the update.
-        user (str): The user who made the change (or 'anonymous').
-        comments (str): Optional notes or metadata.
-        id_incidence (int): Reference to id_incidence (or similar foreign key), nullable.
-    """
-    __tablename__ = "portal_updates"
+  Used for auditing key/value changes made through the portal interface. Each row
+  represents a single change to a single field on a specific incidence.
 
-    id = Column(Integer, primary_key=True)
-    timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+  Table Name:
+    portal_updates
 
-    key = Column(String(255), nullable=False)
-    old_value = Column(Text, nullable=True)
-    new_value = Column(Text, nullable=False)
-    user = Column(String(255), nullable=False, default="anonymous")
-    comments = Column(Text, nullable=False, default="")
-    id_incidence = Column(Integer, nullable=True)
+  Columns:
+    id (int): Primary key.
+    timestamp (datetime): UTC time when the change was logged.
+    key (str): JSON key that was modified.
+    old_value (str | None): Previous value (nullable).
+    new_value (str): New value.
+    user (str): Username or identifier of the user making the change.
+    comments (str): Optional explanatory comment.
+    id_incidence (int | None): Foreign key to the modified incidence (nullable).
 
-    def __repr__(self):
-        return (
-            f"<PortalUpdate id={self.id} key={self.key!r} old={self.old_value!r} "
-            f"new={self.new_value!r} user={self.user!r} at={self.timestamp}>"
-        )
+  Notes:
+    - Automatically populated by `apply_json_patch_and_log()`.
+    - Used for rendering the `portal_updates.html` table.
+  """
+
+  __tablename__ = "portal_updates"
+
+  id = Column(Integer, primary_key=True)
+  timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+  key = Column(String(255), nullable=False)
+  old_value = Column(Text, nullable=True)
+  new_value = Column(Text, nullable=False)
+  user = Column(String(255), nullable=False, default="anonymous")
+  comments = Column(Text, nullable=False, default="")
+  id_incidence = Column(Integer, nullable=True)
+
+  def __repr__(self):
+    return (
+      f"<PortalUpdate id={self.id} key={self.key!r} old={self.old_value!r} "
+      f"new={self.new_value!r} user={self.user!r} at={self.timestamp}>"
+    )
 
 
 def run_diagnostics() -> None:
   """
-  Run basic diagnostics to validate that the UploadedFile model is functioning correctly.
+  Run a test transaction to validate UploadedFile model functionality.
 
-  This function performs a temporary insert into the database, fetches it back,
-  prints the object representation, and rolls back the transaction to leave the database unchanged.
+  This utility performs an insert, fetch, and rollback on the UploadedFile
+  model to verify that the ORM mapping and database connection are working.
 
-  This should only be run in a development context or inside a test transaction.
-
-  Example:
-      >>> run_diagnostics()
+  Returns:
+    None
 
   Raises:
-      RuntimeError: If the database session is not available or an unexpected error occurs.
+    RuntimeError: If database access or fetch fails.
 
   Notes:
-      * This test is non-destructive and rolls back all test changes.
-      * Ensure the app context is active when calling this function.
-      * Useful for verifying migrations, connection health, and basic ORM mappings.
+    - Meant for developer use in test environments only.
+    - This function leaves no data in the database due to rollback.
+    - Logs diagnostic information using the project logger.
   """
+
   logger.info("Running UploadedFile diagnostics...")
 
   try:

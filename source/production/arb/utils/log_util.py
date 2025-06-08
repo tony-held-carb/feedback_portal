@@ -1,21 +1,33 @@
 """
-Utilities for logging function parameters at runtime.
+log_util.py
 
-This module provides tools to assist with debugging and observability by capturing and logging
-function names along with the values of all parameters passed to them. It includes:
+Logging utilities to trace function calls and parameter values across the application.
 
-1. `log_function_parameters`: A standalone function that logs the name and parameters of
-   the function in which it is called. Useful for one-off or conditional logging.
+This module provides two main tools for logging function arguments:
 
-2. `log_parameters`: A decorator that automatically logs parameter values each time a
-   decorated function is invoked. Useful for consistent logging across multiple functions.
+    1. log_function_parameters(): Logs the name and arguments of the current function.
+    2. log_parameters(): A decorator that logs all arguments of decorated functions.
 
-Key Features:
--------------
-- Logs in a single-line format: `function_name(param1=val1, param2=val2, ...)`.
-- Supports `*args` and `**kwargs`.
-- Optionally prints to the console as well as logging to a logger.
-- Automatically infers the appropriate logger from the calling module if none is provided.
+It also includes a logging filter, FlaskUserContextFilter, to inject the current Flask user
+into all log records when inside a request context.
+
+Features:
+    - Logs arguments from both positional and keyword inputs.
+    - Automatically derives the correct logger based on caller/module context.
+    - Supports optional printing to stdout for real-time debugging.
+    - Integrates Flask `g.user` context when available, aiding request traceability.
+
+Intended Use:
+    - Diagnostic tracing and observability in Flask applications.
+    - Debugging individual functions without modifying logic.
+    - Enhancing structured logging with contextual request user information.
+
+Dependencies:
+    - Python standard library (inspect, logging)
+    - Flask (optional, for FlaskUserContextFilter)
+
+Version:
+    1.0.0
 
 Example Usage:
 --------------
@@ -53,19 +65,21 @@ from typing import Callable
 from flask import g, has_request_context
 
 
-def log_function_parameters(logger: logging.Logger | None = None, print_to_console: bool = False) -> None:
+def log_function_parameters(
+    logger: logging.Logger | None = None,
+    print_to_console: bool = False
+) -> None:
   """
-  Logs the calling function's name and all parameters as a single-line message.
-
-  If no logger is provided, one is created using the calling module's `__name__`.
+  Log the current function's name and arguments using debug-level logging.
 
   Args:
-      logger (logging.Logger | None): Optional logger to write to. If None, uses logger from caller's module.
+      logger (logging.Logger | None): Optional logger. If None, derives one from caller's module.
       print_to_console (bool): If True, also prints the message to stdout.
 
   Example:
-      >>> log_function_parameters()
-      # Logs: my_function(a=1, b=2, kw='yes')
+      >>> def example(a, b=2): log_function_parameters()
+      >>> example(1)
+      # Logs: example(a=1, b=2)
   """
   frame = inspect.currentframe().f_back
   func_name = frame.f_code.co_name
@@ -96,21 +110,24 @@ def log_function_parameters(logger: logging.Logger | None = None, print_to_conso
     print(log_line)
 
 
-def log_parameters(logger: logging.Logger | None = None, print_to_console: bool = False) -> Callable:
+def log_parameters(
+    logger: logging.Logger | None = None,
+    print_to_console: bool = False
+) -> Callable:
   """
-  Decorator that logs all arguments passed to a function as a single-line message.
+  Decorator to log all arguments passed to a function upon each invocation.
 
   Args:
-      logger (logging.Logger | None): Optional logger to use. If None, uses the logger for the function's module.
-      print_to_console (bool): If True, also prints the log line to stdout.
+      logger (logging.Logger | None): Optional logger instance. Defaults to caller's module logger.
+      print_to_console (bool): If True, also prints the log message to stdout.
 
   Returns:
-      Callable: A decorated function that logs its parameters on each call.
+      Callable: A decorator that logs parameter values each time the function is called.
 
   Example:
-      >>> @log_parameters()
-      >>> def greet(name, greeting="Hello"):
-      >>>     return f"{greeting}, {name}!"
+      >>> @log_parameters(print_to_console=True)
+      >>> def greet(name, lang="en"):
+      >>>     return f"Hello {name} [{lang}]"
   """
 
   def decorator(func: Callable) -> Callable:
@@ -134,7 +151,14 @@ def log_parameters(logger: logging.Logger | None = None, print_to_console: bool 
 
 
 class FlaskUserContextFilter(logging.Filter):
-  """Injects Flask's g.user into log records."""
+  """
+  Logging filter that injects Flask's `g.user` into log records, if available.
+
+  This allows log formats to include the active Flask user for traceability.
+
+  Adds:
+      record.user (str): User identifier from Flask's request context, or "n/a" if unavailable.
+  """
 
   def filter(self, record):
     if has_request_context() and hasattr(g, "user"):

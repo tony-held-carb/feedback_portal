@@ -1,0 +1,48 @@
+site_name: CalSMP Operator Feedback Portal Documentation & Source Code
+site_url: https://tony-held-carb.github.io/feedback_portal
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand        # Fully expanded left nav
+    - navigation.top
+    - navigation.instant
+    - content.code.annotate    # Show code comments on hover
+
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.magiclink
+
+extra_css:
+  - stylesheets/hide-sidebar-title.css
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_docs.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            docstring_style: google
+            show_root_heading: true
+            show_signature: true
+            separate_signature: true
+            heading_level: 2
+            merge_init_into_class: true
+
+# No `nav:` section means index.md is the top page,
+# and literate-nav + gen-files control everything else

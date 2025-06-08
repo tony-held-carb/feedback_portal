@@ -1,24 +1,33 @@
 """
-Defines a WTForm that can be used to simplify HTML form creation and validation
-for Oil and Gas feedback workflows.
+Oil & Gas Feedback Form (WTForms) for the ARB Feedback Portal.
 
-This module defines forms derived from FlaskForm. They are used in conjunction
-with templates to render sector-specific feedback forms with conditional logic
-and validators based on user inputs.
+Defines the `OGFeedback` class, a complex feedback form used for collecting structured data
+about methane emission incidents in the oil and gas sector. The form logic mirrors the official
+O&G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
+timestamp-based consistency checks.
 
-General-purpose WTForms utilities are located in:
-    arb.utils.wtf_forms_util.py
+Key Features:
+-------------
+- Enforces correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
+- Includes geospatial validation and timestamp sequencing checks.
+- Cross-field validation logic implemented in `validate()`.
+- Supports conditional validation with custom helpers like `change_validators_on_test()`.
 
-Form classes:
-    - OGFeedback: Oil and Gas sector form with contingent dropdowns, dynamic
-      validation rules, and optional monitoring logic.
+Usage:
+------
+  form = OGFeedback()
+  form.process(request.form)
 
-Each form includes:
-    - Rich WTForms field definitions
-    - Conditional validators depending on other fields
-    - Custom validate() methods
-    - Dynamic dropdown logic through determine_contingent_fields()
+  if form.validate_on_submit():
+    process_feedback_data(form.data)
+
+Notes:
+------
+- Fields such as `id_incidence` are read-only and display-only.
+- Contingent dropdowns are updated via `update_contingent_selectors()`.
+- Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.
 """
+
 from pathlib import Path
 
 from flask_wtf import FlaskForm
@@ -37,9 +46,26 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 class OGFeedback(FlaskForm):
   """
-  Oil & Gas feedback form designed to be consistent with the O&G feedback spreadsheet.
+  WTForms class for collecting feedback on Oil & Gas methane emissions.
+
+  This form models the structure of the O&G feedback spreadsheet and enforces
+  regulatory logic outlined in California methane rules (e.g., 95669.1).
+  Sections include metadata, inspection information, emissions details,
+  mitigation actions, and contact data.
+
+  Core Features:
+    - Uses standard WTForms field types, with conditionally required fields.
+    - Dropdowns update dynamically based on user selections.
+    - Includes geospatial coordinates and timestamp logic.
+    - Implements cross-field validation for inspection results and mitigation status.
+
+  Used by:
+    - The web-based feedback form in the ARB Feedback Portal.
+    - Routes such as `og_incidence_create` and `incidence_update`.
 
   Notes:
+    - Sector-specific contingent dropdowns are handled via Globals.
+    - Validators are adjusted at runtime depending on the selected conditions.
   """
 
   # venting through inspection (not through the 95669.1(b)(1) exclusion)
@@ -269,17 +295,41 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
-  def update_contingent_selectors(self):
-    pass
-
-  def validate(self, extra_validators=None):
+  def update_contingent_selectors(self) -> None:
     """
-    Overriding validate to allow for form-level validation and inter-comparing fields.
+    Update dropdown field options based on dependent selector fields.
 
-    Args:
-      extra_validators:
+    Dynamically replaces `.choices` for contingent fields depending on
+    parent selections. Uses the `Globals.drop_downs_contingent` structure
+    for Oil & Gas to determine appropriate mappings.
 
+    Examples:
+      - not implemented yet
+
+    Returns:
+      None
     """
+  pass
+
+  def validate(self, extra_validators=None) -> bool:
+    """
+      Override the default WTForms validation logic with cross-field rules
+      specific to Oil & Gas reporting.
+
+      Invokes:
+        - `determine_contingent_fields()` to update validators before validation.
+        - `super().validate()` to apply all field and form-level validations.
+
+      Custom checks include:
+        - Required fields based on mitigation status or inspection outcomes.
+        - Logical enforcement of conditional relationships between fields.
+
+      Args:
+        extra_validators (dict, optional): Additional validators provided at runtime.
+
+      Returns:
+        bool: True if form passes all validation rules, otherwise False.
+      """
     logger.debug(f"validate() called.")
     form_fields = get_wtforms_fields(self)
 
@@ -404,11 +454,20 @@ class OGFeedback(FlaskForm):
 
   def determine_contingent_fields(self) -> None:
     """
-    Some fields change from Required to Optional (or vice versa), or are required if another field selected is 'other',
-    This function updates all the contingent fields so they consistent with the input business logic.
+    Adjust validators based on user selections that imply exclusions or
+    optional behavior.
 
-    #Consider making validation more robust, for example, we may want to
-    reorder so that the venting exclusion is last, (I tried this before, but it may break the biz logic)
+    Affects validation logic such as:
+      - 95669.1(b)(1) exclusions where OGI inspection is not required.
+      - Skipping downstream fields when "No leak was detected" is selected.
+      - Making "Other" explanations required only if "Other" is selected.
+
+    Notes:
+      - Should be called before validation to sync rules with input state.
+      - Venting-related exclusions may need careful ordering to preserve business logic.
+
+    Returns:
+      None.
     """
 
     # logger.debug(f"In determine_contingent_fields()")

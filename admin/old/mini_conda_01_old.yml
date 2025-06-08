@@ -1,8 +1,4 @@
 # mini_conda_01.yml
-
-# need to update for:
-  # pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
-  # pip install sphinxcontrib-napoleon
 # -------------------------------------------------------------------------------------------------
 # Purpose:
 # --------
@@ -11,28 +7,20 @@
 # Creating the virtual environment:
 # ---------------------------------
 #   - Shell commands to create conda virtual environment named "mini_conda_01"
-#     based on this requirements file located at:
-#          "C:\one_drive\code\requirements\mini_conda_01.yml"
-#          "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
+#     based on this requirements file located at "C:\one_drive\code\requirements\mini_conda_01.yml"
 #
 #     conda update conda
 #     conda env list
 #     conda remove --name mini_conda_01 --all
 #     conda deactivate
 #     conda env create -f "C:\one_drive\code\requirements\mini_conda_01.yml"
-#        or
-#     conda env create -f "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
 #
 # Updating the conda environment:
 # ------------------------------
 #   - Shell commands to update the conda virtual environment named "mini_conda_01"
 #
 #     conda activate mini_conda_01  (Warning! Make sure you don't skip this activation step)
-#
 #     conda env update --file "C:\one_drive\code\requirements\mini_conda_01.yml" --prune
-#        or
-#     conda env update --file "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml" --prune
-
 # Notes:
 # ------
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
@@ -49,39 +37,31 @@ channels:
 dependencies:
   - python=3.11.*
   - flask
-  - flask-login
-  - flask-sqlalchemy
   - pandas
   - numpy
   - scipy
-  - matplotlib
-  - seaborn
-  - plotly
   - jupyter
   - notebook
+  - matplotlib
   - scikit-learn
-  - openpyxl
-  - xlwings
-  - sqlalchemy-utils
-  - more-itertools
+  - seaborn
+  - plotly
+  - flask-sqlalchemy
+  - flask-login
+  - psycopg2
   - conda-forge::wtforms=3.1
   - Flask-WTF
-  - psycopg2
+  - xlwings
+  - openpyxl
+  - sqlalchemy-utils
+  - more-itertools
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results
   - pip
   # If a package is not available through conda, include it in the pip sub-list below
   - pip:
-      - email_validator
-      - Flask-Migrate
-      - geoalchemy2
-      - mkdocs
-      - mkdocs-material
-      - mkdocstrings[python]
-      - mkdocs-gen-files
-      - mkdocs-literate-nav
-      - mkdocs-git-revision-date-localized-plugin
-      - mkdocs-git-committers-plugin
-      - pdoc
-      - wget
-      - WTForms-Alchemy
+    - wget  
+    - Flask-Migrate
+    - geoalchemy2
+    - email_validator
+    - WTForms-Alchemy

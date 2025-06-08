@@ -2,11 +2,15 @@
 Datetime parsing and timezone utilities for ISO 8601, UTC/Pacific conversion,
 repr-format recovery, and recursive datetime transformation in nested structures.
 
-Supports:
-- ISO 8601 validation and parsing
-- `repr(datetime)` string recovery
-- UTC ⇆ Pacific conversions with configurable behavior
-- Recursive conversion across nested data structures
+Features:
+- ISO 8601 validation and parsing (via `dateutil`)
+- Conversion between UTC and naive Pacific time (Los Angeles)
+- Safe handling of repr-formatted datetime strings (e.g., "datetime.datetime(...)")
+- Recursive datetime transformations within nested dicts/lists/sets/tuples
+
+Timezone policy:
+- `UTC_TZ` and `PACIFIC_TZ` are globally defined using `zoneinfo.ZoneInfo`
+- Naive timestamps are only assumed to be UTC if explicitly configured via arguments
 """
 
 import re
@@ -27,16 +31,16 @@ PACIFIC_TZ = ZoneInfo("America/Los_Angeles")
 
 def str_to_datetime(datetime_str: str) -> datetime | None:
   """
-  Convert a string in repr-style format into a datetime object.
+  Convert a `repr()`-formatted string into a datetime object.
 
   Args:
       datetime_str (str): Example: "datetime.datetime(2024, 11, 15, 14, 30, 45)"
 
   Returns:
-      datetime | None: Parsed datetime, or None if the pattern doesn't match.
+      datetime | None: Parsed datetime object if matched; otherwise, None.
 
   Notes:
-      This is useful for reversing repr()-based serialization of datetime objects.
+      This reverses `repr(datetime)` stringification for debugging recovery.
   """
   match = re.search(r"datetime\.datetime\(([^)]+)\)", datetime_str)
   if match:
@@ -45,33 +49,37 @@ def str_to_datetime(datetime_str: str) -> datetime | None:
   return None
 
 
-def date_to_string(x: datetime, str_format: str = "%Y-%m-%dT%H:%M") -> str | None:
+def date_to_string(dt: datetime | None, str_format: str = "%Y-%m-%dT%H:%M") -> str | None:
   """
-  Convert a datetime object to a string, using the specified format.
+  Convert a datetime object to a formatted string.
 
   Args:
-      x (datetime | None): A datetime object or None.
-      str_format (str): Format string passed to strftime.
+      dt (datetime | None): A datetime object or None.
+      str_format (str): Format string used with `strftime`.
 
   Returns:
-      str | None: Formatted string or None.
+      str | None: The formatted string if input is not None; otherwise, None.
+
+  Raises:
+      TypeError: If `x` is not a datetime object.
   """
-  if x is None:
+
+  if dt is None:
     return None
-  if not isinstance(x, datetime):
-    raise TypeError(f'x must be datetime.datetime or None. {x=}')
-  return x.strftime(str_format)
+  if not isinstance(dt, datetime):
+    raise TypeError(f'x must be datetime.datetime or None. {dt=}')
+  return dt.strftime(str_format)
 
 
-def repr_datetime_to_string(datetime_string: str) -> str | None:
+def repr_datetime_to_string(datetime_string: str | None) -> str | None:
   """
-  Convert a string created with repr(datetime) into ISO-style formatted string.
+  Convert a repr-formatted datetime string into an ISO 8601 string.
 
   Args:
-      datetime_string (str | None): repr-formatted datetime string.
+      datetime_string (str | None): A string in the format "datetime.datetime(...)"
 
   Returns:
-      str | None: ISO-style string or None.
+      str | None: ISO 8601 string or None if parsing fails or input is None.
   """
   if datetime_string is None:
     return None
@@ -81,13 +89,18 @@ def repr_datetime_to_string(datetime_string: str) -> str | None:
 
 def is_iso8601(string: str) -> bool:
   """
-  Check if a string is a valid ISO 8601 datetime.
+  Determine whether a string is a valid ISO 8601 datetime.
 
   Args:
-      string: The string to validate.
+      string (str): The string to validate.
 
   Returns:
-      True if the string is a valid ISO 8601 datetime, False otherwise.
+      bool: True if the string conforms to ISO 8601 datetime format, False otherwise.
+
+  Notes:
+      - Uses `dateutil.parser.isoparse` for strict ISO 8601 parsing.
+      - ISO 8601 requires a full date (YYYY-MM-DD) at minimum. Time-only strings are invalid.
+      - This does not validate durations, ordinal dates, or week dates.
 
   Examples:
       Valid cases (returns True):
@@ -169,26 +182,23 @@ def iso8601_to_utc_dt(iso_string: str, error_on_missing_tz: bool = True) -> date
   return dt.astimezone(UTC_TZ)
 
 
-def datetime_to_ca_naive(dt: datetime, assume_naive_is_utc: bool = False, utc_strict: bool = True) -> datetime:
+def datetime_to_ca_naive(dt: datetime,
+                         assume_naive_is_utc: bool = False,
+                         utc_strict: bool = True) -> datetime:
   """
-  Converts a datetime to a naive datetime in the America/Los_Angeles timezone.
+  Convert a datetime (UTC or naive) to naive Pacific Time.
 
   Args:
-      dt: A datetime object. Can be naive or timezone-aware using ZoneInfo.
-      assume_naive_is_utc: If True, and dt is naive, it will be assumed to be UTC.
-      utc_strict: If True, raises an error if dt is not explicitly in ZoneInfo(UTC).
+      dt (datetime): The datetime to convert.
+      assume_naive_is_utc (bool): If True, interpret naive datetime as UTC.
+      utc_strict (bool): If True, raise an error unless datetime is explicitly UTC.
 
   Returns:
-      A naive datetime in Pacific Time with tzinfo=None.
+      datetime: A naive Pacific Time datetime.
 
-  Examples:
-      >>> dt = datetime(2025, 5, 5, 12, 0, tzinfo=ZoneInfo("UTC"))
-      >>> datetime_to_ca_naive(dt)
-      datetime.datetime(2025, 5, 5, 5, 0)
-
-      >>> dt = datetime(2025, 5, 5, 12, 0)
-      >>> datetime_to_ca_naive(dt, assume_naive_is_utc=True)
-      datetime.datetime(2025, 5, 5, 5, 0)
+  Raises:
+      ValueError: If datetime is naive and `assume_naive_is_utc` is False,
+                  or if UTC check fails under `utc_strict`.
   """
   if dt.tzinfo is None:
     if assume_naive_is_utc:
@@ -204,16 +214,16 @@ def datetime_to_ca_naive(dt: datetime, assume_naive_is_utc: bool = False, utc_st
 
 def ca_naive_to_utc_datetime(dt: datetime) -> datetime:
   """
-  Convert naive Pacific datetime to UTC-aware datetime.
+  Convert a naive Pacific Time datetime to a UTC-aware datetime.
 
   Args:
-      dt: Naive datetime.
+      dt (datetime): A naive datetime.
 
   Returns:
-      UTC-aware datetime.
+      datetime: A UTC-aware datetime.
 
   Raises:
-      ValueError: If datetime is already timezone-aware.
+      ValueError: If the input is not naive (i.e., has timezone info).
   """
   if dt.tzinfo is not None:
     raise ValueError(f"Expected naive datetime, got {dt!r}")
@@ -222,16 +232,15 @@ def ca_naive_to_utc_datetime(dt: datetime) -> datetime:
 
 def convert_datetimes_to_ca_naive(data: object, assume_naive_is_utc: bool = False, utc_strict: bool = True) -> object:
   """
-  Recursively converts all datetime objects found anywhere in a nested data structure
-  (including dict keys, values, list elements, etc.) to naive Pacific Time.
+  Recursively convert all datetime objects in a nested structure to naive Pacific Time.
 
   Args:
-      data: A nested structure (dict, list, tuple, set, etc.) possibly containing datetimes.
-      assume_naive_is_utc: If True, and dt is naive, it is assumed to already be UTC.
-      utc_strict: If True, raises an error if dt is not explicitly in UTC.
+      data (object): A structure that may include datetime values (dict, list, etc.).
+      assume_naive_is_utc (bool): Whether to treat naive datetimes as UTC.
+      utc_strict (bool): Whether to enforce that input datetimes are explicitly UTC.
 
   Returns:
-      A new structure with all datetime objects converted to naive Pacific Time.
+      object: A structure of the same shape, with datetime values converted to naive Pacific.
 
   Examples:
       >>> from datetime import datetime
@@ -268,13 +277,13 @@ def convert_datetimes_to_ca_naive(data: object, assume_naive_is_utc: bool = Fals
 
 def convert_ca_naive_datetimes_to_utc(data: object) -> object:
   """
-  Recursively convert naive Pacific datetime objects to UTC-aware ones.
+  Recursively convert all naive Pacific Time datetimes in a nested structure to UTC-aware datetimes.
 
   Args:
-      data: Arbitrary nested structure.
+      data (object): A nested structure (e.g., dict, list, tuple).
 
   Returns:
-      Data with UTC datetimes.
+      object: The same structure with datetime values converted to UTC-aware format.
   """
   if isinstance(data, datetime):
     return ca_naive_to_utc_datetime(data)
@@ -291,18 +300,22 @@ def convert_ca_naive_datetimes_to_utc(data: object) -> object:
 
 def parse_unknown_datetime(date_str: str) -> datetime | None:
   """
-  Try parsing any string into a datetime using dateutil.
+  Attempt to parse an arbitrary string into a datetime using `dateutil.parser.parse()`.
 
   Args:
-      date_str: Input date/time string.
+      date_str (str): A date or datetime string in an unknown format.
 
   Returns:
-      Parsed datetime or None.
+      datetime | None: Parsed datetime object if successful; otherwise, None.
 
-  Examples:
-      >>> parse_unknown_datetime("2025-04-28T16:23:00Z")
-      datetime.datetime(2025, 4, 28, 16, 23, tzinfo=tzutc())
+  Raises:
+      None: Gracefully handles errors internally.
+
+  Notes:
+      - This method is lenient and accepts a wide range of human-readable formats.
+      - Returns None if the string is empty, not a string, or unparseable.
   """
+
   if not isinstance(date_str, str) or not date_str:
     return None
   try:
@@ -313,32 +326,37 @@ def parse_unknown_datetime(date_str: str) -> datetime | None:
 
 def is_datetime_naive(dt: datetime) -> bool:
   """
-  Determine whether a datetime object is naive (i.e., lacks timezone information).
-
-  A naive datetime has no tzinfo or has a tzinfo that returns None for utcoffset(),
-  meaning it does not represent an absolute point in time.
+  Check whether a datetime object is naive (lacks timezone info).
 
   Args:
-      dt (datetime): The datetime object to check.
+      dt (datetime): A datetime instance.
 
   Returns:
-      bool: True if the datetime is naive, False if it is timezone-aware.
+      bool: True if the datetime is naive (tzinfo is None or utcoffset is None); False otherwise.
 
-  Example:
+  Examples:
       >>> is_datetime_naive(datetime.now())
       True
 
-      >>> import zoneinfo
-      >>> aware = datetime.datetime.now(tz=zoneinfo.ZoneInfo("UTC"))
-      >>> is_datetime_naive(aware)
+      >>> from zoneinfo import ZoneInfo
+      >>> is_datetime_naive(datetime.now(tz=ZoneInfo("UTC")))
       False
   """
   return dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None
 
 
-def run_diagnostics():
+def run_diagnostics() -> None:
   """
-  Run basic diagnostics on datetime utilities for correctness.
+  Run a series of diagnostic operations to verify correctness of datetime utilities.
+
+  Demonstrates:
+      - ISO 8601 parsing to UTC
+      - Conversion to naive Pacific time
+      - Round-trip UTC conversion
+      - Recursive conversion in nested data structures
+
+  Returns:
+      None
   """
   from pprint import pprint
   print("Running diagnostics on datetime utilities...\n")

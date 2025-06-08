@@ -1,7 +1,11 @@
 """
 WSGI entry point for serving the Flask app.
 
-This file allows the application to be run using a WSGI server like Gunicorn or uWSGI.
+This file enables the application to be run via a WSGI server
+(e.g., Gunicorn or uWSGI) or directly via `flask run` or `python wsgi.py`.
+
+It provides detailed notes for various execution contexts, Flask CLI behavior,
+debugging strategies, and developer workflows including PyCharm integration.
 
 Note on running Flask Apps:
 
@@ -101,9 +105,6 @@ Note on running Flask Apps:
   - The project root directory is "feedback_portal"
   - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
     - Path(__file__).resolve().parents[3] → .../feedback_portal
-
-# todo - work this in, run with: flask --app wsgi run --no-reload
-
 """
 
 from arb.__get_logger import get_logger

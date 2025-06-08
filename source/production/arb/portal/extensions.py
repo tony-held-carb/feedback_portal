@@ -1,17 +1,25 @@
 """
-Extensions.py has the centralized instance of SQLAlchemy database variable named
-'db' that is common to the flask app and related routines.
+Centralized definition of Flask extension instances used throughout the portal.
+
+This module avoids circular imports by creating extension objects (e.g., `db`, `csrf`)
+at the top level, without initializing them until `app.init_app()` is called elsewhere.
+
+Extensions Defined:
+  - db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.
+  - csrf (CSRFProtect): CSRF protection used for form validation.
 
 Notes:
-  * db will be initialized and associated with the flask app in different modules.
-  * db is placed here to avoid circular references.
-  * To use the db outside a flask route function, use a context of the form:
-    with app.app_context():
-      # Your code goes here.
-      db.create_all()  # for example
-  * the type hint for db is:
-      db (SQLAlchemy): SQLAlchemy database associated with a flask app
+  - `geoalchemy2.Geometry` must be imported for spatial field introspection,
+    even if not directly referenced in code.
+  - Use `with app.app_context():` when accessing `db` outside a Flask route.
+
+
+Example:
+  >>> from arb.portal.extensions import db
+  >>> with app.app_context():
+  ...     db.create_all()
 """
+
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
@@ -25,6 +33,8 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 db = SQLAlchemy()
+"""SQLAlchemy: Flask SQLAlchemy instance for managing ORM and schema."""
 # print(f"{type(db)=}")
 
 csrf = CSRFProtect()
+"""CSRFProtect: Flask-WTF extension for CSRF form protection."""

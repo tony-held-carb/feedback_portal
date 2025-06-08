@@ -1,10 +1,18 @@
 """
-Flask-related initialization utilities.
+Flask-specific application setup utilities for the ARB Feedback Portal.
 
-This module sets up Jinja environment, logging, and template globals.
+This module configures Flask app behavior, including:
+  - Jinja2 environment customization
+  - Upload limits and paths
+  - Flask logger settings
+  - Custom template filters and globals
+
+Should be invoked during application factory setup:
 
 Example:
-    from startup.flask import configure_flask_app
+  from startup.flask import configure_flask_app
+  app = Flask(__name__)
+  configure_flask_app(app)
 """
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -25,13 +33,22 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 def configure_flask_app(app: Flask) -> None:
   """
-  Configure logging, Jinja, and app-wide settings.
+  Apply global configuration to the Flask app instance.
 
   Args:
-      app (Flask): Flask app instance.
+    app (Flask): The Flask application to configure.
 
-  Example:
-      configure_flask_app(app)
+  Configures:
+    - Jinja2 environment:
+        * Enables strict mode for undefined variables
+        * Trims and left-strips whitespace blocks
+        * Registers custom filters and timezone globals
+    - Upload settings:
+        * Sets `UPLOAD_FOLDER` to the shared upload path
+        * Limits `MAX_CONTENT_LENGTH` to 16MB
+    - Logger:
+        * Applies `LOG_LEVEL` from app config
+        * Disables Werkzeug color log markup
   """
   logger.debug("configure_flask_app() called")
 

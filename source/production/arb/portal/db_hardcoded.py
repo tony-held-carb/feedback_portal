@@ -1,9 +1,16 @@
 """
-This module groups hardcoded testing/example data
-and related routines associated with the operator portal.
+Hardcoded testing data and dropdown lookup values for the ARB Methane Feedback Portal.
+
+This module provides:
+  - Dummy incidence records for Oil & Gas and Landfill sectors
+  - Lookup values for HTML dropdowns (independent and contingent)
+  - Shared test values for local debugging or spreadsheet seeding
 
 Notes:
+  - Intended for use during development and offline diagnostics
+  - Not suitable for production database seeding
 """
+
 import datetime
 from pathlib import Path
 
@@ -42,15 +49,20 @@ LANDFILL_SECTORS = [
 
 def add_og_dummy_data(db, base, table_name) -> None:
   """
-  Add dummy data to incidence table for diagnostics.
-  This routine is likely outdated and is kept only as a template.
-  It is valid, but not necessary to specify 'Please Select' in dummy data.
+  (Depreciated) Populate the database with synthetic Oil & Gas incidence rows for diagnostics.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy database associated with a flask app
-    base (DeclarativeMeta): SQLAlchemy declarative base
-    table_name (str): database table name
+    db (SQLAlchemy): Active SQLAlchemy session bound to the database.
+    base (AutomapBase): SQLAlchemy automap base for resolving table classes.
+    table_name (str): Target table name (e.g., 'incidences').
+
+  Notes:
+    - This routine is likely outdated and is kept only as a template.
+    - It is valid, but not necessary to specify 'Please Select' in dummy data.
+    - Uses an offset in `id_incidence` to avoid primary key conflicts.
+    - Inserts 9 rows with dummy `misc_json` fields.
   """
+
   from arb.utils.sql_alchemy import get_class_from_table_name
   logger.debug("Adding dummy oil and gas data to populate the database")
   table = get_class_from_table_name(base, table_name)
@@ -94,11 +106,15 @@ def add_og_dummy_data(db, base, table_name) -> None:
   db.session.commit()
 
 
-def get_og_dummy_data():
+def get_og_dummy_data() -> dict:
   """
-  Create a model with dummy data for debugging purposes.
+  Generate dummy Oil & Gas form data as a dictionary.
 
-  It is valid, but not necessary to specify 'Please Select' in dummy data.
+  Returns:
+    dict: Pre-filled key/value pairs used to populate a feedback form.
+
+  Notes:
+  - It is valid, but not necessary to specify 'Please Select' in dummy data.
   """
 
   json_data = {
@@ -140,9 +156,15 @@ def get_og_dummy_data():
   return json_data
 
 
-def get_landfill_dummy_data():
+def get_landfill_dummy_data() -> dict:
   """
-  Create a model with dummy data for debugging purposes.
+  Generate dummy Landfill form data as a dictionary.
+
+  Returns:
+    dict: Pre-filled key/value pairs used to populate a feedback form.
+
+  Notes:
+  - It is valid, but not necessary to specify 'Please Select' in dummy data.
   """
   logger.debug(f"in landfill_dummy_data()")
 
@@ -190,18 +212,26 @@ def get_landfill_dummy_data():
   return json_data
 
 
-def get_excel_dropdown_data():
+def get_excel_dropdown_data() -> tuple[dict[str, list[str]], dict[str, dict[str, list[str]]]]:
   """
-  Get a dict of tuples suitable for html select elements (keyed by html element name).
+  Return dropdown lookup values used in Excel and HTML form rendering.
 
-  Each tuple is 2 or 3 items in length with the format:
-    (select value, select text, and an optional dictionary of additional html formatting)
+  Returns:
+    tuple:
+      - dict[str, list[str]]: Independent dropdowns keyed by HTML field name.
+      - dict[str, dict[str, list[str]]]: Contingent dropdowns dependent on parent field values.
+
+  Notes:
+    - Dropdown values mirror those found in Excel templates.
+    - Each list element is a selectable value; `"Please Select"` is prepended externally.
+    - Contingent keys follow the format: `field2_contingent_on_field1`.
+    - Each tuple is 2 or 3 items in length with the format:
+      (select value, select text, and an optional dictionary of additional html formatting)
 
   # todo - The new drop-downs are not context dependent like they are in excel and the
            validate logic needs to be updated.
-  Returns:
-    drop_downs (list[tuple]): lookup dictionary of drop-down key values for each table.
   """
+
   # Oil & Gas
   drop_downs = {
     "venting_exclusion": [

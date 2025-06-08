@@ -1,17 +1,34 @@
 """
-app_util.py has utility functions specific to the feedback_portal app.
+Application-specific utility functions for the ARB Feedback Portal.
 
-Notes:
-    * General-purpose utility functions not tightly coupled with feedback_portal
-      should be placed in arb.util so they can be reused in other projects.
+This module provides helpers for resolving sector data, handling file uploads,
+preparing database rows, and integrating WTForms with SQLAlchemy models.
+
+Key Capabilities:
+-----------------
+- Resolve sector and sector_type for an incidence
+- Insert or update rows from Excel/JSON payloads
+- Reflect and verify database schema and rows
+- Track uploaded files via the UploadedFile table
+- Apply filter logic to the portal_updates log view
+- Generate context and form logic for feedback pages
+
+Typical Usage:
+--------------
+- File ingestion and incidence row creation
+- Dynamic form loading from model rows
+- Sector/type resolution from related tables
+- Upload tracking and file diagnostics
 """
-
 from datetime import datetime
 from pathlib import Path
 
 from flask import redirect, render_template, request, url_for
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-from sqlalchemy.orm.attributes import flag_modified
+from sqlalchemy.ext.automap import AutomapBase
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
 from arb.portal.constants import PLEASE_SELECT
@@ -31,23 +48,19 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def get_sector_info(db, base, id_):
+def get_sector_info(db: SQLAlchemy,
+                    base: AutomapBase,
+                    id_: int) -> tuple[str, str]:
   """
-  Given an incidence primary key, return the sector and sector type.
-
-  The sector and sector type can be in the foreign table sources, in its sector column
-  and/or can be in the misc_json field.
+  Resolve the sector and sector_type for a given incidence ID.
 
   Args:
-    db (SQLAlchemy session): Database connection.
-    base (SQLAlchemy base): Declarative base object for model reflection.
-    id_ (int): Primary key of the 'incidences' table.
+    db (SQLAlchemy): SQLAlchemy database instance.
+    base (AutomapBase): SQLAlchemy automapped declarative base.
+    id_ (int): ID of the row in the `incidences` table.
 
   Returns:
     tuple[str, str]: (sector, sector_type)
-      sector: Name of the sector (e.g., "Oil & Gas").
-      sector_type: Grouping of the sector (e.g., "Oil & Gas", "Landfill").
-
   """
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
@@ -83,17 +96,22 @@ def get_sector_info(db, base, id_):
   return sector, sector_type
 
 
-def resolve_sector(sector_by_foreign_key, row, misc_json):
+def resolve_sector(sector_by_foreign_key: str | None,
+                   row: DeclarativeMeta,
+                   misc_json: dict) -> str:
   """
-  Attempt to reconcile sector mismatches between JSON and FK values.
+  Determine the appropriate sector from FK and JSON sources.
 
   Args:
-      sector_by_foreign_key (str | None): Sector from foreign key relationship.
-      row (SQLAlchemy model): Row model to update if needed.
-      misc_json (dict): Dictionary for misc_json column.
+    sector_by_foreign_key (str | None): Sector from `sources` table.
+    row (DeclarativeMeta): Row from `incidences` table (SQLAlchemy result).
+    misc_json (dict): Parsed `misc_json` content.
 
   Returns:
-      str: Final sector value.
+    str: Sector string.
+
+  Raises:
+    ValueError: If values are missing or conflict.
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
   sector = None
@@ -120,18 +138,18 @@ def resolve_sector(sector_by_foreign_key, row, misc_json):
   return sector
 
 
-def get_sector_type(sector):
+def get_sector_type(sector: str) -> str:
   """
-  Determine sector_type grouping from specific sector name.
+  Map a sector name to its broad classification.
 
   Args:
-      sector (str): Name of the sector.
+    sector (str): Input sector label.
 
   Returns:
-      str: Sector type ("Oil & Gas" or "Landfill").
+    str: One of "Oil & Gas" or "Landfill".
 
   Raises:
-      ValueError: If sector is unknown.
+    ValueError: On unknown sector input.
   """
 
   if sector in OIL_AND_GAS_SECTORS:
@@ -142,18 +160,22 @@ def get_sector_type(sector):
     raise ValueError(f"Unknown sector type: '{sector}'.")
 
 
-def upload_and_update_db(db, upload_dir, request_file, base):
+def upload_and_update_db(db: SQLAlchemy,
+                         upload_dir: str | Path,
+                         request_file: FileStorage,
+                         base: AutomapBase
+                         ) -> tuple[str, int | None, str | None]:
   """
-  Upload a file from a web form, parse it, and update the database.
+  Save uploaded file, parse contents, and insert or update DB rows.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      upload_dir (str | Path): Directory to store uploaded file.
-      request_file (FileStorage): Uploaded file from request.files.
-      base (SQLAlchemy base): Declarative base.
+    db (SQLAlchemy): Database instance.
+    upload_dir (str | Path): Directory where file will be saved.
+    request_file (FileStorage): Flask `request.files[...]` object.
+    base (AutomapBase): Automapped schema metadata.
 
   Returns:
-      tuple[str, int | None, str | None]: Filename, id_incidence, sector.
+    tuple[str, int | None, str | None]: Filename, id_incidence, sector.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -171,34 +193,42 @@ def upload_and_update_db(db, upload_dir, request_file, base):
   return file_name, id_, sector
 
 
-def json_file_to_db(db, file_name, base):
+def json_file_to_db(db: SQLAlchemy,
+                    file_name: str | Path,
+                    base: AutomapBase
+                    ) -> tuple[int, str]:
   """
-  Load JSON from file and update the database.
+  Load a JSON file and insert its contents into the `incidences` table.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      file_name (str | Path): Path to JSON file.
-      base (SQLAlchemy base): Declarative base.
+    db (SQLAlchemy): SQLAlchemy session used to commit the new row.
+    file_name (str | Path): Path to the JSON file on disk.
+    base (AutomapBase): SQLAlchemy automapped metadata base.
 
   Returns:
-      tuple[int, str]: ID and sector from inserted record.
+    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
+
+  Raises:
+    FileNotFoundError: If the specified file path does not exist.
+    json.JSONDecodeError: If the file is not valid JSON.
   """
+
   json_as_dict, metadata = json_load_with_meta(file_name)
   return xl_dict_to_database(db, base, json_as_dict)
 
 
-def xl_dict_to_database(db, base, xl_dict, tab_name="Feedback Form"):
+def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str = "Feedback Form") -> tuple[int, str]:
   """
-  Convert Excel-derived dict structure to DB row.
+  Insert or update a row from an Excel-parsed JSON dictionary into the database.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      base (SQLAlchemy base): Declarative base.
-      xl_dict (dict): Parsed Excel JSON content.
-      tab_name (str): Worksheet/tab name to extract data from.
+    db (SQLAlchemy): SQLAlchemy database instance.
+    base (AutomapBase): Reflected SQLAlchemy base metadata.
+    xl_dict (dict): Parsed Excel document with 'metadata' and 'tab_contents'.
+    tab_name (str): Name of the worksheet tab to extract.
 
   Returns:
-      tuple[int, str]: id_incidence and sector.
+    tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.
   """
   logger.debug(f"xl_dict_to_database() called with {xl_dict=}")
   metadata = xl_dict["metadata"]
@@ -210,31 +240,29 @@ def xl_dict_to_database(db, base, xl_dict, tab_name="Feedback Form"):
   return id_, sector
 
 
-def get_ensured_row(db,
-                    base,
-                    table_name: str = "incidences",
-                    primary_key_name: str = "id_incidence",
-                    id_: int = None):
+def get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=None) -> tuple:
   """
-  Ensure a row exists in the specified table with the given primary key.
+  Retrieve or create a row in the specified table using a primary key.
 
-  If `id_` is provided, attempts to retrieve the row from the database.
-  If it does not exist, creates a new row with that ID.
-  If `id_` is not provided, creates a new row with an auto-incremented primary key.
+  If the row exists, it is returned. Otherwise, a new row is created and committed.
 
   Args:
-      db: SQLAlchemy database object with a `.session`.
-      base: Declarative base used for table introspection.
-      table_name (str): Name of the target table (default: "incidences").
-      primary_key_name (str): Name of the primary key column (default: "id_incidence").
-      id_ (int): Optional. Value of the primary key to fetch or create.
+    db (SQLAlchemy): SQLAlchemy database instance.
+    base (AutomapBase): Reflected SQLAlchemy base metadata.
+    table_name (str): Table name to operate on. Defaults to 'incidences'.
+    primary_key_name (str): Name of the primary key column. Defaults to 'id_incidence'.
+    id_ (int | None): Primary key value. If None, a new row is created.
 
   Returns:
-      tuple: A tuple of (model instance, primary key value, is_new_row).
+    tuple: (model, id_, is_new_row)
+      - model: SQLAlchemy ORM instance
+      - id_: Primary key value
+      - is_new_row: Whether a new row was created (True/False)
 
   Raises:
-      AttributeError: If the specified primary key column does not exist on the model.
+    AttributeError: If the model class lacks the specified primary key.
   """
+
   is_new_row = False
 
   session = db.session
@@ -262,26 +290,30 @@ def get_ensured_row(db,
 def dict_to_database(db,
                      base,
                      data_dict: dict,
-                     table_name: str = "incidences",
-                     primary_key: str = "id_incidence",
-                     json_field: str = "misc_json") -> int:
+                     table_name="incidences",
+                     primary_key="id_incidence",
+                     json_field="misc_json") -> int:
   """
-  Insert or update a JSON payload into a SQLAlchemy model.
+  Insert or update a row in the specified table using a dictionary payload.
+
+  The payload is merged into a model instance and committed to the database.
 
   Args:
-      db: SQLAlchemy database object with a `.session`.
-      base: Declarative base for schema introspection.
-      data_dict (dict): Form or JSON payload data.
-      table_name (str): Name of the target table (default: "incidences").
-      primary_key (str): Name of the primary key column (default: "id_incidence").
-      json_field (str): Name of the column that stores the JSON payload (default: "misc_json").
+    db (SQLAlchemy): SQLAlchemy database instance.
+    base (AutomapBase): Reflected SQLAlchemy base metadata.
+    data_dict (dict): Dictionary containing payload data.
+    table_name (str): Table name to modify. Defaults to 'incidences'.
+    primary_key (str): Name of the primary key field. Defaults to 'id_incidence'.
+    json_field (str): Name of the JSON field to update. Defaults to 'misc_json'.
 
   Returns:
-      int: The primary key value of the updated or inserted row.
+    int: Final value of the primary key for the affected row.
 
   Raises:
-      ValueError: If `data_dict` is empty.
+    ValueError: If data_dict is empty.
+    AttributeError: If the resulting model does not expose the primary key.
   """
+
   from arb.utils.wtf_forms_util import update_model_with_payload
 
   if not data_dict:
@@ -318,16 +350,22 @@ def dict_to_database(db,
     raise
 
 
-def add_file_to_upload_table(db, file_name, status=None, description=None):
+def add_file_to_upload_table(db, file_name: str | Path,
+                             status=None,
+                             description=None) -> None:
   """
-  Add metadata entry to the uploaded_files table.
+  Insert a record into the `UploadedFile` table for audit and diagnostics.
 
   Args:
-      db (SQLAlchemy session): Database connection.
-      file_name (str | Path): Full path to uploaded file.
-      status (str | None): Optional status label.
-      description (str | None): Optional textual description.
+    db (SQLAlchemy): SQLAlchemy database instance.
+    file_name (str | Path): File path or name to be recorded.
+    status (str | None): Optional upload status label.
+    description (str | None): Optional notes for the upload event.
+
+  Returns:
+    None
   """
+
   # todo (consider) to wrap commit in log?
   from arb.portal.sqla_models import UploadedFile
 
@@ -342,16 +380,19 @@ def add_file_to_upload_table(db, file_name, status=None, description=None):
   logger.debug(f"{model_uploaded_file=}")
 
 
-def apply_portal_update_filters(query, PortalUpdate, args):
+def apply_portal_update_filters(query, PortalUpdate, args: dict):
   """
-  Applies filters to a SQLAlchemy query for PortalUpdate entries.
+  Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.
 
-  This function supports filtering by:
-  - Field key (partial match)
-  - User (partial match)
-  - Comments (partial match)
-  - Timestamp range (start_date, end_date in YYYY-MM-DD format)
-  - ID incidence (exact matches, bounded ranges, unbounded ranges)
+  Args:
+    query (SQLAlchemy Query): Query to be filtered.
+    PortalUpdate (Base): ORM model class for the portal_updates table.
+    args (dict): Typically from `request.args`, containing filter values.
+
+  Supported filters:
+    - Substring matches on key, user, comments
+    - ID exact match or range parsing (e.g. "100-200, 250")
+    - Date range filtering via `start_date` and `end_date`
 
   Supported ID formats (via filter_id_incidence):
   ------------------------------------------------
@@ -362,13 +403,8 @@ def apply_portal_update_filters(query, PortalUpdate, args):
   - "123,150-200,250-"     → Mixed exacts and ranges
   - "abc, 100-xyz, 222"    → Invalid parts are ignored
 
-  Args:
-      query (Query): SQLAlchemy query object.
-      PortalUpdate (Base): PortalUpdate SQLAlchemy model class.
-      args (dict): Dictionary of GET parameters (e.g., request.args).
-
-  Returns:
-      Query: Filtered SQLAlchemy query.
+  Returns (SQLAlchemy Query):
+    SQLAlchemy query: Modified query with filters applied.
   """
   filter_key = args.get("filter_key", "").strip()
   filter_user = args.get("filter_user", "").strip()
@@ -435,24 +471,28 @@ def apply_portal_update_filters(query, PortalUpdate, args):
   return query
 
 
-def incidence_prep(model_row,
-                   crud_type,
-                   sector_type,
-                   default_dropdown=None):
+def incidence_prep(model_row: DeclarativeMeta,
+                   crud_type: str,
+                   sector_type: str,
+                   default_dropdown: str) -> str:
   """
-  Helper function used by many flask routes to render feedback forms for
-  both creation and updating.
+  Generate the context and render the HTML template for a feedback record.
+
+  Populates WTForms fields from the model and applies validation logic
+  depending on the request method (GET/POST). Integrates conditional
+  dropdown resets, CSRF-less validation, and feedback record persistence.
 
   Args:
-    model_row (SQLAlchemy.Model): Single row from a SQLAlchemy model
-    crud_type (str): 'update' or 'create'
-    sector_type (str): 'Oil & Gas' or 'Landfill'
-    default_dropdown (str): Defaults if no drop-down is selected.
+    model_row (DeclarativeMeta): SQLAlchemy model row for the feedback entry.
+    crud_type (str): 'create' or 'update'.
+    sector_type (str): 'Oil & Gas' or 'Landfill'.
+    default_dropdown (str): Value used to fill in blank selects.
 
-  Returns (str): html for dynamic page
+  Returns:
+    str: Rendered HTML from the appropriate feedback template.
 
-  Notes:
-
+  Raises:
+    ValueError: If the sector type is invalid.
   """
   # imports below can't be moved to top of file because they require Globals to be initialized
   # prior to first use (Globals.load_drop_downs(app, db)).

@@ -1,24 +1,47 @@
 """
-SQLAlchemy related utilities.
+SQLAlchemy utility functions for Flask applications using declarative or automap base models.
 
-Provides tools for:
-  - Model diagnostics
-  - Column and type inspection
-  - Table-level introspection
-  - Row operations and logging
-  - Foreign key traversal and PK/sequence lookup
+This module provides introspection, diagnostics, and model-row operations for SQLAlchemy-based
+Flask apps. It supports both declarative and automapped models.
+
+Included Utilities:
+-------------------
+- Model diagnostics (`sa_model_diagnostics`)
+- Field and column type inspection (`get_sa_fields`, `get_sa_column_types`)
+- Full automap type mapping (`get_sa_automap_types`)
+- Dictionary conversions (`sa_model_to_dict`, `sa_model_dict_compare`)
+- Table-to-dict exports (`table_to_list`)
+- Table/class lookups (`get_class_from_table_name`)
+- Row fetch and sort utilities (`get_rows_by_table_name`)
+- Model add/delete with logging (`add_commit_and_log_model`, `delete_commit_and_log_model`)
+- Foreign key traversal (`get_foreign_value`)
+- PostgreSQL sequence inspection (`find_auto_increment_value`)
+- JSON column loader (`load_model_json_column`)
+
+Type Hints:
+-----------
+- `db (SQLAlchemy)`: Flask-SQLAlchemy database instance with .session and .engine.
+- `base (DeclarativeMeta)`: Declarative or automapped SQLAlchemy base (e.g., via automap_base()).
+- `model (DeclarativeMeta)`: SQLAlchemy ORM model class or instance.
+- `session (Session)`: SQLAlchemy session object.
+
+Usage Notes:
+------------
+- Supports PostgreSQL features like sequence inspection via `pg_get_serial_sequence`.
+- Logging is integrated for debugging and auditing.
+- Compatible with Python 3.10+ syntax (PEP 604 union types).
 
 Version:
     1.0.0
-
-Notes:
-    - All type hints use Python 3.10+ modern syntax (e.g., str | None).
-    - Assumes SQLAlchemy ORM with automap or declarative base integration.
-    - Logs all major operations for debugging and auditing.
 """
+
 import json
 
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc, inspect, text
+from sqlalchemy.engine import Engine
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import Session
 
 from arb.__get_logger import get_logger
 from arb.utils.misc import log_error
@@ -27,16 +50,19 @@ __version__ = "1.0.0"
 logger, pp_log = get_logger()
 
 
-def sa_model_diagnostics(model, comment: str = "") -> None:
+def sa_model_diagnostics(model: DeclarativeMeta, comment: str = "") -> None:
   """
   Log diagnostic details about a SQLAlchemy model instance.
 
   Args:
-      model: SQLAlchemy model instance.
-      comment (str): Optional header for logs.
+      model (DeclarativeMeta): SQLAlchemy model instance.
+      comment (str): Optional comment header for log output.
+
+  Returns:
+      None
 
   Example:
-      >>> sa_model_diagnostics(user, comment="Inspecting User")
+    >>> sa_model_diagnostics(user, comment="Inspecting User")
   """
   logger.debug(f"Diagnostics for model of type {type(model)=}")
   if comment:
@@ -49,19 +75,19 @@ def sa_model_diagnostics(model, comment: str = "") -> None:
     logger.debug(f"{key} {type(value)} = ({value})")
 
 
-def get_sa_fields(model) -> list[str]:
+def get_sa_fields(model: DeclarativeMeta) -> list[str]:
   """
-  Get sorted list of column names for a SQLAlchemy model.
+  Get a sorted list of column names for a SQLAlchemy model.
 
   Args:
-      model: SQLAlchemy ORM model instance or class.
+      model (DeclarativeMeta): SQLAlchemy model instance or class.
 
   Returns:
-      list[str]: List of column/attribute names.
+      list[str]: Alphabetically sorted list of column attribute names.
 
   Example:
-      >>> get_sa_fields(user)
-      ['email', 'id', 'name']
+    >>> get_sa_fields(User)
+    ['email', 'id', 'name']
   """
   inst = inspect(model)
   model_fields = [c_attr.key for c_attr in inst.mapper.column_attrs]
@@ -69,16 +95,23 @@ def get_sa_fields(model) -> list[str]:
   return model_fields
 
 
-def get_sa_column_types(model, is_instance: bool = True) -> dict[str, dict]:
+def get_sa_column_types(model: DeclarativeMeta, is_instance: bool = False) -> dict:
   """
-  Get SQLAlchemy and Python types for each column of a model.
+  Return a mapping of each column to its SQLAlchemy and Python types.
 
   Args:
-      model: SQLAlchemy model instance or class.
-      is_instance (bool): True if model is an instance, False if a class.
+      model (DeclarativeMeta): SQLAlchemy model instance or class.
+      is_instance (bool): True if `model` is an instance, False if a class.
 
   Returns:
-      dict: Mapping of column names to type information.
+      dict: Mapping from column names to a dict with 'sqlalchemy_type' and 'python_type'.
+
+  Example:
+    >>> get_sa_column_types(User)
+    {
+      'id': {'sa_type': 'Integer', 'py_type': 'int'},
+      'email': {'sa_type': 'String', 'py_type': 'str'}
+    }
   """
 
   # Get the table inspector for the model
@@ -110,23 +143,24 @@ def get_sa_column_types(model, is_instance: bool = True) -> dict[str, dict]:
   return columns_info
 
 
-def get_sa_automap_types(engine, base):
+def get_sa_automap_types(engine: Engine, base: DeclarativeMeta) -> dict:
   """
-  Return the automap types associated with a sqlalchemy model to determine underlying DB, SQLAlchemy, and python
-  data types associated with each column's data.
+  Return column type metadata for all mapped classes.
 
   Args:
-    engine (sqlalchemy.engine.Engine): SQLAlchemy engine instance
-    base (DeclarativeMeta): SQLAlchemy declarative base
+      engine (Engine): SQLAlchemy engine instance.
+      base (DeclarativeMeta): Automap base prepared with reflected metadata.
+
+  Returns:
+      dict: Nested mapping: table -> column -> type category.
+            The dict is database table names, columns names, and datatypes with the structure:
+              result[table_name][column_name][kind] = type
+              where: kind can be 'database_type', 'sqlalchemy_type', or 'python_type'
 
   Notes:
-    base likely created with:
-      base = automap_base()
-      base.prepare(db.engine, reflect=True)
-
-  Returns (dict): Dictionary of database table names, columns names, and datatypes with the structure:
-    result[table_name][column_name][kind] = type
-    where: kind can be 'database_type', 'sqlalchemy_type', or 'python_type',
+    - base likely created with:
+        base = automap_base()
+        base.prepare(db.engine, reflect=True)
   """
   logger.debug(f"calling get_sa_automap_types()")
 
@@ -197,14 +231,15 @@ def sa_model_dict_compare(model_before: dict, model_after: dict) -> dict:
   return changes
 
 
-def sa_model_to_dict(model):
+def sa_model_to_dict(model: DeclarativeMeta) -> dict:
   """
-  Convert a sqlalchemy model to a python dictionary.
+  Convert a SQLAlchemy model to a Python dictionary.
 
   Args:
-    model: SQLAlchemy model
+      model (DeclarativeMeta): SQLAlchemy model.
 
-  Returns (dict): python dictionary with model column names as keys and column values as values.
+  Returns:
+      dict: Dictionary with column names as keys and values from the model.
   """
   model_as_dict = {}
   fields = get_sa_fields(model)
@@ -215,13 +250,13 @@ def sa_model_to_dict(model):
   return model_as_dict
 
 
-def table_to_list(base, session, table_name: str) -> list[dict]:
+def table_to_list(base: DeclarativeMeta, session: Session, table_name: str) -> list[dict]:
   """
   Convert all rows of a mapped table to a list of dicts.
 
   Args:
-      base: Automap base.
-      session: SQLAlchemy session.
+      base (DeclarativeMeta): Automap base.
+      session (Session): SQLAlchemy session.
       table_name (str): Table name to query.
 
   Returns:
@@ -244,23 +279,24 @@ def table_to_list(base, session, table_name: str) -> list[dict]:
   return result
 
 
-def get_class_from_table_name(base, table_name):
+def get_class_from_table_name(base: DeclarativeMeta | None,
+                              table_name: str) -> DeclarativeMeta | None:
   """
-  Retrieves the table from SQLAlchemy's metadata by the table_name.
-  If the table is not mapped, this returns None.
+  Retrieves the mapped class for a given table name.
 
   Args:
-    base (DeclarativeMeta): SQLAlchemy declarative base
-    table_name (str): database table name
+      base (DeclarativeMeta): SQLAlchemy declarative base.
+      table_name (str): Database table name.
 
-  Returns (Mapper): table as mapped class of database
+  Returns:
+      DeclarativeMeta | None: Mapped SQLAlchemy ORM class, or None if not found.
 
   Notes:
-    * To access the class mapped to a specific table name in SQLAlchemy without directly using _class_registry,
+  - To access the class mapped to a specific table name in SQLAlchemy without directly using _class_registry,
     you can use the Base.metadata object, which stores information about all mapped tables.
 
-    * get_class_from_table_name seems to fail from gpt refactor, so i kept my original code here.
-    * it failed because my old test of is not None was changed to if - be on the lookout for other subtle bugs like this
+  - get_class_from_table_name seems to fail from gpt refactor, so i kept my original code here.
+  - it failed because my old test of is not None was changed to if - be on the lookout for other subtle bugs like this
   """
   try:
     # Look up the table in metadata and find its mapped class
@@ -278,24 +314,25 @@ def get_class_from_table_name(base, table_name):
   return None
 
 
-def get_rows_by_table_name(db,
-                           base,
-                           table_name: str,
-                           colum_name_pk: str | None = None,
-                           ascending: bool = True
-                           ):
+def get_rows_by_table_name(
+    db: SQLAlchemy,
+    base: DeclarativeMeta,
+    table_name: str,
+    colum_name_pk: str | None = None,
+    ascending: bool = True
+) -> list:
   """
-  Retrieve all rows from a table, optionally sorted by a column.
+    Retrieve all rows from a table, optionally sorted by a column.
 
-  Args:
-      db: SQLAlchemy db object.
-      base: Declarative base.
-      table_name (str): Table name.
-      colum_name_pk (str | None): Column to sort by.
-      ascending (bool): Sort order.
+    Args:
+        db: SQLAlchemy db object.
+        base (DeclarativeMeta): Declarative base.
+        table_name (str): Table name.
+        colum_name_pk (str | None): Column to sort by.
+        ascending (bool): Sort order.
 
-  Returns:
-      list: List of ORM model instances.
+    Returns:
+        list[DeclarativeMeta]: List of ORM model instances.
   """
   table = get_class_from_table_name(base, table_name)
   logger.info(f"{type(table)=}")
@@ -310,13 +347,13 @@ def get_rows_by_table_name(db,
   return rows
 
 
-def delete_commit_and_log_model(db, model_row, comment: str = "") -> None:
+def delete_commit_and_log_model(db: SQLAlchemy, model_row: DeclarativeMeta, comment: str = "") -> None:
   """
   Delete a model instance, log it, and commit the change.
 
   Args:
-      db: SQLAlchemy db.
-      model_row: ORM model instance.
+      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+      model_row (DeclarativeMeta): ORM model instance.
       comment (str): Optional log comment.
   """
   # todo (update) - use the payload routine apply_json_patch_and_log and or some way to track change
@@ -329,17 +366,18 @@ def delete_commit_and_log_model(db, model_row, comment: str = "") -> None:
     log_error(e)
 
 
-def add_commit_and_log_model(db,
-                             model_row,
-                             comment: str = "",
-                             model_before: dict | None = None
-                             ) -> None:
+def add_commit_and_log_model(
+    db: SQLAlchemy,
+    model_row: DeclarativeMeta,
+    comment: str = "",
+    model_before: dict | None = None
+) -> None:
   """
   Add or update a model instance, log changes, and commit.
 
   Args:
-      db: SQLAlchemy db.
-      model_row: ORM model instance.
+      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+      model_row (DeclarativeMeta): ORM model instance.
       comment (str): Optional log comment.
       model_before (dict | None): Optional snapshot before changes.
   """
@@ -360,24 +398,25 @@ def add_commit_and_log_model(db,
     log_error(e)
 
 
-def get_table_row_and_column(db,
-                             base,
-                             table_name: str,
-                             column_name: str,
-                             id_: int
-                             ) -> tuple | None:
+def get_table_row_and_column(
+    db: SQLAlchemy,
+    base: DeclarativeMeta,
+    table_name: str,
+    column_name: str,
+    id_: int
+) -> tuple | None:
   """
   Fetch a row and column value given table name and primary key.
 
   Args:
-      db: SQLAlchemy db.
-      base: Declarative base.
+      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+      base (DeclarativeMeta): Declarative base.
       table_name (str): Table name.
       column_name (str): Column of interest.
       id_ (int): Primary key value.
 
   Returns:
-      tuple: (row, value) or (None, None)
+      tuple | None: (row, value) if found, else (None, None).
   """
   logger.debug(f"Getting {column_name} from {table_name} where pk={id_}")
   column_value = None
@@ -391,32 +430,33 @@ def get_table_row_and_column(db,
   return row, column_value
 
 
-def get_foreign_value(db,
-                      base,
-                      primary_table_name: str,
-                      foreign_table_name: str,
-                      primary_table_fk_name: str,
-                      foreign_table_column_name: str,
-                      primary_table_pk_value: int,
-                      primary_table_pk_name: str | None = None,
-                      foreign_table_pk_name: str | None = None
-                      ) -> str | None:
+def get_foreign_value(
+    db: SQLAlchemy,
+    base: DeclarativeMeta,
+    primary_table_name: str,
+    foreign_table_name: str,
+    primary_table_fk_name: str,
+    foreign_table_column_name: str,
+    primary_table_pk_value: int,
+    primary_table_pk_name: str | None = None,
+    foreign_table_pk_name: str | None = None
+) -> str | None:
   """
-  Resolve a foreign key reference and return its value.
+    Resolve a foreign key reference and return its value.
 
-  Args:
-      db: SQLAlchemy db.
-      base: Declarative base.
-      primary_table_name (str): Table with FK.
-      foreign_table_name (str): Table with desired value.
-      primary_table_fk_name (str): FK field name.
-      foreign_table_column_name (str): Target field name in foreign table.
-      primary_table_pk_value (int): PK value of row in primary table.
-      primary_table_pk_name (str | None): Optional PK field override.
-      foreign_table_pk_name (str | None): Optional PK override in foreign table.
+    Args:
+        db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+        base (DeclarativeMeta): Declarative base.
+        primary_table_name (str): Table with FK.
+        foreign_table_name (str): Table with desired value.
+        primary_table_fk_name (str): FK field name.
+        foreign_table_column_name (str): Target field name in foreign table.
+        primary_table_pk_value (int): PK value of row in primary table.
+        primary_table_pk_name (str | None): Optional PK field override.
+        foreign_table_pk_name (str | None): Optional PK override in foreign table.
 
-  Returns:
-      str | None: Foreign value if found, else None.
+    Returns:
+        str | None: Foreign value if found, else None.
   """
   logger.debug(f"Looking up foreign value: {locals()}")
   result = None
@@ -445,12 +485,12 @@ def get_foreign_value(db,
   return result
 
 
-def find_auto_increment_value(db, table_name: str, column_name: str) -> str:
+def find_auto_increment_value(db: SQLAlchemy, table_name: str, column_name: str) -> str:
   """
   Find the next auto-increment value for a table column (PostgreSQL only).
 
   Args:
-      db: SQLAlchemy db.
+      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
       table_name (str): Table name.
       column_name (str): Column name.
 
@@ -467,7 +507,7 @@ def find_auto_increment_value(db, table_name: str, column_name: str) -> str:
     return f"Table '{table_name}' column '{column_name}' sequence '{sequence_name}' next value is '{next_val}'"
 
 
-def load_model_json_column(model, column_name: str) -> dict:
+def load_model_json_column(model: DeclarativeMeta, column_name: str) -> dict:
   """
   Safely extract and normalize a JSON dictionary from a model's column.
 
@@ -478,7 +518,7 @@ def load_model_json_column(model, column_name: str) -> dict:
   If the value is a malformed JSON string, a warning is logged and an empty dict is returned.
 
   Args:
-      model: SQLAlchemy model instance.
+      model (DeclarativeMeta): SQLAlchemy ORM model instance.
       column_name (str): Name of the attribute on the model (e.g., 'misc_json').
 
   Returns:
@@ -499,7 +539,7 @@ def load_model_json_column(model, column_name: str) -> dict:
     raise TypeError(f"Expected str, dict, or None for {column_name}, got {type(raw_value).__name__}")
 
 
-def run_diagnostics(db, base, session) -> None:
+def run_diagnostics(db: SQLAlchemy, base: DeclarativeMeta, session: Session) -> None:
   """
   Run diagnostics to validate SQLAlchemy utilities in this module.
 
@@ -512,9 +552,9 @@ def run_diagnostics(db, base, session) -> None:
     - Primary and foreign key access
 
   Args:
-      db: SQLAlchemy db object
-      base: Declarative or automap base
-      session: Active SQLAlchemy session
+      db: SQLAlchemy db object.
+      base (DeclarativeMeta): Declarative or automap base.
+      session (Session): Active SQLAlchemy session.
 
   Example:
       >>> run_diagnostics(db, base, db.session)
