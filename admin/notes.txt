@@ -666,3 +666,33 @@ Pushing to github docs
 run local server
     mkdocs serve
 
+Setting windows variables:
+Open PowerShell (not Command Prompt):
+    Press Win + S, type "PowerShell", and open it.
+    [System.Environment]::SetEnvironmentVariable("<variable_name>", "<variable_value>", "User")
+    [System.Environment]::SetEnvironmentVariable("portal", "C:\one_drive\code\pycharm\feedback_portal", "User")
+
+CMD change the prompt (failed)
+    PyCharm → Settings → Tools → Terminal → Shell path:
+        old path: cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH%"
+        new path: cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH% && prompt [$N]$G"
+        cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH% && prompt ($N)$G"
+        cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH% && prompt $G"
+        cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH% && conda activate mini_conda_01 && prompt $G"
+
+Changing conda hooks (worked):
+    echo %CONDA_PREFIX%
+        C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01
+    created file:
+        C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\etc\conda\activate.d\set_prompt.bat
+    with content:
+        @echo off
+        prompt [$P]$_$G
+    created file:
+        C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\etc\conda\deactivate.d\reset_prompt.bat
+    with content:
+        @echo off
+        prompt $P$G
+
+
+
