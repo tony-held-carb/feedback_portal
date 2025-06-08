@@ -728,3 +728,20 @@ def upload_and_update_db(db: SQLAlchemy,
 
   return file_name, id_, sector
 
+Hi Steve and Dan,
+
+The Portal now has a bunch of new features, perhaps most visible is a documentation/usage site that can be found here:
+
+https://tony-held-carb.github.io/feedback_portal/
+
+A representative screenshot is attached.
+
+I created this using the docstrings from the source code using mkdocs and some python scripts.
+
+The portal is now refactored and up at: http://10.93.112.44:2113/
+
+The github page associated with the code is at: https://github.com/tony-held-carb/feedback_portal
+
+The github page has a read.me file for how to run the portal on a laptop and/or ec2.
+
+More show-and-tell to come :) Tony
