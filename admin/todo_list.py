@@ -2,9 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-
-* merge and relaunch site to ec2
-* tag the release and update release notes
+* test site on ec2 after merge with test spreadsheets
 
 * create an initiatives/priories page.
 
