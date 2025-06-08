@@ -1,0 +1,11 @@
+/* Ensure sidebar can scroll fully */
+.md-sidebar {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Optional: make sidebar feel less jumpy */
+.md-sidebar__scrollwrap {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
