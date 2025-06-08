@@ -24,7 +24,6 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/hide-sidebar-title.css
-#  - stylesheets/fix-sidebar-scroll.css
 
 plugins:
   - search

@@ -659,3 +659,10 @@ This documentation is auto-generated from Python source code and includes:
 - SQLAlchemy integration and metadata support
 
 Use the left sidebar to explore the available modules.
+
+Pushing to github docs
+    mkdocs build
+    mkdocs gh-deploy --clean
+run local server
+    mkdocs serve
+

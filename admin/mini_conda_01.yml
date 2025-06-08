@@ -80,6 +80,8 @@ dependencies:
       - mkdocstrings[python]
       - mkdocs-gen-files
       - mkdocs-literate-nav
+      - mkdocs-git-revision-date-localized-plugin
+      - mkdocs-git-committers-plugin
       - pdoc
       - wget
       - WTForms-Alchemy

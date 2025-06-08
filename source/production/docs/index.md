@@ -1,3 +1,5 @@
+# Welcome & Instructions
+
 Welcome to the backend documentation site for the CalSMP Operator Feedback Portal.
 
 This documentation is auto-generated from Python source code and includes:
