@@ -2,37 +2,31 @@
 
 # todo - Next Steps
 ----------------------------
+* merge and relaunch site to ec2
+* create an initiatives/priories page.
+* send out message to steve/dan?
+  * highlight the new doc site
 
-- looks like i got the docstrings and type hinting updated properly
-- tried to gen documenation based on docstrings, but need more time for that
-
-    * need to figure out what to do with delete incidences? (may not really happen often)
-
+* UI/UX ideas
   * if a incidence passes validation, have it splash a success message before going to index
-
-* consider new color for validate that stands out more
-* consider diff blue for card headers
-
-* if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
-upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
+  * consider new color for validate that stands out more
+  * consider diff blue for card headers
+  * if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
+  upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
 
 * link to plume tracker now works off row id rather than misc_json contents.
   * it may be possible to get rid of id_incidence entirely from misc_json, but
     that will require wtforms to be changed and the filter logic.  keeping it in for now.
-* id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
-  alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
+  * id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
+    alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
 
+* need to figure out what to do with delete incidences? (may not really happen often)
 
-* 'Please Selects' should no longer persist to database, but
-  may want to rethink how please selects are handled in general?
-
-* check that change log is working properly, there may be trouble with empty strings or None's ...
 
 * check that the app/database is working using testing_protocol_and_notes.txt
   * update release notes and wsgi for uniform guidance on flask runs
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
-
 
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
