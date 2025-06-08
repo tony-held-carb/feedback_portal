@@ -2,8 +2,12 @@
 
 # todo - Next Steps
 ----------------------------
+
 * merge and relaunch site to ec2
+* tag the release and update release notes
+
 * create an initiatives/priories page.
+
 * send out message to steve/dan?
   * highlight the new doc site
 
@@ -22,9 +26,7 @@
 
 * need to figure out what to do with delete incidences? (may not really happen often)
 
-
 * check that the app/database is working using testing_protocol_and_notes.txt
-  * update release notes and wsgi for uniform guidance on flask runs
 
   * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 

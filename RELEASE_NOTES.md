@@ -2,6 +2,10 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
+### v1.4.0 - 2025-06-08
+- Debug version 1.4.0.  Stable, needs to be externally tested.
+- Documentation site created and new Help menu created.
+ 
 ### v1.3.0 - 2025-05-11
 - Debug version 1.3.0.  Stable, needs to be externally tested.
 - New page to view portal changes.

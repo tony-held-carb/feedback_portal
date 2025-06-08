@@ -105,9 +105,6 @@ Note on running Flask Apps:
   - The project root directory is "feedback_portal"
   - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
     - Path(__file__).resolve().parents[3] → .../feedback_portal
-
-# todo - work this in, run with: flask --app wsgi run --no-reload
-
 """
 
 from arb.__get_logger import get_logger

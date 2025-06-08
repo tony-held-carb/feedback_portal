@@ -696,3 +696,35 @@ Changing conda hooks (worked):
 
 
 
+def upload_and_update_db(db: SQLAlchemy,
+                         upload_dir: str | Path,
+                         request_file: FileStorage,
+                         base: AutomapBase
+                         ) -> tuple[str, int | None, str | None]:
+  """
+  Save uploaded file, parse contents, and insert or update DB rows.
+
+  Args:
+    db (SQLAlchemy): Database instance.
+    upload_dir (str | Path): Directory where file will be saved.
+    request_file (FileStorage): Flask `request.files[...]` object.
+    base (AutomapBase): Automapped schema metadata.
+
+  Returns:
+    tuple[str, int | None, str | None]: Filename, id_incidence, sector.
+  """
+  logger.debug(f"upload_and_update_db() called with {request_file=}")
+  id_ = None
+  sector = None
+
+  file_name = upload_single_file(upload_dir, request_file)
+  add_file_to_upload_table(db, file_name, status="File Added", description=None)
+
+  # if file is xl and can be converted to json,
+  # save a json version of the file and return the filename
+  json_file_name = get_json_file_name(file_name)
+  if json_file_name:
+    id_, sector = json_file_to_db(db, json_file_name, base)
+
+  return file_name, id_, sector
+

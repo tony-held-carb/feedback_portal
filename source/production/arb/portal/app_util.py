@@ -217,7 +217,7 @@ def json_file_to_db(db: SQLAlchemy,
   return xl_dict_to_database(db, base, json_as_dict)
 
 
-def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str) -> tuple[int, str]:
+def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str = "Feedback Form") -> tuple[int, str]:
   """
   Insert or update a row from an Excel-parsed JSON dictionary into the database.
 

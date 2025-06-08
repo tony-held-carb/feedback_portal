@@ -1,6 +1,6 @@
 # Feedback Portal Project
 
-* The pycharm project name and github repo name for this project are both 'feedback_portal'.
+* The pycharm project name and GitHub repo name for this project are both 'feedback_portal.'
   * https://github.com/tony-held-carb/feedback_portal
 
 ### Running the Portal Flask App
@@ -15,7 +15,7 @@
     * /home/theld/code/git_repos/feedback_portal/logs/
     * removing existing log files:
       * rm /home/theld/code/git_repos/feedback_portal/logs/*.log
-    * show contents of log file:
+    * show contents of the log file:
 * Laptop (Windows): http://127.0.0.1:2113/
     * cd %portal%\source\production\arb"
       * flask --app wsgi run --debug --no-reload -p 2113
@@ -41,7 +41,7 @@
   * misc_json only contains "Please Select" when it replaces a previously valid value.
 
 ### Cloning Portal
-* Navigate to root path of repos
+* Navigate to the root path of repos
   * windows: "C:\one_drive\code\pycharm\"
   * ec2: cd "/home/theld/code/git_repos"
 * Removing the old git repo (if necessary)
@@ -91,3 +91,10 @@
 * Activate mini_conda environment
   * conda deactivate
   * conda activate mini_conda_01
+
+### Pushing documentation site to GitHub
+* Pushing to GitHub docs
+  * mkdocs build
+  * mkdocs gh-deploy --clean
+* run local server
+  * mkdocs serve
