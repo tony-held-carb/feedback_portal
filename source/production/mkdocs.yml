@@ -25,6 +25,7 @@ plugins:
 
 extra_css:
   - stylesheets/hide-sidebar-title.css  # keep this only if needed
+  - stylesheets/extra.css
 #  - stylesheets/force-panels.css
 #  - stylesheets/fixes.css
 #  - stylesheets/fix-sidebar-scroll.css
