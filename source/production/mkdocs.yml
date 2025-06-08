@@ -3,7 +3,8 @@ site_url: https://tony-held-carb.github.io/
 use_directory_urls: true
 
 theme:
-  name: material
+#  name: material
+  name: readthedocs
   features:
     - navigation.sections
     - navigation.expand
@@ -24,8 +25,9 @@ plugins:
             show_source: true
 
 extra_css:
-  - stylesheets/hide-sidebar-title.css  # keep this only if needed
-  - stylesheets/extra.css
+#  - stylesheets/hide-sidebar-title.css  # keep this only if needed
+#  - stylesheets/extra.css
 #  - stylesheets/force-panels.css
+#  - stylesheets/force-panels-02.css
 #  - stylesheets/fixes.css
 #  - stylesheets/fix-sidebar-scroll.css
