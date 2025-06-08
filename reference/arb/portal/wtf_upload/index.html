@@ -22,7 +22,7 @@
     
     
       
-        <title>arb.portal.wtf_upload - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+        <title>arb.portal.wtf_upload - CalSMP Operator Feedback Portal</title>
       
     
     
@@ -84,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            CalSMP Operator Feedback Portal Documentation & Source Code
+            CalSMP Operator Feedback Portal
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -182,13 +182,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+    <a href="../../../.." title="CalSMP Operator Feedback Portal" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    CalSMP Operator Feedback Portal Documentation & Source Code
+    CalSMP Operator Feedback Portal
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -727,17 +727,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arb.portal.wtf_upload.UploadForm" class="md-nav__link">
     <span class="md-ellipsis">
       UploadForm
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1487,17 +1487,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arb.portal.wtf_upload.UploadForm" class="md-nav__link">
     <span class="md-ellipsis">
       UploadForm
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1524,23 +1524,18 @@
 
 
 
-<h2 id="arb.portal.wtf_upload" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">arb.portal.wtf_upload</span>
-
-
-</h2>
-
+<a id="arb.portal.wtf_upload"></a>
     <div class="doc doc-contents first">
 
         <p>WTForms-based upload form for the ARB Feedback Portal.</p>
 <p>Defines a minimal form used to upload Excel files via the web interface.
 Typically used in the <code>/upload</code> route.</p>
-<h4 id="arb.portal.wtf_upload--fields">Fields:</h4>
+<h3 id="arb.portal.wtf_upload--fields">Fields:</h3>
 <ul>
 <li>file: Accepts <code>.xls</code> or <code>.xlsx</code> files only.</li>
 <li>submit: Triggers form submission.</li>
 </ul>
-<h4 id="arb.portal.wtf_upload--notes">Notes:</h4>
+<h3 id="arb.portal.wtf_upload--notes">Notes:</h3>
 <ul>
 <li>Leverages Flask-WTF integration with Bootstrap-compatible rendering.</li>
 <li>Additional validation for file size or filename may be added externally.</li>
@@ -1567,11 +1562,11 @@ Typically used in the <code>/upload</code> route.</p>
 
 
 
-<h3 id="arb.portal.wtf_upload.UploadForm" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">UploadForm</span>
+<h2 id="arb.portal.wtf_upload.UploadForm" class="doc doc-heading">
+            <code>UploadForm</code>
 
 
-</h3>
+</h2>
 
 
     <div class="doc doc-contents ">
@@ -1602,6 +1597,47 @@ submit (SubmitField): Form button to initiate upload.</p>
 
 
 
+              <details class="quote">
+                <summary>Source code in <code>arb\portal\wtf_upload.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  WTForm for uploading Excel or JSON files via the ARB Feedback Portal.</span>
+
+<span class="sd">  Fields:</span>
+<span class="sd">    file (FileField): Upload field for selecting a `.xls` or `.xlsx` file.</span>
+<span class="sd">    submit (SubmitField): Form button to initiate upload.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Uses Flask-WTF and integrates with Bootstrap templates.</span>
+<span class="sd">    - File extension restrictions enforced via `FileAllowed`.</span>
+<span class="sd">    - Form is rendered in the Upload UI at `/upload`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">file</span> <span class="o">=</span> <span class="n">FileField</span><span class="p">(</span>
+    <span class="s2">&quot;Choose Excel File&quot;</span><span class="p">,</span>
+    <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">DataRequired</span><span class="p">(),</span> <span class="n">FileAllowed</span><span class="p">([</span><span class="s1">&#39;xls&#39;</span><span class="p">,</span> <span class="s1">&#39;xlsx&#39;</span><span class="p">],</span> <span class="s1">&#39;Excel files only!&#39;</span><span class="p">)]</span>
+  <span class="p">)</span>
+  <span class="n">submit</span> <span class="o">=</span> <span class="n">SubmitField</span><span class="p">(</span><span class="s2">&quot;Upload&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
 
 
 
@@ -1685,7 +1721,7 @@ submit (SubmitField): Form button to initiate upload.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>

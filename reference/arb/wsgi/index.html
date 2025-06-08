@@ -22,7 +22,7 @@
     
     
       
-        <title>arb.wsgi - CalSMP Operator Feedback Portal Documentation & Source Code</title>
+        <title>arb.wsgi - CalSMP Operator Feedback Portal</title>
       
     
     
@@ -84,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+    <a href="../../.." title="CalSMP Operator Feedback Portal" class="md-header__button md-logo" aria-label="CalSMP Operator Feedback Portal" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            CalSMP Operator Feedback Portal Documentation & Source Code
+            CalSMP Operator Feedback Portal
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -182,13 +182,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="CalSMP Operator Feedback Portal Documentation &amp; Source Code" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal Documentation & Source Code" data-md-component="logo">
+    <a href="../../.." title="CalSMP Operator Feedback Portal" class="md-nav__button md-logo" aria-label="CalSMP Operator Feedback Portal" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    CalSMP Operator Feedback Portal Documentation & Source Code
+    CalSMP Operator Feedback Portal
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -388,20 +388,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="wsgi">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload" class="md-nav__link">
     <span class="md-ellipsis">
       todo - work this in, run with: flask --app wsgi run --no-reload
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1448,20 +1442,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="wsgi">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload" class="md-nav__link">
     <span class="md-ellipsis">
       todo - work this in, run with: flask --app wsgi run --no-reload
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1488,12 +1476,7 @@
 
 
 
-<h2 id="arb.wsgi" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">arb.wsgi</span>
-
-
-</h2>
-
+<a id="arb.wsgi"></a>
     <div class="doc doc-contents first">
 
         <p>WSGI entry point for serving the Flask app.</p>
@@ -1516,21 +1499,20 @@ debugging strategies, and developer workflows including PyCharm integration.</p>
 </li>
 </ul>
 <p>2) Flask configuration precedence:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">The</span><span class="w"> </span><span class="n">effective</span><span class="w"> </span><span class="n">behavior</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">Flask</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="n">depends</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">it</span><span class="s1">&#39;s launched and which</span>
-<span class="n">configuration</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">various</span><span class="w"> </span><span class="n">levels</span><span class="o">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">precedence</span><span class="w"> </span><span class="n">applies</span><span class="p">:</span>
+<pre><code>The effective behavior of your Flask app depends on how it's launched and which
+configuration values are set at various levels. The following precedence applies:
 
-<span class="n">Precedence</span><span class="w"> </span><span class="n">Order</span><span class="w"> </span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="n">strongest</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">weakest</span><span class="p">):</span>
+Precedence Order (from strongest to weakest):
 
-<span class="w">  </span><span class="mf">1.</span><span class="w"> </span><span class="n">Arguments</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="n">directly</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="err">`</span>
-<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">These</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="n">everything</span><span class="w"> </span><span class="k">else</span><span class="p">,</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span>
+  1. Arguments passed directly to `app.run(...)`
+     - These override everything else, including CLI flags and environment variables.
 
-<span class="w">  </span><span class="mf">2.</span><span class="w"> </span><span class="n">Flask</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="n">command</span><span class="o">-</span><span class="n">line</span><span class="w"> </span><span class="n">options</span>
-<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="err">`</span><span class="n">flask</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="o">--</span><span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="err">`</span><span class="w"> </span><span class="n">overrides</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">FLASK_RUN_PORT</span><span class="w"> </span><span class="n">setting</span><span class="o">.</span>
+  2. Flask CLI command-line options
+     - e.g., `flask run --port=8000` overrides any FLASK_RUN_PORT setting.
 
-<span class="w">  </span><span class="mf">3.</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="n">variables</span>
-<span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_ENV</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_DEBUG</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_RUN_PORT</span>
-</code></pre></div>
-
+  3. Environment variables
+     - e.g., FLASK_ENV, FLASK_DEBUG, FLASK_RUN_PORT
+</code></pre>
 <p>2) Environmental variables and running from the Flask CLI</p>
 <ul>
 <li>FLASK_APP:
@@ -1555,28 +1537,27 @@ debugging strategies, and developer workflows including PyCharm integration.</p>
         * determines if the Werkzeug browser debugger is on/off
       * --no-reload  &lt;-- faster load time and does not restart app on source code changes</p>
 <p>4) Source code app arguments:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Commonly</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">arguments</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="err">`</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="err">`</span><span class="p">:</span>
+<pre><code>Commonly used arguments for `app.run()`:
 
-<span class="n">Args</span><span class="p">:</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">bind</span><span class="w"> </span><span class="n">to</span><span class="o">.</span>
-<span class="w">      </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="err">`</span><span class="o">.</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="err">`</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="err">`</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">app</span>
-<span class="w">      </span><span class="n">publicly</span><span class="w"> </span><span class="n">accessible</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">network</span><span class="p">)</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">listen</span><span class="w"> </span><span class="n">on</span><span class="o">.</span>
-<span class="w">      </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="mi">5000</span><span class="err">`</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">activates</span>
-<span class="w">      </span><span class="n">auto</span><span class="o">-</span><span class="n">reload</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">interactive</span><span class="w"> </span><span class="n">browser</span><span class="w"> </span><span class="n">debugger</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">None</span><span class="err">`</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">use_reloader</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">auto</span><span class="o">-</span><span class="n">reloader</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">restart</span>
-<span class="w">      </span><span class="n">the</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="n">changes</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">enabled</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">use_debugger</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Enables</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">interactive</span><span class="w"> </span><span class="n">debugger</span>
-<span class="w">      </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">browser</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="n">occur</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">debug</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">enabled</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">threaded</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">multithreaded</span><span class="w"> </span><span class="n">mode</span><span class="o">.</span>
-<span class="w">      </span><span class="n">Useful</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">handling</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="n">concurrent</span><span class="w"> </span><span class="n">requests</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">False</span><span class="err">`</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">processes</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="n">processes</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">handling</span><span class="w"> </span><span class="n">requests</span><span class="o">.</span>
-<span class="w">      </span><span class="n">Mutually</span><span class="w"> </span><span class="n">exclusive</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="err">`</span><span class="n">threaded</span><span class="o">=</span><span class="n">True</span><span class="err">`</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="mi">1</span><span class="err">`</span><span class="o">.</span>
-<span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">load_dotenv</span><span class="w"> </span><span class="p">(</span><span class="nb nb-Type">bool</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">):</span><span class="w"> </span><span class="n">Whether</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">from</span>
-<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="err">`</span><span class="o">.</span><span class="n">env</span><span class="err">`</span><span class="w"> </span><span class="n">file</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">`</span><span class="n">True</span><span class="err">`</span><span class="o">.</span>
-</code></pre></div>
-
+Args:
+  * host (str, optional): The IP address to bind to.
+      Defaults to `'127.0.0.1'`. Use `'0.0.0.0'` to make the app
+      publicly accessible (e.g., on a local network).
+  * port (int, optional): The port number to listen on.
+      Defaults to `5000`.
+  * debug (bool, optional): Enables debug mode, which activates
+      auto-reload and the interactive browser debugger. Defaults to `None`.
+  * use_reloader (bool, optional): Enables the auto-reloader to restart
+      the server on code changes. Defaults to `True` if debug is enabled.
+  * use_debugger (bool, optional): Enables the interactive debugger
+      in the browser when errors occur. Defaults to `True` if debug is enabled.
+  * threaded (bool, optional): Run the server in multithreaded mode.
+      Useful for handling multiple concurrent requests. Defaults to `False`.
+  * processes (int, optional): Number of worker processes for handling requests.
+      Mutually exclusive with `threaded=True`. Defaults to `1`.
+  * load_dotenv (bool, optional): Whether to load environment variables from
+      a `.env` file. Defaults to `True`.
+</code></pre>
 <p>5) Best practices:
   1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
     * will give you access to Browser-based call trace or python debugger depending on other factors
@@ -1600,7 +1581,7 @@ debugging strategies, and developer workflows including PyCharm integration.</p>
   - The project root directory is "feedback_portal"
   - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
     - Path(<strong>file</strong>).resolve().parents[3] → .../feedback_portal</p>
-<h3 id="arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload">todo - work this in, run with: flask --app wsgi run --no-reload</h3>
+<h2 id="arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload">todo - work this in, run with: flask --app wsgi run --no-reload</h2>
 
 
 
@@ -1681,7 +1662,7 @@ debugging strategies, and developer workflows including PyCharm integration.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.instant", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
