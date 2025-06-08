@@ -1,11 +1,22 @@
-/* Ensure sidebar can scroll fully */
+/* Allow the sidebar (left nav) to scroll normally */
 .md-sidebar {
+  height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
+  position: sticky;
+  top: 0;
 }
 
-/* Optional: make sidebar feel less jumpy */
-.md-sidebar__scrollwrap {
+/* Fix scrollable TOC on the right side */
+.md-sidebar--secondary {
+  height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  position: sticky;
+  top: 0;
+}
+
+/* Prevent double scrollbars */
+.md-sidebar__scrollwrap {
+  overflow: hidden;
 }
