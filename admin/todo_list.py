@@ -4,10 +4,11 @@
 ----------------------------
 * test site on ec2 after merge with test spreadsheets
 
-* create an initiatives/priories page.
-
-* send out message to steve/dan?
-  * highlight the new doc site
+* future initiatives
+  * add user log-in
+  * unit testing
+  * move to s3 bucket
+  * use carb ois github deployment (docker, etc)
 
 * UI/UX ideas
   * if a incidence passes validation, have it splash a success message before going to index
@@ -39,12 +40,6 @@
   * so you can revert back to old state when you propose a spreadsheet upload
   * add flask user authentication and add to logging routines
 
-* future initiatives
-  * use blueprint structure
-    * Flask App Blueprinting Structure: https://chatgpt.com/share/6823ecba-5fb4-800b-b0b6-0128d6d649d9
-  * add user log-in
-  * update logging based on flask user
-  * potentially come up with unit testing
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
