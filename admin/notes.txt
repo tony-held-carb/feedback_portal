@@ -745,3 +745,8 @@ The github page associated with the code is at: https://github.com/tony-held-car
 The github page has a read.me file for how to run the portal on a laptop and/or ec2.
 
 More show-and-tell to come :) Tony
+
+
+pycharm logs appear at:
+
+C:\Users\theld\AppData\Local\JetBrains\PyCharm2025.1\log\idea.log
