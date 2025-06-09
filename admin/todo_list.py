@@ -2,7 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
-* test site on ec2 after merge with test spreadsheets
+* about to break up app_util.py into smaller files to make logic easier to follow and facilitate unit tests
+
 
 * future initiatives
   * add user log-in
