@@ -97,5 +97,3 @@ def db_initialize_and_create() -> None:
   db_initialize()
   db_create()
   logger.info("Database initialized and tables ensured.")
-
-

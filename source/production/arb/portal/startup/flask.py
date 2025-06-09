@@ -58,7 +58,7 @@ def configure_flask_app(app: Flask) -> None:
   # Logging Configuration
   # -------------------------------------------------------------------------
   logger.setLevel(app.config.get("LOG_LEVEL", "INFO"))
-  # Logging: Turn off color coding (avoids special terminal characters in log file)
+  # Logging: Turn off color coding (avoids special terminal characters in the log file)
   werkzeug.serving._log_add_style = False
 
   # -------------------------------------------------------------------------

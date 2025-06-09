@@ -8,11 +8,8 @@ This module defines:
   - Diagnostic tools for runtime environment inspection
 
 Example:
-  from startup.runtime_info import (
-    PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
-    IS_WINDOWS, IS_LINUX, IS_MAC,
-    print_runtime_diagnostics
-  )
+  from startup.runtime_info import (PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
+    IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)
 
 Notes:
   - The project root directory is assumed to be named "feedback_portal".
@@ -70,7 +67,7 @@ IS_MAC: bool = PLATFORM.startswith("darwin")
 # ----------------------------------------------------
 # Determine File Structure
 # ----------------------------------------------------
-# Get the platform independent project root directory knowing the apps directory structure is:
+# Get the platform independent project root directory knowing the app's directory structure is:
 # 'feedback_portal/source/production/arb/portal/'
 APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb', 'portal']
 PROJECT_ROOT: Path = get_project_root_dir(__file__, APP_DIR_STRUCTURE)
