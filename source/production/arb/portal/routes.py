@@ -31,7 +31,7 @@ from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_update_db
-from arb.portal.utils.form_integration import apply_portal_update_filters
+from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
