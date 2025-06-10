@@ -11,7 +11,8 @@ Notes:
       {"schema": schema_dict, "metadata": metadata_dict}
 
 Example:
-  >>> xl_schema_map["oil_and_gas_v03"]["schema"]
+  Input:  xl_schema_map["oil_and_gas_v03"]["schema"]
+  Output: Dictionary representing the oil and gas schema
 """
 
 import copy

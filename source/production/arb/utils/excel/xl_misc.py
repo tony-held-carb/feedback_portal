@@ -43,11 +43,11 @@ def get_excel_row_column(xl_address: str) -> tuple[str, int]:
     ValueError: If the format is invalid (e.g., not exactly two-dollar signs, or row not an integer).
 
   Examples:
-    >>> get_excel_row_column("$Z$9")
-    ('Z', 9)
+    Input:  "$Z$9"
+    Output: ('Z', 9)
 
-    >>> get_excel_row_column("$AA$105")
-    ('AA', 105)
+    Input:  "$AA$105"
+    Output: ('AA', 105)
   """
 
   if xl_address.count('$') != 2:
@@ -90,11 +90,11 @@ def xl_address_sort(
     ValueError: If `address_location` or `sort_by` has an invalid value.
 
   Examples:
-    >>> xl_address_sort(("$B$3", "data"), address_location="key", sort_by="row")
-    3
+    Input:  ("$B$3", "data"), address_location="key", sort_by="row"
+    Output: 3
 
-    >>> xl_address_sort(("item", {"pos": "$C$7"}), address_location="value", sort_by="column", sub_keys="pos")
-    'C'
+    Input:  ("item", {"pos": "$C$7"}), address_location="value", sort_by="column", sub_keys="pos"
+    Output: 'C'
   """
 
   if address_location == "key":
@@ -124,8 +124,6 @@ def run_diagnostics() -> None:
   Run demonstration tests for get_excel_row_column() and xl_address_sort().
   This function is only called if this module is run directly.
 
-  Examples:
-    >>> run_diagnostics()
   """
   # pp = pprint.PrettyPrinter(indent=4, sort_dicts=False)
 
