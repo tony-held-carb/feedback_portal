@@ -157,16 +157,14 @@ def iso8601_to_utc_dt(iso_string: str, error_on_missing_tz: bool = True) -> date
                   `error_on_missing_tz` is True.
 
   Examples:
-      >>> iso8601_to_utc_dt("2025-04-20T14:30:00+00:00")
-      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo("UTC"))
+      Input:  "2025-04-20T14:30:00+00:00"
+      Output: datetime.datetime(2025, 4, 20, 14, 30, tzinfo=ZoneInfo("UTC"))
 
-      >>> iso8601_to_utc_dt("2025-04-20T14:30:00Z")
-      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo("UTC"))
+      Input:  "2025-04-20T14:30:00Z"
+      Output: datetime.datetime(2025, 4, 20, 14, 30, tzinfo=ZoneInfo("UTC"))
 
-      >>> iso8601_to_utc_dt("2025-04-20 14:30:00", error_on_missing_tz=False)
-      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo("UTC"))
-      >>> iso8601_to_utc_dt("2025-04-20T14:30:00Z")
-      datetime.datetime(2025, 4, 20, 14, 30, tzinfo=zoneinfo.ZoneInfo('UTC'))
+      Input:  "2025-04-20 14:30:00", error_on_missing_tz=False
+      Output: datetime.datetime(2025, 4, 20, 14, 30, tzinfo=ZoneInfo("UTC"))
   """
   try:
     dt = parser.isoparse(iso_string)
@@ -243,20 +241,21 @@ def convert_datetimes_to_ca_naive(data: object, assume_naive_is_utc: bool = Fals
       object: A structure of the same shape, with datetime values converted to naive Pacific.
 
   Examples:
-      >>> from datetime import datetime
-      >>> from zoneinfo import ZoneInfo
-      >>> nested = {
-      ...     datetime(2025, 4, 23, 15, 0, tzinfo=ZoneInfo("UTC")): [
-      ...         {"created": datetime(2025, 4, 23, 18, 0)},
-      ...         (datetime(2025, 4, 23, 20, 0, tzinfo=ZoneInfo("UTC")),)
-      ...     ]
-      >>> convert_datetimes_to_ca_naive(nested)
-      {
-          datetime.datetime(2025, 4, 23, 8, 0): [
-              {"created": datetime.datetime(2025, 4, 23, 11, 0)},
-              (datetime.datetime(2025, 4, 23, 13, 0),)
+      Input:
+        {
+          datetime(2025, 4, 23, 15, 0, tzinfo=ZoneInfo("UTC")): [
+            {"created": datetime(2025, 4, 23, 18, 0)},
+            (datetime(2025, 4, 23, 20, 0, tzinfo=ZoneInfo("UTC")),)
           ]
-      }
+        }
+
+      Output:
+        {
+          datetime.datetime(2025, 4, 23, 8, 0): [
+            {"created": datetime.datetime(2025, 4, 23, 11, 0)},
+            (datetime.datetime(2025, 4, 23, 13, 0),)
+          ]
+        }
   """
   if isinstance(data, datetime):
     return datetime_to_ca_naive(data, assume_naive_is_utc, utc_strict)
@@ -335,12 +334,11 @@ def is_datetime_naive(dt: datetime) -> bool:
       bool: True if the datetime is naive (tzinfo is None or utcoffset is None); False otherwise.
 
   Examples:
-      >>> is_datetime_naive(datetime.now())
-      True
+      Input:  datetime.now()
+      Output: True
 
-      >>> from zoneinfo import ZoneInfo
-      >>> is_datetime_naive(datetime.now(tz=ZoneInfo("UTC")))
-      False
+      Input:  datetime.now(tz=ZoneInfo("UTC"))
+      Output: False
   """
   return dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None
 

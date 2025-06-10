@@ -39,7 +39,9 @@ def obj_diagnostics(obj: object,
       None
 
   Example:
-      >>> obj_diagnostics(my_object, include_hidden=True, include_functions=True)
+      Input:  my_object with attributes and methods
+              include_hidden=True, include_functions=True
+      Output: Logs all attributes (including private) and functions to debug logger
   """
   logger.debug(f"Diagnostics for: {obj}")
   if message:
@@ -75,8 +77,8 @@ def list_differences(iterable_01: list | dict,
           - Items in `iterable_01` but not in `iterable_02`
           - Items in `iterable_02` but not in `iterable_01`
   Examples:
-      >>> list_differences(["a", "b"], ["b", "c"])
-      (["a"], ["c"])
+      Input:  ["a", "b"], ["b", "c"]
+      Output: (["a"], ["c"])
   """
   in_iterable_1_only = [x for x in iterable_01 if x not in iterable_02]
   in_iterable_2_only = [x for x in iterable_02 if x not in iterable_01]
@@ -134,13 +136,13 @@ def dict_to_str(x: dict, depth: int = 0) -> str:
       str: String representation of dictionary with indentation.
 
   Examples:
-      >>> d = {"a": 1, "b": {"c": 2}}
-      >>> print(dict_to_str(d))
-      a:
-         1
-      b:
-         c:
-            2
+      Input:  {"a": 1, "b": {"c": 2}}
+      Output:
+        a:
+           1
+        b:
+           c:
+              2
   """
   msg = ""
   indent = ' ' * 3 * depth
@@ -195,10 +197,10 @@ def compare_dicts(dict1: dict,
       bool: True if dictionaries are equivalent; False otherwise.
 
   Examples:
-      >>> dict1 = {"a": 1, "b": 2, "c": 3}
-      >>> dict2 = {"a": 1, "b": 4, "d": 5}
-      >>> compare_dicts(dict1, dict2)
-      False
+      Input:
+        dict1 = {"a": 1, "b": 2, "c": 3}
+        dict2 = {"a": 1, "b": 4, "d": 5}
+      Output: False
   """
   dict1_name = dict1_name or "dict_1"
   dict2_name = dict2_name or "dict_2"
