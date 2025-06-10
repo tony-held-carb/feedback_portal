@@ -1,3 +1,14 @@
+"""
+route_prep.py
+
+This module prepares the rendering context and template output for individual
+feedback form pages, supporting both 'create' and 'update' operations.
+
+It integrates SQLAlchemy model rows with WTForms-based feedback forms,
+enforces dropdown resets, and applies conditional rendering logic
+based on sector type and CRUD mode.
+"""
+
 from pathlib import Path
 
 from flask import Response, redirect, render_template, request, url_for

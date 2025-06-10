@@ -1,4 +1,16 @@
+"""
+route_prep.py
+
+This module prepares the rendering context and template output for individual
+feedback form pages, supporting both 'create' and 'update' operations.
+
+It integrates SQLAlchemy model rows with WTForms-based feedback forms,
+enforces dropdown resets, and applies conditional rendering logic
+based on sector type and CRUD mode.
+"""
+
 from pathlib import Path
+from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
@@ -12,20 +24,25 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def extract_sector_payload(xl_dict: dict, metadata_key: str = "metadata", tab_name: str = "Feedback Form") -> dict:
+def extract_sector_payload(xl_dict: dict,
+                           metadata_key: str = "metadata",
+                           tab_name: str = "Feedback Form") -> dict:
   """
   Combines worksheet tab contents with sector metadata into a single payload for database insertion.
 
   Args:
-      xl_dict (dict): Dictionary from an Excel-parsed source, containing 'metadata' and 'tab_contents'.
-      metadata_key (str): Key in xl_dict containing the metadata dictionary (default: "metadata").
-      tab_name (str): Name of the worksheet tab to extract from tab_contents (default: "Feedback Form").
+    xl_dict (dict): Dictionary from an Excel-parsed source, containing
+      'metadata' and 'tab_contents'.
+    metadata_key (str): Key in xl_dict containing the metadata dictionary
+      (default: "metadata").
+    tab_name (str): Name of the worksheet tab to extract from tab_contents
+      (default: "Feedback Form").
 
   Returns:
-      dict: Combined payload with tab_contents and sector included.
+    dict: Combined payload with tab_contents and sector included.
 
   Raises:
-      ValueError: If the metadata key, sector, or tab_name is missing.
+    ValueError: If the metadata key, sector, or tab_name is missing.
   """
   if metadata_key not in xl_dict:
     raise ValueError(f"Expected key '{metadata_key}' in xl_dict but it was missing.")
@@ -91,14 +108,14 @@ def get_sector_info(db: SQLAlchemy,
 
 
 def resolve_sector(sector_by_foreign_key: str | None,
-                   row: DeclarativeMeta,
+                   row: Any,
                    misc_json: dict) -> str:
   """
   Determine the appropriate sector from FK and JSON sources.
 
   Args:
     sector_by_foreign_key (str | None): Sector from `sources` table.
-    row (DeclarativeMeta): Row from `incidences` table (SQLAlchemy result).
+    row (Any): Row from `incidences` table (SQLAlchemy result).
     misc_json (dict): Parsed `misc_json` content.
 
   Returns:
