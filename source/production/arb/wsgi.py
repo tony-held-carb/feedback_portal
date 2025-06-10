@@ -105,11 +105,13 @@ Note on running Flask Apps:
     - Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 
+from pathlib import Path
+
 from arb.__get_logger import get_logger
 from arb.portal.app import create_app
 
 logger, pp_log = get_logger()
-logger.debug("in wsgi.py module")
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 app = create_app()
 
