@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -101,6 +99,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -200,18 +214,12 @@ including uploaded file metadata and portal JSON update logs.</p>
 </ul>
 </details>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>file = UploadedFile(path="uploads/report.xlsx", status="pending")
-db.session.add(file)
-db.session.commit()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : file = UploadedFile(path="uploads/report.xlsx", status="pending")
+       db.session.add(file)
+       db.session.commit()
+Output: file is inserted into the uploaded_files table with timestamps autopopulated</p>
+
 
 
 
@@ -282,9 +290,7 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -323,7 +329,9 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PortalUpdate</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PortalUpdate</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  SQLAlchemy model tracking updates to the misc_json field on incidence records.</span>
 
@@ -425,18 +433,12 @@ created_timestamp (datetime): UTC timestamp of initial creation.
 modified_timestamp (datetime): UTC timestamp of last update.</p>
 </details>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>file = UploadedFile(path="uploads/test.xlsx", status="pending")
-db.session.add(file)
-db.session.commit()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : file = UploadedFile(path="uploads/test.xlsx", status="pending")
+       db.session.add(file)
+       db.session.commit()
+Output: file appears in the uploaded_files table with 'pending' status</p>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -453,8 +455,7 @@ db.session.commit()</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
-<span class="normal">33</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
@@ -511,7 +512,9 @@ db.session.commit()</p>
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
-<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadedFile</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadedFile</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    SQLAlchemy model representing a user-uploaded file.</span>
 
@@ -530,10 +533,11 @@ db.session.commit()</p>
 <span class="sd">      created_timestamp (datetime): UTC timestamp of initial creation.</span>
 <span class="sd">      modified_timestamp (datetime): UTC timestamp of last update.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">      &gt;&gt;&gt; file = UploadedFile(path=&quot;uploads/test.xlsx&quot;, status=&quot;pending&quot;)</span>
-<span class="sd">      &gt;&gt;&gt; db.session.add(file)</span>
-<span class="sd">      &gt;&gt;&gt; db.session.commit()</span>
+<span class="sd">    Examples:</span>
+<span class="sd">      Input : file = UploadedFile(path=&quot;uploads/test.xlsx&quot;, status=&quot;pending&quot;)</span>
+<span class="sd">             db.session.add(file)</span>
+<span class="sd">             db.session.commit()</span>
+<span class="sd">      Output: file appears in the uploaded_files table with &#39;pending&#39; status</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">      - Timestamps use UTC and are timezone-aware.</span>
@@ -562,9 +566,9 @@ db.session.commit()</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Summary string showing the ID, path, description, and status.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; repr(UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;))</span>
-<span class="sd">        &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
+<span class="sd">    Examples:</span>
+<span class="sd">      Input : UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
+<span class="sd">      Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="sa">f</span><span class="s1">&#39;&lt;Uploaded File: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s1">, Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">, &#39;</span>
@@ -622,23 +626,14 @@ db.session.commit()</p>
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>repr(UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done"))
-'<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
+Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'</p>
+
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
@@ -650,16 +645,18 @@ db.session.commit()</p>
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
-<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Return a human-readable string representation of the uploaded file record.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">      str: Summary string showing the ID, path, description, and status.</span>
 
-<span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; repr(UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;))</span>
-<span class="sd">      &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
+<span class="sd">  Examples:</span>
+<span class="sd">    Input : UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
+<span class="sd">    Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">return</span> <span class="p">(</span>
     <span class="sa">f</span><span class="s1">&#39;&lt;Uploaded File: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s1">, Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">, &#39;</span>
@@ -753,9 +750,7 @@ model to verify that the ORM mapping and database connection are working.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -801,7 +796,9 @@ model to verify that the ORM mapping and database connection are working.</p>
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
-<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run a test transaction to validate UploadedFile model functionality.</span>
 

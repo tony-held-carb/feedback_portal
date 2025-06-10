@@ -56,8 +56,6 @@
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../portal/app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -91,6 +89,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -295,32 +309,38 @@
       </td>
     </tr>
   </tbody>
-</table>        <p>Example:
-    &gt;&gt;&gt; add_metadata_to_json("schema.json")</p>
+</table>
 
+<details class="example" open>
+  <summary>Example</summary>
+  <p>Input : file_name_in = "schema.json"
+Output: Adds metadata and writes back to same file</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_metadata_to_json</span><span class="p">(</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_metadata_to_json</span><span class="p">(</span>
     <span class="n">file_name_in</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_name_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -330,8 +350,10 @@
 <span class="sd">  Args:</span>
 <span class="sd">      file_name_in (str | Path): Input JSON file path.</span>
 <span class="sd">      file_name_out (str | Path | None): Output file path. If None, overwrites input.</span>
+
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; add_metadata_to_json(&quot;schema.json&quot;)</span>
+<span class="sd">    Input : file_name_in = &quot;schema.json&quot;</span>
+<span class="sd">    Output: Adds metadata and writes back to same file</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;add_metadata_to_json() called with </span><span class="si">{</span><span class="n">file_name_in</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">file_name_out</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -450,23 +472,7 @@
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
 <span class="normal">313</span>
 <span class="normal">314</span>
 <span class="normal">315</span>
@@ -483,7 +489,23 @@
 <span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
-<span class="normal">329</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cast_model_value</span><span class="p">(</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cast_model_value</span><span class="p">(</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">value_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -576,33 +598,13 @@
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>compare_json_files("old.json", "new.json")</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : file_name_1 = "old.json", file_name_2 = "new.json"
+Output: Logs any differences or confirms matches</p>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
@@ -619,7 +621,23 @@
 <span class="normal">290</span>
 <span class="normal">291</span>
 <span class="normal">292</span>
-<span class="normal">293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_json_files</span><span class="p">(</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_json_files</span><span class="p">(</span>
     <span class="n">file_name_1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_name_2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -634,7 +652,8 @@
 <span class="sd">      Differences or matches are logged at debug level.</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; compare_json_files(&quot;old.json&quot;, &quot;new.json&quot;)</span>
+<span class="sd">    Input : file_name_1 = &quot;old.json&quot;, file_name_2 = &quot;new.json&quot;</span>
+<span class="sd">    Output: Logs any differences or confirms matches</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;compare_json_files() comparing </span><span class="si">{</span><span class="n">file_name_1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">file_name_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -768,23 +787,7 @@
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">429</span>
 <span class="normal">430</span>
 <span class="normal">431</span>
 <span class="normal">432</span>
@@ -797,7 +800,23 @@
 <span class="normal">439</span>
 <span class="normal">440</span>
 <span class="normal">441</span>
-<span class="normal">442</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dict</span><span class="p">(</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dict</span><span class="p">(</span>
     <span class="n">input_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">type_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -896,20 +915,13 @@
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>json.loads(json_string, object_hook=json_deserializer)</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : json.loads(json_string, object_hook=json_deserializer)
+Output: Python object reconstructed from JSON with type tags</p>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
@@ -948,7 +960,10 @@
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_deserializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_deserializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Custom JSON deserializer for class/type representations created by `json_serializer`.</span>
 
@@ -959,7 +974,8 @@
 <span class="sd">      object: Reconstructed Python object.</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; json.loads(json_string, object_hook=json_deserializer)</span>
+<span class="sd">    Input : json.loads(json_string, object_hook=json_deserializer)</span>
+<span class="sd">    Output: Python object reconstructed from JSON with type tags</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">new_obj</span> <span class="o">=</span> <span class="n">obj</span>
 
@@ -1065,9 +1081,13 @@
       </td>
     </tr>
   </tbody>
-</table>        <p>Example:
-    &gt;&gt;&gt; json_load("data.json")</p>
+</table>
 
+<details class="example" open>
+  <summary>Example</summary>
+  <p>Input : file_path = "data.json"
+Output: Deserialized Python object from JSON</p>
+</details>
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -1080,17 +1100,7 @@
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
@@ -1107,7 +1117,19 @@
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load</span><span class="p">(</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
@@ -1120,8 +1142,10 @@
 
 <span class="sd">  Returns:</span>
 <span class="sd">      object: Deserialized Python object.</span>
+
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; json_load(&quot;data.json&quot;)</span>
+<span class="sd">    Input : file_path = &quot;data.json&quot;</span>
+<span class="sd">    Output: Deserialized Python object from JSON</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    -  encoding=&quot;utf-8-sig&quot; will remove (if present) [BOM (Byte Order Mark)] for UTF-8 (\uFEFF)</span>
@@ -1200,12 +1224,12 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-<b><code>tuple</code></b>(                  <code><span title="tuple">tuple</span>[<span title="object">object</span>, <span title="dict">dict</span>]</code>
+<b><code>tuple</code></b>(                  <code><span title="tuple">tuple</span>[<span title="typing.Any">Any</span>, <span title="dict">dict</span>]</code>
 )              –
               <div class="doc-md-description">
                 <ul>
-<li>object: Deserialized data in "<em>data</em>" (or full file if not present).</li>
-<li>dict: Deserialized Metadata in "<em>metadata</em>" (or empty if not present).</li>
+<li>Any: Deserialized data from "<em>data</em>" (or the entire file if "<em>data</em>" is not present).</li>
+<li>dict: Deserialized metadata from "<em>metadata</em>" (or empty dict if not present).</li>
 </ul>
               </div>
             </li>
@@ -1217,13 +1241,8 @@
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>data, meta = json_load_with_meta("example.json")</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : file_path = "example.json"
+Output: tuple (data, metadata) extracted from the file</p>
 </details>
 
 <details class="notes" open>
@@ -1235,19 +1254,7 @@ to be the whole JSON file with no metadata.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
@@ -1263,22 +1270,36 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load_with_meta</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
-                        <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load_with_meta</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+                        <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Load a JSON file and return both data and metadata if present.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">      file_path (str | Path): Path to the JSON file.</span>
-<span class="sd">      json_options (dict | None): Optional options passed to `json.load`.</span>
+<span class="sd">    file_path (str | Path): Path to the JSON file.</span>
+<span class="sd">    json_options (dict | None): Optional options passed to `json.load`.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">      tuple:</span>
-<span class="sd">          - object: Deserialized data in &quot;_data_&quot; (or full file if not present).</span>
-<span class="sd">          - dict: Deserialized Metadata in &quot;_metadata_&quot; (or empty if not present).</span>
+<span class="sd">    tuple:</span>
+<span class="sd">      - Any: Deserialized data from &quot;_data_&quot; (or the entire file if &quot;_data_&quot; is not present).</span>
+<span class="sd">      - dict: Deserialized metadata from &quot;_metadata_&quot; (or empty dict if not present).</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; data, meta = json_load_with_meta(&quot;example.json&quot;)</span>
+<span class="sd">    Input : file_path = &quot;example.json&quot;</span>
+<span class="sd">    Output: tuple (data, metadata) extracted from the file</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">      If the json file is a dictionary with a key _data_, then the _data_ and _metadata_</span>
@@ -1352,16 +1373,17 @@ to be the whole JSON file with no metadata.</p>
       </td>
     </tr>
   </tbody>
-</table>        <p>Example:
-    &gt;&gt;&gt; json_save("output.json", {"x": decimal.Decimal("1.23")})</p>
+</table>
 
+<details class="example" open>
+  <summary>Example</summary>
+  <p>Input : file_path = "output.json", data = {"x": Decimal("1.23")}
+Output: Creates a JSON file with serialized data at the given path</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -1381,7 +1403,12 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_save</span><span class="p">(</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_save</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1393,8 +1420,10 @@ to be the whole JSON file with no metadata.</p>
 <span class="sd">      file_path (str | Path): Path to write the JSON file.</span>
 <span class="sd">      data (object): Data to serialize and write.</span>
 <span class="sd">      json_options (dict | None): Options to pass to `json.dump`.</span>
+
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; json_save(&quot;output.json&quot;, {&quot;x&quot;: decimal.Decimal(&quot;1.23&quot;)})</span>
+<span class="sd">    Input : file_path = &quot;output.json&quot;, data = {&quot;x&quot;: Decimal(&quot;1.23&quot;)}</span>
+<span class="sd">    Output: Creates a JSON file with serialized data at the given path</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;json_save() called with </span><span class="si">{</span><span class="n">file_path</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">json_options</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">data</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -1475,18 +1504,20 @@ to be the whole JSON file with no metadata.</p>
       </td>
     </tr>
   </tbody>
-</table>        <p>Example:
-    &gt;&gt;&gt; json_save_with_meta("log.json", {"key": "value"}, {"source": "generated"})</p>
+</table>
 
+<details class="example" open>
+  <summary>Example</summary>
+  <p>Input :
+  file_path = "log.json"
+  data = {"key": "value"}
+  metadata = {"source": "generated"}
+Output: Writes JSON with <em>data</em> and <em>metadata</em> fields</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -1514,7 +1545,17 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_save_with_meta</span><span class="p">(</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_save_with_meta</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1528,8 +1569,13 @@ to be the whole JSON file with no metadata.</p>
 <span class="sd">      data (object): Primary data to store under &quot;_data_&quot;.</span>
 <span class="sd">      metadata (dict | None): Optional metadata under &quot;_metadata_&quot;.</span>
 <span class="sd">      json_options (dict | None): Options for `json.dump`.</span>
+
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; json_save_with_meta(&quot;log.json&quot;, {&quot;key&quot;: &quot;value&quot;}, {&quot;source&quot;: &quot;generated&quot;})</span>
+<span class="sd">    Input :</span>
+<span class="sd">      file_path = &quot;log.json&quot;</span>
+<span class="sd">      data = {&quot;key&quot;: &quot;value&quot;}</span>
+<span class="sd">      metadata = {&quot;source&quot;: &quot;generated&quot;}</span>
+<span class="sd">    Output: Writes JSON with _data_ and _metadata_ fields</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;json_save_with_meta() called with </span><span class="si">{</span><span class="n">file_path</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">json_options</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">metadata</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">data</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -1640,19 +1686,13 @@ to be the whole JSON file with no metadata.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>json.dumps(datetime.datetime.now(), default=json_serializer)</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : json.dumps(datetime.datetime.now(), default=json_serializer)
+Output: JSON string with ISO datetime object encoded</p>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
-<span class="normal">47</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
@@ -1674,7 +1714,9 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_serializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_serializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Custom JSON serializer for objects not natively serializable by `json.dump`.</span>
 
@@ -1688,7 +1730,8 @@ to be the whole JSON file with no metadata.</p>
 <span class="sd">      TypeError: If the object type is unsupported.</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; json.dumps(datetime.datetime.now(), default=json_serializer)</span>
+<span class="sd">    Input : json.dumps(datetime.datetime.now(), default=json_serializer)</span>
+<span class="sd">    Output: JSON string with ISO datetime object encoded</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;__class__&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;__module__&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__module__</span><span class="p">}</span>
@@ -1817,23 +1860,7 @@ to be the whole JSON file with no metadata.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
 <span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
@@ -1859,7 +1886,23 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">407</span>
 <span class="normal">408</span>
 <span class="normal">409</span>
-<span class="normal">410</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_dict_serializeable</span><span class="p">(</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_dict_serializeable</span><span class="p">(</span>
     <span class="n">input_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">type_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1957,23 +2000,7 @@ to be the whole JSON file with no metadata.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -2017,7 +2044,23 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
-<span class="normal">505</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run internal validation for all JSON utilities.</span>
 
@@ -2150,23 +2193,7 @@ to be the whole JSON file with no metadata.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span>
@@ -2183,7 +2210,23 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">362</span>
 <span class="normal">363</span>
 <span class="normal">364</span>
-<span class="normal">365</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">wtform_types_and_values</span><span class="p">(</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">wtform_types_and_values</span><span class="p">(</span>
     <span class="n">wtform</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>

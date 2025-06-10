@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -97,6 +95,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -270,7 +284,7 @@ to SQLAlchemy type metadata (includes <code>db_type</code>, <code>sa_type</code>
               –
               <div class="doc-md-description">
                 <p>Parent-dependent options
-for contingent dropdowns (e.g., county → list of sub-counties).</p>
+for contingent dropdowns (e.g., county → list of subcounties).</p>
               </div>
             </li>
         </ul>
@@ -286,79 +300,74 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\globals.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Globals</span><span class="p">:</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Globals</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Central class for holding runtime-global mappings used in the Flask app.</span>
 
@@ -367,7 +376,7 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
 <span class="sd">      to SQLAlchemy type metadata (includes `db_type`, `sa_type`, `py_type`).</span>
 <span class="sd">    drop_downs (dict[str, list[str]]): Field name to independent dropdown options.</span>
 <span class="sd">    drop_downs_contingent (dict[str, dict[str, list[str]]]): Parent-dependent options</span>
-<span class="sd">      for contingent dropdowns (e.g., county → list of sub-counties).</span>
+<span class="sd">      for contingent dropdowns (e.g., county → list of subcounties).</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">db_column_types</span> <span class="o">=</span> <span class="p">{}</span>
@@ -380,7 +389,7 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
 <span class="sd">    Load dropdown data from hardcoded configuration and cache it globally.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      flask_app (Flask): The active Flask app instance.</span>
+<span class="sd">      flask_app (Flask): The active Flask app instance (not used in this function but passed for consistency).</span>
 <span class="sd">      db (SQLAlchemy): SQLAlchemy instance (not used in this function but passed for consistency).</span>
 
 <span class="sd">    Returns:</span>
@@ -413,11 +422,6 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      None</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">      &gt;&gt;&gt; Globals.load_type_mapping(app, db, base)</span>
-<span class="sd">      &gt;&gt;&gt; Globals.db_column_types[&#39;incidences&#39;][&#39;id_plume&#39;]</span>
-<span class="sd">      {`db_type`: `INTEGER`, `sa_type`: Integer, `py_type`: &lt;class &#39;int&#39;&gt;}</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">      - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.</span>
@@ -479,7 +483,7 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
                   (<code><span title="flask.Flask">Flask</span></code>)
               –
               <div class="doc-md-description">
-                <p>The active Flask app instance.</p>
+                <p>The active Flask app instance (not used in this function but passed for consistency).</p>
               </div>
             </li>
             <li>
@@ -561,7 +565,7 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
 <span class="sd">  Load dropdown data from hardcoded configuration and cache it globally.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    flask_app (Flask): The active Flask app instance.</span>
+<span class="sd">    flask_app (Flask): The active Flask app instance (not used in this function but passed for consistency).</span>
 <span class="sd">    db (SQLAlchemy): SQLAlchemy instance (not used in this function but passed for consistency).</span>
 
 <span class="sd">  Returns:</span>
@@ -668,19 +672,6 @@ for contingent dropdowns (e.g., county → list of sub-counties).</p>
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>Globals.load_type_mapping(app, db, base)
-Globals.db_column_types['incidences']['id_plume']
-{<code>db_type</code>: <code>INTEGER</code>, <code>sa_type</code>: Integer, <code>py_type</code>: <class 'int'>}</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
-
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
@@ -691,36 +682,31 @@ Globals.db_column_types['incidences']['id_plume']
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\globals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_type_mapping</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flask_app</span><span class="p">:</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Populate column type metadata for all reflected tables in the SQLAlchemy base.</span>
@@ -732,11 +718,6 @@ Globals.db_column_types['incidences']['id_plume']
 
 <span class="sd">  Returns:</span>
 <span class="sd">    None</span>
-
-<span class="sd">  Example:</span>
-<span class="sd">    &gt;&gt;&gt; Globals.load_type_mapping(app, db, base)</span>
-<span class="sd">    &gt;&gt;&gt; Globals.db_column_types[&#39;incidences&#39;][&#39;id_plume&#39;]</span>
-<span class="sd">    {`db_type`: `INTEGER`, `sa_type`: Integer, `py_type`: &lt;class &#39;int&#39;&gt;}</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.</span>

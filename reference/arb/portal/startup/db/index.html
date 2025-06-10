@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -91,6 +89,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -261,9 +275,7 @@ and create missing tables.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\startup\db.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
@@ -281,7 +293,9 @@ and create missing tables.</p>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create all tables defined in SQLAlchemy metadata if they don’t exist.</span>
 
@@ -337,9 +351,7 @@ and create missing tables.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\startup\db.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
@@ -353,7 +365,9 @@ and create missing tables.</p>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_initialize</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_initialize</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Import and register SQLAlchemy ORM models.</span>
 
@@ -423,21 +437,21 @@ and create missing tables.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\startup\db.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span>
-<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_initialize_and_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">db_initialize_and_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Register models and create missing tables in one call.</span>
 
@@ -506,9 +520,7 @@ and create missing tables.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\startup\db.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
@@ -521,7 +533,9 @@ and create missing tables.</p>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reflect_database</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reflect_database</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Reflect the existing database into SQLAlchemy metadata.</span>
 

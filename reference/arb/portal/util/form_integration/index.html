@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/form_integration/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.portal.util.form_integration - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.portal.util.form_integration";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\form_integration.md";
+        var mkdocs_page_url = "/reference/arb/portal/util/form_integration/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../__get_logger/">arb.__get_logger</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.util.sector_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Portal</li>
+          <li class="breadcrumb-item">Util</li>
+      <li class="breadcrumb-item active">arb.portal.util.form_integration</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbportalutilform_integration"><code>arb.portal.util.form_integration</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.portal.util.form_integration"></a>
+    <div class="doc doc-contents first">
+
+        <p>form_integration.py</p>
+<p>Provides filtering logic for querying the portal_updates table.</p>
+<p>Includes logic for parsing ID ranges, substrings, and date filters
+from request arguments in the feedback portal interface.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.form_integration.apply_portal_update_filters" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">apply_portal_update_filters</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">portal_update_model</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Apply user-defined filters to a <code>PortalUpdate</code> SQLAlchemy query.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>query</code></b>
+                  (<code><span title="sqlalchemy.orm.Query">Query</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Query to be filtered.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>portal_update_model</code></b>
+                  (<code><span title="sqlalchemy.orm.DeclarativeMeta">DeclarativeMeta</span> | <span title="type">type</span>[<span title="typing.Any">Any</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>ORM model class for the portal_updates table.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>args</code></b>
+                  (<code><span title="dict">dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Typically from <code>request.args</code>, containing filter values.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="supported-filters" open>
+  <summary>Supported filters</summary>
+  <ul>
+<li>Substring matches on key, user, comments</li>
+<li>ID exact match or range parsing (e.g. "100-200, 250")</li>
+<li>Date range filtering via <code>start_date</code> and <code>end_date</code></li>
+</ul>
+</details>        <h4 id="arb.portal.util.form_integration.apply_portal_update_filters--supported-id-formats-via-filter_id_incidence">Supported ID formats (via filter_id_incidence):</h4>
+<ul>
+<li>"123"                  → Matches ID 123 exactly</li>
+<li>"100-200"              → Matches IDs from 100 to 200 inclusive</li>
+<li>"-250"                 → Matches all IDs ≤ 250</li>
+<li>"300-"                 → Matches all IDs ≥ 300</li>
+<li>"123,150-200,250-"     → Mixed exacts and ranges</li>
+<li>"abc, 100-xyz, 222"    → Invalid parts are ignored</li>
+</ul>
+<p>Returns (SQLAlchemy Query):
+  SQLAlchemy query: Modified query with filters applied.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\form_integration.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_portal_update_filters</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">,</span>
+                                <span class="n">portal_update_model</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+                                <span class="n">args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    query (Query): Query to be filtered.</span>
+<span class="sd">    portal_update_model (DeclarativeMeta | type[Any]): ORM model class for the portal_updates table.</span>
+<span class="sd">    args (dict): Typically from `request.args`, containing filter values.</span>
+
+<span class="sd">  Supported filters:</span>
+<span class="sd">    - Substring matches on key, user, comments</span>
+<span class="sd">    - ID exact match or range parsing (e.g. &quot;100-200, 250&quot;)</span>
+<span class="sd">    - Date range filtering via `start_date` and `end_date`</span>
+
+<span class="sd">  Supported ID formats (via filter_id_incidence):</span>
+<span class="sd">  ------------------------------------------------</span>
+<span class="sd">  - &quot;123&quot;                  → Matches ID 123 exactly</span>
+<span class="sd">  - &quot;100-200&quot;              → Matches IDs from 100 to 200 inclusive</span>
+<span class="sd">  - &quot;-250&quot;                 → Matches all IDs ≤ 250</span>
+<span class="sd">  - &quot;300-&quot;                 → Matches all IDs ≥ 300</span>
+<span class="sd">  - &quot;123,150-200,250-&quot;     → Mixed exacts and ranges</span>
+<span class="sd">  - &quot;abc, 100-xyz, 222&quot;    → Invalid parts are ignored</span>
+
+<span class="sd">  Returns (SQLAlchemy Query):</span>
+<span class="sd">    SQLAlchemy query: Modified query with filters applied.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">filter_key</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_key&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_user</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_user&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_comments</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">filter_id_incidence</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_id_incidence&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">start_date_str</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_date&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">end_date_str</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_date&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+  <span class="k">if</span> <span class="n">filter_key</span><span class="p">:</span>
+    <span class="c1"># noinspection PyUnresolvedReferences</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_key</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">filter_user</span><span class="p">:</span>
+    <span class="c1"># noinspection PyUnresolvedReferences</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_user</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">filter_comments</span><span class="p">:</span>
+    <span class="c1"># noinspection PyUnresolvedReferences</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">filter_comments</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
+
+  <span class="k">if</span> <span class="n">filter_id_incidence</span><span class="p">:</span>
+    <span class="n">id_exact</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">id_range_clauses</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">filter_id_incidence</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+      <span class="n">part</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+          <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="k">if</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">start_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="n">end_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start_val</span> <span class="o">&lt;=</span> <span class="n">end_val</span><span class="p">:</span>
+              <span class="c1"># noinspection PyUnresolvedReferences</span>
+              <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">id_incidence</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">start_val</span><span class="p">,</span> <span class="n">end_val</span><span class="p">))</span>
+          <span class="k">elif</span> <span class="n">start</span><span class="p">:</span>
+            <span class="n">start_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="c1"># noinspection PyUnresolvedReferences</span>
+            <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">id_incidence</span> <span class="o">&gt;=</span> <span class="n">start_val</span><span class="p">)</span>
+          <span class="k">elif</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">end_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="c1"># noinspection PyUnresolvedReferences</span>
+            <span class="n">id_range_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">id_incidence</span> <span class="o">&lt;=</span> <span class="n">end_val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+          <span class="k">continue</span>  <span class="c1"># Ignore malformed part</span>
+      <span class="k">elif</span> <span class="n">part</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">id_exact</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">part</span><span class="p">))</span>
+
+    <span class="n">clause_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">id_exact</span><span class="p">:</span>
+      <span class="c1"># noinspection PyUnresolvedReferences</span>
+      <span class="n">clause_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">id_incidence</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">id_exact</span><span class="p">)))</span>
+    <span class="n">clause_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">id_range_clauses</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">clause_list</span><span class="p">:</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="o">*</span><span class="n">clause_list</span><span class="p">))</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">start_date_str</span><span class="p">:</span>
+      <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_date_str</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="c1"># noinspection PyUnresolvedReferences</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">start_dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">end_date_str</span><span class="p">:</span>
+      <span class="n">end_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_date_str</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">end_dt</span> <span class="o">=</span> <span class="n">end_dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">59</span><span class="p">)</span>
+      <span class="c1"># noinspection PyUnresolvedReferences</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">portal_update_model</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&lt;=</span> <span class="n">end_dt</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>  <span class="c1"># Silently ignore invalid date inputs</span>
+
+  <span class="k">return</span> <span class="n">query</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../file_upload_util/" class="btn btn-neutral float-left" title="arb.portal.util.file_upload_util"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../route_prep/" class="btn btn-neutral float-right" title="arb.portal.util.route_prep">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../file_upload_util/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../route_prep/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

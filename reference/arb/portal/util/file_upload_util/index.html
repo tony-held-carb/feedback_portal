@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/startup/runtime_info/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/file_upload_util/" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>arb.portal.startup.runtime_info - CalSMP Operator Feedback Portal</title>
+    <title>arb.portal.util.file_upload_util - CalSMP Operator Feedback Portal</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "arb.portal.startup.runtime_info";
-        var mkdocs_page_input_path = "reference\\arb\\portal\\startup\\runtime_info.md";
-        var mkdocs_page_url = "/reference/arb/portal/startup/runtime_info/";
+        var mkdocs_page_name = "arb.portal.util.file_upload_util";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\file_upload_util.md";
+        var mkdocs_page_url = "/reference/arb/portal/util/file_upload_util/";
       </script>
     
     <!--[if lt IE 9]>
@@ -82,29 +82,29 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3 current"><a class="reference internal current" >Startup</a>
-    <ul class="current">
-                <li class="toctree-l4"><a class="reference internal" href="../db/">arb.portal.startup.db</a>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../flask/">arb.portal.startup.flask</a>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
                 </li>
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.startup.runtime_info</a>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Util</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.util.db_ingest_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.util.db_introspection_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.file_upload_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/form_integration/">arb.portal.util.form_integration</a>
+                <li class="toctree-l4"><a class="reference internal" href="../form_integration/">arb.portal.util.form_integration</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/route_prep/">arb.portal.util.route_prep</a>
+                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../../util/sector_util/">arb.portal.util.sector_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -170,8 +170,8 @@
           <li class="breadcrumb-item">Reference</li>
           <li class="breadcrumb-item">Arb</li>
           <li class="breadcrumb-item">Portal</li>
-          <li class="breadcrumb-item">Startup</li>
-      <li class="breadcrumb-item active">arb.portal.startup.runtime_info</li>
+          <li class="breadcrumb-item">Util</li>
+      <li class="breadcrumb-item active">arb.portal.util.file_upload_util</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -180,48 +180,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="arbportalstartupruntime_info"><code>arb.portal.startup.runtime_info</code></h1>
+                <h1 id="arbportalutilfile_upload_util"><code>arb.portal.util.file_upload_util</code></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="arb.portal.startup.runtime_info"></a>
+<a id="arb.portal.util.file_upload_util"></a>
     <div class="doc doc-contents first">
 
-        <p>Provides runtime metadata and dynamic paths for the application.</p>
+        <p>file_upload_util.py</p>
+<p>Utility functions for managing uploaded files in the feedback portal.</p>
+<p>This module provides functionality to record uploaded files into the
+<code>UploadedFile</code> table for audit tracking and troubleshooting purposes.</p>
 
-
-<details class="this-module-defines" open>
-  <summary>This module defines</summary>
-  <ul>
-<li>Project root and key directories (uploads, logs, static)</li>
-<li>Operating system detection (Windows, Linux, macOS)</li>
-<li>Platform-level info useful for conditional behavior</li>
-<li>Diagnostic tools for runtime environment inspection</li>
-</ul>
-</details>
-
-<details class="example" open>
-  <summary>Example</summary>
-  <p>from startup.runtime_info import (PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
-  IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)</p>
-</details>
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>The project root directory is assumed to be named "feedback_portal".</li>
-<li>If the app is run from:
-    feedback_portal/source/production/arb/wsgi.py
-  then directory resolution is:
-    Path(<strong>file</strong>).resolve().parents[0] → .../arb
-    Path(<strong>file</strong>).resolve().parents[1] → .../production
-    Path(<strong>file</strong>).resolve().parents[2] → .../source
-    Path(<strong>file</strong>).resolve().parents[3] → .../feedback_portal</li>
-</ul>
-</details>
 
 
 
@@ -243,25 +216,68 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.startup.runtime_info.print_runtime_diagnostics" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">print_runtime_diagnostics</span><span class="p">()</span></code>
+<h2 id="arb.portal.util.file_upload_util.add_file_to_upload_table" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Print and log detected runtime paths and platform flags for debugging.</p>
+        <p>Insert a record into the <code>UploadedFile</code> table for audit and diagnostics.</p>
 
 
-<details class="outputs" open>
-  <summary>Outputs</summary>
-  <ul>
-<li>Platform name and OS flags</li>
-<li>Resolved project root path</li>
-<li>Paths for uploads, logs, and static assets</li>
-</ul>
-</details>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_name</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>File path or name to be recorded.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>status</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Optional upload status label.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>description</code></b>
+                  (<code><span title="str">str</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Optional notes for the upload event.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <table class="field-list">
   <colgroup>
@@ -287,8 +303,26 @@
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\startup\runtime_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
+              <summary>Source code in <code>arb\portal\util\file_upload_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
@@ -298,35 +332,35 @@
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">print_runtime_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                             <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                             <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Print and log detected runtime paths and platform flags for debugging.</span>
+<span class="sd">  Insert a record into the `UploadedFile` table for audit and diagnostics.</span>
 
-<span class="sd">  Outputs:</span>
-<span class="sd">    - Platform name and OS flags</span>
-<span class="sd">    - Resolved project root path</span>
-<span class="sd">    - Paths for uploads, logs, and static assets</span>
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    file_name (str | Path): File path or name to be recorded.</span>
+<span class="sd">    status (str | None): Optional upload status label.</span>
+<span class="sd">    description (str | None): Optional notes for the upload event.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    None</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PLATFORM&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">PLATFORM</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_WINDOWS&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_WINDOWS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_LINUX&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_LINUX</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_MAC&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_MAC</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PROJECT_ROOT&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">PROJECT_ROOT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;UPLOAD_PATH&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">UPLOAD_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;LOG_DIR&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">LOG_DIR</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;STATIC_DIR&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">STATIC_DIR</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="c1"># todo (consider) to wrap commit in log?</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.portal.sqla_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadedFile</span>
+
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding uploaded file to upload table: </span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">model_uploaded_file</span> <span class="o">=</span> <span class="n">UploadedFile</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">),</span>
+    <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+  <span class="p">)</span>
+  <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model_uploaded_file</span><span class="p">)</span>
+  <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_uploaded_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -344,8 +378,8 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../flask/" class="btn btn-neutral float-left" title="arb.portal.startup.flask"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../util/db_ingest_util/" class="btn btn-neutral float-right" title="arb.portal.util.db_ingest_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../db_introspection_util/" class="btn btn-neutral float-left" title="arb.portal.util.db_introspection_util"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../form_integration/" class="btn btn-neutral float-right" title="arb.portal.util.form_integration">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -368,10 +402,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../flask/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../db_introspection_util/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../../util/db_ingest_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../form_integration/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

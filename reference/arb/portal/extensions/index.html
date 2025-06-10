@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -99,6 +97,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -203,19 +217,6 @@ at the top level, without initializing them until <code>app.init_app()</code> is
   even if not directly referenced in code.</li>
 <li>Use <code>with app.app_context():</code> when accessing <code>db</code> outside a Flask route.</li>
 </ul>
-</details>
-
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>from arb.portal.extensions import db
-with app.app_context():
-...     db.create_all()</p>
-</blockquote>
-</blockquote>
-</blockquote>
 </details>
 
 

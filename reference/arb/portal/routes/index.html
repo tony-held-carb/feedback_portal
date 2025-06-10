@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -127,6 +125,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -262,7 +276,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Run diagnostics on the 'incidences' table and show next ID.</p>
+        <p>Run diagnostics on the 'incidences' table and show the next ID.</p>
 
 
 <table class="field-list">
@@ -290,9 +304,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">421</span>
 <span class="normal">422</span>
 <span class="normal">423</span>
 <span class="normal">424</span>
@@ -310,10 +322,12 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
-<span class="normal">439</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/diagnostics&#39;</span><span class="p">)</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/diagnostics&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Run diagnostics on the &#39;incidences&#39; table and show next ID.</span>
+<span class="sd">  Run diagnostics on the &#39;incidences&#39; table and show the next ID.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    str: Rendered HTML showing auto-increment ID diagnostic.</span>
@@ -384,9 +398,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">352</span>
 <span class="normal">353</span>
 <span class="normal">354</span>
 <span class="normal">355</span>
@@ -425,7 +437,9 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
-<span class="normal">391</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/portal_updates/export&quot;</span><span class="p">)</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/portal_updates/export&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_portal_updates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Export filtered portal update logs as a downloadable CSV file.</span>
@@ -543,9 +557,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
@@ -569,7 +581,9 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/incidence_delete/&lt;int:id_&gt;/&#39;</span><span class="p">)</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/incidence_delete/&lt;int:id_&gt;/&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">incidence_delete</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Delete a specified incidence from the database.</span>
@@ -585,7 +599,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating database with route incidence_delete for id= </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
   <span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;incidences&#39;</span>
   <span class="n">table</span> <span class="o">=</span> <span class="n">get_class_from_table_name</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
@@ -697,9 +711,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -740,7 +752,9 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/incidence_update/&lt;int:id_&gt;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/incidence_update/&lt;int:id_&gt;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">incidence_update</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Display and edit a specific incidence record by ID.</span>
@@ -761,7 +775,7 @@ now organized under the <code>main</code> Blueprint for modularity.</p>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;incidence_update called with id= </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
   <span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;incidences&#39;</span>
   <span class="n">table</span> <span class="o">=</span> <span class="n">get_class_from_table_name</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
 
@@ -831,9 +845,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
@@ -848,7 +860,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Display the homepage with a list of all existing incidence records.</span>
@@ -860,7 +874,7 @@ the results in a summary table on the landing page.</p>
 <span class="sd">    str: Rendered HTML for the homepage with incidence records.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
   <span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;incidences&#39;</span>
   <span class="n">colum_name_pk</span> <span class="o">=</span> <span class="s1">&#39;id_incidence&#39;</span>
   <span class="n">rows</span> <span class="o">=</span> <span class="n">get_rows_by_table_name</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">colum_name_pk</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -918,9 +932,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -945,7 +957,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/landfill_incidence_create/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/landfill_incidence_create/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">landfill_incidence_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create a new dummy Landfill incidence and redirect to its edit form.</span>
@@ -958,7 +972,7 @@ the results in a summary table on the landing page.</p>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;landfill_incidence_create called.&quot;</span><span class="p">)</span>
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
   <span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;incidences&#39;</span>
   <span class="n">col_name</span> <span class="o">=</span> <span class="s1">&#39;misc_json&#39;</span>
 
@@ -1018,9 +1032,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
@@ -1034,7 +1046,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/list_uploads&#39;</span><span class="p">)</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/list_uploads&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_uploads</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  List all files in the upload directory.</span>
@@ -1103,9 +1117,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
@@ -1129,7 +1141,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/og_incidence_create/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/og_incidence_create/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">og_incidence_create</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create a new dummy Oil &amp; Gas incidence and redirect to its edit form.</span>
@@ -1141,7 +1155,7 @@ the results in a summary table on the landing page.</p>
 <span class="sd">    - Dummy data is loaded from `db_hardcoded.get_og_dummy_data()`.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;og_incidence_create() - beginning.&quot;</span><span class="p">)</span>
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
   <span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;incidences&#39;</span>
   <span class="n">col_name</span> <span class="o">=</span> <span class="s1">&#39;misc_json&#39;</span>
 
@@ -1208,9 +1222,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
@@ -1226,7 +1238,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
-<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/search/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/search/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">))</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Search route triggered by the navigation bar (stub for future use).</span>
@@ -1337,9 +1351,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span>
@@ -1358,7 +1370,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">302</span>
 <span class="normal">303</span>
 <span class="normal">304</span>
-<span class="normal">305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/serve_file/&lt;path:filename&gt;&quot;</span><span class="p">)</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/serve_file/&lt;path:filename&gt;&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">serve_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Serve a file from the server’s upload directory.</span>
@@ -1425,9 +1439,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">470</span>
 <span class="normal">471</span>
 <span class="normal">472</span>
 <span class="normal">473</span>
@@ -1441,7 +1453,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">481</span>
 <span class="normal">482</span>
 <span class="normal">483</span>
-<span class="normal">484</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_database_structure&#39;</span><span class="p">)</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_database_structure&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_database_structure</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Show structure of all reflected database columns.</span>
@@ -1510,9 +1524,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
 <span class="normal">447</span>
@@ -1533,7 +1545,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_dropdown_dict&#39;</span><span class="p">)</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_dropdown_dict&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_dropdown_dict</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Display current dropdown and contingent dropdown values.</span>
@@ -1609,9 +1623,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
@@ -1640,7 +1652,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">515</span>
 <span class="normal">516</span>
 <span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_feedback_form_structure&#39;</span><span class="p">)</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_feedback_form_structure&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_feedback_form_structure</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Inspect and display WTForms structure for feedback forms.</span>
@@ -1724,9 +1738,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
@@ -1746,7 +1758,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
-<span class="normal">543</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_log_file&#39;</span><span class="p">)</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/show_log_file&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_log_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Display the contents of the server&#39;s current log file.</span>
@@ -1848,9 +1862,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
@@ -1909,7 +1921,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
-<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/upload/&lt;message&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">upload_file</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1927,10 +1941,10 @@ the results in a summary table on the landing page.</p>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;upload_file route called.&quot;</span><span class="p">)</span>
-  <span class="n">base</span><span class="p">:</span> <span class="n">DeclarativeMeta</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
+  <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]</span>
   <span class="n">form</span> <span class="o">=</span> <span class="n">UploadForm</span><span class="p">()</span>
 
-  <span class="c1"># Handle optional URL message</span>
+  <span class="c1"># Handle an optional URL message</span>
   <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upload_file called with message: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2024,9 +2038,7 @@ the results in a summary table on the landing page.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\routes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">310</span>
 <span class="normal">311</span>
 <span class="normal">312</span>
 <span class="normal">313</span>
@@ -2063,7 +2075,9 @@ the results in a summary table on the landing page.</p>
 <span class="normal">344</span>
 <span class="normal">345</span>
 <span class="normal">346</span>
-<span class="normal">347</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/portal_updates&quot;</span><span class="p">)</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/portal_updates&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">view_portal_updates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Display a table of all updates recorded in `portal_updates`.</span>

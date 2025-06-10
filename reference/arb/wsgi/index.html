@@ -54,15 +54,11 @@
     <ul class="current">
     <li class="toctree-l3"><a class="reference internal" href="#arb.wsgi">wsgi</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload">todo - work this in, run with: flask --app wsgi run --no-reload</a>
-    </li>
     </ul>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" >Portal</a>
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../portal/app/">arb.portal.app</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../portal/app_util/">arb.portal.app_util</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../portal/constants/">arb.portal.constants</a>
                 </li>
@@ -97,6 +93,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../portal/startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -224,7 +236,7 @@ Precedence Order (from strongest to weakest):
       can be 'development' or 'production'
       development enables debug mode, auto-reload, and detailed error pages,
       production disables them.
-      Likely will allways want FLASK_ENV=development for CARB development</li>
+      Likely want FLASK_ENV=development for CARB development</li>
 <li>FLASK_DEBUG:
       1 enables the interactive browser debugger (Werkzeug);
       0 disables it.</li>
@@ -236,15 +248,13 @@ Precedence Order (from strongest to weakest):
       * --app <file_name>
       * --debug or --no-debug
         * determines if the Werkzeug browser debugger is on/off
-      * --no-reload  &lt;-- faster load time and does not restart app on source code changes</p>
+      * --no-reload &lt;-- faster load time and does not restart app on source code changes</p>
 <p>4) Source code app arguments:</p>
 <pre><code>Commonly used arguments for `app.run()`:
-
-Args:
   * host (str, optional): The IP address to bind to.
       Defaults to `'127.0.0.1'`. Use `'0.0.0.0'` to make the app
       publicly accessible (e.g., on a local network).
-  * port (int, optional): The port number to listen on.
+  * port (int, optional): The port number to listen to.
       Defaults to `5000`.
   * debug (bool, optional): Enables debug mode, which activates
       auto-reload and the interactive browser debugger. Defaults to `None`.
@@ -262,7 +272,7 @@ Args:
 <p>5) Best practices:
   1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
     * will give you access to Browser-based call trace or python debugger depending on other factors
-  2. Use 'development' over 'production' until product is final.
+  2. Use 'development' over 'production' until a product is final.
   3. testing web interactions in browser without python debugger
     * flask run --app wsgi
   4. Debugging with PyCharm (breakpoints + console)
@@ -275,14 +285,13 @@ Args:
     * Run wsgi.py in PyCharm with debug=True
     * Set FLASK_ENV=development, FLASK_DEBUG=1
       * This allows:
-        * PyCharm to log &amp; capture
+        * PyCharm to log and capture
         * Browser to display detailed error trace
         * Breakpoints still work (though sometimes suppressed by Werkzeug internals)</p>
 <p>6) Root directory notes:
   - The project root directory is "feedback_portal"
   - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
     - Path(<strong>file</strong>).resolve().parents[3] → .../feedback_portal</p>
-<h2 id="arb.wsgi--todo-work-this-in-run-with-flask-app-wsgi-run-no-reload">todo - work this in, run with: flask --app wsgi run --no-reload</h2>
 
 
 

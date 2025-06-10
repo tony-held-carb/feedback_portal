@@ -56,8 +56,6 @@
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../portal/app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -91,6 +89,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -226,25 +240,26 @@ into all log records when inside a request context.</p>
   <summary>Version</summary>
   <p>1.0.0</p>
 </details>        <h3 id="arb.utils.log_util--example-usage">Example Usage:</h3>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import arb.utils.log_util as log_util
-logging.basicConfig(level=logging.DEBUG)</p>
-<p>@log_parameters(print_to_console=True)
+<p>Input :
+    import arb.utils.log_util as log_util
+    logging.basicConfig(level=logging.DEBUG)</p>
+<pre><code>@log_parameters(print_to_console=True)
 def greet(name, lang="en"):
-    return f"Hello {name} [{lang}]"</p>
-<p>def example():
-    log_function_parameters(print_to_console=True)</p>
-<p>greet("Alice", lang="fr")
+    return f"Hello {name} [{lang}]"
+
+def example():
+    log_function_parameters(print_to_console=True)
+
+greet("Alice", lang="fr")
+example()
+</code></pre>
+
+
+<details class="output" open>
+  <summary>Output</summary>
+  <p>greet(name='Alice', lang='fr')
 example()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h3 id="arb.utils.log_util--output">Output:</h3>
-<p>greet(name='Alice', lang='fr')
-example()</p>
-<h3 id="arb.utils.log_util--recommendations">Recommendations:</h3>
+</details>        <h3 id="arb.utils.log_util--recommendations">Recommendations:</h3>
 <ul>
 <li>Use <code>log_parameters</code> for consistent tracing of function calls across modules.</li>
 <li>Use <code>log_function_parameters</code> for temporary instrumentation or detailed inline debugging.</li>
@@ -300,22 +315,22 @@ example()</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\utils\log_util.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
-<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FlaskUserContextFilter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FlaskUserContextFilter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Logging filter that injects Flask&#39;s `g.user` into log records, if available.</span>
 
@@ -396,7 +411,7 @@ example()</p>
 )
               –
               <div class="doc-md-description">
-                <p>If True, also prints the message to stdout.</p>
+                <p>If True, also print the message to stdout.</p>
               </div>
             </li>
         </ul>
@@ -407,15 +422,11 @@ example()</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>def example(a, b=2): log_function_parameters()
-example(1)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h3 id="arb.utils.log_util.log_function_parameters--logs-examplea1-b2">Logs: example(a=1, b=2)</h3>
+  <p>Input :
+    def example(a, b=2): log_function_parameters()
+    example(1)</p>
+<p>Output:
+    Logs: example(a=1, b=2)</p>
 </details>
 
             <details class="quote">
@@ -462,7 +473,10 @@ example(1)</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_function_parameters</span><span class="p">(</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_function_parameters</span><span class="p">(</span>
     <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">print_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -471,12 +485,15 @@ example(1)</p>
 
 <span class="sd">  Args:</span>
 <span class="sd">      logger (logging.Logger | None): Optional logger. If None, derives one from caller&#39;s module.</span>
-<span class="sd">      print_to_console (bool): If True, also prints the message to stdout.</span>
+<span class="sd">      print_to_console (bool): If True, also print the message to stdout.</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; def example(a, b=2): log_function_parameters()</span>
-<span class="sd">      &gt;&gt;&gt; example(1)</span>
-<span class="sd">      # Logs: example(a=1, b=2)</span>
+<span class="sd">      Input :</span>
+<span class="sd">          def example(a, b=2): log_function_parameters()</span>
+<span class="sd">          example(1)</span>
+
+<span class="sd">      Output:</span>
+<span class="sd">          Logs: example(a=1, b=2)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span>
   <span class="n">func_name</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
@@ -586,23 +603,18 @@ example(1)</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>@log_parameters(print_to_console=True)
-def greet(name, lang="en"):
-    return f"Hello {name} [{lang}]"</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input :
+    @log_parameters(print_to_console=True)
+    def greet(name, lang="en"):
+        return f"Hello {name} [{lang}]"</p>
+<p>Output:
+    greet(name='...', lang='...')
+    (logged on each invocation)</p>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\log_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
@@ -636,7 +648,15 @@ def greet(name, lang="en"):
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_parameters</span><span class="p">(</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_parameters</span><span class="p">(</span>
     <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">print_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
@@ -651,9 +671,14 @@ def greet(name, lang="en"):
 <span class="sd">      Callable: A decorator that logs parameter values each time the function is called.</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; @log_parameters(print_to_console=True)</span>
-<span class="sd">      &gt;&gt;&gt; def greet(name, lang=&quot;en&quot;):</span>
-<span class="sd">      &gt;&gt;&gt;     return f&quot;Hello {name} [{lang}]&quot;</span>
+<span class="sd">      Input :</span>
+<span class="sd">          @log_parameters(print_to_console=True)</span>
+<span class="sd">          def greet(name, lang=&quot;en&quot;):</span>
+<span class="sd">              return f&quot;Hello {name} [{lang}]&quot;</span>
+
+<span class="sd">      Output:</span>
+<span class="sd">          greet(name=&#39;...&#39;, lang=&#39;...&#39;)</span>
+<span class="sd">          (logged on each invocation)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>

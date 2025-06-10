@@ -56,8 +56,6 @@
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../portal/app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -91,6 +89,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -313,18 +327,15 @@ or ad-hoc inspection of application state during development.</p>
 </table>
 
 <p><span class="doc-section-title">Examples:</span></p>
-    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dict1</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compare_dicts</span><span class="p">(</span><span class="n">dict1</span><span class="p">,</span> <span class="n">dict2</span><span class="p">)</span>
-<span class="go">False</span>
-</code></pre></div>
+    <p>Input :
+  dict1 = {"a": 1, "b": 2, "c": 3}
+  dict2 = {"a": 1, "b": 4, "d": 5}
+Output: False</p>
 
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
@@ -371,7 +382,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
-<span class="normal">230</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_dicts</span><span class="p">(</span><span class="n">dict1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_dicts</span><span class="p">(</span><span class="n">dict1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
                   <span class="n">dict2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
                   <span class="n">dict1_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">dict2_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -388,10 +401,10 @@ or ad-hoc inspection of application state during development.</p>
 <span class="sd">      bool: True if dictionaries are equivalent; False otherwise.</span>
 
 <span class="sd">  Examples:</span>
-<span class="sd">      &gt;&gt;&gt; dict1 = {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3}</span>
-<span class="sd">      &gt;&gt;&gt; dict2 = {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;d&quot;: 5}</span>
-<span class="sd">      &gt;&gt;&gt; compare_dicts(dict1, dict2)</span>
-<span class="sd">      False</span>
+<span class="sd">      Input :</span>
+<span class="sd">        dict1 = {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3}</span>
+<span class="sd">        dict2 = {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;d&quot;: 5}</span>
+<span class="sd">      Output: False</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">dict1_name</span> <span class="o">=</span> <span class="n">dict1_name</span> <span class="ow">or</span> <span class="s2">&quot;dict_1&quot;</span>
   <span class="n">dict2_name</span> <span class="o">=</span> <span class="n">dict2_name</span> <span class="ow">or</span> <span class="s2">&quot;dict_2&quot;</span>
@@ -515,9 +528,7 @@ or ad-hoc inspection of application state during development.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
@@ -542,7 +553,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">diag_recursive</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">diag_recursive</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Recursively log the structure and values of a nested iterable.</span>
 
@@ -648,21 +661,18 @@ or ad-hoc inspection of application state during development.</p>
 </table>
 
 <p><span class="doc-section-title">Examples:</span></p>
-    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dict_to_str</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
-<span class="go">a:</span>
-<span class="go">   1</span>
-<span class="go">b:</span>
-<span class="go">   c:</span>
-<span class="go">      2</span>
-</code></pre></div>
+    <p>Input : {"a": 1, "b": {"c": 2}}
+Output:
+  a:
+     1
+  b:
+     c:
+        2</p>
 
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
@@ -688,7 +698,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_str</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_str</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Convert a dictionary to a pretty-printed multiline string.</span>
 
@@ -700,13 +712,13 @@ or ad-hoc inspection of application state during development.</p>
 <span class="sd">      str: String representation of dictionary with indentation.</span>
 
 <span class="sd">  Examples:</span>
-<span class="sd">      &gt;&gt;&gt; d = {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2}}</span>
-<span class="sd">      &gt;&gt;&gt; print(dict_to_str(d))</span>
-<span class="sd">      a:</span>
-<span class="sd">         1</span>
-<span class="sd">      b:</span>
-<span class="sd">         c:</span>
-<span class="sd">            2</span>
+<span class="sd">      Input : {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2}}</span>
+<span class="sd">      Output:</span>
+<span class="sd">        a:</span>
+<span class="sd">           1</span>
+<span class="sd">        b:</span>
+<span class="sd">           c:</span>
+<span class="sd">              2</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
   <span class="n">indent</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">depth</span>
@@ -797,9 +809,7 @@ or ad-hoc inspection of application state during development.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
 <span class="normal">238</span>
@@ -817,7 +827,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">250</span>
 <span class="normal">251</span>
 <span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_changed_fields</span><span class="p">(</span><span class="n">new_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">old_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_changed_fields</span><span class="p">(</span><span class="n">new_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">old_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Extract fields from new_dict that differ from old_dict.</span>
 
@@ -911,7 +923,7 @@ or ad-hoc inspection of application state during development.</p>
 )
               –
               <div class="doc-md-description">
-                <p>If True, logs warnings for non-overlapping items.</p>
+                <p>If True, log warnings for non-overlapping items.</p>
               </div>
             </li>
         </ul>
@@ -944,15 +956,13 @@ or ad-hoc inspection of application state during development.</p>
     </tr>
   </tbody>
 </table>        <p>Examples:
-    &gt;&gt;&gt; list_differences(["a", "b"], ["b", "c"])
-    (["a"], ["c"])</p>
+    Input : ["a", "b"], ["b", "c"]
+    Output: (["a"], ["c"])</p>
 
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
@@ -984,7 +994,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">list_differences</span><span class="p">(</span><span class="n">iterable_01</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">list_differences</span><span class="p">(</span><span class="n">iterable_01</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
                      <span class="n">iterable_02</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
                      <span class="n">iterable_01_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;List 1&quot;</span><span class="p">,</span>
                      <span class="n">iterable_02_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;List 2&quot;</span><span class="p">,</span>
@@ -997,15 +1009,15 @@ or ad-hoc inspection of application state during development.</p>
 <span class="sd">      iterable_02 (list | dict): Second iterable object to compare.</span>
 <span class="sd">      iterable_01_name (str): Label for the first iterable in log messages.</span>
 <span class="sd">      iterable_02_name (str): Label for the second iterable in log messages.</span>
-<span class="sd">      print_warning (bool): If True, logs warnings for non-overlapping items.</span>
+<span class="sd">      print_warning (bool): If True, log warnings for non-overlapping items.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">      tuple[list, list]:</span>
 <span class="sd">          - Items in `iterable_01` but not in `iterable_02`</span>
 <span class="sd">          - Items in `iterable_02` but not in `iterable_01`</span>
 <span class="sd">  Examples:</span>
-<span class="sd">      &gt;&gt;&gt; list_differences([&quot;a&quot;, &quot;b&quot;], [&quot;b&quot;, &quot;c&quot;])</span>
-<span class="sd">      ([&quot;a&quot;], [&quot;c&quot;])</span>
+<span class="sd">      Input : [&quot;a&quot;, &quot;b&quot;], [&quot;b&quot;, &quot;c&quot;]</span>
+<span class="sd">      Output: ([&quot;a&quot;], [&quot;c&quot;])</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">in_iterable_1_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterable_01</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">iterable_02</span><span class="p">]</span>
   <span class="n">in_iterable_2_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterable_02</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">iterable_01</span><span class="p">]</span>
@@ -1118,13 +1130,9 @@ or ad-hoc inspection of application state during development.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>obj_diagnostics(my_object, include_hidden=True, include_functions=True)</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : my_object with attributes and methods
+        include_hidden=True, include_functions=True
+Output: Logs all attributes (including private) and functions to debug logger</p>
 </details>
 
             <details class="quote">
@@ -1159,7 +1167,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">obj_diagnostics</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">obj_diagnostics</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
                     <span class="n">include_hidden</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="n">include_functions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1176,7 +1186,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="sd">      None</span>
 
 <span class="sd">  Example:</span>
-<span class="sd">      &gt;&gt;&gt; obj_diagnostics(my_object, include_hidden=True, include_functions=True)</span>
+<span class="sd">      Input : my_object with attributes and methods</span>
+<span class="sd">              include_hidden=True, include_functions=True</span>
+<span class="sd">      Output: Logs all attributes (including private) and functions to debug logger</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagnostics for: </span><span class="si">{</span><span class="n">obj</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
@@ -1248,7 +1260,7 @@ or ad-hoc inspection of application state during development.</p>
 <b><code>str</code></b>(                  <code><span title="str">str</span></code>
 )              –
               <div class="doc-md-description">
-                <p>HTML string wrapped in <pre> tags that is safe for use with <code>|safe</code> in templates.</p>
+                <p>HTML string wrapped in <pre> tags that are safe for use with <code>|safe</code> in templates.</p>
               </div>
             </li>
         </ul>
@@ -1268,9 +1280,7 @@ or ad-hoc inspection of application state during development.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -1290,7 +1300,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
-<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">obj_to_html</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">obj_to_html</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Convert any Python object to a formatted HTML string for Jinja rendering.</span>
 
@@ -1298,7 +1310,7 @@ or ad-hoc inspection of application state during development.</p>
 <span class="sd">      obj (object): A Python object suitable for `pprint`.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">      str: HTML string wrapped in &lt;pre&gt; tags that is safe for use with `|safe` in templates.</span>
+<span class="sd">      str: HTML string wrapped in &lt;pre&gt; tags that are safe for use with `|safe` in templates.</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">      The HTML content must be marked `|safe` in the template to avoid escaping.</span>
@@ -1336,9 +1348,7 @@ or ad-hoc inspection of application state during development.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\diagnostics.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
@@ -1375,7 +1385,9 @@ or ad-hoc inspection of application state during development.</p>
 <span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
-<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run example-based tests for diagnostic functions in this module.</span>
 

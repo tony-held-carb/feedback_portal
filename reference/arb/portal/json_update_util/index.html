@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -97,6 +95,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -181,7 +195,7 @@
 <a id="arb.portal.json_update_util"></a>
     <div class="doc doc-contents first">
 
-        <p>Utility functions to apply updates to a SQLAlchemy model's JSON field and
+        <p>Utility functions to apply updates to an SQLAlchemy model's JSON field and
 log each change to the portal_updates table for auditing purposes.</p>
 
 
@@ -345,21 +359,9 @@ the value has changed:
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>apply_json_patch_and_log(incidence, {"status": "Resolved"}, user="admin")</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
-
             <details class="quote">
               <summary>Source code in <code>arb\portal\json_update_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
-<span class="normal"> 27</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
@@ -436,9 +438,7 @@ the value has changed:
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_json_patch_and_log</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_json_patch_and_log</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
                              <span class="n">updates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
                              <span class="n">json_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span><span class="p">,</span>
                              <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
@@ -465,9 +465,6 @@ the value has changed:
 
 <span class="sd">  Raises:</span>
 <span class="sd">    AttributeError: If the specified JSON field does not exist on the model.</span>
-
-<span class="sd">  Example:</span>
-<span class="sd">    &gt;&gt;&gt; apply_json_patch_and_log(incidence, {&quot;status&quot;: &quot;Resolved&quot;}, user=&quot;admin&quot;)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c1"># In the future, may want to handle new rows differently</span>
@@ -500,7 +497,7 @@ the value has changed:
       <span class="k">continue</span>
     <span class="k">if</span> <span class="n">old_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">new_value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
       <span class="k">continue</span>
-    <span class="c1"># Note, on the rare situation that &quot;Please Select&quot; is a valid entry in a string field, it will be filtered out</span>
+    <span class="c1"># Note, on the rare situation that &quot;Please Select&quot; is a valid entry in a string field - it will be filtered out</span>
     <span class="k">if</span> <span class="n">old_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">PLEASE_SELECT</span><span class="p">:</span>
       <span class="k">continue</span>
 

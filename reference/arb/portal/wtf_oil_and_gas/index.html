@@ -56,8 +56,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -97,6 +95,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -188,7 +202,7 @@ O&amp;G spreadsheet and includes conditional field validation, dynamic dropdown 
 timestamp-based consistency checks.</p>
 <h3 id="arb.portal.wtf_oil_and_gas--key-features">Key Features:</h3>
 <ul>
-<li>Enforces correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).</li>
+<li>Enforces the correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).</li>
 <li>Includes geospatial validation and timestamp sequencing checks.</li>
 <li>Cross-field validation logic implemented in <code>validate()</code>.</li>
 <li>Supports conditional validation with custom helpers like <code>change_validators_on_test()</code>.</li>
@@ -776,7 +790,8 @@ mitigation actions, and contact data.</p>
 <span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
-<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OGFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+<span class="normal">545</span>
+<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OGFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  WTForms class for collecting feedback on Oil &amp; Gas methane emissions.</span>
 
@@ -1041,6 +1056,7 @@ mitigation actions, and contact data.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">      None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
   <span class="k">pass</span>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1065,7 +1081,7 @@ mitigation actions, and contact data.</p>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
     <span class="n">form_fields</span> <span class="o">=</span> <span class="n">get_wtforms_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="c1"># Dictionary to replace standard WTForm messages with alternative message</span>
+    <span class="c1"># Dictionary to replace standard WTForm messages with an alternative message</span>
     <span class="n">error_message_replacement_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Not a valid float value.&quot;</span><span class="p">:</span> <span class="s2">&quot;Not a valid numeric value.&quot;</span><span class="p">}</span>
 
     <span class="c1">###################################################################################################</span>
@@ -1074,7 +1090,7 @@ mitigation actions, and contact data.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">determine_contingent_fields</span><span class="p">()</span>
 
     <span class="c1">###################################################################################################</span>
-    <span class="c1"># Set selectors with values not in their choices list to &quot;Please Select&quot;</span>
+    <span class="c1"># Set selectors with values not in their choice&#39;s list to &quot;Please Select&quot;</span>
     <span class="c1">###################################################################################################</span>
     <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">form_fields</span><span class="p">:</span>
       <span class="n">field</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
@@ -1088,7 +1104,7 @@ mitigation actions, and contact data.</p>
     <span class="c1"># The form_errors will not affect if validate returns True/False, only the fields are considered.</span>
     <span class="c1">###################################################################################################</span>
     <span class="c1"># logger.debug(&quot;in the validator before super&quot;)</span>
-    <span class="n">super_return</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
 
     <span class="c1">###################################################################################################</span>
     <span class="c1"># Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data</span>
@@ -1167,7 +1183,7 @@ mitigation actions, and contact data.</p>
     <span class="c1"># self.form_errors.append(&quot;I&#39;m a form level error #2&quot;)</span>
 
     <span class="c1">###################################################################################################</span>
-    <span class="c1"># Search and replace the error messages associated with input fields to a custom message</span>
+    <span class="c1"># Search and replace the error messages associated with input fields with a custom message</span>
     <span class="c1"># For instance, the default &#39;float&#39; error is changed because a typical user will not know what a</span>
     <span class="c1"># float value is (they will be more comfortable with the word &#39;numeric&#39;)</span>
     <span class="c1">###################################################################################################</span>
@@ -1347,8 +1363,7 @@ optional behavior.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
-<span class="normal">456</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
 <span class="normal">457</span>
 <span class="normal">458</span>
 <span class="normal">459</span>
@@ -1437,7 +1452,8 @@ optional behavior.</p>
 <span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
-<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">545</span>
+<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Adjust validators based on user selections that imply exclusions or</span>
 <span class="sd">  optional behavior.</span>
@@ -1697,8 +1713,7 @@ specific to Oil &amp; Gas reporting.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
-<span class="normal">315</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
@@ -1836,7 +1851,8 @@ specific to Oil &amp; Gas reporting.</p>
 <span class="normal">450</span>
 <span class="normal">451</span>
 <span class="normal">452</span>
-<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">453</span>
+<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Override the default WTForms validation logic with cross-field rules</span>
 <span class="sd">    specific to Oil &amp; Gas reporting.</span>
@@ -1858,7 +1874,7 @@ specific to Oil &amp; Gas reporting.</p>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
   <span class="n">form_fields</span> <span class="o">=</span> <span class="n">get_wtforms_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-  <span class="c1"># Dictionary to replace standard WTForm messages with alternative message</span>
+  <span class="c1"># Dictionary to replace standard WTForm messages with an alternative message</span>
   <span class="n">error_message_replacement_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Not a valid float value.&quot;</span><span class="p">:</span> <span class="s2">&quot;Not a valid numeric value.&quot;</span><span class="p">}</span>
 
   <span class="c1">###################################################################################################</span>
@@ -1867,7 +1883,7 @@ specific to Oil &amp; Gas reporting.</p>
   <span class="bp">self</span><span class="o">.</span><span class="n">determine_contingent_fields</span><span class="p">()</span>
 
   <span class="c1">###################################################################################################</span>
-  <span class="c1"># Set selectors with values not in their choices list to &quot;Please Select&quot;</span>
+  <span class="c1"># Set selectors with values not in their choice&#39;s list to &quot;Please Select&quot;</span>
   <span class="c1">###################################################################################################</span>
   <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">form_fields</span><span class="p">:</span>
     <span class="n">field</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
@@ -1881,7 +1897,7 @@ specific to Oil &amp; Gas reporting.</p>
   <span class="c1"># The form_errors will not affect if validate returns True/False, only the fields are considered.</span>
   <span class="c1">###################################################################################################</span>
   <span class="c1"># logger.debug(&quot;in the validator before super&quot;)</span>
-  <span class="n">super_return</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
+  <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
 
   <span class="c1">###################################################################################################</span>
   <span class="c1"># Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data</span>
@@ -1960,7 +1976,7 @@ specific to Oil &amp; Gas reporting.</p>
   <span class="c1"># self.form_errors.append(&quot;I&#39;m a form level error #2&quot;)</span>
 
   <span class="c1">###################################################################################################</span>
-  <span class="c1"># Search and replace the error messages associated with input fields to a custom message</span>
+  <span class="c1"># Search and replace the error messages associated with input fields with a custom message</span>
   <span class="c1"># For instance, the default &#39;float&#39; error is changed because a typical user will not know what a</span>
   <span class="c1"># float value is (they will be more comfortable with the word &#39;numeric&#39;)</span>
   <span class="c1">###################################################################################################</span>

@@ -62,8 +62,6 @@
     </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -97,6 +95,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -230,8 +244,8 @@ app = create_app()
 
         <p>Create and configure the ARB Feedback Portal Flask application.</p>
 <p>Follows the Flask application factory pattern. This function loads configuration,
-initializes extensions, binds SQLAlchemy to the app, and registers route blueprints
-and global utilities.</p>
+initializes extensions, binds SQLAlchemy to the app, and registers the
+route blueprints and global utilities.</p>
 
 
 <table class="field-list">
@@ -262,7 +276,8 @@ and global utilities.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\app.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
+<span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
@@ -303,14 +318,13 @@ and global utilities.</p>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Flask</span><span class="p">:</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Flask</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create and configure the ARB Feedback Portal Flask application.</span>
 
 <span class="sd">  Follows the Flask application factory pattern. This function loads configuration,</span>
-<span class="sd">  initializes extensions, binds SQLAlchemy to the app, and registers route blueprints</span>
-<span class="sd">  and global utilities.</span>
+<span class="sd">  initializes extensions, binds SQLAlchemy to the app, and registers the</span>
+<span class="sd">  route blueprints and global utilities.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    Flask: A fully initialized Flask application instance with:</span>
@@ -365,7 +379,7 @@ and global utilities.</p>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../../wsgi/" class="btn btn-neutral float-left" title="arb.wsgi"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../app_util/" class="btn btn-neutral float-right" title="arb.portal.app_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../constants/" class="btn btn-neutral float-right" title="arb.portal.constants">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -391,7 +405,7 @@ and global utilities.</p>
       <span><a href="../../wsgi/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../app_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../constants/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

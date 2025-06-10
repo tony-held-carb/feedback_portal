@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/db_ingest_util/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.portal.util.db_ingest_util - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.portal.util.db_ingest_util";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\db_ingest_util.md";
+        var mkdocs_page_url = "/reference/arb/portal/util/db_ingest_util/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../__get_logger/">arb.__get_logger</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+    <ul class="current">
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.util.sector_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Portal</li>
+          <li class="breadcrumb-item">Util</li>
+      <li class="breadcrumb-item active">arb.portal.util.db_ingest_util</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbportalutildb_ingest_util"><code>arb.portal.util.db_ingest_util</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.portal.util.db_ingest_util"></a>
+    <div class="doc doc-contents first">
+
+        <p>database_ingest_util.py</p>
+<p>This module provides database ingestion helpers for inserting or updating rows
+based on structured dictionaries, particularly those derived from Excel templates.</p>
+<p>It includes:
+- Generic row ingestion from any dict using SQLAlchemy reflection
+- Excel-specific wrapper for sector-based data (xl_dict_to_database)</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.db_ingest_util.dict_to_database" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="s1">&#39;misc_json&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Insert or update a row in the specified table using a dictionary payload.</p>
+<p>The payload is merged into a model instance and committed to the database.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>data_dict</code></b>
+                  (<code><span title="dict">dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Dictionary containing payload data.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>table_name</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;incidences&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Table name to modify. Defaults to 'incidences'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>primary_key</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;id_incidence&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Name of the primary key field. Defaults to 'id_incidence'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>json_field</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;misc_json&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Name of the JSON field to update. Defaults to 'misc_json'.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>int</code></b>(                  <code><span title="int">int</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Final value of the primary key for the affected row.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="ValueError">ValueError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If data_dict is empty.</p>
+              </div>
+            </li>
+            <li>
+                  <code><span title="AttributeError">AttributeError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the resulting model does not expose the primary key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                     <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
+                     <span class="n">data_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                     <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;incidences&quot;</span><span class="p">,</span>
+                     <span class="n">primary_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_incidence&quot;</span><span class="p">,</span>
+                     <span class="n">json_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Insert or update a row in the specified table using a dictionary payload.</span>
+
+<span class="sd">  The payload is merged into a model instance and committed to the database.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    data_dict (dict): Dictionary containing payload data.</span>
+<span class="sd">    table_name (str): Table name to modify. Defaults to &#39;incidences&#39;.</span>
+<span class="sd">    primary_key (str): Name of the primary key field. Defaults to &#39;id_incidence&#39;.</span>
+<span class="sd">    json_field (str): Name of the JSON field to update. Defaults to &#39;misc_json&#39;.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    int: Final value of the primary key for the affected row.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If data_dict is empty.</span>
+<span class="sd">    AttributeError: If the resulting model does not expose the primary key.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.wtf_forms_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_model_with_payload</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">data_dict</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Attempt to add empty entry to database&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+  <span class="n">id_</span> <span class="o">=</span> <span class="n">data_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
+
+  <span class="n">model</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">is_new_row</span> <span class="o">=</span> <span class="n">get_ensured_row</span><span class="p">(</span>
+    <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+    <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+    <span class="n">primary_key_name</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span>
+    <span class="n">id_</span><span class="o">=</span><span class="n">id_</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Backfill generated primary key into payload if it was not supplied</span>
+  <span class="k">if</span> <span class="n">is_new_row</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backfilling </span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2"> into payload&quot;</span><span class="p">)</span>
+    <span class="n">data_dict</span><span class="p">[</span><span class="n">primary_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_</span>
+
+  <span class="n">update_model_with_payload</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="n">json_field</span><span class="p">)</span>
+
+  <span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
+  <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+  <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+  <span class="c1"># Final safety: extract final PK from the model</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model has no attribute &#39;</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.db_ingest_util.json_file_to_db" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse a previously uploaded JSON file and write it to the DB.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy DB instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_name</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to a .json file matching Excel schema.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected schema metadata.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the specified file path does not exist.</p>
+              </div>
+            </li>
+            <li>
+                  <code><span title="json.JSONDecodeError">JSONDecodeError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the file is not valid JSON.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Parse a previously uploaded JSON file and write it to the DB.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy DB instance.</span>
+<span class="sd">    file_name (str | Path): Path to a .json file matching Excel schema.</span>
+<span class="sd">    base (AutomapBase): Reflected schema metadata.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    FileNotFoundError: If the specified file path does not exist.</span>
+<span class="sd">    json.JSONDecodeError: If the file is not valid JSON.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">json_as_dict</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">json_as_dict</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.db_ingest_util.upload_and_update_db" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Save uploaded file, parse contents, and insert or update DB rows.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>upload_dir</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Directory where file will be saved.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>request_file</code></b>
+                  (<code><span title="werkzeug.datastructures.FileStorage">FileStorage</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Flask <code>request.files[...]</code> object.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Automapped schema metadata.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="pathlib.Path">Path</span>, <span title="int">int</span> | None, <span title="str">str</span> | None]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[Path, int | None, str | None]: Filename, id_incidence, sector.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                         <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                         <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
+                         <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Save uploaded file, parse contents, and insert or update DB rows.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): Database instance.</span>
+<span class="sd">    upload_dir (str | Path): Directory where file will be saved.</span>
+<span class="sd">    request_file (FileStorage): Flask `request.files[...]` object.</span>
+<span class="sd">    base (AutomapBase): Automapped schema metadata.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[Path, int | None, str | None]: Filename, id_incidence, sector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upload_and_update_db() called with </span><span class="si">{</span><span class="n">request_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">id_</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="n">file_name</span> <span class="o">=</span> <span class="n">upload_single_file</span><span class="p">(</span><span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">)</span>
+  <span class="n">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;File Added&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="c1"># if the file is xl and can be converted to JSON,</span>
+  <span class="c1"># save a JSON version of the file and return the filename</span>
+  <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">json_file_name</span><span class="p">:</span>
+    <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span> <span class="o">=</span> <span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">json_file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.db_ingest_util.xl_dict_to_database" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="s1">&#39;Feedback Form&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Insert or update a row from an Excel-parsed JSON dictionary into the database.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>xl_dict</code></b>
+                  (<code><span title="dict">dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Parsed Excel document with 'metadata' and 'tab_contents'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>tab_name</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;Feedback Form&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Name of the worksheet tab to extract.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                        <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
+                        <span class="n">xl_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                        <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Feedback Form&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Insert or update a row from an Excel-parsed JSON dictionary into the database.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    xl_dict (dict): Parsed Excel document with &#39;metadata&#39; and &#39;tab_contents&#39;.</span>
+<span class="sd">    tab_name (str): Name of the worksheet tab to extract.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;xl_dict_to_database() called with </span><span class="si">{</span><span class="n">xl_dict</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span>
+  <span class="n">tab_data</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;tab_contents&quot;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span>
+  <span class="n">tab_data</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector</span>
+
+  <span class="n">id_</span> <span class="o">=</span> <span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">tab_data</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../startup/runtime_info/" class="btn btn-neutral float-left" title="arb.portal.startup.runtime_info"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../db_introspection_util/" class="btn btn-neutral float-right" title="arb.portal.util.db_introspection_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../startup/runtime_info/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../db_introspection_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

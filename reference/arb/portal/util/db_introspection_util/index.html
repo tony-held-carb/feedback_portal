@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/db_introspection_util/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.portal.util.db_introspection_util - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.portal.util.db_introspection_util";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\db_introspection_util.md";
+        var mkdocs_page_url = "/reference/arb/portal/util/db_introspection_util/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../__get_logger/">arb.__get_logger</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.util.sector_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Portal</li>
+          <li class="breadcrumb-item">Util</li>
+      <li class="breadcrumb-item active">arb.portal.util.db_introspection_util</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbportalutildb_introspection_util"><code>arb.portal.util.db_introspection_util</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.portal.util.db_introspection_util"></a>
+    <div class="doc doc-contents first">
+
+        <p>db_introspection_util.py</p>
+<p>This module provides database utility functions for dynamic schema operations using
+SQLAlchemy reflection. It allows runtime access to models and retrieval or creation
+of rows using flexible table and column identifiers.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.util.db_introspection_util.get_ensured_row" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_ensured_row</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key_name</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve or create a row in the specified table using a primary key.</p>
+<p>If the row exists, it is returned. Otherwise, a new row is created and committed.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected SQLAlchemy base metadata.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>table_name</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;incidences&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Table name to operate on. Defaults to 'incidences'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>primary_key_name</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;id_incidence&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Name of the primary key column. Defaults to 'id_incidence'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>id_</code></b>
+                  (<code><span title="int">int</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Primary key value. If None, a new row is created.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>tuple</code></b>(                  <code><span title="tuple">tuple</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>(model, id_, is_new_row)
+- model: SQLAlchemy ORM instance
+- id_: Primary key value
+- is_new_row: Whether a new row was created (True/False)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="AttributeError">AttributeError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the model class lacks the specified primary key.</p>
+              </div>
+            </li>
+            <li>
+                  <code><span title="UnmappedClassError">UnmappedClassError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the table name is not mapped in metadata.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\util\db_introspection_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ensured_row</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
+                    <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;incidences&quot;</span><span class="p">,</span>
+                    <span class="n">primary_key_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_incidence&quot;</span><span class="p">,</span>
+                    <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Retrieve or create a row in the specified table using a primary key.</span>
+
+<span class="sd">  If the row exists, it is returned. Otherwise, a new row is created and committed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
+<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
+<span class="sd">    table_name (str): Table name to operate on. Defaults to &#39;incidences&#39;.</span>
+<span class="sd">    primary_key_name (str): Name of the primary key column. Defaults to &#39;id_incidence&#39;.</span>
+<span class="sd">    id_ (int | None): Primary key value. If None, a new row is created.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: (model, id_, is_new_row)</span>
+<span class="sd">      - model: SQLAlchemy ORM instance</span>
+<span class="sd">      - id_: Primary key value</span>
+<span class="sd">      - is_new_row: Whether a new row was created (True/False)</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    AttributeError: If the model class lacks the specified primary key.</span>
+<span class="sd">    UnmappedClassError: If the table name is not mapped in metadata.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">False</span>
+
+  <span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="n">get_class_from_table_name</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">id_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">id_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">True</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No existing row found; creating new </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">model</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">primary_key_name</span><span class="p">:</span> <span class="n">id_</span><span class="p">})</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">is_new_row</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating new </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row with auto-generated </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">primary_key_name</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">id_</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">primary_key_name</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> row created with </span><span class="si">{</span><span class="n">primary_key_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">is_new_row</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../db_ingest_util/" class="btn btn-neutral float-left" title="arb.portal.util.db_ingest_util"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../file_upload_util/" class="btn btn-neutral float-right" title="arb.portal.util.file_upload_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../db_ingest_util/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../file_upload_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

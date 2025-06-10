@@ -56,8 +56,6 @@
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../../../portal/app/">arb.portal.app</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../../portal/app_util/">arb.portal.app_util</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../portal/constants/">arb.portal.constants</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
@@ -91,6 +89,22 @@
                 <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/flask/">arb.portal.startup.flask</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Util</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/file_upload_util/">arb.portal.util.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/form_integration/">arb.portal.util.form_integration</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/route_prep/">arb.portal.util.route_prep</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/util/sector_util/">arb.portal.util.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -193,13 +207,8 @@ to support automated feedback template parsing.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>xl_schema_map["oil_and_gas_v03"]["schema"]</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p>Input : xl_schema_map["oil_and_gas_v03"]["schema"]
+Output: Dictionary representing the oil and gas schema</p>
 </details>
 
 
@@ -283,7 +292,7 @@ to support automated feedback template parsing.</p>
                   <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>]</code>
               –
               <div class="doc-md-description">
-                <p>dict[str, Path]: Map from schema name to schema file path.</p>
+                <p>dict[str, Path]: Map from schema name to a schema file path.</p>
               </div>
             </li>
         </ul>
@@ -294,8 +303,7 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
@@ -321,7 +329,8 @@ to support automated feedback template parsing.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_schema_file_map</span><span class="p">(</span><span class="n">schema_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_schema_file_map</span><span class="p">(</span><span class="n">schema_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">schema_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create a dictionary mapping schema names to their JSON file paths.</span>
@@ -331,7 +340,7 @@ to support automated feedback template parsing.</p>
 <span class="sd">    schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    dict[str, Path]: Map from schema name to schema file path.</span>
+<span class="sd">    dict[str, Path]: Map from schema name to a schema file path.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_schema_file_map() called with </span><span class="si">{</span><span class="n">schema_path</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">schema_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">schema_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -436,8 +445,7 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
-<span class="normal">206</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
@@ -560,7 +568,7 @@ to support automated feedback template parsing.</p>
       <span class="c1"># Try to cast the spreadsheet data to the desired type if possible</span>
       <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">):</span>
-          <span class="c1"># if it is not supposed to be of type string, but it is a zero length string, turn it to None</span>
+          <span class="c1"># if it is not supposed to be of type string, but it is a zero-length string, turn it to None</span>
           <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
           <span class="k">else</span><span class="p">:</span>
@@ -596,7 +604,6 @@ to support automated feedback template parsing.</p>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial spreadsheet extraction of &#39;</span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2">&#39; yields </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="c1"># Some cells should be spit into multiple dictionary entries (such as full name, lat/log)</span>
     <span class="n">split_compound_keys</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">])</span>
-    <span class="c1"># Excel drop-downs save the value not the key, so you have to reverse lookup their values</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final corrected spreadsheet extraction of &#39;</span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2">&#39; yields </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -667,8 +674,8 @@ to support automated feedback template parsing.</p>
     </tr>
   </tbody>
 </table>        <p>Notes:
-- If the file_name is a json file (has .json extension), the file_name is the json_file_name.
-- If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name
+- If the file_name is a JSON file (has .json extension), the file_name is the json_file_name.
+- If the file is an Excel file (.xlsx extension), try to parse it into a JSON file and return the JSON file name
   of the parsed contents.
 - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
 - If the file was already a json file, return the file name unaltered.
@@ -727,8 +734,8 @@ to support automated feedback template parsing.</p>
 <span class="sd">    Path | None: JSON file path if parsed or detected, otherwise None.</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">  - If the file_name is a json file (has .json extension), the file_name is the json_file_name.</span>
-<span class="sd">  - If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name</span>
+<span class="sd">  - If the file_name is a JSON file (has .json extension), the file_name is the json_file_name.</span>
+<span class="sd">  - If the file is an Excel file (.xlsx extension), try to parse it into a JSON file and return the JSON file name</span>
 <span class="sd">    of the parsed contents.</span>
 <span class="sd">  - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.</span>
 <span class="sd">  - If the file was already a json file, return the file name unaltered.</span>
@@ -928,14 +935,14 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
-<span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">initialize_module</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">initialize_module</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Initialize the module by calling set_globals().</span>
 
@@ -960,7 +967,7 @@ to support automated feedback template parsing.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Load JSON schema and metadata from a mapping of schema name to file path.</p>
+        <p>Load JSON schema and metadata from a mapping of schema name to a file path.</p>
 
 
 <table class="field-list">
@@ -1014,8 +1021,7 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
-<span class="normal"> 87</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
 <span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
@@ -1034,9 +1040,10 @@ to support automated feedback template parsing.</p>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_schema_file_map</span><span class="p">(</span><span class="n">schema_file_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_schema_file_map</span><span class="p">(</span><span class="n">schema_file_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Load JSON schema and metadata from a mapping of schema name to file path.</span>
+<span class="sd">  Load JSON schema and metadata from a mapping of schema name to a file path.</span>
 
 <span class="sd">  Args:</span>
 <span class="sd">    schema_file_map (dict[str, Path]): Keys are schema names, values are JSON schema file paths.</span>
@@ -1124,8 +1131,7 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -1136,7 +1142,8 @@ to support automated feedback template parsing.</p>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_xl_schema</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_xl_schema</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Load schema and metadata from a JSON file.</span>
 
@@ -1265,8 +1272,7 @@ to support automated feedback template parsing.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -1313,7 +1319,8 @@ to support automated feedback template parsing.</p>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">schema_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">202</span>
+<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">schema_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Parse a spreadsheet and return a dictionary representation using the given schema.</span>
 
@@ -1339,7 +1346,7 @@ to support automated feedback template parsing.</p>
   <span class="n">result</span><span class="p">[</span><span class="s1">&#39;tab_contents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
   <span class="c1"># Notes on data_only argument.  By default, .value returns the &#39;formula&#39; in the cell.</span>
-  <span class="c1"># If data_only=True, then .value  returns the last &#39;value&#39; that was evaluated at the cell.</span>
+  <span class="c1"># If data_only=True, then .value returns the last &#39;value&#39; that was evaluated at the cell.</span>
   <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">keep_vba</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">data_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
   <span class="c1"># Extract metadata and schema information from hidden tabs</span>
@@ -1399,8 +1406,8 @@ to support automated feedback template parsing.</p>
 )
               –
               <div class="doc-md-description">
-                <p>Optional override for schema file map.
-If not provided, uses a default list of pre-defined schema files.</p>
+                <p>Optional override for the schema file map.
+If not provided, use a default list of pre-defined schema files.</p>
               </div>
             </li>
         </ul>
@@ -1418,8 +1425,7 @@ If not provided, uses a default list of pre-defined schema files.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
@@ -1449,13 +1455,14 @@ If not provided, uses a default list of pre-defined schema files.</p>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_globals</span><span class="p">(</span><span class="n">xl_schema_file_map_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_globals</span><span class="p">(</span><span class="n">xl_schema_file_map_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Set module-level global variables for schema file map and loaded schema map.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    xl_schema_file_map_ (dict[str, Path] | None): Optional override for schema file map.</span>
-<span class="sd">      If not provided, uses a default list of pre-defined schema files.</span>
+<span class="sd">    xl_schema_file_map_ (dict[str, Path] | None): Optional override for the schema file map.</span>
+<span class="sd">      If not provided, use a default list of pre-defined schema files.</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.</span>
@@ -1618,7 +1625,7 @@ that are more atomic.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Debug test for loading schema file map and displaying contents.</p>
+        <p>Debug test for loading a schema file map and displaying contents.</p>
 
 
             <details class="quote">
@@ -1632,7 +1639,7 @@ that are more atomic.</p>
 <span class="normal">401</span>
 <span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_schema_file_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Debug test for loading schema file map and displaying contents.</span>
+<span class="sd">  Debug test for loading a schema file map and displaying contents.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_load_schema_file_map() called&quot;</span><span class="p">)</span>
   <span class="n">schema_map</span> <span class="o">=</span> <span class="n">create_schema_file_map</span><span class="p">()</span>
