@@ -21,7 +21,6 @@ Used by WSGI, CLI tools, or testing utilities:
     app = create_app()
 """
 
-
 from pathlib import Path
 
 from flask import Flask

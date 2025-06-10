@@ -12,7 +12,6 @@ Notes:
   - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
-
 import os
 from pathlib import Path
 

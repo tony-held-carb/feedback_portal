@@ -213,8 +213,8 @@ def get_landfill_dummy_data() -> dict:
 
 
 def get_excel_dropdown_data() -> tuple[
-    dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]],
-    dict[str, dict[str, list[str | Any]]]
+  dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]],
+  dict[str, dict[str, list[str | Any]]]
 ]:
   """
   Return dropdown lookup values used in Excel and HTML form rendering.

@@ -281,20 +281,20 @@ body {
 }
 
 .section-wrapper {
-  border: 1px solid #b0c6e0;
-  border-radius: 0.375rem;
-  overflow: hidden;
-  background-color: #ffffff;
+    border: 1px solid #b0c6e0;
+    border-radius: 0.375rem;
+    overflow: hidden;
+    background-color: #ffffff;
 }
 
 .bg-card-custom {
-  background-color: #f1f3f6 !important;
+    background-color: #f1f3f6 !important;
 }
 
 .card-border-thick {
-  border: 2px solid #2c5d9d; /* Your dark blue-gray */
+    border: 2px solid #2c5d9d; /* Your dark blue-gray */
 }
 
 .card-accent {
-  border: 1.5px solid #6da86d;  /* Your btn-apply-filters green */
+    border: 1.5px solid #6da86d; /* Your btn-apply-filters green */
 }

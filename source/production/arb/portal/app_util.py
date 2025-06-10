@@ -20,4 +20,3 @@ Typical Usage:
 - Sector/type resolution from related tables
 - Upload tracking and file diagnostics
 """
-

@@ -309,6 +309,7 @@ class OGFeedback(FlaskForm):
     Returns:
       None
     """
+
   pass
 
   def validate(self, extra_validators=None) -> bool:
