@@ -68,7 +68,7 @@ def sort_xl_schema(xl_schema: dict,
     ValueError: If an unrecognized sorting strategy is provided.
 
   Examples:
-    Input:  schema, sort_by="label_address"
+    Input : schema, sort_by="label_address"
     Output: New dictionary with sorted keys and reordered sub-schemas
   """
   logger.debug("sort_xl_schema() called")
@@ -111,7 +111,7 @@ def schema_to_json_file(data: dict, schema_version: str, file_name: str = None) 
     None
 
   Examples:
-    Input:  my_schema, schema_version="v01_00"
+    Input : my_schema, schema_version="v01_00"
     Output: JSON file written to "xl_schemas/v01_00.json" (default path)
 
   Notes:
@@ -163,7 +163,7 @@ def update_vba_schema(
     dict: The updated and sorted schema dictionary.
 
   Examples:
-    Input:  "landfill_v01_00"
+    Input : "landfill_v01_00"
     Output: Sorted schema dictionary with value types injected
 
   Notes:
@@ -232,7 +232,7 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
       - metadata: Metadata dictionary from the schema file.
 
   Examples:
-    Input:  Path("xl_schemas/landfill_v01_00.json")
+    Input : Path("xl_schemas/landfill_v01_00.json")
     Output: (defaults dictionary, metadata dictionary)
 
   Notes:
@@ -267,7 +267,7 @@ def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tu
       - metadata: Metadata dictionary included in the output JSON.
 
   Examples:
-    Input:  Path("xl_schemas/landfill_v01_00.json")
+    Input : Path("xl_schemas/landfill_v01_00.json")
     Output: Tuple of (defaults dict, metadata dict), written to output path
 
   Notes:
@@ -306,7 +306,7 @@ def update_xlsx(file_in: Path, file_out: Path, jinja_dict: dict) -> None:
     None
 
   Examples:
-    Input:  template.xlsx, output.xlsx, {"site_name": "Landfill A"}
+    Input : template.xlsx, output.xlsx, {"site_name": "Landfill A"}
     Output: output.xlsx with rendered values
 
   Notes:
@@ -370,7 +370,7 @@ def test_update_xlsx_payloads_01() -> None:
     None
 
   Examples:
-    Input:  None
+    Input : None
     Output: Diagnostic Excel files created in xl_workbooks/
 
   Notes:
@@ -499,7 +499,7 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
     dict: Dictionary mapping variable names to Python types (e.g., str, int, datetime).
 
   Examples:
-    Input:  diagnostics=True
+    Input : diagnostics=True
     Output: Dictionary of variable names → value types, logged if diagnostics enabled
 
   Notes:
@@ -543,7 +543,7 @@ def create_payload(payload: dict, file_name: Path, schema_version: str, metadata
     None
 
   Examples:
-    Input:  {"id_case": "A42"}, Path("payload.json"), "v01_00"
+    Input : {"id_case": "A42"}, Path("payload.json"), "v01_00"
     Output: JSON file with metadata saved to payload.json
 
   Notes:
@@ -572,7 +572,7 @@ def create_payloads() -> None:
     None
 
   Examples:
-    Input:  None
+    Input : None
     Output: Sector payloads written to xl_payloads/*.json
 
   Notes:
@@ -616,7 +616,7 @@ def create_schemas_and_payloads() -> None:
     None
 
   Examples:
-    Input:  None
+    Input : None
     Output: All schema/payload/template artifacts generated under processed_versions/
 
   Notes:

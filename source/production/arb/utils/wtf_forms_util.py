@@ -43,7 +43,7 @@ def min_decimal_precision(min_digits: int) -> Callable:
     Callable: WTForms-compatible validator that raises ValidationError if decimal places are insufficient.
 
   Example:
-    Input:
+    Input :
       field = DecimalField("Amount", validators=[min_decimal_precision(2)])
     Output:
       Raises ValidationError if fewer than 2 decimal places are entered
@@ -87,7 +87,7 @@ def remove_validators(form: FlaskForm,
     conditional field requirements apply.
 
   Example:
-    Input:
+    Input :
       remove_validators(form, ["name", "email"], [InputRequired])
     Output:
       Removes InputRequired validators from 'name' and 'email' fields
@@ -179,7 +179,7 @@ def change_validators(form: FlaskForm,
     - Useful for dynamically changing required status.
 
   Example:
-    Input:
+    Input :
       change_validators(form, ["name"], Optional, InputRequired)
     Output:
       Replaces Optional with InputRequired on the 'name' field
@@ -213,7 +213,7 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict[str, int
     or the error counts will be inaccurate.
 
   Example:
-    Input:
+    Input :
       error_summary = wtf_count_errors(form)
     Output:
       error_summary["total_error_count"] → total number of errors found
@@ -327,7 +327,7 @@ def format_raw_data(field: Field, value) -> list[str]:
     ValueError: If the value type is unsupported.
 
   Example:
-    Input:
+    Input :
       format_raw_data(field, Decimal("10.5"))
     Output:
       ['10.5']
@@ -535,7 +535,7 @@ def get_wtforms_fields(form: FlaskForm,
     list[str]: Alphabetically sorted list of field names in the form.
 
   Example:
-    Input:
+    Input :
       get_wtforms_fields(form)
     Output:
       ['name', 'sector']
@@ -561,7 +561,7 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
     None
 
   Example:
-    Input:
+    Input :
       initialize_drop_downs(form, default="Please Select")
     Output:
       Sets all SelectField fields to default if not initialized
@@ -593,7 +593,7 @@ def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list
     list[tuple[str, str, dict]]: Combined list of header and generated item tuples.
 
   Example:
-    Input:
+    Input :
       build_choices(
         [("Please Select", "Please Select", {"disabled": True})],
         ["One", "Two"]

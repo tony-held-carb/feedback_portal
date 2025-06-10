@@ -43,10 +43,10 @@ def get_excel_row_column(xl_address: str) -> tuple[str, int]:
     ValueError: If the format is invalid (e.g., not exactly two-dollar signs, or row not an integer).
 
   Examples:
-    Input:  "$Z$9"
+    Input : "$Z$9"
     Output: ('Z', 9)
 
-    Input:  "$AA$105"
+    Input : "$AA$105"
     Output: ('AA', 105)
   """
 
@@ -90,10 +90,10 @@ def xl_address_sort(
     ValueError: If `address_location` or `sort_by` has an invalid value.
 
   Examples:
-    Input:  ("$B$3", "data"), address_location="key", sort_by="row"
+    Input : ("$B$3", "data"), address_location="key", sort_by="row"
     Output: 3
 
-    Input:  ("item", {"pos": "$C$7"}), address_location="value", sort_by="column", sub_keys="pos"
+    Input : ("item", {"pos": "$C$7"}), address_location="value", sort_by="column", sub_keys="pos"
     Output: 'C'
   """
 

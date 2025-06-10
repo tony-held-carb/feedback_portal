@@ -11,7 +11,7 @@ Notes:
   * All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
 
 Examples:
-  Input: file = UploadedFile(path="uploads/report.xlsx", status="pending")
+  Input : file = UploadedFile(path="uploads/report.xlsx", status="pending")
          db.session.add(file)
          db.session.commit()
   Output: file is inserted into the uploaded_files table with timestamps autopopulated
@@ -50,7 +50,7 @@ class UploadedFile(db.Model):
       modified_timestamp (datetime): UTC timestamp of last update.
 
     Examples:
-      Input: file = UploadedFile(path="uploads/test.xlsx", status="pending")
+      Input : file = UploadedFile(path="uploads/test.xlsx", status="pending")
              db.session.add(file)
              db.session.commit()
       Output: file appears in the uploaded_files table with 'pending' status
@@ -83,7 +83,7 @@ class UploadedFile(db.Model):
         str: Summary string showing the ID, path, description, and status.
 
     Examples:
-      Input: UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
+      Input : UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
       Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'
     """
     return (

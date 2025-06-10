@@ -39,7 +39,7 @@ def obj_diagnostics(obj: object,
       None
 
   Example:
-      Input:  my_object with attributes and methods
+      Input : my_object with attributes and methods
               include_hidden=True, include_functions=True
       Output: Logs all attributes (including private) and functions to debug logger
   """
@@ -77,7 +77,7 @@ def list_differences(iterable_01: list | dict,
           - Items in `iterable_01` but not in `iterable_02`
           - Items in `iterable_02` but not in `iterable_01`
   Examples:
-      Input:  ["a", "b"], ["b", "c"]
+      Input : ["a", "b"], ["b", "c"]
       Output: (["a"], ["c"])
   """
   in_iterable_1_only = [x for x in iterable_01 if x not in iterable_02]
@@ -136,7 +136,7 @@ def dict_to_str(x: dict, depth: int = 0) -> str:
       str: String representation of dictionary with indentation.
 
   Examples:
-      Input:  {"a": 1, "b": {"c": 2}}
+      Input : {"a": 1, "b": {"c": 2}}
       Output:
         a:
            1
@@ -197,7 +197,7 @@ def compare_dicts(dict1: dict,
       bool: True if dictionaries are equivalent; False otherwise.
 
   Examples:
-      Input:
+      Input :
         dict1 = {"a": 1, "b": 2, "c": 3}
         dict2 = {"a": 1, "b": 4, "d": 5}
       Output: False

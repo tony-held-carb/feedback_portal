@@ -58,7 +58,7 @@ def json_serializer(obj: object) -> dict:
       TypeError: If the object type is unsupported.
 
   Example:
-    Input:  json.dumps(datetime.datetime.now(), default=json_serializer)
+    Input : json.dumps(datetime.datetime.now(), default=json_serializer)
     Output: JSON string with ISO datetime object encoded
   """
   if isinstance(obj, type):
@@ -82,7 +82,7 @@ def json_deserializer(obj: dict) -> object:
       object: Reconstructed Python object.
 
   Example:
-    Input:  json.loads(json_string, object_hook=json_deserializer)
+    Input : json.loads(json_string, object_hook=json_deserializer)
     Output: Python object reconstructed from JSON with type tags
   """
   new_obj = obj
@@ -130,7 +130,7 @@ def json_save(
       json_options (dict | None): Options to pass to `json.dump`.
 
   Example:
-    Input:  file_path = "output.json", data = {"x": Decimal("1.23")}
+    Input : file_path = "output.json", data = {"x": Decimal("1.23")}
     Output: Creates a JSON file with serialized data at the given path
   """
   logger.debug(f"json_save() called with {file_path=}, {json_options=}, {data=}")
@@ -160,7 +160,7 @@ def json_save_with_meta(
       json_options (dict | None): Options for `json.dump`.
 
   Example:
-    Input:
+    Input :
       file_path = "log.json"
       data = {"key": "value"}
       metadata = {"source": "generated"}
@@ -200,7 +200,7 @@ def json_load(
       object: Deserialized Python object.
 
   Example:
-    Input:  file_path = "data.json"
+    Input : file_path = "data.json"
     Output: Deserialized Python object from JSON
 
   Notes:
@@ -232,7 +232,7 @@ def json_load_with_meta(file_path: str | pathlib.Path,
       - dict: Deserialized metadata from "_metadata_" (or empty dict if not present).
 
   Example:
-    Input:  file_path = "example.json"
+    Input : file_path = "example.json"
     Output: tuple (data, metadata) extracted from the file
 
   Notes:
@@ -261,7 +261,7 @@ def add_metadata_to_json(
       file_name_out (str | Path | None): Output file path. If None, overwrites input.
 
   Example:
-    Input:  file_name_in = "schema.json"
+    Input : file_name_in = "schema.json"
     Output: Adds metadata and writes back to same file
   """
   logger.debug(f"add_metadata_to_json() called with {file_name_in=}, {file_name_out=}")
@@ -288,7 +288,7 @@ def compare_json_files(
       Differences or matches are logged at debug level.
 
   Example:
-    Input:  file_name_1 = "old.json", file_name_2 = "new.json"
+    Input : file_name_1 = "old.json", file_name_2 = "new.json"
     Output: Logs any differences or confirms matches
   """
   logger.debug(f"compare_json_files() comparing {file_name_1} and {file_name_2}")

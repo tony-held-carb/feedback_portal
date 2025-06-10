@@ -31,7 +31,7 @@ Version:
 
 Example Usage:
 --------------
-Input:
+Input :
     import arb.utils.log_util as log_util
     logging.basicConfig(level=logging.DEBUG)
 
@@ -77,7 +77,7 @@ def log_function_parameters(
       print_to_console (bool): If True, also print the message to stdout.
 
   Example:
-      Input:
+      Input :
           def example(a, b=2): log_function_parameters()
           example(1)
 
@@ -128,7 +128,7 @@ def log_parameters(
       Callable: A decorator that logs parameter values each time the function is called.
 
   Example:
-      Input:
+      Input :
           @log_parameters(print_to_console=True)
           def greet(name, lang="en"):
               return f"Hello {name} [{lang}]"

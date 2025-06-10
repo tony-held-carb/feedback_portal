@@ -12,7 +12,7 @@ Notes:
     - Adds "Please Select" logic to dropdowns using `arb.utils.constants`.
 
 Examples:
-    Input:  file = request.files['data'], upload_dir = "/data/uploads"
+    Input : file = request.files['data'], upload_dir = "/data/uploads"
     Output: Path object pointing to a securely saved file
 """
 from pathlib import Path
@@ -42,7 +42,7 @@ def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Pat
       OSError: If the file cannot be written to disk.
 
   Example:
-    Input:  file = request.files['data'], upload_dir = "/data/uploads"
+    Input : file = request.files['data'], upload_dir = "/data/uploads"
     Output: Path object pointing to a securely saved file
   """
   logger.debug(f"Attempting to upload {request_file.filename=}")
@@ -66,7 +66,7 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
         WTForms selector list including a disabled "Please Select" entry.
 
   Examples:
-    Input:  ["Red", "Green"]
+    Input : ["Red", "Green"]
     Output: [('Please Select', 'Please Select', {'disabled': True}),
              ('Red', 'Red'), ('Green', 'Green')]
   """
@@ -88,7 +88,7 @@ def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
       list[tuple[str, str, dict]]: Triple tuples for WTForms SelectField.
 
   Examples:
-      Input:  ["A", "B"]
+      Input : ["A", "B"]
       Output: [('A', 'A', {}), ('B', 'B', {})]
   """
   return [(v, v, {}) for v in values]
@@ -113,7 +113,7 @@ def update_triple_tuple_dict(
       list[tuple[str, str, dict]]: Updated list of selector tuples.
 
   Examples:
-    Input:
+    Input :
       tuple_list = [('A', 'A', {}), ('B', 'B', {})]
       match_list = ['A']
       match_update_dict = {'disabled': True}
@@ -146,7 +146,7 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
           Dict with WTForms-ready selector tuples.
 
   Examples:
-    Input:  {"colors": ["Red", "Blue"]}
+    Input : {"colors": ["Red", "Blue"]}
     Output:
       {
         "colors": [
@@ -183,7 +183,7 @@ def ensure_placeholder_option(
       list[tuple[str, str, dict]]: Updated tuple list with ensured placeholder.
 
   Examples:
-    Input:  [("A", "A", {})]
+    Input : [("A", "A", {})]
     Output: [('Please Select', 'Please Select', {'disabled': True}), ('A', 'A', {})]
   """
 
@@ -230,7 +230,7 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
     list[tuple[str, str, dict]]: Filtered list excluding the removed values.
 
   Examples:
-    Input:  [("A", "A", {}), ("B", "B", {})], remove_items="B"
+    Input : [("A", "A", {}), ("B", "B", {})], remove_items="B"
     Output: [('A', 'A', {})]
   """
   remove_set = {remove_items} if isinstance(remove_items, str) else set(remove_items)

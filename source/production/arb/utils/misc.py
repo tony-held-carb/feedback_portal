@@ -52,10 +52,10 @@ def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:
       TypeError: If a non-dictionary value is encountered mid-traversal.
 
   Examples:
-    Input:  data = {"a": {"b": {"c": 42}}, "x": 99}, keys = ("a", "b", "c")
+    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = ("a", "b", "c")
     Output: 42
 
-    Input:  data = {"a": {"b": {"c": 42}}, "x": 99}, keys = "x"
+    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = "x"
     Output: 99
   """
   if not isinstance(keys, (list, tuple)):
@@ -87,7 +87,7 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
       TypeError: If the sub_key is missing, and no fallback is found in default_dict.
 
   Example:
-    Input:
+    Input :
       dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
       default_dict = {"c": 99}
       sub_key = "x"
@@ -115,7 +115,7 @@ def replace_list_occurrences(list_: list, lookup_dict: dict) -> None:
     lookup_dict (dict): A dictionary mapping old values to new values.
 
   Example:
-    Input:
+    Input :
       list_ = ["cat", "dog", "bird"]
       lookup_dict = {"dog": "puppy", "bird": "parrot"}
     Output:
@@ -137,7 +137,7 @@ def args_to_string(args: list | tuple | None) -> str:
     str: Space-separated string representation.
 
   Example:
-    Input:  ["--debug", "--log", "file.txt"]
+    Input : ["--debug", "--log", "file.txt"]
     Output: " --debug --log file.txt "
   """
   if not args:

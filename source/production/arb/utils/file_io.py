@@ -41,10 +41,10 @@ def ensure_parent_dirs(file_name: str | Path) -> None:
     None
 
   Examples:
-    Input:  "/tmp/some/deep/file.txt"
+    Input : "/tmp/some/deep/file.txt"
     Output: Ensures intermediate directories exist
 
-    Input:  "local_file.txt"
+    Input : "local_file.txt"
     Output: No error if directory already exists or is current
   """
   logger.debug(f"ensure_parent_dirs() called for: {file_name=}")
@@ -66,7 +66,7 @@ def ensure_dir_exists(dir_path: str | Path) -> None:
       None
 
   Example:
-    Input:  "logs/output"
+    Input : "logs/output"
     Output: Creates the directory and parents if needed
   """
   logger.debug(f"ensure_dir_exists() called for: {dir_path=}")
@@ -90,7 +90,7 @@ def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> P
     Path: The full secure, timestamped file path.
 
   Example:
-    Input:  directory = "/tmp", file_name = "user report.xlsx"
+    Input : directory = "/tmp", file_name = "user report.xlsx"
     Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
   """
   file_name_clean = secure_filename(file_name)
@@ -128,7 +128,7 @@ def resolve_project_root(
     ProjectRootNotFoundError: If no matching sequence is found.
 
   Example:
-    Input:  file_path = __file__
+    Input : file_path = __file__
     Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedback_portal")
   """
   if candidate_structures is None:
