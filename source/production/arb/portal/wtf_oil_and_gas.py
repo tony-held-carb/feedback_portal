@@ -8,7 +8,7 @@ timestamp-based consistency checks.
 
 Key Features:
 -------------
-- Enforces correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
+- Enforces the correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
 - Includes geospatial validation and timestamp sequencing checks.
 - Cross-field validation logic implemented in `validate()`.
 - Supports conditional validation with custom helpers like `change_validators_on_test()`.
@@ -333,7 +333,7 @@ class OGFeedback(FlaskForm):
     logger.debug(f"validate() called.")
     form_fields = get_wtforms_fields(self)
 
-    # Dictionary to replace standard WTForm messages with alternative message
+    # Dictionary to replace standard WTForm messages with an alternative message
     error_message_replacement_dict = {"Not a valid float value.": "Not a valid numeric value."}
 
     ###################################################################################################
@@ -342,7 +342,7 @@ class OGFeedback(FlaskForm):
     self.determine_contingent_fields()
 
     ###################################################################################################
-    # Set selectors with values not in their choices list to "Please Select"
+    # Set selectors with values not in their choice's list to "Please Select"
     ###################################################################################################
     for field_name in form_fields:
       field = getattr(self, field_name)
@@ -356,7 +356,7 @@ class OGFeedback(FlaskForm):
     # The form_errors will not affect if validate returns True/False, only the fields are considered.
     ###################################################################################################
     # logger.debug("in the validator before super")
-    super_return = super().validate(extra_validators=extra_validators)
+    _ = super().validate(extra_validators=extra_validators)
 
     ###################################################################################################
     # Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data
@@ -435,7 +435,7 @@ class OGFeedback(FlaskForm):
     # self.form_errors.append("I'm a form level error #2")
 
     ###################################################################################################
-    # Search and replace the error messages associated with input fields to a custom message
+    # Search and replace the error messages associated with input fields with a custom message
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################

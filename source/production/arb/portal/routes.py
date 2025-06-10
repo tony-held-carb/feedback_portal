@@ -21,7 +21,6 @@ from urllib.parse import unquote
 
 from flask import Blueprint, Response, abort, current_app, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
-from sqlalchemy.ext.declarative import DeclarativeMeta  # or whatever type `base` actually is
 from werkzeug.exceptions import abort
 
 import arb.portal.db_hardcoded
@@ -56,7 +55,7 @@ def index() -> str:
     str: Rendered HTML for the homepage with incidence records.
   """
 
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   colum_name_pk = 'id_incidence'
   rows = get_rows_by_table_name(db, base, table_name, colum_name_pk, ascending=False)
@@ -85,7 +84,7 @@ def incidence_update(id_) -> str | Response:
   """
 
   logger.debug(f"incidence_update called with id= {id_}.")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
 
@@ -122,7 +121,7 @@ def og_incidence_create() -> Response:
     - Dummy data is loaded from `db_hardcoded.get_og_dummy_data()`.
   """
   logger.debug(f"og_incidence_create() - beginning.")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
 
@@ -152,7 +151,7 @@ def landfill_incidence_create() -> Response:
   """
 
   logger.debug(f"landfill_incidence_create called.")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
 
@@ -185,7 +184,7 @@ def incidence_delete(id_) -> Response:
   """
 
   logger.debug(f"Updating database with route incidence_delete for id= {id_}:")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
 
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
@@ -235,10 +234,10 @@ def upload_file(message=None) -> str | Response:
   """
 
   logger.debug("upload_file route called.")
-  base: DeclarativeMeta = current_app.base  # type: ignore[attr-defined]
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
-  # Handle optional URL message
+  # Handle an optional URL message
   if message:
     message = unquote(message)
     logger.debug(f"upload_file called with message: {message}")
@@ -419,7 +418,7 @@ def search() -> str:
 @main.route('/diagnostics')
 def diagnostics() -> str:
   """
-  Run diagnostics on the 'incidences' table and show next ID.
+  Run diagnostics on the 'incidences' table and show the next ID.
 
   Returns:
     str: Rendered HTML showing auto-increment ID diagnostic.

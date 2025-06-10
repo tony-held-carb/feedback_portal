@@ -408,7 +408,7 @@ class LandfillFeedback(FlaskForm):
     self.update_contingent_selectors()
 
     ###################################################################################################
-    # Set selectors with values not in their choices list to "Please Select"
+    # Set selectors with values not in their choice's list to "Please Select"
     ###################################################################################################
     for field_name in form_fields:
       field = getattr(self, field_name)
@@ -424,7 +424,7 @@ class LandfillFeedback(FlaskForm):
     # logger.debug("in the validator before super")
     obj_diagnostics(self, message="in the validator before super")
 
-    super_return = super().validate(extra_validators=extra_validators)
+    _ = super().validate(extra_validators=extra_validators)
 
     ###################################################################################################
     # Validating selectors explicitly ensures the same number of errors on GETS and POSTS for the same data
@@ -507,7 +507,7 @@ class LandfillFeedback(FlaskForm):
     # self.form_errors.append("I'm a form level error #2")
 
     ###################################################################################################
-    # Search and replace the error messages associated with input fields to a custom message
+    # Search and replace the error messages associated with input fields with a custom message
     # For instance, the default 'float' error is changed because a typical user will not know what a
     # float value is (they will be more comfortable with the word 'numeric')
     ###################################################################################################

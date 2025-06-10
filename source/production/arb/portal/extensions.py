@@ -13,11 +13,6 @@ Notes:
     even if not directly referenced in code.
   - Use `with app.app_context():` when accessing `db` outside a Flask route.
 
-
-Example:
-  >>> from arb.portal.extensions import db
-  >>> with app.app_context():
-  ...     db.create_all()
 """
 
 from pathlib import Path
