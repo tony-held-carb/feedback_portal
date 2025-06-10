@@ -35,13 +35,17 @@ def ensure_parent_dirs(file_name: str | Path) -> None:
   Ensure that the parent directories for a given file path exist.
 
   Args:
-      file_name (str | Path): The full path to a file. Parent folders will be created if needed.
+    file_name (str | Path): The full path to a file. Parent folders will be created if needed.
 
   Returns:
-      None
-  Example:
-      >>> ensure_parent_dirs("/tmp/some/deep/file.txt")
-      >>> ensure_parent_dirs("local_file.txt")
+    None
+
+  Examples:
+    Input:  "/tmp/some/deep/file.txt"
+    Output: Ensures intermediate directories exist
+
+    Input:  "local_file.txt"
+    Output: No error if directory already exists or is current
   """
   logger.debug(f"ensure_parent_dirs() called for: {file_name=}")
   file_path = Path(file_name)
@@ -53,16 +57,17 @@ def ensure_dir_exists(dir_path: str | Path) -> None:
   Ensure that the specified directory exists, creating it if necessary.
 
   Args:
-      dir_path (str | Path): Path to the directory.
+    dir_path (str | Path): Path to the directory.
 
   Raises:
-      ValueError: If the path exists but is not a directory.
+    ValueError: If the path exists but is not a directory.
 
   Returns:
       None
 
   Example:
-      >>> ensure_dir_exists("logs/output")
+    Input:  "logs/output"
+    Output: Creates the directory and parents if needed
   """
   logger.debug(f"ensure_dir_exists() called for: {dir_path=}")
   dir_path = Path(dir_path)
@@ -78,15 +83,15 @@ def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> P
   Generate a sanitized file name in the given directory, appending a UTC timestamp.
 
   Args:
-      directory (str | Path): Target directory where the file will be saved.
-      file_name (str): Proposed name for the file, possibly unsafe.
+    directory (str | Path): Target directory where the file will be saved.
+    file_name (str): Proposed name for the file, possibly unsafe.
 
   Returns:
-      Path: The full secure, timestamped file path.
+    Path: The full secure, timestamped file path.
 
   Example:
-      >>> get_secure_timestamped_file_name("/tmp", "user report.xlsx")
-      Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+    Input:  directory = "/tmp", file_name = "user report.xlsx"
+    Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
   """
   file_name_clean = secure_filename(file_name)
   full_path = Path.home() / directory / file_name_clean
@@ -113,18 +118,18 @@ def resolve_project_root(
   Attempt to locate the project root directory using known folder sequences.
 
   Args:
-      file_path (str | Path): The file path to begin traversal from (typically `__file__`).
-      candidate_structures (list[list[str]] | None): List of folder name sequences to match.
+    file_path (str | Path): The file path to begin traversal from (typically `__file__`).
+    candidate_structures (list[list[str]] | None): List of folder name sequences to match.
 
   Returns:
-      Path: Path to the root of the matched folder chain.
+    Path: Path to the root of the matched folder chain.
 
   Raises:
-      ProjectRootNotFoundError: If no matching sequence is found.
+    ProjectRootNotFoundError: If no matching sequence is found.
 
   Example:
-      >>> resolve_project_root(__file__)
-      Path("/Users/tony/dev/feedback_portal")
+    Input:  file_path = __file__
+    Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedback_portal")
   """
   if candidate_structures is None:
     candidate_structures = [

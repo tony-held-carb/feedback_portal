@@ -16,7 +16,6 @@ from flask_wtf import FlaskForm
 from sqlalchemy.ext.automap import AutomapBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from wtforms import SelectField, ValidationError
-from wtforms.fields import DecimalField
 from wtforms.fields.core import Field
 from wtforms.validators import InputRequired, Optional
 
@@ -38,13 +37,16 @@ def min_decimal_precision(min_digits: int) -> Callable:
   Return a validator for WTForms DecimalField enforcing minimum decimal precision.
 
   Args:
-      min_digits (int): Minimum number of digits required after the decimal.
+    min_digits (int): Minimum number of digits required after the decimal.
 
   Returns:
-      Callable: WTForms-compatible validator that raises ValidationError if decimal places are insufficient.
+    Callable: WTForms-compatible validator that raises ValidationError if decimal places are insufficient.
 
   Example:
-      >>> field = DecimalField("Amount", validators=[min_decimal_precision(2)])
+    Input:
+      field = DecimalField("Amount", validators=[min_decimal_precision(2)])
+    Output:
+      Raises ValidationError if fewer than 2 decimal places are entered
   """
 
   def _min_decimal_precision(form, field):
@@ -85,7 +87,10 @@ def remove_validators(form: FlaskForm,
     conditional field requirements apply.
 
   Example:
-      >>> remove_validators(form, ["name", "email"], [InputRequired])
+    Input:
+      remove_validators(form, ["name", "email"], [InputRequired])
+    Output:
+      Removes InputRequired validators from 'name' and 'email' fields
 
   Notes:
     - Useful when validator logic depends on user input or view context.
@@ -174,7 +179,10 @@ def change_validators(form: FlaskForm,
     - Useful for dynamically changing required status.
 
   Example:
-      >>> change_validators(form, ["name"], Optional, InputRequired)
+    Input:
+      change_validators(form, ["name"], Optional, InputRequired)
+    Output:
+      Replaces Optional with InputRequired on the 'name' field
   """
   field_names = get_wtforms_fields(form, include_csrf_token=False)
   for field_name in field_names:
@@ -205,9 +213,10 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict[str, int
     or the error counts will be inaccurate.
 
   Example:
-    >>> error_summary = wtf_count_errors(form)
-    >>> print(error_summary["total_error_count"])
-
+    Input:
+      error_summary = wtf_count_errors(form)
+    Output:
+      error_summary["total_error_count"] → total number of errors found
   """
   error_count_dict = {
     'elements_with_errors': 0,
@@ -318,8 +327,10 @@ def format_raw_data(field: Field, value) -> list[str]:
     ValueError: If the value type is unsupported.
 
   Example:
-    >>> format_raw_data(field, Decimal("10.5"))
-    ['10.5']
+    Input:
+      format_raw_data(field, Decimal("10.5"))
+    Output:
+      ['10.5']
   """
   if value is None:
     return []
@@ -376,30 +387,6 @@ def wtform_to_model(model: AutomapBase,
     apply_json_patch_and_log(model, payload_changes, json_column, user=user, comments=comments)
 
   logger.info(f"wtform_to_model payload_all: {payload_all}")
-
-
-# def wtform_to_model(model,
-#                     wtform: FlaskForm,
-#                     ignore_fields: list[str] | None = None) -> None:
-#   """
-#   Update a SQLAlchemy model’s JSON column using data from a WTForm.
-#
-#   Args:
-#       model: SQLAlchemy model instance.
-#       wtform (FlaskForm): The form containing updated data.
-#       ignore_fields (list[str] | None): List of form field names to skip. Useful for disabled fields.
-#
-#   Example:
-#       >>> wtform_to_model(model, form, ignore_fields=["id_incidence"])
-#   """
-#   if ignore_fields is None:
-#     ignore_fields = []
-#
-#   payload_all, payload_changes = get_payloads(model, wtform, ignore_fields)
-#   logger.info(f"wtform_to_model payload_all: {payload_all}")
-#   logger.info(f"wtform_to_model payload_changes: {payload_changes}")
-#
-#   update_model_with_payload(model, payload_changes)
 
 
 def get_payloads(model: DeclarativeMeta,
@@ -548,8 +535,10 @@ def get_wtforms_fields(form: FlaskForm,
     list[str]: Alphabetically sorted list of field names in the form.
 
   Example:
-    >>> get_wtforms_fields(form)
-    ['name', 'sector']
+    Input:
+      get_wtforms_fields(form)
+    Output:
+      ['name', 'sector']
   """
   field_names = [
     name for name in form.data
@@ -572,7 +561,10 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
     None
 
   Example:
-    >>> initialize_drop_downs(form, default="Please Select")
+    Input:
+      initialize_drop_downs(form, default="Please Select")
+    Output:
+      Sets all SelectField fields to default if not initialized
 
   Notes:
     - Fields that already have a value (even a falsy one like an empty string) are not modified.
@@ -601,15 +593,17 @@ def build_choices(header: list[tuple[str, str, dict]], items: list[str]) -> list
     list[tuple[str, str, dict]]: Combined list of header and generated item tuples.
 
   Example:
-    >>> build_choices(
-    ...   [("Please Select", "Please Select", {"disabled": True})],
-    ...   ["One", "Two"]
-    ... )
-    [
-      ("Please Select", "Please Select", {"disabled": True}),
-      ("One", "One", {}),
-      ("Two", "Two", {})
-    ]
+    Input:
+      build_choices(
+        [("Please Select", "Please Select", {"disabled": True})],
+        ["One", "Two"]
+      )
+    Output:
+      [
+        ("Please Select", "Please Select", {"disabled": True}),
+        ("One", "One", {}),
+        ("Two", "Two", {})
+      ]
   """
   footer = [(item, item, {}) for item in items]
   return header + footer
