@@ -48,6 +48,7 @@ def min_decimal_precision(min_digits: int) -> Callable:
   """
 
   def _min_decimal_precision(form, field):
+    logger.debug(f"_min_decimal_precision called with {form=}, {field=}")
     if field.data is None:
       return
 
@@ -272,8 +273,9 @@ def model_to_wtform(model: AutomapBase,
   if model_json_dict is None:
     model_json_dict = {}
 
-  if "id_incidence" in model_json_dict and model_json_dict["id_incidence"] != model.id_incidence:
-    logger.warning(f"[model_to_wtform] MISMATCH: model.id_incidence={model.id_incidence} "
+  model_id_incidence = getattr(model, "id_incidence", None)
+  if "id_incidence" in model_json_dict and model_json_dict["id_incidence"] != model_id_incidence:
+    logger.warning(f"[model_to_wtform] MISMATCH: model.id_incidence={model_id_incidence} "
                    f"!= misc_json['id_incidence']={model_json_dict['id_incidence']}")
 
   form_fields = get_wtforms_fields(wtform)
@@ -635,16 +637,11 @@ def ensure_field_choice(field_name: str,
     resets it to "Please Select" if not.
   - Both `field.data` and `field.raw_data` are reset to keep form behavior consistent.
   - Each choice tuple should be in the form:
-      - (value, label) or
+      - value, label
       - (value, label, metadata_dict)
       - Only the first element (`value`) is used for validation.
   - Use this with SelectField or similar fields where `.choices` must be explicitly defined.
   - The reset value "Please Select" should match a placeholder value if one is used in your app.
-
-  Example:
-      >>> ensure_field_choice("sector", form.sector, [("oil", "Oil & Gas"), ("land", "Landfill")])
-      >>> form.sector.choices
-      [('oil', 'Oil & Gas'), ('land', 'Landfill')]
   """
 
   if choices is None:
