@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/sector_util/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/utils/sector_util/" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>arb.portal.util.sector_util - CalSMP Operator Feedback Portal</title>
+    <title>arb.portal.utils.sector_util - CalSMP Operator Feedback Portal</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "arb.portal.util.sector_util";
-        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\sector_util.md";
-        var mkdocs_page_url = "/reference/arb/portal/util/sector_util/";
+        var mkdocs_page_name = "arb.portal.utils.sector_util";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\utils\\sector_util.md";
+        var mkdocs_page_url = "/reference/arb/portal/utils/sector_util/";
       </script>
     
     <!--[if lt IE 9]>
@@ -92,19 +92,19 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+                <li class="toctree-l3 current"><a class="reference internal current" >Utils</a>
     <ul class="current">
-                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.util.db_ingest_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.utils.db_ingest_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.utils.db_introspection_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.util.file_upload_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.utils.file_upload_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../form_integration/">arb.portal.util.form_integration</a>
+                <li class="toctree-l4"><a class="reference internal" href="../form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
+                <li class="toctree-l4"><a class="reference internal" href="../route_util/">arb.portal.utils.route_util</a>
                 </li>
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.sector_util</a>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.utils.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -170,8 +170,8 @@
           <li class="breadcrumb-item">Reference</li>
           <li class="breadcrumb-item">Arb</li>
           <li class="breadcrumb-item">Portal</li>
-          <li class="breadcrumb-item">Util</li>
-      <li class="breadcrumb-item active">arb.portal.util.sector_util</li>
+          <li class="breadcrumb-item">Utils</li>
+      <li class="breadcrumb-item active">arb.portal.utils.sector_util</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -180,17 +180,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="arbportalutilsector_util"><code>arb.portal.util.sector_util</code></h1>
+                <h1 id="arbportalutilssector_util"><code>arb.portal.utils.sector_util</code></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="arb.portal.util.sector_util"></a>
+<a id="arb.portal.utils.sector_util"></a>
     <div class="doc doc-contents first">
 
-        <p>route_prep.py</p>
+        <p>route_util.py</p>
 <p>This module prepares the rendering context and template output for individual
 feedback form pages, supporting both 'create' and 'update' operations.</p>
 <p>It integrates SQLAlchemy model rows with WTForms-based feedback forms,
@@ -218,7 +218,7 @@ based on sector type and CRUD mode.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.sector_util.extract_sector_payload" class="doc doc-heading">
+<h2 id="arb.portal.utils.sector_util.extract_sector_payload" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">extract_sector_payload</span><span class="p">(</span><span class="n">xl_dict</span><span class="p">,</span> <span class="n">metadata_key</span><span class="o">=</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="s1">&#39;Feedback Form&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -323,7 +323,7 @@ based on sector type and CRUD mode.</p>
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\sector_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
@@ -402,7 +402,7 @@ based on sector type and CRUD mode.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.sector_util.get_sector_info" class="doc doc-heading">
+<h2 id="arb.portal.utils.sector_util.get_sector_info" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">get_sector_info</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">id_</span><span class="p">)</span></code>
 
 </h2>
@@ -477,7 +477,7 @@ based on sector type and CRUD mode.</p>
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\sector_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
 <span class="normal"> 65</span>
 <span class="normal"> 66</span>
@@ -574,7 +574,7 @@ based on sector type and CRUD mode.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.sector_util.get_sector_type" class="doc doc-heading">
+<h2 id="arb.portal.utils.sector_util.get_sector_type" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span></code>
 
 </h2>
@@ -656,7 +656,7 @@ based on sector type and CRUD mode.</p>
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\sector_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
@@ -705,7 +705,7 @@ based on sector type and CRUD mode.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.sector_util.resolve_sector" class="doc doc-heading">
+<h2 id="arb.portal.utils.sector_util.resolve_sector" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">misc_json</span><span class="p">)</span></code>
 
 </h2>
@@ -803,7 +803,7 @@ based on sector type and CRUD mode.</p>
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\sector_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
@@ -898,7 +898,7 @@ based on sector type and CRUD mode.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../route_prep/" class="btn btn-neutral float-left" title="arb.portal.util.route_prep"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../route_util/" class="btn btn-neutral float-left" title="arb.portal.utils.route_util"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../../../utils/constants/" class="btn btn-neutral float-right" title="arb.utils.constants">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -922,7 +922,7 @@ based on sector type and CRUD mode.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../route_prep/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../route_util/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../../../utils/constants/" style="color: #fcfcfc">Next &raquo;</a></span>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/util/db_ingest_util/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/utils/db_ingest_util/" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>arb.portal.util.db_ingest_util - CalSMP Operator Feedback Portal</title>
+    <title>arb.portal.utils.db_ingest_util - CalSMP Operator Feedback Portal</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "arb.portal.util.db_ingest_util";
-        var mkdocs_page_input_path = "reference\\arb\\portal\\util\\db_ingest_util.md";
-        var mkdocs_page_url = "/reference/arb/portal/util/db_ingest_util/";
+        var mkdocs_page_name = "arb.portal.utils.db_ingest_util";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\utils\\db_ingest_util.md";
+        var mkdocs_page_url = "/reference/arb/portal/utils/db_ingest_util/";
       </script>
     
     <!--[if lt IE 9]>
@@ -92,19 +92,19 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3 current"><a class="reference internal current" >Util</a>
+                <li class="toctree-l3 current"><a class="reference internal current" >Utils</a>
     <ul class="current">
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.util.db_ingest_util</a>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.utils.db_ingest_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.util.db_introspection_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.utils.db_introspection_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.util.file_upload_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.utils.file_upload_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../form_integration/">arb.portal.util.form_integration</a>
+                <li class="toctree-l4"><a class="reference internal" href="../form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../route_prep/">arb.portal.util.route_prep</a>
+                <li class="toctree-l4"><a class="reference internal" href="../route_util/">arb.portal.utils.route_util</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.util.sector_util</a>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.utils.sector_util</a>
                 </li>
     </ul>
                 </li>
@@ -170,8 +170,8 @@
           <li class="breadcrumb-item">Reference</li>
           <li class="breadcrumb-item">Arb</li>
           <li class="breadcrumb-item">Portal</li>
-          <li class="breadcrumb-item">Util</li>
-      <li class="breadcrumb-item active">arb.portal.util.db_ingest_util</li>
+          <li class="breadcrumb-item">Utils</li>
+      <li class="breadcrumb-item active">arb.portal.utils.db_ingest_util</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -180,14 +180,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="arbportalutildb_ingest_util"><code>arb.portal.util.db_ingest_util</code></h1>
+                <h1 id="arbportalutilsdb_ingest_util"><code>arb.portal.utils.db_ingest_util</code></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="arb.portal.util.db_ingest_util"></a>
+<a id="arb.portal.utils.db_ingest_util"></a>
     <div class="doc doc-contents first">
 
         <p>database_ingest_util.py</p>
@@ -218,7 +218,7 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.db_ingest_util.dict_to_database" class="doc doc-heading">
+<h2 id="arb.portal.utils.db_ingest_util.dict_to_database" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="s1">&#39;misc_json&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -354,7 +354,7 @@ based on structured dictionaries, particularly those derived from Excel template
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 55</span>
 <span class="normal"> 56</span>
 <span class="normal"> 57</span>
@@ -485,7 +485,7 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.db_ingest_util.json_file_to_db" class="doc doc-heading">
+<h2 id="arb.portal.utils.db_ingest_util.json_file_to_db" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
 
 </h2>
@@ -590,7 +590,7 @@ based on structured dictionaries, particularly those derived from Excel template
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
@@ -643,7 +643,7 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.db_ingest_util.upload_and_update_db" class="doc doc-heading">
+<h2 id="arb.portal.utils.db_ingest_util.upload_and_update_db" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
 
 </h2>
@@ -726,7 +726,7 @@ based on structured dictionaries, particularly those derived from Excel template
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
@@ -797,7 +797,7 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.util.db_ingest_util.xl_dict_to_database" class="doc doc-heading">
+<h2 id="arb.portal.utils.db_ingest_util.xl_dict_to_database" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="s1">&#39;Feedback Form&#39;</span><span class="p">)</span></code>
 
 </h2>
@@ -882,7 +882,7 @@ based on structured dictionaries, particularly those derived from Excel template
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\util\db_ingest_util.py</code></summary>
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -948,7 +948,7 @@ based on structured dictionaries, particularly those derived from Excel template
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../../startup/runtime_info/" class="btn btn-neutral float-left" title="arb.portal.startup.runtime_info"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../db_introspection_util/" class="btn btn-neutral float-right" title="arb.portal.util.db_introspection_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../db_introspection_util/" class="btn btn-neutral float-right" title="arb.portal.utils.db_introspection_util">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
