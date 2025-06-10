@@ -1,4 +1,15 @@
+"""
+db_introspection_util.py
+
+This module provides database utility functions for dynamic schema operations using
+SQLAlchemy reflection. It allows runtime access to models and retrieval or creation
+of rows using flexible table and column identifiers.
+"""
+
 from pathlib import Path
+
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.automap import AutomapBase
 
 from arb.__get_logger import get_logger
 from arb.utils.sql_alchemy import get_class_from_table_name
@@ -7,7 +18,11 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=None) -> tuple:
+def get_ensured_row(db: SQLAlchemy,
+                    base: AutomapBase,
+                    table_name: str = "incidences",
+                    primary_key_name: str = "id_incidence",
+                    id_=None) -> tuple:
   """
   Retrieve or create a row in the specified table using a primary key.
 
@@ -28,6 +43,7 @@ def get_ensured_row(db, base, table_name="incidences", primary_key_name="id_inci
 
   Raises:
     AttributeError: If the model class lacks the specified primary key.
+    UnmappedClassError: If the table name is not mapped in metadata.
   """
 
   is_new_row = False
