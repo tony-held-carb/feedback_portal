@@ -26,14 +26,14 @@ from werkzeug.exceptions import abort
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.__get_logger import get_logger
-from arb.portal.util.route_prep import incidence_prep
-from arb.portal.util.form_integration import apply_portal_update_filters
-from arb.portal.util.database_ingest_util import upload_and_update_db, dict_to_database
-from arb.portal.util.sector_util import get_sector_info
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.startup.runtime_info import LOG_FILE
+from arb.portal.util.database_ingest_util import dict_to_database, upload_and_update_db
+from arb.portal.util.form_integration import apply_portal_update_filters
+from arb.portal.util.route_prep import incidence_prep
+from arb.portal.util.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
