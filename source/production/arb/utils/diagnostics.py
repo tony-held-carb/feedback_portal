@@ -68,7 +68,7 @@ def list_differences(iterable_01: list | dict,
       iterable_02 (list | dict): Second iterable object to compare.
       iterable_01_name (str): Label for the first iterable in log messages.
       iterable_02_name (str): Label for the second iterable in log messages.
-      print_warning (bool): If True, logs warnings for non-overlapping items.
+      print_warning (bool): If True, log warnings for non-overlapping items.
 
   Returns:
       tuple[list, list]:
@@ -161,7 +161,7 @@ def obj_to_html(obj: object) -> str:
       obj (object): A Python object suitable for `pprint`.
 
   Returns:
-      str: HTML string wrapped in <pre> tags that is safe for use with `|safe` in templates.
+      str: HTML string wrapped in <pre> tags that are safe for use with `|safe` in templates.
 
   Notes:
       The HTML content must be marked `|safe` in the template to avoid escaping.

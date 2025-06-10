@@ -20,8 +20,6 @@ Notes:
 
 """
 
-import pprint
-
 from arb.__get_logger import get_logger
 from arb.utils.misc import get_nested_value
 
@@ -42,7 +40,7 @@ def get_excel_row_column(xl_address: str) -> tuple[str, int]:
     tuple[str, int]: A tuple of (column letters, row number).
 
   Raises:
-    ValueError: If the format is invalid (e.g., not exactly two dollar signs, or row not an integer).
+    ValueError: If the format is invalid (e.g., not exactly two-dollar signs, or row not an integer).
 
   Examples:
     >>> get_excel_row_column("$Z$9")
@@ -129,7 +127,7 @@ def run_diagnostics() -> None:
   Examples:
     >>> run_diagnostics()
   """
-  pp = pprint.PrettyPrinter(indent=4, sort_dicts=False)
+  # pp = pprint.PrettyPrinter(indent=4, sort_dicts=False)
 
   print("=== Testing get_excel_row_column ===")
   valid_addresses = ["$C$42", "$AA$99"]

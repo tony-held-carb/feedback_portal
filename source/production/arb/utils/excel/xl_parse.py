@@ -54,8 +54,8 @@ def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
   Set module-level global variables for schema file map and loaded schema map.
 
   Args:
-    xl_schema_file_map_ (dict[str, Path] | None): Optional override for schema file map.
-      If not provided, uses a default list of pre-defined schema files.
+    xl_schema_file_map_ (dict[str, Path] | None): Optional override for the schema file map.
+      If not provided, use a default list of pre-defined schema files.
 
   Notes:
     - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.
@@ -85,7 +85,7 @@ def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
 
 def load_schema_file_map(schema_file_map: dict[str, Path]) -> dict[str, dict]:
   """
-  Load JSON schema and metadata from a mapping of schema name to file path.
+  Load JSON schema and metadata from a mapping of schema name to a file path.
 
   Args:
     schema_file_map (dict[str, Path]): Keys are schema names, values are JSON schema file paths.
@@ -116,7 +116,7 @@ def create_schema_file_map(schema_path: str | Path | None = None,
     schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.
 
   Returns:
-    dict[str, Path]: Map from schema name to schema file path.
+    dict[str, Path]: Map from schema name to a schema file path.
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
   if schema_path is None:
@@ -177,7 +177,7 @@ def parse_xl_file(xl_path, schema_map=None) -> dict:
   result['tab_contents'] = {}
 
   # Notes on data_only argument.  By default, .value returns the 'formula' in the cell.
-  # If data_only=True, then .value  returns the last 'value' that was evaluated at the cell.
+  # If data_only=True, then .value returns the last 'value' that was evaluated at the cell.
   wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True)
 
   # Extract metadata and schema information from hidden tabs
@@ -244,7 +244,7 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
       # Try to cast the spreadsheet data to the desired type if possible
       if value is not None:
         if not isinstance(value, value_type):
-          # if it is not supposed to be of type string, but it is a zero length string, turn it to None
+          # if it is not supposed to be of type string, but it is a zero-length string, turn it to None
           if value == "":
             value = None
           else:
@@ -280,7 +280,6 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
     logger.debug(f"Initial spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
     # Some cells should be spit into multiple dictionary entries (such as full name, lat/log)
     split_compound_keys(result['tab_contents'][tab_name])
-    # Excel drop-downs save the value not the key, so you have to reverse lookup their values
 
     logger.debug(f"Final corrected spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
 
@@ -362,8 +361,8 @@ def get_json_file_name(file_name: Path) -> Path | None:
     Path | None: JSON file path if parsed or detected, otherwise None.
 
   Notes:
-  - If the file_name is a json file (has .json extension), the file_name is the json_file_name.
-  - If the file is an Excel file (.xlsx extension), try to parse it into a json file and return the json file name
+  - If the file_name is a JSON file (has .json extension), the file_name is the json_file_name.
+  - If the file is an Excel file (.xlsx extension), try to parse it into a JSON file and return the JSON file name
     of the parsed contents.
   - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
   - If the file was already a json file, return the file name unaltered.
@@ -394,7 +393,7 @@ def get_json_file_name(file_name: Path) -> Path | None:
 
 def test_load_schema_file_map() -> None:
   """
-  Debug test for loading schema file map and displaying contents.
+  Debug test for loading a schema file map and displaying contents.
   """
   logger.debug(f"test_load_schema_file_map() called")
   schema_map = create_schema_file_map()

@@ -19,7 +19,6 @@ Functions:
 import sqlite3
 from pathlib import Path
 
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase, automap_base
 
@@ -29,29 +28,29 @@ __version__ = "1.0.0"
 logger, pp_log = get_logger()
 
 
-def db_drop_all(flask_app: Flask, db: SQLAlchemy) -> None:
-  """
-  Drop all database tables from the configured database.
-
-  Args:
-    flask_app (Flask): The Flask application object.
-    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-
-  Warning:
-    This is irreversible — all tables will be deleted.
-  """
-
-  logger.debug("dropping all database tables")
-
-  # Create database within app context
-  # with flask_app.app_context():
-  #   db.drop_all()
+# def db_drop_all(flask_app: Flask, db: SQLAlchemy) -> None:
+#   """
+#   Drop all database tables from the configured database.
+#
+#   Args:
+#     flask_app (Flask): The Flask application object.
+#     db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+#
+#   Warning:
+#     This is irreversible — all tables will be deleted.
+#   """
+#
+#   logger.debug("dropping all database tables")
+#
+#   # Create a database within app context
+#   with flask_app.app_context():
+#     db.drop_all()
 
 
 def execute_sql_script(script_path: str | Path = None,
                        connection: sqlite3.Connection | None = None) -> None:
   """
-  Execute a SQL script using a provided or default SQLite connection.
+  Execute an SQL script using a provided or default SQLite connection.
 
   Args:
     script_path (str | Path | None): Path to the `.sql` script. Defaults to `../sql_scripts/script_01.sql`.
@@ -81,9 +80,9 @@ def get_reflected_base(db: SQLAlchemy) -> AutomapBase:
   Returns:
     AutomapBase: Reflected base class.
   """
-  Base = automap_base(metadata=db.metadata)  # reuse metadata!
-  Base.prepare(db.engine, reflect=False)  # no extra reflection
-  return Base
+  base = automap_base(metadata=db.metadata)  # reuse metadata!
+  base.prepare(db.engine, reflect=False)  # no extra reflection
+  return base
 
 
 def cleanse_misc_json(db: SQLAlchemy,

@@ -237,7 +237,7 @@ def convert_datetimes_to_ca_naive(data: object, assume_naive_is_utc: bool = Fals
   Args:
       data (object): A structure that may include datetime values (dict, list, etc.).
       assume_naive_is_utc (bool): Whether to treat naive datetimes as UTC.
-      utc_strict (bool): Whether to enforce that input datetimes are explicitly UTC.
+      utc_strict (bool): Whether to enforce that input datetimes be explicitly UTC.
 
   Returns:
       object: A structure of the same shape, with datetime values converted to naive Pacific.
@@ -347,7 +347,7 @@ def is_datetime_naive(dt: datetime) -> bool:
 
 def run_diagnostics() -> None:
   """
-  Run a series of diagnostic operations to verify correctness of datetime utilities.
+  Run a series of diagnostic operations to verify the correctness of datetime utilities.
 
   Demonstrates:
       - ISO 8601 parsing to UTC
