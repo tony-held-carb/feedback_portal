@@ -2,7 +2,10 @@
 
 # todo - Next Steps
 ----------------------------
-* about to break up app_util.py into smaller files to make logic easier to follow and facilitate unit tests
+* app_util.py refactored
+* next step is to clean up the wtforms as they are massive and duplicative
+  and we will be creating energy and other forms shortly.
+
 
 
 * future initiatives
