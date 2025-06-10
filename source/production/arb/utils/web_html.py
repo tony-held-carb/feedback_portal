@@ -7,7 +7,7 @@ This module provides helper functions for:
   - Managing triple tuples for dynamic dropdown metadata
 
 Notes:
-    - Avoids circular imports by not depending on other utility modules.
+    - Avoid circular imports by not depending on other utility modules.
     - Other utility modules (e.g., Excel, DB) may safely import this one.
     - Adds "Please Select" logic to dropdowns using `arb.utils.constants`.
 
@@ -160,7 +160,7 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
 def ensure_placeholder_option(
     tuple_list: list[tuple[str, str, dict]],
     item: str = PLEASE_SELECT,
-    item_dict: dict = {"disabled": True},
+    item_dict: dict = None,
     ensure_first: bool = True
 ) -> list[tuple[str, str, dict]]:
   """
@@ -201,7 +201,7 @@ def ensure_placeholder_option(
   index = next((i for i, t in enumerate(tuple_list) if t[0] == item), None)
 
   if index is None:
-    # Placeholder not found; insert it at the beginning of the list.
+    # The Placeholder is not found; insert it at the beginning of the list.
     return [placeholder] + tuple_list
 
   elif ensure_first and index != 0:
