@@ -638,8 +638,8 @@ def ensure_field_choice(field_name: str,
   - Both `field.data` and `field.raw_data` are reset to keep form behavior consistent.
   - Each choice tuple should be in the form:
       - value, label
-      - (value, label, metadata_dict)
-      - Only the first element (`value`) is used for validation.
+      - value, label, metadata_dict
+      - Only the first element `value` is used for validation.
   - Use this with SelectField or similar fields where `.choices` must be explicitly defined.
   - The reset value "Please Select" should match a placeholder value if one is used in your app.
   """
