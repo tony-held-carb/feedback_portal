@@ -1,3 +1,14 @@
+"""
+database_ingest_util.py
+
+This module provides database ingestion helpers for inserting or updating rows
+based on structured dictionaries, particularly those derived from Excel templates.
+
+It includes:
+- Generic row ingestion from any dict using SQLAlchemy reflection
+- Excel-specific wrapper for sector-based data (xl_dict_to_database)
+"""
+
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
@@ -15,8 +26,8 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
-def xl_dict_to_database(db,
-                        base,
+def xl_dict_to_database(db: SQLAlchemy,
+                        base: AutomapBase,
                         xl_dict: dict,
                         tab_name: str = "Feedback Form") -> tuple[int, str]:
   """
@@ -41,12 +52,12 @@ def xl_dict_to_database(db,
   return id_, sector
 
 
-def dict_to_database(db,
-                     base,
+def dict_to_database(db: SQLAlchemy,
+                     base: AutomapBase,
                      data_dict: dict,
-                     table_name="incidences",
-                     primary_key="id_incidence",
-                     json_field="misc_json") -> int:
+                     table_name: str = "incidences",
+                     primary_key: str = "id_incidence",
+                     json_field: str = "misc_json") -> int:
   """
   Insert or update a row in the specified table using a dictionary payload.
 
@@ -142,12 +153,12 @@ def json_file_to_db(db: SQLAlchemy,
                     base: AutomapBase
                     ) -> tuple[int, str]:
   """
-  Load a JSON file and insert its contents into the `incidences` table.
+  Parse a previously uploaded JSON file and write it to the DB.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy session used to commit the new row.
-    file_name (str | Path): Path to the JSON file on disk.
-    base (AutomapBase): SQLAlchemy Automapped metadata base.
+    db (SQLAlchemy): SQLAlchemy DB instance.
+    file_name (str | Path): Path to a .json file matching Excel schema.
+    base (AutomapBase): Reflected schema metadata.
 
   Returns:
     tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
