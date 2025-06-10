@@ -16,8 +16,8 @@ from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
-from arb.portal.util.db_introspection_util import get_ensured_row
-from arb.portal.util.file_upload_util import add_file_to_upload_table
+from arb.portal.utils.db_introspection_util import get_ensured_row
+from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.utils.excel.xl_parse import get_json_file_name
 from arb.utils.json import json_load_with_meta
 from arb.utils.web_html import upload_single_file
