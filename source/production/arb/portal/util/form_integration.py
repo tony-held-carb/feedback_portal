@@ -1,15 +1,27 @@
+"""
+form_integration.py
+
+Provides filtering logic for querying the portal_updates table.
+
+Includes logic for parsing ID ranges, substrings, and date filters
+from request arguments in the feedback portal interface.
+"""
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import or_
+from sqlalchemy.orm import Query
+from sqlalchemy.orm import DeclarativeMeta
 
-
-def apply_portal_update_filters(query, portal_update_model, args: dict):
+def apply_portal_update_filters(query: Query,
+                                portal_update_model: DeclarativeMeta | type[Any],
+                                args: dict):
   """
   Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.
 
   Args:
-    query (SQLAlchemy Query): Query to be filtered.
-    portal_update_model (Base): ORM model class for the portal_updates table.
+    query (Query): Query to be filtered.
+    portal_update_model (DeclarativeMeta | type[Any]): ORM model class for the portal_updates table.
     args (dict): Typically from `request.args`, containing filter values.
 
   Supported filters:
@@ -37,10 +49,13 @@ def apply_portal_update_filters(query, portal_update_model, args: dict):
   end_date_str = args.get("end_date", "").strip()
 
   if filter_key:
+    # noinspection PyUnresolvedReferences
     query = query.filter(portal_update_model.key.ilike(f"%{filter_key}%"))
   if filter_user:
+    # noinspection PyUnresolvedReferences
     query = query.filter(portal_update_model.user.ilike(f"%{filter_user}%"))
   if filter_comments:
+    # noinspection PyUnresolvedReferences
     query = query.filter(portal_update_model.comments.ilike(f"%{filter_comments}%"))
 
   if filter_id_incidence:
@@ -60,12 +75,15 @@ def apply_portal_update_filters(query, portal_update_model, args: dict):
             start_val = int(start)
             end_val = int(end)
             if start_val <= end_val:
+              # noinspection PyUnresolvedReferences
               id_range_clauses.append(portal_update_model.id_incidence.between(start_val, end_val))
           elif start:
             start_val = int(start)
+            # noinspection PyUnresolvedReferences
             id_range_clauses.append(portal_update_model.id_incidence >= start_val)
           elif end:
             end_val = int(end)
+            # noinspection PyUnresolvedReferences
             id_range_clauses.append(portal_update_model.id_incidence <= end_val)
         except ValueError:
           continue  # Ignore malformed part
@@ -74,6 +92,7 @@ def apply_portal_update_filters(query, portal_update_model, args: dict):
 
     clause_list = []
     if id_exact:
+      # noinspection PyUnresolvedReferences
       clause_list.append(portal_update_model.id_incidence.in_(sorted(id_exact)))
     clause_list.extend(id_range_clauses)
 
@@ -83,10 +102,12 @@ def apply_portal_update_filters(query, portal_update_model, args: dict):
   try:
     if start_date_str:
       start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
+      # noinspection PyUnresolvedReferences
       query = query.filter(portal_update_model.timestamp >= start_dt)
     if end_date_str:
       end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
       end_dt = end_dt.replace(hour=23, minute=59, second=59)
+      # noinspection PyUnresolvedReferences
       query = query.filter(portal_update_model.timestamp <= end_dt)
   except ValueError:
     pass  # Silently ignore invalid date inputs
