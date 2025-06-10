@@ -67,8 +67,9 @@ def sort_xl_schema(xl_schema: dict,
   Raises:
     ValueError: If an unrecognized sorting strategy is provided.
 
-  Example:
-    >>> sorted_schema = sort_xl_schema(schema, sort_by="label_address")
+  Examples:
+    Input:  schema, sort_by="label_address"
+    Output: New dictionary with sorted keys and reordered sub-schemas
   """
   logger.debug("sort_xl_schema() called")
 
@@ -109,8 +110,9 @@ def schema_to_json_file(data: dict, schema_version: str, file_name: str = None) 
   Returns:
     None
 
-  Example:
-    >>> schema_to_json_file(my_schema, schema_version="v01_00")
+  Examples:
+    Input:  my_schema, schema_version="v01_00"
+    Output: JSON file written to "xl_schemas/v01_00.json" (default path)
 
   Notes:
     - If `file_name` is not provided, the output will be saved to
@@ -160,8 +162,9 @@ def update_vba_schema(
   Returns:
     dict: The updated and sorted schema dictionary.
 
-  Example:
-    >>> updated = update_vba_schema("landfill_v01_00")
+  Examples:
+    Input:  "landfill_v01_00"
+    Output: Sorted schema dictionary with value types injected
 
   Notes:
     - This function ensures that all schema entries include a 'value_type'.
@@ -228,8 +231,9 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
           * All other fields get an empty string.
       - metadata: Metadata dictionary from the schema file.
 
-  Example:
-    >>> defaults, meta = schema_to_default_dict(Path("xl_schemas/landfill_v01_00.json"))
+  Examples:
+    Input:  Path("xl_schemas/landfill_v01_00.json")
+    Output: (defaults dictionary, metadata dictionary)
 
   Notes:
     - The schema must include an "is_drop_down" flag for correct default generation.
@@ -262,8 +266,9 @@ def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tu
       - defaults: Dictionary of default values derived from the schema.
       - metadata: Metadata dictionary included in the output JSON.
 
-  Example:
-    >>> schema_to_default_json(Path("xl_schemas/landfill_v01_00.json"))
+  Examples:
+    Input:  Path("xl_schemas/landfill_v01_00.json")
+    Output: Tuple of (defaults dict, metadata dict), written to output path
 
   Notes:
     - Drop-down fields default to "Please Select".
@@ -300,8 +305,9 @@ def update_xlsx(file_in: Path, file_out: Path, jinja_dict: dict) -> None:
   Returns:
     None
 
-  Example:
-    >>> update_xlsx(Path("template.xlsx"), Path("output.xlsx"), {"site_name": "Landfill A"})
+  Examples:
+    Input:  template.xlsx, output.xlsx, {"site_name": "Landfill A"}
+    Output: output.xlsx with rendered values
 
   Notes:
     - Only modifies 'xl/sharedStrings.xml' within the XLSX zip archive.
@@ -363,8 +369,9 @@ def test_update_xlsx_payloads_01() -> None:
   Returns:
     None
 
-  Example:
-    >>> test_update_xlsx_payloads_01()
+  Examples:
+    Input:  None
+    Output: Diagnostic Excel files created in xl_workbooks/
 
   Notes:
     - Writes populated Excel files to the `xl_workbooks` directory.
@@ -426,9 +433,6 @@ def prep_xl_templates() -> None:
 
   Returns:
     None
-
-  Example:
-    >>> prep_xl_templates()
 
   Notes:
     - File paths are derived from structured configs for each sector.
@@ -494,8 +498,9 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
   Returns:
     dict: Dictionary mapping variable names to Python types (e.g., str, int, datetime).
 
-  Example:
-    >>> types = create_default_types_schema(diagnostics=True)
+  Examples:
+    Input:  diagnostics=True
+    Output: Dictionary of variable names → value types, logged if diagnostics enabled
 
   Notes:
     - Output is saved to 'xl_schemas/default_value_types_v01_00.json'.
@@ -537,8 +542,9 @@ def create_payload(payload: dict, file_name: Path, schema_version: str, metadata
   Returns:
     None
 
-  Example:
-    >>> create_payload({"id_case": "A42"}, Path("payload.json"), "v01_00")
+  Examples:
+    Input:  {"id_case": "A42"}, Path("payload.json"), "v01_00"
+    Output: JSON file with metadata saved to payload.json
 
   Notes:
     - Adds 'schema_version' and a default payload description to metadata.
@@ -565,8 +571,9 @@ def create_payloads() -> None:
   Returns:
     None
 
-  Example:
-    >>> create_payloads()
+  Examples:
+    Input:  None
+    Output: Sector payloads written to xl_payloads/*.json
 
   Notes:
     - Each payload is saved to `xl_payloads/{schema_version}_payload_01.json`.
@@ -608,8 +615,9 @@ def create_schemas_and_payloads() -> None:
   Returns:
     None
 
-  Example:
-    >>> create_schemas_and_payloads()
+  Examples:
+    Input:  None
+    Output: All schema/payload/template artifacts generated under processed_versions/
 
   Notes:
     - Create all required directories under `processed_versions`.
@@ -640,9 +648,6 @@ def run_diagnostics() -> None:
 
   Returns:
     None
-
-  Example:
-    >>> run_diagnostics()
 
   Notes:
     - Logs each step of the process to the application logger.
