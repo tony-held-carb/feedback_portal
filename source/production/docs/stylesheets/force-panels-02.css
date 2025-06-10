@@ -1,18 +1,18 @@
 /* Force display of both side panels */
 @media screen and (min-width: 960px) {
-  .md-sidebar--primary,
-  .md-sidebar--secondary {
-    display: block !important;
-    transform: none !important;
-    visibility: visible !important;
-  }
+    .md-sidebar--primary,
+    .md-sidebar--secondary {
+        display: block !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
 
-  .md-content {
-    margin-left: 15rem;
-    margin-right: 15rem;
-  }
+    .md-content {
+        margin-left: 15rem;
+        margin-right: 15rem;
+    }
 
-  .md-main {
-    grid-template-columns: 15rem auto 15rem !important;
-  }
+    .md-main {
+        grid-template-columns: 15rem auto 15rem !important;
+    }
 }

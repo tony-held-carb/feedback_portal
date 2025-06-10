@@ -29,8 +29,7 @@ To customize behavior:
     file_stem=__name__,
     log_to_console=True,
     force_command_line=False,
-    file_path="custom_logs/"
-  )
+    file_path="custom_logs/")
 
 Configuration Behavior:
 -----------------------
@@ -51,6 +50,7 @@ import sys
 from logging import Logger
 from pathlib import Path
 from typing import Any
+
 
 def get_logger(
     file_stem: str | None = "app_logger",
@@ -75,11 +75,11 @@ def get_logger(
     - Default log filename: `logs/<file_stem>.log`.
   """
   # log_format_old = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
-  log_format_proposed = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | user:%(user)s | %(message)s"
+  # log_format_proposed = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | %(filename)s | %(lineno)d | user:%(user)s | %(message)s"
   log_format = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
   log_datefmt = "%Y-%m-%d %H:%M:%S"
 
-  # Determine file stem based on command-line script if requested
+  # Determine file stem based on a command-line script if requested
   if force_command_line:
     script_path = Path(sys.argv[0])
     file_stem = script_path.stem
@@ -115,8 +115,8 @@ def get_logger(
   if log_to_console:
     root_logger = logging.getLogger()
     has_console_handler = any(
-        isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler)
-        for handler in root_logger.handlers
+      isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler)
+      for handler in root_logger.handlers
     )
     if not has_console_handler:
       console_handler = logging.StreamHandler()

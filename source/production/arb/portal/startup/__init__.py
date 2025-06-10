@@ -9,4 +9,3 @@ This package provides startup routines for:
 Files in this subpackage are invoked by the main application factory (`create_app`)
 and by WSGI or CLI entry points to ensure consistent initialization.
 """
-

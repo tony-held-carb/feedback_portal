@@ -3,7 +3,7 @@ site_url: https://tony-held-carb.github.io/
 use_directory_urls: true
 
 theme:
-#  name: material
+  #  name: material
   name: readthedocs
   features:
     - navigation.sections

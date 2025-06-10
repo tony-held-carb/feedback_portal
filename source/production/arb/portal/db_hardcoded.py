@@ -13,10 +13,10 @@ Notes:
 
 import datetime
 from pathlib import Path
+from typing import Any
 
 from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
-from arb.portal.constants import PLEASE_SELECT
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -212,7 +212,10 @@ def get_landfill_dummy_data() -> dict:
   return json_data
 
 
-def get_excel_dropdown_data() -> tuple[dict[str, list[str]], dict[str, dict[str, list[str]]]]:
+def get_excel_dropdown_data() -> tuple[
+  dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]],
+  dict[str, dict[str, list[str | Any]]]
+]:
   """
   Return dropdown lookup values used in Excel and HTML form rendering.
 
@@ -372,7 +375,7 @@ def get_excel_dropdown_data() -> tuple[dict[str, list[str]], dict[str, dict[str,
 
   # keys to the contingent dropdowns follow the patter html_selector2_contingent_on_html_selector1
   # for instance, emission_cause_contingent_on_emission_location means that the choices for
-  # emission_cause are based on a lookup of the value of emission_location
+  # emission_cause are based on a lookup of the emission_location
 
   drop_downs_contingent = {
     "emission_cause_contingent_on_emission_location": {

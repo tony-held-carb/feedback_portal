@@ -12,8 +12,7 @@ Notes:
   - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
-
-import os, sys
+import os
 from pathlib import Path
 
 from arb.__get_logger import get_logger
@@ -27,7 +26,7 @@ class BaseConfig:
   Base configuration shared across all environments.
 
   Attributes:
-    POSTGRES_DB_URI (str): Default PostgreSQL URI if DATABASE_URI is unset.
+    POSTGRES_DB_URI (str): Default PostgresQL URI if DATABASE_URI is unset.
     SQLALCHEMY_ENGINE_OPTIONS (dict): Connection settings for SQLAlchemy.
     SECRET_KEY (str): Flask session key.
     SQLALCHEMY_DATABASE_URI (str): Final URI used by the app.
@@ -38,6 +37,7 @@ class BaseConfig:
     TIMEZONE (str): Target timezone for timestamp formatting.
     FAST_LOAD (bool): Enables performance optimizations at startup.
   """
+  # noinspection SpellCheckingInspection
   POSTGRES_DB_URI = (
     'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
     '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
@@ -61,11 +61,11 @@ class BaseConfig:
   TIMEZONE = "America/Los_Angeles"
 
   # ---------------------------------------------------------------------
-  # Get other relevant environmental variables here and commandline flags here
+  # Get/Set other relevant environmental variables here and commandline arguments.
   # for example: set FAST_LOAD=true
   # ---------------------------------------------------------------------
   FAST_LOAD = False
-  # flask does not allow for custom arguments so the next block is commented out
+  # flask does not allow for custom arguments, so the next block is commented out
   # if "--fast-load" in sys.argv:
   #   print(f"--fast-load detected in CLI arguments")
   #   FAST_LOAD = True

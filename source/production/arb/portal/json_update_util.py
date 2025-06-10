@@ -1,5 +1,5 @@
 """
-Utility functions to apply updates to a SQLAlchemy model's JSON field and
+Utility functions to apply updates to an SQLAlchemy model's JSON field and
 log each change to the portal_updates table for auditing purposes.
 
 Features:
@@ -22,6 +22,7 @@ from arb.portal.sqla_models import PortalUpdate
 from arb.utils.constants import PLEASE_SELECT
 
 logger, pp_log = get_logger()
+
 
 def apply_json_patch_and_log(model,
                              updates: dict,
@@ -50,9 +51,6 @@ def apply_json_patch_and_log(model,
 
   Raises:
     AttributeError: If the specified JSON field does not exist on the model.
-
-  Example:
-    >>> apply_json_patch_and_log(incidence, {"status": "Resolved"}, user="admin")
   """
 
   # In the future, may want to handle new rows differently
@@ -85,7 +83,7 @@ def apply_json_patch_and_log(model,
       continue
     if old_value is None and new_value == "":
       continue
-    # Note, on the rare situation that "Please Select" is a valid entry in a string field, it will be filtered out
+    # Note, on the rare situation that "Please Select" is a valid entry in a string field - it will be filtered out
     if old_value is None and new_value == PLEASE_SELECT:
       continue
 

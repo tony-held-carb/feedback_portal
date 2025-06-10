@@ -35,7 +35,7 @@ class Globals:
       to SQLAlchemy type metadata (includes `db_type`, `sa_type`, `py_type`).
     drop_downs (dict[str, list[str]]): Field name to independent dropdown options.
     drop_downs_contingent (dict[str, dict[str, list[str]]]): Parent-dependent options
-      for contingent dropdowns (e.g., county → list of sub-counties).
+      for contingent dropdowns (e.g., county → list of subcounties).
   """
 
   db_column_types = {}
@@ -48,7 +48,7 @@ class Globals:
     Load dropdown data from hardcoded configuration and cache it globally.
 
     Args:
-      flask_app (Flask): The active Flask app instance.
+      flask_app (Flask): The active Flask app instance (not used in this function but passed for consistency).
       db (SQLAlchemy): SQLAlchemy instance (not used in this function but passed for consistency).
 
     Returns:
@@ -81,11 +81,6 @@ class Globals:
 
     Returns:
       None
-
-    Example:
-      >>> Globals.load_type_mapping(app, db, base)
-      >>> Globals.db_column_types['incidences']['id_plume']
-      {`db_type`: `INTEGER`, `sa_type`: Integer, `py_type`: <class 'int'>}
 
     Notes:
       - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.

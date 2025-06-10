@@ -6,25 +6,25 @@
 #}
 
 {% macro render_confirm_modal(modal_id, confirm_phrase, form_action_url) %}
-<div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-labelledby="{{ modal_id }}Label" aria-hidden="true">
-  <div class="modal-dialog">
-    <form method="POST" id="{{ modal_id }}Form" action="{{ form_action_url }}">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="{{ modal_id }}Label">Confirm Deletion</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-labelledby="{{ modal_id }}Label" aria-hidden="true">
+    <div class="modal-dialog">
+      <form method="POST" id="{{ modal_id }}Form" action="{{ form_action_url }}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="{{ modal_id }}Label">Confirm Deletion</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This action is irreversible. If you are not a developer 100% certain this is safe, please cancel.</p>
+            <p>To confirm deletion, type <strong>{{ confirm_phrase }}</strong>:</p>
+            <input type="text" class="form-control confirm-input" required data-expected="{{ confirm_phrase }}">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>This action is irreversible.  If you are not a developer 100% certain this is safe, please cancel.</p>
-          <p>To confirm deletion, type <strong>{{ confirm_phrase }}</strong>:</p>
-          <input type="text" class="form-control confirm-input" required data-expected="{{ confirm_phrase }}">
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-danger">Delete</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 {% endmacro %}

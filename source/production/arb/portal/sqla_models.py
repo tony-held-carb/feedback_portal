@@ -10,10 +10,11 @@ Notes:
   * Timezone-aware UTC timestamps are used on all tracked models.
   * All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
 
-Example:
-  >>> file = UploadedFile(path="uploads/report.xlsx", status="pending")
-  >>> db.session.add(file)
-  >>> db.session.commit()
+Examples:
+  Input : file = UploadedFile(path="uploads/report.xlsx", status="pending")
+         db.session.add(file)
+         db.session.commit()
+  Output: file is inserted into the uploaded_files table with timestamps autopopulated
 """
 
 from pathlib import Path
@@ -48,10 +49,11 @@ class UploadedFile(db.Model):
       created_timestamp (datetime): UTC timestamp of initial creation.
       modified_timestamp (datetime): UTC timestamp of last update.
 
-    Example:
-      >>> file = UploadedFile(path="uploads/test.xlsx", status="pending")
-      >>> db.session.add(file)
-      >>> db.session.commit()
+    Examples:
+      Input : file = UploadedFile(path="uploads/test.xlsx", status="pending")
+             db.session.add(file)
+             db.session.commit()
+      Output: file appears in the uploaded_files table with 'pending' status
 
     Notes:
       - Timestamps use UTC and are timezone-aware.
@@ -80,9 +82,9 @@ class UploadedFile(db.Model):
     Returns:
         str: Summary string showing the ID, path, description, and status.
 
-    Example:
-        >>> repr(UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done"))
-        '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'
+    Examples:
+      Input : UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
+      Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'
     """
     return (
       f'<Uploaded File: {self.id_}, Path: {self.path}, '

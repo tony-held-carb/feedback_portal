@@ -1,11 +1,11 @@
 /* Fix sidebar scroll cutoff for long menus without breaking layout */
 .md-sidebar--primary {
-  overflow-y: auto;
-  max-height: calc(100vh - var(--md-header-height, 3.5rem));
-  padding-bottom: 1rem;
-  scroll-behavior: smooth;
+    overflow-y: auto;
+    max-height: calc(100vh - var(--md-header-height, 3.5rem));
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
 }
 
 .md-sidebar {
-  scrollbar-width: thin;
+    scrollbar-width: thin;
 }

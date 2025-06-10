@@ -67,8 +67,9 @@ def sort_xl_schema(xl_schema: dict,
   Raises:
     ValueError: If an unrecognized sorting strategy is provided.
 
-  Example:
-    >>> sorted_schema = sort_xl_schema(schema, sort_by="label_address")
+  Examples:
+    Input : schema, sort_by="label_address"
+    Output: New dictionary with sorted keys and reordered sub-schemas
   """
   logger.debug("sort_xl_schema() called")
 
@@ -104,13 +105,14 @@ def schema_to_json_file(data: dict, schema_version: str, file_name: str = None) 
   Args:
     data (dict): The Excel schema to be serialized and written to disk.
     schema_version (str): Schema version identifier to include in metadata.
-    file_name (str, optional): Output file path. Defaults to "xl_schemas/{schema_version}.json".
+    file_name (str, optional): Output file path. Default to "xl_schemas/{schema_version}.json".
 
   Returns:
     None
 
-  Example:
-    >>> schema_to_json_file(my_schema, schema_version="v01_00")
+  Examples:
+    Input : my_schema, schema_version="v01_00"
+    Output: JSON file written to "xl_schemas/v01_00.json" (default path)
 
   Notes:
     - If `file_name` is not provided, the output will be saved to
@@ -151,22 +153,23 @@ def update_vba_schema(
   Args:
     schema_version (str): Identifier for the schema version.
     file_name_in (Path, optional): Path to the raw VBA schema JSON file.
-      Defaults to "processed_versions/xl_schemas/{schema_version}_vba.json".
+      Default to "processed_versions/xl_schemas/{schema_version}_vba.json".
     file_name_out (Path, optional): Path to output the upgraded schema JSON.
-      Defaults to "processed_versions/xl_schemas/{schema_version}.json".
+      Default to "processed_versions/xl_schemas/{schema_version}.json".
     file_name_default_value_types (Path, optional): Path to JSON file defining
       default value types. Defaults to "processed_versions/xl_schemas/default_value_types_v01_00.json".
 
   Returns:
     dict: The updated and sorted schema dictionary.
 
-  Example:
-    >>> updated = update_vba_schema("landfill_v01_00")
+  Examples:
+    Input : "landfill_v01_00"
+    Output: Sorted schema dictionary with value types injected
 
   Notes:
     - This function ensures that all schema entries include a 'value_type'.
     - Applies `sort_xl_schema()` with sort_by="label_address".
-    - Uses `schema_to_json_file()` to write the result to disk.
+    - Use `schema_to_json_file()` to write the result to disk.
   """
 
   logger.debug(f"update_vba_schema() called with {schema_version=}, {file_name_in=}, "
@@ -198,7 +201,7 @@ def update_vba_schemas() -> None:
   Batch update of known VBA-generated schemas using `update_vba_schema()`.
 
   This function applies schema upgrades to a predefined list of versions,
-  typically for supported sectors like landfill and oil & gas.
+  typically for supported sectors like landfill and oil and gas.
 
   Returns:
     None
@@ -228,8 +231,9 @@ def schema_to_default_dict(schema_file_name: Path) -> tuple[dict, dict]:
           * All other fields get an empty string.
       - metadata: Metadata dictionary from the schema file.
 
-  Example:
-    >>> defaults, meta = schema_to_default_dict(Path("xl_schemas/landfill_v01_00.json"))
+  Examples:
+    Input : Path("xl_schemas/landfill_v01_00.json")
+    Output: (defaults dictionary, metadata dictionary)
 
   Notes:
     - The schema must include an "is_drop_down" flag for correct default generation.
@@ -254,7 +258,7 @@ def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tu
 
   Args:
     file_name_in (Path): Input path to the schema JSON file.
-    file_name_out (Path, optional): Output path for the defaults JSON.
+    file_name_out (Path, optional): Output path for the default JSON.
       If None, defaults to 'xl_payloads/{schema_version}_defaults.json'.
 
   Returns:
@@ -262,8 +266,9 @@ def schema_to_default_json(file_name_in: Path, file_name_out: Path = None) -> tu
       - defaults: Dictionary of default values derived from the schema.
       - metadata: Metadata dictionary included in the output JSON.
 
-  Example:
-    >>> schema_to_default_json(Path("xl_schemas/landfill_v01_00.json"))
+  Examples:
+    Input : Path("xl_schemas/landfill_v01_00.json")
+    Output: Tuple of (defaults dict, metadata dict), written to output path
 
   Notes:
     - Drop-down fields default to "Please Select".
@@ -300,8 +305,9 @@ def update_xlsx(file_in: Path, file_out: Path, jinja_dict: dict) -> None:
   Returns:
     None
 
-  Example:
-    >>> update_xlsx(Path("template.xlsx"), Path("output.xlsx"), {"site_name": "Landfill A"})
+  Examples:
+    Input : template.xlsx, output.xlsx, {"site_name": "Landfill A"}
+    Output: output.xlsx with rendered values
 
   Notes:
     - Only modifies 'xl/sharedStrings.xml' within the XLSX zip archive.
@@ -333,13 +339,6 @@ def update_xlsx_payloads(file_in: Path, file_out: Path, payloads: list | tuple) 
   Returns:
     None
 
-  Example:
-    >>> update_xlsx_payloads(
-    ...   Path("template.xlsx"),
-    ...   Path("output.xlsx"),
-    ...   [Path("defaults.json"), {"id_case": "X42"}]
-    ... )
-
   Notes:
     - Each payload may be a dictionary or a Path to a JSON file with metadata.
     - Designed to support tiered rendering: default payload + override.
@@ -365,13 +364,14 @@ def test_update_xlsx_payloads_01() -> None:
   Run test cases that populate Jinja-templated Excel files with known payloads.
 
   This test routine helps validate that Excel generation is functioning correctly
-  for all supported sectors (landfill, oil & gas, energy).
+  for all supported sectors (landfill, oil and gas, energy).
 
   Returns:
     None
 
-  Example:
-    >>> test_update_xlsx_payloads_01()
+  Examples:
+    Input : None
+    Output: Diagnostic Excel files created in xl_workbooks/
 
   Notes:
     - Writes populated Excel files to the `xl_workbooks` directory.
@@ -380,7 +380,7 @@ def test_update_xlsx_payloads_01() -> None:
   """
   logger.debug("test_update_xlsx_payloads_01() called")
 
-  # Landfill test with two payloads from file
+  # Landfill test with two payloads from the file
   update_xlsx_payloads(
     PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_jinja_.xlsx",
     PROCESSED_VERSIONS / f"xl_workbooks/landfill_operator_feedback_{LANDFILL_VERSION}_populated_01.xlsx",
@@ -423,7 +423,7 @@ def test_update_xlsx_payloads_01() -> None:
 
 def prep_xl_templates() -> None:
   """
-  Prepare processed Excel templates and payloads for landfill, oil & gas, and energy sectors.
+  Prepare processed Excel templates and payloads for landfill, oil and gas, and energy sectors.
 
   This function:
     - Copies original schema and Excel files to the processed directory.
@@ -434,15 +434,12 @@ def prep_xl_templates() -> None:
   Returns:
     None
 
-  Example:
-    >>> prep_xl_templates()
-
   Notes:
     - File paths are derived from structured configs for each sector.
     - Overwrites files in the output directory if they already exist.
     - Output directories are created if they don't exist.
   """
-  logger.debug("prep_xl_templates() called for landfill, oil & gas, and energy schemas")
+  logger.debug("prep_xl_templates() called for landfill, oil and gas, and energy schemas")
 
   file_specs = []
   input_dir = PROJECT_ROOT / "feedback_forms/current_versions"
@@ -501,8 +498,9 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
   Returns:
     dict: Dictionary mapping variable names to Python types (e.g., str, int, datetime).
 
-  Example:
-    >>> types = create_default_types_schema(diagnostics=True)
+  Examples:
+    Input : diagnostics=True
+    Output: Dictionary of variable names → value types, logged if diagnostics enabled
 
   Notes:
     - Output is saved to 'xl_schemas/default_value_types_v01_00.json'.
@@ -544,8 +542,9 @@ def create_payload(payload: dict, file_name: Path, schema_version: str, metadata
   Returns:
     None
 
-  Example:
-    >>> create_payload({"id_case": "A42"}, Path("payload.json"), "v01_00")
+  Examples:
+    Input : {"id_case": "A42"}, Path("payload.json"), "v01_00"
+    Output: JSON file with metadata saved to payload.json
 
   Notes:
     - Adds 'schema_version' and a default payload description to metadata.
@@ -567,18 +566,19 @@ def create_payload(payload: dict, file_name: Path, schema_version: str, metadata
 
 def create_payloads() -> None:
   """
-  Generate and save example payload files for each supported sector (landfill, oil & gas, energy).
+  Generate and save example payload files for each supported sector (landfill, oil and gas, energy).
 
   Returns:
     None
 
-  Example:
-    >>> create_payloads()
+  Examples:
+    Input : None
+    Output: Sector payloads written to xl_payloads/*.json
 
   Notes:
     - Each payload is saved to `xl_payloads/{schema_version}_payload_01.json`.
     - If a backup file exists, the new payload is compared against it for consistency.
-    - The energy payload reuses the oil & gas example data for demonstration purposes.
+    - The energy payload reuses the oil and gas example data for demonstration purposes.
     - Uses `create_payload()` to handle serialization and metadata embedding.
   """
 
@@ -589,7 +589,7 @@ def create_payloads() -> None:
   test_sets = [
     ("landfill_v01_00", landfill_payload_01),
     ("oil_and_gas_v01_00", oil_and_gas_payload_01),
-    ("energy_v00_01", oil_and_gas_payload_01),  # Reuse oil & gas payload
+    ("energy_v00_01", oil_and_gas_payload_01),  # Reuse oil and gas payload
   ]
 
   for schema_version, payload in test_sets:
@@ -608,18 +608,19 @@ def create_schemas_and_payloads() -> None:
 
   This orchestration function performs the full pipeline:
     - Creates the default value types schema.
-    - Processes all sector-specific schema files (landfill, oil & gas, energy).
+    - Processes all sector-specific schema files (landfill, oil and gas, energy).
     - Writes default payloads for each schema.
     - Generates test payloads and renders Excel templates.
 
   Returns:
     None
 
-  Example:
-    >>> create_schemas_and_payloads()
+  Examples:
+    Input : None
+    Output: All schema/payload/template artifacts generated under processed_versions/
 
   Notes:
-    - Creates all required directories under `processed_versions`.
+    - Create all required directories under `processed_versions`.
     - Intended for one-time use during development or deployment setup.
     - Logs each operation and file path for debugging.
   """
@@ -647,9 +648,6 @@ def run_diagnostics() -> None:
 
   Returns:
     None
-
-  Example:
-    >>> run_diagnostics()
 
   Notes:
     - Logs each step of the process to the application logger.

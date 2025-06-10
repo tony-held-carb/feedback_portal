@@ -110,3 +110,23 @@ def update_model_with_payload(model,
   # flag_modified(model, json_field)
 
   logger.debug(f"Model JSON updated: {getattr(model, json_field)=}")
+
+
+ok, i figured out how to get pycharm to refactor code without caceling due to inport errors.
+I moved the project directory to one with no spaces in the file names and it worked.
+
+Yesterday, I had a prompt "ok, before we continue implementing actual testing.  Please analyze my code base to see if it would benefit from any reorganization to make the logic clearer and the testing easier to implement."
+
+I would like to resume your analysis on how to best reorg/refactor my project before I add unit testing.
+
+I started the process of breaking app_util.py into smaller .py files in the arb/portal/util directory.
+The old app_util.py file was saved as app_util_old.py so you can inspect its previous contents.
+
+Please begin your analysis by making sure I did not introduce any errors from the refactor.
+Then, see if the refactor makes sense.
+Lastly, I would like to update all the docstrings in the arb/portal/util based on the approach we have been using over the past few days for this purpose.
+
+my latest codebase is attached.
+
+
+

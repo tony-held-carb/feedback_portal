@@ -31,23 +31,23 @@ Version:
 
 Example Usage:
 --------------
->>> import arb.utils.log_util as log_util
->>> logging.basicConfig(level=logging.DEBUG)
+Input :
+    import arb.utils.log_util as log_util
+    logging.basicConfig(level=logging.DEBUG)
 
->>> @log_parameters(print_to_console=True)
->>> def greet(name, lang="en"):
->>>     return f"Hello {name} [{lang}]"
+    @log_parameters(print_to_console=True)
+    def greet(name, lang="en"):
+        return f"Hello {name} [{lang}]"
 
->>> def example():
->>>     log_function_parameters(print_to_console=True)
+    def example():
+        log_function_parameters(print_to_console=True)
 
->>> greet("Alice", lang="fr")
->>> example()
+    greet("Alice", lang="fr")
+    example()
 
 Output:
--------
-greet(name='Alice', lang='fr')
-example()
+    greet(name='Alice', lang='fr')
+    example()
 
 Recommendations:
 ----------------
@@ -74,12 +74,15 @@ def log_function_parameters(
 
   Args:
       logger (logging.Logger | None): Optional logger. If None, derives one from caller's module.
-      print_to_console (bool): If True, also prints the message to stdout.
+      print_to_console (bool): If True, also print the message to stdout.
 
   Example:
-      >>> def example(a, b=2): log_function_parameters()
-      >>> example(1)
-      # Logs: example(a=1, b=2)
+      Input :
+          def example(a, b=2): log_function_parameters()
+          example(1)
+
+      Output:
+          Logs: example(a=1, b=2)
   """
   frame = inspect.currentframe().f_back
   func_name = frame.f_code.co_name
@@ -125,9 +128,14 @@ def log_parameters(
       Callable: A decorator that logs parameter values each time the function is called.
 
   Example:
-      >>> @log_parameters(print_to_console=True)
-      >>> def greet(name, lang="en"):
-      >>>     return f"Hello {name} [{lang}]"
+      Input :
+          @log_parameters(print_to_console=True)
+          def greet(name, lang="en"):
+              return f"Hello {name} [{lang}]"
+
+      Output:
+          greet(name='...', lang='...')
+          (logged on each invocation)
   """
 
   def decorator(func: Callable) -> Callable:

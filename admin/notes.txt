@@ -728,3 +728,64 @@ def upload_and_update_db(db: SQLAlchemy,
 
   return file_name, id_, sector
 
+Hi Steve and Dan,
+
+The Portal now has a bunch of new features, perhaps most visible is a documentation/usage site that can be found here:
+
+https://tony-held-carb.github.io/feedback_portal/
+
+A representative screenshot is attached.
+
+I created this using the docstrings from the source code using mkdocs and some python scripts.
+
+The portal is now refactored and up at: http://10.93.112.44:2113/
+
+The github page associated with the code is at: https://github.com/tony-held-carb/feedback_portal
+
+The github page has a read.me file for how to run the portal on a laptop and/or ec2.
+
+More show-and-tell to come :) Tony
+
+
+pycharm logs appear at:
+
+C:\Users\theld\AppData\Local\JetBrains\PyCharm2025.1\log\idea.log
+
+turn off spell checking for next line:
+# noinspection SpellCheckingInspection
+
+To suppress a specific spelling warning in a docstring (such as for a filename or module name like sqla_models), while keeping spellchecking active for the rest of the docstring, use PyCharm’s spelling suppression comment inside the docstring.
+
+Here’s how you can do it:
+
+✅ Option 1: Use <!--suppress SpellCheckingInspection--> inline
+In multiline docstrings, you can do this:
+  """
+  Example:
+      <!--suppress SpellCheckingInspection-->
+      import arb.portal.sqla_models as models
+  """
+PyCharm will suppress spellchecking for that line only, without turning it off for the whole docstring.
+
+✅ Option 2: Inline backtick workaround (lower fidelity)
+PyCharm tends to ignore spellchecking for words inside single backticks or double backticks when they're assumed to be code:
+  Example:
+      `import arb.portal.sqla_models as models`
+This avoids the warning for sqla_models, but doesn't explicitly suppress the inspection.
+
+✅ Option 3: Save word to dictionary (for permanent allow-list)
+If sqla is a project-wide convention (e.g., all your SQLAlchemy files are sqla_x.py), you might prefer:
+
+Right-click on the underlined sqla in the docstring.
+
+Choose "Save to dictionary".
+
+This will whitelist the word across the project and remove the typo warning wherever it appears.
+
+Files for logging
+--------------------
+from pathlib import Path
+from arb.__get_logger import get_logger
+
+logger, pp_log = get_logger()
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')

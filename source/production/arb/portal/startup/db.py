@@ -13,10 +13,12 @@ Notes:
   - Logging is enabled throughout to trace database state and startup flow.
 """
 
+from pathlib import Path
+
+from flask import current_app
+
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
-from flask import current_app
-from pathlib import Path
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -97,5 +99,3 @@ def db_initialize_and_create() -> None:
   db_initialize()
   db_create()
   logger.info("Database initialized and tables ensured.")
-
-

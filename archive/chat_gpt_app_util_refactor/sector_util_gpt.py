@@ -1,25 +1,7 @@
-"""
-Application-specific utility functions for the ARB Feedback Portal.
+"""Sector Util - Auto-split from app_util."""
 
-This module provides helpers for resolving sector data, handling file uploads,
-preparing database rows, and integrating WTForms with SQLAlchemy models.
+# Imports
 
-Key Capabilities:
------------------
-- Resolve sector and sector_type for an incidence
-- Insert or update rows from Excel/JSON payloads
-- Reflect and verify database schema and rows
-- Track uploaded files via the UploadedFile table
-- Apply filter logic to the portal_updates log view
-- Generate context and form logic for feedback pages
-
-Typical Usage:
---------------
-- File ingestion and incidence row creation
-- Dynamic form loading from model rows
-- Sector/type resolution from related tables
-- Upload tracking and file diagnostics
-"""
 from datetime import datetime
 from pathlib import Path
 
@@ -46,6 +28,7 @@ from arb.utils.wtf_forms_util import (
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
+
 
 
 def get_sector_info(db: SQLAlchemy,
@@ -96,6 +79,7 @@ def get_sector_info(db: SQLAlchemy,
   return sector, sector_type
 
 
+
 def resolve_sector(sector_by_foreign_key: str | None,
                    row: DeclarativeMeta,
                    misc_json: dict) -> str:
@@ -138,6 +122,7 @@ def resolve_sector(sector_by_foreign_key: str | None,
   return sector
 
 
+
 def get_sector_type(sector: str) -> str:
   """
   Map a sector name to its broad classification.
@@ -158,6 +143,7 @@ def get_sector_type(sector: str) -> str:
     return "Landfill"
   else:
     raise ValueError(f"Unknown sector type: '{sector}'.")
+
 
 
 def upload_and_update_db(db: SQLAlchemy,
@@ -193,6 +179,7 @@ def upload_and_update_db(db: SQLAlchemy,
   return file_name, id_, sector
 
 
+
 def json_file_to_db(db: SQLAlchemy,
                     file_name: str | Path,
                     base: AutomapBase
@@ -217,6 +204,7 @@ def json_file_to_db(db: SQLAlchemy,
   return xl_dict_to_database(db, base, json_as_dict)
 
 
+
 def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str = "Feedback Form") -> tuple[int, str]:
   """
   Insert or update a row from an Excel-parsed JSON dictionary into the database.
@@ -239,236 +227,6 @@ def xl_dict_to_database(db, base, xl_dict: dict, tab_name: str = "Feedback Form"
   id_ = dict_to_database(db, base, tab_data)
   return id_, sector
 
-
-def get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=None) -> tuple:
-  """
-  Retrieve or create a row in the specified table using a primary key.
-
-  If the row exists, it is returned. Otherwise, a new row is created and committed.
-
-  Args:
-    db (SQLAlchemy): SQLAlchemy database instance.
-    base (AutomapBase): Reflected SQLAlchemy base metadata.
-    table_name (str): Table name to operate on. Defaults to 'incidences'.
-    primary_key_name (str): Name of the primary key column. Defaults to 'id_incidence'.
-    id_ (int | None): Primary key value. If None, a new row is created.
-
-  Returns:
-    tuple: (model, id_, is_new_row)
-      - model: SQLAlchemy ORM instance
-      - id_: Primary key value
-      - is_new_row: Whether a new row was created (True/False)
-
-  Raises:
-    AttributeError: If the model class lacks the specified primary key.
-  """
-
-  is_new_row = False
-
-  session = db.session
-  table = get_class_from_table_name(base, table_name)
-
-  if id_ is not None:
-    logger.debug(f"Retrieving {table_name} row with {primary_key_name}={id_}")
-    model = session.get(table, id_)
-    if model is None:
-      is_new_row = True
-      logger.debug(f"No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
-      model = table(**{primary_key_name: id_})
-  else:
-    is_new_row = True
-    logger.debug(f"Creating new {table_name} row with auto-generated {primary_key_name}")
-    model = table(**{primary_key_name: None})
-    session.add(model)
-    session.commit()
-    id_ = getattr(model, primary_key_name)
-    logger.debug(f"{table_name} row created with {primary_key_name}={id_}")
-
-  return model, id_, is_new_row
-
-
-def dict_to_database(db,
-                     base,
-                     data_dict: dict,
-                     table_name="incidences",
-                     primary_key="id_incidence",
-                     json_field="misc_json") -> int:
-  """
-  Insert or update a row in the specified table using a dictionary payload.
-
-  The payload is merged into a model instance and committed to the database.
-
-  Args:
-    db (SQLAlchemy): SQLAlchemy database instance.
-    base (AutomapBase): Reflected SQLAlchemy base metadata.
-    data_dict (dict): Dictionary containing payload data.
-    table_name (str): Table name to modify. Defaults to 'incidences'.
-    primary_key (str): Name of the primary key field. Defaults to 'id_incidence'.
-    json_field (str): Name of the JSON field to update. Defaults to 'misc_json'.
-
-  Returns:
-    int: Final value of the primary key for the affected row.
-
-  Raises:
-    ValueError: If data_dict is empty.
-    AttributeError: If the resulting model does not expose the primary key.
-  """
-
-  from arb.utils.wtf_forms_util import update_model_with_payload
-
-  if not data_dict:
-    msg = "Attempt to add empty entry to database"
-    logger.warning(msg)
-    raise ValueError(msg)
-
-  id_ = data_dict.get(primary_key)
-
-  model, id_, is_new_row = get_ensured_row(
-    db=db,
-    base=base,
-    table_name=table_name,
-    primary_key_name=primary_key,
-    id_=id_
-  )
-
-  # Backfill generated primary key into payload if it was not supplied
-  if is_new_row:
-    logger.debug(f"Backfilling {primary_key} = {id_} into payload")
-    data_dict[primary_key] = id_
-
-  update_model_with_payload(model, data_dict, json_field=json_field)
-
-  session = db.session
-  session.add(model)
-  session.commit()
-
-  # Final safety: extract final PK from model
-  try:
-    return getattr(model, primary_key)
-  except AttributeError as e:
-    logger.error(f"Model has no attribute '{primary_key}': {e}")
-    raise
-
-
-def add_file_to_upload_table(db, file_name: str | Path,
-                             status=None,
-                             description=None) -> None:
-  """
-  Insert a record into the `UploadedFile` table for audit and diagnostics.
-
-  Args:
-    db (SQLAlchemy): SQLAlchemy database instance.
-    file_name (str | Path): File path or name to be recorded.
-    status (str | None): Optional upload status label.
-    description (str | None): Optional notes for the upload event.
-
-  Returns:
-    None
-  """
-
-  # todo (consider) to wrap commit in log?
-  from arb.portal.sqla_models import UploadedFile
-
-  logger.debug(f"Adding uploaded file to upload table: {file_name=}")
-  model_uploaded_file = UploadedFile(
-    path=str(file_name),
-    status=status,
-    description=description,
-  )
-  db.session.add(model_uploaded_file)
-  db.session.commit()
-  logger.debug(f"{model_uploaded_file=}")
-
-
-def apply_portal_update_filters(query, PortalUpdate, args: dict):
-  """
-  Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.
-
-  Args:
-    query (SQLAlchemy Query): Query to be filtered.
-    PortalUpdate (Base): ORM model class for the portal_updates table.
-    args (dict): Typically from `request.args`, containing filter values.
-
-  Supported filters:
-    - Substring matches on key, user, comments
-    - ID exact match or range parsing (e.g. "100-200, 250")
-    - Date range filtering via `start_date` and `end_date`
-
-  Supported ID formats (via filter_id_incidence):
-  ------------------------------------------------
-  - "123"                  → Matches ID 123 exactly
-  - "100-200"              → Matches IDs from 100 to 200 inclusive
-  - "-250"                 → Matches all IDs ≤ 250
-  - "300-"                 → Matches all IDs ≥ 300
-  - "123,150-200,250-"     → Mixed exacts and ranges
-  - "abc, 100-xyz, 222"    → Invalid parts are ignored
-
-  Returns (SQLAlchemy Query):
-    SQLAlchemy query: Modified query with filters applied.
-  """
-  filter_key = args.get("filter_key", "").strip()
-  filter_user = args.get("filter_user", "").strip()
-  filter_comments = args.get("filter_comments", "").strip()
-  filter_id_incidence = args.get("filter_id_incidence", "").strip()
-  start_date_str = args.get("start_date", "").strip()
-  end_date_str = args.get("end_date", "").strip()
-
-  if filter_key:
-    query = query.filter(PortalUpdate.key.ilike(f"%{filter_key}%"))
-  if filter_user:
-    query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
-  if filter_comments:
-    query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
-
-  if filter_id_incidence:
-    id_exact = set()
-    id_range_clauses = []
-
-    for part in filter_id_incidence.split(","):
-      part = part.strip()
-      if not part:
-        continue
-      if "-" in part:
-        try:
-          start, end = part.split("-")
-          start = start.strip()
-          end = end.strip()
-          if start and end:
-            start_val = int(start)
-            end_val = int(end)
-            if start_val <= end_val:
-              id_range_clauses.append(PortalUpdate.id_incidence.between(start_val, end_val))
-          elif start:
-            start_val = int(start)
-            id_range_clauses.append(PortalUpdate.id_incidence >= start_val)
-          elif end:
-            end_val = int(end)
-            id_range_clauses.append(PortalUpdate.id_incidence <= end_val)
-        except ValueError:
-          continue  # Ignore malformed part
-      elif part.isdigit():
-        id_exact.add(int(part))
-
-    clause_list = []
-    if id_exact:
-      clause_list.append(PortalUpdate.id_incidence.in_(sorted(id_exact)))
-    clause_list.extend(id_range_clauses)
-
-    if clause_list:
-      query = query.filter(or_(*clause_list))
-
-  try:
-    if start_date_str:
-      start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
-      query = query.filter(PortalUpdate.timestamp >= start_dt)
-    if end_date_str:
-      end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
-      end_dt = end_dt.replace(hour=23, minute=59, second=59)
-      query = query.filter(PortalUpdate.timestamp <= end_dt)
-  except ValueError:
-    pass  # Silently ignore invalid date inputs
-
-  return query
 
 
 def incidence_prep(model_row: DeclarativeMeta,

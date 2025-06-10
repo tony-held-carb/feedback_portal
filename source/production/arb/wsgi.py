@@ -44,7 +44,7 @@ Note on running Flask Apps:
       can be 'development' or 'production'
       development enables debug mode, auto-reload, and detailed error pages,
       production disables them.
-      Likely will allways want FLASK_ENV=development for CARB development
+      Likely want FLASK_ENV=development for CARB development
   * FLASK_DEBUG:
       1 enables the interactive browser debugger (Werkzeug);
       0 disables it.
@@ -56,17 +56,15 @@ Note on running Flask Apps:
       * --app <file_name>
       * --debug or --no-debug
         * determines if the Werkzeug browser debugger is on/off
-      * --no-reload  <-- faster load time and does not restart app on source code changes
+      * --no-reload <-- faster load time and does not restart app on source code changes
 
 4) Source code app arguments:
 
     Commonly used arguments for `app.run()`:
-
-    Args:
       * host (str, optional): The IP address to bind to.
           Defaults to `'127.0.0.1'`. Use `'0.0.0.0'` to make the app
           publicly accessible (e.g., on a local network).
-      * port (int, optional): The port number to listen on.
+      * port (int, optional): The port number to listen to.
           Defaults to `5000`.
       * debug (bool, optional): Enables debug mode, which activates
           auto-reload and the interactive browser debugger. Defaults to `None`.
@@ -84,7 +82,7 @@ Note on running Flask Apps:
 5) Best practices:
   1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
     * will give you access to Browser-based call trace or python debugger depending on other factors
-  2. Use 'development' over 'production' until product is final.
+  2. Use 'development' over 'production' until a product is final.
   3. testing web interactions in browser without python debugger
     * flask run --app wsgi
   4. Debugging with PyCharm (breakpoints + console)
@@ -97,7 +95,7 @@ Note on running Flask Apps:
     * Run wsgi.py in PyCharm with debug=True
     * Set FLASK_ENV=development, FLASK_DEBUG=1
       * This allows:
-        * PyCharm to log & capture
+        * PyCharm to log and capture
         * Browser to display detailed error trace
         * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
 
@@ -107,11 +105,13 @@ Note on running Flask Apps:
     - Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 
+from pathlib import Path
+
 from arb.__get_logger import get_logger
 from arb.portal.app import create_app
 
 logger, pp_log = get_logger()
-logger.debug("in wsgi.py module")
+logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 app = create_app()
 

@@ -7,14 +7,16 @@ This module provides helper functions for:
   - Managing triple tuples for dynamic dropdown metadata
 
 Notes:
-    - Avoids circular imports by not depending on other utility modules.
+    - Avoid circular imports by not depending on other utility modules.
     - Other utility modules (e.g., Excel, DB) may safely import this one.
     - Adds "Please Select" logic to dropdowns using `arb.utils.constants`.
 
-Example Usage:
-    from arb.utils.web_html import upload_single_file, selector_list_to_tuples
+Examples:
+    Input : file = request.files['data'], upload_dir = "/data/uploads"
+    Output: Path object pointing to a securely saved file
 """
 from pathlib import Path
+
 from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
@@ -40,8 +42,8 @@ def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Pat
       OSError: If the file cannot be written to disk.
 
   Example:
-      >>> file = request.files['data']
-      >>> path = upload_single_file("/data/uploads", file)
+    Input : file = request.files['data'], upload_dir = "/data/uploads"
+    Output: Path object pointing to a securely saved file
   """
   logger.debug(f"Attempting to upload {request_file.filename=}")
   file_name = get_secure_timestamped_file_name(upload_dir, request_file.filename)
@@ -57,16 +59,16 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
   Adds a disabled "Please Select" entry at the top of the list.
 
   Args:
-      values (list[str]): Dropdown options (excluding "Please Select").
+    values (list[str]): Dropdown options (excluding "Please Select").
 
   Returns:
-      list[tuple[str, str] | tuple[str, str, dict]]:
-          WTForms selector list including a disabled "Please Select" entry.
+    list[tuple[str, str] | tuple[str, str, dict]]:
+        WTForms selector list including a disabled "Please Select" entry.
 
-  Example:
-      >>> selector_list_to_tuples(["Red", "Green"])
-      [('Please Select', 'Please Select', {'disabled': True}),
-       ('Red', 'Red'), ('Green', 'Green')]
+  Examples:
+    Input : ["Red", "Green"]
+    Output: [('Please Select', 'Please Select', {'disabled': True}),
+             ('Red', 'Red'), ('Green', 'Green')]
   """
   result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
   result += [(v, v) for v in values]
@@ -85,9 +87,9 @@ def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
   Returns:
       list[tuple[str, str, dict]]: Triple tuples for WTForms SelectField.
 
-  Example:
-      >>> list_to_triple_tuple(["A", "B"])
-      [('A', 'A', {}), ('B', 'B', {})]
+  Examples:
+      Input : ["A", "B"]
+      Output: [('A', 'A', {}), ('B', 'B', {})]
   """
   return [(v, v, {}) for v in values]
 
@@ -110,13 +112,13 @@ def update_triple_tuple_dict(
   Returns:
       list[tuple[str, str, dict]]: Updated list of selector tuples.
 
-  Example:
-      >>> update_triple_tuple_dict(
-      ...     [('A', 'A', {}), ('B', 'B', {})],
-      ...     ['A'],
-      ...     {'disabled': True},
-      ...     {'class': 'available'}
-      ... )
+  Examples:
+    Input :
+      tuple_list = [('A', 'A', {}), ('B', 'B', {})]
+      match_list = ['A']
+      match_update_dict = {'disabled': True}
+      unmatch_update_dict = {'class': 'available'}
+    Output:
       [('A', 'A', {'disabled': True}), ('B', 'B', {'class': 'available'})]
   """
   if unmatch_update_dict is None:
@@ -143,8 +145,9 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
       dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
           Dict with WTForms-ready selector tuples.
 
-  Example:
-      >>> update_selector_dict({"colors": ["Red", "Blue"]})
+  Examples:
+    Input : {"colors": ["Red", "Blue"]}
+    Output:
       {
         "colors": [
           ("Please Select", "Please Select", {"disabled": True}),
@@ -159,7 +162,7 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
 def ensure_placeholder_option(
     tuple_list: list[tuple[str, str, dict]],
     item: str = PLEASE_SELECT,
-    item_dict: dict = {"disabled": True},
+    item_dict: dict = None,
     ensure_first: bool = True
 ) -> list[tuple[str, str, dict]]:
   """
@@ -179,9 +182,9 @@ def ensure_placeholder_option(
   Returns:
       list[tuple[str, str, dict]]: Updated tuple list with ensured placeholder.
 
-  Example:
-      >>> ensure_placeholder_option([("A", "A", {})])
-      [('Please Select', 'Please Select', {'disabled': True}), ('A', 'A', {})]
+  Examples:
+    Input : [("A", "A", {})]
+    Output: [('Please Select', 'Please Select', {'disabled': True}), ('A', 'A', {})]
   """
 
   if item is None:
@@ -200,7 +203,7 @@ def ensure_placeholder_option(
   index = next((i for i, t in enumerate(tuple_list) if t[0] == item), None)
 
   if index is None:
-    # Placeholder not found; insert it at the beginning of the list.
+    # The Placeholder is not found; insert it at the beginning of the list.
     return [placeholder] + tuple_list
 
   elif ensure_first and index != 0:
@@ -220,15 +223,15 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
   Remove one or more values from a tuple list by matching the first element.
 
   Args:
-      tuple_list (list[tuple[str, str, dict]]): Selector tuples.
-      remove_items (str | list[str]): One or more values to remove by key match.
+    tuple_list (list[tuple[str, str, dict]]): Selector tuples.
+    remove_items (str | list[str]): One or more values to remove by key match.
 
   Returns:
-      list[tuple[str, str, dict]]: Filtered list excluding the removed values.
+    list[tuple[str, str, dict]]: Filtered list excluding the removed values.
 
-  Example:
-      >>> remove_items([("A", "A", {}), ("B", "B", {})], "B")
-      [('A', 'A', {})]
+  Examples:
+    Input : [("A", "A", {}), ("B", "B", {})], remove_items="B"
+    Output: [('A', 'A', {})]
   """
   remove_set = {remove_items} if isinstance(remove_items, str) else set(remove_items)
   return [t for t in tuple_list if t[0] not in remove_set]
@@ -246,10 +249,7 @@ def run_diagnostics() -> None:
     - Dict transformation to tuple selectors
 
   Returns:
-      None
-
-  Example:
-      >>> run_diagnostics()
+    None
   """
   print("Running diagnostics for web_html.py...")
 

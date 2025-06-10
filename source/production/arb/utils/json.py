@@ -21,6 +21,7 @@ import decimal
 import json
 import logging
 import pathlib
+from typing import Any
 from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
@@ -57,7 +58,8 @@ def json_serializer(obj: object) -> dict:
       TypeError: If the object type is unsupported.
 
   Example:
-      >>> json.dumps(datetime.datetime.now(), default=json_serializer)
+    Input : json.dumps(datetime.datetime.now(), default=json_serializer)
+    Output: JSON string with ISO datetime object encoded
   """
   if isinstance(obj, type):
     return {"__class__": obj.__name__, "__module__": obj.__module__}
@@ -80,7 +82,8 @@ def json_deserializer(obj: dict) -> object:
       object: Reconstructed Python object.
 
   Example:
-      >>> json.loads(json_string, object_hook=json_deserializer)
+    Input : json.loads(json_string, object_hook=json_deserializer)
+    Output: Python object reconstructed from JSON with type tags
   """
   new_obj = obj
 
@@ -125,8 +128,10 @@ def json_save(
       file_path (str | Path): Path to write the JSON file.
       data (object): Data to serialize and write.
       json_options (dict | None): Options to pass to `json.dump`.
+
   Example:
-      >>> json_save("output.json", {"x": decimal.Decimal("1.23")})
+    Input : file_path = "output.json", data = {"x": Decimal("1.23")}
+    Output: Creates a JSON file with serialized data at the given path
   """
   logger.debug(f"json_save() called with {file_path=}, {json_options=}, {data=}")
 
@@ -153,8 +158,13 @@ def json_save_with_meta(
       data (object): Primary data to store under "_data_".
       metadata (dict | None): Optional metadata under "_metadata_".
       json_options (dict | None): Options for `json.dump`.
+
   Example:
-      >>> json_save_with_meta("log.json", {"key": "value"}, {"source": "generated"})
+    Input :
+      file_path = "log.json"
+      data = {"key": "value"}
+      metadata = {"source": "generated"}
+    Output: Writes JSON with _data_ and _metadata_ fields
   """
   logger.debug(f"json_save_with_meta() called with {file_path=}, {json_options=}, {metadata=}, {data=}")
 
@@ -188,8 +198,10 @@ def json_load(
 
   Returns:
       object: Deserialized Python object.
+
   Example:
-      >>> json_load("data.json")
+    Input : file_path = "data.json"
+    Output: Deserialized Python object from JSON
 
   Notes:
     -  encoding="utf-8-sig" will remove (if present) [BOM (Byte Order Mark)] for UTF-8 (\uFEFF)
@@ -206,21 +218,22 @@ def json_load(
 
 
 def json_load_with_meta(file_path: str | pathlib.Path,
-                        json_options: dict | None = None) -> tuple[object, dict]:
+                        json_options: dict | None = None) -> tuple[Any, dict]:
   """
   Load a JSON file and return both data and metadata if present.
 
   Args:
-      file_path (str | Path): Path to the JSON file.
-      json_options (dict | None): Optional options passed to `json.load`.
+    file_path (str | Path): Path to the JSON file.
+    json_options (dict | None): Optional options passed to `json.load`.
 
   Returns:
-      tuple:
-          - object: Deserialized data in "_data_" (or full file if not present).
-          - dict: Deserialized Metadata in "_metadata_" (or empty if not present).
+    tuple:
+      - Any: Deserialized data from "_data_" (or the entire file if "_data_" is not present).
+      - dict: Deserialized metadata from "_metadata_" (or empty dict if not present).
 
   Example:
-      >>> data, meta = json_load_with_meta("example.json")
+    Input : file_path = "example.json"
+    Output: tuple (data, metadata) extracted from the file
 
   Notes:
       If the json file is a dictionary with a key _data_, then the _data_ and _metadata_
@@ -246,8 +259,10 @@ def add_metadata_to_json(
   Args:
       file_name_in (str | Path): Input JSON file path.
       file_name_out (str | Path | None): Output file path. If None, overwrites input.
+
   Example:
-      >>> add_metadata_to_json("schema.json")
+    Input : file_name_in = "schema.json"
+    Output: Adds metadata and writes back to same file
   """
   logger.debug(f"add_metadata_to_json() called with {file_name_in=}, {file_name_out=}")
 
@@ -273,7 +288,8 @@ def compare_json_files(
       Differences or matches are logged at debug level.
 
   Example:
-      >>> compare_json_files("old.json", "new.json")
+    Input : file_name_1 = "old.json", file_name_2 = "new.json"
+    Output: Logs any differences or confirms matches
   """
   logger.debug(f"compare_json_files() comparing {file_name_1} and {file_name_2}")
 

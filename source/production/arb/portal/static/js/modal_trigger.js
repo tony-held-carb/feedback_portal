@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const modalElement = document.getElementById('routeModal');
+    const modalElement = document.getElementById('routeModal');
 
-  if (modalElement && modalElement.querySelector('.modal-body').textContent.trim() !== "") {
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    if (modalElement && modalElement.querySelector('.modal-body').textContent.trim() !== "") {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
 
-    // Auto-hide modal after 2 seconds
-    setTimeout(() => {
-      modal.hide();
-    }, 2000);
-  }
+        // Auto-hide modal after 2 seconds
+        setTimeout(() => {
+            modal.hide();
+        }, 2000);
+    }
 });

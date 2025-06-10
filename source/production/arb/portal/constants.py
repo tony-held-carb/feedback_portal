@@ -59,7 +59,6 @@ LONGITUDE_VALIDATION = {"min": MIN_LONGITUDE, "max": MAX_LONGITUDE,
                         "message": f"Longitudes must be blank or valid California number between {MIN_LONGITUDE} and {MAX_LONGITUDE}."}
 """dict: Longitude validation schema for WTForms or other validators."""
 
-
 # -----------------------------------------------------------------------------
 # Time Zones and Datetime Formats
 # -----------------------------------------------------------------------------
@@ -73,7 +72,6 @@ HTML_LOCAL_TIME_FORMAT = "%Y-%m-%dT%H:%M"
 
 DATETIME_WITH_SECONDS = "%Y_%m_%d_%H_%M_%S"
 """str: Filename-safe datetime string format (includes seconds)."""
-
 
 # -----------------------------------------------------------------------------
 # Module Diagnostics (Optional)

@@ -52,11 +52,11 @@ def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:
       TypeError: If a non-dictionary value is encountered mid-traversal.
 
   Examples:
-      >>> data = {"a": {"b": {"c": 42}}, "x": 99}
-      >>> get_nested_value(data, ("a", "b", "c"))
-      42
-      >>> get_nested_value(data, "x")
-      99
+    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = ("a", "b", "c")
+    Output: 42
+
+    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = "x"
+    Output: 99
   """
   if not isinstance(keys, (list, tuple)):
     # Single key case
@@ -87,11 +87,12 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
       TypeError: If the sub_key is missing, and no fallback is found in default_dict.
 
   Example:
-      >>> dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
-      >>> defaults = {"c": 99}
-      >>> ensure_key_value_pair(dict_, defaults, "x")
-      >>> dict_["c"]["x"]
-      99
+    Input :
+      dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
+      default_dict = {"c": 99}
+      sub_key = "x"
+    Output:
+      dict_["c"]["x"] == 99
   """
   for key, sub_dict in dict_.items():
     logger.debug(f"{key=}, {sub_dict=}")
@@ -110,15 +111,15 @@ def replace_list_occurrences(list_: list, lookup_dict: dict) -> None:
   Replace elements of a list in-place using a lookup dictionary.
 
   Args:
-      list_ (list): The list whose elements may be replaced.
-      lookup_dict (dict): A dictionary mapping old values to new values.
+    list_ (list): The list whose elements may be replaced.
+    lookup_dict (dict): A dictionary mapping old values to new values.
 
   Example:
-      >>> values = ["cat", "dog", "bird"]
-      >>> lookup = {"dog": "puppy", "bird": "parrot"}
-      >>> replace_list_occurrences(values, lookup)
-      >>> values
-      ['cat', 'puppy', 'parrot']
+    Input :
+      list_ = ["cat", "dog", "bird"]
+      lookup_dict = {"dog": "puppy", "bird": "parrot"}
+    Output:
+      list_ becomes ['cat', 'puppy', 'parrot']
   """
   for i in range(len(list_)):
     if list_[i] in lookup_dict:
@@ -130,14 +131,14 @@ def args_to_string(args: list | tuple | None) -> str:
   Convert a list or tuple of arguments into a single space-separated string with padding.
 
   Args:
-      args (list | tuple | None): Arguments to convert.
+    args (list | tuple | None): Arguments to convert.
 
   Returns:
-      str: Space-separated string representation.
+    str: Space-separated string representation.
 
   Example:
-      >>> args_to_string(["--debug", "--log", "file.txt"])
-      ' --debug --log file.txt '
+    Input : ["--debug", "--log", "file.txt"]
+    Output: " --debug --log file.txt "
   """
   if not args:
     return ''
@@ -205,8 +206,6 @@ def run_diagnostics() -> None:
     - Argument string formatting
     - Error logging (non-raising test only)
 
-  Example:
-      >>> run_diagnostics()
   """
   print("Running diagnostics for misc.py utilities...")
 
