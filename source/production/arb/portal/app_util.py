@@ -23,7 +23,7 @@ Typical Usage:
 from datetime import datetime
 from pathlib import Path
 
-from flask import redirect, render_template, request, url_for, Response
+from flask import Response, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 from sqlalchemy.ext.automap import AutomapBase

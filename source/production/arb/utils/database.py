@@ -16,14 +16,12 @@ Functions:
   - get_reflected_base(): Return a SQLAlchemy automap base
   - cleanse_misc_json(): Strip "Please Select" values from misc_json fields
 """
+import sqlite3
 from pathlib import Path
 
-from flask import Flask, app
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.automap import AutomapBase, automap_base
-from sqlalchemy.orm.attributes import flag_modified
-import sqlite3
 
 from arb.__get_logger import get_logger
 

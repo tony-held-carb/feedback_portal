@@ -25,6 +25,7 @@ To use the shared logger and formatter in other modules:
 """
 
 from pathlib import Path
+
 from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"

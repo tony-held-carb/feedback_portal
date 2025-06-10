@@ -16,8 +16,8 @@ Contents:
 import datetime
 
 from arb.__get_logger import get_logger
-from arb.utils.diagnostics import list_differences
 from arb.utils.constants import PLEASE_SELECT
+from arb.utils.diagnostics import list_differences
 
 logger, pp_log = get_logger()
 
