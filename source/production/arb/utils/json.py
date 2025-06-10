@@ -21,6 +21,7 @@ import decimal
 import json
 import logging
 import pathlib
+from typing import Any
 from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
@@ -206,18 +207,18 @@ def json_load(
 
 
 def json_load_with_meta(file_path: str | pathlib.Path,
-                        json_options: dict | None = None) -> tuple[object, dict]:
+                        json_options: dict | None = None) -> tuple[Any, dict]:
   """
   Load a JSON file and return both data and metadata if present.
 
   Args:
-      file_path (str | Path): Path to the JSON file.
-      json_options (dict | None): Optional options passed to `json.load`.
+    file_path (str | Path): Path to the JSON file.
+    json_options (dict | None): Optional options passed to `json.load`.
 
   Returns:
-      tuple:
-          - object: Deserialized data in "_data_" (or full file if not present).
-          - dict: Deserialized Metadata in "_metadata_" (or empty if not present).
+    tuple:
+      - Any: Deserialized data from "_data_" (or the entire file if "_data_" is not present).
+      - dict: Deserialized metadata from "_metadata_" (or empty dict if not present).
 
   Example:
       >>> data, meta = json_load_with_meta("example.json")

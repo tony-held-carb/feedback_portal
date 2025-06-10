@@ -23,7 +23,7 @@ Typical Usage:
 from datetime import datetime
 from pathlib import Path
 
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, Response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 from sqlalchemy.ext.automap import AutomapBase
@@ -56,7 +56,7 @@ def get_sector_info(db: SQLAlchemy,
 
   Args:
     db (SQLAlchemy): SQLAlchemy database instance.
-    base (AutomapBase): SQLAlchemy automapped declarative base.
+    base (AutomapBase): SQLAlchemy Automapped declarative base.
     id_ (int): ID of the row in the `incidences` table.
 
   Returns:
@@ -65,8 +65,6 @@ def get_sector_info(db: SQLAlchemy,
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
   json_column = "misc_json"
-  sector = None
-  sector_type = None
 
   # Find the sector from the foreign table if incidence was created by plume tracker.
   sector_by_foreign_key = get_foreign_value(
@@ -114,7 +112,6 @@ def resolve_sector(sector_by_foreign_key: str | None,
     ValueError: If values are missing or conflict.
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
-  sector = None
   sector_by_json = misc_json.get("sector")
 
   if sector_by_foreign_key is None:
@@ -164,7 +161,7 @@ def upload_and_update_db(db: SQLAlchemy,
                          upload_dir: str | Path,
                          request_file: FileStorage,
                          base: AutomapBase
-                         ) -> tuple[str, int | None, str | None]:
+                         ) -> tuple[Path, int | None, str | None]:
   """
   Save uploaded file, parse contents, and insert or update DB rows.
 
@@ -175,7 +172,7 @@ def upload_and_update_db(db: SQLAlchemy,
     base (AutomapBase): Automapped schema metadata.
 
   Returns:
-    tuple[str, int | None, str | None]: Filename, id_incidence, sector.
+    tuple[Path, int | None, str | None]: Filename, id_incidence, sector.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -184,8 +181,8 @@ def upload_and_update_db(db: SQLAlchemy,
   file_name = upload_single_file(upload_dir, request_file)
   add_file_to_upload_table(db, file_name, status="File Added", description=None)
 
-  # if file is xl and can be converted to json,
-  # save a json version of the file and return the filename
+  # if the file is xl and can be converted to JSON,
+  # save a JSON version of the file and return the filename
   json_file_name = get_json_file_name(file_name)
   if json_file_name:
     id_, sector = json_file_to_db(db, json_file_name, base)
@@ -203,7 +200,7 @@ def json_file_to_db(db: SQLAlchemy,
   Args:
     db (SQLAlchemy): SQLAlchemy session used to commit the new row.
     file_name (str | Path): Path to the JSON file on disk.
-    base (AutomapBase): SQLAlchemy automapped metadata base.
+    base (AutomapBase): SQLAlchemy Automapped metadata base.
 
   Returns:
     tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
@@ -345,7 +342,7 @@ def dict_to_database(db,
   session.add(model)
   session.commit()
 
-  # Final safety: extract final PK from model
+  # Final safety: extract final PK from the model
   try:
     return getattr(model, primary_key)
   except AttributeError as e:
@@ -383,13 +380,13 @@ def add_file_to_upload_table(db, file_name: str | Path,
   logger.debug(f"{model_uploaded_file=}")
 
 
-def apply_portal_update_filters(query, PortalUpdate, args: dict):
+def apply_portal_update_filters(query, portal_update_model, args: dict):
   """
   Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.
 
   Args:
     query (SQLAlchemy Query): Query to be filtered.
-    PortalUpdate (Base): ORM model class for the portal_updates table.
+    portal_update_model (Base): ORM model class for the portal_updates table.
     args (dict): Typically from `request.args`, containing filter values.
 
   Supported filters:
@@ -417,11 +414,11 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
   end_date_str = args.get("end_date", "").strip()
 
   if filter_key:
-    query = query.filter(PortalUpdate.key.ilike(f"%{filter_key}%"))
+    query = query.filter(portal_update_model.key.ilike(f"%{filter_key}%"))
   if filter_user:
-    query = query.filter(PortalUpdate.user.ilike(f"%{filter_user}%"))
+    query = query.filter(portal_update_model.user.ilike(f"%{filter_user}%"))
   if filter_comments:
-    query = query.filter(PortalUpdate.comments.ilike(f"%{filter_comments}%"))
+    query = query.filter(portal_update_model.comments.ilike(f"%{filter_comments}%"))
 
   if filter_id_incidence:
     id_exact = set()
@@ -440,13 +437,13 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
             start_val = int(start)
             end_val = int(end)
             if start_val <= end_val:
-              id_range_clauses.append(PortalUpdate.id_incidence.between(start_val, end_val))
+              id_range_clauses.append(portal_update_model.id_incidence.between(start_val, end_val))
           elif start:
             start_val = int(start)
-            id_range_clauses.append(PortalUpdate.id_incidence >= start_val)
+            id_range_clauses.append(portal_update_model.id_incidence >= start_val)
           elif end:
             end_val = int(end)
-            id_range_clauses.append(PortalUpdate.id_incidence <= end_val)
+            id_range_clauses.append(portal_update_model.id_incidence <= end_val)
         except ValueError:
           continue  # Ignore malformed part
       elif part.isdigit():
@@ -454,7 +451,7 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
 
     clause_list = []
     if id_exact:
-      clause_list.append(PortalUpdate.id_incidence.in_(sorted(id_exact)))
+      clause_list.append(portal_update_model.id_incidence.in_(sorted(id_exact)))
     clause_list.extend(id_range_clauses)
 
     if clause_list:
@@ -463,21 +460,21 @@ def apply_portal_update_filters(query, PortalUpdate, args: dict):
   try:
     if start_date_str:
       start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
-      query = query.filter(PortalUpdate.timestamp >= start_dt)
+      query = query.filter(portal_update_model.timestamp >= start_dt)
     if end_date_str:
       end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
       end_dt = end_dt.replace(hour=23, minute=59, second=59)
-      query = query.filter(PortalUpdate.timestamp <= end_dt)
+      query = query.filter(portal_update_model.timestamp <= end_dt)
   except ValueError:
     pass  # Silently ignore invalid date inputs
 
   return query
 
 
-def incidence_prep(model_row: DeclarativeMeta,
+def incidence_prep(model_row: AutomapBase,
                    crud_type: str,
                    sector_type: str,
-                   default_dropdown: str) -> str:
+                   default_dropdown: str) -> str | Response:
   """
   Generate the context and render the HTML template for a feedback record.
 
@@ -486,7 +483,7 @@ def incidence_prep(model_row: DeclarativeMeta,
   dropdown resets, CSRF-less validation, and feedback record persistence.
 
   Args:
-    model_row (DeclarativeMeta): SQLAlchemy model row for the feedback entry.
+    model_row (AutomapBase): SQLAlchemy AutomapBase.
     crud_type (str): 'create' or 'update'.
     sector_type (str): 'Oil & Gas' or 'Landfill'.
     default_dropdown (str): Value used to fill in blank selects.
@@ -497,7 +494,7 @@ def incidence_prep(model_row: DeclarativeMeta,
   Raises:
     ValueError: If the sector type is invalid.
   """
-  # imports below can't be moved to top of file because they require Globals to be initialized
+  # The imports below can't be moved to the top of the file because they require Globals to be initialized
   # prior to first use (Globals.load_drop_downs(app, db)).
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
@@ -540,9 +537,9 @@ def incidence_prep(model_row: DeclarativeMeta,
   if request.method == 'POST':
     # Validate and count errors
     wtf_form.validate()
-    error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
+    _ = wtf_count_errors(wtf_form, log_errors=True)
 
-    # Diagnostics of model before updating with wtform values
+    # Diagnostics of the model before updating with wtform values
     # Likely can comment out model_before and add_commit_and_log_model
     # if you want less diagnostics and redundant commits
     model_before = sa_model_to_dict(model_row)
@@ -552,7 +549,7 @@ def incidence_prep(model_row: DeclarativeMeta,
                              comment='call to wtform_to_model()',
                              model_before=model_before)
 
-    # Determine course of action for successful database update based on which button was submitted
+    # Determine the course of action for successful database update based on which button was submitted
     button = request.form.get('submit_button')
 
     # todo - change the button name to save?
@@ -569,5 +566,5 @@ def incidence_prep(model_row: DeclarativeMeta,
                          wtf_form=wtf_form,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
-                         id_incidence=model_row.id_incidence,
+                         id_incidence=getattr(model_row, "id_incidence", None),
                          )

@@ -31,7 +31,7 @@ from arb.__get_logger import get_logger
 from arb.portal.config import get_config
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
-from arb.portal.routes import main  # Replace with modular blueprints if separated
+from arb.portal.routes import main
 from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.utils.database import get_reflected_base
@@ -46,8 +46,8 @@ def create_app() -> Flask:
   Create and configure the ARB Feedback Portal Flask application.
 
   Follows the Flask application factory pattern. This function loads configuration,
-  initializes extensions, binds SQLAlchemy to the app, and registers route blueprints
-  and global utilities.
+  initializes extensions, binds SQLAlchemy to the app, and registers the
+  route blueprints and global utilities.
 
   Returns:
     Flask: A fully initialized Flask application instance with:

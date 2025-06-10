@@ -13,12 +13,12 @@ from decimal import Decimal
 from typing import Callable
 
 from flask_wtf import FlaskForm
-from sqlalchemy.orm.attributes import flag_modified
+from sqlalchemy.ext.automap import AutomapBase
+from sqlalchemy.ext.declarative import DeclarativeMeta
 from wtforms import SelectField, ValidationError
 from wtforms.fields import DateTimeField, DecimalField
-from wtforms.validators import InputRequired, Optional
-from sqlalchemy.ext.declarative import DeclarativeMeta
 from wtforms.fields.core import Field
+from wtforms.validators import InputRequired, Optional
 
 from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
@@ -327,7 +327,7 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict[str, int
   return error_count_dict
 
 
-def model_to_wtform(model: DeclarativeMeta,
+def model_to_wtform(model: AutomapBase,
                     wtform: FlaskForm,
                     json_column: str = "misc_json") -> None:
   """
@@ -338,7 +338,7 @@ def model_to_wtform(model: DeclarativeMeta,
   and validation of pre-filled forms.
 
   Args:
-    model (DeclarativeMeta): SQLAlchemy model instance containing a JSON column.
+    model (AutomapBase): SQLAlchemy model instance containing a JSON column.
     wtform (FlaskForm): The WTForm instance to populate.
     json_column (str): The attribute name of the JSON column. Defaults to "misc_json".
 
@@ -425,7 +425,7 @@ def format_raw_data(field: Field, value) -> list[str]:
     raise ValueError(f"Unsupported type for raw_data: {type(value)} with value {value}")
 
 
-def wtform_to_model(model: DeclarativeMeta,
+def wtform_to_model(model: AutomapBase,
                     wtform: FlaskForm,
                     json_column: str = "misc_json",
                     user: str = "anonymous",
@@ -436,7 +436,7 @@ def wtform_to_model(model: DeclarativeMeta,
   Extract data from a WTForm and update the model's JSON column. Logs all changes.
 
   Args:
-    model (DeclarativeMeta): SQLAlchemy model instance.
+    model (AutomapBase): SQLAlchemy model instance.
     wtform (FlaskForm): WTForm with typed Python values.
     json_column (str): JSON column name on the model.
     user (str): Username for logging purposes.
