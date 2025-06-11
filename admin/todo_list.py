@@ -2,6 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
+* just applied hotfix
 * next step is to clean up the wtforms as they are massive and duplicative
   and we will be creating energy and other forms shortly.
 
