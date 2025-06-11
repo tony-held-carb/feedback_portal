@@ -121,8 +121,12 @@ def resolve_sector(sector_by_foreign_key: str | None,
   Returns:
     str: Sector string.
 
+  Notes:
+    Can't control if the database changes the sector in a foreign table.
+    rather than raise an error if json and foreign key have different sectors,
+    the json sector will be assumed correct if in conflict.
   Raises:
-    ValueError: If values are missing or conflict.
+    ValueError: If values are missing or conflict.   <-- this was turned off
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
   sector_by_json = misc_json.get("sector")
@@ -140,9 +144,10 @@ def resolve_sector(sector_by_foreign_key: str | None,
   if sector_by_foreign_key is not None and sector_by_json is not None:
     if sector_by_foreign_key != sector_by_json:
       logger.error(f"Sector mismatch: {sector_by_foreign_key=}, {sector_by_json=}")
-      raise ValueError("Can't determine incidence sector")
+      # raise ValueError("Can't determine incidence sector")
 
-  sector = sector_by_foreign_key or sector_by_json
+  # sector_by_json given priority over foreign key
+  sector = sector_by_json or sector_by_foreign_key
 
   logger.debug(f"resolve_sector() returning {sector=}")
   return sector
