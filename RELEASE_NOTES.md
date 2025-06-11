@@ -2,9 +2,14 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
+### v1.6.0 - 2025-06-11
+- Debug version 1.6.0.  Stable, needs to be externally tested.
+- Patch to warn rather than fail when sector types disagree between 
+  the feedback form and foreign key table.
+
 ### v1.5.0 - 2025-06-10
 - Debug version 1.5.0.  Stable, needs to be externally tested.
-- Refactored to break up large files and facilitate unit teseting.
+- Refactored to break up large files and facilitate unit testing.
 
 ### v1.4.0 - 2025-06-08
 - Debug version 1.4.0.  Stable, needs to be externally tested.
