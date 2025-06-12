@@ -16,6 +16,7 @@ from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.datastructures import FileStorage
 
 from arb.__get_logger import get_logger
+from arb.portal.config.accessors import get_upload_folder
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
@@ -283,3 +284,70 @@ def convert_excel_to_json_if_valid(file_path: Path) -> tuple[Path | None, str | 
   else:
     logger.warning(f"Unable to convert uploaded file to JSON: {file_path}")
     return None, None
+
+
+def store_staged_payload(id_: int, sector: str, json_data: dict) -> Path:
+  """
+  Save a parsed but uncommitted JSON payload to a staging directory.
+
+  Args:
+    id_ (int): Incidence ID.
+    sector (str): Sector name (used for file naming).
+    json_data (dict): Parsed JSON dictionary to save.
+
+  Returns:
+    Path: Path to the saved staging file.
+  """
+  from arb.utils.io_wrappers import save_json_safely
+
+  staging_dir = Path(get_upload_folder()) / "staging"
+  staging_dir.mkdir(parents=True, exist_ok=True)
+
+  file_name = f"id_{id_}_{sector.lower()}.json"
+  path = staging_dir / file_name
+  save_json_safely(json_data, path)
+  return path
+
+
+def upload_and_stage_only(db: SQLAlchemy,
+                          upload_dir: str | Path,
+                          request_file: FileStorage,
+                          base: AutomapBase
+                          ) -> tuple[Path, int | None, str | None, dict | None]:
+  """
+  Save uploaded file and extract its parsed JSON contents for staging only.
+
+  This function does NOT write to the database. It prepares and returns the
+  information needed for a staging preview: the file path, parsed JSON,
+  id_incidence, and sector.
+
+  Args:
+    db (SQLAlchemy): SQLAlchemy database object.
+    upload_dir (str | Path): Where to store uploaded files.
+    request_file (FileStorage): Incoming Flask file upload object.
+    base (AutomapBase): Reflected schema metadata.
+
+  Returns:
+    tuple[Path, int | None, str | None, dict | None]: Saved file path, id,
+    sector name, and parsed JSON payload.
+  """
+  logger.debug("upload_and_stage_only() called.")
+  file_path = upload_single_file(upload_dir, request_file)
+  add_file_to_upload_table(db, file_path, status="File Added", description=None)
+
+  json_path, json_data = convert_upload_to_json(file_path)
+  if not json_path or not json_data:
+    logger.warning(f"Could not convert uploaded file to JSON: {file_path}")
+    return file_path, None, None, None
+
+  try:
+    id_ = json_data["metadata"]["id_incidence"]
+    if id_ is None:
+      raise ValueError("id_incidence is None")
+    if not isinstance(id_, int):
+      raise ValueError(f"id_incidence is not an integer: {id_}")
+    sector = extract_sector_from_json(json_data)
+    return file_path, id_, sector, json_data
+  except Exception as e:
+    logger.warning(f"Staging aborted: missing or invalid id_incidence in {json_path} — {e}")
+    return file_path, None, None, None

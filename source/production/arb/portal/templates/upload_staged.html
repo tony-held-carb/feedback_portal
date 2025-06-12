@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Upload File (Staged){% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Upload File (Staged)</h2>
+
+  {% if upload_message %}
+    <div class="alert alert-info" role="alert">
+      {{ upload_message }}
+    </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" class="mt-4">
+    <div class="mb-3">
+      <label for="file" class="form-label">Select an Excel file to upload:</label>
+      <input class="form-control" type="file" name="file" id="file" accept=".xlsx,.xls">
+    </div>
+    <button class="btn btn-primary" type="submit">Stage Upload</button>
+  </form>
+
+  <hr>
+
+  <p class="text-muted mt-3">
+    This tool allows you to preview any updates before applying them to the database.
+  </p>
+</div>
+{% endblock %}
