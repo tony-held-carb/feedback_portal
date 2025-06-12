@@ -204,6 +204,7 @@ def upload_and_update_db(db: SQLAlchemy,
 
   return file_path, id_, sector
 
+
 def convert_file_to_json(file_path: Path) -> Path | None:
   """
   Convert an uploaded Excel file to a JSON file, if possible.
