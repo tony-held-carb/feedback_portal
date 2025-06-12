@@ -155,10 +155,10 @@ def run_diagnostics() -> None:
     - Logs diagnostic information using the project logger.
   """
 
-  logger.info("Running UploadedFile diagnostics...")
+  logger.info(f"Running UploadedFile diagnostics...")
 
   try:
-    logger.debug("Beginning diagnostic transaction...")
+    logger.debug(f"Beginning diagnostic transaction...")
     test_file = UploadedFile(
       path="uploads/test_file.xlsx",
       description="Diagnostic test file",
@@ -182,6 +182,6 @@ def run_diagnostics() -> None:
     raise RuntimeError("Database error during UploadedFile diagnostics.") from e
 
   finally:
-    logger.debug("Rolling back diagnostic transaction.")
+    logger.debug(f"Rolling back diagnostic transaction.")
     db.session.rollback()
-    logger.info("Diagnostics completed and transaction rolled back.")
+    logger.info(f"Diagnostics completed and transaction rolled back.")

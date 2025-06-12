@@ -237,7 +237,7 @@ def upload_file(message=None) -> str | Response:
     - Catches and logs exceptions during upload and parsing.
   """
 
-  logger.debug("upload_file route called.")
+  logger.debug(f"upload_file route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
@@ -252,7 +252,7 @@ def upload_file(message=None) -> str | Response:
   if request.method == 'POST':
     try:
       if 'file' not in request.files or not request.files['file'].filename:
-        logger.warning("No file selected in POST request.")
+        logger.warning(f"No file selected in POST request.")
         return render_template('upload.html', upload_message="No file selected. Please choose a file.")
 
       request_file = request.files['file']

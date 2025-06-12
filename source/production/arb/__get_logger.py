@@ -20,7 +20,7 @@ Import and initialize the logger in any module:
   from arb import __get_logger as get_logger
   logger, pp_log = get_logger(__name__)
 
-  logger.debug("Basic log message")
+  logger.debug(f"Basic log message")
   logger.debug(pp_log({"structured": "data", "for": "inspection"}))
 
 To customize behavior:
@@ -163,6 +163,6 @@ def get_pretty_printer(**kwargs: Any) -> tuple[pprint.PrettyPrinter, callable]:
 if __name__ == "__main__":
   root_logger = file_path = Path(__file__).resolve().parents[3] / "logs"
   logger, pp_log = get_logger(file_path=root_logger, log_to_console=True)
-  logger.debug("Hello, world!")
+  logger.debug(f"Hello, world!")
   logger.debug(pp_log({"hello": "world"}))
   logger.debug(pp_log({"hello": "world", "nested": {"data": "structure"}}))

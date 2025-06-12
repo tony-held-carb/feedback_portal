@@ -62,7 +62,7 @@ class Globals:
 
     from arb.portal.db_hardcoded import get_excel_dropdown_data
 
-    logger.debug("In load_drop_downs()")
+    logger.debug(f"In load_drop_downs()")
 
     Globals.drop_downs, Globals.drop_downs_contingent = get_excel_dropdown_data()
 

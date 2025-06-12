@@ -295,17 +295,17 @@ def compare_json_files(
   data_1, meta_1 = json_load_with_meta(file_name_1)
   data_2, meta_2 = json_load_with_meta(file_name_2)
 
-  logger.debug("Comparing metadata")
+  logger.debug(f"Comparing metadata")
   if compare_dicts(meta_1, meta_2, "metadata_01", "metadata_02") is True:
-    logger.debug("Metadata are equivalent")
+    logger.debug(f"Metadata are equivalent")
   else:
-    logger.debug("Metadata differ")
+    logger.debug(f"Metadata differ")
 
-  logger.debug("Comparing data")
+  logger.debug(f"Comparing data")
   if compare_dicts(data_1, data_2, "data_01", "data_02") is True:
-    logger.debug("Data are equivalent")
+    logger.debug(f"Data are equivalent")
   else:
-    logger.debug("Data differ")
+    logger.debug(f"Data differ")
 
 
 def cast_model_value(

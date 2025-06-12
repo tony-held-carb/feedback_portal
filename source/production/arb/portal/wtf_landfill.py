@@ -345,7 +345,7 @@ class LandfillFeedback(FlaskForm):
     """
     # todo - update contingent dropdowns?
 
-    logger.debug("Running update_contingent_selectors()")
+    logger.debug(f"Running update_contingent_selectors()")
 
     emission_location = self.emission_location.data
     logger.debug(f"Selected emission_location: {emission_location!r}")
@@ -421,7 +421,7 @@ class LandfillFeedback(FlaskForm):
     # This will create the form.errors dictionary.  If there are form_errors they will be in the None key.
     # The form_errors will not affect if validate returns True/False, only the fields are considered.
     ###################################################################################################
-    # logger.debug("in the validator before super")
+    # logger.debug(f"in the validator before super")
     obj_diagnostics(self, message="in the validator before super")
 
     _ = super().validate(extra_validators=extra_validators)

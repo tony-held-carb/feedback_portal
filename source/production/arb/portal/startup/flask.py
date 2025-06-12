@@ -50,7 +50,7 @@ def configure_flask_app(app: Flask) -> None:
         * Applies `LOG_LEVEL` from app config
         * Disables Werkzeug color log markup
   """
-  logger.debug("configure_flask_app() called")
+  logger.debug(f"configure_flask_app() called")
 
   app.jinja_env.globals["app_name"] = "CARB Feedback Portal"
 
@@ -85,4 +85,4 @@ def configure_flask_app(app: Flask) -> None:
 
   # Jinja: expose Python ZoneInfo class to templates for local time conversion
   app.jinja_env.globals["california_tz"] = ZoneInfo("America/Los_Angeles")
-  logger.debug("Flask Jinja2 globals and logging initialized.")
+  logger.debug(f"Flask Jinja2 globals and logging initialized.")

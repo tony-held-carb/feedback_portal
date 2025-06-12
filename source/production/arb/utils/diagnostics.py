@@ -216,14 +216,14 @@ def compare_dicts(dict1: dict,
   }
 
   if keys_in_dict1_not_in_dict2 or keys_in_dict2_not_in_dict1 or differing_values:
-    logger.debug("Key differences:")
+    logger.debug(f"Key differences:")
     if keys_in_dict1_not_in_dict2:
       logger.debug(f"- In {dict1_name} but not in {dict2_name}: {sorted(keys_in_dict1_not_in_dict2)}")
     if keys_in_dict2_not_in_dict1:
       logger.debug(f"- In {dict2_name} but not in {dict1_name}: {sorted(keys_in_dict2_not_in_dict1)}")
 
     if differing_values:
-      logger.debug("Value differences:")
+      logger.debug(f"Value differences:")
       for key, (v1, v2) in dict(sorted(differing_values.items())).items():
         logger.debug(f"- Key: '{key}', {dict1_name}: {v1}, {dict2_name}: {v2}")
 
@@ -261,7 +261,7 @@ def run_diagnostics() -> None:
 
   Logs example output for each function.
   """
-  logger.debug("Running diagnostics on arb.utils.diagnostics module")
+  logger.debug(f"Running diagnostics on arb.utils.diagnostics module")
 
   # obj_diagnostics
   class TestClass:
@@ -285,11 +285,11 @@ def run_diagnostics() -> None:
 
   # dict_to_str
   nested_dict = {"a": 1, "b": {"c": 2, "d": {"e": 3}}}
-  logger.debug("dict_to_str output:\t" + dict_to_str(nested_dict))
+  logger.debug(f"dict_to_str output:\t" + dict_to_str(nested_dict))
 
   # obj_to_html
   html_result = obj_to_html(nested_dict)
-  logger.debug("HTML representation of object (truncated):\t" + html_result[:300])
+  logger.debug(f"HTML representation of object (truncated):\t" + html_result[:300])
 
   # compare_dicts
   d1 = {"x": 1, "y": 2, "z": 3}

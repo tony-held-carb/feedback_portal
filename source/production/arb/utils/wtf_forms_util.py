@@ -275,7 +275,7 @@ def model_to_wtform(model: AutomapBase,
   # if isinstance(model_json_dict, str):
   #   try:
   #     model_json_dict = json.loads(model_json_dict)
-  #     logger.debug("Parsed JSON string into dict.")
+  #     logger.debug(f"Parsed JSON string into dict.")
   #   except json.JSONDecodeError:
   #     logger.warning(f"Invalid JSON in model's '{json_column}' column.")
   #     model_json_dict = {}
@@ -578,7 +578,7 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
   if default is None:
     default = PLEASE_SELECT
 
-  logger.debug("Initializing drop-downs...")
+  logger.debug(f"Initializing drop-downs...")
   for field in form:
     if isinstance(field, SelectField) and field.data is None:
       logger.debug(f"{field.name} set to default value: {default}")
