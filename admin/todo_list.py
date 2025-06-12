@@ -2,8 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-* next step is to clean up the wtforms as they are massive and duplicative
-  and we will be creating energy and other forms shortly.
+* beginning refactor 20 to stage excel spreadsheet uploads
 
 
 * future initiatives
@@ -41,6 +40,7 @@
   * figure out if we want data to initially only be cached and then updated afterwards
   * so you can revert back to old state when you propose a spreadsheet upload
   * add flask user authentication and add to logging routines
+  * refactor forms as they are currently duplicative
 
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
