@@ -11,7 +11,6 @@ from pathlib import Path
 from flask_sqlalchemy import SQLAlchemy
 
 from arb.__get_logger import get_logger
-from arb.portal.config.accessors import get_upload_folder
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')

@@ -14,7 +14,6 @@ from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
-from sqlalchemy.orm import DeclarativeMeta
 
 from arb.__get_logger import get_logger
 from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
