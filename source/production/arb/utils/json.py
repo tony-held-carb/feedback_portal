@@ -37,6 +37,7 @@ from arb.utils.diagnostics import compare_dicts
 __version__ = "1.0.0"
 
 from arb.utils.misc import safe_cast
+from arb.utils.io_wrappers import save_json_safely, read_json_file
 
 logger, pp_log = get_logger()
 
@@ -138,8 +139,7 @@ def json_save(
   if json_options is None:
     json_options = {"default": json_serializer, "indent": 4}
 
-  with open(file_path, "w", encoding="utf-8") as f:
-    json.dump(data, f, **json_options)
+  save_json_safely(data, file_path, encoding="utf-8", json_options=json_options)
 
   logger.debug(f"JSON saved to file: '{file_path}'.")
 
@@ -213,8 +213,7 @@ def json_load(
   if json_options is None:
     json_options = {"object_hook": json_deserializer}
 
-  with open(file_path, "r", encoding="utf-8-sig") as f:
-    return json.load(f, **json_options)
+  return read_json_file(file_path, encoding="utf-8-sig", json_options=json_options)
 
 
 def json_load_with_meta(file_path: str | pathlib.Path,
@@ -458,6 +457,54 @@ def deserialize_dict(
   return result
 
 
+def safe_json_loads(value: str | dict | None, context_label: str = "") -> dict:
+  """
+  Safely parse a JSON string into a Python dictionary.
+
+  This utility defensively decodes JSON content from sources like database columns,
+  user input, or file contents. It handles malformed or null input gracefully and
+  guarantees a dictionary result, logging detailed warnings with context if parsing fails.
+
+  Args:
+    value (str | dict | None): JSON-formatted string, pre-decoded dict, or None.
+      Common inputs include SQLAlchemy model columns (e.g., `model.misc_json`) that
+      may contain raw strings or ORM-decoded dicts.
+    context_label (str): Optional label for diagnostics/logging.
+      Used in log messages to identify which field or source caused a failure.
+
+  Returns:
+    dict: Parsed dictionary from the input, or empty dict if input is None, invalid,
+      or already a valid dict.
+
+  Raises:
+    TypeError: If `value` is not a str, dict, or None.
+
+  Notes:
+    - If `value` is already a dict, it is returned unchanged.
+    - If `value` is None, empty, or invalid JSON, an empty dict is returned.
+    - If decoding fails, a warning is logged including the context_label.
+
+  Example Usage:
+    safe_json_loads(model.misc_json, context_label="model.misc_json")
+    safe_json_loads(data, context_label="user_profile_json")
+  """
+  if value is None or (isinstance(value, str) and value.strip() == ""):
+    return {}
+
+  if isinstance(value, dict):
+    return value
+
+  if not isinstance(value, str):
+    raise TypeError(f"Expected str, dict, or None; got {type(value).__name__}")
+
+  try:
+    return json.loads(value)
+  except json.JSONDecodeError:
+    label_msg = f" ({context_label})" if context_label else ""
+    logger.warning(f"Corrupt or invalid JSON string encountered{label_msg}; returning empty dict.")
+    return {}
+
+
 def run_diagnostics() -> None:
   """
   Run internal validation for all JSON utilities.
@@ -507,8 +554,11 @@ def run_diagnostics() -> None:
     assert "note" in loaded_meta, "Metadata not found"
 
     # Write plain file, with serializer included, then enrich with metadata
-    with open(plain_file, "w", encoding="utf-8") as f:
-      json.dump(data, f, indent=2, default=json_serializer)
+    save_json_safely(data,
+                     plain_file,
+                     encoding="utf-8",
+                     json_options={"indent": 2, "default": json_serializer})
+
     add_metadata_to_json(plain_file)
 
     # Compare metadata-enriched files
