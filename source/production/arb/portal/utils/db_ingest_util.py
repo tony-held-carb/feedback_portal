@@ -18,8 +18,8 @@ from werkzeug.datastructures import FileStorage
 from arb.__get_logger import get_logger
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
-from arb.utils.excel.xl_parse import get_json_file_name  # ✅ confirmed working version
-from arb.utils.json import json_load_with_meta  # ✅ confirmed working version
+from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
+from arb.utils.json import json_load_with_meta
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
@@ -167,7 +167,7 @@ def upload_and_update_db_old(db: SQLAlchemy,
 
   # if the file is xl and can be converted to JSON,
   # save a JSON version of the file and return the filename
-  json_file_name = get_json_file_name(file_name)
+  json_file_name = get_json_file_name_old(file_name)
   if json_file_name:
     id_, sector = json_file_to_db(db, json_file_name, base)
 
@@ -189,7 +189,7 @@ def upload_and_update_db(db: SQLAlchemy,
     base (AutomapBase): Reflected metadata base.
 
   Returns:
-    tuple[Path, int | None, str | None]: Saved file path, id, and sector.
+    tuple[Path, int | None, str | None]: Saved file path, id_incidence, and sector.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -198,15 +198,17 @@ def upload_and_update_db(db: SQLAlchemy,
   file_path = upload_single_file(upload_dir, request_file)
   add_file_to_upload_table(db, file_path, status="File Added", description=None)
 
-  json_path = convert_file_to_json(file_path)
+  json_path, sector = convert_excel_to_json_if_valid(file_path)
   if json_path:
-    id_, sector = prepare_staged_update(json_path, db, base)
+    id_, _ = prepare_staged_update(json_path, db, base)
 
   return file_path, id_, sector
 
 
-def convert_file_to_json(file_path: Path) -> Path | None:
+def convert_file_to_json_old(file_path: Path) -> Path | None:
   """
+  Depreciated. use convert_excel_to_json_if_valid instead.
+
   Convert an uploaded Excel file to a JSON file, if possible.
 
   Args:
@@ -215,7 +217,7 @@ def convert_file_to_json(file_path: Path) -> Path | None:
   Returns:
     Path | None: Path to the generated JSON file, or None if conversion failed.
   """
-  json_file_path = get_json_file_name(file_path)
+  json_file_path = get_json_file_name_old(file_path)
   if not json_file_path:
     logger.warning(f"File {file_path} could not be converted to JSON.")
     return None
@@ -240,3 +242,44 @@ def prepare_staged_update(json_path: Path,
     tuple[int | None, str | None]: id_incidence and sector name, if available.
   """
   return json_file_to_db(db, json_path, base)
+
+
+def extract_sector_from_json(json_path: Path) -> str | None:
+  """
+  Extract the sector name from a JSON file generated from Excel.
+
+  Args:
+    json_path (Path): Path to the JSON file.
+
+  Returns:
+    str | None: The sector name if found; otherwise, None.
+  """
+  try:
+    json_data, _ = json_load_with_meta(json_path)
+    return json_data.get("metadata", {}).get("sector")
+  except Exception as e:
+    logger.warning(f"Could not extract sector from {json_path}: {e}")
+    return None
+
+
+def convert_excel_to_json_if_valid(file_path: Path) -> tuple[Path | None, str | None]:
+  """
+  Convert an uploaded Excel or JSON file into a standardized JSON format,
+  and return the output path and detected sector.
+
+  Args:
+    file_path (Path): Path to uploaded file (Excel or JSON).
+
+  Returns:
+    tuple[Path | None, str | None]:
+      - JSON file path (parsed or original),
+      - sector string (if detected).
+  """
+  json_path = convert_upload_to_json(file_path)
+  if json_path:
+    logger.debug(f"File converted or passed through to JSON: {json_path}")
+    sector = extract_sector_from_json(json_path)
+    return json_path, sector
+  else:
+    logger.warning(f"Unable to convert uploaded file to JSON: {file_path}")
+    return None, None

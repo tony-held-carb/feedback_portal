@@ -350,10 +350,10 @@ def get_spreadsheet_key_value_pairs(wb: openpyxl.workbook.workbook.Workbook,
   return return_dict
 
 
-# todo - make sure this still works in the website
-#          likely should be broken up into sub components
-def get_json_file_name(file_name: Path) -> Path | None:
+def get_json_file_name_old(file_name: Path) -> Path | None:
   """
+  Depreciated: use convert_upload_to_json instead
+
   Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.
 
   Args:
@@ -391,6 +391,56 @@ def get_json_file_name(file_name: Path) -> Path | None:
     logger.debug(f"Unknown file type upload detected.  File name: {file_name}")
 
   return json_file_name
+
+
+def convert_upload_to_json(file_path: Path) -> Path | None:
+  """
+  Convert an uploaded Excel or JSON file into a valid JSON payload file.
+
+  Args:
+    file_path (Path): Path to the uploaded file.
+
+  Returns:
+    Path | None:
+      - Path to JSON file (either original or newly created), or
+      - None if file type is unsupported or conversion fails.
+
+  Behavior:
+    - If the file has a `.json` extension:
+        → Assume it is valid JSON and return as-is.
+    - If the file has a `.xlsx` extension:
+        → Attempt to parse using Excel schema logic.
+        → Save converted contents as a `.json` file in the same directory.
+        → Return the path to that JSON file.
+    - If the file is neither `.xlsx` nor `.json`:
+        → Log a warning and return None.
+
+  Side Effects:
+    - May write a `.json` file to disk if an Excel file is successfully parsed.
+  """
+  extension = file_path.suffix.lower()
+  json_path = None
+
+  if extension == ".xlsx":
+    logger.debug(f"Excel upload detected: {file_path}")
+    try:
+      xl_as_dict = parse_xl_file(file_path)
+      logger.debug(f"Parsed Excel to dict: {xl_as_dict.keys()}")
+      json_path = file_path.with_suffix(".json")
+      logger.debug(f"Saving Excel-derived JSON as: {json_path}")
+      json_save_with_meta(json_path, xl_as_dict)
+    except Exception as e:
+      logger.warning(f"Excel parsing failed for {file_path}: {e}")
+      return None
+
+  elif extension == ".json":
+    logger.debug(f"JSON upload detected: {file_path}")
+    json_path = file_path
+
+  else:
+    logger.warning(f"Unsupported file type: {file_path}")
+
+  return json_path
 
 
 def test_load_schema_file_map() -> None:

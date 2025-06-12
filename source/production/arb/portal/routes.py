@@ -222,65 +222,62 @@ def list_uploads() -> str:
 
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
-def upload_file(message=None) -> str | Response:
+def upload_file(message: str | None = None) -> str | Response:
   """
-  Upload an Excel file and process its contents.
+  Upload an Excel or JSON file, extract data, and optionally redirect to update form.
+
+  This route handles both GET (form rendering) and POST (file upload) requests.
+  If a valid file is uploaded and processed successfully, the user is redirected
+  to the appropriate incidence update page.
 
   Args:
-    message (str | None): Optional error/info message passed via redirect.
+    message (str | None): Optional message to display on page (from redirect).
 
   Returns:
-    str | Response: Renders the upload form or redirects to incidence update.
-
-  Notes:
-    - Supports drag-and-drop Excel upload.
-    - Catches and logs exceptions during upload and parsing.
+    str | Response: HTML response or redirect based on upload outcome.
   """
-
-  logger.debug(f"upload_file route called.")
+  logger.debug("upload_file route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
-  # Handle an optional URL message
+  # Decode optional redirect message
   if message:
     message = unquote(message)
-    logger.debug(f"upload_file called with message: {message}")
+    logger.debug(f"Received redirect message: {message}")
 
   upload_folder = get_upload_folder()
-  logger.debug(f"Upload request with: {request.files=}, upload_folder={upload_folder}")
+  logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
 
   if request.method == 'POST':
     try:
-      if 'file' not in request.files or not request.files['file'].filename:
-        logger.warning(f"No file selected in POST request.")
-        return render_template('upload.html', upload_message="No file selected. Please choose a file.")
+      request_file = request.files.get('file')
 
-      request_file = request.files['file']
+      if not request_file or not request_file.filename:
+        logger.warning("POST received with no file selected.")
+        return render_template('upload.html', form=form, upload_message="No file selected. Please choose a file.")
+
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
-      if request_file:
-        # todo - little confusing how the update logic works cascading from xl to json, etc
-        #        consider making the steps and function names a little clearer to help the
-        #        update to change logging
-        file_name, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
-        logger.debug(f"{sector=}")
+      # Stage and optionally ingest the uploaded file
+      file_path, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
 
-        if id_:
-          logger.debug(f"Upload successful: redirecting to incidence update for id={id_}")
-          return redirect(url_for('main.incidence_update', id_=id_))
-        else:
-          logger.debug(f"Upload did not match expected format: {file_name=}")
-          return render_template('upload.html', form=form, upload_message=f"Uploaded file: {file_name.name} — format not recognized.")
+      if id_:
+        logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
+        return redirect(url_for('main.incidence_update', id_=id_))
+
+      logger.warning(f"Upload failed schema recognition: {file_path=}")
+      return render_template('upload.html', form=form,
+                             upload_message=f"Uploaded file: {file_path.name} — format not recognized.")
 
     except Exception as e:
-      logger.exception("Error occurred during file upload.")
+      logger.exception("Exception occurred during upload or parsing.")
       return render_template(
         'upload.html',
-        upload_message="Error: Could not process the uploaded file. "
-                       "Make sure it is closed and try again."
+        form=form,
+        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
       )
 
-  # GET request
+  # GET request: render empty upload form
   return render_template('upload.html', form=form, upload_message=message)
 
 
