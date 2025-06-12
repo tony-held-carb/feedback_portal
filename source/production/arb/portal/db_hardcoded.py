@@ -64,7 +64,7 @@ def add_og_dummy_data(db, base, table_name) -> None:
   """
 
   from arb.utils.sql_alchemy import get_class_from_table_name
-  logger.debug("Adding dummy oil and gas data to populate the database")
+  logger.debug(f"Adding dummy oil and gas data to populate the database")
   table = get_class_from_table_name(base, table_name)
   col_name = "misc_json"
 

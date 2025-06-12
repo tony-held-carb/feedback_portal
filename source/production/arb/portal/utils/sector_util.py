@@ -132,13 +132,13 @@ def resolve_sector(sector_by_foreign_key: str | None,
   sector_by_json = misc_json.get("sector")
 
   if sector_by_foreign_key is None:
-    logger.warning("sector column value in sources table is None.")
+    logger.warning(f"sector column value in sources table is None.")
 
   if sector_by_json is None:
-    logger.warning("'sector' not in misc_json")
+    logger.warning(f"'sector' not in misc_json")
 
   if sector_by_foreign_key is None and sector_by_json is None:
-    logger.error("Can't determine incidence sector")
+    logger.error(f"Can't determine incidence sector")
     raise ValueError("Can't determine incidence sector")
 
   if sector_by_foreign_key is not None and sector_by_json is not None:

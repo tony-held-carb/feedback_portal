@@ -71,7 +71,7 @@ def sort_xl_schema(xl_schema: dict,
     Input : schema, sort_by="label_address"
     Output: New dictionary with sorted keys and reordered sub-schemas
   """
-  logger.debug("sort_xl_schema() called")
+  logger.debug(f"sort_xl_schema() called")
 
   # Reorder each sub-schema dict
   for variable_name, sub_schema in xl_schema.items():
@@ -84,10 +84,10 @@ def sort_xl_schema(xl_schema: dict,
 
   # Sort top-level dictionary
   if sort_by == "variable_name":
-    logger.debug("Sorting schema by variable_name")
+    logger.debug(f"Sorting schema by variable_name")
     sorted_items = dict(sorted(xl_schema.items(), key=lambda item: item[0]))
   elif sort_by == "label_address":
-    logger.debug("Sorting schema by label_address")
+    logger.debug(f"Sorting schema by label_address")
     get_xl_row = partial(
       xl_address_sort, address_location="value", sort_by="row", sub_keys="label_address"
     )
@@ -136,9 +136,9 @@ def schema_to_json_file(data: dict, schema_version: str, file_name: str = None) 
   # Verify round-trip serialization
   read_data, read_metadata = json_load_with_meta(file_name)
   if read_data == data and read_metadata == metadata:
-    logger.debug("SUCCESS: JSON serialization round-trip matches original.")
+    logger.debug(f"SUCCESS: JSON serialization round-trip matches original.")
   else:
-    logger.warning("FAILURE: Mismatch in JSON serialization round-trip.")
+    logger.warning(f"FAILURE: Mismatch in JSON serialization round-trip.")
 
 
 def update_vba_schema(
@@ -211,7 +211,7 @@ def update_vba_schemas() -> None:
     - Calls `update_vba_schema()` for each version.
     - Output schemas are written to the processed_versions/xl_schemas directory.
   """
-  logger.debug("update_vba_schemas() called")
+  logger.debug(f"update_vba_schemas() called")
 
   for schema_version in ["landfill_v01_00", "oil_and_gas_v01_00"]:
     update_vba_schema(schema_version)
@@ -378,7 +378,7 @@ def test_update_xlsx_payloads_01() -> None:
     - Uses both file-based and inline payloads.
     - Intended for development and diagnostic use, not production.
   """
-  logger.debug("test_update_xlsx_payloads_01() called")
+  logger.debug(f"test_update_xlsx_payloads_01() called")
 
   # Landfill test with two payloads from the file
   update_xlsx_payloads(
@@ -439,7 +439,7 @@ def prep_xl_templates() -> None:
     - Overwrites files in the output directory if they already exist.
     - Output directories are created if they don't exist.
   """
-  logger.debug("prep_xl_templates() called for landfill, oil and gas, and energy schemas")
+  logger.debug(f"prep_xl_templates() called for landfill, oil and gas, and energy schemas")
 
   file_specs = []
   input_dir = PROJECT_ROOT / "feedback_forms/current_versions"
@@ -509,7 +509,7 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
   """
   from arb.utils.excel.xl_hardcoded import default_value_types_v01_00
 
-  logger.debug("create_default_types_schema() called")
+  logger.debug(f"create_default_types_schema() called")
 
   file_name = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00.json"
   file_backup = PROCESSED_VERSIONS / "xl_schemas/default_value_types_v01_00_backup.json"
@@ -552,7 +552,7 @@ def create_payload(payload: dict, file_name: Path, schema_version: str, metadata
     - Logs all key actions and file paths for diagnostics.
   """
 
-  logger.debug("create_payload() called")
+  logger.debug(f"create_payload() called")
 
   if metadata is None:
     metadata = {}
@@ -582,7 +582,7 @@ def create_payloads() -> None:
     - Uses `create_payload()` to handle serialization and metadata embedding.
   """
 
-  logger.debug("create_payloads() called")
+  logger.debug(f"create_payloads() called")
 
   from arb.utils.excel.xl_hardcoded import landfill_payload_01, oil_and_gas_payload_01
 
@@ -625,7 +625,7 @@ def create_schemas_and_payloads() -> None:
     - Logs each operation and file path for debugging.
   """
 
-  logger.debug("create_schemas_and_payloads() called")
+  logger.debug(f"create_schemas_and_payloads() called")
 
   ensure_dir_exists(PROCESSED_VERSIONS / "xl_schemas")
   ensure_dir_exists(PROCESSED_VERSIONS / "xl_workbooks")
@@ -654,20 +654,20 @@ def run_diagnostics() -> None:
     - Catches and logs any exceptions that occur during testing.
     - Intended for developers to verify schema and workbook generation end-to-end.
   """
-  logger.info("Running diagnostics...")
+  logger.info(f"Running diagnostics...")
 
   try:
-    logger.info("Step 1: Creating default type schema")
+    logger.info(f"Step 1: Creating default type schema")
     create_default_types_schema(diagnostics=True)
 
-    logger.info("Step 2: Creating and verifying schema files and payloads")
+    logger.info(f"Step 2: Creating and verifying schema files and payloads")
     prep_xl_templates()
     create_payloads()
 
-    logger.info("Step 3: Performing test Excel generation")
+    logger.info(f"Step 3: Performing test Excel generation")
     test_update_xlsx_payloads_01()
 
-    logger.info("Diagnostics complete. Check output directory and logs for details.")
+    logger.info(f"Diagnostics complete. Check output directory and logs for details.")
 
   except Exception as e:
     logger.exception(f"Diagnostics failed: {e}")

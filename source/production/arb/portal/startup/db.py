@@ -37,9 +37,9 @@ def reflect_database() -> None:
     - Info: Start of reflection
     - Debug: Completion of reflection
   """
-  logger.info("Reflecting database metadata.")
+  logger.info(f"Reflecting database metadata.")
   db.metadata.reflect(bind=db.engine)
-  logger.debug("Reflection complete.")
+  logger.debug(f"Reflection complete.")
 
 
 def db_initialize() -> None:
@@ -54,7 +54,7 @@ def db_initialize() -> None:
   Example:
     import arb.portal.sqla_models as models
   """
-  logger.info("Initializing database models.")
+  logger.info(f"Initializing database models.")
   # Add model registration below
 
   # noinspection PyUnresolvedReferences
@@ -76,12 +76,12 @@ def db_create() -> None:
     - Debug: After schema creation completes
   """
   if current_app.config.get("FAST_LOAD", False) is True:
-    logger.warning("Skipping table creation for FAST_LOAD=True.")
+    logger.warning(f"Skipping table creation for FAST_LOAD=True.")
     return
 
-  logger.info("Creating all missing tables.")
+  logger.info(f"Creating all missing tables.")
   db.create_all()
-  logger.debug("Database schema created.")
+  logger.debug(f"Database schema created.")
 
 
 def db_initialize_and_create() -> None:
@@ -98,4 +98,4 @@ def db_initialize_and_create() -> None:
   """
   db_initialize()
   db_create()
-  logger.info("Database initialized and tables ensured.")
+  logger.info(f"Database initialized and tables ensured.")

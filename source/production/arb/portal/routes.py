@@ -26,6 +26,7 @@ from werkzeug.exceptions import abort
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.__get_logger import get_logger
+from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
@@ -210,7 +211,7 @@ def list_uploads() -> str:
   """
 
   logger.debug(f"in list_uploads")
-  upload_folder = current_app.config["UPLOAD_FOLDER"]
+  upload_folder = get_upload_folder()
   # up_dir = Path("portal/static/uploads")
   # print(f"{type(up_dir)=}: {up_dir=}")
   files = [x.name for x in upload_folder.iterdir() if x.is_file()]
@@ -236,7 +237,7 @@ def upload_file(message=None) -> str | Response:
     - Catches and logs exceptions during upload and parsing.
   """
 
-  logger.debug("upload_file route called.")
+  logger.debug(f"upload_file route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
@@ -245,13 +246,13 @@ def upload_file(message=None) -> str | Response:
     message = unquote(message)
     logger.debug(f"upload_file called with message: {message}")
 
-  upload_dir = current_app.config['UPLOAD_FOLDER']
-  logger.debug(f"Upload request with: {request.files=}, upload_dir={upload_dir}")
+  upload_folder = get_upload_folder()
+  logger.debug(f"Upload request with: {request.files=}, upload_folder={upload_folder}")
 
   if request.method == 'POST':
     try:
       if 'file' not in request.files or not request.files['file'].filename:
-        logger.warning("No file selected in POST request.")
+        logger.warning(f"No file selected in POST request.")
         return render_template('upload.html', upload_message="No file selected. Please choose a file.")
 
       request_file = request.files['file']
@@ -261,7 +262,7 @@ def upload_file(message=None) -> str | Response:
         # todo - little confusing how the update logic works cascading from xl to json, etc
         #        consider making the steps and function names a little clearer to help the
         #        update to change logging
-        file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
+        file_name, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
         logger.debug(f"{sector=}")
 
         if id_:
@@ -298,7 +299,7 @@ def serve_file(filename) -> Response:
     404 Not Found: If the file does not exist on disk.
   """
 
-  upload_folder = current_app.config["UPLOAD_FOLDER"]
+  upload_folder = get_upload_folder()
   file_path = os.path.join(upload_folder, filename)
 
   if not os.path.exists(file_path):

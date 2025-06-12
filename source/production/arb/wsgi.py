@@ -116,5 +116,5 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 app = create_app()
 
 if __name__ == "__main__":
-  logger.debug("in wsgi.py main")
+  logger.debug(f"in wsgi.py main")
   app.run(debug=True)  # <--- (debug=True) is critical for PyCharm-based debug mode

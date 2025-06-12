@@ -356,7 +356,7 @@ class OGFeedback(FlaskForm):
     # This will create the form.errors dictionary.  If there are form_errors they will be in the None key.
     # The form_errors will not affect if validate returns True/False, only the fields are considered.
     ###################################################################################################
-    # logger.debug("in the validator before super")
+    # logger.debug(f"in the validator before super")
     _ = super().validate(extra_validators=extra_validators)
 
     ###################################################################################################

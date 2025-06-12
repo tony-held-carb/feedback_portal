@@ -200,7 +200,7 @@ def datetime_to_ca_naive(dt: datetime,
   """
   if dt.tzinfo is None:
     if assume_naive_is_utc:
-      logger.warning("Assuming UTC for naive datetime.")
+      logger.warning(f"Assuming UTC for naive datetime.")
       dt = dt.replace(tzinfo=UTC_TZ)
     else:
       raise ValueError("Naive datetime provided without assume_naive_is_utc=True")

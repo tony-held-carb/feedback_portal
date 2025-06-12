@@ -152,7 +152,8 @@ def load_xl_schema(file_name: str | Path) -> tuple[dict, dict]:
   return schema, metadata
 
 
-def parse_xl_file(xl_path, schema_map=None) -> dict:
+def parse_xl_file(xl_path: str | Path,
+                  schema_map: dict[str, dict] | None = None) -> dict[str, dict]:
   """
   Parse a spreadsheet and return a dictionary representation using the given schema.
 

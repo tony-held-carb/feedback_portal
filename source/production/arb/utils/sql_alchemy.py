@@ -35,8 +35,6 @@ Version:
     1.0.0
 """
 
-import json
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc, inspect, text
 from sqlalchemy.engine import Engine
@@ -45,6 +43,7 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
 
 from arb.__get_logger import get_logger
+from arb.utils.json import safe_json_loads
 from arb.utils.misc import log_error
 
 __version__ = "1.0.0"
@@ -508,30 +507,30 @@ def load_model_json_column(model: AutomapBase, column_name: str) -> dict:
 
   This helper ensures that the value stored in a model's JSON column is returned
   as a Python dictionary, regardless of whether it's stored as a JSON string or
-  native dict in the database.
+  a native dict in the database.
 
   If the value is a malformed JSON string, a warning is logged and an empty dict is returned.
 
   Args:
-      model (AutomapBase): SQLAlchemy ORM model instance.
-      column_name (str): Name of the attribute on the model (e.g., 'misc_json').
+    model (AutomapBase): SQLAlchemy ORM model instance.
+    column_name (str): Name of the attribute on the model (e.g., 'misc_json').
 
   Returns:
-      dict: Parsed dictionary from the JSON column. Defaults to {} on failure or None.
+    dict: Parsed dictionary from the JSON column. Returns {} on failure, None, or invalid input type.
+
+  Raises:
+    TypeError: If the value is not a string, dict, or None.
   """
   raw_value = getattr(model, column_name)
-  if isinstance(raw_value, str):
-    try:
-      return json.loads(raw_value)
-    except json.JSONDecodeError:
-      logger.warning(f"Corrupt JSON found in {column_name}, resetting to empty dict.")
-      return {}
-  elif raw_value is None:
-    return {}
-  elif isinstance(raw_value, dict):
+
+  if isinstance(raw_value, dict):
     return raw_value
+  elif isinstance(raw_value, str) or raw_value is None:
+    return safe_json_loads(raw_value)
   else:
-    raise TypeError(f"Expected str, dict, or None for {column_name}, got {type(raw_value).__name__}")
+    raise TypeError(
+      f"Expected str, dict, or None for {column_name}, got {type(raw_value).__name__}"
+    )
 
 
 if __name__ == "__main__":

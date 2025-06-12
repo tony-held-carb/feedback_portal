@@ -24,6 +24,7 @@ from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import get_changed_fields, list_differences
 from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
+from arb.utils.json import safe_json_loads
 
 __version__ = "1.0.0"
 
@@ -270,14 +271,17 @@ def model_to_wtform(model: AutomapBase,
   model_json_dict = getattr(model, json_column)
   logger.debug(f"model_to_wtform called with model={model}, json={model_json_dict}")
 
-  # Ensure dict, not str
-  if isinstance(model_json_dict, str):
-    try:
-      model_json_dict = json.loads(model_json_dict)
-      logger.debug("Parsed JSON string into dict.")
-    except json.JSONDecodeError:
-      logger.warning(f"Invalid JSON in model's '{json_column}' column.")
-      model_json_dict = {}
+  # # Ensure dict, not str
+  # if isinstance(model_json_dict, str):
+  #   try:
+  #     model_json_dict = json.loads(model_json_dict)
+  #     logger.debug(f"Parsed JSON string into dict.")
+  #   except json.JSONDecodeError:
+  #     logger.warning(f"Invalid JSON in model's '{json_column}' column.")
+  #     model_json_dict = {}
+
+  if isinstance(model_json_dict, str) or model_json_dict is None:
+    model_json_dict = safe_json_loads(model_json_dict, context_label=f"model's '{json_column}' column")
 
   if model_json_dict is None:
     model_json_dict = {}
@@ -574,7 +578,7 @@ def initialize_drop_downs(form: FlaskForm, default: str = None) -> None:
   if default is None:
     default = PLEASE_SELECT
 
-  logger.debug("Initializing drop-downs...")
+  logger.debug(f"Initializing drop-downs...")
   for field in form:
     if isinstance(field, SelectField) and field.data is None:
       logger.debug(f"{field.name} set to default value: {default}")

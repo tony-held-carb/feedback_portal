@@ -40,7 +40,7 @@ logger, pp_log = get_logger()
 #     This is irreversible — all tables will be deleted.
 #   """
 #
-#   logger.debug("dropping all database tables")
+#   logger.debug(f"dropping all database tables")
 #
 #   # Create a database within app context
 #   with flask_app.app_context():
