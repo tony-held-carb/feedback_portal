@@ -18,8 +18,8 @@ from werkzeug.datastructures import FileStorage
 from arb.__get_logger import get_logger
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
-from arb.utils.excel.xl_parse import get_json_file_name
-from arb.utils.json import json_load_with_meta
+from arb.utils.excel.xl_parse import get_json_file_name  # ✅ confirmed working version
+from arb.utils.json import json_load_with_meta  # ✅ confirmed working version
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
@@ -115,12 +115,38 @@ def dict_to_database(db: SQLAlchemy,
     raise
 
 
-def upload_and_update_db(db: SQLAlchemy,
-                         upload_dir: str | Path,
-                         request_file: FileStorage,
-                         base: AutomapBase
-                         ) -> tuple[Path, int | None, str | None]:
+def json_file_to_db(db: SQLAlchemy,
+                    file_name: str | Path,
+                    base: AutomapBase
+                    ) -> tuple[int, str]:
   """
+  Parse a previously uploaded JSON file and write it to the DB.
+
+  Args:
+    db (SQLAlchemy): SQLAlchemy DB instance.
+    file_name (str | Path): Path to a .json file matching Excel schema.
+    base (AutomapBase): Reflected schema metadata.
+
+  Returns:
+    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
+
+  Raises:
+    FileNotFoundError: If the specified file path does not exist.
+    json.JSONDecodeError: If the file is not valid JSON.
+  """
+
+  json_as_dict, metadata = json_load_with_meta(file_name)
+  return xl_dict_to_database(db, base, json_as_dict)
+
+
+def upload_and_update_db_old(db: SQLAlchemy,
+                             upload_dir: str | Path,
+                             request_file: FileStorage,
+                             base: AutomapBase
+                             ) -> tuple[Path, int | None, str | None]:
+  """
+  Deprecated: used prior to staged update refactor (2025-06-11)
+
   Save uploaded file, parse contents, and insert or update DB rows.
 
   Args:
@@ -148,25 +174,68 @@ def upload_and_update_db(db: SQLAlchemy,
   return file_name, id_, sector
 
 
-def json_file_to_db(db: SQLAlchemy,
-                    file_name: str | Path,
-                    base: AutomapBase
-                    ) -> tuple[int, str]:
+def upload_and_update_db(db: SQLAlchemy,
+                         upload_dir: str | Path,
+                         request_file: FileStorage,
+                         base: AutomapBase
+                         ) -> tuple[Path, int | None, str | None]:
   """
-  Parse a previously uploaded JSON file and write it to the DB.
+  Legacy wrapper function: Save uploaded file, attempt Excel → JSON → DB ingest.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy DB instance.
-    file_name (str | Path): Path to a .json file matching Excel schema.
-    base (AutomapBase): Reflected schema metadata.
+    db (SQLAlchemy): Database instance.
+    upload_dir (str | Path): Upload destination path.
+    request_file (FileStorage): Incoming file from Flask.
+    base (AutomapBase): Reflected metadata base.
 
   Returns:
-    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
-
-  Raises:
-    FileNotFoundError: If the specified file path does not exist.
-    json.JSONDecodeError: If the file is not valid JSON.
+    tuple[Path, int | None, str | None]: Saved file path, id, and sector.
   """
+  logger.debug(f"upload_and_update_db() called with {request_file=}")
+  id_ = None
+  sector = None
 
-  json_as_dict, metadata = json_load_with_meta(file_name)
-  return xl_dict_to_database(db, base, json_as_dict)
+  file_path = upload_single_file(upload_dir, request_file)
+  add_file_to_upload_table(db, file_path, status="File Added", description=None)
+
+  json_path = convert_file_to_json(file_path)
+  if json_path:
+    id_, sector = prepare_staged_update(json_path, db, base)
+
+  return file_path, id_, sector
+
+def convert_file_to_json(file_path: Path) -> Path | None:
+  """
+  Convert an uploaded Excel file to a JSON file, if possible.
+
+  Args:
+    file_path (Path): Path to the saved Excel file.
+
+  Returns:
+    Path | None: Path to the generated JSON file, or None if conversion failed.
+  """
+  json_file_path = get_json_file_name(file_path)
+  if not json_file_path:
+    logger.warning(f"File {file_path} could not be converted to JSON.")
+    return None
+  logger.debug(f"Converted Excel to JSON: {json_file_path}")
+  return json_file_path
+
+
+def prepare_staged_update(json_path: Path,
+                          db: SQLAlchemy,
+                          base: AutomapBase
+                          ) -> tuple[int | None, str | None]:
+  """
+  Prepare staging logic for a JSON file by attempting to extract id and sector.
+  Does not apply updates yet.
+
+  Args:
+    json_path (Path): Path to the parsed JSON file.
+    db (SQLAlchemy): Active database connection.
+    base (AutomapBase): SQLAlchemy reflection base.
+
+  Returns:
+    tuple[int | None, str | None]: id_incidence and sector name, if available.
+  """
+  return json_file_to_db(db, json_path, base)
