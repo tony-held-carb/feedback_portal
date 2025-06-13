@@ -30,18 +30,20 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 def xl_dict_to_database(db: SQLAlchemy,
                         base: AutomapBase,
                         xl_dict: dict,
-                        tab_name: str = "Feedback Form") -> tuple[int, str]:
+                        tab_name: str = "Feedback Form",
+                        dry_run: bool = False) -> tuple[int, str]:
   """
-  Insert or update a row from an Excel-parsed JSON dictionary into the database.
+  Convert parsed Excel payload to DB insert/update or staging.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy database instance.
-    base (AutomapBase): Reflected SQLAlchemy base metadata.
-    xl_dict (dict): Parsed Excel document with 'metadata' and 'tab_contents'.
-    tab_name (str): Name of the worksheet tab to extract.
+    db (SQLAlchemy): DB instance.
+    base (AutomapBase): Reflected schema base.
+    xl_dict (dict): JSON payload from Excel parser.
+    tab_name (str): Sheet name to extract.
+    dry_run (bool): If True, simulate insert only.
 
   Returns:
-    tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.
+    tuple[int, str]: (id_incidence, sector)
   """
   logger.debug(f"xl_dict_to_database() called with {xl_dict=}")
   metadata = xl_dict["metadata"]
@@ -49,7 +51,7 @@ def xl_dict_to_database(db: SQLAlchemy,
   tab_data = xl_dict["tab_contents"][tab_name]
   tab_data["sector"] = sector
 
-  id_ = dict_to_database(db, base, tab_data)
+  id_ = dict_to_database(db, base, tab_data, dry_run=dry_run)
   return id_, sector
 
 
@@ -58,28 +60,29 @@ def dict_to_database(db: SQLAlchemy,
                      data_dict: dict,
                      table_name: str = "incidences",
                      primary_key: str = "id_incidence",
-                     json_field: str = "misc_json") -> int:
+                     json_field: str = "misc_json",
+                     dry_run: bool = False) -> int:
   """
   Insert or update a row in the specified table using a dictionary payload.
 
-  The payload is merged into a model instance and committed to the database.
+  If `dry_run` is True, no database write will occur. This is useful for staging uploads.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy database instance.
-    base (AutomapBase): Reflected SQLAlchemy base metadata.
-    data_dict (dict): Dictionary containing payload data.
-    table_name (str): Table name to modify. Defaults to 'incidences'.
-    primary_key (str): Name of the primary key field. Defaults to 'id_incidence'.
-    json_field (str): Name of the JSON field to update. Defaults to 'misc_json'.
+    db (SQLAlchemy): SQLAlchemy DB instance.
+    base (AutomapBase): Reflected model metadata.
+    data_dict (dict): Dictionary payload to insert/update.
+    table_name (str): Table name to target.
+    primary_key (str): Primary key column.
+    json_field (str): Name of JSON field for form payload.
+    dry_run (bool): If True, simulate logic without writing to DB.
 
   Returns:
-    int: Final value of the primary key for the affected row.
+    int: The id_incidence (or equivalent PK) inferred from payload or model.
 
   Raises:
     ValueError: If data_dict is empty.
-    AttributeError: If the resulting model does not expose the primary key.
+    AttributeError: If PK cannot be resolved.
   """
-
   from arb.utils.wtf_forms_util import update_model_with_payload
 
   if not data_dict:
@@ -97,16 +100,15 @@ def dict_to_database(db: SQLAlchemy,
     id_=id_
   )
 
-  # Backfill generated primary key into payload if it was not supplied
   if is_new_row:
     logger.debug(f"Backfilling {primary_key} = {id_} into payload")
     data_dict[primary_key] = id_
 
   update_model_with_payload(model, data_dict, json_field=json_field)
 
-  session = db.session
-  session.add(model)
-  session.commit()
+  if not dry_run:
+    db.session.add(model)
+    db.session.commit()
 
   # Final safety: extract final PK from the model
   try:
@@ -118,26 +120,22 @@ def dict_to_database(db: SQLAlchemy,
 
 def json_file_to_db(db: SQLAlchemy,
                     file_name: str | Path,
-                    base: AutomapBase
-                    ) -> tuple[int, str]:
+                    base: AutomapBase,
+                    dry_run: bool = False) -> tuple[int, str]:
   """
-  Parse a previously uploaded JSON file and write it to the DB.
+  Parse and optionally insert a structured JSON file into DB.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy DB instance.
-    file_name (str | Path): Path to a .json file matching Excel schema.
-    base (AutomapBase): Reflected schema metadata.
+    db (SQLAlchemy): DB engine.
+    file_name (Path): Path to .json file.
+    base (AutomapBase): Reflected schema.
+    dry_run (bool): If True, simulate insert only.
 
   Returns:
-    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.
-
-  Raises:
-    FileNotFoundError: If the specified file path does not exist.
-    json.JSONDecodeError: If the file is not valid JSON.
+    tuple[int, str]: (id_incidence, sector)
   """
-
   json_as_dict, metadata = json_load_with_meta(file_name)
-  return xl_dict_to_database(db, base, json_as_dict)
+  return xl_dict_to_database(db, base, json_as_dict, dry_run=dry_run)
 
 
 def upload_and_update_db_old(db: SQLAlchemy,
@@ -228,21 +226,23 @@ def convert_file_to_json_old(file_path: Path) -> Path | None:
 
 def prepare_staged_update(json_path: Path,
                           db: SQLAlchemy,
-                          base: AutomapBase
-                          ) -> tuple[int | None, str | None]:
+                          base: AutomapBase) -> tuple[int | None, str | None]:
   """
-  Prepare staging logic for a JSON file by attempting to extract id and sector.
-  Does not apply updates yet.
+  Simulate a DB insert to extract the id_incidence and sector from JSON.
 
   Args:
-    json_path (Path): Path to the parsed JSON file.
-    db (SQLAlchemy): Active database connection.
-    base (AutomapBase): SQLAlchemy reflection base.
+    json_path (Path): File path to the parsed Excel JSON.
+    db (SQLAlchemy): SQLAlchemy database.
+    base (AutomapBase): Reflected metadata.
 
   Returns:
-    tuple[int | None, str | None]: id_incidence and sector name, if available.
+    tuple[int | None, str | None]: Parsed id_incidence and sector.
   """
-  return json_file_to_db(db, json_path, base)
+  try:
+    return json_file_to_db(db, json_path, base, dry_run=True)
+  except Exception as e:
+    logger.warning(f"prepare_staged_update failed on dry run for {json_path}: {e}")
+    return None, None
 
 
 def extract_sector_from_json(json_path: Path) -> str | None:
@@ -269,7 +269,7 @@ def convert_excel_to_json_if_valid(file_path: Path) -> tuple[Path | None, str | 
   and return the output path and detected sector.
 
   Args:
-    file_path (Path): Path to uploaded file (Excel or JSON).
+    file_path (Path): Path to the uploaded file (Excel or JSON).
 
   Returns:
     tuple[Path | None, str | None]:
@@ -341,12 +341,11 @@ def upload_and_stage_only(db: SQLAlchemy,
     return file_path, None, None, None
 
   try:
-    id_ = json_data["metadata"]["id_incidence"]
-    if id_ is None:
-      raise ValueError("id_incidence is None")
-    if not isinstance(id_, int):
-      raise ValueError(f"id_incidence is not an integer: {id_}")
-    sector = extract_sector_from_json(json_data)
+    payload = json_data["_data_"]["tab_contents"]["Feedback Form"]
+    id_ = payload.get("id_incidence")
+    if id_ is None or not isinstance(id_, int):
+      raise ValueError(f"id_incidence invalid: {id_}")
+    sector = json_data["_data_"]["metadata"].get("sector")
     return file_path, id_, sector, json_data
   except Exception as e:
     logger.warning(f"Staging aborted: missing or invalid id_incidence in {json_path} — {e}")
