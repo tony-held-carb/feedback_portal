@@ -15,13 +15,13 @@ Notes:
   - Developer diagnostics are inlined near the end of the module.
 """
 
+import datetime
 import os
 from pathlib import Path
 from urllib.parse import unquote
 
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort
 
@@ -39,6 +39,7 @@ from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
+from arb.utils.date_and_time import ca_naive_to_utc_datetime, is_datetime_naive
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.json import json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
@@ -359,20 +360,12 @@ def review_staged(id_: int) -> str:
 
   Returns:
     str: Rendered HTML with row-level differences.
-
-  Notes:
-    - Uses get_ensured_row(), which may create a blank row if id_ did not exist.
-      This row will persist even if the staged update is later rejected.
-    - Only keys present in the staged payload are considered in the diff.
-      Any extra keys in live misc_json are ignored and preserved as-is.
   """
   logger.debug(f"Reviewing staged upload for id={id_}")
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
-  db: SQLAlchemy = current_app.db  # type: ignore[attr-defined]
 
-  # Locate the JSON file for this staged upload
-  staging_dir = Path(current_app.config["STAGING_UPLOAD_FOLDER"])
+  staging_dir = Path(get_upload_folder()) / "staging"
   staged_json_path = staging_dir / f"{id_}.json"
 
   if not staged_json_path.exists():
@@ -386,7 +379,6 @@ def review_staged(id_: int) -> str:
     logger.exception("Error loading staged JSON")
     return render_template("review_staged.html", error="Could not load staged data.")
 
-  # Retrieve row — may create it if not present
   model, _, is_new_row = get_ensured_row(
     db=db,
     base=base,
@@ -395,25 +387,47 @@ def review_staged(id_: int) -> str:
     id_=id_
   )
 
+  # Normalize both sides to string representation
+  # todo - should likely update json files to make them utc, but for now this is a quick fix
+  def normalize(val):
+    if val is None:
+      return ""
+    if isinstance(val, datetime.datetime):
+      if is_datetime_naive(val):
+        val = ca_naive_to_utc_datetime(val)
+      return val.isoformat()
+    return str(val)
+
   live_payload = getattr(model, "misc_json", {}) or {}
   diffs = []
 
   for key in sorted(staged_payload):
-    old = live_payload.get(key)
     new = staged_payload.get(key)
-    if old != new:
+    old = live_payload.get(key)
+    # logger.debug(f"Key: {key}, new: {new}, old: {old}")
+    if normalize(old) != normalize(new):
       diffs.append({
         "field": key,
-        "old": old,
-        "new": new,
+        "old": normalize(old),
+        "new": normalize(new),
       })
+      # logger.debug(f"updating diffs: {diffs=}")
+    else:
+      pass
+      # logger.debug(f"no change to diffs")
 
   if is_new_row:
     logger.info(f"⚠️ Staged ID {id_} did not exist in DB. A blank row was created for review.")
 
   logger.debug(f"Computed {len(diffs)} differences for staging review")
 
-  return render_template("review_staged.html", id_=id_, diffs=diffs, is_new_row=is_new_row)
+  return render_template(
+    "review_staged.html",
+    id_incidence=id_,
+    diffs=diffs,
+    is_new_row=is_new_row,
+    error=None,
+  )
 
 
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])
@@ -433,7 +447,9 @@ def apply_staged_update(id_: int):
     - Deletes the staged file if applied successfully.
   """
   try:
-    staging_dir = Path(current_app.config["UPLOAD_STAGING_FOLDER"])
+    # staging_dir = Path(current_app.config["UPLOAD_STAGING_FOLDER"])
+    staging_dir = Path(get_upload_folder()) / "staging"
+
     staged_file = staging_dir / f"{id_}.json"
 
     if not staged_file.exists():
@@ -442,7 +458,6 @@ def apply_staged_update(id_: int):
       return redirect(url_for("main.upload_file_staged"))
 
     xl_dict, _ = json_load_with_meta(staged_file)
-    db = current_app.db  # type: ignore[attr-defined]
     base = current_app.base  # type: ignore[attr-defined]
     final_id, sector = xl_dict_to_database(db, base, xl_dict)
 

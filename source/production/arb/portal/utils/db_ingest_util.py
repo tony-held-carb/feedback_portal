@@ -8,7 +8,7 @@ It includes:
 - Generic row ingestion from any dict using SQLAlchemy reflection
 - Excel-specific wrapper for sector-based data (xl_dict_to_database)
 """
-
+import shutil
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
@@ -315,38 +315,61 @@ def upload_and_stage_only(db: SQLAlchemy,
                           base: AutomapBase
                           ) -> tuple[Path, int | None, str | None, dict | None]:
   """
-  Save uploaded file and extract its parsed JSON contents for staging only.
+  Save uploaded file and extract parsed JSON contents for staging.
 
-  This function does NOT write to the database. It prepares and returns the
-  information needed for a staging preview: the file path, parsed JSON,
-  id_incidence, and sector.
+  This function does NOT write to the database. It prepares and returns:
+    - file path of the uploaded file
+    - id_incidence from tab_contents
+    - sector from metadata
+    - parsed JSON payload
 
   Args:
-    db (SQLAlchemy): SQLAlchemy database object.
-    upload_dir (str | Path): Where to store uploaded files.
-    request_file (FileStorage): Incoming Flask file upload object.
-    base (AutomapBase): Reflected schema metadata.
+    db (SQLAlchemy): SQLAlchemy instance.
+    upload_dir (str | Path): Where to store the uploaded file.
+    request_file (FileStorage): File provided in Flask request.
+    base (AutomapBase): Reflected DB model metadata.
 
   Returns:
-    tuple[Path, int | None, str | None, dict | None]: Saved file path, id,
-    sector name, and parsed JSON payload.
+    tuple[Path, int | None, str | None, dict | None]: (saved file path, id, sector, json data)
   """
   logger.debug("upload_and_stage_only() called.")
+
   file_path = upload_single_file(upload_dir, request_file)
+  logger.debug(f"{file_path=}")
+
   add_file_to_upload_table(db, file_path, status="File Added", description=None)
 
-  json_path, json_data = convert_upload_to_json(file_path)
-  if not json_path or not json_data:
-    logger.warning(f"Could not convert uploaded file to JSON: {file_path}")
+  json_path = convert_upload_to_json(file_path)
+  logger.debug(f"{json_path=}")
+  if not json_path:
+    logger.warning(f"Conversion failed for: {file_path}")
     return file_path, None, None, None
 
   try:
-    payload = json_data["_data_"]["tab_contents"]["Feedback Form"]
-    id_ = payload.get("id_incidence")
-    if id_ is None or not isinstance(id_, int):
-      raise ValueError(f"id_incidence invalid: {id_}")
-    sector = json_data["_data_"]["metadata"].get("sector")
+    # ✅ json_load_with_meta returns tuple: (data_dict, metadata_dict)
+    json_data, json_meta = json_load_with_meta(json_path)
+    logger.debug(f"{json_data=}")
+    logger.debug(f"{json_meta=}")
+
+    # ✅ Use json_data directly as it contains: metadata, tab_contents, etc.
+    sector = json_data["metadata"]["sector"]
+    logger.debug(f"{sector=}")
+    tab_data = json_data["tab_contents"]["Feedback Form"]
+    logger.debug(f"{tab_data=}")
+    id_ = tab_data.get("id_incidence")
+    logger.debug(f"{id_=}")
+
+    if not isinstance(id_, int):
+      raise ValueError(f"id_incidence must be int, got {type(id_)}: {id_}")
+
+    # ✅ Write to staging folder
+    staging_path = Path(upload_dir) / "staging" / f"{id_}.json"
+    staging_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(json_path, staging_path)
+    logger.info(f"Copied JSON to staging path: {staging_path}")
+
     return file_path, id_, sector, json_data
+
   except Exception as e:
-    logger.warning(f"Staging aborted: missing or invalid id_incidence in {json_path} — {e}")
+    logger.warning(f"Error parsing staged upload: {json_path} — {e}")
     return file_path, None, None, None

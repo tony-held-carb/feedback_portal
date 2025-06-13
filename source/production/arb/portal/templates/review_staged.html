@@ -1,50 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block content %}
-  <h2>Review Staged Upload for ID {{ id_ }}</h2>
+{% block content_1 %}
+  <h2 class="mt-3">Review Staged Upload</h2>
+  <p class="lead">Review the staged upload contents below for ID <strong>{{ id_incidence }}</strong>.</p>
 
   {% if error %}
     <div class="alert alert-danger" role="alert">
       {{ error }}
     </div>
-    <a class="btn btn-secondary mt-3" href="{{ url_for('main.upload_file_staged') }}">Back to Upload</a>
+  {% elif diffs %}
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Old Value</th>
+          <th>New Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in diffs %}
+        <tr>
+          <td>{{ row.field }}</td>
+          <td>{{ row.old }}</td>
+          <td>{{ row.new }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-    {% if is_new_row %}
-      <div class="alert alert-warning" role="alert">
-        This incidence ID did not exist and a blank row was created for comparison only.
-        It will persist in the database even if the update is not confirmed.
-      </div>
-    {% endif %}
-
-    {% if diffs %}
-      <p class="mb-3">The following fields will be updated if you confirm this upload:</p>
-      <table class="table table-bordered table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>Field</th>
-            <th>Current Value</th>
-            <th>New Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for diff in diffs %}
-            <tr>
-              <td><code>{{ diff.field }}</code></td>
-              <td>{{ diff.old }}</td>
-              <td class="table-warning">{{ diff.new }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <form action="{{ url_for('main.apply_staged_update', id_=id_) }}" method="post">
-        <button type="submit" class="btn btn-primary">Confirm and Apply Update</button>
-        <a class="btn btn-secondary" href="{{ url_for('main.upload_file_staged') }}">Cancel</a>
-      </form>
-    {% else %}
-      <div class="alert alert-info" role="alert">
-        The uploaded data does not differ from the current database contents.
-      </div>
-      <a class="btn btn-secondary" href="{{ url_for('main.upload_file_staged') }}">Back to Upload</a>
-    {% endif %}
+    <p>No differences found between staged and live data.</p>
   {% endif %}
 {% endblock %}
