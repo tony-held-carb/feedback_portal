@@ -314,6 +314,7 @@ def cast_model_value(
     convert_time_to_ca: bool = False
 ) -> object:
   """
+  # todo - may want to change name and description of this function it seems misleading
   Cast a stringified JSON value into a Python object of the expected type.
 
   Args:
@@ -327,6 +328,7 @@ def cast_model_value(
   Raises:
       ValueError: If the value cannot be cast to the given type.
   """
+  # todo - datetime - may need to update
   try:
     if value_type == str:
       # No need to cast a string
@@ -412,6 +414,7 @@ def make_dict_serializeable(
       except Exception as e:
         raise ValueError(f"Failed to cast key '{key}' to {type_map[key]}: {e}")
 
+    # todo - datetime - change this to ensure datetime is iso and fail if it is not
     if isinstance(value, datetime.datetime):
       if convert_time_to_ca:
         value = ca_naive_to_utc_datetime(value)

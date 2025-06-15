@@ -255,6 +255,7 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
                            f"Attempting to convert the value to the correct type")
             try:
               # convert to datetime using a parser if possible
+              # todo - datetime - seems like I could cast to utc here for persistence
               if value_type == datetime.datetime:
                 local_datetime = parse_unknown_datetime(value)
                 if local_datetime and not is_datetime_naive(local_datetime):
@@ -382,6 +383,7 @@ def get_json_file_name_old(file_name: Path) -> Path | None:
     xl_as_dict = parse_xl_file(file_name)
     logger.debug(f"{xl_as_dict=}")
     json_file_name = file_name.with_suffix('.json')
+
     logger.debug(f"Saving extracted data from Excel as: {json_file_name}")
     json_save_with_meta(json_file_name, xl_as_dict)
   elif extension == ".json":

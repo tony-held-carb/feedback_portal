@@ -4,6 +4,34 @@
 ----------------------------
 * beginning refactor 20 to stage excel spreadsheet uploads
 
+* staging made it clear that the json files don't store in utc, which is against the
+  data contract.
+
+* Data in local time flagged with (todo - datetime - )
+  * dummy data
+    * todo - need to make sure hard coded values are utc aware
+      * update datetime.datetime.now() statements
+  * spreadsheets
+    * should be read in as naive and immediately convert to utc aware
+      * update extract_tabs for datetimes
+  * html elements
+    * for display - cast to ca local just before presentation
+      * finding out where this is done ...
+      * looks like incidence_prep has the get/setters
+        * for get - model_to_wtform -> deserialize_dict called -> cast_model_value
+          * cast_model_value is where the conversion to datetime is updated, update here ...
+        * for post - wtform_to_model -> make_dict_serializeable
+          * make_dict_serializeable is where the updates should be made
+  * look for any references to convert_time_to_ca and remove any casting to avoid confusion
+  * looks like cast_model_value and make_dict_serializeable have some overlapping logic
+      they may want to be consolidated or somehow aligned with json serialize/deserialize hooks/logic
+
+
+  * make a data contract regarding datetime, casting and storage
+
+
+
+
 
 * future initiatives
   * add user log-in

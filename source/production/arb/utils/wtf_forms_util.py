@@ -381,6 +381,7 @@ def wtform_to_model(model: AutomapBase,
   payload_all = make_dict_serializeable(payload_all, type_map=type_matching_dict, convert_time_to_ca=True)
 
   existing_json = load_model_json_column(model, json_column)
+  # todo - shouldn't json already be serialized, not sure what the next line accomplishes
   existing_serialized = make_dict_serializeable(existing_json, type_map=type_matching_dict, convert_time_to_ca=True)
 
   payload_changes = get_changed_fields(payload_all, existing_serialized)

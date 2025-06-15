@@ -134,6 +134,7 @@ def json_file_to_db(db: SQLAlchemy,
   Returns:
     tuple[int, str]: (id_incidence, sector)
   """
+  # todo - datetime - looks like this is where the json file gets loaded
   json_as_dict, metadata = json_load_with_meta(file_name)
   return xl_dict_to_database(db, base, json_as_dict, dry_run=dry_run)
 
