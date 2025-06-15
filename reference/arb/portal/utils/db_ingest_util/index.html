@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -121,6 +129,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
                 </li>
@@ -218,8 +228,226 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
+<h2 id="arb.portal.utils.db_ingest_util.convert_excel_to_json_if_valid" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">convert_excel_to_json_if_valid</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert an uploaded Excel or JSON file into a standardized JSON format,
+and return the output path and detected sector.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the uploaded file (Excel or JSON).</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="pathlib.Path">Path</span> | None, <span title="str">str</span> | None]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[Path | None, str | None]:
+- JSON file path (parsed or original),
+- sector string (if detected).</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">convert_excel_to_json_if_valid</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert an uploaded Excel or JSON file into a standardized JSON format,</span>
+<span class="sd">  and return the output path and detected sector.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    file_path (Path): Path to the uploaded file (Excel or JSON).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[Path | None, str | None]:</span>
+<span class="sd">      - JSON file path (parsed or original),</span>
+<span class="sd">      - sector string (if detected).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">json_path</span> <span class="o">=</span> <span class="n">convert_upload_to_json</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">json_path</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File converted or passed through to JSON: </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">sector</span> <span class="o">=</span> <span class="n">extract_sector_from_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">sector</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to convert uploaded file to JSON: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.convert_file_to_json_old" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">convert_file_to_json_old</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Depreciated. use convert_excel_to_json_if_valid instead.</p>
+<p>Convert an uploaded Excel file to a JSON file, if possible.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the saved Excel file.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="pathlib.Path">Path</span> | None</code>
+              –
+              <div class="doc-md-description">
+                <p>Path | None: Path to the generated JSON file, or None if conversion failed.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">convert_file_to_json_old</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Depreciated. use convert_excel_to_json_if_valid instead.</span>
+
+<span class="sd">  Convert an uploaded Excel file to a JSON file, if possible.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    file_path (Path): Path to the saved Excel file.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Path | None: Path to the generated JSON file, or None if conversion failed.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">json_file_path</span> <span class="o">=</span> <span class="n">get_json_file_name_old</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">json_file_path</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> could not be converted to JSON.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted Excel to JSON: </span><span class="si">{</span><span class="n">json_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">json_file_path</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h2 id="arb.portal.utils.db_ingest_util.dict_to_database" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="s1">&#39;misc_json&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;incidences&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="s1">&#39;id_incidence&#39;</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="s1">&#39;misc_json&#39;</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h2>
 
@@ -227,7 +455,7 @@ based on structured dictionaries, particularly those derived from Excel template
     <div class="doc doc-contents ">
 
         <p>Insert or update a row in the specified table using a dictionary payload.</p>
-<p>The payload is merged into a model instance and committed to the database.</p>
+<p>If <code>dry_run</code> is True, no database write will occur. This is useful for staging uploads.</p>
 
 
 <table class="field-list">
@@ -245,7 +473,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
               –
               <div class="doc-md-description">
-                <p>SQLAlchemy database instance.</p>
+                <p>SQLAlchemy DB instance.</p>
               </div>
             </li>
             <li>
@@ -253,7 +481,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
               –
               <div class="doc-md-description">
-                <p>Reflected SQLAlchemy base metadata.</p>
+                <p>Reflected model metadata.</p>
               </div>
             </li>
             <li>
@@ -261,7 +489,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="dict">dict</span></code>)
               –
               <div class="doc-md-description">
-                <p>Dictionary containing payload data.</p>
+                <p>Dictionary payload to insert/update.</p>
               </div>
             </li>
             <li>
@@ -271,7 +499,7 @@ based on structured dictionaries, particularly those derived from Excel template
 )
               –
               <div class="doc-md-description">
-                <p>Table name to modify. Defaults to 'incidences'.</p>
+                <p>Table name to target.</p>
               </div>
             </li>
             <li>
@@ -281,7 +509,7 @@ based on structured dictionaries, particularly those derived from Excel template
 )
               –
               <div class="doc-md-description">
-                <p>Name of the primary key field. Defaults to 'id_incidence'.</p>
+                <p>Primary key column.</p>
               </div>
             </li>
             <li>
@@ -291,7 +519,17 @@ based on structured dictionaries, particularly those derived from Excel template
 )
               –
               <div class="doc-md-description">
-                <p>Name of the JSON field to update. Defaults to 'misc_json'.</p>
+                <p>Name of JSON field for form payload.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dry_run</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If True, simulate logic without writing to DB.</p>
               </div>
             </li>
         </ul>
@@ -314,7 +552,7 @@ based on structured dictionaries, particularly those derived from Excel template
 <b><code>int</code></b>(                  <code><span title="int">int</span></code>
 )              –
               <div class="doc-md-description">
-                <p>Final value of the primary key for the affected row.</p>
+                <p>The id_incidence (or equivalent PK) inferred from payload or model.</p>
               </div>
             </li>
         </ul>
@@ -344,7 +582,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   <code><span title="AttributeError">AttributeError</span></code>
               –
               <div class="doc-md-description">
-                <p>If the resulting model does not expose the primary key.</p>
+                <p>If PK cannot be resolved.</p>
               </div>
             </li>
         </ul>
@@ -355,10 +593,7 @@ based on structured dictionaries, particularly those derived from Excel template
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 58</span>
 <span class="normal"> 59</span>
 <span class="normal"> 60</span>
 <span class="normal"> 61</span>
@@ -415,33 +650,37 @@ based on structured dictionaries, particularly those derived from Excel template
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
                      <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
                      <span class="n">data_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
                      <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;incidences&quot;</span><span class="p">,</span>
                      <span class="n">primary_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_incidence&quot;</span><span class="p">,</span>
-                     <span class="n">json_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+                     <span class="n">json_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span><span class="p">,</span>
+                     <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Insert or update a row in the specified table using a dictionary payload.</span>
 
-<span class="sd">  The payload is merged into a model instance and committed to the database.</span>
+<span class="sd">  If `dry_run` is True, no database write will occur. This is useful for staging uploads.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
-<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
-<span class="sd">    data_dict (dict): Dictionary containing payload data.</span>
-<span class="sd">    table_name (str): Table name to modify. Defaults to &#39;incidences&#39;.</span>
-<span class="sd">    primary_key (str): Name of the primary key field. Defaults to &#39;id_incidence&#39;.</span>
-<span class="sd">    json_field (str): Name of the JSON field to update. Defaults to &#39;misc_json&#39;.</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy DB instance.</span>
+<span class="sd">    base (AutomapBase): Reflected model metadata.</span>
+<span class="sd">    data_dict (dict): Dictionary payload to insert/update.</span>
+<span class="sd">    table_name (str): Table name to target.</span>
+<span class="sd">    primary_key (str): Primary key column.</span>
+<span class="sd">    json_field (str): Name of JSON field for form payload.</span>
+<span class="sd">    dry_run (bool): If True, simulate logic without writing to DB.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    int: Final value of the primary key for the affected row.</span>
+<span class="sd">    int: The id_incidence (or equivalent PK) inferred from payload or model.</span>
 
 <span class="sd">  Raises:</span>
 <span class="sd">    ValueError: If data_dict is empty.</span>
-<span class="sd">    AttributeError: If the resulting model does not expose the primary key.</span>
+<span class="sd">    AttributeError: If PK cannot be resolved.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-
   <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.wtf_forms_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_model_with_payload</span>
 
   <span class="k">if</span> <span class="ow">not</span> <span class="n">data_dict</span><span class="p">:</span>
@@ -459,16 +698,15 @@ based on structured dictionaries, particularly those derived from Excel template
     <span class="n">id_</span><span class="o">=</span><span class="n">id_</span>
   <span class="p">)</span>
 
-  <span class="c1"># Backfill generated primary key into payload if it was not supplied</span>
   <span class="k">if</span> <span class="n">is_new_row</span><span class="p">:</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backfilling </span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2"> into payload&quot;</span><span class="p">)</span>
     <span class="n">data_dict</span><span class="p">[</span><span class="n">primary_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_</span>
 
   <span class="n">update_model_with_payload</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">json_field</span><span class="o">=</span><span class="n">json_field</span><span class="p">)</span>
 
-  <span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
-  <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-  <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
   <span class="c1"># Final safety: extract final PK from the model</span>
   <span class="k">try</span><span class="p">:</span>
@@ -485,15 +723,115 @@ based on structured dictionaries, particularly those derived from Excel template
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.utils.db_ingest_util.json_file_to_db" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+<h2 id="arb.portal.utils.db_ingest_util.extract_sector_from_json" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">extract_sector_from_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Parse a previously uploaded JSON file and write it to the DB.</p>
+        <p>Extract the sector name from a JSON file generated from Excel.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>json_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the JSON file.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span> | None</code>
+              –
+              <div class="doc-md-description">
+                <p>str | None: The sector name if found; otherwise, None.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_sector_from_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Extract the sector name from a JSON file generated from Excel.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    json_path (Path): Path to the JSON file.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    str | None: The sector name if found; otherwise, None.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">json_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not extract sector from </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.json_file_to_db" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse and optionally insert a structured JSON file into DB.</p>
 
 
 <table class="field-list">
@@ -511,15 +849,15 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
               –
               <div class="doc-md-description">
-                <p>SQLAlchemy DB instance.</p>
+                <p>DB engine.</p>
               </div>
             </li>
             <li>
               <b><code>file_name</code></b>
-                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+                  (<code><span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>Path to a .json file matching Excel schema.</p>
+                <p>Path to .json file.</p>
               </div>
             </li>
             <li>
@@ -527,7 +865,17 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
               –
               <div class="doc-md-description">
-                <p>Reflected schema metadata.</p>
+                <p>Reflected schema.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dry_run</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If True, simulate insert only.</p>
               </div>
             </li>
         </ul>
@@ -550,7 +898,106 @@ based on structured dictionaries, particularly those derived from Excel template
                   <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
               –
               <div class="doc-md-description">
-                <p>tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</p>
+                <p>tuple[int, str]: (id_incidence, sector)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
+                    <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Parse and optionally insert a structured JSON file into DB.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): DB engine.</span>
+<span class="sd">    file_name (Path): Path to .json file.</span>
+<span class="sd">    base (AutomapBase): Reflected schema.</span>
+<span class="sd">    dry_run (bool): If True, simulate insert only.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[int, str]: (id_incidence, sector)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># todo - datetime - looks like this is where the json file gets loaded</span>
+  <span class="n">json_as_dict</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">json_as_dict</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.prepare_staged_update" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">prepare_staged_update</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Simulate a DB insert to extract the id_incidence and sector from JSON.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>json_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>File path to the parsed Excel JSON.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy database.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected metadata.</p>
               </div>
             </li>
         </ul>
@@ -566,21 +1013,14 @@ based on structured dictionaries, particularly those derived from Excel template
   </colgroup>
   <tbody valign="top">
     <tr class="field">
-      <th class="field-name">Raises:</th>
+      <th class="field-name">Returns:</th>
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+                  <code><span title="tuple">tuple</span>[<span title="int">int</span> | None, <span title="str">str</span> | None]</code>
               –
               <div class="doc-md-description">
-                <p>If the specified file path does not exist.</p>
-              </div>
-            </li>
-            <li>
-                  <code><span title="json.JSONDecodeError">JSONDecodeError</span></code>
-              –
-              <div class="doc-md-description">
-                <p>If the file is not valid JSON.</p>
+                <p>tuple[int | None, str | None]: Parsed id_incidence and sector.</p>
               </div>
             </li>
         </ul>
@@ -591,49 +1031,394 @@ based on structured dictionaries, particularly those derived from Excel template
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
-                    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-                    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
-                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">prepare_staged_update</span><span class="p">(</span><span class="n">json_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+                          <span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                          <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Parse a previously uploaded JSON file and write it to the DB.</span>
+<span class="sd">  Simulate a DB insert to extract the id_incidence and sector from JSON.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    db (SQLAlchemy): SQLAlchemy DB instance.</span>
-<span class="sd">    file_name (str | Path): Path to a .json file matching Excel schema.</span>
-<span class="sd">    base (AutomapBase): Reflected schema metadata.</span>
+<span class="sd">    json_path (Path): File path to the parsed Excel JSON.</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy database.</span>
+<span class="sd">    base (AutomapBase): Reflected metadata.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    tuple[int, str]: The (id_incidence, sector) extracted from the inserted row.</span>
-
-<span class="sd">  Raises:</span>
-<span class="sd">    FileNotFoundError: If the specified file path does not exist.</span>
-<span class="sd">    json.JSONDecodeError: If the file is not valid JSON.</span>
+<span class="sd">    tuple[int | None, str | None]: Parsed id_incidence and sector.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepare_staged_update failed on dry run for </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
 
-  <span class="n">json_as_dict</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">json_as_dict</span><span class="p">)</span>
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.store_staged_payload" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">store_staged_payload</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">sector</span><span class="p">,</span> <span class="n">json_data</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Save a parsed but uncommitted JSON payload to a staging directory.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>id_</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Incidence ID.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sector</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Sector name (used for file naming).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>json_data</code></b>
+                  (<code><span title="dict">dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Parsed JSON dictionary to save.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>Path</code></b>(                  <code><span title="pathlib.Path">Path</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Path to the saved staging file.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">store_staged_payload</span><span class="p">(</span><span class="n">id_</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sector</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Save a parsed but uncommitted JSON payload to a staging directory.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    id_ (int): Incidence ID.</span>
+<span class="sd">    sector (str): Sector name (used for file naming).</span>
+<span class="sd">    json_data (dict): Parsed JSON dictionary to save.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Path: Path to the saved staging file.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.io_wrappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_json_safely</span>
+
+  <span class="n">staging_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">get_upload_folder</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;staging&quot;</span>
+  <span class="n">staging_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;id_</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">sector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.json&quot;</span>
+  <span class="n">path</span> <span class="o">=</span> <span class="n">staging_dir</span> <span class="o">/</span> <span class="n">file_name</span>
+  <span class="n">save_json_safely</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">path</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.upload_and_stage_only" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">upload_and_stage_only</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Save uploaded file and extract parsed JSON contents for staging.</p>
+<p>This function does NOT write to the database. It prepares and returns:
+  - file path of the uploaded file
+  - id_incidence from tab_contents
+  - sector from metadata
+  - parsed JSON payload</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>SQLAlchemy instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>upload_dir</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Where to store the uploaded file.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>request_file</code></b>
+                  (<code><span title="werkzeug.datastructures.FileStorage">FileStorage</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>File provided in Flask request.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected DB model metadata.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="pathlib.Path">Path</span>, <span title="int">int</span> | None, <span title="str">str</span> | None, <span title="dict">dict</span> | None]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[Path, int | None, str | None, dict | None]: (saved file path, id, sector, json data)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_stage_only</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                          <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                          <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
+                          <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Save uploaded file and extract parsed JSON contents for staging.</span>
+
+<span class="sd">  This function does NOT write to the database. It prepares and returns:</span>
+<span class="sd">    - file path of the uploaded file</span>
+<span class="sd">    - id_incidence from tab_contents</span>
+<span class="sd">    - sector from metadata</span>
+<span class="sd">    - parsed JSON payload</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): SQLAlchemy instance.</span>
+<span class="sd">    upload_dir (str | Path): Where to store the uploaded file.</span>
+<span class="sd">    request_file (FileStorage): File provided in Flask request.</span>
+<span class="sd">    base (AutomapBase): Reflected DB model metadata.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[Path, int | None, str | None, dict | None]: (saved file path, id, sector, json data)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;upload_and_stage_only() called.&quot;</span><span class="p">)</span>
+
+  <span class="n">file_path</span> <span class="o">=</span> <span class="n">upload_single_file</span><span class="p">(</span><span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="n">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;File Added&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="n">json_path</span> <span class="o">=</span> <span class="n">convert_upload_to_json</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">json_path</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">json_path</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Conversion failed for: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="c1"># ✅ json_load_with_meta returns tuple: (data_dict, metadata_dict)</span>
+    <span class="n">json_data</span><span class="p">,</span> <span class="n">json_meta</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">json_data</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">json_meta</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ✅ Use json_data directly as it contains: metadata, tab_contents, etc.</span>
+    <span class="n">sector</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sector</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">tab_data</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;tab_contents&quot;</span><span class="p">][</span><span class="s2">&quot;Feedback Form&quot;</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tab_data</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">id_</span> <span class="o">=</span> <span class="n">tab_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_incidence&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;id_incidence must be int, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ✅ Write to staging folder</span>
+    <span class="n">staging_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">upload_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;staging&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="n">staging_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="n">staging_path</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Copied JSON to staging path: </span><span class="si">{</span><span class="n">staging_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span><span class="p">,</span> <span class="n">json_data</span>
+
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error parsing staged upload: </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -651,7 +1436,158 @@ based on structured dictionaries, particularly those derived from Excel template
 
     <div class="doc doc-contents ">
 
-        <p>Save uploaded file, parse contents, and insert or update DB rows.</p>
+        <p>Legacy wrapper function: Save uploaded file, attempt Excel → JSON → DB ingest.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Database instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>upload_dir</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Upload destination path.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>request_file</code></b>
+                  (<code><span title="werkzeug.datastructures.FileStorage">FileStorage</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Incoming file from Flask.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>base</code></b>
+                  (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Reflected metadata base.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="pathlib.Path">Path</span>, <span title="int">int</span> | None, <span title="str">str</span> | None]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[Path, int | None, str | None]: Saved file path, id_incidence, and sector.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                         <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                         <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
+                         <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Legacy wrapper function: Save uploaded file, attempt Excel → JSON → DB ingest.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    db (SQLAlchemy): Database instance.</span>
+<span class="sd">    upload_dir (str | Path): Upload destination path.</span>
+<span class="sd">    request_file (FileStorage): Incoming file from Flask.</span>
+<span class="sd">    base (AutomapBase): Reflected metadata base.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[Path, int | None, str | None]: Saved file path, id_incidence, and sector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upload_and_update_db() called with </span><span class="si">{</span><span class="n">request_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">id_</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="n">file_path</span> <span class="o">=</span> <span class="n">upload_single_file</span><span class="p">(</span><span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">)</span>
+  <span class="n">add_file_to_upload_table</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;File Added&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="n">json_path</span><span class="p">,</span> <span class="n">sector</span> <span class="o">=</span> <span class="n">convert_excel_to_json_if_valid</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">json_path</span><span class="p">:</span>
+    <span class="n">id_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">prepare_staged_update</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.db_ingest_util.upload_and_update_db_old" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">upload_and_update_db_old</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">upload_dir</span><span class="p">,</span> <span class="n">request_file</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Deprecated: used prior to staged update refactor (2025-06-11)</p>
+<p>Save uploaded file, parse contents, and insert or update DB rows.</p>
 
 
 <table class="field-list">
@@ -727,42 +1663,46 @@ based on structured dictionaries, particularly those derived from Excel template
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_update_db</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
-                         <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-                         <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
-                         <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
-                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_and_update_db_old</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+                             <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                             <span class="n">request_file</span><span class="p">:</span> <span class="n">FileStorage</span><span class="p">,</span>
+                             <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span>
+                             <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Deprecated: used prior to staged update refactor (2025-06-11)</span>
+
 <span class="sd">  Save uploaded file, parse contents, and insert or update DB rows.</span>
 
 <span class="sd">  Args:</span>
@@ -783,7 +1723,7 @@ based on structured dictionaries, particularly those derived from Excel template
 
   <span class="c1"># if the file is xl and can be converted to JSON,</span>
   <span class="c1"># save a JSON version of the file and return the filename</span>
-  <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">get_json_file_name_old</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">json_file_name</span><span class="p">:</span>
     <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span> <span class="o">=</span> <span class="n">json_file_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">json_file_name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
 
@@ -798,14 +1738,14 @@ based on structured dictionaries, particularly those derived from Excel template
 
 
 <h2 id="arb.portal.utils.db_ingest_util.xl_dict_to_database" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="s1">&#39;Feedback Form&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">xl_dict</span><span class="p">,</span> <span class="n">tab_name</span><span class="o">=</span><span class="s1">&#39;Feedback Form&#39;</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Insert or update a row from an Excel-parsed JSON dictionary into the database.</p>
+        <p>Convert parsed Excel payload to DB insert/update or staging.</p>
 
 
 <table class="field-list">
@@ -823,7 +1763,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="flask_sqlalchemy.SQLAlchemy">SQLAlchemy</span></code>)
               –
               <div class="doc-md-description">
-                <p>SQLAlchemy database instance.</p>
+                <p>DB instance.</p>
               </div>
             </li>
             <li>
@@ -831,7 +1771,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="sqlalchemy.ext.automap.AutomapBase">AutomapBase</span></code>)
               –
               <div class="doc-md-description">
-                <p>Reflected SQLAlchemy base metadata.</p>
+                <p>Reflected schema base.</p>
               </div>
             </li>
             <li>
@@ -839,7 +1779,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   (<code><span title="dict">dict</span></code>)
               –
               <div class="doc-md-description">
-                <p>Parsed Excel document with 'metadata' and 'tab_contents'.</p>
+                <p>JSON payload from Excel parser.</p>
               </div>
             </li>
             <li>
@@ -849,7 +1789,17 @@ based on structured dictionaries, particularly those derived from Excel template
 )
               –
               <div class="doc-md-description">
-                <p>Name of the worksheet tab to extract.</p>
+                <p>Sheet name to extract.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dry_run</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If True, simulate insert only.</p>
               </div>
             </li>
         </ul>
@@ -872,7 +1822,7 @@ based on structured dictionaries, particularly those derived from Excel template
                   <code><span title="tuple">tuple</span>[<span title="int">int</span>, <span title="str">str</span>]</code>
               –
               <div class="doc-md-description">
-                <p>tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</p>
+                <p>tuple[int, str]: (id_incidence, sector)</p>
               </div>
             </li>
         </ul>
@@ -883,8 +1833,7 @@ based on structured dictionaries, particularly those derived from Excel template
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\db_ingest_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
@@ -906,21 +1855,26 @@ based on structured dictionaries, particularly those derived from Excel template
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">xl_dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
                         <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
                         <span class="n">xl_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-                        <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Feedback Form&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+                        <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Feedback Form&quot;</span><span class="p">,</span>
+                        <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Insert or update a row from an Excel-parsed JSON dictionary into the database.</span>
+<span class="sd">  Convert parsed Excel payload to DB insert/update or staging.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    db (SQLAlchemy): SQLAlchemy database instance.</span>
-<span class="sd">    base (AutomapBase): Reflected SQLAlchemy base metadata.</span>
-<span class="sd">    xl_dict (dict): Parsed Excel document with &#39;metadata&#39; and &#39;tab_contents&#39;.</span>
-<span class="sd">    tab_name (str): Name of the worksheet tab to extract.</span>
+<span class="sd">    db (SQLAlchemy): DB instance.</span>
+<span class="sd">    base (AutomapBase): Reflected schema base.</span>
+<span class="sd">    xl_dict (dict): JSON payload from Excel parser.</span>
+<span class="sd">    tab_name (str): Sheet name to extract.</span>
+<span class="sd">    dry_run (bool): If True, simulate insert only.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    tuple[int, str]: Tuple of (id_incidence, sector) after row insertion.</span>
+<span class="sd">    tuple[int, str]: (id_incidence, sector)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;xl_dict_to_database() called with </span><span class="si">{</span><span class="n">xl_dict</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
   <span class="n">metadata</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span>
@@ -928,7 +1882,7 @@ based on structured dictionaries, particularly those derived from Excel template
   <span class="n">tab_data</span> <span class="o">=</span> <span class="n">xl_dict</span><span class="p">[</span><span class="s2">&quot;tab_contents&quot;</span><span class="p">][</span><span class="n">tab_name</span><span class="p">]</span>
   <span class="n">tab_data</span><span class="p">[</span><span class="s2">&quot;sector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector</span>
 
-  <span class="n">id_</span> <span class="o">=</span> <span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">tab_data</span><span class="p">)</span>
+  <span class="n">id_</span> <span class="o">=</span> <span class="n">dict_to_database</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">tab_data</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">id_</span><span class="p">,</span> <span class="n">sector</span>
 </code></pre></div></td></tr></table></div>
             </details>

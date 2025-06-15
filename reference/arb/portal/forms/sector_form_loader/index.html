@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/startup/runtime_info/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/forms/sector_form_loader/" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>arb.portal.startup.runtime_info - CalSMP Operator Feedback Portal</title>
+    <title>arb.portal.forms.sector_form_loader - CalSMP Operator Feedback Portal</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "arb.portal.startup.runtime_info";
-        var mkdocs_page_input_path = "reference\\arb\\portal\\startup\\runtime_info.md";
-        var mkdocs_page_url = "/reference/arb/portal/startup/runtime_info/";
+        var mkdocs_page_name = "arb.portal.forms.sector_form_loader";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\forms\\sector_form_loader.md";
+        var mkdocs_page_url = "/reference/arb/portal/forms/sector_form_loader/";
       </script>
     
     <!--[if lt IE 9]>
@@ -84,19 +84,19 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
+                <li class="toctree-l3 current"><a class="reference internal current" >Forms</a>
+    <ul class="current">
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3 current"><a class="reference internal current" >Startup</a>
-    <ul class="current">
-                <li class="toctree-l4"><a class="reference internal" href="../db/">arb.portal.startup.db</a>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../flask/">arb.portal.startup.flask</a>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
                 </li>
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.startup.runtime_info</a>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
                 </li>
     </ul>
                 </li>
@@ -180,8 +180,8 @@
           <li class="breadcrumb-item">Reference</li>
           <li class="breadcrumb-item">Arb</li>
           <li class="breadcrumb-item">Portal</li>
-          <li class="breadcrumb-item">Startup</li>
-      <li class="breadcrumb-item active">arb.portal.startup.runtime_info</li>
+          <li class="breadcrumb-item">Forms</li>
+      <li class="breadcrumb-item active">arb.portal.forms.sector_form_loader</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -190,48 +190,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="arbportalstartupruntime_info"><code>arb.portal.startup.runtime_info</code></h1>
+                <h1 id="arbportalformssector_form_loader"><code>arb.portal.forms.sector_form_loader</code></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="arb.portal.startup.runtime_info"></a>
+<a id="arb.portal.forms.sector_form_loader"></a>
     <div class="doc doc-contents first">
 
-        <p>Provides runtime metadata and dynamic paths for the application.</p>
-
-
-<details class="this-module-defines" open>
-  <summary>This module defines</summary>
-  <ul>
-<li>Project root and key directories (uploads, logs, static)</li>
-<li>Operating system detection (Windows, Linux, macOS)</li>
-<li>Platform-level info useful for conditional behavior</li>
-<li>Diagnostic tools for runtime environment inspection</li>
+        <p>Form registry and dynamic loader for sector-specific feedback forms.</p>
+<p>This module defines a centralized registry (<code>FORM_REGISTRY</code>) that maps
+sector names (e.g., "landfill", "oil_and_gas") to their corresponding
+WTForms classes. It enables dynamic form loading in views or helper
+functions by passing a sector identifier string.</p>
+<h3 id="arb.portal.forms.sector_form_loader--benefits">Benefits:</h3>
+<ul>
+<li>Avoids long if-elif chains when selecting forms by sector.</li>
+<li>Centralizes form declarations for maintainability.</li>
+<li>Supports dynamic sector resolution (e.g., from user input or URL parameters).</li>
+<li>Scales cleanly to additional sectors (e.g., "dairy", "energy").</li>
 </ul>
-</details>
+<h3 id="arb.portal.forms.sector_form_loader--example">Example:</h3>
+<pre><code>from arb.portal.forms.sector_form_loader import get_sector_form_class
 
-<details class="example" open>
-  <summary>Example</summary>
-  <p>from startup.runtime_info import (PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
-  IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)</p>
-</details>
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>The project root directory is assumed to be named "feedback_portal".</li>
-<li>If the app is run from:
-    feedback_portal/source/production/arb/wsgi.py
-  then directory resolution is:
-    Path(<strong>file</strong>).resolve().parents[0] → .../arb
-    Path(<strong>file</strong>).resolve().parents[1] → .../production
-    Path(<strong>file</strong>).resolve().parents[2] → .../source
-    Path(<strong>file</strong>).resolve().parents[3] → .../feedback_portal</li>
+sector_name = "landfill"
+FormClass = get_sector_form_class(sector_name)
+form = FormClass() if FormClass else None
+</code></pre>
+<h3 id="arb.portal.forms.sector_form_loader--notes">Notes:</h3>
+<ul>
+<li>All referenced forms must be explicitly imported and registered here.</li>
+<li>If an unknown sector is passed to <code>get_sector_form_class</code>, the result will be None.</li>
 </ul>
-</details>
+
 
 
 
@@ -253,25 +246,40 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.startup.runtime_info.print_runtime_diagnostics" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">print_runtime_diagnostics</span><span class="p">()</span></code>
+<h2 id="arb.portal.forms.sector_form_loader.get_sector_form_class" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_sector_form_class</span><span class="p">(</span><span class="n">sector_name</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Print and log detected runtime paths and platform flags for debugging.</p>
+        <p>Retrieve the WTForms class associated with a given sector name.</p>
 
 
-<details class="outputs" open>
-  <summary>Outputs</summary>
-  <ul>
-<li>Platform name and OS flags</li>
-<li>Resolved project root path</li>
-<li>Paths for uploads, logs, and static assets</li>
-</ul>
-</details>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>sector_name</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Logical string identifier for the sector (e.g., "landfill").</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <table class="field-list">
   <colgroup>
@@ -284,10 +292,9 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code>None</code>
               –
               <div class="doc-md-description">
-                <p>None</p>
+                <p>type[FlaskForm] | None: Corresponding WTForms subclass if found; otherwise None.</p>
               </div>
             </li>
         </ul>
@@ -297,13 +304,8 @@
 </table>
 
             <details class="quote">
-              <summary>Source code in <code>arb\portal\startup\runtime_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
+              <summary>Source code in <code>arb\portal\forms\sector_form_loader.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
@@ -313,30 +315,17 @@
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">print_runtime_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_form_class</span><span class="p">(</span><span class="n">sector_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Print and log detected runtime paths and platform flags for debugging.</span>
+<span class="sd">  Retrieve the WTForms class associated with a given sector name.</span>
 
-<span class="sd">  Outputs:</span>
-<span class="sd">    - Platform name and OS flags</span>
-<span class="sd">    - Resolved project root path</span>
-<span class="sd">    - Paths for uploads, logs, and static assets</span>
+<span class="sd">  Args:</span>
+<span class="sd">    sector_name (str): Logical string identifier for the sector (e.g., &quot;landfill&quot;).</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    None</span>
+<span class="sd">    type[FlaskForm] | None: Corresponding WTForms subclass if found; otherwise None.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PLATFORM&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">PLATFORM</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_WINDOWS&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_WINDOWS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_LINUX&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_LINUX</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IS_MAC&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">IS_MAC</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PROJECT_ROOT&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">PROJECT_ROOT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;UPLOAD_PATH&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">UPLOAD_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;LOG_DIR&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">LOG_DIR</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;STATIC_DIR&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">STATIC_DIR</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">FORM_REGISTRY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sector_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -354,8 +343,8 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../flask/" class="btn btn-neutral float-left" title="arb.portal.startup.flask"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../utils/db_ingest_util/" class="btn btn-neutral float-right" title="arb.portal.utils.db_ingest_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../config/settings/" class="btn btn-neutral float-left" title="arb.portal.config.settings"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../startup/db/" class="btn btn-neutral float-right" title="arb.portal.startup.db">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -378,10 +367,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../flask/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../config/settings/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../../utils/db_ingest_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../startup/db/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -121,6 +129,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../json/">arb.utils.json</a>
                 </li>
@@ -227,6 +237,193 @@ Output: Dictionary representing the oil and gas schema</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.xl_parse.convert_upload_to_json" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">convert_upload_to_json</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert an uploaded Excel or JSON file into a valid JSON payload file.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the uploaded file.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="pathlib.Path">Path</span> | None</code>
+              –
+              <div class="doc-md-description">
+                <p>Path | None:
+- Path to JSON file (either original or newly created), or
+- None if file type is unsupported or conversion fails.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="behavior" open>
+  <summary>Behavior</summary>
+  <ul>
+<li>If the file has a <code>.json</code> extension:
+    → Assume it is valid JSON and return as-is.</li>
+<li>If the file has a <code>.xlsx</code> extension:
+    → Attempt to parse using Excel schema logic.
+    → Save converted contents as a <code>.json</code> file in the same directory.
+    → Return the path to that JSON file.</li>
+<li>If the file is neither <code>.xlsx</code> nor <code>.json</code>:
+    → Log a warning and return None.</li>
+</ul>
+</details>
+
+<details class="side-effects" open>
+  <summary>Side Effects</summary>
+  <ul>
+<li>May write a <code>.json</code> file to disk if an Excel file is successfully parsed.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">convert_upload_to_json</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert an uploaded Excel or JSON file into a valid JSON payload file.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    file_path (Path): Path to the uploaded file.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Path | None:</span>
+<span class="sd">      - Path to JSON file (either original or newly created), or</span>
+<span class="sd">      - None if file type is unsupported or conversion fails.</span>
+
+<span class="sd">  Behavior:</span>
+<span class="sd">    - If the file has a `.json` extension:</span>
+<span class="sd">        → Assume it is valid JSON and return as-is.</span>
+<span class="sd">    - If the file has a `.xlsx` extension:</span>
+<span class="sd">        → Attempt to parse using Excel schema logic.</span>
+<span class="sd">        → Save converted contents as a `.json` file in the same directory.</span>
+<span class="sd">        → Return the path to that JSON file.</span>
+<span class="sd">    - If the file is neither `.xlsx` nor `.json`:</span>
+<span class="sd">        → Log a warning and return None.</span>
+
+<span class="sd">  Side Effects:</span>
+<span class="sd">    - May write a `.json` file to disk if an Excel file is successfully parsed.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">extension</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="n">json_path</span> <span class="o">=</span> <span class="kc">None</span>
+
+  <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.xlsx&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Excel upload detected: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">xl_as_dict</span> <span class="o">=</span> <span class="n">parse_xl_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed Excel to dict: </span><span class="si">{</span><span class="n">xl_as_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">json_path</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving Excel-derived JSON as: </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">json_save_with_meta</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="n">xl_as_dict</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Excel parsing failed for </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">None</span>
+
+  <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JSON upload detected: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">json_path</span> <span class="o">=</span> <span class="n">file_path</span>
+
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported file type: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">json_path</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -445,8 +642,7 @@ Output: Dictionary representing the oil and gas schema</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">206</span>
-<span class="normal">207</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
@@ -526,7 +722,9 @@ Output: Dictionary representing the oil and gas schema</p>
 <span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
-<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_tabs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_tabs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
                  <span class="n">schema_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span>
                  <span class="n">xl_as_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -577,6 +775,7 @@ Output: Dictionary representing the oil and gas schema</p>
                            <span class="sa">f</span><span class="s2">&quot;Attempting to convert the value to the correct type&quot;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
               <span class="c1"># convert to datetime using a parser if possible</span>
+              <span class="c1"># todo - datetime - seems like I could cast to utc here for persistence</span>
               <span class="k">if</span> <span class="n">value_type</span> <span class="o">==</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
                 <span class="n">local_datetime</span> <span class="o">=</span> <span class="n">parse_unknown_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">local_datetime</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_datetime_naive</span><span class="p">(</span><span class="n">local_datetime</span><span class="p">):</span>
@@ -617,15 +816,16 @@ Output: Dictionary representing the oil and gas schema</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.utils.excel.xl_parse.get_json_file_name" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></code>
+<h2 id="arb.utils.excel.xl_parse.get_json_file_name_old" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_json_file_name_old</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.</p>
+        <p>Depreciated: use convert_upload_to_json instead</p>
+<p>Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.</p>
 
 
 <table class="field-list">
@@ -723,8 +923,13 @@ Output: Dictionary representing the oil and gas schema</p>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
-<span class="normal">392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_json_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_json_file_name_old</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Depreciated: use convert_upload_to_json instead</span>
+
 <span class="sd">  Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.</span>
 
 <span class="sd">  Args:</span>
@@ -753,6 +958,7 @@ Output: Dictionary representing the oil and gas schema</p>
     <span class="n">xl_as_dict</span> <span class="o">=</span> <span class="n">parse_xl_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xl_as_dict</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">json_file_name</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving extracted data from Excel as: </span><span class="si">{</span><span class="n">json_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">json_save_with_meta</span><span class="p">(</span><span class="n">json_file_name</span><span class="p">,</span> <span class="n">xl_as_dict</span><span class="p">)</span>
   <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
@@ -847,9 +1053,7 @@ Output: Dictionary representing the oil and gas schema</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">319</span>
 <span class="normal">320</span>
 <span class="normal">321</span>
 <span class="normal">322</span>
@@ -879,7 +1083,9 @@ Output: Dictionary representing the oil and gas schema</p>
 <span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
-<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_spreadsheet_key_value_pairs</span><span class="p">(</span><span class="n">wb</span><span class="p">:</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">Workbook</span><span class="p">,</span>
                                     <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                                     <span class="n">top_left_cell</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1178,13 +1384,13 @@ Output: Dictionary representing the oil and gas schema</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run all schema and Excel file parsing test functions for diagnostic purposes.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -1256,7 +1462,7 @@ Output: Dictionary representing the oil and gas schema</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-<b><code>dict</code></b>(                  <code><span title="dict">dict</span></code>
+<b><code>dict</code></b>(                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="dict">dict</span>]</code>
 )              –
               <div class="doc-md-description">
                 <p>Dictionary with extracted metadata, schemas, and tab contents.</p>
@@ -1320,7 +1526,9 @@ Output: Dictionary representing the oil and gas schema</p>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">,</span> <span class="n">schema_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">203</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_xl_file</span><span class="p">(</span><span class="n">xl_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+                  <span class="n">schema_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Parse a spreadsheet and return a dictionary representation using the given schema.</span>
 
@@ -1559,9 +1767,7 @@ that are more atomic.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
@@ -1583,7 +1789,9 @@ that are more atomic.</p>
 <span class="normal">311</span>
 <span class="normal">312</span>
 <span class="normal">313</span>
-<span class="normal">314</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">split_compound_keys</span><span class="p">(</span><span class="n">dict_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">split_compound_keys</span><span class="p">(</span><span class="n">dict_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Decompose compound keys into atomic fields.</span>
 
@@ -1630,14 +1838,14 @@ that are more atomic.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_schema_file_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_schema_file_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Debug test for loading a schema file map and displaying contents.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -1667,14 +1875,14 @@ that are more atomic.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_xl_schemas</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_load_xl_schemas</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Debug test for loading default schemas from xl_schema_file_map.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -1704,15 +1912,15 @@ that are more atomic.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\excel\xl_parse.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_parse_xl_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_parse_xl_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Debug test to parse a known Excel file into dictionary form using schemas.</span>
 <span class="sd">  &quot;&quot;&quot;</span>

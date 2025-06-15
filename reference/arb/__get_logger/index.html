@@ -96,7 +96,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -139,6 +147,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../utils/diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../utils/io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../utils/json/">arb.utils.json</a>
                 </li>
@@ -222,7 +232,7 @@ are sorted alphabetically—ensuring logging is configured before any modules em
 <p>Import and initialize the logger in any module:</p>
 <p>from arb import <strong>get_logger as get_logger
   logger, pp_log = get_logger(__name</strong>)</p>
-<p>logger.debug("Basic log message")
+<p>logger.debug(f"Basic log message")
   logger.debug(pp_log({"structured": "data", "for": "inspection"}))</p>
 <p>To customize behavior:</p>
 <p>logger, pp_log = get_logger(

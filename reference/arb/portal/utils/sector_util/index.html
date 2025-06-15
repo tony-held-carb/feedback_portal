@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -121,6 +129,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
                 </li>
@@ -324,7 +334,8 @@ based on sector type and CRUD mode.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+<span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
@@ -357,8 +368,7 @@ based on sector type and CRUD mode.</p>
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_sector_payload</span><span class="p">(</span><span class="n">xl_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_sector_payload</span><span class="p">(</span><span class="n">xl_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
                            <span class="n">metadata_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
                            <span class="n">tab_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Feedback Form&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -478,7 +488,8 @@ based on sector type and CRUD mode.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 63</span>
+<span class="normal"> 64</span>
 <span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
@@ -520,8 +531,7 @@ based on sector type and CRUD mode.</p>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_info</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_info</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">SQLAlchemy</span><span class="p">,</span>
                     <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span><span class="p">,</span>
                     <span class="n">id_</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -657,11 +667,7 @@ based on sector type and CRUD mode.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -676,7 +682,11 @@ based on sector type and CRUD mode.</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_sector_type</span><span class="p">(</span><span class="n">sector</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Map a sector name to its broad classification.</span>
 
@@ -779,32 +789,19 @@ based on sector type and CRUD mode.</p>
   </tbody>
 </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Raises:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code><span title="ValueError">ValueError</span></code>
-              –
-              <div class="doc-md-description">
-                <p>If values are missing or conflict.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>Can't control if the database changes the sector in a foreign table.
+rather than raise an error if json and foreign key have different sectors,
+the json sector will be assumed correct if in conflict.</p>
+</details>        <p>Raises:
+  ValueError: If values are missing or conflict.   &lt;-- this was turned off</p>
+
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\utils\sector_util.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
+<span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
@@ -842,7 +839,11 @@ based on sector type and CRUD mode.</p>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_sector</span><span class="p">(</span><span class="n">sector_by_foreign_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">row</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
                    <span class="n">misc_json</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -856,28 +857,33 @@ based on sector type and CRUD mode.</p>
 <span class="sd">  Returns:</span>
 <span class="sd">    str: Sector string.</span>
 
+<span class="sd">  Notes:</span>
+<span class="sd">    Can&#39;t control if the database changes the sector in a foreign table.</span>
+<span class="sd">    rather than raise an error if json and foreign key have different sectors,</span>
+<span class="sd">    the json sector will be assumed correct if in conflict.</span>
 <span class="sd">  Raises:</span>
-<span class="sd">    ValueError: If values are missing or conflict.</span>
+<span class="sd">    ValueError: If values are missing or conflict.   &lt;-- this was turned off</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;resolve_sector() called with </span><span class="si">{</span><span class="n">sector_by_foreign_key</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">row</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">misc_json</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
   <span class="n">sector_by_json</span> <span class="o">=</span> <span class="n">misc_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;sector column value in sources table is None.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sector column value in sources table is None.&quot;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&#39;sector&#39; not in misc_json&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;sector&#39; not in misc_json&quot;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sector_by_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">sector_by_foreign_key</span> <span class="o">!=</span> <span class="n">sector_by_json</span><span class="p">:</span>
       <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sector mismatch: </span><span class="si">{</span><span class="n">sector_by_foreign_key</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">sector_by_json</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t determine incidence sector&quot;</span><span class="p">)</span>
+      <span class="c1"># raise ValueError(&quot;Can&#39;t determine incidence sector&quot;)</span>
 
-  <span class="n">sector</span> <span class="o">=</span> <span class="n">sector_by_foreign_key</span> <span class="ow">or</span> <span class="n">sector_by_json</span>
+  <span class="c1"># sector_by_json given priority over foreign key</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">sector_by_json</span> <span class="ow">or</span> <span class="n">sector_by_foreign_key</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;resolve_sector() returning </span><span class="si">{</span><span class="n">sector</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">sector</span>

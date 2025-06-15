@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -121,6 +129,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../json/">arb.utils.json</a>
                 </li>
@@ -364,7 +374,7 @@ Output: Dictionary of variable names → value types, logged if diagnostics enab
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.excel.xl_hardcoded</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_value_types_v01_00</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;create_default_types_schema() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_default_types_schema() called&quot;</span><span class="p">)</span>
 
   <span class="n">file_name</span> <span class="o">=</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas/default_value_types_v01_00.json&quot;</span>
   <span class="n">file_backup</span> <span class="o">=</span> <span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas/default_value_types_v01_00_backup.json&quot;</span>
@@ -546,7 +556,7 @@ Output: JSON file with metadata saved to payload.json</p>
 <span class="sd">    - Logs all key actions and file paths for diagnostics.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;create_payload() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_payload() called&quot;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
@@ -669,7 +679,7 @@ Output: Sector payloads written to xl_payloads/*.json</p>
 <span class="sd">    - Uses `create_payload()` to handle serialization and metadata embedding.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;create_payloads() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_payloads() called&quot;</span><span class="p">)</span>
 
   <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.excel.xl_hardcoded</span><span class="w"> </span><span class="kn">import</span> <span class="n">landfill_payload_01</span><span class="p">,</span> <span class="n">oil_and_gas_payload_01</span>
 
@@ -811,7 +821,7 @@ Output: All schema/payload/template artifacts generated under processed_versions
 <span class="sd">    - Logs each operation and file path for debugging.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;create_schemas_and_payloads() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create_schemas_and_payloads() called&quot;</span><span class="p">)</span>
 
   <span class="n">ensure_dir_exists</span><span class="p">(</span><span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_schemas&quot;</span><span class="p">)</span>
   <span class="n">ensure_dir_exists</span><span class="p">(</span><span class="n">PROCESSED_VERSIONS</span> <span class="o">/</span> <span class="s2">&quot;xl_workbooks&quot;</span><span class="p">)</span>
@@ -967,7 +977,7 @@ Output: All schema/payload/template artifacts generated under processed_versions
 <span class="sd">    - Overwrites files in the output directory if they already exist.</span>
 <span class="sd">    - Output directories are created if they don&#39;t exist.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;prep_xl_templates() called for landfill, oil and gas, and energy schemas&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prep_xl_templates() called for landfill, oil and gas, and energy schemas&quot;</span><span class="p">)</span>
 
   <span class="n">file_specs</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="n">input_dir</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;feedback_forms/current_versions&quot;</span>
@@ -1127,20 +1137,20 @@ Output: All schema/payload/template artifacts generated under processed_versions
 <span class="sd">    - Catches and logs any exceptions that occur during testing.</span>
 <span class="sd">    - Intended for developers to verify schema and workbook generation end-to-end.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running diagnostics...&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running diagnostics...&quot;</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Step 1: Creating default type schema&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step 1: Creating default type schema&quot;</span><span class="p">)</span>
     <span class="n">create_default_types_schema</span><span class="p">(</span><span class="n">diagnostics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Step 2: Creating and verifying schema files and payloads&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step 2: Creating and verifying schema files and payloads&quot;</span><span class="p">)</span>
     <span class="n">prep_xl_templates</span><span class="p">()</span>
     <span class="n">create_payloads</span><span class="p">()</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Step 3: Performing test Excel generation&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step 3: Performing test Excel generation&quot;</span><span class="p">)</span>
     <span class="n">test_update_xlsx_payloads_01</span><span class="p">()</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Diagnostics complete. Check output directory and logs for details.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagnostics complete. Check output directory and logs for details.&quot;</span><span class="p">)</span>
 
   <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagnostics failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1650,9 +1660,9 @@ Output: JSON file written to "xl_schemas/v01_00.json" (default path)</p>
   <span class="c1"># Verify round-trip serialization</span>
   <span class="n">read_data</span><span class="p">,</span> <span class="n">read_metadata</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">read_data</span> <span class="o">==</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">read_metadata</span> <span class="o">==</span> <span class="n">metadata</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;SUCCESS: JSON serialization round-trip matches original.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUCCESS: JSON serialization round-trip matches original.&quot;</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;FAILURE: Mismatch in JSON serialization round-trip.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILURE: Mismatch in JSON serialization round-trip.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1844,7 +1854,7 @@ Output: New dictionary with sorted keys and reordered sub-schemas</p>
 <span class="sd">    Input : schema, sort_by=&quot;label_address&quot;</span>
 <span class="sd">    Output: New dictionary with sorted keys and reordered sub-schemas</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;sort_xl_schema() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sort_xl_schema() called&quot;</span><span class="p">)</span>
 
   <span class="c1"># Reorder each sub-schema dict</span>
   <span class="k">for</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">sub_schema</span> <span class="ow">in</span> <span class="n">xl_schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1857,10 +1867,10 @@ Output: New dictionary with sorted keys and reordered sub-schemas</p>
 
   <span class="c1"># Sort top-level dictionary</span>
   <span class="k">if</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;variable_name&quot;</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sorting schema by variable_name&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sorting schema by variable_name&quot;</span><span class="p">)</span>
     <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">xl_schema</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
   <span class="k">elif</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;label_address&quot;</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sorting schema by label_address&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sorting schema by label_address&quot;</span><span class="p">)</span>
     <span class="n">get_xl_row</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
       <span class="n">xl_address_sort</span><span class="p">,</span> <span class="n">address_location</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="n">sub_keys</span><span class="o">=</span><span class="s2">&quot;label_address&quot;</span>
     <span class="p">)</span>
@@ -2008,7 +2018,7 @@ Output: Diagnostic Excel files created in xl_workbooks/</p>
 <span class="sd">    - Uses both file-based and inline payloads.</span>
 <span class="sd">    - Intended for development and diagnostic use, not production.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;test_update_xlsx_payloads_01() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_update_xlsx_payloads_01() called&quot;</span><span class="p">)</span>
 
   <span class="c1"># Landfill test with two payloads from the file</span>
   <span class="n">update_xlsx_payloads</span><span class="p">(</span>
@@ -2359,7 +2369,7 @@ typically for supported sectors like landfill and oil and gas.</p>
 <span class="sd">    - Calls `update_vba_schema()` for each version.</span>
 <span class="sd">    - Output schemas are written to the processed_versions/xl_schemas directory.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;update_vba_schemas() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;update_vba_schemas() called&quot;</span><span class="p">)</span>
 
   <span class="k">for</span> <span class="n">schema_version</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;landfill_v01_00&quot;</span><span class="p">,</span> <span class="s2">&quot;oil_and_gas_v01_00&quot;</span><span class="p">]:</span>
     <span class="n">update_vba_schema</span><span class="p">(</span><span class="n">schema_version</span><span class="p">)</span>

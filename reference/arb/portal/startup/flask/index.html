@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -121,6 +129,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
                 </li>
@@ -339,7 +349,11 @@ configure_flask_app(app)</p>
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">configure_flask_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">Flask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">configure_flask_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">Flask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Apply global configuration to the Flask app instance.</span>
 
@@ -358,7 +372,7 @@ configure_flask_app(app)</p>
 <span class="sd">        * Applies `LOG_LEVEL` from app config</span>
 <span class="sd">        * Disables Werkzeug color log markup</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;configure_flask_app() called&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;configure_flask_app() called&quot;</span><span class="p">)</span>
 
   <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;app_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CARB Feedback Portal&quot;</span>
 
@@ -378,6 +392,10 @@ configure_flask_app(app)</p>
   <span class="c1"># -------------------------------------------------------------------------</span>
   <span class="c1"># Jinja Configuration</span>
   <span class="c1"># -------------------------------------------------------------------------</span>
+  <span class="c1"># Next two lines help auto-reload HTML changes and warn about missing blocks or undefined variables.</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;TEMPLATES_AUTO_RELOAD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">auto_reload</span> <span class="o">=</span> <span class="kc">True</span>
+
   <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">undefined</span> <span class="o">=</span> <span class="n">StrictUndefined</span>
 
   <span class="c1"># Jinja: Trim whitespace before/after {{ }} text injection</span>
@@ -393,7 +411,7 @@ configure_flask_app(app)</p>
 
   <span class="c1"># Jinja: expose Python ZoneInfo class to templates for local time conversion</span>
   <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;california_tz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Flask Jinja2 globals and logging initialized.&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flask Jinja2 globals and logging initialized.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

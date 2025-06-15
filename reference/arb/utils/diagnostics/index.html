@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -141,6 +149,8 @@
     </ul>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../json/">arb.utils.json</a>
                 </li>
@@ -420,14 +430,14 @@ Output: False</p>
   <span class="p">}</span>
 
   <span class="k">if</span> <span class="n">keys_in_dict1_not_in_dict2</span> <span class="ow">or</span> <span class="n">keys_in_dict2_not_in_dict1</span> <span class="ow">or</span> <span class="n">differing_values</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Key differences:&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key differences:&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">keys_in_dict1_not_in_dict2</span><span class="p">:</span>
       <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- In </span><span class="si">{</span><span class="n">dict1_name</span><span class="si">}</span><span class="s2"> but not in </span><span class="si">{</span><span class="n">dict2_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">keys_in_dict1_not_in_dict2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">keys_in_dict2_not_in_dict1</span><span class="p">:</span>
       <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- In </span><span class="si">{</span><span class="n">dict2_name</span><span class="si">}</span><span class="s2"> but not in </span><span class="si">{</span><span class="n">dict1_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">keys_in_dict2_not_in_dict1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">differing_values</span><span class="p">:</span>
-      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Value differences:&quot;</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value differences:&quot;</span><span class="p">)</span>
       <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">differing_values</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Key: &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;, </span><span class="si">{</span><span class="n">dict1_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">dict2_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -1393,7 +1403,7 @@ Output: Logs all attributes (including private) and functions to debug logger</p
 
 <span class="sd">  Logs example output for each function.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Running diagnostics on arb.utils.diagnostics module&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running diagnostics on arb.utils.diagnostics module&quot;</span><span class="p">)</span>
 
   <span class="c1"># obj_diagnostics</span>
   <span class="k">class</span><span class="w"> </span><span class="nc">TestClass</span><span class="p">:</span>
@@ -1417,11 +1427,11 @@ Output: Logs all attributes (including private) and functions to debug logger</p
 
   <span class="c1"># dict_to_str</span>
   <span class="n">nested_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}}</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;dict_to_str output:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dict_to_str</span><span class="p">(</span><span class="n">nested_dict</span><span class="p">))</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dict_to_str output:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dict_to_str</span><span class="p">(</span><span class="n">nested_dict</span><span class="p">))</span>
 
   <span class="c1"># obj_to_html</span>
   <span class="n">html_result</span> <span class="o">=</span> <span class="n">obj_to_html</span><span class="p">(</span><span class="n">nested_dict</span><span class="p">)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;HTML representation of object (truncated):</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">html_result</span><span class="p">[:</span><span class="mi">300</span><span class="p">])</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HTML representation of object (truncated):</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">html_result</span><span class="p">[:</span><span class="mi">300</span><span class="p">])</span>
 
   <span class="c1"># compare_dicts</span>
   <span class="n">d1</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>

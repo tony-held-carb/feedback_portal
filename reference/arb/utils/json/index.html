@@ -78,7 +78,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -122,6 +130,8 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../file_io/">arb.utils.file_io</a>
                 </li>
+                <li class="toctree-l3"><a class="reference internal" href="../io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.utils.json</a>
     <ul class="current">
     <li class="toctree-l4"><a class="reference internal" href="#arb.utils.json">json</a>
@@ -149,6 +159,8 @@
     <li class="toctree-l4"><a class="reference internal" href="#arb.utils.json.make_dict_serializeable">make_dict_serializeable</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.utils.json.run_diagnostics">run_diagnostics</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.utils.json.safe_json_loads">safe_json_loads</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.utils.json.wtform_types_and_values">wtform_types_and_values</a>
     </li>
@@ -319,7 +331,8 @@ Output: Adds metadata and writes back to same file</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">252</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
+<span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
@@ -339,8 +352,7 @@ Output: Adds metadata and writes back to same file</p>
 <span class="normal">269</span>
 <span class="normal">270</span>
 <span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_metadata_to_json</span><span class="p">(</span>
+<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_metadata_to_json</span><span class="p">(</span>
     <span class="n">file_name_in</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_name_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -379,7 +391,8 @@ Output: Adds metadata and writes back to same file</p>
 
     <div class="doc doc-contents ">
 
-        <p>Cast a stringified JSON value into a Python object of the expected type.</p>
+        <h3 id="arb.utils.json.cast_model_value--todo-may-want-to-change-name-and-description-of-this-function-it-seems-misleading">todo - may want to change name and description of this function it seems misleading</h3>
+<p>Cast a stringified JSON value into a Python object of the expected type.</p>
 
 
 <table class="field-list">
@@ -472,7 +485,8 @@ Output: Adds metadata and writes back to same file</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
+<span class="normal">312</span>
 <span class="normal">313</span>
 <span class="normal">314</span>
 <span class="normal">315</span>
@@ -505,12 +519,14 @@ Output: Adds metadata and writes back to same file</p>
 <span class="normal">342</span>
 <span class="normal">343</span>
 <span class="normal">344</span>
-<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cast_model_value</span><span class="p">(</span>
+<span class="normal">345</span>
+<span class="normal">346</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cast_model_value</span><span class="p">(</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">value_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  # todo - may want to change name and description of this function it seems misleading</span>
 <span class="sd">  Cast a stringified JSON value into a Python object of the expected type.</span>
 
 <span class="sd">  Args:</span>
@@ -524,6 +540,7 @@ Output: Adds metadata and writes back to same file</p>
 <span class="sd">  Raises:</span>
 <span class="sd">      ValueError: If the value cannot be cast to the given type.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># todo - datetime - may need to update</span>
   <span class="k">try</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">value_type</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
       <span class="c1"># No need to cast a string</span>
@@ -604,7 +621,8 @@ Output: Logs any differences or confirms matches</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">275</span>
+<span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
@@ -636,8 +654,7 @@ Output: Logs any differences or confirms matches</p>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_json_files</span><span class="p">(</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_json_files</span><span class="p">(</span>
     <span class="n">file_name_1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_name_2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -660,17 +677,17 @@ Output: Logs any differences or confirms matches</p>
   <span class="n">data_1</span><span class="p">,</span> <span class="n">meta_1</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name_1</span><span class="p">)</span>
   <span class="n">data_2</span><span class="p">,</span> <span class="n">meta_2</span> <span class="o">=</span> <span class="n">json_load_with_meta</span><span class="p">(</span><span class="n">file_name_2</span><span class="p">)</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Comparing metadata&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing metadata&quot;</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">compare_dicts</span><span class="p">(</span><span class="n">meta_1</span><span class="p">,</span> <span class="n">meta_2</span><span class="p">,</span> <span class="s2">&quot;metadata_01&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata_02&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Metadata are equivalent&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Metadata are equivalent&quot;</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Metadata differ&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Metadata differ&quot;</span><span class="p">)</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Comparing data&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing data&quot;</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">compare_dicts</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">,</span> <span class="s2">&quot;data_01&quot;</span><span class="p">,</span> <span class="s2">&quot;data_02&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Data are equivalent&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data are equivalent&quot;</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Data differ&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data differ&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -787,9 +804,7 @@ Output: Logs any differences or confirms matches</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">431</span>
 <span class="normal">432</span>
 <span class="normal">433</span>
 <span class="normal">434</span>
@@ -816,7 +831,9 @@ Output: Logs any differences or confirms matches</p>
 <span class="normal">455</span>
 <span class="normal">456</span>
 <span class="normal">457</span>
-<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dict</span><span class="p">(</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dict</span><span class="p">(</span>
     <span class="n">input_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">type_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -921,8 +938,7 @@ Output: Python object reconstructed from JSON with type tags</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
-<span class="normal"> 75</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
 <span class="normal"> 78</span>
@@ -963,7 +979,8 @@ Output: Python object reconstructed from JSON with type tags</p>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_deserializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_deserializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Custom JSON deserializer for class/type representations created by `json_serializer`.</span>
 
@@ -1128,8 +1145,7 @@ Output: Deserialized Python object from JSON</p>
 <span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load</span><span class="p">(</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
@@ -1157,8 +1173,7 @@ Output: Deserialized Python object from JSON</p>
   <span class="k">if</span> <span class="n">json_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">json_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;object_hook&quot;</span><span class="p">:</span> <span class="n">json_deserializer</span><span class="p">}</span>
 
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">json_options</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">read_json_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">,</span> <span class="n">json_options</span><span class="o">=</span><span class="n">json_options</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1254,7 +1269,8 @@ to be the whole JSON file with no metadata.</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
+<span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
@@ -1282,8 +1298,7 @@ to be the whole JSON file with no metadata.</p>
 <span class="normal">245</span>
 <span class="normal">246</span>
 <span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load_with_meta</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_load_with_meta</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
                         <span class="n">json_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Load a JSON file and return both data and metadata if present.</span>
@@ -1383,8 +1398,7 @@ Output: Creates a JSON file with serialized data at the given path</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
-<span class="normal">120</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
@@ -1430,8 +1444,7 @@ Output: Creates a JSON file with serialized data at the given path</p>
   <span class="k">if</span> <span class="n">json_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">json_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">json_serializer</span><span class="p">,</span> <span class="s2">&quot;indent&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
 
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">json_options</span><span class="p">)</span>
+  <span class="n">save_json_safely</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">json_options</span><span class="o">=</span><span class="n">json_options</span><span class="p">)</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JSON saved to file: &#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1692,8 +1705,7 @@ Output: JSON string with ISO datetime object encoded</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
-<span class="normal">48</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
@@ -1716,7 +1728,8 @@ Output: JSON string with ISO datetime object encoded</p>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_serializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_serializer</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Custom JSON serializer for objects not natively serializable by `json.dump`.</span>
 
@@ -1860,8 +1873,7 @@ Output: JSON string with ISO datetime object encoded</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
-<span class="normal">385</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
@@ -1902,7 +1914,9 @@ Output: JSON string with ISO datetime object encoded</p>
 <span class="normal">423</span>
 <span class="normal">424</span>
 <span class="normal">425</span>
-<span class="normal">426</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_dict_serializeable</span><span class="p">(</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_dict_serializeable</span><span class="p">(</span>
     <span class="n">input_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">type_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">convert_time_to_ca</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1934,6 +1948,7 @@ Output: JSON string with ISO datetime object encoded</p>
       <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to cast key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to </span><span class="si">{</span><span class="n">type_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+    <span class="c1"># todo - datetime - change this to ensure datetime is iso and fail if it is not</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
       <span class="k">if</span> <span class="n">convert_time_to_ca</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">ca_naive_to_utc_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -2000,57 +2015,7 @@ Output: JSON string with ISO datetime object encoded</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
@@ -2060,7 +2025,60 @@ Output: JSON string with ISO datetime object encoded</p>
 <span class="normal">518</span>
 <span class="normal">519</span>
 <span class="normal">520</span>
-<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run internal validation for all JSON utilities.</span>
 
@@ -2109,8 +2127,11 @@ Output: JSON string with ISO datetime object encoded</p>
     <span class="k">assert</span> <span class="s2">&quot;note&quot;</span> <span class="ow">in</span> <span class="n">loaded_meta</span><span class="p">,</span> <span class="s2">&quot;Metadata not found&quot;</span>
 
     <span class="c1"># Write plain file, with serializer included, then enrich with metadata</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">plain_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-      <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span>
+    <span class="n">save_json_safely</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                     <span class="n">plain_file</span><span class="p">,</span>
+                     <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+                     <span class="n">json_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;indent&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">json_serializer</span><span class="p">})</span>
+
     <span class="n">add_metadata_to_json</span><span class="p">(</span><span class="n">plain_file</span><span class="p">)</span>
 
     <span class="c1"># Compare metadata-enriched files</span>
@@ -2121,6 +2142,221 @@ Output: JSON string with ISO datetime object encoded</p>
   <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagnostics failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">raise</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.json.safe_json_loads" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">safe_json_loads</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">context_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Safely parse a JSON string into a Python dictionary.</p>
+<p>This utility defensively decodes JSON content from sources like database columns,
+user input, or file contents. It handles malformed or null input gracefully and
+guarantees a dictionary result, logging detailed warnings with context if parsing fails.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="str">str</span> | <span title="dict">dict</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>JSON-formatted string, pre-decoded dict, or None.
+Common inputs include SQLAlchemy model columns (e.g., <code>model.misc_json</code>) that
+may contain raw strings or ORM-decoded dicts.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>context_label</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Optional label for diagnostics/logging.
+Used in log messages to identify which field or source caused a failure.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>dict</code></b>(                  <code><span title="dict">dict</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Parsed dictionary from the input, or empty dict if input is None, invalid,
+or already a valid dict.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="TypeError">TypeError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If <code>value</code> is not a str, dict, or None.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>If <code>value</code> is already a dict, it is returned unchanged.</li>
+<li>If <code>value</code> is None, empty, or invalid JSON, an empty dict is returned.</li>
+<li>If decoding fails, a warning is logged including the context_label.</li>
+</ul>
+</details>
+
+<details class="example-usage" open>
+  <summary>Example Usage</summary>
+  <p>safe_json_loads(model.misc_json, context_label="model.misc_json")
+safe_json_loads(data, context_label="user_profile_json")</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\json.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">safe_json_loads</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">context_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Safely parse a JSON string into a Python dictionary.</span>
+
+<span class="sd">  This utility defensively decodes JSON content from sources like database columns,</span>
+<span class="sd">  user input, or file contents. It handles malformed or null input gracefully and</span>
+<span class="sd">  guarantees a dictionary result, logging detailed warnings with context if parsing fails.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    value (str | dict | None): JSON-formatted string, pre-decoded dict, or None.</span>
+<span class="sd">      Common inputs include SQLAlchemy model columns (e.g., `model.misc_json`) that</span>
+<span class="sd">      may contain raw strings or ORM-decoded dicts.</span>
+<span class="sd">    context_label (str): Optional label for diagnostics/logging.</span>
+<span class="sd">      Used in log messages to identify which field or source caused a failure.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict: Parsed dictionary from the input, or empty dict if input is None, invalid,</span>
+<span class="sd">      or already a valid dict.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    TypeError: If `value` is not a str, dict, or None.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `value` is already a dict, it is returned unchanged.</span>
+<span class="sd">    - If `value` is None, empty, or invalid JSON, an empty dict is returned.</span>
+<span class="sd">    - If decoding fails, a warning is logged including the context_label.</span>
+
+<span class="sd">  Example Usage:</span>
+<span class="sd">    safe_json_loads(model.misc_json, context_label=&quot;model.misc_json&quot;)</span>
+<span class="sd">    safe_json_loads(data, context_label=&quot;user_profile_json&quot;)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected str, dict, or None; got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+  <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+    <span class="n">label_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">context_label</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">context_label</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Corrupt or invalid JSON string encountered</span><span class="si">{</span><span class="n">label_msg</span><span class="si">}</span><span class="s2">; returning empty dict.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2193,8 +2429,7 @@ Output: JSON string with ISO datetime object encoded</p>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">348</span>
-<span class="normal">349</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span>
 <span class="normal">352</span>
@@ -2226,7 +2461,8 @@ Output: JSON string with ISO datetime object encoded</p>
 <span class="normal">378</span>
 <span class="normal">379</span>
 <span class="normal">380</span>
-<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">wtform_types_and_values</span><span class="p">(</span>
+<span class="normal">381</span>
+<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">wtform_types_and_values</span><span class="p">(</span>
     <span class="n">wtform</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2277,7 +2513,7 @@ Output: JSON string with ISO datetime object encoded</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../file_io/" class="btn btn-neutral float-left" title="arb.utils.file_io"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../io_wrappers/" class="btn btn-neutral float-left" title="arb.utils.io_wrappers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../log_util/" class="btn btn-neutral float-right" title="arb.utils.log_util">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -2301,7 +2537,7 @@ Output: JSON string with ISO datetime object encoded</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../file_io/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../io_wrappers/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../log_util/" style="color: #fcfcfc">Next &raquo;</a></span>

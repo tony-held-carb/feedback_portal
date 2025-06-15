@@ -84,7 +84,15 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Config</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../config/accessors/">arb.portal.config.accessors</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Forms</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
                 </li>
     </ul>
                 </li>
@@ -127,6 +135,8 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../utils/diagnostics/">arb.utils.diagnostics</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/io_wrappers/">arb.utils.io_wrappers</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../utils/json/">arb.utils.json</a>
                 </li>
@@ -1104,7 +1114,7 @@ landfill facility operations.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># todo - update contingent dropdowns?</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Running update_contingent_selectors()&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running update_contingent_selectors()&quot;</span><span class="p">)</span>
 
     <span class="n">emission_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_location</span><span class="o">.</span><span class="n">data</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected emission_location: </span><span class="si">{</span><span class="n">emission_location</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1180,7 +1190,7 @@ landfill facility operations.</p>
     <span class="c1"># This will create the form.errors dictionary.  If there are form_errors they will be in the None key.</span>
     <span class="c1"># The form_errors will not affect if validate returns True/False, only the fields are considered.</span>
     <span class="c1">###################################################################################################</span>
-    <span class="c1"># logger.debug(&quot;in the validator before super&quot;)</span>
+    <span class="c1"># logger.debug(f&quot;in the validator before super&quot;)</span>
     <span class="n">obj_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;in the validator before super&quot;</span><span class="p">)</span>
 
     <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
@@ -1634,7 +1644,7 @@ ensures valid dropdown options and clears invalid selections.</p>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="c1"># todo - update contingent dropdowns?</span>
 
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Running update_contingent_selectors()&quot;</span><span class="p">)</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running update_contingent_selectors()&quot;</span><span class="p">)</span>
 
   <span class="n">emission_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_location</span><span class="o">.</span><span class="n">data</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected emission_location: </span><span class="si">{</span><span class="n">emission_location</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1913,7 +1923,7 @@ values, including:
   <span class="c1"># This will create the form.errors dictionary.  If there are form_errors they will be in the None key.</span>
   <span class="c1"># The form_errors will not affect if validate returns True/False, only the fields are considered.</span>
   <span class="c1">###################################################################################################</span>
-  <span class="c1"># logger.debug(&quot;in the validator before super&quot;)</span>
+  <span class="c1"># logger.debug(f&quot;in the validator before super&quot;)</span>
   <span class="n">obj_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;in the validator before super&quot;</span><span class="p">)</span>
 
   <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">extra_validators</span><span class="o">=</span><span class="n">extra_validators</span><span class="p">)</span>
