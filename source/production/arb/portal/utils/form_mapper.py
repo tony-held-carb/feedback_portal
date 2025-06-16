@@ -10,8 +10,8 @@ from datetime import datetime
 from typing import Any
 
 from sqlalchemy import or_
-from sqlalchemy.orm import Query
-from sqlalchemy.orm import DeclarativeMeta
+from sqlalchemy.orm import DeclarativeMeta, Query
+
 
 def apply_portal_update_filters(query: Query,
                                 portal_update_model: DeclarativeMeta | type[Any],

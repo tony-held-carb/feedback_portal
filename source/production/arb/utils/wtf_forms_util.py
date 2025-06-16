@@ -8,7 +8,6 @@ Notes:
 
 import copy
 import datetime
-import json
 from decimal import Decimal
 from typing import Callable
 
@@ -23,8 +22,7 @@ from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import get_changed_fields, list_differences
-from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
-from arb.utils.json import safe_json_loads
+from arb.utils.json import deserialize_dict, make_dict_serializeable, safe_json_loads, wtform_types_and_values
 
 __version__ = "1.0.0"
 
@@ -383,6 +381,7 @@ def wtform_to_model(model: AutomapBase,
   payload_all = make_dict_serializeable(payload_all, type_map=type_matching_dict, convert_time_to_ca=True)
 
   existing_json = load_model_json_column(model, json_column)
+  # todo - shouldn't json already be serialized, not sure what the next line accomplishes
   existing_serialized = make_dict_serializeable(existing_json, type_map=type_matching_dict, convert_time_to_ca=True)
 
   payload_changes = get_changed_fields(payload_all, existing_serialized)
