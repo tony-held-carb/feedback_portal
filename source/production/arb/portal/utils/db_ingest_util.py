@@ -20,7 +20,7 @@ from arb.portal.config.accessors import get_upload_folder
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
-from arb.utils.json import json_load_with_meta
+from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
@@ -180,16 +180,24 @@ def upload_and_update_db(db: SQLAlchemy,
                          base: AutomapBase
                          ) -> tuple[Path, int | None, str | None]:
   """
-  Legacy wrapper function: Save uploaded file, attempt Excel → JSON → DB ingest.
+  Save uploaded Excel file, convert to JSON, and write parsed contents to the database.
 
   Args:
-    db (SQLAlchemy): Database instance.
-    upload_dir (str | Path): Upload destination path.
-    request_file (FileStorage): Incoming file from Flask.
-    base (AutomapBase): Reflected metadata base.
+    db (SQLAlchemy): SQLAlchemy database instance.
+    upload_dir (str | Path): Directory where the uploaded file should be saved.
+    request_file (FileStorage): File uploaded via the Flask request.
+    base (AutomapBase): SQLAlchemy base object from automap reflection.
 
   Returns:
-    tuple[Path, int | None, str | None]: Saved file path, id_incidence, and sector.
+    tuple[Path, int | None, str | None]: Tuple of:
+      - file path of saved Excel file,
+      - id_incidence of inserted row (if any),
+      - sector extracted from the JSON file.
+
+  Notes:
+    - This function performs a full ingest. It logs the file,
+      parses Excel → JSON, and inserts the data into the database.
+    - If the file cannot be parsed or inserted, None values are returned.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -200,7 +208,7 @@ def upload_and_update_db(db: SQLAlchemy,
 
   json_path, sector = convert_excel_to_json_if_valid(file_path)
   if json_path:
-    id_, _ = prepare_staged_update(json_path, db, base)
+    id_, _ = json_file_to_db(db, json_path, base)  # ✅ Perform full ingest
 
   return file_path, id_, sector
 
@@ -223,27 +231,6 @@ def convert_file_to_json_old(file_path: Path) -> Path | None:
     return None
   logger.debug(f"Converted Excel to JSON: {json_file_path}")
   return json_file_path
-
-
-def prepare_staged_update(json_path: Path,
-                          db: SQLAlchemy,
-                          base: AutomapBase) -> tuple[int | None, str | None]:
-  """
-  Simulate a DB insert to extract the id_incidence and sector from JSON.
-
-  Args:
-    json_path (Path): File path to the parsed Excel JSON.
-    db (SQLAlchemy): SQLAlchemy database.
-    base (AutomapBase): Reflected metadata.
-
-  Returns:
-    tuple[int | None, str | None]: Parsed id_incidence and sector.
-  """
-  try:
-    return json_file_to_db(db, json_path, base, dry_run=True)
-  except Exception as e:
-    logger.warning(f"prepare_staged_update failed on dry run for {json_path}: {e}")
-    return None, None
 
 
 def extract_sector_from_json(json_path: Path) -> str | None:
@@ -314,63 +301,35 @@ def upload_and_stage_only(db: SQLAlchemy,
                           upload_dir: str | Path,
                           request_file: FileStorage,
                           base: AutomapBase
-                          ) -> tuple[Path, int | None, str | None, dict | None]:
+                          ) -> tuple[Path, int | None, str | None, dict]:
   """
-  Save uploaded file and extract parsed JSON contents for staging.
+  Save an uploaded Excel or JSON file, convert to JSON, and stage it for review.
 
-  This function does NOT write to the database. It prepares and returns:
-    - file path of the uploaded file
-    - id_incidence from tab_contents
-    - sector from metadata
-    - parsed JSON payload
+  This function mimics upload_and_update_db() to ensure parity, but differs in that:
+    - It does NOT update the database.
+    - It returns the parsed JSON dict for review purposes.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy instance.
-    upload_dir (str | Path): Where to store the uploaded file.
-    request_file (FileStorage): File provided in Flask request.
-    base (AutomapBase): Reflected DB model metadata.
+    db (SQLAlchemy): Active SQLAlchemy database instance.
+    upload_dir (str | Path): Target upload folder path.
+    request_file (FileStorage): Uploaded file from Flask request.
+    base (AutomapBase): Reflected metadata (currently unused but passed for consistency).
 
   Returns:
-    tuple[Path, int | None, str | None, dict | None]: (saved file path, id, sector, json data)
+    tuple[Path, int | None, str | None, dict]: Saved file path, extracted id_incidence,
+    sector name, and parsed JSON contents.
   """
-  logger.debug("upload_and_stage_only() called.")
+  logger.debug(f"upload_and_stage_only() called with {request_file=}")
+  id_ = None
+  sector = None
+  json_data = {}
 
   file_path = upload_single_file(upload_dir, request_file)
-  logger.debug(f"{file_path=}")
+  add_file_to_upload_table(db, file_path, status="File Added", description="Staged only (no DB write)")
 
-  add_file_to_upload_table(db, file_path, status="File Added", description=None)
+  json_path, sector = convert_excel_to_json_if_valid(file_path)
+  if json_path:
+    json_data, _ = json_load_with_meta(json_path)
+    id_ = extract_id_from_json(json_data)
 
-  json_path = convert_upload_to_json(file_path)
-  logger.debug(f"{json_path=}")
-  if not json_path:
-    logger.warning(f"Conversion failed for: {file_path}")
-    return file_path, None, None, None
-
-  try:
-    # ✅ json_load_with_meta returns tuple: (data_dict, metadata_dict)
-    json_data, json_meta = json_load_with_meta(json_path)
-    logger.debug(f"{json_data=}")
-    logger.debug(f"{json_meta=}")
-
-    # ✅ Use json_data directly as it contains: metadata, tab_contents, etc.
-    sector = json_data["metadata"]["sector"]
-    logger.debug(f"{sector=}")
-    tab_data = json_data["tab_contents"]["Feedback Form"]
-    logger.debug(f"{tab_data=}")
-    id_ = tab_data.get("id_incidence")
-    logger.debug(f"{id_=}")
-
-    if not isinstance(id_, int):
-      raise ValueError(f"id_incidence must be int, got {type(id_)}: {id_}")
-
-    # ✅ Write to staging folder
-    staging_path = Path(upload_dir) / "staging" / f"{id_}.json"
-    staging_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy(json_path, staging_path)
-    logger.info(f"Copied JSON to staging path: {staging_path}")
-
-    return file_path, id_, sector, json_data
-
-  except Exception as e:
-    logger.warning(f"Error parsing staged upload: {json_path} — {e}")
-    return file_path, None, None, None
+  return file_path, id_, sector, json_data

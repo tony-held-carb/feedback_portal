@@ -12,10 +12,10 @@ Timezone policy:
 - `UTC_TZ` and `PACIFIC_TZ` are globally defined using `zoneinfo.ZoneInfo`
 - Naive timestamps are only assumed to be UTC if explicitly configured via arguments
 """
-
 import re
 from collections.abc import Mapping
 from datetime import datetime
+from typing import Any
 from zoneinfo import ZoneInfo
 
 from dateutil import parser
@@ -341,6 +341,38 @@ def is_datetime_naive(dt: datetime) -> bool:
       Output: False
   """
   return dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None
+
+
+def normalize_value(val: Any) -> str:
+  """
+  Normalize a value for string-based diffing or comparison.
+
+  Args:
+    val (Any): The input value to normalize.
+
+  Returns:
+    str: Normalized value as a string, suitable for comparisons and display.
+
+  Notes:
+    - None and empty strings ("") are treated identically, returning "".
+      This ensures fields that were previously None but now filled with an empty string
+      (or vice versa) are not falsely flagged as changed.
+    - Naive datetime values are assumed to be in California time and converted to UTC.
+    - All other types are stringified using `str(val)`.
+
+  Example:
+    normalize_value(None)                → ""
+    normalize_value("")                  → ""
+    normalize_value(datetime(...))      → "2025-06-17T15:30:00+00:00"
+    normalize_value(42)                 → "42"
+  """
+  if val is None or val == "":
+    return ""
+  if isinstance(val, datetime):
+    if is_datetime_naive(val):
+      val = ca_naive_to_utc_datetime(val)
+    return val.isoformat()
+  return str(val)
 
 
 def run_diagnostics() -> None:

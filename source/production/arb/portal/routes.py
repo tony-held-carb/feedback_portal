@@ -41,7 +41,7 @@ from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.date_and_time import ca_naive_to_utc_datetime, is_datetime_naive
 from arb.utils.diagnostics import obj_to_html
-from arb.utils.json import json_load_with_meta
+from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields
 
@@ -229,19 +229,88 @@ def list_uploads() -> str:
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message: str | None = None) -> str | Response:
   """
-  Upload an Excel or JSON file, extract data, and optionally redirect to update form.
+  Upload a spreadsheet or JSON file and immediately apply it to the database.
+
+  This route handles file uploads (Excel or JSON), converts them into a
+  structured format, and applies the contents directly to the database.
+  If the upload and update succeed, the user is redirected to the update form.
+
+  Args:
+    message (str | None): Optional redirect message to show in the template.
+
+  Returns:
+    str | Response: Redirect to incidence update page on success, otherwise
+    renders the upload form with error or status messages.
+  """
+  logger.debug("upload_file route called.")
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+  form = UploadForm()
+
+  # Decode redirect message, if present
+  if message:
+    message = unquote(message)
+    logger.debug(f"Received redirect message: {message}")
+
+  upload_folder = get_upload_folder()
+  logger.debug(f"Files received: {list(request.files.keys())}, upload_folder={upload_folder}")
+
+  if request.method == 'POST':
+    try:
+      request_file = request.files.get('file')
+
+      if not request_file or not request_file.filename:
+        logger.warning("POST received with no file selected.")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message="No file selected. Please choose a file."
+        )
+
+      logger.debug(f"Received uploaded file: {request_file.filename}")
+
+      # Save file and attempt DB ingest
+      file_path, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
+
+      if id_:
+        logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
+        return redirect(url_for('main.incidence_update', id_=id_))
+
+      logger.warning(f"Upload failed schema recognition: {file_path=}")
+      return render_template(
+        'upload.html',
+        form=form,
+        upload_message=f"Uploaded file: {file_path.name} — format not recognized."
+      )
+
+    except Exception as e:
+      logger.exception("Exception occurred during upload or parsing.")
+      return render_template(
+        'upload.html',
+        form=form,
+        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
+      )
+
+  # GET request: display form
+  return render_template('upload.html', form=form, upload_message=message)
+
+
+@main.route('/upload_staged', methods=['GET', 'POST'])
+@main.route('/upload_staged/<message>', methods=['GET', 'POST'])
+def upload_file_staged(message: str | None = None) -> str | Response:
+  """
+  Upload an Excel or JSON file, convert it to JSON, and stage it for review.
 
   This route handles both GET (form rendering) and POST (file upload) requests.
-  If a valid file is uploaded and processed successfully, the user is redirected
-  to the appropriate incidence update page.
+  Uploaded files are parsed and saved to a staging location, but are NOT applied
+  to the database.
 
   Args:
     message (str | None): Optional message to display on page (from redirect).
 
   Returns:
-    str | Response: HTML response or redirect based on upload outcome.
+    str | Response: HTML response or redirect based on staging outcome.
   """
-  logger.debug("upload_file route called.")
+  logger.debug("upload_file_staged route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
@@ -259,67 +328,11 @@ def upload_file(message: str | None = None) -> str | Response:
 
       if not request_file or not request_file.filename:
         logger.warning("POST received with no file selected.")
-        return render_template('upload.html', form=form, upload_message="No file selected. Please choose a file.")
+        return render_template('upload_staged.html', form=form, upload_message="No file selected. Please choose a file.")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
-      # Stage and optionally ingest the uploaded file
-      file_path, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
-
-      if id_:
-        logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
-        return redirect(url_for('main.incidence_update', id_=id_))
-
-      logger.warning(f"Upload failed schema recognition: {file_path=}")
-      return render_template('upload.html', form=form,
-                             upload_message=f"Uploaded file: {file_path.name} — format not recognized.")
-
-    except Exception as e:
-      logger.exception("Exception occurred during upload or parsing.")
-      return render_template(
-        'upload.html',
-        form=form,
-        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
-      )
-
-  # GET request: render empty upload form
-  return render_template('upload.html', form=form, upload_message=message)
-
-
-@main.route('/upload_staged', methods=['GET', 'POST'])
-@main.route('/upload_staged/<message>', methods=['GET', 'POST'])
-def upload_file_staged(message: str | None = None) -> str | Response:
-  """
-  Upload an Excel file and stage its contents for review without committing to DB.
-
-  Args:
-    message (str | None): Optional message passed via redirect or template.
-
-  Returns:
-    str | Response: Upload form with optional message, or redirect to staging review.
-  """
-  logger.debug("upload_file_staged route called.")
-  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
-  form = UploadForm()
-
-  if message:
-    message = unquote(message)
-    logger.debug(f"upload_file_staged called with message: {message}")
-
-  upload_folder = get_upload_folder()
-  logger.debug(f"UploadStaged request with: {request.files=}, upload_folder={upload_folder}")
-
-  if request.method == 'POST':
-    try:
-      if 'file' not in request.files or not request.files['file'].filename:
-        logger.warning("No file provided in upload_staged.")
-        return render_template(
-          'upload_staged.html',
-          form=form,
-          upload_message="No file selected. Please choose a file."
-        )
-
-      request_file = request.files['file']
+      # Save and stage (no DB commit)
       file_path, id_, sector, json_data = upload_and_stage_only(db, upload_folder, request_file, base)
 
       if id_ is None:
@@ -331,19 +344,18 @@ def upload_file_staged(message: str | None = None) -> str | Response:
                          "Please verify the spreadsheet includes that field and try again."
         )
 
-      logger.debug(f"Staged upload successful: id={id_}, sector={sector}, redirecting...")
+      logger.debug(f"Staged upload successful: id={id_}, sector={sector}. Redirecting to review page.")
       return redirect(url_for('main.review_staged', id_=id_))
 
     except Exception as e:
-      logger.exception("Error during staged upload.")
+      logger.exception("Exception occurred during staged upload.")
       return render_template(
         'upload_staged.html',
         form=form,
-        upload_message="Error: Could not process the uploaded file. "
-                       "Ensure it is a valid Excel file and is not open in another program."
+        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
       )
 
-  # GET request
+  # GET request: display form
   return render_template('upload_staged.html', form=form, upload_message=message)
 
 
@@ -374,7 +386,7 @@ def review_staged(id_: int) -> str:
 
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
-    staged_payload = staged_data.get("tab_contents", {}).get("Feedback Form", {})
+    staged_payload = extract_tab_payload(staged_data, tab_name="Feedback Form")
   except Exception:
     logger.exception("Error loading staged JSON")
     return render_template("review_staged.html", error="Could not load staged data.")
@@ -387,48 +399,23 @@ def review_staged(id_: int) -> str:
     id_=id_
   )
 
-  def normalize(val):
-    if val is None or val == "":
-      return ""
-    if isinstance(val, datetime.datetime):
-      if is_datetime_naive(val):
-        val = ca_naive_to_utc_datetime(val)
-      return val.isoformat()
-    return str(val)
-
-  live_payload = getattr(model, "misc_json", {}) or {}
-  all_keys = sorted(set(live_payload) | set(staged_payload))
-  all_fields = []
-
-  for key in all_keys:
-    old = live_payload.get(key)
-    new = staged_payload.get(key)
-    norm_old = normalize(old)
-    norm_new = normalize(new)
-
-    all_fields.append({
-      "key": key,
-      "old": norm_old,
-      "new": norm_new,
-      "changed": norm_old != norm_new,
-    })
-
-    logger.debug(f"FIELD: {key!r} | DB: {type(old).__name__}={norm_old!r} | "
-                 f"STAGED: {type(new).__name__}={norm_new!r}")
+  db_json = getattr(model, "misc_json", {}) or {}
+  staged_fields = compute_field_differences(new_data=staged_payload, existing_data=db_json)
 
   if is_new_row:
     logger.info(f"⚠️ Staged ID {id_} did not exist in DB. A blank row was created for review.")
 
-  logger.debug(f"Computed {sum(f['changed'] for f in all_fields)} changes across {len(all_fields)} fields")
+  logger.debug(f"Computed {sum(f['changed'] for f in staged_fields)} changes across {len(staged_fields)} fields")
 
   return render_template(
     "review_staged.html",
     id_incidence=id_,
-    all_fields=all_fields,
+    staged_fields=staged_fields,
     is_new_row=is_new_row,
     metadata=metadata,
     error=None,
   )
+
 
 @main.route("/discard_staged_update/<int:id_>", methods=["POST"])
 def discard_staged_update(id_: int) -> Response:
