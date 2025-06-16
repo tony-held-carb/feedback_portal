@@ -352,19 +352,19 @@ def review_staged(id_: int) -> str:
   """
   Show a diff between a staged upload and the current database row.
 
-  This view compares all keys in the staged JSON payload and marks
-  which fields changed. It also passes metadata and supports display
-  of unchanged fields for full audit.
+  This view compares only keys present in the staged Excel/JSON payload.
+  It does NOT consider keys unique to the live DB (e.g., system-generated values).
 
   Args:
     id_ (int): ID of the row that was staged for update.
 
   Returns:
-    str: Rendered HTML with row-level differences and actions.
+    str: Rendered HTML with row-level differences.
   """
   logger.debug(f"Reviewing staged upload for id={id_}")
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+
   staging_dir = Path(get_upload_folder()) / "staging"
   staged_json_path = staging_dir / f"{id_}.json"
 
@@ -375,7 +375,7 @@ def review_staged(id_: int) -> str:
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
     staged_payload = staged_data.get("tab_contents", {}).get("Feedback Form", {})
-  except Exception:
+  except Exception as e:
     logger.exception("Error loading staged JSON")
     return render_template("review_staged.html", error="Could not load staged data.")
 
@@ -387,8 +387,10 @@ def review_staged(id_: int) -> str:
     id_=id_
   )
 
+  # Normalize both sides to string representation
+  # todo - should likely update json files to make them utc, but for now this is a quick fix
   def normalize(val):
-    if val is None or val == "":
+    if val is None:
       return ""
     if isinstance(val, datetime.datetime):
       if is_datetime_naive(val):
@@ -397,67 +399,35 @@ def review_staged(id_: int) -> str:
     return str(val)
 
   live_payload = getattr(model, "misc_json", {}) or {}
-  all_keys = sorted(set(live_payload) | set(staged_payload))
-  all_fields = []
+  diffs = []
 
-  for key in all_keys:
-    old = live_payload.get(key)
+  for key in sorted(staged_payload):
     new = staged_payload.get(key)
-    norm_old = normalize(old)
-    norm_new = normalize(new)
-
-    all_fields.append({
-      "key": key,
-      "old": norm_old,
-      "new": norm_new,
-      "changed": norm_old != norm_new,
-    })
-
-    logger.debug(f"FIELD: {key!r} | DB: {type(old).__name__}={norm_old!r} | "
-                 f"STAGED: {type(new).__name__}={norm_new!r}")
+    old = live_payload.get(key)
+    # logger.debug(f"Key: {key}, new: {new}, old: {old}")
+    if normalize(old) != normalize(new):
+      diffs.append({
+        "field": key,
+        "old": normalize(old),
+        "new": normalize(new),
+      })
+      # logger.debug(f"updating diffs: {diffs=}")
+    else:
+      pass
+      # logger.debug(f"no change to diffs")
 
   if is_new_row:
     logger.info(f"⚠️ Staged ID {id_} did not exist in DB. A blank row was created for review.")
 
-  logger.debug(f"Computed {sum(f['changed'] for f in all_fields)} changes across {len(all_fields)} fields")
+  logger.debug(f"Computed {len(diffs)} differences for staging review")
 
   return render_template(
     "review_staged.html",
     id_incidence=id_,
-    all_fields=all_fields,
+    diffs=diffs,
     is_new_row=is_new_row,
-    metadata=metadata,
     error=None,
   )
-
-@main.route("/discard_staged_update/<int:id_>", methods=["POST"])
-def discard_staged_update(id_: int) -> Response:
-  """
-  Discard a staged upload file without applying it to the database.
-
-  Args:
-    id_ (int): ID of the staged incidence file to discard.
-
-  Returns:
-    Response: Redirect to the staged upload page with status message.
-  """
-  staging_dir = Path(get_upload_folder()) / "staging"
-  staged_file = staging_dir / f"{id_}.json"
-
-  try:
-    if staged_file.exists():
-      staged_file.unlink()
-      logger.info(f"✅ Discarded staged upload file: {staged_file}")
-      flash(f"Discarded staged file for ID {id_}.", "info")
-    else:
-      logger.warning(f"⚠️ Tried to discard non-existent staged file: {staged_file}")
-      flash(f"No staged file found for ID {id_}.", "warning")
-
-  except Exception as e:
-    logger.exception("Error discarding staged file")
-    flash(f"Error discarding file: {e}", "danger")
-
-  return redirect(url_for("main.upload_file_staged"))
 
 
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content_1 %}
+  <h2 class="mt-3">Review Staged Upload</h2>
+  <p class="lead">Review the staged upload contents below for ID <strong>{{ id_incidence }}</strong>.</p>
+
+  {% if error %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% elif diffs %}
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Old Value</th>
+          <th>New Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in diffs %}
+        <tr>
+          <td>{{ row.field }}</td>
+          <td>{{ row.old }}</td>
+          <td>{{ row.new }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No differences found between staged and live data.</p>
+  {% endif %}
+{% endblock %}
