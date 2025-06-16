@@ -651,6 +651,7 @@ def compute_field_differences(
       - 'old': The normalized value from `existing_data`
       - 'new': The normalized value from `new_data`
       - 'changed': True if the values differ after normalization
+      - 'from_upload': Always True, indicating this field came from uploaded JSON
 
   Notes:
     - Normalization uses `normalize_value()` for consistent formatting,
@@ -670,6 +671,7 @@ def compute_field_differences(
       "old": norm_old,
       "new": norm_new,
       "changed": norm_old != norm_new,
+      "from_upload": True,
     })
 
     logger.debug(f"DIFF KEY={key!r} | DB={type(old_value).__name__}:{norm_old!r} "

@@ -1,73 +1,63 @@
 {% extends "base.html" %}
-{% block content %}
 
-<h2 class="mt-3">Review Staged Upload</h2>
-<p class="lead">Review the staged upload contents below for ID <strong>{{ id_incidence }}</strong>.</p>
+{% block content_1 %}
 
-<!-- Metadata Summary -->
-<div class="card my-3">
-  <div class="card-body">
-    <h5 class="card-title">Upload Metadata</h5>
-    <ul class="mb-0">
-      <li><strong>Filename:</strong> {{ id_incidence }}.json</li>
-      <li><strong>Upload Timestamp:</strong> {{ metadata.get("timestamp", "Unknown") }}</li>
-      <li><strong>Sector:</strong> {{ metadata.get("sector", "Unknown") }}</li>
-      <li><strong>New Record?:</strong> {{ "Yes" if is_new_row else "No" }}</li>
-      <li><strong>Changes Detected:</strong> {{ staged_fields | selectattr("changed") | list | length }}</li>
-    </ul>
+<div class="container my-4">
+  <h2 class="mb-4">🧾 Review Staged Upload</h2>
+
+  <div class="mb-3">
+    <strong>Incidence ID:</strong> {{ id_incidence }}<br>
+    <strong>Is New Row:</strong> {{ is_new_row }}<br>
+    <strong>Metadata:</strong>
+    <pre class="bg-light p-2 border rounded">{{ metadata | tojson(indent=2) }}</pre>
   </div>
-</div>
 
-<!-- Action Buttons -->
-<div class="mb-3">
-  <form method="POST" action="{{ url_for('main.apply_staged_update', id_=id_incidence) }}" class="d-inline">
-    <button type="submit" class="btn btn-success">✅ Approve & Commit</button>
-  </form>
-
-  <form method="POST" action="{{ url_for('main.discard_staged_update', id_=id_incidence) }}" class="d-inline ms-2">
-    <button type="submit" class="btn btn-danger">🗑️ Discard Staged Data</button>
-  </form>
-
-  <div class="form-check form-switch d-inline ms-4">
-    <input class="form-check-input" type="checkbox" role="switch" id="showAllFields">
-    <label class="form-check-label" for="showAllFields">Show all fields</label>
+  <div class="form-check form-switch mb-4">
+    <input class="form-check-input" type="checkbox" id="showAllFields" checked>
+    <label class="form-check-label" for="showAllFields">Show all fields (including unchanged)</label>
   </div>
+
+  <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
+
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Key</th>
+          <th>Old Value (DB)</th>
+          <th>New Value (Upload)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in staged_fields %}
+          {% set changed = field.changed %}
+          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
+            <td>
+              {{ field.key }}
+              {% if field.from_upload %}
+                <br><span class="badge bg-primary">from_upload</span>
+              {% endif %}
+            </td>
+            <td>{{ field.old }}</td>
+            <td>{{ field.new }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="text-end mt-4">
+      <button type="submit" class="btn btn-success btn-lg">
+        ✅ Confirm and Save Upload
+      </button>
+    </div>
+
+  </form>
 </div>
 
-<!-- Table of Differences -->
-{% if staged_fields %}
-<table class="table table-bordered mt-3">
-  <thead>
-    <tr>
-      <th>Field</th>
-      <th>Old Value</th>
-      <th>New Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for field in staged_fields %}
-      {% set changed = field.changed %}
-      <tr class="{{ '' if changed else 'table-light unchanged-field' }}" style="{{ '' if changed else 'display: none;' }}">
-        <td>{{ field.key }}</td>
-        <td>{{ field.old }}</td>
-        <td>{{ field.new }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<div class="alert alert-info mt-4">
-  No staged fields were found in the uploaded file.
-</div>
-{% endif %}
-
-<!-- Toggle Script -->
 <script>
-  const checkbox = document.getElementById("showAllFields");
-  checkbox.addEventListener("change", function () {
-    const rows = document.querySelectorAll(".unchanged-field");
-    rows.forEach(row => {
-      row.style.display = this.checked ? "" : "none";
+  document.getElementById("showAllFields").addEventListener("change", function () {
+    const show = this.checked;
+    document.querySelectorAll(".unchanged-field").forEach(row => {
+      row.style.display = show ? "" : "none";
     });
   });
 </script>

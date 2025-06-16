@@ -1,33 +1,50 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content_1 %}
-  <h2 class="mt-3">Review Staged Upload</h2>
-  <p class="lead">Review the staged upload contents below for ID <strong>{{ id_incidence }}</strong>.</p>
 
-  {% if error %}
-    <div class="alert alert-danger" role="alert">
-      {{ error }}
-    </div>
-  {% elif diffs %}
-    <table class="table table-bordered mt-3">
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Old Value</th>
-          <th>New Value</th>
+<div class="container my-4">
+  <h2 class="mb-4">🧾 Review Staged Upload</h2>
+
+  <div class="mb-3">
+    <strong>Incidence ID:</strong> {{ id_incidence }}<br>
+    <strong>Is New Row:</strong> {{ is_new_row }}<br>
+    <strong>Metadata:</strong>
+    <pre class="bg-light p-2 border rounded">{{ metadata | tojson(indent=2) }}</pre>
+  </div>
+
+  <div class="form-check form-switch mb-4">
+    <input class="form-check-input" type="checkbox" id="showAllFields" checked>
+    <label class="form-check-label" for="showAllFields">Show all fields (including unchanged)</label>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Key</th>
+        <th>Old Value (DB)</th>
+        <th>New Value (Upload)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in staged_fields %}
+        {% set changed = field.changed %}
+        <tr class="field-row {% if not changed %}unchanged-field{% endif %}">
+          <td>{{ field.key }}</td>
+          <td>{{ field.old }}</td>
+          <td>{{ field.new }}</td>
         </tr>
-      </thead>
-      <tbody>
-        {% for row in diffs %}
-        <tr>
-          <td>{{ row.field }}</td>
-          <td>{{ row.old }}</td>
-          <td>{{ row.new }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No differences found between staged and live data.</p>
-  {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  document.getElementById("showAllFields").addEventListener("change", function () {
+    const show = this.checked;
+    document.querySelectorAll(".unchanged-field").forEach(row => {
+      row.style.display = show ? "" : "none";
+    });
+  });
+</script>
+
 {% endblock %}

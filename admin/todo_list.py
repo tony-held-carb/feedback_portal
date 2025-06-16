@@ -3,6 +3,8 @@
 # todo - Next Steps
 ----------------------------
 * beginning refactor 20 to stage excel spreadsheet uploads
+* for the placeholder values, add for e.g. 123.45 so we don't get confused on real entries
+* have dan filter out None's and Please Selects from his display field
 
 * staging made it clear that the json files don't store in utc, which is against the
   data contract.

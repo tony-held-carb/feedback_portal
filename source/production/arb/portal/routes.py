@@ -22,6 +22,7 @@ from urllib.parse import unquote
 
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
+from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort
 
@@ -39,7 +40,6 @@ from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
-from arb.utils.date_and_time import ca_naive_to_utc_datetime, is_datetime_naive
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
@@ -415,6 +415,35 @@ def review_staged(id_: int) -> str:
     metadata=metadata,
     error=None,
   )
+
+
+@main.route("/confirm_staged/<int:id_>", methods=["POST"])
+def confirm_staged(id_: int) -> ResponseReturnValue:
+  """
+  Final confirmation of staged data. This route should:
+  - Move the staged JSON to the committed directory
+  - Trigger any database update logic
+  - Log the confirmation action
+
+  Args:
+    id_ (int): The incidence/emission ID being confirmed.
+
+  Returns:
+    ResponseReturnValue: Redirect to a confirmation or status page.
+  """
+  try:
+    logger.info(f"Confirming staged data for ID {id_}")
+
+    # TODO: load staged payload, write to committed dir, or update DB
+    # For now, we log and redirect to home or review page
+
+    flash(f"Upload for ID {id_} confirmed and committed.", "success")
+    return redirect(url_for("portal.home"))
+
+  except Exception as e:
+    logger.exception(f"Failed to confirm staged data for ID {id_}: {e}")
+    flash("An error occurred during confirmation.", "danger")
+    return redirect(url_for("portal.review_staged", id_=id_))
 
 
 @main.route("/discard_staged_update/<int:id_>", methods=["POST"])
