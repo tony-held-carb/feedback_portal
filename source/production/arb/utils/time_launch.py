@@ -15,6 +15,13 @@ Notes:
 Author: Your Name
 """
 
+import sys
+
+print("=== PRE-IMPORT MODULE SCAN ===")
+for name in sorted(sys.modules):
+  if "pycharm" in name or "datalore" in name or "pydev" in name:
+    print(" [AUTO-LOADED]", name)
+
 import time
 import platform
 
