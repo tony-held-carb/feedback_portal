@@ -789,3 +789,17 @@ from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
+
+
+C:\tony_apps\Sublime\Data\Packages\User
+C:\tony_apps\Sublime\Data\Packages\User\Preferences.sublime-settings
+// Settings in here override those in "Default/Preferences.sublime-settings",
+// and are overridden in turn by syntax-specific settings.
+// {
+// 	"draw_white_space": "all"
+// }
+changed to:
+{
+	"ignored_packages": []
+}
+
