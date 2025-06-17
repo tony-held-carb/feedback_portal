@@ -1,31 +1,33 @@
 """
-excel_compare_structured.py
+excel_compare.py
 
 Compare Excel workbooks (.xlsx) individually or across two directories.
 
-Enhancements:
-  - Structured output with grouped headers:
-      [Content Differences], [Formula Differences], etc.
-  - Preserves:
-      - File metadata
-      - SHA-256 comparison
-      - Cell-by-cell comparison
-      - Formatting checks
-      - Comment analysis
-  - Output saved to timestamped file with clear section headers
+Features:
+  - File metadata (created, modified)
+  - SHA-256 binary comparison
+  - Cell-by-cell value comparison
+  - Formula detection and comparison (including array formulas)
+  - Comment comparison
+  - Optional formatting comparison:
+      - "off": skip formatting
+      - "common": compare bold, italic, font size, fill, alignment
+      - "full": compare all formatting including borders, protection
+  - Sheet mismatch detection:
+      - If sheet names differ, lists sheets only in A and only in B
+      - Still compares common sheets
+  - Output grouped by difference type with clear A/B labeling
 
-Usage Example:
+Output:
+  Results are written to a timestamped text file:
+    comparison_at_YYYYMMDD_HHMMSS_structured.txt
 
+Example usage:
     compare_excel_directories(
       Path("C:/local/folder"),
       Path("C:/onedrive/folder"),
       formatting_mode="full"
     )
-
-Formatting mode options:
-  - "off"    : Skip all formatting comparisons
-  - "common" : Compare bold, italic, size, font, fill, and alignment (default)
-  - "full"   : All "common" formatting plus borders and cell protection
 """
 
 import hashlib
@@ -49,15 +51,7 @@ PROTECTION_ATTRS = ["locked", "hidden"]
 BORDER_SIDES = ["left", "right", "top", "bottom", "diagonal"]
 
 def stringify_formula(cell) -> str:
-  """
-  Return a human-readable formula string or raw value for a cell.
-
-  Args:
-    cell (Cell): openpyxl cell object.
-
-  Returns:
-    str: Formula string, or raw cell value if not a formula.
-  """
+  """Convert a cell's formula or value into a readable string."""
   try:
     if isinstance(cell.value, ArrayFormula):
       return cell.value.formula
@@ -68,56 +62,37 @@ def stringify_formula(cell) -> str:
     return f"[unreadable: {e}]"
 
 def compute_sha256(path: Path) -> str:
-  """
-  Compute the SHA-256 hash of a file.
-
-  Args:
-    path (Path): Path to file.
-
-  Returns:
-    str: Hex digest.
-  """
   with open(path, "rb") as f:
     return hashlib.sha256(f.read()).hexdigest()
 
-def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "common") -> list[str]:
-  """
-  Compare two Excel workbooks for differences in content, formulas, comments, and formatting.
-
-  Args:
-    path1 (Path): First workbook.
-    path2 (Path): Second workbook.
-    formatting_mode (str): One of "off", "common", or "full".
-
-  Returns:
-    list[str]: List of human-readable difference descriptions.
-  """
+def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "common") -> dict:
   wb1 = load_workbook(path1, data_only=False)
   wb2 = load_workbook(path2, data_only=False)
-  output = []
+  results = {}
 
   sheets1 = set(wb1.sheetnames)
   sheets2 = set(wb2.sheetnames)
+
   only_in_a = sorted(sheets1 - sheets2)
   only_in_b = sorted(sheets2 - sheets1)
   in_both = sorted(sheets1 & sheets2)
 
-  if only_in_a:
-    output.append(f"Sheets only in A: {only_in_a}")
-  if only_in_b:
-    output.append(f"Sheets only in B: {only_in_b}")
+  results["sheets_only_in_a"] = only_in_a
+  results["sheets_only_in_b"] = only_in_b
+  results["sheet_diffs"] = {}
 
   for sheet_name in in_both:
-    output.append(f"\n=== Sheet: {sheet_name} ===")
     ws1 = wb1[sheet_name]
     ws2 = wb2[sheet_name]
     max_row = max(ws1.max_row, ws2.max_row)
     max_col = max(ws1.max_column, ws2.max_column)
 
-    content_diffs = []
-    formula_diffs = []
-    comment_diffs = []
-    formatting_diffs = []
+    sheet_results = {
+      "content": [],
+      "formulas": [],
+      "comments": [],
+      "formatting": [],
+    }
 
     for row in range(1, max_row + 1):
       for col in range(1, max_col + 1):
@@ -129,116 +104,94 @@ def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "comm
         val2 = stringify_formula(cell2)
 
         if val1 != val2:
-          content_diffs.append(f"  {coord}: '{val1}' != '{val2}'")
+          sheet_results["content"].append((coord, val1, val2))
 
-        if cell1.data_type == 'f' and cell2.data_type == 'f':
-          if val1 != val2:
-            formula_diffs.append(f"  {coord}: formulas differ '{val1}' vs '{val2}'")
-        elif cell1.data_type == 'f' or cell2.data_type == 'f':
-          formula_diffs.append(f"  {coord}: formula presence mismatch")
+        if cell1.data_type == 'f' or cell2.data_type == 'f':
+          f1 = stringify_formula(cell1)
+          f2 = stringify_formula(cell2)
+          if f1 != f2:
+            sheet_results["formulas"].append((coord, f1, f2))
 
-        comment1 = cell1.comment.text if cell1.comment else None
-        comment2 = cell2.comment.text if cell2.comment else None
-        if comment1 != comment2:
-          comment_diffs.append(f"  {coord}: comment changed\n    A: {comment1}\n    B: {comment2}")
+        cm1 = cell1.comment.text if cell1.comment else None
+        cm2 = cell2.comment.text if cell2.comment else None
+        if cm1 != cm2:
+          sheet_results["comments"].append((coord, cm1, cm2))
 
         if formatting_mode != "off":
-          font1, font2 = cell1.font, cell2.font
           font_attrs = COMMON_FONT_ATTRS if formatting_mode == "common" else FULL_FONT_ATTRS
           for attr in font_attrs:
-            if getattr(font1, attr, None) != getattr(font2, attr, None):
-              formatting_diffs.append(f"  {coord}: font.{attr} changed")
+            if getattr(cell1.font, attr, None) != getattr(cell2.font, attr, None):
+              sheet_results["formatting"].append((coord, f"font.{attr}", getattr(cell1.font, attr, None), getattr(cell2.font, attr, None)))
 
-          fill1, fill2 = cell1.fill, cell2.fill
           for attr in FILL_ATTRS:
-            if getattr(fill1, attr, None) != getattr(fill2, attr, None):
-              formatting_diffs.append(f"  {coord}: fill.{attr} changed")
+            if getattr(cell1.fill, attr, None) != getattr(cell2.fill, attr, None):
+              sheet_results["formatting"].append((coord, f"fill.{attr}", getattr(cell1.fill, attr, None), getattr(cell2.fill, attr, None)))
 
-          align1, align2 = cell1.alignment, cell2.alignment
           for attr in ALIGNMENT_ATTRS:
-            if getattr(align1, attr, None) != getattr(align2, attr, None):
-              formatting_diffs.append(f"  {coord}: alignment.{attr} changed")
+            if getattr(cell1.alignment, attr, None) != getattr(cell2.alignment, attr, None):
+              sheet_results["formatting"].append((coord, f"alignment.{attr}", getattr(cell1.alignment, attr, None), getattr(cell2.alignment, attr, None)))
 
           if formatting_mode == "full":
-            border1, border2 = cell1.border, cell2.border
-            for side in ["left", "right", "top", "bottom", "diagonal"]:
-              b1 = getattr(border1, side)
-              b2 = getattr(border2, side)
+            for side in BORDER_SIDES:
+              b1 = getattr(cell1.border, side)
+              b2 = getattr(cell2.border, side)
               if b1.style != b2.style or b1.color != b2.color:
-                formatting_diffs.append(f"  {coord}: border.{side} changed")
+                sheet_results["formatting"].append((coord, f"border.{side}", b1, b2))
 
-            prot1, prot2 = cell1.protection, cell2.protection
             for attr in PROTECTION_ATTRS:
-              if getattr(prot1, attr, None) != getattr(prot2, attr, None):
-                formatting_diffs.append(f"  {coord}: protection.{attr} changed")
+              if getattr(cell1.protection, attr, None) != getattr(cell2.protection, attr, None):
+                sheet_results["formatting"].append((coord, f"protection.{attr}", getattr(cell1.protection, attr, None), getattr(cell2.protection, attr, None)))
 
-    if content_diffs:
-      output.append("[Content Differences]")
-      output.extend(content_diffs)
-    if formula_diffs:
-      output.append("[Formula Differences]")
-      output.extend(formula_diffs)
-    if comment_diffs:
-      output.append("[Comment Differences]")
-      output.extend(comment_diffs)
-    if formatting_diffs:
-      output.append("[Formatting Differences]")
-      output.extend(formatting_diffs)
+    results["sheet_diffs"][sheet_name] = sheet_results
 
-    if not (content_diffs or formula_diffs or comment_diffs or formatting_diffs):
-      output.append("✔ No differences found on this sheet.")
-
-  return output
+  return results
 
 def compare_excel_files(file_a_path: Union[str, Path], file_b_path: Union[str, Path],
                         formatting_mode: str = "common") -> list[str]:
-  """
-  Compare two Excel files and return list of differences.
-
-  Args:
-    file_a_path (str | Path): First Excel file path.
-    file_b_path (str | Path): Second Excel file path.
-    formatting_mode (str): "off", "common", or "full".
-
-  Returns:
-    list[str]: Comparison output.
-  """
   file_a = Path(file_a_path)
   file_b = Path(file_b_path)
   output = []
 
   output.append(f"Comparing:\n  A: {file_a.name}\n  B: {file_b.name}\n")
-
-  hash_a = compute_sha256(file_a)
-  hash_b = compute_sha256(file_b)
-
   output.append("SHA-256 Hashes:")
-  output.append(f"  A: {hash_a}")
-  output.append(f"  B: {hash_b}")
+  output.append(f"  A: {compute_sha256(file_a)}")
+  output.append(f"  B: {compute_sha256(file_b)}")
 
-  if hash_a == hash_b:
+  if compute_sha256(file_a) == compute_sha256(file_b):
     output.append("✔ Files are identical at the binary level.\n")
     return output
 
-  output.append("→ Hashes differ; comparing cell content...\n")
-  diffs = compare_excel_content(file_a, file_b, formatting_mode=formatting_mode)
+  output.append("→ Hashes differ; comparing content...\n")
+  results = compare_excel_content(file_a, file_b, formatting_mode=formatting_mode)
 
-  if not diffs:
-    output.append("✔ No cell/comment/formatting differences found.\n")
-  else:
-    output.extend(diffs)
+  if results["sheets_only_in_a"]:
+    output.append(f"Sheets only in A: {results['sheets_only_in_a']}")
+  if results["sheets_only_in_b"]:
+    output.append(f"Sheets only in B: {results['sheets_only_in_b']}")
 
+  for sheet_name, sheet_diffs in results["sheet_diffs"].items():
+    output.append(f"\n=== Sheet: {sheet_name} ===")
+    for category in ["content", "formulas", "comments", "formatting"]:
+      if not sheet_diffs[category]:
+        continue
+      header = {
+        "content": "[Content Differences]",
+        "formulas": "[Formula Differences]",
+        "comments": "[Comment Differences]",
+        "formatting": "[Formatting Differences]",
+      }[category]
+      output.append(header)
+      for item in sheet_diffs[category]:
+        coord = item[0]
+        if category == "formatting":
+          attr, a_val, b_val = item[1], item[2], item[3]
+          output.append(f"  {coord} ({attr}):\n    A: {a_val}\n    B: {b_val}")
+        else:
+          a_val, b_val = item[1], item[2]
+          output.append(f"  {coord}:\n    A: {a_val}\n    B: {b_val}")
   return output
 
 def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "common") -> None:
-  """
-  Compare all Excel files in two directories and write differences to a log.
-
-  Args:
-    dir_a (Path): Directory with local Excel files.
-    dir_b (Path): Directory with SharePoint or secondary files.
-    formatting_mode (str): Formatting mode ("off", "common", "full").
-  """
   now = datetime.now()
   out_path = Path(f"comparison_at_{now.strftime('%Y%m%d_%H%M%S')}_structured.txt")
 
