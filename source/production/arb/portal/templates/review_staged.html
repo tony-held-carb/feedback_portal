@@ -12,15 +12,16 @@
     <pre class="bg-light p-2 border rounded">{{ metadata | tojson(indent=2) }}</pre>
   </div>
 
-  <div class="form-check form-switch mb-4">
+  <div class="form-check form-switch mb-3">
     <input class="form-check-input" type="checkbox" id="showAllFields" checked>
     <label class="form-check-label" for="showAllFields">Show all fields (including unchanged)</label>
   </div>
 
-  <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
+  <input type="text" class="form-control mb-3" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
 
+  <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
     <table class="table table-bordered table-hover">
-      <thead class="table-dark">
+      <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
         <tr>
           <th>Key</th>
           <th>Old Value (DB)</th>
@@ -38,7 +39,13 @@
               {% endif %}
             </td>
             <td>{{ field.old }}</td>
-            <td>{{ field.new }}</td>
+            <td>
+              {% if changed %}
+                <mark>{{ field.new }}</mark>
+              {% else %}
+                {{ field.new }}
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
@@ -49,16 +56,30 @@
         ✅ Confirm and Save Upload
       </button>
     </div>
-
   </form>
 </div>
 
 <script>
+  // Toggle visibility of unchanged rows
   document.getElementById("showAllFields").addEventListener("change", function () {
     const show = this.checked;
     document.querySelectorAll(".unchanged-field").forEach(row => {
       row.style.display = show ? "" : "none";
     });
+  });
+
+  // Live search by field name or values
+  document.getElementById("fieldSearch").addEventListener("input", function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll("tbody tr").forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+
+  // Scroll to first changed field on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const changedRow = document.querySelector('.table-warning');
+    if (changedRow) changedRow.scrollIntoView({ behavior: 'smooth' });
   });
 </script>
 
