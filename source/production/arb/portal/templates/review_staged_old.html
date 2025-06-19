@@ -6,11 +6,18 @@
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
 
   <div class="mb-3">
-    <strong>Incidence ID:</strong> {{ id_incidence }}<br>
-    <strong>Is New Row:</strong> {{ is_new_row }}<br>
-    <strong>Metadata:</strong>
-    <pre class="bg-light p-2 border rounded">{{ metadata | tojson(indent=2) }}</pre>
+    <strong>Incidence ID:</strong> {{ id_incidence }}
   </div>
+
+  {% if is_new_row %}
+    <div class="alert alert-info">
+      📌 <strong>This is a new incidence.</strong>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">
+      ⚠️ <strong>This matches an existing incidence and may update it.</strong>
+    </div>
+  {% endif %}
 
   <div class="form-check form-switch mb-3">
     <input class="form-check-input" type="checkbox" id="showAllFields" checked>
@@ -32,12 +39,7 @@
         {% for field in staged_fields %}
           {% set changed = field.changed %}
           <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
-            <td>
-              {{ field.key }}
-              {% if field.from_upload %}
-                <br><span class="badge bg-primary">from_upload</span>
-              {% endif %}
-            </td>
+            <td>{{ field.key }}</td>
             <td>{{ field.old }}</td>
             <td>
               {% if changed %}

@@ -33,6 +33,13 @@
           <th>Key</th>
           <th>Old Value (DB)</th>
           <th>New Value (Upload)</th>
+          <th>
+            Confirm Overwrite
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="selectAllConfirmations">
+              <label class="form-check-label small" for="selectAllConfirmations">Select All</label>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +53,13 @@
                 <mark>{{ field.new }}</mark>
               {% else %}
                 {{ field.new }}
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if field.requires_confirmation %}
+                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
+              {% else %}
+                —
               {% endif %}
             </td>
           </tr>
@@ -64,24 +78,25 @@
 <script>
   // Toggle visibility of unchanged rows
   document.getElementById("showAllFields").addEventListener("change", function () {
-    const show = this.checked;
-    document.querySelectorAll(".unchanged-field").forEach(row => {
-      row.style.display = show ? "" : "none";
+    const showAll = this.checked;
+    document.querySelectorAll(".unchanged-field").forEach(function (row) {
+      row.style.display = showAll ? "" : "none";
     });
   });
 
-  // Live search by field name or values
+  // Select All Confirmations
+  document.getElementById("selectAllConfirmations").addEventListener("change", function () {
+    const allCheckboxes = document.querySelectorAll(".confirm-checkbox");
+    allCheckboxes.forEach(cb => cb.checked = this.checked);
+  });
+
+  // Field Search Filtering
   document.getElementById("fieldSearch").addEventListener("input", function () {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll("tbody tr").forEach(row => {
-      row.style.display = row.textContent.toLowerCase().includes(q) ? "" : "none";
+    const query = this.value.toLowerCase();
+    document.querySelectorAll("tbody tr").forEach(function (row) {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(query) ? "" : "none";
     });
-  });
-
-  // Scroll to first changed field on load
-  window.addEventListener('DOMContentLoaded', () => {
-    const changedRow = document.querySelector('.table-warning');
-    if (changedRow) changedRow.scrollIntoView({ behavior: 'smooth' });
   });
 </script>
 
