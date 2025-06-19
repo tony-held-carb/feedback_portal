@@ -20,16 +20,30 @@
   {% endif %}
 
   <div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" id="showAllFields" checked>
-    <label class="form-check-label" for="showAllFields">Show all fields (including unchanged)</label>
+    <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
+    <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
   </div>
 
   <input type="text" class="form-control mb-3" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
+
+  <div class="alert alert-info small mb-3">
+    <strong>Note:</strong> For fields that would overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    Unchecked fields will not be updated.
+  </div>
 
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
     <table class="table table-bordered table-hover">
       <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
         <tr>
+          <th class="text-center align-middle" style="width: 1%;">
+            <div class="d-flex flex-column align-items-center">
+              <div>Confirm</div>
+              <div class="form-check d-flex align-items-center justify-content-center mt-1">
+                <input class="form-check-input me-1" type="checkbox" id="selectAllConfirmations">
+                <label class="form-check-label small mb-0" for="selectAllConfirmations">All</label>
+              </div>
+            </div>
+          </th>
           <th>Key</th>
           <th>Old Value (DB)</th>
           <th>New Value (Upload)</th>
@@ -39,6 +53,13 @@
         {% for field in staged_fields %}
           {% set changed = field.changed %}
           <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
+            <td class="text-center" style="width: 1%;">
+              {% if field.requires_confirmation %}
+                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
+              {% else %}
+                —
+              {% endif %}
+            </td>
             <td>{{ field.key }}</td>
             <td>{{ field.old }}</td>
             <td>
@@ -62,26 +83,58 @@
 </div>
 
 <script>
-  // Toggle visibility of unchanged rows
-  document.getElementById("showAllFields").addEventListener("change", function () {
-    const show = this.checked;
-    document.querySelectorAll(".unchanged-field").forEach(row => {
-      row.style.display = show ? "" : "none";
+  const selectAllBox = document.getElementById("selectAllConfirmations");
+
+  function updateConfirmAllState() {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+
+    if (checkedCount === 0) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = false;
+      selectAllBox.title = "No fields confirmed";
+    } else if (checkedCount === checkboxes.length) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = true;
+      selectAllBox.title = "All fields confirmed";
+    } else {
+      selectAllBox.indeterminate = true;
+      selectAllBox.checked = false;
+      selectAllBox.title = "Some fields confirmed";
+    }
+  }
+
+  // Unified visibility control for rows
+  function updateVisibleRows() {
+    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
+    const query = document.getElementById("fieldSearch").value.toLowerCase();
+
+    document.querySelectorAll("tbody tr").forEach(function (row) {
+      const isUnchanged = row.classList.contains("unchanged-field");
+      const matchesFilter = row.innerText.toLowerCase().includes(query);
+      const shouldShow = matchesFilter && (!hideUnchanged || !isUnchanged);
+      row.style.display = shouldShow ? "" : "none";
     });
+  }
+
+  // Event bindings
+  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
+  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
+
+  selectAllBox.addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    checkboxes.forEach(cb => cb.checked = this.checked);
+    updateConfirmAllState();
   });
 
-  // Live search by field name or values
-  document.getElementById("fieldSearch").addEventListener("input", function () {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll("tbody tr").forEach(row => {
-      row.style.display = row.textContent.toLowerCase().includes(q) ? "" : "none";
-    });
+  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateConfirmAllState);
   });
 
-  // Scroll to first changed field on load
-  window.addEventListener('DOMContentLoaded', () => {
-    const changedRow = document.querySelector('.table-warning');
-    if (changedRow) changedRow.scrollIntoView({ behavior: 'smooth' });
+  // Initialize state
+  window.addEventListener("DOMContentLoaded", function () {
+    updateVisibleRows();
+    updateConfirmAllState();
   });
 </script>
 
