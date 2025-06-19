@@ -1,19 +1,20 @@
 {% extends "base.html" %}
+
+{% block header_css_and_js %}
+  <!-- DataTables Core -->
+  <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- ✅ FixedHeader plugin (required!) -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+{% endblock %}
+
 {% block content_1 %}
 
-<!-- DataTables Styles -->
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-
 <style>
-  thead.review-header {
-    position: sticky;
-    top: 70px;
-    z-index: 9;
-    background-color: #245a9a;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
   thead.review-header th {
     vertical-align: middle;
     padding: 0.5rem;
@@ -40,14 +41,14 @@
   }
 </style>
 
-<div class="container my-4">
+<div class="container-fluid post-nav-buffer mb-3">
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
 
   <div class="mb-3">
     {% if is_new_row %}
       <strong class="text-primary">🆕 New Incidence ID:</strong> {{ id_incidence }}
     {% else %}
-      <strong class="text-warning">📁 Existing Incidence ID:</strong> {{ id_incidence }}
+      <strong class="text-primary">📁 Existing Incidence ID:</strong> {{ id_incidence }}
     {% endif %}
   </div>
 
@@ -116,11 +117,6 @@
   </form>
 </div>
 
-<!-- Required JS -->
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
   const selectAllBox = document.getElementById("selectAllConfirmations");
 
@@ -166,6 +162,10 @@
     updateConfirmAllState();
 
     $('#reviewTable').DataTable({
+      fixedHeader: {
+        header: true,
+        headerOffset: $('.navbar').outerHeight() || 56
+      },
       paging: false,
       info: false,
       ordering: true,
