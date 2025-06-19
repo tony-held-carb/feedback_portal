@@ -20,6 +20,7 @@ from arb.portal.config.accessors import get_upload_folder
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
+from arb.utils.io_wrappers import copy_file_safe
 from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
 
@@ -332,4 +333,13 @@ def upload_and_stage_only(db: SQLAlchemy,
     json_data, _ = json_load_with_meta(json_path)
     id_ = extract_id_from_json(json_data)
 
+    # 🆕 Staging logic: write to upload_dir/staging/{id_}.json
+    if id_:
+      staging_path = Path(upload_dir) / "staging" / f"{id_}.json"
+      copy_file_safe(json_path, staging_path)
+      logger.debug(f"Staged JSON copied to: {staging_path}")
+    else:
+      logger.warning("id_incidence could not be extracted. Staging file was not created.")
+
   return file_path, id_, sector, json_data
+
