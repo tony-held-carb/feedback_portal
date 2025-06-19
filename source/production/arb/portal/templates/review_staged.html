@@ -20,8 +20,8 @@
   {% endif %}
 
   <div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" id="showAllFields">
-    <label class="form-check-label" for="showAllFields">Hide unchanged fields</label>
+    <input class="form-check-input" type="checkbox" id="hideUnchangedFields" checked>
+    <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
   </div>
 
   <input type="text" class="form-control mb-3" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
@@ -30,11 +30,13 @@
     <table class="table table-bordered table-hover">
       <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
         <tr>
-          <th class="text-center">
-            Confirm Overwrite
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="selectAllConfirmations">
-              <label class="form-check-label small" for="selectAllConfirmations">Select All</label>
+          <th class="text-center" style="width: 1%;">
+            <div class="d-flex flex-column align-items-center">
+              <span>Confirm Overwrite</span>
+              <div class="form-check d-flex align-items-center gap-1">
+                <input class="form-check-input" type="checkbox" id="selectAllConfirmations">
+                <label class="form-check-label small" for="selectAllConfirmations">Select All</label>
+              </div>
             </div>
           </th>
           <th>Key</th>
@@ -46,7 +48,7 @@
         {% for field in staged_fields %}
           {% set changed = field.changed %}
           <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}" {% if not changed %}style="display: none;"{% endif %}>
-            <td class="text-center">
+            <td class="text-center" style="width: 1%;">
               {% if field.requires_confirmation %}
                 <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
               {% else %}
@@ -77,10 +79,10 @@
 
 <script>
   // Toggle visibility of unchanged rows
-  document.getElementById("showAllFields").addEventListener("change", function () {
-    const showUnchanged = this.checked;
+  document.getElementById("hideUnchangedFields").addEventListener("change", function () {
+    const hide = this.checked;
     document.querySelectorAll(".unchanged-field").forEach(function (row) {
-      row.style.display = showUnchanged ? "" : "none";
+      row.style.display = hide ? "none" : "";
     });
   });
 
