@@ -69,17 +69,20 @@
       <thead class="review-header">
         <tr class="action-row align-middle">
           <th colspan="4">
-            <div class="d-flex justify-content-between flex-wrap align-items-center gap-3">
-              <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+              <!-- Left: toggle + filter -->
+              <div class="d-flex align-items-center flex-wrap gap-3">
                 <div class="form-check form-switch m-0">
                   <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
                   <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
                 </div>
-                <div class="input-group input-group-sm" style="max-width: 300px;">
+                <div class="input-group input-group-sm" style="min-width: 300px;">
                   <span class="input-group-text">🔍</span>
                   <input type="text" class="form-control" id="fieldSearch" placeholder="Filter fields by name or value">
                 </div>
               </div>
+
+              <!-- Right: action buttons -->
               <div class="d-flex gap-2">
                 <a class="btn btn-outline-dark btn-sm" href="{{ url_for('main.upload_file') }}">Cancel</a>
                 <button form="confirm-form" type="submit" class="btn btn-success btn-sm">✅ Confirm Upload</button>
