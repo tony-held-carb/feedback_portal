@@ -31,47 +31,49 @@
   </div>
 
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
-    <table class="table table-bordered table-hover table-striped table-sm">
-      <thead class="table-primary" style="position: sticky; top: 70px; z-index: 9;">
-        <tr>
-          <th class="text-center align-middle" style="width: 1%;">
-            <div class="d-flex flex-column align-items-center">
-              <div>Confirm</div>
-              <div class="form-check d-flex align-items-center justify-content-center mt-1">
-                <input class="form-check-input me-1" type="checkbox" id="selectAllConfirmations">
-                <label class="form-check-label small mb-0" for="selectAllConfirmations">All</label>
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-bordered table-hover" id="review-staged-table">
+        <thead class="table-primary text-center" style="position: sticky; top: 70px; z-index: 9;">
+          <tr>
+            <th class="text-center align-middle" style="width: 1%;">
+              <div class="d-flex flex-column align-items-center">
+                <div>Confirm</div>
+                <div class="form-check d-flex align-items-center justify-content-center mt-1">
+                  <input class="form-check-input me-1" type="checkbox" id="selectAllConfirmations">
+                  <label class="form-check-label small mb-0" for="selectAllConfirmations">All</label>
+                </div>
               </div>
-            </div>
-          </th>
-          <th>Key</th>
-          <th>Old Value (DB)</th>
-          <th>New Value (Upload)</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for field in staged_fields %}
-          {% set changed = field.changed %}
-          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
-            <td class="text-center" style="width: 1%;">
-              {% if field.requires_confirmation %}
-                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
-              {% else %}
-                —
-              {% endif %}
-            </td>
-            <td>{{ field.key }}</td>
-            <td>{{ field.old }}</td>
-            <td>
-              {% if changed %}
-                <mark>{{ field.new }}</mark>
-              {% else %}
-                {{ field.new }}
-              {% endif %}
-            </td>
+            </th>
+            <th>Key</th>
+            <th>Old Value (DB)</th>
+            <th>New Value (Upload)</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for field in staged_fields %}
+            {% set changed = field.changed %}
+            <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
+              <td class="text-center" style="width: 1%;">
+                {% if field.requires_confirmation %}
+                  <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td>{{ field.key }}</td>
+              <td>{{ field.old }}</td>
+              <td>
+                {% if changed %}
+                  <mark>{{ field.new }}</mark>
+                {% else %}
+                  {{ field.new }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
     <div class="text-end mt-4">
       <button type="submit" class="btn btn-success btn-lg">
