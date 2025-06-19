@@ -83,24 +83,8 @@
 </div>
 
 <script>
-  // Show all unchanged rows by default
-  window.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".unchanged-field").forEach(function (row) {
-      row.style.display = "";
-    });
-  });
-
-  // Toggle visibility of unchanged rows
-  document.getElementById("hideUnchangedFields").addEventListener("change", function () {
-    const hide = this.checked;
-    document.querySelectorAll(".unchanged-field").forEach(function (row) {
-      row.style.display = hide ? "none" : "";
-    });
-  });
-
   const selectAllBox = document.getElementById("selectAllConfirmations");
 
-  // Update "Confirm All" checkbox state
   function updateConfirmAllState() {
     const checkboxes = document.querySelectorAll(".confirm-checkbox");
     const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
@@ -120,25 +104,37 @@
     }
   }
 
-  // Listen to individual checkboxes
-  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
-    cb.addEventListener("change", updateConfirmAllState);
-  });
+  // Unified visibility control for rows
+  function updateVisibleRows() {
+    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
+    const query = document.getElementById("fieldSearch").value.toLowerCase();
 
-  // Toggle all from master checkbox
+    document.querySelectorAll("tbody tr").forEach(function (row) {
+      const isUnchanged = row.classList.contains("unchanged-field");
+      const matchesFilter = row.innerText.toLowerCase().includes(query);
+      const shouldShow = matchesFilter && (!hideUnchanged || !isUnchanged);
+      row.style.display = shouldShow ? "" : "none";
+    });
+  }
+
+  // Event bindings
+  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
+  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
+
   selectAllBox.addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".confirm-checkbox");
     checkboxes.forEach(cb => cb.checked = this.checked);
     updateConfirmAllState();
   });
 
-  // Filter table rows by search input
-  document.getElementById("fieldSearch").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    document.querySelectorAll("tbody tr").forEach(function (row) {
-      const text = row.innerText.toLowerCase();
-      row.style.display = text.includes(query) ? "" : "none";
-    });
+  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateConfirmAllState);
+  });
+
+  // Initialize state
+  window.addEventListener("DOMContentLoaded", function () {
+    updateVisibleRows();
+    updateConfirmAllState();
   });
 </script>
 
