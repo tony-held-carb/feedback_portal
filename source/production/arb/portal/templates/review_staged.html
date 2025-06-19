@@ -20,8 +20,8 @@
   {% endif %}
 
   <div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" id="showAllFields" checked>
-    <label class="form-check-label" for="showAllFields">Show all fields (including unchanged)</label>
+    <input class="form-check-input" type="checkbox" id="showAllFields">
+    <label class="form-check-label" for="showAllFields">Hide unchanged fields</label>
   </div>
 
   <input type="text" class="form-control mb-3" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
@@ -30,22 +30,29 @@
     <table class="table table-bordered table-hover">
       <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
         <tr>
-          <th>Key</th>
-          <th>Old Value (DB)</th>
-          <th>New Value (Upload)</th>
-          <th>
+          <th class="text-center">
             Confirm Overwrite
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="selectAllConfirmations">
               <label class="form-check-label small" for="selectAllConfirmations">Select All</label>
             </div>
           </th>
+          <th>Key</th>
+          <th>Old Value (DB)</th>
+          <th>New Value (Upload)</th>
         </tr>
       </thead>
       <tbody>
         {% for field in staged_fields %}
           {% set changed = field.changed %}
-          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
+          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}" {% if not changed %}style="display: none;"{% endif %}>
+            <td class="text-center">
+              {% if field.requires_confirmation %}
+                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
+              {% else %}
+                —
+              {% endif %}
+            </td>
             <td>{{ field.key }}</td>
             <td>{{ field.old }}</td>
             <td>
@@ -53,13 +60,6 @@
                 <mark>{{ field.new }}</mark>
               {% else %}
                 {{ field.new }}
-              {% endif %}
-            </td>
-            <td class="text-center">
-              {% if field.requires_confirmation %}
-                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
-              {% else %}
-                —
               {% endif %}
             </td>
           </tr>
@@ -78,9 +78,9 @@
 <script>
   // Toggle visibility of unchanged rows
   document.getElementById("showAllFields").addEventListener("change", function () {
-    const showAll = this.checked;
+    const showUnchanged = this.checked;
     document.querySelectorAll(".unchanged-field").forEach(function (row) {
-      row.style.display = showAll ? "" : "none";
+      row.style.display = showUnchanged ? "" : "none";
     });
   });
 
