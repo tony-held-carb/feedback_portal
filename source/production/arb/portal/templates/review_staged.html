@@ -20,22 +20,27 @@
   {% endif %}
 
   <div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" id="hideUnchangedFields" checked>
+    <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
     <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
   </div>
 
   <input type="text" class="form-control mb-3" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
 
+  <div class="alert alert-info small mb-3">
+    <strong>Note:</strong> For fields that would overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    Unchecked fields will not be updated.
+  </div>
+
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
     <table class="table table-bordered table-hover">
       <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
         <tr>
-          <th class="text-center" style="width: 1%;">
+          <th class="text-center align-middle" style="width: 1%;">
             <div class="d-flex flex-column align-items-center">
-              <span>Confirm Overwrite</span>
-              <div class="form-check d-flex align-items-center gap-1">
-                <input class="form-check-input" type="checkbox" id="selectAllConfirmations">
-                <label class="form-check-label small" for="selectAllConfirmations">Select All</label>
+              <div>Confirm</div>
+              <div class="form-check d-flex align-items-center justify-content-center mt-1">
+                <input class="form-check-input me-1" type="checkbox" id="selectAllConfirmations">
+                <label class="form-check-label small mb-0" for="selectAllConfirmations">All</label>
               </div>
             </div>
           </th>
@@ -47,7 +52,7 @@
       <tbody>
         {% for field in staged_fields %}
           {% set changed = field.changed %}
-          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}" {% if not changed %}style="display: none;"{% endif %}>
+          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
             <td class="text-center" style="width: 1%;">
               {% if field.requires_confirmation %}
                 <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
@@ -78,7 +83,14 @@
 </div>
 
 <script>
-  // Toggle visibility of unchanged rows
+  // Show all unchanged rows by default
+  window.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".unchanged-field").forEach(function (row) {
+      row.style.display = "";
+    });
+  });
+
+  // Toggle unchanged row visibility
   document.getElementById("hideUnchangedFields").addEventListener("change", function () {
     const hide = this.checked;
     document.querySelectorAll(".unchanged-field").forEach(function (row) {
