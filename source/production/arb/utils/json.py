@@ -652,11 +652,13 @@ def compute_field_differences(
       - 'new': The normalized value from `new_data`
       - 'changed': True if the values differ after normalization
       - 'from_upload': Always True, indicating this field came from uploaded JSON
+      - 'requires_confirmation': True if the update would overwrite non-trivial existing data
 
   Notes:
     - Normalization uses `normalize_value()` for consistent formatting,
       especially for empty strings, None, and datetimes.
     - Keys present in `existing_data` but *not* in `new_data` are ignored.
+    - A field requires confirmation if it would overwrite a meaningful existing value.
   """
   differences = []
 
@@ -666,16 +668,23 @@ def compute_field_differences(
     norm_new = normalize_value(new_value)
     norm_old = normalize_value(old_value)
 
+    changed = norm_old != norm_new
+    requires_confirmation = (
+      changed and norm_old not in (None, "", []) and norm_new not in (norm_old, None)
+    )
+
     differences.append({
       "key": key,
       "old": norm_old,
       "new": norm_new,
-      "changed": norm_old != norm_new,
+      "changed": changed,
       "from_upload": True,
+      "requires_confirmation": requires_confirmation,
     })
 
     logger.debug(f"DIFF KEY={key!r} | DB={type(old_value).__name__}:{norm_old!r} "
-                 f"| NEW={type(new_value).__name__}:{norm_new!r}")
+                 f"| NEW={type(new_value).__name__}:{norm_new!r} "
+                 f"| CHANGED={changed} | CONFIRM={requires_confirmation}")
 
   return differences
 
