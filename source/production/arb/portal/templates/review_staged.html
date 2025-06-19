@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content_1 %}
 
+<!-- DataTables Styles & Scripts -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <style>
   thead.review-header {
     position: sticky;
@@ -16,7 +21,7 @@
     vertical-align: middle;
     font-weight: 600;
     padding: 0.5rem;
-    background-color: #245a9a; /* Ensure individual th cells also have color */
+    background-color: #245a9a;
     color: white;
   }
 
@@ -53,7 +58,6 @@
   }
 </style>
 
-
 <div class="container my-4">
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
 
@@ -83,7 +87,7 @@
   </div>
 
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
-    <table class="table table-sm table-striped table-bordered table-hover review-table">
+    <table id="review-table" class="table table-sm table-striped table-bordered table-hover review-table">
       <thead class="review-header">
         <tr>
           <th class="confirm-th">
@@ -131,47 +135,62 @@
 </div>
 
 <script>
-  const selectAllBox = document.getElementById("selectAllConfirmations");
+  let table;
 
-  function updateConfirmAllState() {
-    const checkboxes = document.querySelectorAll(".confirm-checkbox");
-    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
-
-    if (checkedCount === 0) {
-      selectAllBox.indeterminate = false;
-      selectAllBox.checked = false;
-    } else if (checkedCount === checkboxes.length) {
-      selectAllBox.indeterminate = false;
-      selectAllBox.checked = true;
-    } else {
-      selectAllBox.indeterminate = true;
-      selectAllBox.checked = false;
-    }
-  }
-
-  function updateVisibleRows() {
-    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
-    const query = document.getElementById("fieldSearch").value.toLowerCase();
-
-    document.querySelectorAll("tbody tr").forEach(function (row) {
-      const isUnchanged = row.classList.contains("unchanged-field");
-      const matchesFilter = row.innerText.toLowerCase().includes(query);
-      row.style.display = matchesFilter && (!hideUnchanged || !isUnchanged) ? "" : "none";
+  document.addEventListener("DOMContentLoaded", function () {
+    table = $('#review-table').DataTable({
+      paging: false,
+      info: false,
+      searching: false,
+      ordering: true,
+      stripeClasses: ['table-light', 'table-secondary'],
+      columnDefs: [{ orderable: false, targets: 0 }]
     });
-  }
 
-  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
-  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
-  selectAllBox.addEventListener("change", function () {
-    document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
+    // Custom filtering for unchanged rows and search string
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+      const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
+      const query = document.getElementById("fieldSearch").value.toLowerCase();
+      const rowNode = table.row(dataIndex).node();
+
+      if (!rowNode) return true;
+
+      const isUnchanged = rowNode.classList.contains("unchanged-field");
+      const matches = rowNode.innerText.toLowerCase().includes(query);
+
+      return (!hideUnchanged || !isUnchanged) && matches;
+    });
+
+    // Bind redraw triggers
+    document.getElementById("hideUnchangedFields").addEventListener("change", () => {
+      table.draw();
+    });
+
+    document.getElementById("fieldSearch").addEventListener("input", () => {
+      table.draw();
+    });
+
+    // Confirm checkbox management
+    const selectAllBox = document.getElementById("selectAllConfirmations");
+
+    function updateConfirmAllState() {
+      const checkboxes = document.querySelectorAll(".confirm-checkbox");
+      const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+      selectAllBox.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+      selectAllBox.checked = checkedCount === checkboxes.length;
+    }
+
+    selectAllBox.addEventListener("change", function () {
+      document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
+      updateConfirmAllState();
+    });
+
+    document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+      cb.addEventListener("change", updateConfirmAllState);
+    });
+
     updateConfirmAllState();
-  });
-  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
-    cb.addEventListener("change", updateConfirmAllState);
-  });
-  window.addEventListener("DOMContentLoaded", () => {
-    updateVisibleRows();
-    updateConfirmAllState();
+    table.draw();  // Apply initial filtering
   });
 </script>
 
