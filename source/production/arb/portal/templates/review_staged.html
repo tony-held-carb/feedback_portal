@@ -31,8 +31,8 @@
   </div>
 
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
-    <table class="table table-bordered table-hover">
-      <thead class="table-light" style="position: sticky; top: 70px; z-index: 10;">
+    <table class="table table-bordered table-hover table-striped table-sm">
+      <thead class="table-primary" style="position: sticky; top: 70px; z-index: 9;">
         <tr>
           <th class="text-center align-middle" style="width: 1%;">
             <div class="d-flex flex-column align-items-center">
@@ -103,7 +103,6 @@
     }
   }
 
-  // Unified visibility control for rows
   function updateVisibleRows() {
     const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
     const query = document.getElementById("fieldSearch").value.toLowerCase();
@@ -116,7 +115,6 @@
     });
   }
 
-  // Event bindings
   document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
   document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
 
@@ -130,7 +128,6 @@
     cb.addEventListener("change", updateConfirmAllState);
   });
 
-  // Initialize state
   window.addEventListener("DOMContentLoaded", function () {
     updateVisibleRows();
     updateConfirmAllState();
