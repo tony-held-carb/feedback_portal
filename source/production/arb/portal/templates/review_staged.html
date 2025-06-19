@@ -1,6 +1,58 @@
 {% extends "base.html" %}
-
 {% block content_1 %}
+
+<style>
+  thead.review-header {
+    position: sticky;
+    top: 70px;
+    z-index: 9;
+    background-color: #245a9a;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  thead.review-header th {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+    padding: 0.5rem;
+    background-color: #245a9a; /* Ensure individual th cells also have color */
+    color: white;
+  }
+
+  thead.review-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #245a9a;
+    z-index: -1;
+  }
+
+  table.review-table th,
+  table.review-table td {
+    vertical-align: middle;
+  }
+
+  th.confirm-th {
+    width: 1%;
+    text-align: center;
+  }
+
+  th.confirm-th .confirm-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  table.review-table {
+    margin-top: 0;
+  }
+</style>
+
 
 <div class="container my-4">
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
@@ -9,7 +61,7 @@
     {% if is_new_row %}
       <strong class="text-primary">🆕 New Incidence ID:</strong> {{ id_incidence }}
     {% else %}
-      <strong class="text-secondary">📁 Existing Incidence ID:</strong> {{ id_incidence }}
+      <strong class="text-warning">📁 Existing Incidence ID:</strong> {{ id_incidence }}
     {% endif %}
   </div>
 
@@ -31,49 +83,44 @@
   </div>
 
   <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
-    <div class="table-responsive">
-      <table class="table table-sm table-striped table-bordered table-hover" id="review-staged-table">
-        <thead class="table-primary text-center" style="position: sticky; top: 70px; z-index: 9;">
-          <tr>
-            <th class="text-center align-middle" style="width: 1%;">
-              <div class="d-flex flex-column align-items-center">
-                <div>Confirm</div>
-                <div class="form-check d-flex align-items-center justify-content-center mt-1">
-                  <input class="form-check-input me-1" type="checkbox" id="selectAllConfirmations">
-                  <label class="form-check-label small mb-0" for="selectAllConfirmations">All</label>
-                </div>
-              </div>
-            </th>
-            <th>Key</th>
-            <th>Old Value (DB)</th>
-            <th>New Value (Upload)</th>
+    <table class="table table-sm table-striped table-bordered table-hover review-table">
+      <thead class="review-header">
+        <tr>
+          <th class="confirm-th">
+            <div class="confirm-header">
+              <span>Confirm</span>
+              <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
+            </div>
+          </th>
+          <th>Key</th>
+          <th>Old Value (DB)</th>
+          <th>New Value (Upload)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in staged_fields %}
+          {% set changed = field.changed %}
+          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
+            <td class="text-center">
+              {% if field.requires_confirmation %}
+                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>{{ field.key }}</td>
+            <td>{{ field.old }}</td>
+            <td>
+              {% if changed %}
+                <mark>{{ field.new }}</mark>
+              {% else %}
+                {{ field.new }}
+              {% endif %}
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {% for field in staged_fields %}
-            {% set changed = field.changed %}
-            <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
-              <td class="text-center" style="width: 1%;">
-                {% if field.requires_confirmation %}
-                  <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
-                {% else %}
-                  —
-                {% endif %}
-              </td>
-              <td>{{ field.key }}</td>
-              <td>{{ field.old }}</td>
-              <td>
-                {% if changed %}
-                  <mark>{{ field.new }}</mark>
-                {% else %}
-                  {{ field.new }}
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        {% endfor %}
+      </tbody>
+    </table>
 
     <div class="text-end mt-4">
       <button type="submit" class="btn btn-success btn-lg">
@@ -93,15 +140,12 @@
     if (checkedCount === 0) {
       selectAllBox.indeterminate = false;
       selectAllBox.checked = false;
-      selectAllBox.title = "No fields confirmed";
     } else if (checkedCount === checkboxes.length) {
       selectAllBox.indeterminate = false;
       selectAllBox.checked = true;
-      selectAllBox.title = "All fields confirmed";
     } else {
       selectAllBox.indeterminate = true;
       selectAllBox.checked = false;
-      selectAllBox.title = "Some fields confirmed";
     }
   }
 
@@ -112,25 +156,20 @@
     document.querySelectorAll("tbody tr").forEach(function (row) {
       const isUnchanged = row.classList.contains("unchanged-field");
       const matchesFilter = row.innerText.toLowerCase().includes(query);
-      const shouldShow = matchesFilter && (!hideUnchanged || !isUnchanged);
-      row.style.display = shouldShow ? "" : "none";
+      row.style.display = matchesFilter && (!hideUnchanged || !isUnchanged) ? "" : "none";
     });
   }
 
   document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
   document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
-
   selectAllBox.addEventListener("change", function () {
-    const checkboxes = document.querySelectorAll(".confirm-checkbox");
-    checkboxes.forEach(cb => cb.checked = this.checked);
+    document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
     updateConfirmAllState();
   });
-
   document.querySelectorAll(".confirm-checkbox").forEach(cb => {
     cb.addEventListener("change", updateConfirmAllState);
   });
-
-  window.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("DOMContentLoaded", () => {
     updateVisibleRows();
     updateConfirmAllState();
   });
