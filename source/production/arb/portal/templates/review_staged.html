@@ -90,7 +90,7 @@
     });
   });
 
-  // Toggle unchanged row visibility
+  // Toggle visibility of unchanged rows
   document.getElementById("hideUnchangedFields").addEventListener("change", function () {
     const hide = this.checked;
     document.querySelectorAll(".unchanged-field").forEach(function (row) {
@@ -98,13 +98,41 @@
     });
   });
 
-  // Select All Confirmations
-  document.getElementById("selectAllConfirmations").addEventListener("change", function () {
-    const allCheckboxes = document.querySelectorAll(".confirm-checkbox");
-    allCheckboxes.forEach(cb => cb.checked = this.checked);
+  const selectAllBox = document.getElementById("selectAllConfirmations");
+
+  // Update "Confirm All" checkbox state
+  function updateConfirmAllState() {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+
+    if (checkedCount === 0) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = false;
+      selectAllBox.title = "No fields confirmed";
+    } else if (checkedCount === checkboxes.length) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = true;
+      selectAllBox.title = "All fields confirmed";
+    } else {
+      selectAllBox.indeterminate = true;
+      selectAllBox.checked = false;
+      selectAllBox.title = "Some fields confirmed";
+    }
+  }
+
+  // Listen to individual checkboxes
+  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateConfirmAllState);
   });
 
-  // Field Search Filtering
+  // Toggle all from master checkbox
+  selectAllBox.addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    checkboxes.forEach(cb => cb.checked = this.checked);
+    updateConfirmAllState();
+  });
+
+  // Filter table rows by search input
   document.getElementById("fieldSearch").addEventListener("input", function () {
     const query = this.value.toLowerCase();
     document.querySelectorAll("tbody tr").forEach(function (row) {
