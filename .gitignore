@@ -1,0 +1,32 @@
+
+
+# IDE/project settings
+.idea/
+*.iml
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Logs and junk
+#logs/
+#*.log
+#*.tmp
+#*.bak
+#*.csv~
+
+# Releases
+feedback_portal_releases/
+
+
+# Portal uploads
+#portal_uploads/staging/
+#feedback_forms/testing_versions/
+
+# Docs output
+source/production/site/
+
+# Backups
+#*.zip
+source/production_*.zip
