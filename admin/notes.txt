@@ -803,3 +803,4 @@ changed to:
 	"ignored_packages": []
 }
 
+current review_staged.html works great and i'm going to see if i can remove sorting on the first column
