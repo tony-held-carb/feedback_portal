@@ -7,7 +7,7 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-  <!-- FixedHeader plugin -->
+  <!-- ✅ FixedHeader plugin (required!) -->
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
   <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 {% endblock %}
@@ -39,13 +39,6 @@
   table.dataTable td {
     border-color: #dee2e6 !important;
   }
-
-  thead.review-header .action-row th {
-    background-color: #f8f9fa !important;
-    color: #000;
-    text-align: left;
-    padding: 0.5rem 1rem;
-  }
 </style>
 
 <div class="container-fluid post-nav-buffer mb-3">
@@ -64,32 +57,21 @@
     Unchecked fields will not be updated.
   </div>
 
-  <form id="confirm-form" method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
+  <div class="row g-2 mb-3 align-items-center">
+    <div class="col-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
+        <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
+      </div>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
+    </div>
+  </div>
+
+  <form method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence) }}">
     <table id="reviewTable" class="table table-sm table-bordered table-hover review-table">
       <thead class="review-header">
-        <tr class="action-row align-middle">
-          <th colspan="4">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-              <!-- Left: toggle + filter -->
-              <div class="d-flex align-items-center flex-wrap gap-3">
-                <div class="form-check form-switch m-0">
-                  <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
-                  <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
-                </div>
-                <div class="input-group input-group-sm" style="min-width: 300px;">
-                  <span class="input-group-text">🔍</span>
-                  <input type="text" class="form-control" id="fieldSearch" placeholder="Filter fields by name or value">
-                </div>
-              </div>
-
-              <!-- Right: action buttons -->
-              <div class="d-flex gap-2">
-                <a class="btn btn-outline-dark btn-sm" href="{{ url_for('main.upload_file') }}">Cancel</a>
-                <button form="confirm-form" type="submit" class="btn btn-success btn-sm">✅ Confirm Upload</button>
-              </div>
-            </div>
-          </th>
-        </tr>
         <tr>
           <th class="confirm-th">
             <div class="confirm-header">
@@ -126,6 +108,12 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <div class="text-end mt-4">
+      <button type="submit" class="btn btn-success btn-lg">
+        ✅ Confirm and Save Upload
+      </button>
+    </div>
   </form>
 </div>
 
