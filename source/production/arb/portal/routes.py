@@ -423,38 +423,65 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
   Final confirmation of staged data. This route moves the staged JSON to the
   committed directory and triggers any database update logic (if applicable).
 
+  The user must explicitly approve field-level overwrites via checkboxes. Only
+  approved fields are updated; all others are left unchanged.
+
   Args:
     id_ (int): The incidence/emission ID being confirmed.
 
   Returns:
     ResponseReturnValue: Redirect to confirmation or error page.
   """
+  import os
+  from flask import redirect, url_for, flash, request
+  from arb.portal.config.accessors import get_upload_folder  # ✅ verified
+  from arb.utils.json import json_load_with_meta, json_save_with_meta  # ✅ verified
+  from arb.portal.json_update_util import apply_json_patch_and_log  # ✅ verified
+
+  # Resolve paths
+  root = get_upload_folder()
+  staged_path = os.path.join(root, "staging", f"{id_}.json")
+  committed_path = os.path.join(root, "committed", f"{id_}.json")
+
+  # Load staged payload and metadata
   try:
-    # Resolve staging and committed paths
-    from pathlib import Path
-    from arb.portal.globals import get_upload_folder
-    from arb.utils.json import json_load_with_meta, json_save_with_meta
-    from arb.portal.json_update_util import apply_json_patch_and_log
-
-    staging_path = Path(get_upload_folder()) / "staging" / f"{id_}.json"
-    committed_path = Path(get_upload_folder()) / "committed" / f"{id_}.json"
-
-    # Load staged file
-    data_dict, metadata = json_load_with_meta(staging_path)
-
-    # Apply patch to database
-    apply_json_patch_and_log(data_dict, metadata)
-
-    # Save committed copy
-    json_save_with_meta(data_dict, committed_path, metadata)
-
-    flash("Staged update confirmed and promoted to committed.", "success")
+    staged_data, staged_meta = json_load_with_meta(Path(staged_path))
+  except Exception as e:
+    flash(f"Failed to load staged file for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
+  # If no previous committed file, treat as new insert
+  try:
+    existing_data, _ = json_load_with_meta(Path(committed_path))
+  except FileNotFoundError:
+    existing_data = {}
+
+  # Build update patch only for fields user confirmed
+  patch: dict = {}
+  for key in staged_data:
+    checkbox_name = f"confirm_overwrite_{key}"
+    confirmed = checkbox_name in request.form
+
+    new_val = staged_data[key]
+    old_val = existing_data.get(key)
+
+    if confirmed or old_val in (None, "", [], {}):
+      patch[key] = new_val
+
+  if not patch:
+    flash("No fields were confirmed for update. No changes saved.", "warning")
+    return redirect(url_for("main.upload_file_staged"))
+
+  # Apply patch and save to committed file
+  updated, change_log = apply_json_patch_and_log(existing_data, patch)
+
+  try:
+    json_save_with_meta(updated, Path(committed_path))
+    flash(f"Successfully updated record {id_}. {len(change_log)} fields changed.", "success")
   except Exception as e:
-    current_app.logger.exception(f"Error promoting staged update for ID {id_}")
-    flash("Failed to confirm staged update. See logs for details.", "danger")
-    return redirect(url_for("main.review_staged", id_=id_))
+    flash(f"Error saving committed file for ID {id_}: {e}", "danger")
+
+  return redirect(url_for("main.upload_file_staged"))
 
 
 @main.route("/discard_staged_update/<int:id_>", methods=["POST"])
