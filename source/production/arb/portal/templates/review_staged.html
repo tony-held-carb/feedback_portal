@@ -7,7 +7,7 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-  <!-- ✅ FixedHeader plugin (required!) -->
+  <!-- ✅ FixedHeader plugin -->
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
   <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 {% endblock %}
@@ -53,7 +53,7 @@
   </div>
 
   <div class="alert alert-info small mb-3">
-    <strong>Note:</strong> For fields that would overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    <strong>Note:</strong> For fields that would add or overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
     Unchecked fields will not be updated.
   </div>
 
@@ -85,27 +85,23 @@
         </tr>
       </thead>
       <tbody>
-        {% for field in staged_fields %}
-          {% set changed = field.changed %}
-          <tr class="field-row {% if not changed %}unchanged-field{% else %}table-warning{% endif %}">
-            <td class="text-center">
-              {% if field.requires_confirmation %}
-                <input type="checkbox" name="confirm_overwrite_{{ field.key }}" class="confirm-checkbox">
-              {% else %}
-                —
-              {% endif %}
-            </td>
-            <td>{{ field.key }}</td>
-            <td>{{ field.old }}</td>
-            <td>
-              {% if changed %}
-                <mark>{{ field.new }}</mark>
-              {% else %}
-                {{ field.new }}
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
+{% for row in staged_fields %}
+  <tr class="field-row
+             {% if row.is_same %}unchanged-field{% elif row.requires_confirmation %}table-warning{% endif %}">
+    <td class="text-center">
+      {% if row.requires_confirmation %}
+        <input type="checkbox" name="confirm_overwrite_{{ row.key }}" class="confirm-checkbox">
+      {% elif row.is_same %}
+        <span class="badge rounded-pill bg-secondary">Same</span>
+      {% else %}
+        &mdash;
+      {% endif %}
+    </td>
+    <td class="sorting_1">{{ row.key }}</td>
+    <td class="">{{ row.old }}</td>
+    <td class="">{% if row.changed %}<mark>{{ row.new }}</mark>{% else %}{{ row.new }}{% endif %}</td>
+  </tr>
+{% endfor %}
       </tbody>
     </table>
 
