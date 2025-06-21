@@ -660,6 +660,7 @@ def compute_field_differences(
     - Keys present in `existing_data` but *not* in `new_data` are ignored.
     - A field requires confirmation if it would overwrite a meaningful existing value.
   """
+  print("ChatGPT, I put this line in to see if you noticed that field changed.  This was a test to see if you are using files from the new zip, or if you are guessing about the past.  I hope you see this line :)")
   differences = []
 
   for key in sorted(new_data.keys()):
