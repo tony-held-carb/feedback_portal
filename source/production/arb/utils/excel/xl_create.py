@@ -42,6 +42,7 @@ logger, pp_log = get_logger()
 LANDFILL_VERSION = "v070"
 OIL_AND_GAS_VERSION = "v070"
 ENERGY_VERSION = "v003"
+GENERIC_VERSION = "v002"
 
 
 def sort_xl_schema(xl_schema: dict,

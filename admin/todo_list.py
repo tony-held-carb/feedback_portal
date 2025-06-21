@@ -2,8 +2,43 @@
 
 # todo - Next Steps
 ----------------------------
-* next step is to clean up the wtforms as they are massive and duplicative
-  and we will be creating energy and other forms shortly.
+* I had some detached head issues and think i fixed it, I wonder if I lost some updates to the
+  feedback forms.
+  In any event, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
+  with the sharepoint review and make sure that both directories agree
+
+
+* beginning refactor 20 to stage excel spreadsheet uploads
+* for the placeholder values, add for e.g. 123.45 so we don't get confused on real entries
+* have dan filter out None's and Please Selects from his display field
+
+* staging made it clear that the json files don't store in utc, which is against the
+  data contract.
+
+* Data in local time flagged with (todo - datetime - )
+  * dummy data
+    * todo - need to make sure hard coded values are utc aware
+      * update datetime.datetime.now() statements
+  * spreadsheets
+    * should be read in as naive and immediately convert to utc aware
+      * update extract_tabs for datetimes
+  * html elements
+    * for display - cast to ca local just before presentation
+      * finding out where this is done ...
+      * looks like incidence_prep has the get/setters
+        * for get - model_to_wtform -> deserialize_dict called -> cast_model_value
+          * cast_model_value is where the conversion to datetime is updated, update here ...
+        * for post - wtform_to_model -> make_dict_serializeable
+          * make_dict_serializeable is where the updates should be made
+  * look for any references to convert_time_to_ca and remove any casting to avoid confusion
+  * looks like cast_model_value and make_dict_serializeable have some overlapping logic
+      they may want to be consolidated or somehow aligned with json serialize/deserialize hooks/logic
+
+
+  * make a data contract regarding datetime, casting and storage
+
+
+
 
 
 * future initiatives
@@ -41,6 +76,7 @@
   * figure out if we want data to initially only be cached and then updated afterwards
   * so you can revert back to old state when you propose a spreadsheet upload
   * add flask user authentication and add to logging routines
+  * refactor forms as they are currently duplicative
 
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm

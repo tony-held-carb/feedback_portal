@@ -1,0 +1,164 @@
+{
+"additional_activities": {
+"label": "Q10.  If applicable, please describe any events or activities that may have contributed to the plume observed on the date provided in Section 2.",
+"label_address": "$B$44",
+"value_address": "$D$44",
+"is_drop_down": false
+},
+"additional_inspection_notes": {
+"label": "Q9.  If applicable, provide any additional notes on the inspection or analysis of the area in question.",
+"label_address": "$B$43",
+"value_address": "$D$43",
+"is_drop_down": false
+},
+"additional_notes": {
+"label": "Q20.  Additional notes or comments.",
+"label_address": "$B$63",
+"value_address": "$D$63",
+"is_drop_down": false
+},
+"contact_email": {
+"label": "Q5.  Contact Email",
+"label_address": "$B$36",
+"value_address": "$D$36",
+"is_drop_down": false
+},
+"contact_name": {
+"label": "Q3.  Contact Name",
+"label_address": "$B$34",
+"value_address": "$D$34",
+"is_drop_down": false
+},
+"contact_phone": {
+"label": "Q4.  Contact Phone",
+"label_address": "$B$35",
+"value_address": "$D$35",
+"is_drop_down": false
+},
+"emission_identified_flag_fk": {
+"label": "Q6.  Was a leak identified through prior knowledge or by follow-up monitoring after receipt of a CARB plume notice?",
+"label_address": "$B$40",
+"value_address": "$D$40",
+"is_drop_down": true
+},
+"facility_name": {
+"label": "Q1.  Facility Name",
+"label_address": "$B$32",
+"value_address": "$D$32",
+"is_drop_down": false
+},
+"id_arb": {
+"label": "Q2.  Facility ID (if applicable)",
+"label_address": "$B$33",
+"value_address": "$D$33",
+"is_drop_down": false
+},
+"id_arb_swis": {
+"label": "Q2.  Facility ID (if applicable)",
+"label_address": "$B$33",
+"value_address": "$D$33",
+"is_drop_down": false
+},
+"id_incidence": {
+"label": "1.  Incidence/Emission ID",
+"label_address": "$B$23",
+"value_address": "$D$23",
+"is_drop_down": false
+},
+"id_message": {
+"label": "6.  CARB Message ID",
+"label_address": "$B$28",
+"value_address": "$D$28",
+"is_drop_down": false
+},
+"id_plume": {
+"label": "2.  Plume ID(s)",
+"label_address": "$B$24",
+"value_address": "$D$24",
+"is_drop_down": false
+},
+"initial_leak_concentration": {
+"label": "Q11:  Maximum concentration of methane leak (in ppmv).",
+"label_address": "$B$48",
+"value_address": "$D$48",
+"is_drop_down": false
+},
+"inspection_timestamp": {
+"label": "Q7.  If applicable, what was the date of owner/operator's ground monitoring of the area in question.",
+"label_address": "$B$41",
+"value_address": "$D$41",
+"is_drop_down": false
+},
+"instrument": {
+"label": "Q8.  If applicable, what was the instrument used to locate the leak (e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL).",
+"label_address": "$B$42",
+"value_address": "$D$42",
+"is_drop_down": false
+},
+"lat_carb": {
+"label": "4.  Plume Origin CARB Estimated Latitude",
+"label_address": "$B$26",
+"value_address": "$D$26",
+"is_drop_down": false
+},
+"lat_revised": {
+"label": "Q12.  Please provide a revised latitude if the leak location differs from CARB's estimate in Section 2.",
+"label_address": "$B$49",
+"value_address": "$D$49",
+"is_drop_down": false
+},
+"leak_cause": {
+"label": "Q15.  Please provide any additional information about the leak here or any events or activities that may have contributed observed plume.",
+"label_address": "$B$52",
+"value_address": "$D$52",
+"is_drop_down": false
+},
+"leak_description": {
+"label": "Q14:  Please select from the drop-down menu which option best matches the description of the leak.",
+"label_address": "$B$51",
+"value_address": "$D$51",
+"is_drop_down": true
+},
+"long_carb": {
+"label": "5.  Plume Origin CARB Estimated Longitude",
+"label_address": "$B$27",
+"value_address": "$D$27",
+"is_drop_down": false
+},
+"long_revised": {
+"label": "Q13.  Please provide a revised longitude if the leak location differs from CARB's estimate in Section 2.",
+"label_address": "$B$50",
+"value_address": "$D$50",
+"is_drop_down": false
+},
+"mitigation_actions": {
+"label": "Q16.  Describe any corrective actions taken.",
+"label_address": "$B$56",
+"value_address": "$D$56",
+"is_drop_down": false
+},
+"mitigation_timestamp": {
+"label": "Q17.  Repair date.",
+"label_address": "$B$57",
+"value_address": "$D$57",
+"is_drop_down": false
+},
+"observation_timestamp": {
+"label": "3.  Plume Observation Date",
+"label_address": "$B$25",
+"value_address": "$D$25",
+"is_drop_down": false
+},
+"re_monitored_concentration": {
+"label": "Q19.  Re-monitored methane concentration after repair (ppmv).",
+"label_address": "$B$59",
+"value_address": "$D$59",
+"is_drop_down": false
+},
+"re_monitored_timestamp": {
+"label": "Q18.  Re-monitored date.",
+"label_address": "$B$58",
+"value_address": "$D$58",
+"is_drop_down": false
+}
+}
