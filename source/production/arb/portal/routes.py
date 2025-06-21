@@ -420,30 +420,41 @@ def review_staged(id_: int) -> str:
 @main.route("/confirm_staged/<int:id_>", methods=["POST"])
 def confirm_staged(id_: int) -> ResponseReturnValue:
   """
-  Final confirmation of staged data. This route should:
-  - Move the staged JSON to the committed directory
-  - Trigger any database update logic
-  - Log the confirmation action
+  Final confirmation of staged data. This route moves the staged JSON to the
+  committed directory and triggers any database update logic (if applicable).
 
   Args:
     id_ (int): The incidence/emission ID being confirmed.
 
   Returns:
-    ResponseReturnValue: Redirect to a confirmation or status page.
+    ResponseReturnValue: Redirect to confirmation or error page.
   """
   try:
-    logger.info(f"Confirming staged data for ID {id_}")
+    # Resolve staging and committed paths
+    from pathlib import Path
+    from arb.portal.globals import get_upload_folder
+    from arb.utils.json import json_load_with_meta, json_save_with_meta
+    from arb.portal.json_update_util import apply_json_patch_and_log
 
-    # TODO: load staged payload, write to committed dir, or update DB
-    # For now, we log and redirect to home or review page
+    staging_path = Path(get_upload_folder()) / "staging" / f"{id_}.json"
+    committed_path = Path(get_upload_folder()) / "committed" / f"{id_}.json"
 
-    flash(f"Upload for ID {id_} confirmed and committed.", "success")
-    return redirect(url_for("portal.home"))
+    # Load staged file
+    data_dict, metadata = json_load_with_meta(staging_path)
+
+    # Apply patch to database
+    apply_json_patch_and_log(data_dict, metadata)
+
+    # Save committed copy
+    json_save_with_meta(data_dict, committed_path, metadata)
+
+    flash("Staged update confirmed and promoted to committed.", "success")
+    return redirect(url_for("main.upload_file_staged"))
 
   except Exception as e:
-    logger.exception(f"Failed to confirm staged data for ID {id_}: {e}")
-    flash("An error occurred during confirmation.", "danger")
-    return redirect(url_for("portal.review_staged", id_=id_))
+    current_app.logger.exception(f"Error promoting staged update for ID {id_}")
+    flash("Failed to confirm staged update. See logs for details.", "danger")
+    return redirect(url_for("main.review_staged", id_=id_))
 
 
 @main.route("/discard_staged_update/<int:id_>", methods=["POST"])
