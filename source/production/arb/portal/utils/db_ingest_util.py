@@ -10,6 +10,7 @@ It includes:
 """
 import shutil
 from pathlib import Path
+import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
@@ -21,7 +22,7 @@ from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
 from arb.utils.io_wrappers import copy_file_safe
-from arb.utils.json import extract_id_from_json, json_load_with_meta
+from arb.utils.json import extract_id_from_json, json_load_with_meta, json_save_with_meta
 from arb.utils.web_html import upload_single_file
 
 logger, pp_log = get_logger()
@@ -302,13 +303,15 @@ def upload_and_stage_only(db: SQLAlchemy,
                           upload_dir: str | Path,
                           request_file: FileStorage,
                           base: AutomapBase
-                          ) -> tuple[Path, int | None, str | None, dict]:
+                          ) -> tuple[Path, int | None, str | None, dict, str]:
   """
   Save an uploaded Excel or JSON file, convert to JSON, and stage it for review.
 
   This function mimics upload_and_update_db() to ensure parity, but differs in that:
     - It does NOT update the database.
     - It returns the parsed JSON dict for review purposes.
+    - It saves the current DB misc_json as 'base_misc_json' in the staged file's metadata.
+    - It uses a timestamped filename for the staged file.
 
   Args:
     db (SQLAlchemy): Active SQLAlchemy database instance.
@@ -317,9 +320,12 @@ def upload_and_stage_only(db: SQLAlchemy,
     base (AutomapBase): Reflected metadata (currently unused but passed for consistency).
 
   Returns:
-    tuple[Path, int | None, str | None, dict]: Saved file path, extracted id_incidence,
-    sector name, and parsed JSON contents.
+    tuple[Path, int | None, str | None, dict, str]: Saved file path, extracted id_incidence,
+    sector name, parsed JSON contents, and the staged filename (not full path).
   """
+  from arb.utils.file_io import get_secure_timestamped_file_name
+  from arb.utils.json import json_save_with_meta
+
   logger.debug(f"upload_and_stage_only() called with {request_file=}")
   id_ = None
   sector = None
@@ -333,13 +339,23 @@ def upload_and_stage_only(db: SQLAlchemy,
     json_data, _ = json_load_with_meta(json_path)
     id_ = extract_id_from_json(json_data)
 
-    # 🆕 Staging logic: write to upload_dir/staging/{id_}.json
+    # 🆕 Staging logic: write to upload_dir/staging/{id_}_ts_YYYYMMDD_HHMMSS.json
     if id_:
-      staging_path = Path(upload_dir) / "staging" / f"{id_}.json"
-      copy_file_safe(json_path, staging_path)
-      logger.debug(f"Staged JSON copied to: {staging_path}")
+      # Get current DB misc_json for this id_
+      model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
+      base_misc_json = getattr(model, "misc_json", {}) or {}
+      # Generate timestamped filename
+      staging_dir = Path(upload_dir) / "staging"
+      staging_dir.mkdir(parents=True, exist_ok=True)
+      staged_filename = f"id_{id_}_ts_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+      staged_path = staging_dir / staged_filename
+      # Save with metadata
+      json_save_with_meta(staged_path, json_data, metadata={"base_misc_json": base_misc_json})
+      logger.debug(f"Staged JSON saved to: {staged_path}")
+      add_file_to_upload_table(db, staged_path, status="Staged JSON", description="Staged file with base_misc_json")
+      return file_path, id_, sector, json_data, staged_filename
     else:
       logger.warning("id_incidence could not be extracted. Staging file was not created.")
 
-  return file_path, id_, sector, json_data
+  return file_path, id_, sector, json_data, ""
 

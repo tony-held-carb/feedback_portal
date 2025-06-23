@@ -15,8 +15,10 @@ Notes:
   - Developer diagnostics are inlined near the end of the module.
 """
 
+import csv
 import datetime
 import os
+from io import StringIO
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -33,17 +35,21 @@ from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
+from arb.portal.json_update_util import apply_json_patch_and_log
+from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
+from arb.portal.wtf_landfill import LandfillFeedback
+from arb.portal.wtf_oil_and_gas import OGFeedback
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
 from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta, json_save_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
-from arb.utils.wtf_forms_util import get_wtforms_fields
+from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 
 __version__ = "1.0.0"
 logger, pp_log = get_logger()
@@ -333,9 +339,9 @@ def upload_file_staged(message: str | None = None) -> str | Response:
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
       # Save and stage (no DB commit)
-      file_path, id_, sector, json_data = upload_and_stage_only(db, upload_folder, request_file, base)
+      file_path, id_, sector, json_data, staged_filename = upload_and_stage_only(db, upload_folder, request_file, base)
 
-      if id_ is None:
+      if id_ is None or not staged_filename:
         logger.warning(f"Staging failed: missing or invalid id_incidence in {file_path.name}")
         return render_template(
           'upload_staged.html',
@@ -344,8 +350,8 @@ def upload_file_staged(message: str | None = None) -> str | Response:
                          "Please verify the spreadsheet includes that field and try again."
         )
 
-      logger.debug(f"Staged upload successful: id={id_}, sector={sector}. Redirecting to review page.")
-      return redirect(url_for('main.review_staged', id_=id_))
+      logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
+      return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
 
     except Exception as e:
       logger.exception("Exception occurred during staged upload.")
@@ -359,8 +365,8 @@ def upload_file_staged(message: str | None = None) -> str | Response:
   return render_template('upload_staged.html', form=form, upload_message=message)
 
 
-@main.route("/review_staged/<int:id_>", methods=["GET"])
-def review_staged(id_: int) -> str:
+@main.route("/review_staged/<int:id_>/<filename>", methods=["GET"])
+def review_staged(id_: int, filename: str) -> str | Response:
   """
   Show a diff between a staged upload and the current database row.
 
@@ -370,15 +376,16 @@ def review_staged(id_: int) -> str:
 
   Args:
     id_ (int): ID of the row that was staged for update.
+    filename (str): The staged file name to review.
 
   Returns:
     str: Rendered HTML with row-level differences and actions.
   """
-  logger.debug(f"Reviewing staged upload for id={id_}")
+  logger.debug(f"Reviewing staged upload for id={id_}, filename={filename}")
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   staging_dir = Path(get_upload_folder()) / "staging"
-  staged_json_path = staging_dir / f"{id_}.json"
+  staged_json_path = staging_dir / filename
 
   if not staged_json_path.exists():
     logger.warning(f"Staged JSON file not found: {staged_json_path}")
@@ -414,11 +421,12 @@ def review_staged(id_: int) -> str:
     is_new_row=is_new_row,
     metadata=metadata,
     error=None,
+    filename=filename,
   )
 
 
-@main.route("/confirm_staged/<int:id_>", methods=["POST"])
-def confirm_staged(id_: int) -> ResponseReturnValue:
+@main.route("/confirm_staged/<int:id_>/<filename>", methods=["POST"])
+def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   """
   Final confirmation of staged data. This route applies the staged changes to the
   database model and moves the staged JSON to the committed directory.
@@ -428,25 +436,23 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
 
   Args:
     id_ (int): The incidence/emission ID being confirmed.
+    filename (str): The staged file name being confirmed.
 
   Returns:
     ResponseReturnValue: Redirect to confirmation or error page.
   """
-  import os
-  from flask import redirect, url_for, flash, request
-  from arb.portal.config.accessors import get_upload_folder  # ✅ verified
-  from arb.utils.json import json_load_with_meta, json_save_with_meta  # ✅ verified
-  from arb.portal.json_update_util import apply_json_patch_and_log  # ✅ verified
-  from arb.utils.sql_alchemy import get_class_from_table_name
-
+  import shutil
   # Resolve paths
   root = get_upload_folder()
-  staged_path = os.path.join(root, "staging", f"{id_}.json")
-  committed_path = os.path.join(root, "committed", f"{id_}.json")
+  staged_path = os.path.join(root, "staging", filename)
+  processed_dir = os.path.join(root, "processed")
+  os.makedirs(processed_dir, exist_ok=True)
+  processed_path = os.path.join(processed_dir, filename)
 
   # Load staged payload and metadata
   try:
     staged_data, staged_meta = json_load_with_meta(Path(staged_path))
+    base_misc_json = staged_meta.get("base_misc_json", {})
   except Exception as e:
     flash(f"Failed to load staged file for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
@@ -465,6 +471,12 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
     id_=id_
   )
 
+  # Check for concurrent DB changes
+  current_misc_json = getattr(model_row, "misc_json", {}) or {}
+  if current_misc_json != base_misc_json:
+    flash("The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.", "warning")
+    return redirect(url_for("main.review_staged", id_=id_, filename=filename))
+
   # Build update patch only for fields user confirmed
   patch: dict = {}
   for key in staged_data:
@@ -481,6 +493,9 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
     flash("No fields were confirmed for update. No changes saved.", "warning")
     return redirect(url_for("main.upload_file_staged"))
 
+  # 🆕 Prepare patch for JSON serialization (type coercion, datetime conversion, etc.)
+  patch = prep_payload_for_json(patch)
+
   # Apply patch to the database model
   try:
     apply_json_patch_and_log(
@@ -491,8 +506,8 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
       comments=f"Staged update confirmed for ID {id_}"
     )
     
-    # Save the committed JSON file
-    json_save_with_meta(staged_data, Path(committed_path))
+    # Move the staged JSON file to the processed directory
+    shutil.move(staged_path, processed_path)
     
     flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
     
@@ -616,9 +631,6 @@ def view_portal_updates() -> str:
     - Supports pagination, filtering, and sorting via query parameters.
     - Default sort is descending by timestamp.
   """
-  from arb.portal.sqla_models import PortalUpdate
-  from flask import request, render_template
-
   sort_by = request.args.get("sort_by", "timestamp")
   direction = request.args.get("direction", "desc")
   page = int(request.args.get("page", 1))
@@ -658,11 +670,6 @@ def export_portal_updates() -> Response:
     - Respects filters set in the `/portal_updates` page.
     - Uses standard CSV headers and UTF-8 encoding.
   """
-  from arb.portal.sqla_models import PortalUpdate
-  from flask import request, Response
-  from io import StringIO
-  import csv
-
   query = db.session.query(PortalUpdate)
   query = apply_portal_update_filters(query, PortalUpdate, request.args)
 
@@ -794,9 +801,6 @@ def show_feedback_form_structure() -> str:
   Notes:
     - Uses `get_wtforms_fields()` utility to introspect each form.
   """
-
-  from arb.portal.wtf_landfill import LandfillFeedback
-  from arb.portal.wtf_oil_and_gas import OGFeedback
   logger.info(f"Displaying wtforms structure as a diagnostic")
 
   form1 = OGFeedback()
