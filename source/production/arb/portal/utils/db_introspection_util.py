@@ -46,25 +46,55 @@ def get_ensured_row(db: SQLAlchemy,
     UnmappedClassError: If the table name is not mapped in metadata.
   """
 
+  # 🆕 DIAGNOSTIC: Log function entry
+  logger.info(f"[get_ensured_row] ENTRY: table_name={table_name}, "
+              f"primary_key_name={primary_key_name}, id_={id_}")
+
   is_new_row = False
 
   session = db.session
   table = get_class_from_table_name(base, table_name)
+  
+  logger.info(f"[get_ensured_row] Table class: {table}, Session: {session is not None}")
 
   if id_ is not None:
-    logger.debug(f"Retrieving {table_name} row with {primary_key_name}={id_}")
+    logger.info(f"[get_ensured_row] Attempting to retrieve existing row with {primary_key_name}={id_}")
     model = session.get(table, id_)
+    
     if model is None:
       is_new_row = True
-      logger.debug(f"No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
+      logger.info(f"[get_ensured_row] No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
       model = table(**{primary_key_name: id_})
+      logger.info(f"[get_ensured_row] Created model instance: {model}, "
+                  f"model.{primary_key_name}={getattr(model, primary_key_name, 'N/A')}")
+    else:
+      logger.info(f"[get_ensured_row] Found existing row: {model}, "
+                  f"model.{primary_key_name}={getattr(model, primary_key_name, 'N/A')}")
   else:
     is_new_row = True
-    logger.debug(f"Creating new {table_name} row with auto-generated {primary_key_name}")
+    logger.info(f"[get_ensured_row] Creating new {table_name} row with auto-generated {primary_key_name}")
     model = table(**{primary_key_name: None})
     session.add(model)
-    session.commit()
+    
+    logger.info(f"[get_ensured_row] About to commit new row to database")
+    try:
+      session.commit()
+      logger.info(f"[get_ensured_row] ✅ Successfully committed new row to database")
+    except Exception as e:
+      logger.error(f"[get_ensured_row] ❌ Failed to commit new row: {e}")
+      logger.exception(f"[get_ensured_row] Full exception details:")
+      raise
+    
     id_ = getattr(model, primary_key_name)
-    logger.debug(f"{table_name} row created with {primary_key_name}={id_}")
+    logger.info(f"[get_ensured_row] New row created with {primary_key_name}={id_}")
+
+  # 🆕 DIAGNOSTIC: Final state check
+  logger.info(f"[get_ensured_row] RETURN: model={model}, id_={id_}, is_new_row={is_new_row}")
+  
+  # Check if model is in session
+  from sqlalchemy.orm import object_session
+  model_session = object_session(model)
+  logger.info(f"[get_ensured_row] Model session check: {model_session is not None}, "
+              f"Model in session: {model in model_session if model_session else False}")
 
   return model, id_, is_new_row

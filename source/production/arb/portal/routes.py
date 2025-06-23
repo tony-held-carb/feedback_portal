@@ -473,6 +473,7 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   table = get_class_from_table_name(base, table_name)
   
   # Get or create the model row
+  logger.info(f"[confirm_staged] Getting/creating model row for id_incidence={id_}")
   model_row, _, is_new_row = get_ensured_row(
     db=db,
     base=base,
@@ -480,15 +481,25 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     primary_key_name="id_incidence",
     id_=id_
   )
+  logger.info(f"[confirm_staged] Model row result: type={type(model_row)}, "
+              f"id_incidence={getattr(model_row, 'id_incidence', 'N/A')}, "
+              f"is_new_row={is_new_row}")
 
   # Check for concurrent DB changes
   current_misc_json = getattr(model_row, "misc_json", {}) or {}
+  logger.info(f"[confirm_staged] Current misc_json: {current_misc_json}")
+  logger.info(f"[confirm_staged] Base misc_json from staging: {base_misc_json}")
+  
   if current_misc_json != base_misc_json:
+    logger.warning(f"[confirm_staged] Concurrent DB changes detected! "
+                   f"current_misc_json != base_misc_json")
     flash("The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.", "warning")
     return redirect(url_for("main.review_staged", id_=id_, filename=filename))
 
   # Build update patch only for fields user confirmed
   patch: dict = {}
+  logger.info(f"[confirm_staged] Building patch from {len(form_data)} form fields")
+  
   for key in form_data:
     checkbox_name = f"confirm_overwrite_{key}"
     confirmed = checkbox_name in request.form
@@ -500,16 +511,22 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
 
     if confirmed or old_val in (None, "", [], {}):
       patch[key] = new_val
+      logger.debug(f"[confirm_staged] Added to patch: {key}={new_val} (confirmed={confirmed})")
+
+  logger.info(f"[confirm_staged] Final patch contains {len(patch)} fields: {list(patch.keys())}")
 
   if not patch:
+    logger.warning(f"[confirm_staged] No fields in patch - no changes to save")
     flash("No fields were confirmed for update. No changes saved.", "warning")
     return redirect(url_for("main.upload_file_staged"))
 
   # 🆕 Prepare patch for JSON serialization (type coercion, datetime conversion, etc.)
   patch = prep_payload_for_json(patch)
+  logger.info(f"[confirm_staged] Prepared patch for JSON: {patch}")
 
   # Apply patch to the database model
   try:
+    logger.info(f"[confirm_staged] About to call apply_json_patch_and_log with {len(patch)} fields")
     apply_json_patch_and_log(
       model=model_row,
       updates=patch,
@@ -517,17 +534,23 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
       user="anonymous",
       comments=f"Staged update confirmed for ID {id_}"
     )
+    logger.info(f"[confirm_staged] ✅ apply_json_patch_and_log completed successfully")
     
     # 🆕 Commit the database transaction to persist changes
+    logger.info(f"[confirm_staged] About to commit database session")
     db.session.commit()
+    logger.info(f"[confirm_staged] ✅ Database session committed successfully")
     
     # Move the staged JSON file to the processed directory
     shutil.move(staged_path, processed_path)
+    logger.info(f"[confirm_staged] ✅ Moved staged file to processed: {processed_path}")
     
     flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
     
   except Exception as e:
     # Rollback on error to prevent partial commits
+    logger.error(f"[confirm_staged] ❌ Error during database update: {e}")
+    logger.exception(f"[confirm_staged] Full exception details:")
     db.session.rollback()
     flash(f"Error applying updates for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))

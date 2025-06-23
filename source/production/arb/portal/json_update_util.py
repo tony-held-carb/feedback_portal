@@ -15,6 +15,7 @@ Typical Use:
 import datetime
 
 from sqlalchemy.orm.attributes import flag_modified
+from sqlalchemy.orm import object_session
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
@@ -52,6 +53,16 @@ def apply_json_patch_and_log(model,
   Raises:
     AttributeError: If the specified JSON field does not exist on the model.
   """
+  
+  # 🆕 DIAGNOSTIC: Log function entry and model state
+  logger.info(f"[apply_json_patch_and_log] ENTRY: model={type(model).__name__}, "
+              f"model.id_incidence={getattr(model, 'id_incidence', 'N/A')}, "
+              f"updates={len(updates)} fields, json_field={json_field}")
+  
+  # Check if model is in session
+  session = object_session(model)
+  logger.info(f"[apply_json_patch_and_log] Model session: {session is not None}, "
+              f"Model in session: {model in session if session else False}")
 
   # In the future, may want to handle new rows differently
   json_data = getattr(model, json_field)
@@ -60,6 +71,8 @@ def apply_json_patch_and_log(model,
     is_new_row = True
   else:
     is_new_row = False
+    
+  logger.info(f"[apply_json_patch_and_log] Initial json_data: {json_data}, is_new_row: {is_new_row}")
 
   # Consistency check
   if "id_incidence" in json_data and json_data["id_incidence"] != model.id_incidence:
@@ -73,6 +86,7 @@ def apply_json_patch_and_log(model,
                      f"{updates['id_incidence']}")
       del updates["id_incidence"]
 
+  changes_made = 0
   for key, new_value in updates.items():
 
     old_value = json_data.get(key)
@@ -88,6 +102,7 @@ def apply_json_patch_and_log(model,
       continue
 
     if old_value != new_value:
+      changes_made += 1
       log_entry = PortalUpdate(
         timestamp=datetime.datetime.now(datetime.UTC),
         key=key,
@@ -98,7 +113,29 @@ def apply_json_patch_and_log(model,
         id_incidence=model.id_incidence,
       )
       db.session.add(log_entry)
+      logger.debug(f"[apply_json_patch_and_log] Added log entry for {key}: {old_value} -> {new_value}")
+
+  logger.info(f"[apply_json_patch_and_log] Applied {changes_made} changes to json_data")
 
   setattr(model, json_field, json_data)
   flag_modified(model, json_field)
-  db.session.commit()
+  
+  # 🆕 DIAGNOSTIC: Log before commit
+  logger.info(f"[apply_json_patch_and_log] Before commit: model.{json_field}={getattr(model, json_field)}")
+  logger.info(f"[apply_json_patch_and_log] About to commit {changes_made} changes to database")
+  
+  try:
+    db.session.commit()
+    logger.info(f"[apply_json_patch_and_log] ✅ COMMIT SUCCESSFUL: {changes_made} changes committed")
+    
+    # 🆕 DIAGNOSTIC: Verify model state after commit
+    logger.info(f"[apply_json_patch_and_log] After commit: model.{json_field}={getattr(model, json_field)}")
+    
+    # Check if model is still in session after commit
+    session_after = object_session(model)
+    logger.info(f"[apply_json_patch_and_log] Model session after commit: {session_after is not None}")
+    
+  except Exception as e:
+    logger.error(f"[apply_json_patch_and_log] ❌ COMMIT FAILED: {e}")
+    logger.exception(f"[apply_json_patch_and_log] Full exception details:")
+    raise
