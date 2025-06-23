@@ -41,7 +41,7 @@ from arb.portal.utils.route_util import incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
-from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta
+from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta, json_save_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields
 
@@ -420,8 +420,8 @@ def review_staged(id_: int) -> str:
 @main.route("/confirm_staged/<int:id_>", methods=["POST"])
 def confirm_staged(id_: int) -> ResponseReturnValue:
   """
-  Final confirmation of staged data. This route moves the staged JSON to the
-  committed directory and triggers any database update logic (if applicable).
+  Final confirmation of staged data. This route applies the staged changes to the
+  database model and moves the staged JSON to the committed directory.
 
   The user must explicitly approve field-level overwrites via checkboxes. Only
   approved fields are updated; all others are left unchanged.
@@ -437,6 +437,7 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
   from arb.portal.config.accessors import get_upload_folder  # ✅ verified
   from arb.utils.json import json_load_with_meta, json_save_with_meta  # ✅ verified
   from arb.portal.json_update_util import apply_json_patch_and_log  # ✅ verified
+  from arb.utils.sql_alchemy import get_class_from_table_name
 
   # Resolve paths
   root = get_upload_folder()
@@ -450,11 +451,19 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
     flash(f"Failed to load staged file for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
-  # If no previous committed file, treat as new insert
-  try:
-    existing_data, _ = json_load_with_meta(Path(committed_path))
-  except FileNotFoundError:
-    existing_data = {}
+  # Get the database model
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+  table_name = 'incidences'
+  table = get_class_from_table_name(base, table_name)
+  
+  # Get or create the model row
+  model_row, _, is_new_row = get_ensured_row(
+    db=db,
+    base=base,
+    table_name=table_name,
+    primary_key_name="id_incidence",
+    id_=id_
+  )
 
   # Build update patch only for fields user confirmed
   patch: dict = {}
@@ -463,7 +472,7 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
     confirmed = checkbox_name in request.form
 
     new_val = staged_data[key]
-    old_val = existing_data.get(key)
+    old_val = getattr(model_row, "misc_json", {}).get(key) if hasattr(model_row, "misc_json") else None
 
     if confirmed or old_val in (None, "", [], {}):
       patch[key] = new_val
@@ -472,14 +481,24 @@ def confirm_staged(id_: int) -> ResponseReturnValue:
     flash("No fields were confirmed for update. No changes saved.", "warning")
     return redirect(url_for("main.upload_file_staged"))
 
-  # Apply patch and save to committed file
-  updated, change_log = apply_json_patch_and_log(existing_data, patch)
-
+  # Apply patch to the database model
   try:
-    json_save_with_meta(updated, Path(committed_path))
-    flash(f"Successfully updated record {id_}. {len(change_log)} fields changed.", "success")
+    apply_json_patch_and_log(
+      model=model_row,
+      updates=patch,
+      json_field="misc_json",
+      user="anonymous",
+      comments=f"Staged update confirmed for ID {id_}"
+    )
+    
+    # Save the committed JSON file
+    json_save_with_meta(staged_data, Path(committed_path))
+    
+    flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
+    
   except Exception as e:
-    flash(f"Error saving committed file for ID {id_}: {e}", "danger")
+    flash(f"Error applying updates for ID {id_}: {e}", "danger")
+    return redirect(url_for("main.upload_file_staged"))
 
   return redirect(url_for("main.upload_file_staged"))
 
@@ -564,7 +583,7 @@ def apply_staged_update(id_: int):
 @main.route("/serve_file/<path:filename>")
 def serve_file(filename) -> Response:
   """
-  Serve a file from the server’s upload directory.
+  Serve a file from the server's upload directory.
 
   Args:
     filename (str): Name of the file to serve.

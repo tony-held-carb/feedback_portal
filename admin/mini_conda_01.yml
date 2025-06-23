@@ -22,6 +22,8 @@
 #     conda env create -f "C:\one_drive\code\requirements\mini_conda_01.yml"
 #        or
 #     conda env create -f "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
+#        or 
+#     conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml"
 #
 # Updating the conda environment:
 # ------------------------------
@@ -32,6 +34,9 @@
 #     conda env update --file "C:\one_drive\code\requirements\mini_conda_01.yml" --prune
 #        or
 #     conda env update --file "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml" --prune
+#        or
+#     conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml" --prune
+
 
 # Notes:
 # ------
