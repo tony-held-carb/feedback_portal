@@ -2,6 +2,13 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
+## [Unreleased]
+- Refactored staged upload system:
+  - Staged files now use timestamped filenames (id_XXX_ts_YYYYMMDD_HHMMSS.json)
+  - Processed staged files are moved to a 'processed' directory
+  - Added concurrency/data loss protection: users are warned if the DB changes after staging
+  - All routes and templates updated to use new filename-based system
+  
 ### v1.6.0 - 2025-06-11
 - Debug version 1.6.0.  Stable, needs to be externally tested.
 - Patch to warn rather than fail when sector types disagree between 
