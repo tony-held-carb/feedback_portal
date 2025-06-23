@@ -38,7 +38,7 @@ from arb.__get_logger import get_logger
 from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors, coerce_choices
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -161,7 +161,7 @@ class OGFeedback(FlaskForm):
            f"per section 95669.1(b)(1) of the Oil and Gas Methane Regulation?")
   venting_exclusion = SelectField(
     label=label,
-    choices=Globals.drop_downs["venting_exclusion"],
+    choices=[],
     validators=[InputRequired()],
   )
 
@@ -178,7 +178,7 @@ class OGFeedback(FlaskForm):
   label = "Q8. Was an OGI inspection performed?"
   ogi_performed = SelectField(
     label=label,
-    choices=Globals.drop_downs["ogi_performed"],
+    choices=[],
     validators=[InputRequired()],
   )
 
@@ -192,14 +192,14 @@ class OGFeedback(FlaskForm):
   label = "Q10. If you answered 'Yes' to Q8, what type of source was found using OGI?"
   ogi_result = SelectField(
     label=label,
-    choices=Globals.drop_downs["ogi_result"],
+    choices=[],
     validators=[InputRequired()],
   )
 
   label = "Q11.  Was a Method 21 inspection performed?"
   method21_performed = SelectField(
     label=label,
-    choices=Globals.drop_downs["method21_performed"],
+    choices=[],
     validators=[InputRequired()],
   )
 
@@ -213,7 +213,7 @@ class OGFeedback(FlaskForm):
   label = "Q13. If you answered 'Yes' to Q11, what type of source was found using Method 21?"
   method21_result = SelectField(
     label=label,
-    choices=Globals.drop_downs["method21_result"],
+    choices=[],
     validators=[InputRequired()],
   )
 
@@ -241,8 +241,8 @@ class OGFeedback(FlaskForm):
   label = f"Q17.  What type of equipment is at the source of the emissions?"
   equipment_at_source = SelectField(
     label=label,
-    choices=Globals.drop_downs["equipment_at_source"],
-    validators=[InputRequired(), ],
+    choices=[],
+    validators=[InputRequired()],
   )
 
   label = "Q18.  If you answered 'Other' for Q17, please provide an additional description of the equipment."
@@ -254,7 +254,7 @@ class OGFeedback(FlaskForm):
   label = f"Q19.  If your source is a component, what type of component is at the source of the emissions?"
   component_at_source = SelectField(
     label=label,
-    choices=Globals.drop_downs["component_at_source"],
+    choices=[],
     validators=[],
   )
 
@@ -294,6 +294,28 @@ class OGFeedback(FlaskForm):
     label=label,
     validators=[],
   )
+
+  def __init__(self, *args, **kwargs):
+    """
+    Initialize the OGFeedback form and set SelectField choices dynamically.
+
+    This approach ensures that dropdown choices are always populated from
+    Globals.drop_downs at instantiation time, rather than at import time.
+    This avoids fragile import order issues and KeyErrors that can occur
+    if the global dropdowns are not yet populated when the form class is defined.
+
+    Args:
+        *args: Positional arguments passed to FlaskForm.
+        **kwargs: Keyword arguments passed to FlaskForm.
+    """
+    super().__init__(*args, **kwargs)
+    self.venting_exclusion.choices = coerce_choices(Globals.drop_downs.get("venting_exclusion"))
+    self.ogi_performed.choices = coerce_choices(Globals.drop_downs.get("ogi_performed"))
+    self.ogi_result.choices = coerce_choices(Globals.drop_downs.get("ogi_result"))
+    self.method21_performed.choices = coerce_choices(Globals.drop_downs.get("method21_performed"))
+    self.method21_result.choices = coerce_choices(Globals.drop_downs.get("method21_result"))
+    self.equipment_at_source.choices = coerce_choices(Globals.drop_downs.get("equipment_at_source"))
+    self.component_at_source.choices = coerce_choices(Globals.drop_downs.get("component_at_source"))
 
   def update_contingent_selectors(self) -> None:
     """
