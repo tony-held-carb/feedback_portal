@@ -518,12 +518,17 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
       comments=f"Staged update confirmed for ID {id_}"
     )
     
+    # 🆕 Commit the database transaction to persist changes
+    db.session.commit()
+    
     # Move the staged JSON file to the processed directory
     shutil.move(staged_path, processed_path)
     
     flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
     
   except Exception as e:
+    # Rollback on error to prevent partial commits
+    db.session.rollback()
     flash(f"Error applying updates for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
