@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+
+  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./Placeholder Title_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script defer="" src="./Placeholder Title_files/bootstrap.bundle.min.js.download" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Portal Styles -->
+  <link rel="stylesheet" href="./Placeholder Title_files/portal_styles_01.css">
+
+  <!-- Portal JavaScript -->
+  <script defer="" src="./Placeholder Title_files/confirm_delete.js.download"></script>
+
+  <!-- Portal Jinja Macros -->
+
+  <!-- Page-Specific CSS & JS -->
+  <!-- DataTables Core -->
+  <link href="./Placeholder Title_files/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <script src="./Placeholder Title_files/jquery-3.7.0.min.js.download"></script>
+  <script src="./Placeholder Title_files/jquery.dataTables.min.js.download"></script>
+  <script src="./Placeholder Title_files/dataTables.bootstrap5.min.js.download"></script>
+
+  <!-- ✅ FixedHeader plugin -->
+  <link rel="stylesheet" href="./Placeholder Title_files/fixedHeader.bootstrap5.min.css">
+  <script src="./Placeholder Title_files/dataTables.fixedHeader.min.js.download"></script>
+
+  <title>Placeholder Title</title>
+</head>
+
+<body data-form-id="">
+
+<!-- Portal Navigation -->
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="http://127.0.0.1:5000/">
+        <img src="./Placeholder Title_files/carb_logo_01.jpg" alt="California Air Resources Board" width="40" height="40">
+        Methane Satellite Portal
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Facility Feedback
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/og_incidence_create/">Create Incidence (Oil &amp;
+                Gas)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/landfill_incidence_create/">Create Incidence
+                (Landfill)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/portal_updates">Portal Updates</a></li>
+
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/incidence_update/1/">Update
+                Incidence</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Developer Utilities
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_dropdown_dict">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_database_structure">Show Database
+                Structure</a>
+              </li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_feedback_form_structure">Show Feedback Form
+                Structure</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_log_file">Show Log File</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/diagnostics">Diagnostics</a></li>
+
+
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Spreadsheet
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload_staged">Stage Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/list_uploads">List Uploaded Files</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json#">Something else here</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_163326.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Help
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/CalSMP%20Plume%20Processing%20Resources.docx?d=w033362d49d444a1a837352a7a4a1be55&amp;csf=1&amp;web=1&amp;e=j04CSV">
+                  CalSMP Plume Processing Resources
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/Daily%20CalSMP%20Protocol.docx?d=w9f7f6eadcfe04db5821bc23a70b7991a&amp;csf=1&amp;web=1&amp;e=vEyuJy">
+                  CalSMP Daily Protocol
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://tony-held-carb.github.io/feedback_portal/">
+                  CalSMP Feedback Portal Source Code &amp; Documentation
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+        </ul>
+
+
+        <form class="d-flex" role="search" action="http://127.0.0.1:5000/search/" method="POST">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="navbar_search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+<!-- Main Page Content -->
+
+<style>
+  thead.review-header th {
+    vertical-align: middle;
+    padding: 0.5rem;
+    background-color: #245a9a;
+    color: white;
+    text-align: left;
+  }
+
+  th.confirm-th {
+    width: 1%;
+    text-align: center !important;
+  }
+
+  th.confirm-th .confirm-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  table.dataTable th,
+  table.dataTable td {
+    border-color: #dee2e6 !important;
+  }
+
+  th.sorting_disabled::after {
+    display: none !important;
+  }
+
+  .fixed-bottom-button-bar {
+    z-index: 1030;
+  }
+</style>
+
+<div class="container-fluid post-nav-buffer mb-5">
+  <h2 class="mb-4">🧾 Review Staged Upload</h2>
+
+  <div class="mb-3">
+      <strong class="text-primary">📁 Existing Incidence ID:</strong> 1002
+  </div>
+
+  <div class="alert alert-info small mb-3">
+    <strong>Note:</strong> For fields that would add or overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    Unchecked fields will not be updated.
+  </div>
+
+  <div class="row g-2 mb-3 align-items-center">
+    <div class="col-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
+        <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
+      </div>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
+    </div>
+  </div>
+
+  <form id="confirmForm" method="POST" action="http://127.0.0.1:5000/confirm_staged/1002/id_1002_ts_20250623_163326.json">
+    <div id="reviewTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row dt-row"><div class="col-sm-12"><table id="reviewTable" class="table table-sm table-bordered table-hover review-table dataTable no-footer"><thead class="review-header">
+        <tr><th class="confirm-th sorting_disabled" rowspan="1" colspan="1" aria-label="
+            
+              Confirm
+              
+            
+          " style="width: 61.1806px;">
+            <div class="confirm-header">
+              <span>Confirm</span>
+              <input class="form-check-input" type="checkbox" title="Toggle all confirmations">
+            </div>
+          </th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Key: activate to sort column ascending" style="width: 294.051px;">Key</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Old Value (DB): activate to sort column ascending" style="width: 357.94px;">Old Value (DB)</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="New Value (Upload): activate to sort column ascending" style="width: 357.948px;">New Value (Upload)</th></tr>
+      </thead>
+      
+      <tbody>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">additional_activities</td>
+    <td class="">My Q9.  If no leaks were fou</td>
+    <td class="">My Q9.  If no leaks were fou</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">additional_notes</td>
+    <td class="">My Q30.  Additional notes or</td>
+    <td class="">My Q30.  Additional notes or</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">contact_email</td>
+    <td class="">My Q5.  Contact Email</td>
+    <td class="">My Q5.  Contact Email</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">contact_name</td>
+    <td class="">My Q3.  Contact Name</td>
+    <td class="">My Q3.  Contact Name</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">contact_phone</td>
+    <td class="">My Q4.  Contact Phone</td>
+    <td class="">My Q4.  Contact Phone</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_cause</td>
+    <td class="">Offline Gas Collection Well(s)</td>
+    <td class="">Offline Gas Collection Well(s)</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_cause_notes</td>
+    <td class="">My Q19.  Please provide a mo</td>
+    <td class="">My Q19.  Please provide a mo</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_cause_secondary</td>
+    <td class="">Construction - New Well Installation</td>
+    <td class="">Construction - New Well Installation</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_cause_tertiary</td>
+    <td class="">Not applicable as no additional leak cause suspected</td>
+    <td class="">Not applicable as no additional leak cause suspected</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_identified_flag_fk</td>
+    <td class="">Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification</td>
+    <td class="">Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_location</td>
+    <td class="">Working Face (area where active filling was being conducted at the time of detection)</td>
+    <td class="">Working Face (area where active filling was being conducted at the time of detection)</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_location_notes</td>
+    <td class="">My Q15.  Please provide a mo</td>
+    <td class="">My Q15.  Please provide a mo</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">emission_type_fk</td>
+    <td class="">An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)</td>
+    <td class="">An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">facility_name</td>
+    <td class="">My Q1.  Facility Name</td>
+    <td class="">My Q1.  Facility Name</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">id_arb_swis</td>
+    <td class="">My Q2.  Facility SWIS ID</td>
+    <td class="">My Q2.  Facility SWIS ID</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">id_incidence</td>
+    <td class="">1002</td>
+    <td class="">1002</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">id_message</td>
+    <td class="">message id -01</td>
+    <td class="">message id -01</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">id_plume</td>
+    <td class="">1324</td>
+    <td class="">1324</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">included_in_last_lmr</td>
+    <td class="">No</td>
+    <td class="">No</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">included_in_last_lmr_description</td>
+    <td class="">My Q25.  If 'No' to Q24, ple</td>
+    <td class="">My Q25.  If 'No' to Q24, ple</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">initial_leak_concentration</td>
+    <td class="">123.45</td>
+    <td class="">123.45</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">inspection_timestamp</td>
+    <td class="">2005-02-05T08:00:00+00:00</td>
+    <td class="">2005-02-05T08:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">instrument</td>
+    <td class="">My Q7.  Instrument used to l</td>
+    <td class="">My Q7.  Instrument used to l</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">last_component_leak_monitoring_timestamp</td>
+    <td class="">2025-01-02T08:00:00+00:00</td>
+    <td class="">2025-01-02T08:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">last_surface_monitoring_timestamp</td>
+    <td class="">2025-01-01T08:00:00+00:00</td>
+    <td class="">2025-01-01T08:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">lat_carb</td>
+    <td class="">32.0</td>
+    <td class="">32.0</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">lat_revised</td>
+    <td class="">44.0</td>
+    <td class="">44.0</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">long_carb</td>
+    <td class="">33.0</td>
+    <td class="">33.0</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">long_revised</td>
+    <td class="">45.0</td>
+    <td class="">45.0</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">mitigation_actions</td>
+    <td class="">My Q20.  Describe any correc</td>
+    <td class="">My Q20.  Describe any correc</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">mitigation_timestamp</td>
+    <td class="">2025-05-01T07:00:00+00:00</td>
+    <td class="">2025-05-01T07:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">observation_timestamp</td>
+    <td class="">2025-05-14T07:00:00+00:00</td>
+    <td class="">2025-05-14T07:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">planned_for_next_lmr</td>
+    <td class="">No</td>
+    <td class="">No</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">planned_for_next_lmr_description</td>
+    <td class="">My Q27.  If 'No' to Q26, ple</td>
+    <td class="">My Q27.  If 'No' to Q26, ple</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">re_monitored_concentration</td>
+    <td class="">987.64</td>
+    <td class="">987.64</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">re_monitored_timestamp</td>
+    <td class="">2025-05-02T07:00:00+00:00</td>
+    <td class="">2025-05-02T07:00:00+00:00</td>
+  </tr><tr class="field-row
+unchanged-field">
+    <td class="text-center">
+        <span class="badge rounded-pill bg-secondary">Same</span>
+    </td>
+    <td class="sorting_1">sector</td>
+    <td class="">Landfill</td>
+    <td class="">Landfill</td>
+  </tr></tbody>
+    </table></div></div><div class="row"><div class="col-sm-12 col-md-5"></div><div class="col-sm-12 col-md-7"></div></div></div>
+  </form>
+</div>
+
+<!-- 🔘 Sticky Button Bar -->
+<div class="fixed-bottom bg-light border-top py-3 px-3 d-flex justify-content-end gap-3 shadow fixed-bottom-button-bar">
+  <a href="http://127.0.0.1:5000/upload_staged" class="btn btn-secondary btn-lg">Cancel</a>
+  <button type="submit" form="confirmForm" class="btn btn-success btn-lg">Save</button>
+</div>
+
+<script>
+  const selectAllBox = document.getElementById("selectAllConfirmations");
+
+  function updateConfirmAllState() {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+
+    if (checkedCount === 0) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = false;
+    } else if (checkedCount === checkboxes.length) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = true;
+    } else {
+      selectAllBox.indeterminate = true;
+      selectAllBox.checked = false;
+    }
+  }
+
+  function updateVisibleRows() {
+    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
+    const query = document.getElementById("fieldSearch").value.toLowerCase();
+
+    document.querySelectorAll("tbody tr").forEach(function (row) {
+      const isUnchanged = row.classList.contains("unchanged-field");
+      const matchesFilter = row.innerText.toLowerCase().includes(query);
+      row.style.display = matchesFilter && (!hideUnchanged || !isUnchanged) ? "" : "none";
+    });
+  }
+
+  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
+  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
+  selectAllBox.addEventListener("change", function () {
+    document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
+    updateConfirmAllState();
+  });
+  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateConfirmAllState);
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    updateVisibleRows();
+    updateConfirmAllState();
+
+    $('#reviewTable').DataTable({
+      fixedHeader: {
+        header: true,
+        headerOffset: $('.navbar').outerHeight() || 56
+      },
+      paging: false,
+      info: false,
+      ordering: true,
+      order: [],  // prevent default sort
+      orderClasses: false,  // remove auto sorting classes
+      stripeClasses: [],
+      searching: false,
+      columnDefs: [
+        { orderable: false, targets: 0 }
+      ]
+    });
+  });
+</script>
+
+
+<!-- Footer Scripts -->
+
+
+<div class="dtfh-floatingparent dtfh-floatingparenthead" style="top: 65.9645px; position: fixed; overflow: hidden; height: 65.9568px; left: 11.9985px; z-index: 2; width: 1176px !important;"><table class="table table-sm table-bordered table-hover review-table dataTable no-footer fixedHeader-floating" aria-hidden="true" style="table-layout: fixed; top: 0px; left: 0px;width: 1176px !important;"><thead class="review-header">
+        <tr><th class="confirm-th sorting_disabled" rowspan="1" colspan="1" aria-label="
+            
+              Confirm
+              
+            
+          " style="width: 61.1806px; min-width: 61.1806px;">
+            <div class="confirm-header">
+              <span>Confirm</span>
+              <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
+            </div>
+          </th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Key: activate to sort column ascending" style="width: 294.051px; min-width: 294.051px;">Key</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Old Value (DB): activate to sort column ascending" style="width: 357.94px; min-width: 357.94px;">Old Value (DB)</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="New Value (Upload): activate to sort column ascending" style="width: 357.948px; min-width: 357.948px;">New Value (Upload)</th></tr>
+      </thead></table></div></body></html>
