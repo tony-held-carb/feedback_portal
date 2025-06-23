@@ -312,6 +312,7 @@ def upload_and_stage_only(db: SQLAlchemy,
     - It returns the parsed JSON dict for review purposes.
     - It saves the current DB misc_json as 'base_misc_json' in the staged file's metadata.
     - It uses a timestamped filename for the staged file.
+    - It ensures all values are JSON-serializable (datetime → ISO strings, etc.) before staging.
 
   Args:
     db (SQLAlchemy): Active SQLAlchemy database instance.
@@ -325,6 +326,7 @@ def upload_and_stage_only(db: SQLAlchemy,
   """
   from arb.utils.file_io import get_secure_timestamped_file_name
   from arb.utils.json import json_save_with_meta
+  from arb.utils.wtf_forms_util import prep_payload_for_json
 
   logger.debug(f"upload_and_stage_only() called with {request_file=}")
   id_ = None
@@ -344,6 +346,11 @@ def upload_and_stage_only(db: SQLAlchemy,
       # Get current DB misc_json for this id_
       model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
       base_misc_json = getattr(model, "misc_json", {}) or {}
+      
+      # ✅ Ensure JSON data is serializable (datetime → ISO strings, etc.)
+      # This prevents "Object of type datetime is not JSON serializable" errors
+      json_data = prep_payload_for_json(json_data)
+      
       # Generate timestamped filename
       staging_dir = Path(upload_dir) / "staging"
       staging_dir.mkdir(parents=True, exist_ok=True)
