@@ -38,7 +38,7 @@ from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
-from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
+from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_stage_only, upload_and_update_db, xl_dict_to_database, extract_tab_and_sector
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
@@ -47,7 +47,7 @@ from arb.portal.wtf_landfill import LandfillFeedback
 from arb.portal.wtf_oil_and_gas import OGFeedback
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
-from arb.utils.json import compute_field_differences, extract_tab_payload, json_load_with_meta, json_save_with_meta
+from arb.utils.json import compute_field_differences, json_load_with_meta, json_save_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 
@@ -393,7 +393,7 @@ def review_staged(id_: int, filename: str) -> str | Response:
 
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
-    staged_payload = extract_tab_payload(staged_data, tab_name="Feedback Form")
+    staged_payload = extract_tab_and_sector(staged_data, tab_name="Feedback Form")
   except Exception:
     logger.exception("Error loading staged JSON")
     return render_template("review_staged.html", error="Could not load staged data.")
@@ -442,7 +442,6 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     ResponseReturnValue: Redirect to confirmation or error page.
   """
   import shutil
-  from arb.utils.json import extract_tab_payload
   
   # Resolve paths
   root = get_upload_folder()
@@ -459,10 +458,10 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     flash(f"Failed to load staged file for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
-  # ✅ Extract the actual form data from the staged JSON structure
+  # Extract form data from the staged JSON structure
   # staged_data contains: {'metadata': {...}, 'schemas': {...}, 'tab_contents': {'Feedback Form': {...}}}
-  # We need to extract just the form data from tab_contents
-  form_data = extract_tab_payload(staged_data, tab_name="Feedback Form")
+  # We need to extract just the form data from tab_contents and include sector from metadata
+  form_data = extract_tab_and_sector(staged_data, tab_name="Feedback Form")
   if not form_data:
     flash(f"Failed to extract form data from staged file for ID {id_}", "danger")
     return redirect(url_for("main.upload_file_staged"))
