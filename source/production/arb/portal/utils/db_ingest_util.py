@@ -29,6 +29,42 @@ logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
+def extract_tab_and_sector(xl_dict: dict, tab_name: str = "Feedback Form") -> dict:
+  """
+  Extract form data from Excel-parsed JSON and include sector from metadata.
+  
+  This helper function combines tab contents with sector metadata into a single
+  payload for database insertion, ensuring consistency between staged and
+  production uploads.
+  
+  Args:
+    xl_dict (dict): Parsed Excel document with 'metadata' and 'tab_contents'.
+    tab_name (str): Name of the worksheet tab to extract. Defaults to 'Feedback Form'.
+    
+  Returns:
+    dict: Combined payload with tab_contents and sector included.
+    
+  Raises:
+    ValueError: If the tab_name is missing or sector cannot be determined.
+  """
+  if "tab_contents" not in xl_dict or tab_name not in xl_dict["tab_contents"]:
+    raise ValueError(f"Tab '{tab_name}' not found in xl_dict")
+  
+  # Extract sector from metadata
+  metadata = xl_dict.get("metadata", {})
+  sector = metadata.get("sector")
+  if not sector:
+    logger.warning(f"No sector found in xl_dict metadata: {metadata}")
+    sector = "Unknown"  # Fallback to prevent errors
+  
+  # Get form data and add sector
+  form_data = xl_dict["tab_contents"][tab_name].copy()
+  form_data["sector"] = sector
+  
+  logger.debug(f"extract_tab_and_sector: extracted form data with sector '{sector}' from tab '{tab_name}'")
+  return form_data
+
+
 def xl_dict_to_database(db: SQLAlchemy,
                         base: AutomapBase,
                         xl_dict: dict,
@@ -46,6 +82,16 @@ def xl_dict_to_database(db: SQLAlchemy,
 
   Returns:
     tuple[int, str]: (id_incidence, sector)
+    
+  Note:
+    TODO: Future refactoring recommendation for consistency with staged uploads:
+    Replace the manual extraction below with:
+    ```
+    # Extract form data with sector (using helper for consistency)
+    tab_data = extract_tab_and_sector(xl_dict, tab_name)
+    sector = tab_data["sector"]
+    ```
+    This would ensure both staged and production uploads use the same logic.
   """
   logger.debug(f"xl_dict_to_database() called with {xl_dict=}")
   metadata = xl_dict["metadata"]
