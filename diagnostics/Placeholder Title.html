@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0072)http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json -->
+<!-- saved from url=(0072)http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
 
@@ -48,7 +48,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Facility Feedback
             </a>
             <ul class="dropdown-menu">
@@ -63,7 +63,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Developer Utilities
             </a>
 
@@ -82,7 +82,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Spreadsheet
             </a>
             <ul class="dropdown-menu">
@@ -92,12 +92,12 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json#">Something else here</a></li>
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json#">Something else here</a></li>
             </ul>
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164153.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/review_staged/1002/id_1002_ts_20250623_164849.json#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Help
             </a>
             <ul class="dropdown-menu">
@@ -167,9 +167,19 @@
   .fixed-bottom-button-bar {
     z-index: 1030;
   }
+
+  /* Ensure DataTable has enough bottom space for fixed button bar */
+  .dataTables_wrapper {
+    margin-bottom: 120px !important;
+  }
+
+  /* Additional spacing for the main container */
+  .review-container {
+    padding-bottom: 100px;
+  }
 </style>
 
-<div class="container-fluid post-nav-buffer mb-6 pb-5">
+<div class="container-fluid post-nav-buffer mb-6 pb-5 review-container">
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
 
   <div class="mb-3">
@@ -193,7 +203,7 @@
     </div>
   </div>
 
-  <form id="confirmForm" method="POST" action="http://127.0.0.1:5000/confirm_staged/1002/id_1002_ts_20250623_164153.json">
+  <form id="confirmForm" method="POST" action="http://127.0.0.1:5000/confirm_staged/1002/id_1002_ts_20250623_164849.json">
     <div id="reviewTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row dt-row"><div class="col-sm-12"><table id="reviewTable" class="table table-sm table-bordered table-hover review-table dataTable no-footer"><thead class="review-header">
         <tr><th class="confirm-th sorting_disabled" rowspan="1" colspan="1" aria-label="
             
@@ -203,7 +213,7 @@
           " style="width: 61.1806px;">
             <div class="confirm-header">
               <span>Confirm</span>
-              <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
+              <input class="form-check-input" type="checkbox" title="Toggle all confirmations">
             </div>
           </th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Key: activate to sort column ascending" style="width: 294.051px;">Key</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Old Value (DB): activate to sort column ascending" style="width: 357.94px;">Old Value (DB)</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="New Value (Upload): activate to sort column ascending" style="width: 357.948px;">New Value (Upload)</th></tr>
       </thead>
@@ -620,4 +630,16 @@ unchanged-field">
 <!-- Footer Scripts -->
 
 
-</body></html>
+<div class="dtfh-floatingparent dtfh-floatingparenthead" style="top: 65.9645px; position: fixed; overflow: hidden; height: 65.9568px; left: 11.9985px; z-index: 2; width: 1176px !important;"><table class="table table-sm table-bordered table-hover review-table dataTable no-footer fixedHeader-floating" aria-hidden="true" style="table-layout: fixed; top: 0px; left: 0px;width: 1176px !important;"><thead class="review-header">
+        <tr><th class="confirm-th sorting_disabled" rowspan="1" colspan="1" aria-label="
+            
+              Confirm
+              
+            
+          " style="width: 61.1806px; min-width: 61.1806px;">
+            <div class="confirm-header">
+              <span>Confirm</span>
+              <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
+            </div>
+          </th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Key: activate to sort column ascending" style="width: 294.051px; min-width: 294.051px;">Key</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="Old Value (DB): activate to sort column ascending" style="width: 357.94px; min-width: 357.94px;">Old Value (DB)</th><th class="sorting" tabindex="0" aria-controls="reviewTable" rowspan="1" colspan="1" aria-label="New Value (Upload): activate to sort column ascending" style="width: 357.948px; min-width: 357.948px;">New Value (Upload)</th></tr>
+      </thead></table></div></body></html>
