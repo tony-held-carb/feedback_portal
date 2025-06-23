@@ -479,7 +479,8 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     base=base,
     table_name=table_name,
     primary_key_name="id_incidence",
-    id_=id_
+    id_=id_,
+    add_to_session=True
   )
   logger.info(f"[confirm_staged] Model row result: type={type(model_row)}, "
               f"id_incidence={getattr(model_row, 'id_incidence', 'N/A')}, "
