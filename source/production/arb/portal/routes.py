@@ -442,6 +442,8 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     ResponseReturnValue: Redirect to confirmation or error page.
   """
   import shutil
+  from arb.utils.json import extract_tab_payload
+  
   # Resolve paths
   root = get_upload_folder()
   staged_path = os.path.join(root, "staging", filename)
@@ -455,6 +457,14 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     base_misc_json = staged_meta.get("base_misc_json", {})
   except Exception as e:
     flash(f"Failed to load staged file for ID {id_}: {e}", "danger")
+    return redirect(url_for("main.upload_file_staged"))
+
+  # ✅ Extract the actual form data from the staged JSON structure
+  # staged_data contains: {'metadata': {...}, 'schemas': {...}, 'tab_contents': {'Feedback Form': {...}}}
+  # We need to extract just the form data from tab_contents
+  form_data = extract_tab_payload(staged_data, tab_name="Feedback Form")
+  if not form_data:
+    flash(f"Failed to extract form data from staged file for ID {id_}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
   # Get the database model
@@ -479,11 +489,11 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
 
   # Build update patch only for fields user confirmed
   patch: dict = {}
-  for key in staged_data:
+  for key in form_data:
     checkbox_name = f"confirm_overwrite_{key}"
     confirmed = checkbox_name in request.form
 
-    new_val = staged_data[key]
+    new_val = form_data[key]
     old_val = getattr(model_row, "misc_json", {}).get(key) if hasattr(model_row, "misc_json") else None
 
     if confirmed or old_val in (None, "", [], {}):
