@@ -47,9 +47,19 @@
   .fixed-bottom-button-bar {
     z-index: 1030;
   }
+
+  /* Ensure DataTable has enough bottom space for fixed button bar */
+  .dataTables_wrapper {
+    margin-bottom: 120px !important;
+  }
+
+  /* Additional spacing for the main container */
+  .review-container {
+    padding-bottom: 100px;
+  }
 </style>
 
-<div class="container-fluid post-nav-buffer mb-6 pb-5">
+<div class="container-fluid post-nav-buffer mb-6 pb-5 review-container">
   <h2 class="mb-4">🧾 Review Staged Upload</h2>
 
   <div class="mb-3">
