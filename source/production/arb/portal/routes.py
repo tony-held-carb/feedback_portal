@@ -494,7 +494,9 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     confirmed = checkbox_name in request.form
 
     new_val = form_data[key]
-    old_val = getattr(model_row, "misc_json", {}).get(key) if hasattr(model_row, "misc_json") else None
+    # Ensure we have a dictionary to work with, even if misc_json is None
+    misc_json = getattr(model_row, "misc_json", {}) or {}
+    old_val = misc_json.get(key)
 
     if confirmed or old_val in (None, "", [], {}):
       patch[key] = new_val
