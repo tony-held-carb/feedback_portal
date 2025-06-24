@@ -2,9 +2,10 @@
 
 # todo - Next Steps
 ----------------------------
-* I had some detached head issues and think i fixed it, I wonder if I lost some updates to the
-  feedback forms.
-  In any event, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
+* look into Okta authentication
+
+
+* Anthy/quinn made some updates, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
   with the sharepoint review and make sure that both directories agree
 
 
