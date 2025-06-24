@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - ARB Feedback Portal{% endblock %}
+
+{% block content_1 %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow">
+        <div class="card-header bg-info text-white">
+          <h4 class="mb-0">User Profile</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Account Information</h5>
+              <table class="table table-borderless">
+                <tr>
+                  <td><strong>Email:</strong></td>
+                  <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                  <td><strong>User ID:</strong></td>
+                  <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Account Status:</strong></td>
+                  <td>
+                    {% if user.is_active %}
+                      <span class="badge bg-success">Active</span>
+                    {% else %}
+                      <span class="badge bg-danger">Inactive</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Email Confirmed:</strong></td>
+                  <td>
+                    {% if user.is_confirmed %}
+                      <span class="badge bg-success">Confirmed</span>
+                    {% else %}
+                      <span class="badge bg-warning">Pending</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <h5>Account Timestamps</h5>
+              <table class="table table-borderless">
+                <tr>
+                  <td><strong>Created:</strong></td>
+                  <td>{{ user.created_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') if user.created_timestamp else 'N/A' }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Last Login:</strong></td>
+                  <td>{{ user.last_login_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') if user.last_login_timestamp else 'Never' }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <div class="row">
+            <div class="col-12">
+              <h5>Account Actions</h5>
+              <div class="d-flex gap-2">
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary">Go to Dashboard</a>
+                <a href="{{ url_for('auth.change_password') }}" class="btn btn-info">Change Password</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger">Logout</a>
+              </div>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <div class="row">
+            <div class="col-12">
+              <h5>Development Information</h5>
+              <div class="alert alert-info">
+                <small>
+                  <strong>Current Implementation Notes:</strong><br>
+                  • Email is used as password for initial testing<br>
+                  • Auto-confirmation is enabled for immediate access<br>
+                  • Remember me functionality is available<br>
+                  • Password requirements: minimum 8 characters<br>
+                  • Future: Email confirmation and password reset will be added
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

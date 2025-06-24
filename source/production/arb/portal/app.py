@@ -9,9 +9,10 @@ Key Responsibilities:
 - Load Flask configuration dynamically using `get_config()`
 - Apply global app settings via `configure_flask_app()`
 - Initialize SQLAlchemy and optionally CSRF protection
+- Initialize Flask-Login for user authentication
 - Reflect and optionally create the application database schema
 - Load dropdowns and type mappings into the app context
-- Register Flask blueprints (e.g., `main`)
+- Register Flask blueprints (e.g., `main`, `auth`)
 
 Usage:
 ------
@@ -28,9 +29,10 @@ from sqlalchemy.ext.automap import AutomapBase
 
 from arb.__get_logger import get_logger
 from arb.portal.config import get_config
-from arb.portal.extensions import db
+from arb.portal.extensions import db, login_manager, mail
 from arb.portal.globals import Globals
 from arb.portal.routes import main
+from arb.auth.routes import auth
 from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.utils.database import get_reflected_base
@@ -53,6 +55,7 @@ def create_app() -> Flask:
       - App context globals (dropdowns, types)
       - SQLAlchemy base metadata (`app.base`)
       - Registered routes via blueprints
+      - User authentication via Flask-Login
   """
   app: Flask = Flask(__name__)
 
@@ -64,6 +67,14 @@ def create_app() -> Flask:
 
   # Initialize Flask extensions
   db.init_app(app)
+  login_manager.init_app(app)
+  mail.init_app(app)
+  
+  # Configure Flask-Login
+  login_manager.login_view = 'auth.login'
+  login_manager.login_message = 'Please log in to access this page.'
+  login_manager.login_message_category = 'info'
+  
   # GPT recommends this, but I'm commenting it out for now
   # csrf.init_app(app)
 
@@ -81,5 +92,6 @@ def create_app() -> Flask:
 
   # Register route blueprints
   app.register_blueprint(main)
+  app.register_blueprint(auth)
 
   return app

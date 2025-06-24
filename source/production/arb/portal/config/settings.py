@@ -16,6 +16,11 @@ import os
 from pathlib import Path
 
 from arb.__get_logger import get_logger
+from arb.auth.default_settings import (
+    MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USE_SSL, MAIL_USERNAME, MAIL_PASSWORD, MAIL_DEFAULT_SENDER, MAIL_MAX_EMAILS,
+    PASSWORD_RESET_EXPIRATION, MAX_PASSWORD_RESET_ATTEMPTS, PASSWORD_RESET_COOLDOWN,
+    MAX_LOGIN_ATTEMPTS, ACCOUNT_LOCKOUT_DURATION, SESSION_TIMEOUT, REMEMBER_ME_DURATION
+)
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -60,15 +65,32 @@ class BaseConfig:
   LOG_LEVEL = "INFO"
   TIMEZONE = "America/Los_Angeles"
 
+  # Email Configuration
+  MAIL_SERVER = os.environ.get('MAIL_SERVER') or MAIL_SERVER
+  MAIL_PORT = int(os.environ.get('MAIL_PORT') or MAIL_PORT)
+  MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', str(MAIL_USE_TLS)).lower() == 'true'
+  MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', str(MAIL_USE_SSL)).lower() == 'true'
+  MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or MAIL_USERNAME
+  MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or MAIL_PASSWORD
+  MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or MAIL_DEFAULT_SENDER
+  MAIL_MAX_EMAILS = int(os.environ.get('MAIL_MAX_EMAILS') or MAIL_MAX_EMAILS)
+  
+  # Password Reset Configuration
+  PASSWORD_RESET_EXPIRATION = int(os.environ.get('PASSWORD_RESET_EXPIRATION') or PASSWORD_RESET_EXPIRATION)
+  MAX_PASSWORD_RESET_ATTEMPTS = int(os.environ.get('MAX_PASSWORD_RESET_ATTEMPTS') or MAX_PASSWORD_RESET_ATTEMPTS)
+  PASSWORD_RESET_COOLDOWN = int(os.environ.get('PASSWORD_RESET_COOLDOWN') or PASSWORD_RESET_COOLDOWN)
+  
+  # Account Security Configuration
+  MAX_LOGIN_ATTEMPTS = int(os.environ.get('MAX_LOGIN_ATTEMPTS') or MAX_LOGIN_ATTEMPTS)
+  ACCOUNT_LOCKOUT_DURATION = int(os.environ.get('ACCOUNT_LOCKOUT_DURATION') or ACCOUNT_LOCKOUT_DURATION)
+  SESSION_TIMEOUT = int(os.environ.get('SESSION_TIMEOUT') or SESSION_TIMEOUT)
+  REMEMBER_ME_DURATION = int(os.environ.get('REMEMBER_ME_DURATION') or REMEMBER_ME_DURATION)
+
   # ---------------------------------------------------------------------
   # Get/Set other relevant environmental variables here and commandline arguments.
   # for example: set FAST_LOAD=true
   # ---------------------------------------------------------------------
   FAST_LOAD = False
-  # flask does not allow for custom arguments, so the next block is commented out
-  # if "--fast-load" in sys.argv:
-  #   print(f"--fast-load detected in CLI arguments")
-  #   FAST_LOAD = True
   if os.getenv("FAST_LOAD") == "true":
     logger.info(f"FAST_LOAD detected in CLI arguments")
     FAST_LOAD = True

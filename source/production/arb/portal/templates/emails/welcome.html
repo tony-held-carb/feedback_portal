@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ARB Feedback Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .title {
+            color: #28a745;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+        .info-box {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+        }
+        .credentials {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1 class="title">Welcome to ARB Feedback Portal!</h1>
+            <p>Your account has been successfully created</p>
+        </div>
+        
+        <div class="content">
+            <p>Hello,</p>
+            
+            <p>Welcome to the ARB Feedback Portal! Your account has been successfully created and is ready to use.</p>
+            
+            <div class="credentials">
+                <h4>🔑 Your Login Credentials:</h4>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Password:</strong> Your email address (for initial login)</p>
+                <p><em>For security, we recommend changing your password after your first login.</em></p>
+            </div>
+            
+            <p>To get started, please click the button below to access the portal:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ login_url }}" class="button">Access Portal</a>
+            </div>
+            
+            <div class="info-box">
+                <h4>📋 What You Can Do:</h4>
+                <ul>
+                    <li>Submit feedback on methane satellite data</li>
+                    <li>Review and update facility information</li>
+                    <li>Track your submission history</li>
+                    <li>Access portal updates and notifications</li>
+                </ul>
+            </div>
+            
+            <h4>🔒 Security Tips:</h4>
+            <ul>
+                <li>Change your password after first login</li>
+                <li>Use a strong, unique password</li>
+                <li>Never share your login credentials</li>
+                <li>Log out when using shared computers</li>
+                <li>Contact support if you suspect unauthorized access</li>
+            </ul>
+            
+            <h4>📞 Need Help?</h4>
+            <p>If you have any questions or need assistance:</p>
+            <ul>
+                <li>Email: portal-admin@carb.ca.gov</li>
+                <li>Check the help documentation in the portal</li>
+                <li>Use the "Forgot Password" feature if needed</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p><strong>ARB Feedback Portal</strong></p>
+            <p>California Air Resources Board</p>
+            <p>Thank you for participating in our methane monitoring program!</p>
+        </div>
+    </div>
+</body>
+</html> 

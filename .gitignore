@@ -30,3 +30,4 @@ source/production/site/
 # Backups
 #*.zip
 source/production_*.zip
+.vscode/  

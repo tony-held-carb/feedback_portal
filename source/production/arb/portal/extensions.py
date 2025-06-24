@@ -7,6 +7,8 @@ at the top level, without initializing them until `app.init_app()` is called els
 Extensions Defined:
   - db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.
   - csrf (CSRFProtect): CSRF protection used for form validation.
+  - login_manager (LoginManager): User session management for authentication.
+  - mail (Mail): Email sending functionality.
 
 Notes:
   - `geoalchemy2.Geometry` must be imported for spatial field introspection,
@@ -19,6 +21,8 @@ from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from flask_login import LoginManager
+from flask_mail import Mail
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
@@ -33,3 +37,9 @@ db = SQLAlchemy()
 
 csrf = CSRFProtect()
 """CSRFProtect: Flask-WTF extension for CSRF form protection."""
+
+login_manager = LoginManager()
+"""LoginManager: Flask-Login extension for user session management."""
+
+mail = Mail()
+"""Mail: Flask-Mail extension for email sending functionality."""
