@@ -331,13 +331,13 @@ def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "
 
 
 if __name__ == "__main__":
-  # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
-  # sharepoint_path = Path(r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
-  # compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
+  sharepoint_path = Path(r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
+  compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
 
-  path_01 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\_templates")
+  # path_01 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\_templates")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Ana")
-  path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dan")
+  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dan")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dorothy")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dustin")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Emily")
@@ -346,4 +346,4 @@ if __name__ == "__main__":
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Luke")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Steve")
   # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Val")
-  compare_excel_directories(path_01, path_02, formatting_mode="common")
+  # compare_excel_directories(path_01, path_02, formatting_mode="common")
