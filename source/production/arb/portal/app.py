@@ -29,10 +29,9 @@ from sqlalchemy.ext.automap import AutomapBase
 
 from arb.__get_logger import get_logger
 from arb.portal.config import get_config
-from arb.portal.extensions import db, login_manager, mail
+from arb.portal.extensions import db
 from arb.portal.globals import Globals
 from arb.portal.routes import main
-from arb.auth.routes import auth
 from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.utils.database import get_reflected_base
@@ -41,6 +40,9 @@ logger, pp_log = get_logger()
 
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
+# Define mail and login_manager as None for linter compatibility
+mail = None
+login_manager = None
 
 def create_app() -> Flask:
   """
@@ -67,16 +69,26 @@ def create_app() -> Flask:
 
   # Initialize Flask extensions
   db.init_app(app)
-  login_manager.init_app(app)
-  mail.init_app(app)
-  
-  # Configure Flask-Login
-  login_manager.login_view = 'auth.login'
-  login_manager.login_message = 'Please log in to access this page.'
-  login_manager.login_message_category = 'info'
-  
-  # GPT recommends this, but I'm commenting it out for now
-  # csrf.init_app(app)
+  # Only set up mail and login_manager if auth is enabled
+  if app.config.get('USE_AUTH', True):
+      global mail, login_manager
+      from arb.portal.extensions import mail as _mail, login_manager as _login_manager
+      mail = _mail
+      login_manager = _login_manager
+      mail.init_app(app)
+      login_manager.init_app(app)
+      login_manager.login_view = 'auth.login'
+      login_manager.login_message = 'Please log in to access this page.'
+      login_manager.login_message_category = 'info'
+      try:
+          from arb.auth import register_auth_blueprint
+          register_auth_blueprint(app)
+      except ImportError:
+          raise RuntimeError("USE_AUTH is True but arb.auth is not available.")
+  # else: run in open mode (no auth)
+
+  # Register main blueprint (always)
+  app.register_blueprint(main)
 
   # Database initialization and reflection (within app context)
   with app.app_context():
@@ -90,8 +102,9 @@ def create_app() -> Flask:
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)
 
-  # Register route blueprints
-  app.register_blueprint(main)
-  app.register_blueprint(auth)
+  # Inject USE_AUTH into all templates
+  @app.context_processor
+  def inject_use_auth():
+      return {'USE_AUTH': app.config.get('USE_AUTH', True)}
 
   return app

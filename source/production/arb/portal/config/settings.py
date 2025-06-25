@@ -4,6 +4,22 @@ Environment-specific configuration classes for the Flask application.
 Defines base and derived configuration classes used by the ARB portal.
 Each config class inherits from `BaseConfig` and may override environment-specific values.
 
+---
+USE_AUTH flag (for maintainers):
+- If True, enables authentication/authorization (arb.auth).
+- If False, disables all auth and runs the app in open mode (no login, registration, or user checks).
+- Set in config or via environment variable.
+- Used in app factory to control registration/binding of auth system.
+---
+
+---
+AUTH_ Configuration Pattern (for maintainers):
+- All authentication/email/security config defaults are provided by arb.auth.default_settings.py.
+- You only need to set AUTH_ variables here if you want to override them for this deployment.
+- If an AUTH_ variable is not set here, arb.auth will use its own default.
+- This keeps config DRY and makes it clear what is customized for this deployment.
+---
+
 Usage:
   from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
@@ -16,11 +32,7 @@ import os
 from pathlib import Path
 
 from arb.__get_logger import get_logger
-from arb.auth.default_settings import (
-    MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USE_SSL, MAIL_USERNAME, MAIL_PASSWORD, MAIL_DEFAULT_SENDER, MAIL_MAX_EMAILS,
-    PASSWORD_RESET_EXPIRATION, MAX_PASSWORD_RESET_ATTEMPTS, PASSWORD_RESET_COOLDOWN,
-    MAX_LOGIN_ATTEMPTS, ACCOUNT_LOCKOUT_DURATION, SESSION_TIMEOUT, REMEMBER_ME_DURATION
-)
+# (No need to import AUTH_ variables from arb.auth.default_settings unless you want to override a specific value)
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -41,6 +53,7 @@ class BaseConfig:
     LOG_LEVEL (str): Default logging level.
     TIMEZONE (str): Target timezone for timestamp formatting.
     FAST_LOAD (bool): Enables performance optimizations at startup.
+    USE_AUTH (bool): Enables or disables authentication/authorization (arb.auth).
   """
   # noinspection SpellCheckingInspection
   POSTGRES_DB_URI = (
@@ -65,26 +78,14 @@ class BaseConfig:
   LOG_LEVEL = "INFO"
   TIMEZONE = "America/Los_Angeles"
 
-  # Email Configuration
-  MAIL_SERVER = os.environ.get('MAIL_SERVER') or MAIL_SERVER
-  MAIL_PORT = int(os.environ.get('MAIL_PORT') or MAIL_PORT)
-  MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', str(MAIL_USE_TLS)).lower() == 'true'
-  MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', str(MAIL_USE_SSL)).lower() == 'true'
-  MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or MAIL_USERNAME
-  MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or MAIL_PASSWORD
-  MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or MAIL_DEFAULT_SENDER
-  MAIL_MAX_EMAILS = int(os.environ.get('MAIL_MAX_EMAILS') or MAIL_MAX_EMAILS)
-  
-  # Password Reset Configuration
-  PASSWORD_RESET_EXPIRATION = int(os.environ.get('PASSWORD_RESET_EXPIRATION') or PASSWORD_RESET_EXPIRATION)
-  MAX_PASSWORD_RESET_ATTEMPTS = int(os.environ.get('MAX_PASSWORD_RESET_ATTEMPTS') or MAX_PASSWORD_RESET_ATTEMPTS)
-  PASSWORD_RESET_COOLDOWN = int(os.environ.get('PASSWORD_RESET_COOLDOWN') or PASSWORD_RESET_COOLDOWN)
-  
-  # Account Security Configuration
-  MAX_LOGIN_ATTEMPTS = int(os.environ.get('MAX_LOGIN_ATTEMPTS') or MAX_LOGIN_ATTEMPTS)
-  ACCOUNT_LOCKOUT_DURATION = int(os.environ.get('ACCOUNT_LOCKOUT_DURATION') or ACCOUNT_LOCKOUT_DURATION)
-  SESSION_TIMEOUT = int(os.environ.get('SESSION_TIMEOUT') or SESSION_TIMEOUT)
-  REMEMBER_ME_DURATION = int(os.environ.get('REMEMBER_ME_DURATION') or REMEMBER_ME_DURATION)
+  USE_AUTH = False  # Set to True to enable authentication/authorization (arb.auth)
+
+  # --- AUTH/EMAIL/SECURITY CONFIG (see arb.auth.default_settings) ---
+  # Only set AUTH_ variables here if you want to override the default for this deployment.
+  # Example:
+  # AUTH_MAIL_SERVER = os.environ.get('AUTH_MAIL_SERVER') or 'smtp.example.com'
+  # AUTH_MAIL_USERNAME = os.environ.get('AUTH_MAIL_USERNAME') or 'myuser@example.com'
+  # --- END AUTH CONFIG ---
 
   # ---------------------------------------------------------------------
   # Get/Set other relevant environmental variables here and commandline arguments.

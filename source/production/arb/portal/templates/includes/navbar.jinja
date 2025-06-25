@@ -57,9 +57,10 @@
               <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Diagnostics</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{{ url_for('auth.auth_diagnostics') }}">Auth Diagnostics</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('auth.create_test_user') }}">Create Test User</a></li>
-
+              {% if USE_AUTH %}
+                <li><a class="dropdown-item" href="{{ url_for('auth.auth_diagnostics') }}">Auth Diagnostics</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth.create_test_user') }}">Create Test User</a></li>
+              {% endif %}
             </ul>
           </li>
 
@@ -118,27 +119,59 @@
 
         <!-- Authentication Section -->
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          {% if current_user.is_authenticated %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                <i class="bi bi-person-circle"></i> {{ current_user.email }}
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
-              </ul>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-            </li>
+          {% if USE_AUTH %}
+            {% if current_user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span style="display: inline-block; position: relative; margin-right: 8px;">
+                    <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; border-radius: 50%; background: #4e73df; color: #fff; font-weight: bold; font-size: 1rem;">
+                      {{ current_user.email[0]|upper }}
+                    </span>
+                    <span style="position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: #28a745; border: 2px solid #fff; border-radius: 50%;"></span>
+                  </span>
+                  {{ current_user.email }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}">Profile</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('auth.settings') }}">Settings</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('auth.email_preferences') }}">Email Preferences</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('auth.activity_log') }}">Activity Log</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal">Logout</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
+              </li>
+            {% endif %}
           {% endif %}
         </ul>
+
+        <!-- Logout Confirmation Modal -->
+        {% if USE_AUTH %}
+          <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="logoutConfirmModalLabel">Confirm Logout</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
 
         <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"

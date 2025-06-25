@@ -23,7 +23,7 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
-  url_for  # to access app context
+  url_for, jsonify  # to access app context
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort

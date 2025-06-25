@@ -21,8 +21,6 @@ from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-from flask_login import LoginManager
-from flask_mail import Mail
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
@@ -37,9 +35,3 @@ db = SQLAlchemy()
 
 csrf = CSRFProtect()
 """CSRFProtect: Flask-WTF extension for CSRF form protection."""
-
-login_manager = LoginManager()
-"""LoginManager: Flask-Login extension for user session management."""
-
-mail = Mail()
-"""Mail: Flask-Mail extension for email sending functionality."""
