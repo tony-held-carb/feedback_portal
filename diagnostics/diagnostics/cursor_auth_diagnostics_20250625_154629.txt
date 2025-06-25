@@ -1,0 +1,375 @@
+Cursor Authentication Diagnostics Report 
+Generated: Wed 06/25/2025 15:46:29.12 
+SAFETY: Read-only diagnostics - no system changes made 
+======================================== 
+ 
+======================================== 
+SYSTEM INFORMATION 
+======================================== 
+
+Host Name:                 5CG3251H1W
+OS Name:                   Microsoft Windows 11 Enterprise
+OS Version:                10.0.22631 N/A Build 22631
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Member Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          CARB
+Registered Organization:   CARB
+Product ID:                00329-00000-00003-AA617
+Original Install Date:     5/9/2025, 9:57:22 PM
+System Boot Time:          6/20/2025, 9:11:48 AM
+System Manufacturer:       HP
+System Model:              HP EliteBook 840 14 inch G9 Notebook PC
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 154 Stepping 4 GenuineIntel ~1800 Mhz
+BIOS Version:              HP U71 Ver. 01.08.01, 7/18/2023
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     16,016 MB
+Available Physical Memory: 3,217 MB
+Virtual Memory: Max Size:  36,496 MB
+Virtual Memory: Available: 16,349 MB
+Virtual Memory: In Use:    20,147 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    ad.arb.ca.gov
+Logon Server:              \\HQDC2
+Hotfix(s):                 4 Hotfix(s) Installed.
+                           [01]: KB5054980
+                           [02]: KB5027397
+                           [03]: KB5060999
+                           [04]: KB5058546
+Network Card(s):           4 NIC(s) Installed.
+                           [01]: Cisco AnyConnect Virtual Miniport Adapter for Windows x64
+                                 Connection Name: Ethernet 2
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 10.94.23.2
+                           [02]: Realtek USB GbE Family Controller
+                                 Connection Name: Ethernet
+                                 Status:          Media disconnected
+                           [03]: Intel(R) Wi-Fi 6E AX211 160MHz
+                                 Connection Name: Wi-Fi
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     192.168.1.254
+                                 IP address(es)
+                                 [01]: 192.168.1.167
+                           [04]: Bluetooth Device (Personal Area Network)
+                                 Connection Name: Bluetooth Network Connection
+                                 Status:          Media disconnected
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+ 
+======================================== 
+NETWORK CONFIGURATION 
+======================================== 
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : 5CG3251H1W
+   Primary Dns Suffix  . . . . . . . : ad.arb.ca.gov
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : ad.arb.ca.gov
+                                       arb.ca.gov
+
+Ethernet adapter Ethernet 2:
+
+   Connection-specific DNS Suffix  . : ad.arb.ca.gov
+   Description . . . . . . . . . . . : Cisco AnyConnect Virtual Miniport Adapter for Windows x64
+   Physical Address. . . . . . . . . : 00-05-9A-3C-7A-00
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 10.94.23.2(Preferred) 
+   Subnet Mask . . . . . . . . . . . : 255.255.248.0
+   Default Gateway . . . . . . . . . : 
+   DNS Servers . . . . . . . . . . . : 10.77.94.22
+                                       10.77.64.22
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : ad.arb.ca.gov
+   Description . . . . . . . . . . . : Realtek USB GbE Family Controller
+   Physical Address. . . . . . . . . : BC-0F-F3-48-C9-80
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 1:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter
+   Physical Address. . . . . . . . . : DC-46-28-BA-EA-F6
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #2
+   Physical Address. . . . . . . . . : DE-46-28-BA-EA-F5
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . : attlocal.net
+   Description . . . . . . . . . . . : Intel(R) Wi-Fi 6E AX211 160MHz
+   Physical Address. . . . . . . . . : DC-46-28-BA-EA-F5
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 192.168.1.167(Preferred) 
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : Friday, June 20, 2025 9:12:12 AM
+   Lease Expires . . . . . . . . . . : Thursday, June 26, 2025 9:13:39 AM
+   Default Gateway . . . . . . . . . : 192.168.1.254
+   DHCP Server . . . . . . . . . . . : 192.168.1.254
+   DNS Servers . . . . . . . . . . . : 192.168.1.254
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter Bluetooth Network Connection:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Bluetooth Device (Personal Area Network)
+   Physical Address. . . . . . . . . : DC-46-28-BA-EA-F9
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+ 
+======================================== 
+DNS CONFIGURATION 
+======================================== 
+Server:  ns-tms.arb.ca.gov
+Address:  10.77.94.22
+
+ 
+Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
+Address:  10.77.94.22
+
+ 
+======================================== 
+VPN STATUS AND CONFIGURATION 
+======================================== 
+Checking for Cisco VPN processes... 
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+ 
+Checking VPN registry entries... 
+ 
+======================================== 
+PROXY CONFIGURATION 
+======================================== 
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
+    ProxyEnable    REG_DWORD    0x0
+
+
+
+
+
+ 
+======================================== 
+SECURITY SOFTWARE 
+======================================== 
+Checking for common antivirus/security software... 
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+INFO: No tasks are running which match the specified criteria.
+ 
+======================================== 
+CURSOR INSTALLATION AND DATA 
+======================================== 
+Checking Cursor installation... 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Local\Programs\Cursor
+
+06/23/2025  05:11 PM    <DIR>          .
+06/21/2025  01:34 PM    <DIR>          ..
+06/21/2025  06:04 AM           147,398 chrome_100_percent.pak
+06/21/2025  06:05 AM           219,772 chrome_200_percent.pak
+06/21/2025  06:06 AM       190,871,168 Cursor.exe
+06/21/2025  06:04 AM               376 Cursor.VisualElementsManifest.xml
+06/21/2025  06:04 AM         4,916,728 d3dcompiler_47.dll
+06/21/2025  06:05 AM         2,976,768 ffmpeg.dll
+06/21/2025  06:04 AM        10,464,144 icudtl.dat
+06/21/2025  06:05 AM           491,008 libEGL.dll
+06/21/2025  06:05 AM         8,110,592 libGLESv2.dll
+06/21/2025  06:05 AM        11,175,275 LICENSES.chromium.html
+06/23/2025  09:37 AM    <DIR>          locales
+06/23/2025  09:37 AM    <DIR>          resources
+06/21/2025  06:05 AM         5,801,405 resources.pak
+06/21/2025  06:04 AM           320,614 snapshot_blob.bin
+06/23/2025  09:37 AM    <DIR>          tools
+06/23/2025  09:37 AM         4,923,310 unins000.dat
+06/23/2025  09:36 AM         2,920,064 unins000.exe
+06/23/2025  09:37 AM            23,365 unins000.msg
+06/21/2025  06:05 AM           693,457 v8_context_snapshot.bin
+06/21/2025  06:05 AM         5,506,560 vk_swiftshader.dll
+06/21/2025  06:04 AM               106 vk_swiftshader_icd.json
+06/21/2025  06:05 AM           897,536 vulkan-1.dll
+              19 File(s)    250,459,646 bytes
+               5 Dir(s)  289,497,669,632 bytes free
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Cursor
+
+06/23/2025  05:11 PM    <DIR>          .
+06/21/2025  01:36 PM    <DIR>          ..
+06/21/2025  01:36 PM    <DIR>          Backups
+06/21/2025  01:36 PM    <DIR>          blob_storage
+06/21/2025  01:36 PM    <DIR>          Cache
+06/21/2025  01:36 PM    <DIR>          CachedData
+06/21/2025  01:36 PM    <DIR>          CachedProfilesData
+06/21/2025  01:36 PM    <DIR>          Code Cache
+06/21/2025  01:46 PM    <DIR>          Crashpad
+06/21/2025  01:36 PM    <DIR>          DawnGraphiteCache
+06/21/2025  01:36 PM    <DIR>          DawnWebGPUCache
+06/21/2025  01:36 PM    <DIR>          GPUCache
+06/21/2025  01:36 PM                 2 languagepacks.json
+06/21/2025  01:36 PM               322 Local State
+06/21/2025  01:36 PM    <DIR>          Local Storage
+06/21/2025  01:36 PM    <DIR>          logs
+06/21/2025  01:36 PM                36 machineid
+06/23/2025  05:11 PM    <DIR>          Network
+06/21/2025  01:36 PM                57 Preferences
+06/23/2025  05:11 PM    <DIR>          sentry
+06/23/2025  05:11 PM    <DIR>          Session Storage
+06/21/2025  01:36 PM    <DIR>          Shared Dictionary
+06/21/2025  01:38 PM             4,096 SharedStorage
+06/21/2025  01:36 PM    <DIR>          User
+               5 File(s)          4,513 bytes
+              19 Dir(s)  289,497,657,344 bytes free
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Local
+
+ 
+======================================== 
+BROWSER INFORMATION 
+======================================== 
+Checking installed browsers... 
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe
+    (Default)    REG_SZ    C:\Program Files\Google\Chrome\Application\chrome.exe
+    Path    REG_SZ    C:\Program Files\Google\Chrome\Application
+
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe
+    (Default)    REG_SZ    C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+    Path    REG_SZ    C:\Program Files (x86)\Microsoft\Edge\Application
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe\SupportedProtocols
+ 
+======================================== 
+CONNECTIVITY TESTS 
+======================================== 
+Testing connectivity to Cursor and GitHub... 
+
+Pinging cursor.sh [76.76.21.21] with 32 bytes of data:
+Reply from 76.76.21.21: bytes=32 time=10ms TTL=246
+
+Ping statistics for 76.76.21.21:
+    Packets: Sent = 1, Received = 1, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 10ms, Maximum = 10ms, Average = 10ms
+
+Pinging github.com [140.82.116.3] with 32 bytes of data:
+Reply from 140.82.116.3: bytes=32 time=30ms TTL=52
+
+Ping statistics for 140.82.116.3:
+    Packets: Sent = 1, Received = 1, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 30ms, Maximum = 30ms, Average = 30ms
+
+Pinging api.github.com [140.82.116.5] with 32 bytes of data:
+Reply from 140.82.116.5: bytes=32 time=30ms TTL=52
+
+Ping statistics for 140.82.116.5:
+    Packets: Sent = 1, Received = 1, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 30ms, Maximum = 30ms, Average = 30ms
+ 
+======================================== 
+ENVIRONMENT VARIABLES 
+======================================== 
+Checking relevant environment variables... 
+HTTP_PROXY:  
+HTTPS_PROXY:  
+NO_PROXY:  
+ 
+======================================== 
+FIREWALL STATUS 
+======================================== 
+
+Domain Profile Settings: 
+----------------------------------------------------------------------
+State                                 ON
+Firewall Policy                       BlockInbound,AllowOutbound
+LocalFirewallRules                    N/A (GPO-store only)
+LocalConSecRules                      N/A (GPO-store only)
+InboundUserNotification               Enable
+RemoteManagement                      Disable
+UnicastResponseToMulticast            Enable
+
+Logging:
+LogAllowedConnections                 Disable
+LogDroppedConnections                 Disable
+FileName                              %systemroot%\system32\LogFiles\Firewall\pfirewall.log
+MaxFileSize                           4096
+
+
+Private Profile Settings: 
+----------------------------------------------------------------------
+State                                 ON
+Firewall Policy                       BlockInbound,AllowOutbound
+LocalFirewallRules                    N/A (GPO-store only)
+LocalConSecRules                      N/A (GPO-store only)
+InboundUserNotification               Enable
+RemoteManagement                      Disable
+UnicastResponseToMulticast            Enable
+
+Logging:
+LogAllowedConnections                 Disable
+LogDroppedConnections                 Disable
+FileName                              %systemroot%\system32\LogFiles\Firewall\pfirewall.log
+MaxFileSize                           4096
+
+
+Public Profile Settings: 
+----------------------------------------------------------------------
+State                                 ON
+Firewall Policy                       BlockInbound,AllowOutbound
+LocalFirewallRules                    N/A (GPO-store only)
+LocalConSecRules                      N/A (GPO-store only)
+InboundUserNotification               Enable
+RemoteManagement                      Disable
+UnicastResponseToMulticast            Enable
+
+Logging:
+LogAllowedConnections                 Disable
+LogDroppedConnections                 Disable
+FileName                              %systemroot%\system32\LogFiles\Firewall\pfirewall.log
+MaxFileSize                           4096
+
+Ok.
+
+ 
+======================================== 
+END OF REPORT 
+======================================== 
