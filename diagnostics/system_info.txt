@@ -1,0 +1,141 @@
+Work laptop system info:
+------------------------------
+
+
+(mini_conda_01) [C:\tony_local\pycharm\feedback_portal\source\production\arb]
+>systeminfo
+                                                                              
+Host Name:                 5CG3251H1W
+OS Name:                   Microsoft Windows 11 Enterprise
+OS Version:                10.0.22631 N/A Build 22631
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Member Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          CARB
+Registered Organization:   CARB
+Product ID:                00329-00000-00003-AA617
+Original Install Date:     5/9/2025, 9:57:22 PM
+System Boot Time:          6/20/2025, 9:11:48 AM
+System Manufacturer:       HP
+System Model:              HP EliteBook 840 14 inch G9 Notebook PC
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 154 Stepping 4 GenuineIntel ~1800 Mhz
+BIOS Version:              HP U71 Ver. 01.08.01, 7/18/2023
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     16,016 MB
+Available Physical Memory: 1,339 MB
+Virtual Memory: Max Size:  36,496 MB
+Virtual Memory: Available: 13,159 MB
+Virtual Memory: In Use:    23,337 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    ad.arb.ca.gov
+Logon Server:              \\HQDC2
+Hotfix(s):                 4 Hotfix(s) Installed.
+                           [01]: KB5054980
+                           [02]: KB5027397
+                           [03]: KB5060999
+                           [04]: KB5058546
+Network Card(s):           4 NIC(s) Installed.
+                           [01]: Cisco AnyConnect Virtual Miniport Adapter for Windows x64
+                                 Connection Name: Ethernet 2
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 10.94.23.2
+                           [02]: Realtek USB GbE Family Controller
+                                 Connection Name: Ethernet
+                                 Status:          Media disconnected
+                           [03]: Intel(R) Wi-Fi 6E AX211 160MHz
+                                 Connection Name: Wi-Fi
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     192.168.1.254
+                                 IP address(es)
+                                 [01]: 192.168.1.167
+                           [04]: Bluetooth Device (Personal Area Network)
+                                 Connection Name: Bluetooth Network Connection
+                                 Status:          Media disconnected
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+
+
+Home desktop system info:
+-------------------------
+(base) C:\Users\tonyh>systeminfo
+
+Host Name:                     TONY_DESKTOP
+OS Name:                       Microsoft Windows 11 Home
+OS Version:                    10.0.26100 N/A Build 26100
+OS Manufacturer:               Microsoft Corporation
+OS Configuration:              Standalone Workstation
+OS Build Type:                 Multiprocessor Free
+Registered Owner:              tony.held@gmail.com
+Registered Organization:
+Product ID:                    00326-10000-00000-AA609
+Original Install Date:         2/22/2025, 8:55:33 AM
+System Boot Time:              6/11/2025, 1:30:26 AM
+System Manufacturer:           Gigabyte Technology Co., Ltd.
+System Model:                  B660 DS3H AC DDR4-Y1
+System Type:                   x64-based PC
+Processor(s):                  1 Processor(s) Installed.
+                               [01]: Intel64 Family 6 Model 183 Stepping 1 GenuineIntel ~2100 Mhz
+BIOS Version:                  American Megatrends International, LLC. F22, 3/9/2023
+Windows Directory:             C:\WINDOWS
+System Directory:              C:\WINDOWS\system32
+Boot Device:                   \Device\HarddiskVolume1
+System Locale:                 en-us;English (United States)
+Input Locale:                  en-us;English (United States)
+Time Zone:                     (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:         130,905 MB
+Available Physical Memory:     106,148 MB
+Virtual Memory: Max Size:      139,097 MB
+Virtual Memory: Available:     111,507 MB
+Virtual Memory: In Use:        27,590 MB
+Page File Location(s):         C:\pagefile.sys
+Domain:                        WORKGROUP
+Logon Server:                  \\TONY_DESKTOP
+Hotfix(s):                     3 Hotfix(s) Installed.
+                               [01]: KB5054979
+                               [02]: KB5060842
+                               [03]: KB5059502
+Network Card(s):               3 NIC(s) Installed.
+                               [01]: Realtek PCIe GbE Family Controller
+                                     Connection Name: Ethernet
+                                     Status:          Media disconnected
+                               [02]: Bluetooth Device (Personal Area Network)
+                                     Connection Name: Bluetooth Network Connection
+                                     Status:          Media disconnected
+                               [03]: Realtek 8821CE Wireless LAN 802.11ac PCI-E NIC
+                                     Connection Name: Wi-Fi
+                                     DHCP Enabled:    Yes
+                                     DHCP Server:     192.168.1.254
+                                     IP address(es)
+                                     [01]: 192.168.1.66
+                                     [02]: fe80::dab6:7456:b057:f007
+                                     [03]: 2600:1700:7260:7870:f182:33de:f047:338c
+                                     [04]: 2600:1700:7260:7870:e4e2:ead9:44d:d7a1
+                                     [05]: 2600:1700:7260:7870:c509:3f23:9824:5edc
+                                     [06]: 2600:1700:7260:7870:b94f:6f4a:2b26:ad37
+                                     [07]: 2600:1700:7260:7870:9588:7aef:893a:8737
+                                     [08]: 2600:1700:7260:7870:28b6:c487:8b08:f40
+                                     [09]: 2600:1700:7260:7870:1c07:c19b:7239:8cec
+                                     [10]: 2600:1700:7260:7870:aebf:fef0:7796:d18a
+                                     [11]: 2600:1700:7260:7870::49
+Virtualization-based security: Status: Running
+                               Required Security Properties:
+                               Available Security Properties:
+                                     Base Virtualization Support
+                                     UEFI Code Readonly
+                                     SMM Security Mitigations 1.0
+                                     Mode Based Execution Control
+                                     APIC Virtualization
+                               Services Configured:
+                               Services Running:
+                               App Control for Business policy: Enforced
+                               App Control for Business user mode policy: Off
+                               Security Features Enabled:
+Hyper-V Requirements:          A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+
