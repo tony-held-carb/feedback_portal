@@ -1,0 +1,70 @@
+{
+    "telemetry.machineId": "b8aedbfc99cdf20312dad4862f804ec3f794e0c62fd7de88f720b94bed2cc914",
+    "telemetry.macMachineId": "60c996423c869f575fa4dd8886b167f8e6525788fbf5d7c1ffba8b0a0d0ed9ce",
+    "telemetry.sqmId": "{BEA8E8DC-B4DE-4E8E-A87C-D7DF49591349}",
+    "telemetry.devDeviceId": "7d4fe475-55e2-4e59-ba50-2b2eae665e3c",
+    "backupWorkspaces": {
+        "workspaces": [],
+        "folders": [
+            {
+                "folderUri": "file:///c%3A/tony_local/cursor/feedback_portal"
+            }
+        ],
+        "emptyWindows": [
+            {
+                "backupFolder": "1750538172882"
+            }
+        ]
+    },
+    "windowControlHeight": 35,
+    "profileAssociations": {
+        "workspaces": {
+            "file:///c%3A/tony_local/cursor/feedback_portal": "__default__profile__"
+        },
+        "emptyWindows": {
+            "1750538172882": "__default__profile__"
+        }
+    },
+    "theme": "vs-dark",
+    "themeBackground": "#1a1a1a",
+    "windowSplash": {
+        "zoomLevel": 0,
+        "baseTheme": "vs-dark",
+        "colorInfo": {
+            "foreground": "rgba(204, 204, 204, 0.87)",
+            "background": "#1a1a1a",
+            "editorBackground": "#1a1a1a",
+            "titleBarBackground": "#141414",
+            "titleBarBorder": "rgba(255, 255, 255, 0.05)",
+            "activityBarBackground": "#141414",
+            "sideBarBackground": "#141414",
+            "sideBarBorder": "rgba(255, 255, 255, 0.05)",
+            "statusBarBackground": "#141414",
+            "statusBarBorder": "rgba(255, 255, 255, 0.05)",
+            "statusBarNoFolderBackground": "#141414"
+        },
+        "layoutInfo": {
+            "sideBarSide": "left",
+            "editorPartMinWidth": 220,
+            "titleBarHeight": 35,
+            "activityBarWidth": 0,
+            "sideBarWidth": 256,
+            "statusBarHeight": 22,
+            "windowBorder": false
+        }
+    },
+    "windowsState": {
+        "lastActiveWindow": {
+            "folder": "file:///c%3A/tony_local/cursor/feedback_portal",
+            "backupPath": "C:\\Users\\theld\\AppData\\Roaming\\Cursor\\Backups\\d8259b89220df858293bb9c9f74729ff",
+            "uiState": {
+                "mode": 1,
+                "x": 119,
+                "y": 107,
+                "width": 1464,
+                "height": 794
+            }
+        },
+        "openedWindows": []
+    }
+}
