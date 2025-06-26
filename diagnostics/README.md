@@ -50,7 +50,56 @@ The main problem is the use of CARB corporate DNS servers (`10.77.94.22`, `10.77
 
 ## Solutions (In Order of Priority)
 
-### 1. DNS Configuration Change (Recommended First Step)
+### 🎯 **Option 1: GitHub CLI Authentication (RECOMMENDED)**
+**Why this works best in corporate environments:**
+- Bypasses OAuth flow issues
+- Uses browser-based authentication
+- Better handles corporate proxy/SSL restrictions
+- Cursor can detect existing GitHub CLI authentication
+
+**Steps:**
+1. **Install GitHub CLI** (if not already installed):
+   ```cmd
+   winget install GitHub.cli
+   ```
+   Or download from: https://cli.github.com/
+
+2. **Authenticate via CLI**:
+   ```cmd
+   gh auth login
+   ```
+   - Choose "GitHub.com"
+   - Choose "HTTPS"
+   - Choose "Yes" to authenticate Git operations
+   - Choose "Login with a web browser"
+   - Follow the browser authentication
+
+3. **Verify authentication**:
+   ```cmd
+   gh auth status
+   ```
+
+4. **Test Cursor authentication** - Cursor should now pick up the GitHub CLI authentication
+
+### 🔑 **Option 2: Manual Token Authentication**
+**Why this works:**
+- Bypasses OAuth flow entirely
+- Uses simple username/password authentication
+- Less likely to be blocked by corporate policies
+
+**Steps:**
+1. **Generate Personal Access Token**:
+   - Go to GitHub.com → Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Click "Generate new token (classic)"
+   - Select scopes: `repo`, `workflow`, `write:packages`, `read:packages`
+   - Copy the token (you won't see it again!)
+
+2. **Use token in Cursor**:
+   - When Cursor asks for authentication
+   - Use your GitHub username
+   - Use the token as your password
+
+### 🌐 **Option 3: DNS Configuration Change**
 **Steps:**
 1. Open Network Settings
 2. Navigate to Wi-Fi adapter properties
@@ -63,23 +112,23 @@ The main problem is the use of CARB corporate DNS servers (`10.77.94.22`, `10.77
 - Cloudflare: `1.1.1.1`, `1.0.0.1`
 - OpenDNS: `208.67.222.222`, `208.67.220.220`
 
-### 2. DNS Cache Flush
+### 🔄 **Option 4: DNS Cache Flush**
+**Safe command (no admin rights required):**
 ```cmd
 ipconfig /flushdns
 ```
+**What it does:**
+- Clears DNS cache (temporary stored domain resolutions)
+- Forces fresh DNS lookups
+- **Does NOT change DNS settings**
+- Completely safe and reversible
 
-### 3. Contact IT Support
+### 📞 **Option 5: Contact IT Support**
 **Request the following:**
 - Whitelist `cursor.sh` and `api.github.com` domains
 - Allow Cursor authentication through corporate firewall
 - Check corporate policies on development tools
 - Verify SSL inspection settings
-
-### 4. Cursor Settings Adjustment
-1. Open Cursor
-2. Go to Settings (Ctrl+,)
-3. Search for "certificate" or "ssl"
-4. Disable SSL verification if available
 
 ## Diagnostic Scripts
 
@@ -87,6 +136,7 @@ ipconfig /flushdns
 1. **`cursor_auth_diagnostics.bat`** - Comprehensive system diagnostics
 2. **`cursor_auth_live_diagnostics.bat`** - Real-time monitoring during authentication attempts
 3. **`cursor_auth_error_check.bat`** - Analysis and troubleshooting steps
+4. **`check_github_cli.bat`** - Check GitHub CLI availability and provide installation help
 
 ### How to Use Live Diagnostics
 1. Run `cursor_auth_live_diagnostics.bat`
@@ -97,20 +147,30 @@ ipconfig /flushdns
 
 ## Troubleshooting Steps
 
-### Step 1: Quick DNS Test
-1. Change DNS to Google (8.8.8.8, 8.8.4.4)
-2. Flush DNS cache: `ipconfig /flushdns`
-3. Test Cursor authentication
-4. If successful, document for IT
+### Step 1: Check GitHub CLI (Recommended)
+1. Run `check_github_cli.bat`
+2. If not installed, install GitHub CLI
+3. Authenticate: `gh auth login`
+4. Test Cursor authentication
 
-### Step 2: Live Monitoring
+### Step 2: Try Manual Token
+1. Generate GitHub personal access token
+2. Use token as password in Cursor
+3. Test authentication
+
+### Step 3: DNS Cache Flush
+1. Run: `ipconfig /flushdns`
+2. Test Cursor authentication
+3. If successful, document for IT
+
+### Step 4: Live Monitoring
 1. Run live diagnostics script
 2. Attempt authentication
 3. Capture any error messages
 4. Share results with IT
 
-### Step 3: IT Escalation
-If DNS change doesn't work:
+### Step 5: IT Escalation
+If other methods don't work:
 1. Contact IT department
 2. Share diagnostic results
 3. Request domain whitelisting
@@ -139,6 +199,7 @@ If DNS change doesn't work:
 - No admin rights required for most operations
 - Corporate environment may require IT approval for changes
 - Document all changes and results for IT support
+- GitHub CLI method is most reliable in corporate environments
 
 ## Contact Information
 For additional support, share diagnostic results and this README with IT department. 
