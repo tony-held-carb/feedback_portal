@@ -1,0 +1,235 @@
+Cursor Live Authentication Diagnostics 
+Started: Wed 06/25/2025 17:43:44.44 
+======================================== 
+ 
+[INFO] Starting Cursor process monitoring... 
+[17:43:44.52] Checking Cursor processes and network activity... 
+[17:43:44.83] Cursor.exe is running 
+
+Image Name                     PID Session Name        Session#    Mem Usage Status          User Name                                              CPU Time Window Title                                                            
+========================= ======== ================ =========== ============ =============== ================================================== ============ ========================================================================
+Cursor.exe                   26364 Console                    1    145,100 K Running         CARB\theld                                              0:00:04 Cursor Settings - feedback_portal - Cursor                              
+Cursor.exe                   26832 Console                    1     42,340 K Running         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   10452 Console                    1    287,156 K Running         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                   30760 Console                    1     58,424 K Running         CARB\theld                                              0:00:01 OleMainThreadWndName                                                    
+Cursor.exe                   30280 Console                    1    250,692 K Unknown         CARB\theld                                              0:00:09 N/A                                                                     
+Cursor.exe                   32400 Console                    1    122,232 K Unknown         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                     372 Console                    1     72,072 K Unknown         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   19556 Console                    1    202,312 K Unknown         CARB\theld                                              0:00:03 N/A                                                                     
+[17:43:44.83] Checking Cursor network connections... 
+[17:43:44.83] Checking connections to auth domains... 
+[17:43:45.38] Checking recent application errors... 
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+[17:43:45.52] Testing DNS resolution... 
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+Server:  ns-tms.arb.ca.gov
+Address:  10.77.94.22
+
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
+Address:  10.77.94.22
+
+[17:43:45.81] Checking for new files in Cursor directories... 
+06/25/2025  05:38 PM    <DIR>          ..
+06/25/2025  05:39 PM    <DIR>          CachedData
+06/25/2025  05:39 PM    <DIR>          sentry
+06/25/2025  05:39 PM    <DIR>          logs
+06/25/2025  05:39 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Code Cache
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  05:39 PM    <DIR>          Local Storage
+06/25/2025  05:39 PM                 5 code.lock
+06/25/2025  05:39 PM                57 Preferences
+06/25/2025  05:39 PM                 2 languagepacks.json
+06/25/2025  05:41 PM    <DIR>          .
+06/25/2025  05:41 PM                 0 SharedStorage-wal
+[17:43:45.92] Waiting 10 seconds before next check... 
+======================================== 
+[17:43:55.13] Checking Cursor processes and network activity... 
+[17:43:55.37] Cursor.exe is running 
+
+Image Name                     PID Session Name        Session#    Mem Usage Status          User Name                                              CPU Time Window Title                                                            
+========================= ======== ================ =========== ============ =============== ================================================== ============ ========================================================================
+Cursor.exe                   26364 Console                    1    143,964 K Running         CARB\theld                                              0:00:04 Cursor Settings - feedback_portal - Cursor                              
+Cursor.exe                   26832 Console                    1     42,340 K Running         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   10452 Console                    1    328,012 K Running         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                   30760 Console                    1     58,456 K Running         CARB\theld                                              0:00:01 OleMainThreadWndName                                                    
+Cursor.exe                   30280 Console                    1    247,840 K Unknown         CARB\theld                                              0:00:09 N/A                                                                     
+Cursor.exe                   32400 Console                    1    122,372 K Unknown         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                     372 Console                    1     72,072 K Unknown         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   19556 Console                    1    201,684 K Unknown         CARB\theld                                              0:00:03 N/A                                                                     
+[17:43:55.37] Checking Cursor network connections... 
+[17:43:55.37] Checking connections to auth domains... 
+[17:43:56.25] Checking recent application errors... 
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+[17:43:56.61] Testing DNS resolution... 
+*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
+Server:  ibx_tmsb_dns-dhcp.arb.ca.gov
+Address:  10.77.94.22
+
+*** ns1.arb.ca.gov can't find api.github.com: Query refused
+Server:  ns1.arb.ca.gov
+Address:  10.77.94.22
+
+[17:43:57.05] Checking for new files in Cursor directories... 
+06/25/2025  05:38 PM    <DIR>          ..
+06/25/2025  05:39 PM    <DIR>          CachedData
+06/25/2025  05:39 PM    <DIR>          sentry
+06/25/2025  05:39 PM    <DIR>          logs
+06/25/2025  05:39 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Code Cache
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  05:39 PM    <DIR>          Local Storage
+06/25/2025  05:39 PM                 5 code.lock
+06/25/2025  05:39 PM                57 Preferences
+06/25/2025  05:39 PM                 2 languagepacks.json
+06/25/2025  05:41 PM    <DIR>          .
+06/25/2025  05:41 PM                 0 SharedStorage-wal
+[17:43:57.23] Waiting 10 seconds before next check... 
+======================================== 
+[17:44:07.21] Checking Cursor processes and network activity... 
+[17:44:07.53] Cursor.exe is running 
+
+Image Name                     PID Session Name        Session#    Mem Usage Status          User Name                                              CPU Time Window Title                                                            
+========================= ======== ================ =========== ============ =============== ================================================== ============ ========================================================================
+Cursor.exe                   26364 Console                    1    144,676 K Running         CARB\theld                                              0:00:05 Cursor Settings - feedback_portal - Cursor                              
+Cursor.exe                   26832 Console                    1     42,340 K Running         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   10452 Console                    1    298,356 K Running         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                   30760 Console                    1     58,424 K Running         CARB\theld                                              0:00:01 OleMainThreadWndName                                                    
+Cursor.exe                   30280 Console                    1    254,852 K Unknown         CARB\theld                                              0:00:09 N/A                                                                     
+Cursor.exe                   32400 Console                    1    122,280 K Unknown         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                     372 Console                    1     72,072 K Unknown         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   19556 Console                    1    201,676 K Unknown         CARB\theld                                              0:00:03 N/A                                                                     
+[17:44:07.53] Checking Cursor network connections... 
+[17:44:07.53] Checking connections to auth domains... 
+[17:44:08.36] Checking recent application errors... 
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+[17:44:08.58] Testing DNS resolution... 
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+Server:  ns-tms.arb.ca.gov
+Address:  10.77.94.22
+
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
+Address:  10.77.94.22
+
+[17:44:09.04] Checking for new files in Cursor directories... 
+06/25/2025  05:38 PM    <DIR>          ..
+06/25/2025  05:39 PM    <DIR>          CachedData
+06/25/2025  05:39 PM    <DIR>          sentry
+06/25/2025  05:39 PM    <DIR>          logs
+06/25/2025  05:39 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Code Cache
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  05:39 PM    <DIR>          Local Storage
+06/25/2025  05:39 PM                 5 code.lock
+06/25/2025  05:39 PM                57 Preferences
+06/25/2025  05:39 PM                 2 languagepacks.json
+06/25/2025  05:41 PM    <DIR>          .
+06/25/2025  05:41 PM                 0 SharedStorage-wal
+[17:44:09.20] Waiting 10 seconds before next check... 
+======================================== 
+[17:44:19.15] Checking Cursor processes and network activity... 
+[17:44:19.30] Cursor.exe is running 
+
+Image Name                     PID Session Name        Session#    Mem Usage Status          User Name                                              CPU Time Window Title                                                            
+========================= ======== ================ =========== ============ =============== ================================================== ============ ========================================================================
+Cursor.exe                   26364 Console                    1    144,828 K Running         CARB\theld                                              0:00:05 Cursor Settings - feedback_portal - Cursor                              
+Cursor.exe                   26832 Console                    1     42,340 K Running         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   10452 Console                    1    298,284 K Running         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                   30760 Console                    1     58,376 K Running         CARB\theld                                              0:00:01 OleMainThreadWndName                                                    
+Cursor.exe                   30280 Console                    1    255,220 K Unknown         CARB\theld                                              0:00:09 N/A                                                                     
+Cursor.exe                   32400 Console                    1    122,280 K Unknown         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                     372 Console                    1     72,072 K Unknown         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   19556 Console                    1    201,468 K Unknown         CARB\theld                                              0:00:03 N/A                                                                     
+[17:44:19.30] Checking Cursor network connections... 
+[17:44:19.30] Checking connections to auth domains... 
+[17:44:19.62] Checking recent application errors... 
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+[17:44:19.76] Testing DNS resolution... 
+*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
+Server:  ibx_tmsb_dns-dhcp.arb.ca.gov
+Address:  10.77.94.22
+
+*** ns1.arb.ca.gov can't find api.github.com: Query refused
+Server:  ns1.arb.ca.gov
+Address:  10.77.94.22
+
+[17:44:20.03] Checking for new files in Cursor directories... 
+06/25/2025  05:38 PM    <DIR>          ..
+06/25/2025  05:39 PM    <DIR>          CachedData
+06/25/2025  05:39 PM    <DIR>          sentry
+06/25/2025  05:39 PM    <DIR>          logs
+06/25/2025  05:39 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Code Cache
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  05:39 PM    <DIR>          Local Storage
+06/25/2025  05:39 PM                 5 code.lock
+06/25/2025  05:39 PM                57 Preferences
+06/25/2025  05:39 PM                 2 languagepacks.json
+06/25/2025  05:41 PM    <DIR>          .
+06/25/2025  05:41 PM                 0 SharedStorage-wal
+[17:44:20.15] Waiting 10 seconds before next check... 
+======================================== 
+[17:44:30.19] Checking Cursor processes and network activity... 
+[17:44:30.52] Cursor.exe is running 
+
+Image Name                     PID Session Name        Session#    Mem Usage Status          User Name                                              CPU Time Window Title                                                            
+========================= ======== ================ =========== ============ =============== ================================================== ============ ========================================================================
+Cursor.exe                   26364 Console                    1    144,844 K Running         CARB\theld                                              0:00:05 Cursor Settings - feedback_portal - Cursor                              
+Cursor.exe                   26832 Console                    1     28,616 K Running         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   10452 Console                    1    255,156 K Running         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                   30760 Console                    1     44,160 K Running         CARB\theld                                              0:00:01 OleMainThreadWndName                                                    
+Cursor.exe                   30280 Console                    1    239,528 K Unknown         CARB\theld                                              0:00:09 N/A                                                                     
+Cursor.exe                   32400 Console                    1     92,068 K Unknown         CARB\theld                                              0:00:04 N/A                                                                     
+Cursor.exe                     372 Console                    1     66,324 K Unknown         CARB\theld                                              0:00:00 N/A                                                                     
+Cursor.exe                   19556 Console                    1    192,640 K Unknown         CARB\theld                                              0:00:03 N/A                                                                     
+[17:44:30.52] Checking Cursor network connections... 
+[17:44:30.52] Checking connections to auth domains... 
+[17:44:31.34] Checking recent application errors... 
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+  Level: Error
+[17:44:31.54] Testing DNS resolution... 
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+Server:  ns-tms.arb.ca.gov
+Address:  10.77.94.22
+
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
+Address:  10.77.94.22
+
+[17:44:31.90] Checking for new files in Cursor directories... 
+06/25/2025  05:38 PM    <DIR>          ..
+06/25/2025  05:39 PM    <DIR>          CachedData
+06/25/2025  05:39 PM    <DIR>          sentry
+06/25/2025  05:39 PM    <DIR>          logs
+06/25/2025  05:39 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Code Cache
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  05:39 PM    <DIR>          Local Storage
+06/25/2025  05:39 PM                 5 code.lock
+06/25/2025  05:39 PM                57 Preferences
+06/25/2025  05:39 PM                 2 languagepacks.json
+06/25/2025  05:41 PM    <DIR>          .
+06/25/2025  05:41 PM                 0 SharedStorage-wal
+[17:44:32.04] Waiting 10 seconds before next check... 
+======================================== 
