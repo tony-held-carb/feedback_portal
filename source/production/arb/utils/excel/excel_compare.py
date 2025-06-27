@@ -331,7 +331,8 @@ def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "
 
 
 if __name__ == "__main__":
-  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
+  # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
+  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions")
   sharepoint_path = Path(r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
   compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
 
