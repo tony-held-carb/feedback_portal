@@ -1,5 +1,13 @@
 # mini_conda_01.yml
 
+# IMPORTANT: KNOWN ISSUES
+# -----------------------
+# The conda env update process may get interrupted during pip dependency installation.
+# If flask-mail is not available after running conda env update, install it manually:
+#     pip install flask-mail
+# This appears to be a timing/interruption issue with the conda update process.
+# The YAML file is correct, but the installation process may not complete fully.
+
 # need to update for:
   # pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
   # pip install sphinxcontrib-napoleon
@@ -56,7 +64,7 @@ dependencies:
   - flask
   - flask-sqlalchemy
   - flask-login
-  - flask-mail
+  - flask-wtf
   - pandas
   - numpy
   - scipy
@@ -71,7 +79,6 @@ dependencies:
   - sqlalchemy-utils
   - more-itertools
   - conda-forge::wtforms=3.1
-  - Flask-WTF
   - psycopg2
   - werkzeug
   - itsdangerous
@@ -82,7 +89,7 @@ dependencies:
   - pip
   # If a package is not available through conda, include it in the pip sub-list below
   - pip:
-      - email_validator
+      - flask-mail
       - Flask-Migrate
       - geoalchemy2
       - mkdocs

@@ -4,6 +4,7 @@ User model and authentication/authorization logic for ARB Feedback Portal.
 Current Implementation:
 - Uses a local database for user authentication and management.
 - Handles password hashing, email confirmation, and role-based access.
+- Supports multiple roles per user using comma-separated values.
 
 Okta Transition Plan:
 - This system is a temporary solution until Okta (OIDC/SAML) is integrated.
@@ -17,6 +18,7 @@ Key Features:
 - Stores user credentials, account status, and role for access control.
 - Supports password hashing, password reset, email confirmation, and account lockout.
 - Provides methods for role-based authorization (e.g., is_admin, has_role).
+- Supports multiple roles per user (comma-separated).
 """
 
 import datetime
@@ -50,6 +52,7 @@ class User(UserMixin, get_db().Model):
     
     This class stores user credentials, account status, and role for access control.
     Role and permission logic is compatible with Okta claims/groups when USE_OKTA is enabled.
+    Supports multiple roles per user using comma-separated values.
     """
     __tablename__ = "users"
 
@@ -66,7 +69,7 @@ class User(UserMixin, get_db().Model):
     account_locked_until = Column(DateTime(timezone=True), nullable=True)
     email_confirmation_token = Column(String(255), nullable=True, unique=True)
     email_confirmation_expires = Column(DateTime(timezone=True), nullable=True)
-    role = Column(String(32), default='user', nullable=False)
+    role = Column(String(255), default='user', nullable=False)  # Increased size for multiple roles
 
     @property
     def is_active(self) -> bool:
@@ -165,14 +168,75 @@ class User(UserMixin, get_db().Model):
             return True
         return False
 
-    def is_admin(self) -> bool:
-        """Return True if the user has the 'admin' role."""
-        return str(getattr(self, 'role', '')) == 'admin'
+    def get_roles(self) -> list:
+        """Get list of user's roles as a list of strings."""
+        roles_str = str(getattr(self, 'role', 'user'))
+        if not roles_str:
+            return ['user']
+        return [role.strip() for role in roles_str.split(',') if role.strip()]
 
     def has_role(self, role_name: str) -> bool:
         """Return True if the user has the specified role."""
-        return str(getattr(self, 'role', '')) == role_name
+        roles = self.get_roles()
+        return role_name in roles
+
+    def has_any_role(self, *role_names: str) -> bool:
+        """Return True if the user has any of the specified roles."""
+        roles = self.get_roles()
+        return any(role in roles for role in role_names)
+
+    def has_all_roles(self, *role_names: str) -> bool:
+        """Return True if the user has all of the specified roles."""
+        roles = self.get_roles()
+        return all(role in roles for role in role_names)
+
+    def add_role(self, role_name: str) -> None:
+        """Add a role to the user's existing roles."""
+        if not role_name or not role_name.strip():
+            return
+        
+        role_name = role_name.strip()
+        current_roles = self.get_roles()
+        
+        if role_name not in current_roles:
+            current_roles.append(role_name)
+            self.role = ','.join(current_roles)
+            get_db().session.commit()
+
+    def remove_role(self, role_name: str) -> None:
+        """Remove a role from the user's roles."""
+        if not role_name or not role_name.strip():
+            return
+        
+        role_name = role_name.strip()
+        current_roles = self.get_roles()
+        
+        if role_name in current_roles:
+            current_roles.remove(role_name)
+            # Ensure user always has at least the 'user' role
+            if not current_roles:
+                current_roles = ['user']
+            self.role = ','.join(current_roles)
+            get_db().session.commit()
+
+    def set_roles(self, role_names: list) -> None:
+        """Set user's roles to the provided list."""
+        if not role_names:
+            role_names = ['user']
+        
+        # Clean and validate roles
+        clean_roles = [role.strip() for role in role_names if role and role.strip()]
+        if not clean_roles:
+            clean_roles = ['user']
+        
+        self.role = ','.join(clean_roles)
+        get_db().session.commit()
+
+    def is_admin(self) -> bool:
+        """Return True if the user has the 'admin' role."""
+        return self.has_role('admin')
 
     def __repr__(self) -> str:
         """Return a string representation of the user object for debugging."""
-        return f'<User: {self.id}, Email: {self.email}, Role: {self.role}, Active: {self.is_active}, Confirmed: {self.is_confirmed}>' 
+        roles_str = ','.join(self.get_roles())
+        return f'<User: {self.id}, Email: {self.email}, Roles: {roles_str}, Active: {self.is_active}, Confirmed: {self.is_confirmed}>' 

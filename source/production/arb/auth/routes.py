@@ -7,6 +7,7 @@ Authentication routes for ARB Feedback Portal.
 Current Implementation:
 - Handles user login, logout, registration, and account management using a local database and Flask-Login.
 - Provides decorators and routes for access control (e.g., admin-only pages).
+- Supports multiple roles per user with flexible role-based access control.
 
 Okta Transition Plan:
 - This authentication system is a temporary solution until Okta (OIDC/SAML) is integrated.
@@ -18,6 +19,7 @@ Key Features:
 - Modular design to allow easy replacement of authentication backend.
 - All access control decorators and logic are compatible with external identity providers.
 - The USE_OKTA flag below controls which authentication backend is used.
+- Multiple role support with flexible decorators for different access patterns.
 """
 
 from functools import wraps
@@ -45,6 +47,93 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def roles_required(*roles):
+    """
+    Decorator to restrict access to users with any of the specified roles.
+    - If USE_OKTA is True, checks Okta claims/groups for role access.
+    - If USE_OKTA is False, uses local role field.
+    
+    Args:
+        *roles: Variable number of role names to check for.
+    
+    Example:
+        @roles_required('editor', 'reviewer')
+        def edit_page():
+            # Only users with 'editor' OR 'reviewer' role can access
+            pass
+    """
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if USE_OKTA:
+                # TODO: Check Okta token for any of the specified groups/claims.
+                # Need: Okta group/claim mapping for role access.
+                raise NotImplementedError("Okta role check not implemented yet. Need Okta group/claim mapping.")
+            else:
+                if not current_user.is_authenticated or not current_user.has_any_role(*roles):
+                    abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+def all_roles_required(*roles):
+    """
+    Decorator to restrict access to users with ALL of the specified roles.
+    - If USE_OKTA is True, checks Okta claims/groups for all role access.
+    - If USE_OKTA is False, uses local role field.
+    
+    Args:
+        *roles: Variable number of role names to check for.
+    
+    Example:
+        @all_roles_required('editor', 'qaqc')
+        def qaqc_edit_page():
+            # Only users with BOTH 'editor' AND 'qaqc' roles can access
+            pass
+    """
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if USE_OKTA:
+                # TODO: Check Okta token for all of the specified groups/claims.
+                # Need: Okta group/claim mapping for role access.
+                raise NotImplementedError("Okta all roles check not implemented yet. Need Okta group/claim mapping.")
+            else:
+                if not current_user.is_authenticated or not current_user.has_all_roles(*roles):
+                    abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+def role_required(role_name):
+    """
+    Decorator to restrict access to users with the specified role.
+    - If USE_OKTA is True, checks Okta claims/groups for role access.
+    - If USE_OKTA is False, uses local role field.
+    
+    Args:
+        role_name: The role name to check for.
+    
+    Example:
+        @role_required('editor')
+        def edit_page():
+            # Only users with 'editor' role can access
+            pass
+    """
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if USE_OKTA:
+                # TODO: Check Okta token for the specified group/claim.
+                # Need: Okta group/claim mapping for role access.
+                raise NotImplementedError("Okta role check not implemented yet. Need Okta group/claim mapping.")
+            else:
+                if not current_user.is_authenticated or not current_user.has_role(role_name):
+                    abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 # Define the Blueprint at module level for import by host app
 auth = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates')
 
@@ -64,6 +153,58 @@ def admin_dashboard():
         raise NotImplementedError("Okta admin dashboard not implemented yet.")
     else:
         return render_template('auth/admin_dashboard.html')
+
+@auth.route('/editor/dashboard')
+@role_required('editor')
+def editor_dashboard():
+    """
+    Render the editor-only dashboard page.
+    Only users with 'editor' role can access.
+    """
+    if USE_OKTA:
+        # TODO: Render editor dashboard for Okta-authenticated editor users.
+        raise NotImplementedError("Okta editor dashboard not implemented yet.")
+    else:
+        return render_template('auth/editor_dashboard.html')
+
+@auth.route('/qaqc/dashboard')
+@role_required('qaqc')
+def qaqc_dashboard():
+    """
+    Render the QA/QC-only dashboard page.
+    Only users with 'qaqc' role can access.
+    """
+    if USE_OKTA:
+        # TODO: Render QA/QC dashboard for Okta-authenticated qaqc users.
+        raise NotImplementedError("Okta qaqc dashboard not implemented yet.")
+    else:
+        return render_template('auth/qaqc_dashboard.html')
+
+@auth.route('/review/dashboard')
+@roles_required('editor', 'reviewer', 'qaqc')
+def review_dashboard():
+    """
+    Render the review dashboard page.
+    Users with 'editor', 'reviewer', OR 'qaqc' roles can access.
+    """
+    if USE_OKTA:
+        # TODO: Render review dashboard for Okta-authenticated users with appropriate roles.
+        raise NotImplementedError("Okta review dashboard not implemented yet.")
+    else:
+        return render_template('auth/review_dashboard.html')
+
+@auth.route('/advanced/edit')
+@all_roles_required('editor', 'qaqc')
+def advanced_edit():
+    """
+    Render the advanced editing page.
+    Only users with BOTH 'editor' AND 'qaqc' roles can access.
+    """
+    if USE_OKTA:
+        # TODO: Render advanced edit page for Okta-authenticated users with all required roles.
+        raise NotImplementedError("Okta advanced edit not implemented yet.")
+    else:
+        return render_template('auth/advanced_edit.html')
 
 @auth.route('/settings')
 @login_required
