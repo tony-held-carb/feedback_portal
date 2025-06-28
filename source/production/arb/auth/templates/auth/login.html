@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Login - ARB Feedback Portal{% endblock %}
-{% block content_1 %}
+{% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
@@ -33,6 +33,10 @@
           <div class="text-center">
             <p class="mb-2">Don't have an account?</p>
             <a href="{{ url_for('auth.register') }}" class="btn btn-outline-secondary btn-sm">Register</a>
+          </div>
+          <div class="text-center mt-2">
+            <p class="mb-1">Need to confirm your email?</p>
+            <a href="{{ url_for('auth.resend_confirmation') }}" class="btn btn-outline-warning btn-sm">Resend Confirmation</a>
           </div>
         </div>
       </div>

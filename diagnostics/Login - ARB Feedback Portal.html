@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://localhost:5000/auth/login -->
+<html lang="en" suppresshydrationwarning="true" data-lt-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ARB Feedback Portal</title>
+    <link href="./Login - ARB Feedback Portal_files/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .role-badge {
+            font-size: 0.8em;
+            margin-right: 0.25rem;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .content-area {
+            min-height: 70vh;
+        }
+    </style>
+</head>
+<body cz-shortcut-listen="true">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="http://localhost:5000/">Auth Example App</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/public-info">Public Info</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:5000/auth/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:5000/auth/register">Register</a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        
+            
+                
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Registration successful! Please check your email to confirm your account.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                
+            
+        
+
+        <div class="content-area">
+            
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h4 class="mb-0">Login</h4>
+        </div>
+        <div class="card-body">
+          
+            
+              
+                <div class="alert alert-success" role="alert">Registration successful! Please check your email to confirm your account.</div>
+              
+            
+          
+          <form method="POST" action="http://localhost:5000/auth/login">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required="">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required="">
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+          <hr class="my-4">
+          <div class="text-center">
+            <p class="mb-2">Don't have an account?</p>
+            <a href="http://localhost:5000/auth/register" class="btn btn-outline-secondary btn-sm">Register</a>
+          </div>
+          <div class="text-center mt-2">
+            <p class="mb-1">Need to confirm your email?</p>
+            <a href="http://localhost:5000/auth/resend-confirmation" class="btn btn-outline-warning btn-sm">Resend Confirmation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+    </div>
+
+    <footer class="bg-light mt-5 py-3">
+        <div class="container text-center">
+            <p class="text-muted mb-0">Auth Example App - Demonstrating Multiple Roles Functionality</p>
+        </div>
+    </footer>
+
+    <script src="./Login - ARB Feedback Portal_files/bootstrap.bundle.min.js.download"></script>
+
+ </body></html>

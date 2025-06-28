@@ -78,6 +78,10 @@ def init_auth(app=None, db=None, mail=None, login_manager=None, config=None):
     _login_manager = login_manager
     _app = app
 
+    # Register the user loader after initialization
+    from .login_manager import register_user_loader
+    register_user_loader()
+
     # Optionally register blueprint, models, etc. here if needed
     # Example: if app is not None: app.register_blueprint(auth_blueprint)
     # (Blueprint registration can also be left to the host app for flexibility)
@@ -112,7 +116,7 @@ def get_app():
     return _app
 
 # Make sure this is the last line of the file (see header comments for details)
-from . import login_manager
+# from . import login_manager  # Removed - now handled in init_auth()
 
 # Import and expose the auth Blueprint for registration by the host app
 from .routes import auth_blueprint

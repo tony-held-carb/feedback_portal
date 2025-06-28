@@ -13,11 +13,9 @@ How to Identify Okta-Ready Code:
 - The user_loader function checks USE_OKTA and raises NotImplementedError for Okta until integration is complete.
 """
 
-from arb.auth import get_login_manager
-from arb.auth.models import User
+from arb.auth.models import get_user_model
 from arb.auth.okta_settings import USE_OKTA
 
-@get_login_manager().user_loader
 def load_user(user_id):
     """
     Load a user for Flask-Login session management.
@@ -29,4 +27,10 @@ def load_user(user_id):
         # Need: Okta user info endpoint, session/token integration.
         raise NotImplementedError("Okta user loading not implemented yet. Need Okta user info integration.")
     else:
-        return User.query.get(int(user_id)) 
+        User = get_user_model()
+        return User.query.get(int(user_id))
+
+def register_user_loader():
+    """Register the user loader with the login manager after initialization."""
+    from arb.auth import get_login_manager
+    get_login_manager().user_loader(load_user) 

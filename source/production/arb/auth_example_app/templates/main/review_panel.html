@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Review Panel - Auth Example App{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Review Panel</h1>
+            <p class="lead">Welcome to the Review Panel!</p>
+            
+            <div class="alert alert-dark">
+                <strong>Access Level:</strong> This page is accessible to users with 'reviewer', 'manager', or 'admin' roles.
+                <br>
+                <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Pending Reviews</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Content awaiting review:</p>
+                            <ul>
+                                <li>New submissions (3)</li>
+                                <li>Updated content (2)</li>
+                                <li>Quality check requests (1)</li>
+                                <li>Compliance reviews (0)</li>
+                            </ul>
+                            <button class="btn btn-primary" disabled>View Pending</button>
+                            <button class="btn btn-secondary" disabled>Start Review</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Review Tools</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Review and approval tools:</p>
+                            <ul>
+                                <li>Content comparison</li>
+                                <li>Change tracking</li>
+                                <li>Approval workflow</li>
+                                <li>Review history</li>
+                            </ul>
+                            <button class="btn btn-success" disabled>Approve</button>
+                            <button class="btn btn-warning" disabled>Request Changes</button>
+                            <button class="btn btn-danger" disabled>Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

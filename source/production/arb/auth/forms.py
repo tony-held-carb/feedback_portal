@@ -7,7 +7,7 @@ This module defines all WTForms used for user authentication.
 from flask_wtf import FlaskForm
 from wtforms import EmailField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
-from arb.auth.models import User
+from arb.auth.models import get_user_model
 
 class RegistrationForm(FlaskForm):
     email = EmailField('Email Address', validators=[
@@ -25,6 +25,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_email(self, email):
+        User = get_user_model()
         user = User.query.filter_by(email=email.data.lower()).first()
         if user:
             raise ValidationError('This email address is already registered. Please use a different email or try logging in.')
@@ -48,6 +49,7 @@ class PasswordResetForm(FlaskForm):
     submit = SubmitField('Request Password Reset')
 
     def validate_email(self, email):
+        User = get_user_model()
         user = User.query.filter_by(email=email.data.lower()).first()
         if not user:
             raise ValidationError('No account found with this email address.')

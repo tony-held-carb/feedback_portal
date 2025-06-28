@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}QA/QC Tools - Auth Example App{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>QA/QC Tools</h1>
+            <p class="lead">Welcome to the Quality Assurance & Quality Control Tools!</p>
+            
+            <div class="alert alert-warning">
+                <strong>Access Level:</strong> This page is accessible only to users with 'qaqc' role.
+                <br>
+                <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Quality Checks</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Perform quality assurance checks:</p>
+                            <ul>
+                                <li>Content validation</li>
+                                <li>Data integrity checks</li>
+                                <li>Format verification</li>
+                                <li>Compliance review</li>
+                            </ul>
+                            <button class="btn btn-warning" disabled>Run QA Check</button>
+                            <button class="btn btn-info" disabled>View Reports</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Quality Control</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Quality control processes:</p>
+                            <ul>
+                                <li>Review submissions</li>
+                                <li>Approve/reject content</li>
+                                <li>Flag issues</li>
+                                <li>Generate QC reports</li>
+                            </ul>
+                            <button class="btn btn-success" disabled>Approve</button>
+                            <button class="btn btn-danger" disabled>Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

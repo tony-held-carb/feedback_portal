@@ -39,7 +39,10 @@
   * make a data contract regarding datetime, casting and storage
 
 
-
+* convert portal app from content_1 to standard content block pattern
+  * update all templates in arb.portal to use {% block content %} instead of {% block content_1 %}
+  * this will improve consistency with Flask conventions and reduce confusion when integrating with other packages
+  * consider using descriptive block names like main_content, sidebar_content if multiple content areas are needed
 
 
 * future initiatives

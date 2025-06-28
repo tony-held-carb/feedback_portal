@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Auth Example App{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Admin Dashboard</h1>
+            <p class="lead">Welcome to the Administrative Dashboard!</p>
+            
+            <div class="alert alert-primary">
+                <strong>Access Level:</strong> This page is accessible only to users with 'admin' role.
+                <br>
+                <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>User Management</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Manage users and their roles:</p>
+                            <ul>
+                                <li>View all users</li>
+                                <li>Add/remove roles</li>
+                                <li>Activate/deactivate accounts</li>
+                                <li>Reset passwords</li>
+                            </ul>
+                            <a href="{{ url_for('admin.user_list') }}" class="btn btn-primary">Manage Users</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>System Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>System statistics and monitoring:</p>
+                            <ul>
+                                <li>Total users: <strong>{{ users|length if users else 0 }}</strong></li>
+                                <li>Active users: <strong>{{ active_users|length if active_users else 0 }}</strong></li>
+                                <li>Admin users: <strong>{{ admin_users|length if admin_users else 0 }}</strong></li>
+                                <li>System status: <span class="badge bg-success">Online</span></li>
+                            </ul>
+                            <button class="btn btn-info" disabled>View Reports</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{ url_for('admin.user_list') }}" class="btn btn-primary me-2">User List</a>
+                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary me-2">Back to Dashboard</a>
+                            <button class="btn btn-warning me-2" disabled>System Settings</button>
+                            <button class="btn btn-danger" disabled>Backup Database</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

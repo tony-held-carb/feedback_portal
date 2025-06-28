@@ -26,8 +26,11 @@ from functools import wraps
 from flask import Blueprint, render_template, abort, request, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from arb.auth.okta_settings import USE_OKTA
-from arb.auth.models import User, get_auth_config
+from arb.auth.models import get_user_model, get_auth_config
 from arb.auth import get_db
+from arb.__get_logger import get_logger
+
+logger, pp_log = get_logger()
 
 def admin_required(f):
     """
@@ -255,21 +258,46 @@ def login():
     - If USE_OKTA is False, handles local login form and session creation.
     - If USE_OKTA is True, delegates to Okta login (not yet implemented).
     """
+    logger.debug(f"Login route accessed - Method: {request.method}")
+    
     if USE_OKTA:
         # TODO: Implement Okta login redirect/flow.
         # Need: Okta OIDC/SAML login integration.
         raise NotImplementedError("Okta login not implemented yet. Need Okta OIDC/SAML integration.")
     else:
         if request.method == 'POST':
+            logger.debug("Processing login POST request")
             email = request.form.get('email')
             password = request.form.get('password')
+            logger.debug(f"Login attempt for email: {email}")
+            
+            User = get_user_model()
             user = User.query.filter_by(email=email).first()
-            if user and user.check_password(password):
-                login_user(user)
-                flash('Logged in successfully.', 'success')
-                return redirect(url_for('main.index'))
+            
+            if user:
+                logger.debug(f"User found: {user.email}, checking password")
+                if user.check_password(password):
+                    logger.debug(f"Password check successful for user: {user.email}")
+                    
+                    # Check if email is confirmed
+                    if not user.is_confirmed:
+                        logger.debug(f"Login failed: email not confirmed for user: {user.email}")
+                        flash('Please confirm your email address before logging in. Check your email for a confirmation link.', 'warning')
+                        return render_template('auth/login.html')
+                    
+                    login_user(user)
+                    flash('Logged in successfully.', 'success')
+                    logger.debug(f"User {user.email} logged in successfully")
+                    return redirect(url_for('main.index'))
+                else:
+                    logger.debug(f"Password check failed for user: {user.email}")
+                    flash('Invalid email or password.', 'danger')
             else:
+                logger.debug(f"No user found for email: {email}")
                 flash('Invalid email or password.', 'danger')
+        else:
+            logger.debug("Rendering login form")
+        
         return render_template('auth/login.html')
 
 @auth.route('/logout')
@@ -295,26 +323,130 @@ def register():
     - If USE_OKTA is False, handles local registration form and user creation.
     - If USE_OKTA is True, delegates to Okta registration (not yet implemented).
     """
+    logger.debug(f"Register route accessed - Method: {request.method}")
+    
     if USE_OKTA:
         # TODO: Implement Okta registration or link to Okta self-service registration.
         # Need: Okta registration endpoint or documentation.
         raise NotImplementedError("Okta registration not implemented yet. Need Okta registration integration.")
     else:
         if request.method == 'POST':
+            logger.debug("Processing registration POST request")
+            User = get_user_model()
             email = request.form.get('email')
             password = request.form.get('password')
+            logger.debug(f"Registration attempt for email: {email}")
+            
             if not email or not password:
+                logger.debug("Registration failed: missing email or password")
                 flash('Email and password are required.', 'danger')
             elif User.query.filter_by(email=email).first():
+                logger.debug(f"Registration failed: email {email} already exists")
                 flash('Email already registered.', 'warning')
             else:
-                user = User(email=email)
+                logger.debug(f"Creating new user with email: {email}")
+                user = User()
+                setattr(user, 'email', email)
                 user.set_password(password)
-                # Optionally set other fields, e.g., is_confirmed_col = True for now
+                # Keep user unconfirmed until email is verified
+                user.is_confirmed_col = False
                 get_db().session.add(user)
                 get_db().session.commit()
-                flash('Registration successful. Please log in.', 'success')
+                
+                # Generate email confirmation token and send confirmation email
+                try:
+                    from arb.auth.email_util import send_email_confirmation
+                    token = user.generate_email_confirmation_token()
+                    send_email_confirmation(user, token)
+                    logger.debug(f"Email confirmation sent to user: {email}")
+                    flash('Registration successful! Please check your email to confirm your account.', 'success')
+                except Exception as e:
+                    logger.error(f"Failed to send email confirmation to {email}: {str(e)}")
+                    logger.error(f"Error type: {type(e).__name__}")
+                    import traceback
+                    logger.error(f"Traceback: {traceback.format_exc()}")
+                    # Still create the user, but inform them about the email issue
+                    flash('Registration successful! However, there was an issue sending the confirmation email. Please contact support.', 'warning')
+                
                 return redirect(url_for('auth.login'))
+        else:
+            logger.debug("Rendering registration form")
+        
         return render_template('auth/register.html')
+
+@auth.route('/confirm-email/<token>')
+def confirm_email(token):
+    """
+    Email confirmation route.
+    Verifies the email confirmation token and confirms the user's account.
+    """
+    logger.debug(f"Email confirmation route accessed with token: {token[:10]}...")
+    
+    if USE_OKTA:
+        # TODO: Implement Okta email confirmation if needed.
+        raise NotImplementedError("Okta email confirmation not implemented yet.")
+    else:
+        User = get_user_model()
+        
+        # Find user by email confirmation token
+        user = User.query.filter_by(email_confirmation_token=token).first()
+        
+        if not user:
+            logger.debug("Email confirmation failed: invalid token")
+            flash('Invalid or expired confirmation link.', 'danger')
+            return redirect(url_for('auth.login'))
+        
+        # Verify the token
+        if user.verify_email_confirmation_token(token):
+            logger.debug(f"Email confirmed successfully for user: {user.email}")
+            flash('Your email has been confirmed successfully! You can now log in.', 'success')
+        else:
+            logger.debug(f"Email confirmation failed: expired token for user: {user.email}")
+            flash('The confirmation link has expired. Please register again or contact support.', 'danger')
+        
+        return redirect(url_for('auth.login'))
+
+@auth.route('/resend-confirmation', methods=['GET', 'POST'])
+def resend_confirmation():
+    """
+    Resend email confirmation route.
+    Allows users to request a new confirmation email if they didn't receive the first one.
+    """
+    logger.debug(f"Resend confirmation route accessed - Method: {request.method}")
+    
+    if USE_OKTA:
+        # TODO: Implement Okta resend confirmation if needed.
+        raise NotImplementedError("Okta resend confirmation not implemented yet.")
+    else:
+        if request.method == 'POST':
+            email = request.form.get('email')
+            logger.debug(f"Resend confirmation request for email: {email}")
+            
+            if not email:
+                flash('Please enter your email address.', 'danger')
+            else:
+                User = get_user_model()
+                user = User.query.filter_by(email=email).first()
+                
+                if not user:
+                    # Don't reveal if email exists or not for security
+                    flash('If an account with that email exists, a confirmation email has been sent.', 'info')
+                elif user.is_confirmed:
+                    flash('Your email is already confirmed. You can log in.', 'info')
+                else:
+                    # Generate new confirmation token and send email
+                    try:
+                        from arb.auth.email_util import send_email_confirmation
+                        token = user.generate_email_confirmation_token()
+                        send_email_confirmation(user, token)
+                        logger.debug(f"Confirmation email resent to user: {email}")
+                        flash('A new confirmation email has been sent. Please check your inbox.', 'success')
+                    except Exception as e:
+                        logger.error(f"Failed to resend confirmation email to {email}: {e}")
+                        flash('There was an issue sending the confirmation email. Please try again later.', 'danger')
+            
+            return redirect(url_for('auth.login'))
+        else:
+            return render_template('auth/resend_confirmation.html')
 
 # cleanup: Move all code from portal/auth_routes.py here, updating imports to use auth.models, auth.forms, auth.email_util if not already done. Remove this comment after confirming migration is complete. 
