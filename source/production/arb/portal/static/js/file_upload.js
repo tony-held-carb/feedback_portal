@@ -15,6 +15,11 @@
  * - Defensive programming with element existence checks
  * - Upload progress notifications via ToastManager
  * 
+ * Functions:
+ * - handleValidatedSubmit(event) - Validates form and shows progress before submission
+ * - (Event listeners for click, change, drag events)
+ * - (Browser back button handling)
+ * 
  * Requirements:
  * - Form must have ID "upload-form"
  * - Drop zone must have ID "drop_zone"

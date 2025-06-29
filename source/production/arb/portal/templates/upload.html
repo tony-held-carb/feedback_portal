@@ -6,7 +6,7 @@
 
 {% block header_css_and_js %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
-  <script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/file_upload.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -24,7 +24,7 @@
     <div class="alert alert-warning mt-3" role="alert">
       <strong>Important:</strong> Please close any files before uploading a file. Files that are still open may be
       locked and cannot be uploaded. If you try to upload a file that is locked, you will receive an error message
-      "This site can’t be reached".
+      "This site can't be reached".
     </div>
 
     <form method="POST"

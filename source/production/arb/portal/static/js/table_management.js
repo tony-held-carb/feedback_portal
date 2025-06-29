@@ -10,6 +10,11 @@
  * - Consistent styling and behavior across tables
  * - Discard confirmation dialogs for staged files
  * 
+ * Functions:
+ * - initializeStagedFilesTable() - Sets up staged files DataTable with custom language
+ * - initializePortalUpdatesTable() - Configures portal updates table with filters and date pickers
+ * - initializeDiscardConfirmations() - Adds confirmation dialogs for staged file deletion
+ * 
  * Requirements:
  * - jQuery must be loaded
  * - DataTables CSS and JS must be loaded

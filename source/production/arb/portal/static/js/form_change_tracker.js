@@ -11,6 +11,12 @@
  * - Warns users before leaving page with unsaved data
  * - Automatically clears dirty state when form is submitted
  * 
+ * Functions:
+ * - markDirty() - Marks form as having unsaved changes and shows indicator
+ * - (beforeunload event handler) - Warns user before leaving page
+ * - (submit event handler) - Clears dirty state on form submission
+ * - (change/input event handlers) - Monitor form field changes
+ * 
  * Requirements:
  * - Form must have an ID matching the data-form-id attribute on the body
  * - Page must have an element with ID "unsaved-indicator"

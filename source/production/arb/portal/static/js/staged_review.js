@@ -14,6 +14,18 @@
  * - Responsive table with fixed headers
  * - Automatic notification based on context
  * 
+ * Classes:
+ * - ReviewStagedManager - Main class for managing the review interface
+ * 
+ * Methods:
+ * - constructor(options) - Initializes the manager with configuration
+ * - init() - Sets up event listeners and initial state
+ * - setupEventListeners() - Attaches all event handlers
+ * - updateVisibleRows() - Filters table rows based on user preferences
+ * - updateConfirmAllState() - Manages select-all checkbox state
+ * - initializeDataTable() - Sets up DataTable with custom configuration
+ * - showContextNotifications() - Shows appropriate notifications based on data
+ * 
  * Requirements:
  * - jQuery and DataTables must be loaded
  * - Template must pass staged_fields data

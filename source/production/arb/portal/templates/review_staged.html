@@ -14,7 +14,7 @@
   <!-- ✅ FixedHeader plugin -->
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
   <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
-  <script defer src="{{ url_for('static', filename='js/review_staged.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/staged_review.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -222,7 +222,7 @@
   }
 </script>
 <script>
-  // Parse the template data and make it available to review_staged.js
+  // Parse the template data and make it available to staged_review.js
   // This is the ONLY way to pass server-side computed data to client-side JavaScript
   const dataElement = document.getElementById('review-staged-data');
   if (dataElement) {

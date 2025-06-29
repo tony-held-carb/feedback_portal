@@ -12,6 +12,25 @@
  * - Upload progress notifications
  * - Responsive design with Bootstrap styling
  * 
+ * Classes:
+ * - ToastManager - Main class for managing toast notifications
+ * 
+ * Methods:
+ * - constructor() - Creates toast container and initializes manager
+ * - createContainer() - Creates or finds the toast container element
+ * - show(message, type, options) - Main method to display notifications
+ * - success(message, options) - Shows success notifications
+ * - error(message, options) - Shows error notifications
+ * - warning(message, options) - Shows warning notifications
+ * - info(message, options) - Shows info notifications
+ * - createToast(message, type, title, dismissible) - Creates toast DOM element
+ * - getBootstrapClass(type) - Maps notification types to Bootstrap classes
+ * - getDefaultTitle(type) - Gets default title for notification type
+ * - getDefaultDelay(type) - Gets default auto-dismiss delay
+ * - getIcon(type) - Gets appropriate icon for notification type
+ * - handleFlashMessages() - Converts Bootstrap alerts to toast notifications
+ * - showUploadProgress(options) - Shows upload progress notification
+ * 
  * Usage:
  * - ToastManager.show(message, type, options)
  * - ToastManager.success(message, options)

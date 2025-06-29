@@ -11,6 +11,18 @@
  * - Automatic form submission after file drop
  * - Fallback to manual file selection via click
  * - Spinner overlay during upload process
+ * 
+ * Functions:
+ * - highlight(event) - Adds visual feedback when files are dragged over drop zone
+ * - unhighlight(event) - Removes visual feedback when files leave drop zone
+ * - handleDrop(event) - Processes dropped files and submits form
+ * - (Event listeners for drag events) - Prevents default browser behavior
+ * 
+ * Requirements:
+ * - Drop zone element with ID "drop_zone"
+ * - File input element
+ * - Form element for submission
+ * - Optional spinner overlay with ID "upload-spinner-overlay"
  */
 document.addEventListener("DOMContentLoaded", function () {
     const dropZone = document.getElementById("drop_zone");
