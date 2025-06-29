@@ -2,11 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
-* tagged current linux status and about to PR in a few weeks work
-  
-
-* look into Okta authentication
-
+* made a large merge or refactor 20 that i would like to cleanup and inspect
+* should march through these comments and update where relevant
 
 * Anthy/quinn made some updates, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
   with the sharepoint review and make sure that both directories agree
