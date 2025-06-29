@@ -112,13 +112,4 @@
       <div class="mt-3 text-white fw-bold">📤 Uploading & Staging... Please wait.</div>
     </div>
   </div>
-
-  <script>
-    // Show upload progress notification when form is submitted
-    document.getElementById('upload-form').addEventListener('submit', function() {
-      if (window.ToastManager) {
-        window.ToastManager.showUploadProgress();
-      }
-    });
-  </script>
 {% endblock %}

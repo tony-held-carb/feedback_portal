@@ -8,6 +8,7 @@
  * - Staged files table with sorting and pagination
  * - Portal updates table with fixed header and date filtering
  * - Consistent styling and behavior across tables
+ * - Discard confirmation dialogs for staged files
  * 
  * Requirements:
  * - jQuery must be loaded
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize portal updates table
     initializePortalUpdatesTable();
+    
+    // Initialize discard confirmations
+    initializeDiscardConfirmations();
 });
 
 /**
@@ -82,5 +86,24 @@ function initializePortalUpdatesTable() {
     $('#clear-filters').on('click', function () {
         $('input[type="text"]').val('');
         $('form').trigger('submit');
+    });
+}
+
+/**
+ * Initializes discard confirmation dialogs for staged files
+ * Replaces inline onsubmit handlers with proper event listeners
+ */
+function initializeDiscardConfirmations() {
+    // Find all discard forms in the staged files table
+    const discardForms = document.querySelectorAll('form[action*="discard_staged_update"]');
+    
+    discardForms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            const confirmed = confirm('Are you sure you want to discard this staged file?');
+            if (!confirmed) {
+                event.preventDefault();
+                return false;
+            }
+        });
     });
 } 

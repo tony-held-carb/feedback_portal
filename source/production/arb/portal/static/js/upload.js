@@ -13,6 +13,7 @@
  * - Upload progress spinner overlay
  * - Browser back button handling
  * - Defensive programming with element existence checks
+ * - Upload progress notifications via ToastManager
  * 
  * Requirements:
  * - Form must have ID "upload-form"
@@ -20,6 +21,7 @@
  * - Hidden file input must have ID "hidden-file-input"
  * - Spinner overlay must have ID "spinner-overlay"
  * - Bootstrap CSS classes for validation styling
+ * - ToastManager must be available for notifications
  */
 document.addEventListener("DOMContentLoaded", function () {
     // Get all required DOM elements
@@ -53,6 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Show spinner overlay to indicate upload in progress
         overlay.classList.remove("d-none");
+
+        // Show upload progress notification if ToastManager is available
+        if (window.ToastManager) {
+            window.ToastManager.showUploadProgress();
+        }
 
         // Submit form after a brief delay to ensure UI updates
         requestAnimationFrame(() => {

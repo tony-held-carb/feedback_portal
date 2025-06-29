@@ -179,7 +179,41 @@
   <button type="submit" form="confirmForm" class="btn btn-success btn-lg">💾 Save Changes</button>
 </div>
 
-<!-- Pass template data to JavaScript -->
+<!-- 
+  TEMPLATE DATA PASSING - MUST REMAIN IN HTML FILE
+  
+  This script block contains Jinja2 template variables that MUST be processed server-side
+  before being passed to JavaScript. This cannot be moved to a .js file for the following reasons:
+  
+  1. **Server-Side Processing Required**: The template variables ({{ staged_fields | selectattr('changed') | list | length }})
+     are processed by Jinja2 on the server before the HTML is sent to the browser. JavaScript files
+     are static assets that cannot access server-side template variables.
+  
+  2. **Security**: Moving this to a .js file would require either:
+     - Exposing server-side data through an API endpoint (security risk)
+     - Hardcoding values (breaks dynamic functionality)
+     - Using global variables (poor practice)
+  
+  3. **Template Context**: These variables depend on the specific request context and cannot
+     be determined at build time or in a static JavaScript file.
+  
+  4. **Data Integrity**: The staged_fields data is computed server-side and must be passed
+     exactly as calculated to ensure the review interface shows accurate information.
+  
+  CONSEQUENCES OF MOVING THIS TO A .JS FILE:
+  - ❌ Template variables would not be processed (show as literal {{ }} text)
+  - ❌ JavaScript would receive undefined/null values
+  - ❌ Review interface would break completely
+  - ❌ No way to pass dynamic data from server to client
+  - ❌ Would require major architectural changes (API endpoints, etc.)
+  
+  ALTERNATIVE APPROACHES (NOT RECOMMENDED):
+  - API endpoints: Adds complexity, security concerns, and performance overhead
+  - Global variables: Poor practice, namespace pollution, hard to maintain
+  - AJAX requests: Unnecessary network calls, slower user experience
+  
+  BEST PRACTICE: Keep template data passing in HTML, move logic to .js files
+-->
 <script type="application/json" id="review-staged-data">
   {
     "changedCount": {{ staged_fields | selectattr('changed') | list | length }},
@@ -188,7 +222,8 @@
   }
 </script>
 <script>
-  // Parse the template data
+  // Parse the template data and make it available to review_staged.js
+  // This is the ONLY way to pass server-side computed data to client-side JavaScript
   const dataElement = document.getElementById('review-staged-data');
   if (dataElement) {
     window.reviewStagedData = JSON.parse(dataElement.textContent);

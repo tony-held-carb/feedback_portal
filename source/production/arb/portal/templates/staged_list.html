@@ -65,7 +65,7 @@
                         👁️ Review
                       </a>
                       <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence) }}" 
-                            class="d-inline" onsubmit="return confirm('Are you sure you want to discard this staged file?')">
+                            class="d-inline">
                         <button type="submit" class="btn btn-outline-danger">
                           🗑️ Discard
                         </button>
