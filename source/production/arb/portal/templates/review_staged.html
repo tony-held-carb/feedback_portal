@@ -237,4 +237,37 @@
   });
 </script>
 
+<script>
+  // Show helpful notifications based on context
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.ToastManager) {
+      const changedCount = {{ staged_fields | selectattr('changed') | list | length }};
+      const confirmCount = {{ staged_fields | selectattr('requires_confirmation') | list | length }};
+      const isNewRow = {{ 'true' if is_new_row else 'false' }};
+      
+      if (isNewRow) {
+        window.ToastManager.info('This is a new record that will be created.', {
+          title: 'New Record',
+          delay: 8000
+        });
+      } else if (changedCount === 0) {
+        window.ToastManager.warning('No changes detected in the uploaded file.', {
+          title: 'No Changes',
+          delay: 6000
+        });
+      } else if (confirmCount > 10) {
+        window.ToastManager.warning('Many changes detected (' + confirmCount + ' fields). Review carefully.', {
+          title: 'Multiple Changes',
+          delay: 10000
+        });
+      } else {
+        window.ToastManager.info('Check ✅ boxes for fields you want to update. Unchecked fields will remain unchanged.', {
+          title: 'Review Instructions',
+          delay: 8000
+        });
+      }
+    }
+  });
+</script>
+
 {% endblock %}

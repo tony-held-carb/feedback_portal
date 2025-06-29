@@ -112,4 +112,32 @@
       <div class="mt-3 text-white fw-bold">📤 Uploading & Staging... Please wait.</div>
     </div>
   </div>
+
+  <script>
+    // Show notifications based on flash messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const flashMessages = document.querySelectorAll('.alert');
+      flashMessages.forEach(function(alert) {
+        const message = alert.textContent.trim();
+        const category = alert.classList.contains('alert-success') ? 'success' :
+                        alert.classList.contains('alert-danger') ? 'error' :
+                        alert.classList.contains('alert-warning') ? 'warning' : 'info';
+        
+        // Show toast notification
+        if (window.ToastManager) {
+          window.ToastManager.show(message, category);
+        }
+      });
+    });
+
+    // Show upload progress notification
+    document.getElementById('upload-form').addEventListener('submit', function() {
+      if (window.ToastManager) {
+        window.ToastManager.info('Processing your file...', {
+          title: 'Upload in Progress',
+          delay: 3000
+        });
+      }
+    });
+  </script>
 {% endblock %}

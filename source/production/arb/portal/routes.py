@@ -409,6 +409,7 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
         )
 
       logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
+      flash(f"✅ File '{request_file.filename}' staged successfully! Review changes for ID {id_}.", "success")
       return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
 
     except Exception as e:
@@ -551,7 +552,7 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   if current_misc_json != base_misc_json:
     logger.warning(f"[confirm_staged] Concurrent DB changes detected! "
                    f"current_misc_json != base_misc_json")
-    flash("The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.", "warning")
+    flash("⚠️ The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.", "warning")
     return redirect(url_for("main.review_staged", id_=id_, filename=filename))
 
   # Build update patch only for fields user confirmed
@@ -603,14 +604,14 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     shutil.move(staged_path, processed_path)
     logger.info(f"[confirm_staged] ✅ Moved staged file to processed: {processed_path}")
     
-    flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
+    flash(f"✅ Successfully updated record {id_}. {len(patch)} fields changed. Staged file moved to processed directory.", "success")
     
   except Exception as e:
     # Rollback on error to prevent partial commits
     logger.error(f"[confirm_staged] ❌ Error during database update: {e}")
     logger.exception(f"[confirm_staged] Full exception details:")
     db.session.rollback()
-    flash(f"Error applying updates for ID {id_}: {e}", "danger")
+    flash(f"❌ Error applying updates for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
   return redirect(url_for("main.upload_file_staged"))

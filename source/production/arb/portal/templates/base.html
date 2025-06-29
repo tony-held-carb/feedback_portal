@@ -17,6 +17,7 @@
 
   <!-- Portal JavaScript -->
   <script defer src="{{ url_for('static', filename='js/confirm_delete.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/notifications.js') }}"></script>
 
   <!-- Portal Jinja Macros -->
   {% import 'macros/utility_macros.jinja' as macros %}
@@ -32,6 +33,11 @@
 
 <!-- Portal Navigation -->
 {% include 'includes/navbar.jinja' %}
+
+<!-- Toast Container for Notifications -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <!-- Toasts will be dynamically added here -->
+</div>
 
 <!-- Main Page Content -->
 {% block content_1 %}{% endblock %}
