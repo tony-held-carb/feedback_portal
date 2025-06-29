@@ -2,7 +2,7 @@
 SQLAlchemy model definitions for the ARB Feedback Portal.
 
 This module defines ORM classes that map to key tables in the database,
-including uploaded file metadata, portal JSON update logs, and user accounts.
+including uploaded file metadata and portal JSON update logs.
 
 Notes:
   * Only models explicitly defined here will be created by SQLAlchemy via `db.create_all()`.
@@ -18,13 +18,10 @@ Examples:
 """
 
 from pathlib import Path
-import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Text, Boolean
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from arb.__get_logger import get_logger
 from arb.portal.extensions import db
@@ -162,11 +159,11 @@ def run_diagnostics() -> None:
 
   try:
     logger.debug(f"Beginning diagnostic transaction...")
-    test_file = UploadedFile()
-    test_file.path = "uploads/test_file.xlsx"
-    test_file.description = "Diagnostic test file"
-    test_file.status = "testing"
-    
+    test_file = UploadedFile(
+      path="uploads/test_file.xlsx",
+      description="Diagnostic test file",
+      status="testing"
+    )
     db.session.add(test_file)
     db.session.flush()  # Ensures test_file.id_ is populated
 

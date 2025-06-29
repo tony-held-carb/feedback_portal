@@ -7,8 +7,6 @@ at the top level, without initializing them until `app.init_app()` is called els
 Extensions Defined:
   - db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.
   - csrf (CSRFProtect): CSRF protection used for form validation.
-  - login_manager (LoginManager): User session management for authentication.
-  - mail (Mail): Email sending functionality.
 
 Notes:
   - `geoalchemy2.Geometry` must be imported for spatial field introspection,

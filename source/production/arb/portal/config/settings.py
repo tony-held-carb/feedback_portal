@@ -4,22 +4,6 @@ Environment-specific configuration classes for the Flask application.
 Defines base and derived configuration classes used by the ARB portal.
 Each config class inherits from `BaseConfig` and may override environment-specific values.
 
----
-USE_AUTH flag (for maintainers):
-- If True, enables authentication/authorization (arb.auth).
-- If False, disables all auth and runs the app in open mode (no login, registration, or user checks).
-- Set in config or via environment variable.
-- Used in app factory to control registration/binding of auth system.
----
-
----
-AUTH_ Configuration Pattern (for maintainers):
-- All authentication/email/security config defaults are provided by arb.auth.default_settings.py.
-- You only need to set AUTH_ variables here if you want to override them for this deployment.
-- If an AUTH_ variable is not set here, arb.auth will use its own default.
-- This keeps config DRY and makes it clear what is customized for this deployment.
----
-
 Usage:
   from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
@@ -32,7 +16,6 @@ import os
 from pathlib import Path
 
 from arb.__get_logger import get_logger
-# (No need to import AUTH_ variables from arb.auth.default_settings unless you want to override a specific value)
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -53,7 +36,6 @@ class BaseConfig:
     LOG_LEVEL (str): Default logging level.
     TIMEZONE (str): Target timezone for timestamp formatting.
     FAST_LOAD (bool): Enables performance optimizations at startup.
-    USE_AUTH (bool): Enables or disables authentication/authorization (arb.auth).
   """
   # noinspection SpellCheckingInspection
   POSTGRES_DB_URI = (
@@ -78,20 +60,15 @@ class BaseConfig:
   LOG_LEVEL = "INFO"
   TIMEZONE = "America/Los_Angeles"
 
-  USE_AUTH = False  # Set to True to enable authentication/authorization (arb.auth)
-
-  # --- AUTH/EMAIL/SECURITY CONFIG (see arb.auth.default_settings) ---
-  # Only set AUTH_ variables here if you want to override the default for this deployment.
-  # Example:
-  # AUTH_MAIL_SERVER = os.environ.get('AUTH_MAIL_SERVER') or 'smtp.example.com'
-  # AUTH_MAIL_USERNAME = os.environ.get('AUTH_MAIL_USERNAME') or 'myuser@example.com'
-  # --- END AUTH CONFIG ---
-
   # ---------------------------------------------------------------------
   # Get/Set other relevant environmental variables here and commandline arguments.
   # for example: set FAST_LOAD=true
   # ---------------------------------------------------------------------
   FAST_LOAD = False
+  # flask does not allow for custom arguments, so the next block is commented out
+  # if "--fast-load" in sys.argv:
+  #   print(f"--fast-load detected in CLI arguments")
+  #   FAST_LOAD = True
   if os.getenv("FAST_LOAD") == "true":
     logger.info(f"FAST_LOAD detected in CLI arguments")
     FAST_LOAD = True

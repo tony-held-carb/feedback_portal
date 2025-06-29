@@ -9,10 +9,9 @@ Key Responsibilities:
 - Load Flask configuration dynamically using `get_config()`
 - Apply global app settings via `configure_flask_app()`
 - Initialize SQLAlchemy and optionally CSRF protection
-- Initialize Flask-Login for user authentication
 - Reflect and optionally create the application database schema
 - Load dropdowns and type mappings into the app context
-- Register Flask blueprints (e.g., `main`, `auth`)
+- Register Flask blueprints (e.g., `main`)
 
 Usage:
 ------
@@ -40,9 +39,6 @@ logger, pp_log = get_logger()
 
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
-# Define mail and login_manager as None for linter compatibility
-mail = None
-login_manager = None
 
 def create_app() -> Flask:
   """
@@ -57,7 +53,6 @@ def create_app() -> Flask:
       - App context globals (dropdowns, types)
       - SQLAlchemy base metadata (`app.base`)
       - Registered routes via blueprints
-      - User authentication via Flask-Login
   """
   app: Flask = Flask(__name__)
 
@@ -69,26 +64,8 @@ def create_app() -> Flask:
 
   # Initialize Flask extensions
   db.init_app(app)
-  # Only set up mail and login_manager if auth is enabled
-  if app.config.get('USE_AUTH', True):
-      global mail, login_manager
-      from arb.portal.extensions import mail as _mail, login_manager as _login_manager
-      mail = _mail
-      login_manager = _login_manager
-      mail.init_app(app)
-      login_manager.init_app(app)
-      login_manager.login_view = 'auth.login'
-      login_manager.login_message = 'Please log in to access this page.'
-      login_manager.login_message_category = 'info'
-      try:
-          from arb.auth import register_auth_blueprint
-          register_auth_blueprint(app)
-      except ImportError:
-          raise RuntimeError("USE_AUTH is True but arb.auth is not available.")
-  # else: run in open mode (no auth)
-
-  # Register main blueprint (always)
-  app.register_blueprint(main)
+  # GPT recommends this, but I'm commenting it out for now
+  # csrf.init_app(app)
 
   # Database initialization and reflection (within app context)
   with app.app_context():
@@ -102,9 +79,7 @@ def create_app() -> Flask:
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)
 
-  # Inject USE_AUTH into all templates
-  @app.context_processor
-  def inject_use_auth():
-      return {'USE_AUTH': app.config.get('USE_AUTH', True)}
+  # Register route blueprints
+  app.register_blueprint(main)
 
   return app
