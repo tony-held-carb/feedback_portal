@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+  <!-- Custom DataTables -->
+  <script defer src="{{ url_for('static', filename='js/dataTables.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -114,42 +116,4 @@
       </tbody>
     </table>
   </div>
-
-
-  <script>
-      $(document).ready(function () {
-          const $toggleIcon = $('#toggle-icon');
-          const $filtersCollapse = $('#filtersCollapse');
-
-          // Initial toggle icon setup
-          $filtersCollapse.on('show.bs.collapse', function () {
-              $toggleIcon.text('➖');
-          });
-
-          $filtersCollapse.on('hide.bs.collapse', function () {
-              $toggleIcon.text('➕');
-          });
-
-          // DataTables setup
-          const table = $('#updatesTable').DataTable({
-              pageLength: 100,
-              lengthMenu: [50, 100, 200, 500],
-              order: [[0, 'desc']],
-              fixedHeader: {
-                  header: true,
-                  headerOffset: $('.navbar').outerHeight() || 56
-              }
-          });
-
-          flatpickr("#start_date", {dateFormat: "Y-m-d"});
-          flatpickr("#end_date", {dateFormat: "Y-m-d"});
-
-          $('#clear-filters').on('click', function () {
-              $('input[type="text"]').val('');
-              $('form').trigger('submit');
-          });
-      });
-  </script>
-
-
 {% endblock %}

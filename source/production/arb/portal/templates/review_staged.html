@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+  Review Staged Upload
+{% endblock %}
+
 {% block header_css_and_js %}
   <!-- DataTables Core -->
   <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
@@ -10,6 +14,7 @@
   <!-- ✅ FixedHeader plugin -->
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
   <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+  <script defer src="{{ url_for('static', filename='js/review_staged.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -174,100 +179,20 @@
   <button type="submit" form="confirmForm" class="btn btn-success btn-lg">💾 Save Changes</button>
 </div>
 
-<script>
-  const selectAllBox = document.getElementById("selectAllConfirmations");
-
-  function updateConfirmAllState() {
-    const checkboxes = document.querySelectorAll(".confirm-checkbox");
-    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
-
-    if (checkedCount === 0) {
-      selectAllBox.indeterminate = false;
-      selectAllBox.checked = false;
-    } else if (checkedCount === checkboxes.length) {
-      selectAllBox.indeterminate = false;
-      selectAllBox.checked = true;
-    } else {
-      selectAllBox.indeterminate = true;
-      selectAllBox.checked = false;
-    }
+<!-- Pass template data to JavaScript -->
+<script type="application/json" id="review-staged-data">
+  {
+    "changedCount": {{ staged_fields | selectattr('changed') | list | length }},
+    "confirmCount": {{ staged_fields | selectattr('requires_confirmation') | list | length }},
+    "isNewRow": {{ is_new_row | tojson }}
   }
-
-  function updateVisibleRows() {
-    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
-    const query = document.getElementById("fieldSearch").value.toLowerCase();
-
-    document.querySelectorAll("tbody tr").forEach(function (row) {
-      const isUnchanged = row.classList.contains("unchanged-field");
-      const matchesFilter = row.innerText.toLowerCase().includes(query);
-      row.style.display = matchesFilter && (!hideUnchanged || !isUnchanged) ? "" : "none";
-    });
-  }
-
-  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
-  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
-  selectAllBox.addEventListener("change", function () {
-    document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
-    updateConfirmAllState();
-  });
-  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
-    cb.addEventListener("change", updateConfirmAllState);
-  });
-
-  window.addEventListener("DOMContentLoaded", () => {
-    updateVisibleRows();
-    updateConfirmAllState();
-
-    $('#reviewTable').DataTable({
-      fixedHeader: {
-        header: true,
-        headerOffset: $('.navbar').outerHeight() || 56
-      },
-      paging: false,
-      info: false,
-      ordering: true,
-      order: [],  // prevent default sort
-      orderClasses: false,  // remove auto sorting classes
-      stripeClasses: [],
-      searching: false,
-      columnDefs: [
-        { orderable: false, targets: 0 }
-      ]
-    });
-  });
 </script>
-
 <script>
-  // Show helpful notifications based on context
-  document.addEventListener('DOMContentLoaded', function() {
-    if (window.ToastManager) {
-      const changedCount = {{ staged_fields | selectattr('changed') | list | length }};
-      const confirmCount = {{ staged_fields | selectattr('requires_confirmation') | list | length }};
-      const isNewRow = {{ 'true' if is_new_row else 'false' }};
-      
-      if (isNewRow) {
-        window.ToastManager.info('This is a new record that will be created.', {
-          title: 'New Record',
-          delay: 8000
-        });
-      } else if (changedCount === 0) {
-        window.ToastManager.warning('No changes detected in the uploaded file.', {
-          title: 'No Changes',
-          delay: 6000
-        });
-      } else if (confirmCount > 10) {
-        window.ToastManager.warning('Many changes detected (' + confirmCount + ' fields). Review carefully.', {
-          title: 'Multiple Changes',
-          delay: 10000
-        });
-      } else {
-        window.ToastManager.info('Check ✅ boxes for fields you want to update. Unchecked fields will remain unchanged.', {
-          title: 'Review Instructions',
-          delay: 8000
-        });
-      }
-    }
-  });
+  // Parse the template data
+  const dataElement = document.getElementById('review-staged-data');
+  if (dataElement) {
+    window.reviewStagedData = JSON.parse(dataElement.textContent);
+  }
 </script>
 
 {% endblock %}

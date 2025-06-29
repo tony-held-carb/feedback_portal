@@ -9,6 +9,7 @@
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+  <script defer src="{{ url_for('static', filename='js/dataTables.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -99,20 +100,4 @@
     </div>
 
   </div>
-{% endblock %}
-
-{% block footer_js %}
-  <script>
-    $(document).ready(function() {
-      $('#stagedTable').DataTable({
-        order: [[4, 'desc']], // Sort by staged time (newest first)
-        pageLength: 25,
-        language: {
-          search: "🔍 Search staged files:",
-          lengthMenu: "Show _MENU_ files per page",
-          info: "Showing _START_ to _END_ of _TOTAL_ staged files"
-        }
-      });
-    });
-  </script>
 {% endblock %} 
