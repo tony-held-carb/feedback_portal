@@ -2,6 +2,10 @@
 
 # todo - Next Steps
 ----------------------------
+* merge the portal app into the main app
+  - this is a big one, may need to analyze the code and make sure that the changes are correct
+  
+
 * look into Okta authentication
 
 
