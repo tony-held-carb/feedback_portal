@@ -88,6 +88,11 @@ Below are the tag names, dates, and overview of the Portal versions
       - where xx is a 2 digit number
       - The next archive should be feedback_portal_old_v04
     - Create a new project with name feedback_portal and start with a clean code base.
+- Example usage:
+  - git tag -a v1.8.0 -m "Unstable release v1.8.0 - partially implements staging and log-in"
+  - git archive --format=zip --output=feedback_portal_v1.8.0.zip v1.8.0
+  - git push origin v1.8.0
+
 
 ## Versioning Systems
 - There are two options for including a version file at the root of your code.
