@@ -2,6 +2,22 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
+## [Unreleased]
+- Refactored staged upload system:
+  - going to run v1.7.0 on the ec2 for a while longer until this version is more robust and tested
+  - making this an interim release because it has been weeks since i did a pull to main
+  - Added, but have not completed a staging system for uploading/diff-ing spreadsheets
+  - menu items for staging are hidden since it is not complete yet
+  - created log-in package, not complete, but functional
+  - created stand alone package, to test log-in capability
+  - have not connected portal to the login system
+
+### v1.7.0 - 2025-06-12
+- running on ec2 since 6/12/25
+- very stable and was used in a recent dry run
+- it is far behind refactor_20 and was just tagged as v1.7.0 on 6/28/25 
+  so we could return to it if the new changes are unstable
+  
 ### v1.6.0 - 2025-06-11
 - Debug version 1.6.0.  Stable, needs to be externally tested.
 - Patch to warn rather than fail when sector types disagree between 

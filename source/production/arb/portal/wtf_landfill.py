@@ -43,7 +43,7 @@ from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUD
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors, coerce_choices
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -144,7 +144,7 @@ class LandfillFeedback(FlaskForm):
     validators=[InputRequired(), Email()])
 
   # Section 4
-  label = "Q6.  Date of owner/operator’s follow-up ground monitoring."
+  label = "Q6.  Date of owner/operator's follow-up ground monitoring."
   inspection_timestamp = DateTimeLocalField(
     label=label,
     validators=[InputRequired(), ],
@@ -159,7 +159,7 @@ class LandfillFeedback(FlaskForm):
   label = "Q8.  Was a leak identified through prior knowledge or by follow-up monitoring after receipt of a CARB plume notice?"
   emission_identified_flag_fk = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_identified_flag_fk"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
@@ -196,14 +196,14 @@ class LandfillFeedback(FlaskForm):
   label = "Q13:  Please select from the drop-down menu which option best matches the description of the leak."
   emission_type_fk = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_type_fk"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
   label = "Q14.  Please select from the drop-down menu which option best describes the location of the leak."
   emission_location = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_location"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
@@ -217,7 +217,7 @@ class LandfillFeedback(FlaskForm):
   label = "Q16.  Please select the most likely cause of the leak."
   emission_cause = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_cause"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
@@ -225,7 +225,7 @@ class LandfillFeedback(FlaskForm):
            f"This should not be the same as your Q16 response.")
   emission_cause_secondary = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_cause_secondary"],
+    choices=[],
     validators=[Optional()],
   )
 
@@ -233,7 +233,7 @@ class LandfillFeedback(FlaskForm):
            f"This should not be the same as your Q16 or Q17 responses.")
   emission_cause_tertiary = SelectField(
     label=label,
-    choices=Globals.drop_downs["emission_cause_tertiary"],
+    choices=[],
     validators=[Optional()],
   )
 
@@ -274,7 +274,7 @@ class LandfillFeedback(FlaskForm):
            f"prior quarterly/annual surface emissions or quarterly component leak monitoring event?")
   included_in_last_lmr = SelectField(
     label=label,
-    choices=Globals.drop_downs["included_in_last_lmr"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
@@ -286,7 +286,7 @@ class LandfillFeedback(FlaskForm):
   label = "Q26.  Is this grid/component planned for inclusion in the next quarterly/annual leak monitoring?"
   planned_for_next_lmr = SelectField(
     label=label,
-    choices=Globals.drop_downs["planned_for_next_lmr"],
+    choices=[],
     validators=[InputRequired(), ],
   )
 
@@ -320,6 +320,29 @@ class LandfillFeedback(FlaskForm):
     label=label,
     validators=[],
   )
+
+  def __init__(self, *args, **kwargs):
+    """
+    Initialize the LandfillFeedback form and set SelectField choices dynamically.
+
+    This approach ensures that dropdown choices are always populated from
+    Globals.drop_downs at instantiation time, rather than at import time.
+    This avoids fragile import order issues and KeyErrors that can occur
+    if the global dropdowns are not yet populated when the form class is defined.
+
+    Args:
+        *args: Positional arguments passed to FlaskForm.
+        **kwargs: Keyword arguments passed to FlaskForm.
+    """
+    super().__init__(*args, **kwargs)
+    self.emission_identified_flag_fk.choices = coerce_choices(Globals.drop_downs.get("emission_identified_flag_fk"))
+    self.emission_type_fk.choices = coerce_choices(Globals.drop_downs.get("emission_type_fk"))
+    self.emission_location.choices = coerce_choices(Globals.drop_downs.get("emission_location"))
+    self.emission_cause.choices = coerce_choices(Globals.drop_downs.get("emission_cause"))
+    self.emission_cause_secondary.choices = coerce_choices(Globals.drop_downs.get("emission_cause_secondary"))
+    self.emission_cause_tertiary.choices = coerce_choices(Globals.drop_downs.get("emission_cause_tertiary"))
+    self.included_in_last_lmr.choices = coerce_choices(Globals.drop_downs.get("included_in_last_lmr"))
+    self.planned_for_next_lmr.choices = coerce_choices(Globals.drop_downs.get("planned_for_next_lmr"))
 
   def update_contingent_selectors(self) -> None:
     """

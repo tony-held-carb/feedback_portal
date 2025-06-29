@@ -30,7 +30,7 @@ from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
-  iso8601_to_utc_dt
+  iso8601_to_utc_dt, normalize_value
 )
 from arb.utils.diagnostics import compare_dicts
 
@@ -314,6 +314,7 @@ def cast_model_value(
     convert_time_to_ca: bool = False
 ) -> object:
   """
+  # todo - may want to change name and description of this function it seems misleading
   Cast a stringified JSON value into a Python object of the expected type.
 
   Args:
@@ -327,6 +328,7 @@ def cast_model_value(
   Raises:
       ValueError: If the value cannot be cast to the given type.
   """
+  # todo - datetime - may need to update
   try:
     if value_type == str:
       # No need to cast a string
@@ -412,6 +414,7 @@ def make_dict_serializeable(
       except Exception as e:
         raise ValueError(f"Failed to cast key '{key}' to {type_map[key]}: {e}")
 
+    # todo - datetime - change this to ensure datetime is iso and fail if it is not
     if isinstance(value, datetime.datetime):
       if convert_time_to_ca:
         value = ca_naive_to_utc_datetime(value)
@@ -569,6 +572,123 @@ def run_diagnostics() -> None:
   except Exception as e:
     print(f"Diagnostics failed: {e}")
     raise
+
+
+def extract_id_from_json(json_data: dict,
+                         tab_name: str = "Feedback Form",
+                         key_name: str = "id_incidence") -> int | None:
+  """
+  Safely extract a numeric key (like id_incidence) from a specified tab in Excel-parsed JSON.
+
+  Args:
+    json_data (dict): JSON dictionary as parsed from the Excel upload.
+    tab_name (str, optional): Name of the tab in 'tab_contents'. Defaults to "Feedback Form".
+    key_name (str, optional): Key to extract from the tab. Defaults to "id_incidence".
+
+  Returns:
+    int | None: Parsed integer value, or None if not found or invalid.
+
+  Notes:
+    - Unlike full ingestion, this does not validate schema or write to the DB.
+    - Handles string digits and trims whitespace safely.
+    - Logs warning if structure is invalid.
+  """
+  try:
+    tab_data = json_data.get("tab_contents", {}).get(tab_name, {})
+    val = tab_data.get(key_name)
+    if isinstance(val, int):
+      return val
+    if isinstance(val, str) and val.strip().isdigit():
+      return int(val.strip())
+  except Exception as e:
+    logger.warning(f"Failed to extract key '{key_name}' from tab '{tab_name}': {e}")
+  return None
+
+
+def extract_tab_payload(json_data: dict,
+                        tab_name: str = "Feedback Form") -> dict:
+  """
+  Extract the contents of a specific tab from a parsed Excel JSON structure.
+
+  Args:
+    json_data (dict): Parsed JSON dictionary, typically from `json_load_with_meta()`.
+    tab_name (str): Tab name whose contents to extract. Defaults to "Feedback Form".
+
+  Returns:
+    dict: The dictionary of field keys/values for the specified tab,
+          or an empty dict if the tab is missing or malformed.
+
+  Notes:
+    - Mirrors the behavior of `extract_id_from_json()` for consistent JSON access.
+    - Logs a warning if extraction fails.
+    - Safe for use in staging workflows or diff preview logic.
+  """
+  try:
+    return json_data.get("tab_contents", {}).get(tab_name, {})
+  except Exception as e:
+    logger.warning(f"extract_tab_payload() failed for tab '{tab_name}': {e}")
+    return {}
+
+
+def compute_field_differences(
+    new_data: dict,
+    existing_data: dict
+) -> list[dict]:
+  """
+  Generate a field-by-field diff between two dictionaries using keys from `new_data`.
+
+  This is useful when comparing a newly staged or submitted JSON payload
+  against an existing record (e.g., from the database), where only the
+  fields in `new_data` are relevant for comparison.
+
+  Args:
+    new_data (dict): The incoming or modified dictionary (e.g., staged JSON).
+    existing_data (dict): The reference or baseline dictionary (e.g., DB row).
+
+  Returns:
+    list[dict]: List of field diffs, each with:
+      - 'key': The dictionary key being compared
+      - 'old': The normalized value from `existing_data`
+      - 'new': The normalized value from `new_data`
+      - 'changed': True if the values differ after normalization
+      - 'is_same': True if values are unchanged
+      - 'from_upload': Always True, indicating this field came from uploaded JSON
+      - 'requires_confirmation': True if the update adds or overwrites non-trivial data
+
+  Notes:
+    - Normalization uses `normalize_value()` for consistent formatting,
+      especially for empty strings, None, and datetimes.
+    - Keys present in `existing_data` but *not* in `new_data` are ignored.
+    - A field requires confirmation if it adds or overwrites non-empty data.
+  """
+  differences = []
+
+  for key in sorted(new_data.keys()):
+    new_value = new_data.get(key)
+    old_value = existing_data.get(key)
+    norm_new = normalize_value(new_value)
+    norm_old = normalize_value(old_value)
+
+    is_same = norm_old == norm_new
+    requires_confirmation = (
+      norm_new not in (None, "", []) and not is_same
+    )
+
+    differences.append({
+      "key": key,
+      "old": norm_old,
+      "new": norm_new,
+      "changed": not is_same,
+      "is_same": is_same,
+      "from_upload": True,
+      "requires_confirmation": requires_confirmation,
+    })
+
+    logger.debug(f"DIFF KEY={key!r} | DB={type(old_value).__name__}:{norm_old!r} "
+                 f"| NEW={type(new_value).__name__}:{norm_new!r} "
+                 f"| SAME={is_same} | CONFIRM={requires_confirmation}")
+
+  return differences
 
 
 if __name__ == "__main__":

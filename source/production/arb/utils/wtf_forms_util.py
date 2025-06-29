@@ -8,7 +8,6 @@ Notes:
 
 import copy
 import datetime
-import json
 from decimal import Decimal
 from typing import Callable
 
@@ -23,8 +22,7 @@ from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import get_changed_fields, list_differences
-from arb.utils.json import deserialize_dict, make_dict_serializeable, wtform_types_and_values
-from arb.utils.json import safe_json_loads
+from arb.utils.json import deserialize_dict, make_dict_serializeable, safe_json_loads, wtform_types_and_values
 
 __version__ = "1.0.0"
 
@@ -266,7 +264,7 @@ def model_to_wtform(model: AutomapBase,
   Notes:
     - Supports preloading DateTimeField and DecimalField types.
     - Converts ISO8601 UTC → localized Pacific time.
-    - Ignores JSON fields that don’t map to WTForm fields.
+    - Ignores JSON fields that don't map to WTForm fields.
   """
   model_json_dict = getattr(model, json_column)
   logger.debug(f"model_to_wtform called with model={model}, json={model_json_dict}")
@@ -383,6 +381,7 @@ def wtform_to_model(model: AutomapBase,
   payload_all = make_dict_serializeable(payload_all, type_map=type_matching_dict, convert_time_to_ca=True)
 
   existing_json = load_model_json_column(model, json_column)
+  # todo - shouldn't json already be serialized, not sure what the next line accomplishes
   existing_serialized = make_dict_serializeable(existing_json, type_map=type_matching_dict, convert_time_to_ca=True)
 
   payload_changes = get_changed_fields(payload_all, existing_serialized)
@@ -617,7 +616,7 @@ def ensure_field_choice(field_name: str,
                         field,
                         choices: list[tuple[str, str] | tuple[str, str, dict]] | None = None) -> None:
   """
-  Ensure a field’s current value is among its valid choices, or reset it to a placeholder.
+  Ensure a field's current value is among its valid choices, or reset it to a placeholder.
 
   Args:
     field_name (str): Name of the WTForms field (for logging purposes).
@@ -716,6 +715,33 @@ def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> b
 
   logger.debug(f"after validate_no_csrf() called: {form_valid=}, {form.errors=}")
   return form_valid
+
+
+def coerce_choices(val):
+    """
+    Convert various dropdown data formats to a list of (str, str) tuples for WTForms SelectField.
+
+    WTForms SelectField expects choices as a list of (value, label) tuples. This helper ensures
+    compatibility regardless of the input format (dict, list of tuples, or list of strings).
+
+    Args:
+        val: The dropdown data, which may be a dict, list of tuples, or list of strings.
+
+    Returns:
+        List[Tuple[str, str]]: A list of (value, label) tuples.
+    """
+    if not val:
+        return []
+    if isinstance(val, dict):
+        return [(str(k), str(v)) for k, v in val.items()]
+    if isinstance(val, list):
+        # If already a list of tuples, convert to (str, str) using only first two elements
+        if all(isinstance(x, tuple) and len(x) >= 2 for x in val):
+            return [(str(x[0]), str(x[1])) for x in val]
+        # If a list of strings, convert to (str, str)
+        if all(isinstance(x, str) for x in val):
+            return [(x, x) for x in val]
+    return []
 
 
 if __name__ == '__main__':

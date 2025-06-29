@@ -789,3 +789,24 @@ from arb.__get_logger import get_logger
 
 logger, pp_log = get_logger()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
+
+
+C:\tony_apps\Sublime\Data\Packages\User
+C:\tony_apps\Sublime\Data\Packages\User\Preferences.sublime-settings
+// Settings in here override those in "Default/Preferences.sublime-settings",
+// and are overridden in turn by syntax-specific settings.
+// {
+// 	"draw_white_space": "all"
+// }
+changed to:
+{
+	"ignored_packages": []
+}
+
+current review_staged.html works great and i'm going to see if i can remove sorting on the first column
+
+6/25/25 created a personal access token for cursor
+trying to add credentials
+C:\Users\theld\.git-credentials
+
+had to remove the password from this file because github blocked it and fruck out so i have to hard commit to an older state

@@ -70,6 +70,10 @@ def configure_flask_app(app: Flask) -> None:
   # -------------------------------------------------------------------------
   # Jinja Configuration
   # -------------------------------------------------------------------------
+  # Next two lines help auto-reload HTML changes and warn about missing blocks or undefined variables.
+  app.config["TEMPLATES_AUTO_RELOAD"] = True
+  app.jinja_env.auto_reload = True
+
   app.jinja_env.undefined = StrictUndefined
 
   # Jinja: Trim whitespace before/after {{ }} text injection

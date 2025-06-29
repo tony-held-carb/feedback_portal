@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Log - Auth Example App{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Activity Log</h1>
+            <p class="lead">View your recent account activity</p>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> This is a demonstration page. In a real application, this would show actual user activity logs.
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Activity</th>
+                                    <th>Details</th>
+                                    <th>IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ current_user.last_login_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.last_login_timestamp else 'N/A' }}</td>
+                                    <td><span class="badge bg-success">Login</span></td>
+                                    <td>Successful login</td>
+                                    <td>127.0.0.1</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ current_user.created_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.created_timestamp else 'N/A' }}</td>
+                                    <td><span class="badge bg-primary">Account Created</span></td>
+                                    <td>Account registration</td>
+                                    <td>127.0.0.1</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-15 10:30</td>
+                                    <td><span class="badge bg-info">Profile Updated</span></td>
+                                    <td>Profile information modified</td>
+                                    <td>127.0.0.1</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-14 14:22</td>
+                                    <td><span class="badge bg-warning">Password Changed</span></td>
+                                    <td>Password successfully updated</td>
+                                    <td>127.0.0.1</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-13 09:15</td>
+                                    <td><span class="badge bg-success">Login</span></td>
+                                    <td>Successful login</td>
+                                    <td>127.0.0.1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <p class="text-muted">
+                            <small>
+                                <strong>Total Activities:</strong> 5 | 
+                                <strong>Last 30 Days:</strong> 3 | 
+                                <strong>This Week:</strong> 2
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('user_management.profile') }}" class="btn btn-outline-primary">← Back to Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

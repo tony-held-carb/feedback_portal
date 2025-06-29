@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block header_css_and_js %}
+  <!-- DataTables Core -->
+  <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- ✅ FixedHeader plugin -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+{% endblock %}
+
+{% block content_1 %}
+
+<style>
+  thead.review-header th {
+    vertical-align: middle;
+    padding: 0.5rem;
+    background-color: #245a9a;
+    color: white;
+    text-align: left;
+  }
+
+  th.confirm-th {
+    width: 1%;
+    text-align: center !important;
+  }
+
+  th.confirm-th .confirm-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  table.dataTable th,
+  table.dataTable td {
+    border-color: #dee2e6 !important;
+  }
+
+  th.sorting_disabled::after {
+    display: none !important;
+  }
+
+  .fixed-bottom-button-bar {
+    z-index: 1030;
+  }
+
+  /* Ensure DataTable has enough bottom space for fixed button bar */
+  .dataTables_wrapper {
+    margin-bottom: 120px !important;
+  }
+
+  /* Additional spacing for the main container */
+  .review-container {
+    padding-bottom: 100px;
+  }
+</style>
+
+<div class="container-fluid post-nav-buffer mb-6 pb-5 review-container">
+  <h2 class="mb-4">🧾 Review Staged Upload</h2>
+
+  <div class="mb-3">
+    {% if is_new_row %}
+      <strong class="text-primary">🆕 New Incidence ID:</strong> {{ id_incidence }}
+    {% else %}
+      <strong class="text-primary">📁 Existing Incidence ID:</strong> {{ id_incidence }}
+    {% endif %}
+  </div>
+
+  <div class="alert alert-info small mb-3">
+    <strong>Note:</strong> For fields that would add or overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    Unchecked fields will not be updated.
+  </div>
+
+  <div class="row g-2 mb-3 align-items-center">
+    <div class="col-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
+        <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
+      </div>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" id="fieldSearch" placeholder="🔍 Filter fields by name or value">
+    </div>
+  </div>
+
+  <form id="confirmForm" method="POST" action="{{ url_for('main.confirm_staged', id_=id_incidence, filename=filename) }}">
+    <table id="reviewTable" class="table table-sm table-bordered table-hover review-table">
+      <thead class="review-header">
+        <tr>
+          <th class="confirm-th sorting_disabled">
+            <div class="confirm-header">
+              <span>Confirm</span>
+              <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
+            </div>
+          </th>
+          <th>Key</th>
+          <th>Old Value (DB)</th>
+          <th>New Value (Upload)</th>
+        </tr>
+      </thead>
+      <tbody>
+{% for row in staged_fields %}
+  <tr class="field-row
+             {% if row.is_same %}unchanged-field{% elif row.requires_confirmation %}table-warning{% endif %}">
+    <td class="text-center">
+      {% if row.requires_confirmation %}
+        <input type="checkbox" name="confirm_overwrite_{{ row.key }}" class="confirm-checkbox">
+      {% elif row.is_same %}
+        <span class="badge rounded-pill bg-secondary">Same</span>
+      {% else %}
+        &mdash;
+      {% endif %}
+    </td>
+    <td class="sorting_1">{{ row.key }}</td>
+    <td class="">{{ row.old }}</td>
+    <td class="">{% if row.changed %}<mark>{{ row.new }}</mark>{% else %}{{ row.new }}{% endif %}</td>
+  </tr>
+{% endfor %}
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<!-- 🔘 Sticky Button Bar -->
+<div class="fixed-bottom bg-light border-top py-3 px-3 d-flex justify-content-end gap-3 shadow fixed-bottom-button-bar">
+  <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-secondary btn-lg">Cancel</a>
+  <button type="submit" form="confirmForm" class="btn btn-success btn-lg">Save</button>
+</div>
+
+<script>
+  const selectAllBox = document.getElementById("selectAllConfirmations");
+
+  function updateConfirmAllState() {
+    const checkboxes = document.querySelectorAll(".confirm-checkbox");
+    const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+
+    if (checkedCount === 0) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = false;
+    } else if (checkedCount === checkboxes.length) {
+      selectAllBox.indeterminate = false;
+      selectAllBox.checked = true;
+    } else {
+      selectAllBox.indeterminate = true;
+      selectAllBox.checked = false;
+    }
+  }
+
+  function updateVisibleRows() {
+    const hideUnchanged = document.getElementById("hideUnchangedFields").checked;
+    const query = document.getElementById("fieldSearch").value.toLowerCase();
+
+    document.querySelectorAll("tbody tr").forEach(function (row) {
+      const isUnchanged = row.classList.contains("unchanged-field");
+      const matchesFilter = row.innerText.toLowerCase().includes(query);
+      row.style.display = matchesFilter && (!hideUnchanged || !isUnchanged) ? "" : "none";
+    });
+  }
+
+  document.getElementById("hideUnchangedFields").addEventListener("change", updateVisibleRows);
+  document.getElementById("fieldSearch").addEventListener("input", updateVisibleRows);
+  selectAllBox.addEventListener("change", function () {
+    document.querySelectorAll(".confirm-checkbox").forEach(cb => cb.checked = this.checked);
+    updateConfirmAllState();
+  });
+  document.querySelectorAll(".confirm-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateConfirmAllState);
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    updateVisibleRows();
+    updateConfirmAllState();
+
+    $('#reviewTable').DataTable({
+      fixedHeader: {
+        header: true,
+        headerOffset: $('.navbar').outerHeight() || 56
+      },
+      paging: false,
+      info: false,
+      ordering: true,
+      order: [],  // prevent default sort
+      orderClasses: false,  // remove auto sorting classes
+      stripeClasses: [],
+      searching: false,
+      columnDefs: [
+        { orderable: false, targets: 0 }
+      ]
+    });
+  });
+</script>
+
+{% endblock %}

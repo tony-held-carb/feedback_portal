@@ -130,3 +130,10 @@ my latest codebase is attached.
 
 
 
+in store_staged_payload to determine the staging folder you used:
+staging_dir = Path(get_upload_folder()) / "staging"
+
+it seems like review_staged should determine the folder in the same way rather than
+ staging_dir = Path(current_app.config["STAGING_UPLOAD_FOLDER"])
+
+which i don't is configured yet.
