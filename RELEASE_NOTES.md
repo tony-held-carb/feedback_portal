@@ -8,6 +8,12 @@ Below are the tag names, dates, and overview of the Portal versions
   - Processed staged files are moved to a 'processed' directory
   - Added concurrency/data loss protection: users are warned if the DB changes after staging
   - All routes and templates updated to use new filename-based system
+
+### v1.7.0 - 2025-06-12
+- running on ec2 since 6/12/25
+- very stable and was used in a recent dry run
+- it is far behind refactor_20 and was just tagged as v1.7.0 on 6/28/25 
+  so we could return to it if the new changes are unstable
   
 ### v1.6.0 - 2025-06-11
 - Debug version 1.6.0.  Stable, needs to be externally tested.

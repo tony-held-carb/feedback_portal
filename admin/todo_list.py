@@ -2,8 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-* merge the portal app into the main app
-  - this is a big one, may need to analyze the code and make sure that the changes are correct
+* tagged current linux status and about to PR in a few weeks work
   
 
 * look into Okta authentication
