@@ -4,10 +4,13 @@ Below are the tag names, dates, and overview of the Portal versions
 
 ## [Unreleased]
 - Refactored staged upload system:
-  - Staged files now use timestamped filenames (id_XXX_ts_YYYYMMDD_HHMMSS.json)
-  - Processed staged files are moved to a 'processed' directory
-  - Added concurrency/data loss protection: users are warned if the DB changes after staging
-  - All routes and templates updated to use new filename-based system
+  - going to run v1.7.0 on the ec2 for a while longer until this version is more robust and tested
+  - making this an interim release because it has been weeks since i did a pull to main
+  - Added, but have not completed a staging system for uploading/diff-ing spreadsheets
+  - menu items for staging are hidden since it is not complete yet
+  - created log-in package, not complete, but functional
+  - created stand alone package, to test log-in capability
+  - have not connected portal to the login system
 
 ### v1.7.0 - 2025-06-12
 - running on ec2 since 6/12/25
