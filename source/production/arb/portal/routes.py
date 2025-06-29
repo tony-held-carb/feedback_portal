@@ -21,11 +21,13 @@ import os
 from io import StringIO
 from pathlib import Path
 from urllib.parse import unquote
+from typing import Any, Union
 
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
   url_for, jsonify  # to access app context
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
+from sqlalchemy.orm import Query
 from werkzeug.exceptions import abort
 
 import arb.portal.db_hardcoded
@@ -79,7 +81,7 @@ def index() -> str:
 
 
 @main.route('/incidence_update/<int:id_>/', methods=('GET', 'POST'))
-def incidence_update(id_) -> str | Response:
+def incidence_update(id_: int) -> Union[str, Response]:
   """
   Display and edit a specific incidence record by ID.
 
@@ -107,7 +109,12 @@ def incidence_update(id_) -> str | Response:
   # model_row = db.session.query(table).get_or_404(id_)
   # todo turn this into a get and if it is null, then redirect? to the spreadsheet upload
   # todo consider turning into one_or_none and have error handling
-  rows = db.session.query(table).filter_by(id_incidence=id_).all()
+  if table is None:
+    abort(500, description="Could not get table class for incidences")
+  
+  # Type cast to help with SQLAlchemy typing
+  table_class = table  # type: Any
+  rows = db.session.query(table_class).filter_by(id_incidence=id_).all()
   if not rows:
     message = f"A request was made to edit a non-existent id_incidence ({id_}).  Consider uploading the incidence by importing a spreadsheet."
     return redirect(url_for('main.upload_file', message=message))
@@ -184,7 +191,7 @@ def landfill_incidence_create() -> Response:
 
 
 @main.post('/incidence_delete/<int:id_>/')
-def incidence_delete(id_) -> Response:
+def incidence_delete(id_: int) -> ResponseReturnValue:
   """
   Delete a specified incidence from the database.
 
@@ -203,7 +210,12 @@ def incidence_delete(id_) -> Response:
 
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
-  model_row = db.session.query(table).get_or_404(id_)
+  if table is None:
+    abort(500, description="Could not get table class for incidences")
+  
+  # Type cast to help with SQLAlchemy typing
+  table_class = table  # type: Any
+  model_row = db.session.query(table_class).get_or_404(id_)
 
   # todo - ensure portal changes are properly updated
   arb.utils.sql_alchemy.delete_commit_and_log_model(db,
@@ -231,9 +243,55 @@ def list_uploads() -> str:
   return render_template('uploads_list.html', files=files)
 
 
+@main.route('/list_staged')
+def list_staged() -> str:
+  """
+  List all staged files awaiting review.
+
+  Returns:
+    str: Rendered HTML showing all staged JSON files with their metadata.
+  """
+  logger.debug("list_staged route called")
+  
+  staging_dir = Path(get_upload_folder()) / "staging"
+  staged_files = []
+  
+  if staging_dir.exists():
+    for file_path in staging_dir.glob("*.json"):
+      try:
+        # Extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
+        filename = file_path.name
+        if filename.startswith("id_") and "_ts_" in filename:
+          id_part = filename.split("_ts_")[0]
+          id_incidence = int(id_part.replace("id_", ""))
+          
+          # Load metadata to get more info
+          try:
+            _, metadata = json_load_with_meta(file_path)
+            base_misc_json = metadata.get("base_misc_json", {})
+            sector = base_misc_json.get("sector", "Unknown")
+          except Exception:
+            sector = "Unknown"
+          
+          staged_files.append({
+            'filename': filename,
+            'id_incidence': id_incidence,
+            'sector': sector,
+            'file_size': file_path.stat().st_size,
+            'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime)
+          })
+      except Exception as e:
+        logger.warning(f"Could not process staged file {file_path}: {e}")
+  
+  # Sort by modification time (newest first)
+  staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
+  
+  return render_template('staged_list.html', staged_files=staged_files)
+
+
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
-def upload_file(message: str | None = None) -> str | Response:
+def upload_file(message: str | None = None) -> Union[str, Response]:
   """
   Upload a spreadsheet or JSON file and immediately apply it to the database.
 
@@ -302,7 +360,7 @@ def upload_file(message: str | None = None) -> str | Response:
 
 @main.route('/upload_staged', methods=['GET', 'POST'])
 @main.route('/upload_staged/<message>', methods=['GET', 'POST'])
-def upload_file_staged(message: str | None = None) -> str | Response:
+def upload_file_staged(message: str | None = None) -> Union[str, Response]:
   """
   Upload an Excel or JSON file, convert it to JSON, and stage it for review.
 

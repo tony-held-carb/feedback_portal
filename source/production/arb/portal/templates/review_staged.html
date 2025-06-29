@@ -57,29 +57,72 @@
   .review-container {
     padding-bottom: 100px;
   }
+
+  .status-badge {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
 </style>
 
 <div class="container-fluid post-nav-buffer mb-6 pb-5 review-container">
-  <h2 class="mb-4">🧾 Review Staged Upload</h2>
-
-  <div class="mb-3">
-    {% if is_new_row %}
-      <strong class="text-primary">🆕 New Incidence ID:</strong> {{ id_incidence }}
-    {% else %}
-      <strong class="text-primary">📁 Existing Incidence ID:</strong> {{ id_incidence }}
-    {% endif %}
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-3">🧾 Review Staged Changes</h2>
+      
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              {% if is_new_row %}
+                <span class="badge bg-success status-badge">🆕 New Record</span>
+              {% else %}
+                <span class="badge bg-primary status-badge">📝 Existing Record</span>
+              {% endif %}
+              <strong class="ms-2">Incidence ID: {{ id_incidence }}</strong>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <small class="text-muted">Staged file: {{ filename }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header bg-info text-white">
+          <h6 class="mb-0">📊 Change Summary</h6>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-4">
+              <div class="h5 mb-0 text-primary">{{ staged_fields | length }}</div>
+              <small class="text-muted">Total Fields</small>
+            </div>
+            <div class="col-4">
+              <div class="h5 mb-0 text-warning">{{ staged_fields | selectattr('changed') | list | length }}</div>
+              <small class="text-muted">Changed</small>
+            </div>
+            <div class="col-4">
+              <div class="h5 mb-0 text-success">{{ staged_fields | selectattr('requires_confirmation') | list | length }}</div>
+              <small class="text-muted">Need Confirmation</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="alert alert-info small mb-3">
-    <strong>Note:</strong> For fields that would add or overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
-    Unchecked fields will not be updated.
+    <strong>📋 Instructions:</strong> For fields that would add or overwrite existing data, you must check the <strong>Confirm</strong> box to approve the change.
+    Unchecked fields will not be updated. Fields with no changes are marked as "Same".
   </div>
 
   <div class="row g-2 mb-3 align-items-center">
     <div class="col-auto">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="hideUnchangedFields">
-        <label class="form-check-label" for="hideUnchangedFields">Hide unchanged fields</label>
+        <label class="form-check-label" for="hideUnchangedFields">👁️ Hide unchanged fields</label>
       </div>
     </div>
     <div class="col">
@@ -93,13 +136,13 @@
         <tr>
           <th class="confirm-th sorting_disabled">
             <div class="confirm-header">
-              <span>Confirm</span>
+              <span>✅ Confirm</span>
               <input class="form-check-input" type="checkbox" id="selectAllConfirmations" title="Toggle all confirmations">
             </div>
           </th>
-          <th>Key</th>
-          <th>Old Value (DB)</th>
-          <th>New Value (Upload)</th>
+          <th>🔑 Field Name</th>
+          <th>📊 Current Value (DB)</th>
+          <th>🆕 Proposed Value (Upload)</th>
         </tr>
       </thead>
       <tbody>
@@ -115,7 +158,7 @@
         &mdash;
       {% endif %}
     </td>
-    <td class="sorting_1">{{ row.key }}</td>
+    <td class="sorting_1"><code>{{ row.key }}</code></td>
     <td class="">{{ row.old }}</td>
     <td class="">{% if row.changed %}<mark>{{ row.new }}</mark>{% else %}{{ row.new }}{% endif %}</td>
   </tr>
@@ -127,8 +170,8 @@
 
 <!-- 🔘 Sticky Button Bar -->
 <div class="fixed-bottom bg-light border-top py-3 px-3 d-flex justify-content-end gap-3 shadow fixed-bottom-button-bar">
-  <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-secondary btn-lg">Cancel</a>
-  <button type="submit" form="confirmForm" class="btn btn-success btn-lg">Save</button>
+  <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-secondary btn-lg">❌ Cancel</a>
+  <button type="submit" form="confirmForm" class="btn btn-success btn-lg">💾 Save Changes</button>
 </div>
 
 <script>
