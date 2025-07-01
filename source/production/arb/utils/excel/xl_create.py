@@ -39,11 +39,12 @@ from arb.utils.misc import ensure_key_value_pair
 logger, pp_log = get_logger()
 
 # default file (not schema) versions for landfill and oil and gas spreadsheet names
-LANDFILL_VERSION = "v070"
+LANDFILL_VERSION_1 = "v070"
+LANDFILL_VERSION_2 = "v071"
 OIL_AND_GAS_VERSION = "v070"
 ENERGY_VERSION = "v003"
 GENERIC_VERSION = "v002"
-
+DAIRY_DIGESTER = "v003"
 
 def sort_xl_schema(xl_schema: dict,
                    sort_by: str = "variable_name") -> dict:
