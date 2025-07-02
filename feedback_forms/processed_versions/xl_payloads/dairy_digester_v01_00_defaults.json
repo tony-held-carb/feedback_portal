@@ -1,0 +1,40 @@
+{
+    "_metadata_": {
+        "schema_version": "dairy_digester_v01_00",
+        "File created at": "2025-07-02T04:41:14.863145+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta",
+        "notes": "Default values are empty strings unless the field is a drop-down cell. For drop-down cells, the default is 'Please Select'."
+    },
+    "_data_": {
+        "id_incidence": "",
+        "id_plume": "",
+        "observation_timestamp": "",
+        "lat_carb": "",
+        "long_carb": "",
+        "id_message": "",
+        "digester_facility_name": "",
+        "livestock_facility_name": "",
+        "id_arb_ciwqs": "",
+        "contact_name": "",
+        "contact_phone": "",
+        "contact_email": "",
+        "inspection_timestamp": "",
+        "additional_activities": "",
+        "initial_leak_concentration": "",
+        "instrument": "",
+        "emission_type_fk": "Please Select",
+        "emission_location": "Please Select",
+        "emission_location_notes": "",
+        "emission_cause": "Please Select",
+        "emission_cause_notes": "",
+        "able_to_repair": "Please Select",
+        "mitigation_timestamp": "",
+        "mitigation_actions": "",
+        "manure_advanced_solid_liquid": "",
+        "anaerobic_digestion_portion": "",
+        "transport_method": "",
+        "additional_manure_management": "",
+        "additional_notes": ""
+    }
+}
