@@ -41,6 +41,7 @@ EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 # the parser will use the mapped schema and log a warning.
 schema_alias = {
     "energy_v00_01": "energy_v01_00",
+    "generic_v00_01": "generic_v01_00",
 }
 
 # xl_schema_map based on Excel PROCESSED_VERSIONS files
