@@ -35,6 +35,14 @@ EXCEL_SCHEMA_TAB_NAME = '_json_schema'
 EXCEL_METADATA_TAB_NAME = '_json_metadata'
 EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 
+# --- Schema aliasing for backward compatibility ---
+# Maps old schema names to new schema names {old_schema_name: new_schema_name}.
+# If a file references an outdated schema,
+# the parser will use the mapped schema and log a warning.
+schema_alias = {
+    "energy_v00_01": "energy_v01_00",
+}
+
 # xl_schema_map based on Excel PROCESSED_VERSIONS files
 xl_schema_file_map = {}
 xl_schema_map = {}
@@ -121,6 +129,10 @@ def create_schema_file_map(schema_path: str | Path | None = None,
     dict[str, Path]: Map from schema name to a schema file path.
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
+  
+  if isinstance(schema_path, str):
+    schema_path = Path(schema_path)
+
   if schema_path is None:
     schema_path = PROCESSED_VERSIONS / "xl_schemas"
   if schema_names is None:
@@ -205,7 +217,7 @@ def parse_xl_file(xl_path: str | Path,
   return new_result
 
 
-def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
+def extract_tabs(wb: openpyxl.Workbook,
                  schema_map: dict[str, dict],
                  xl_as_dict: dict) -> dict:
   """
@@ -227,17 +239,21 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
   result = copy.deepcopy(xl_as_dict)
 
   for tab_name, formatting_schema in result['schemas'].items():
+    resolved_schema = ensure_schema(formatting_schema, schema_map, schema_alias, logger)
+    if not resolved_schema:
+      continue
     logger.debug(f"Extracting data from '{tab_name}', using the formatting schema '{formatting_schema}'")
     result['tab_contents'][tab_name] = {}
 
     ws = wb[tab_name]
-    format_dict = schema_map[formatting_schema]['schema']
+    format_dict = schema_map[resolved_schema]['schema']
 
     for html_field_name, lookup in format_dict.items():
       value_address = lookup['value_address']
       value_type = lookup['value_type']
       is_drop_down = lookup['is_drop_down']
-      value = ws[value_address].value
+      # works, but you get a lint error because this will break if value_address is not a single cell
+      value = ws[value_address].value  # type: ignore[attr-defined]
 
       if skip_please_selects is True:
         if is_drop_down and value == PLEASE_SELECT:
@@ -275,7 +291,8 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
 
       if 'label_address' in lookup and 'label' in lookup:
         label_address = lookup['label_address']
-        label_xl = ws[label_address].value
+        # works, but you get a lint error because this will break if value_address is not a single cell
+        label_xl = ws[label_address].value  # type: ignore[attr-defined]
         label_schema = lookup['label']
         if label_xl != label_schema:
           logger.warning(f"Schema data label and spreadsheet data label differ."
@@ -288,6 +305,33 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
     logger.debug(f"Final corrected spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
 
   return result
+
+def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger) -> str | None:
+    """
+    Resolves a schema version using the schema map and alias mapping.
+    Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.
+
+    Args:
+        formatting_schema (str): The schema version to resolve.
+        schema_map (dict): The mapping of valid schema versions.
+        schema_alias (dict): The mapping of old schema names to new ones.
+        logger: Logger for warnings/errors.
+
+    Returns:
+        str | None: The resolved schema version, or None if not found.
+    """
+    if formatting_schema in schema_map:
+        return formatting_schema
+    if formatting_schema in schema_alias:
+        new_schema_version = schema_alias[formatting_schema]
+        logger.warning(f"Schema '{formatting_schema}' not found. Using alias '{new_schema_version}' instead.")
+        if new_schema_version in schema_map:
+            return new_schema_version
+        else:
+            logger.error(f"Alias '{new_schema_version}' not found in schema_map.")
+            return None
+    logger.error(f"Schema '{formatting_schema}' not found and no alias available.")
+    return None
 
 
 def split_compound_keys(dict_: dict) -> None:
@@ -317,7 +361,7 @@ def split_compound_keys(dict_: dict) -> None:
       del dict_[html_field_name]
 
 
-def get_spreadsheet_key_value_pairs(wb: openpyxl.workbook.workbook.Workbook,
+def get_spreadsheet_key_value_pairs(wb: openpyxl.Workbook,
                                     tab_name: str,
                                     top_left_cell: str) -> dict[str, str | None]:
   """
@@ -496,3 +540,4 @@ initialize_module()
 
 if __name__ == "__main__":
   main()
+
