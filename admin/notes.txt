@@ -810,3 +810,6 @@ trying to add credentials
 C:\Users\theld\.git-credentials
 
 had to remove the password from this file because github blocked it and fruck out so i have to hard commit to an older state
+
+set PYTHONPATH=D:\local\cursor\feedback_portal\source\production
+python arb/utils/excel/xl_create.py
