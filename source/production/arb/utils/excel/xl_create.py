@@ -40,13 +40,13 @@ logger, pp_log = get_logger()
 
 # Centralized template metadata
 TEMPLATES = [
-    # {
-    #     "sector": "landfill",
-    #     "schema_version": "landfill_v01_00",
-    #     "prefix": "landfill_operator_feedback",
-    #     "version": "v070",
-    #     "payload_name": "landfill_payload_01",
-    # },
+    {
+        "sector": "landfill",
+        "schema_version": "landfill_v01_00",
+        "prefix": "landfill_operator_feedback",
+        "version": "v070",
+        "payload_name": "landfill_payload_01",
+    },
     {
         "sector": "landfill",
         "schema_version": "landfill_v01_01",
@@ -54,34 +54,34 @@ TEMPLATES = [
         "version": "v071",
         "payload_name": "landfill_payload_01",
     },
-    # {
-    #     "sector": "oil_and_gas",
-    #     "schema_version": "oil_and_gas_v01_00",
-    #     "prefix": "oil_and_gas_operator_feedback",
-    #     "version": "v070",
-    #     "payload_name": "oil_and_gas_payload_01",
-    # },
-    # {
-    #     "sector": "energy",
-    #     "schema_version": "energy_v01_00",
-    #     "prefix": "energy_operator_feedback",
-    #     "version": "v003",
-    #     "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
-    # },
-    # {
-    #     "sector": "dairy_digester",
-    #     "schema_version": "dairy_digester_v01_00",
-    #     "prefix": "dairy_digester_operator_feedback",
-    #     "version": "v003",
-    #     "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
-    # },
-    # {
-    #     "sector": "generic",
-    #     "schema_version": "generic_v01_00",
-    #     "prefix": "generic_operator_feedback",
-    #     "version": "v002",
-    #     "payload_name": "generic_payload_01",  # reusing oil and gas payload
-    # },
+    {
+        "sector": "oil_and_gas",
+        "schema_version": "oil_and_gas_v01_00",
+        "prefix": "oil_and_gas_operator_feedback",
+        "version": "v070",
+        "payload_name": "oil_and_gas_payload_01",
+    },
+    {
+        "sector": "energy",
+        "schema_version": "energy_v01_00",
+        "prefix": "energy_operator_feedback",
+        "version": "v003",
+        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
+    },
+    {
+        "sector": "dairy_digester",
+        "schema_version": "dairy_digester_v01_00",
+        "prefix": "dairy_digester_operator_feedback",
+        "version": "v003",
+        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
+    },
+    {
+        "sector": "generic",
+        "schema_version": "generic_v01_00",
+        "prefix": "generic_operator_feedback",
+        "version": "v002",
+        "payload_name": "generic_payload_01",  # reusing oil and gas payload
+    },
 ]
 
 
