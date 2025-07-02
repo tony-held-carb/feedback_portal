@@ -203,12 +203,13 @@ def parse_xl_file(xl_path: str | Path,
                                                          EXCEL_METADATA_TAB_NAME,
                                                          EXCEL_TOP_LEFT_KEY_VALUE_CELL
                                                          )
-
+    # todo - maybe want to alias the Sector here?  Refinery -> Energy
   if EXCEL_SCHEMA_TAB_NAME in wb.sheetnames:
     logger.debug(f"Schema tab detected in Excel file")
     result['schemas'] = get_spreadsheet_key_value_pairs(wb,
                                                         EXCEL_SCHEMA_TAB_NAME,
                                                         EXCEL_TOP_LEFT_KEY_VALUE_CELL)
+    # todo - maybe want to alias schemas here before extract tabs
   else:
     ValueError(f'Spreadsheet must have a {EXCEL_SCHEMA_TAB_NAME} tab')
 
