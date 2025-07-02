@@ -1,0 +1,10 @@
+{
+    "_metadata_": {
+        "schema_version": "dairy_digester_v01_00",
+        "payload description": "Test of Excel jinja templating system",
+        "File created at": "2025-07-02T02:16:19.123001+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {}
+}
