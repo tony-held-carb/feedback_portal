@@ -70,7 +70,7 @@ def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
     # Import TEMPLATES from xl_create to ensure consistency
     from arb.utils.excel.xl_create import TEMPLATES
     
-    xl_schema_file_map: dict[str, Path] = {}
+    xl_schema_file_map = {}
     for template in TEMPLATES:
       schema_version = template["schema_version"]
       schema_path = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}.json"
