@@ -56,24 +56,25 @@ def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
 
   Args:
     xl_schema_file_map_ (dict[str, Path] | None): Optional override for the schema file map.
-      If not provided, use a default list of pre-defined schema files.
+      If not provided, use a default list of pre-defined schema files based on TEMPLATES.
 
   Notes:
     - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.
+    - Uses TEMPLATES structure from xl_create.py for consistency.
   """
   global xl_schema_file_map, xl_schema_map
-  # todo - update default roots with module paths, may make sense to remove globals and have
-  # a different logic since this is outdated given the project root approach
 
   logger.debug(f"set_globals() called with {xl_schema_file_map_=}")
 
-  # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
-    xl_schema_file_map = {
-      "landfill_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "landfill_v01_00.json",
-      "oil_and_gas_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "oil_and_gas_v01_00.json",
-      "energy_v00_01": PROCESSED_VERSIONS / "xl_schemas" / "energy_v00_01.json",
-    }
+    # Import TEMPLATES from xl_create to ensure consistency
+    from arb.utils.excel.xl_create import TEMPLATES
+    
+    xl_schema_file_map: dict[str, Path] = {}
+    for template in TEMPLATES:
+      schema_version = template["schema_version"]
+      schema_path = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}.json"
+      xl_schema_file_map[schema_version] = schema_path
   else:
     xl_schema_file_map = xl_schema_file_map_
 
@@ -114,7 +115,7 @@ def create_schema_file_map(schema_path: str | Path | None = None,
 
   Args:
     schema_path (str | Path | None): Folder containing schema files. Defaults to processed versions dir.
-    schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.
+    schema_names (list[str] | None): Names of schemas to include. Defaults to schemas from TEMPLATES.
 
   Returns:
     dict[str, Path]: Map from schema name to a schema file path.
@@ -123,9 +124,9 @@ def create_schema_file_map(schema_path: str | Path | None = None,
   if schema_path is None:
     schema_path = PROCESSED_VERSIONS / "xl_schemas"
   if schema_names is None:
-    schema_names = ["landfill_v01_00",
-                    "oil_and_gas_v01_00",
-                    "energy_v00_01", ]
+    # Import TEMPLATES from xl_create to ensure consistency
+    from arb.utils.excel.xl_create import TEMPLATES
+    schema_names = [template["schema_version"] for template in TEMPLATES]
 
   schema_file_map = {}
 
