@@ -37,7 +37,7 @@ from arb.utils.json import (
 from arb.utils.misc import ensure_key_value_pair
 
 logger, pp_log = get_logger()
-
+# todo - consider changing sectors below to match the case and whitespace of the spreadsheet tab Sector Name
 # Centralized template metadata
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
         "sector": "dairy_digester",
         "schema_version": "dairy_digester_v01_00",
         "prefix": "dairy_digester_operator_feedback",
-        "version": "v003",
+        "version": "v005",
         "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
     },
     {
