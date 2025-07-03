@@ -17,7 +17,7 @@ logs/
 #*.csv~
 
 # Releases
-feedback_portal_releases/
+#feedback_portal_releases/
 
 
 # Portal uploads
