@@ -256,8 +256,10 @@ def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "comm
   return output
 
 
-def compare_excel_files(file_a_path: Union[str, Path], file_b_path: Union[str, Path],
-                        formatting_mode: str = "common") -> list[str]:
+def compare_excel_files(file_a_path: Union[str, Path],
+                        file_b_path: Union[str, Path],
+                        formatting_mode: str = "common",
+                        log_to_file: bool = False) -> list[str]:
   """
   Compare two Excel workbooks at the binary and content level.
 
@@ -265,6 +267,7 @@ def compare_excel_files(file_a_path: Union[str, Path], file_b_path: Union[str, P
     file_a_path (str | Path): Path to file A.
     file_b_path (str | Path): Path to file B.
     formatting_mode (str): Formatting check mode: 'off', 'common', or 'full'.
+    log_to_file (bool): If true, then log to file
 
   Returns:
     list[str]: List of human-readable comparison results.
@@ -285,6 +288,16 @@ def compare_excel_files(file_a_path: Union[str, Path], file_b_path: Union[str, P
 
   output.append("\u2192 Hashes differ; comparing content...\n")
   output.extend(compare_excel_content(file_a, file_b, formatting_mode=formatting_mode))
+
+  if log_to_file:
+    now = datetime.now()
+    out_path = Path(f"comparison_at_{now.strftime('%Y%m%d_%H%M%S')}.txt")
+    print(f"Creating comparison file: {out_path}")
+
+    with open(out_path, "w", encoding="utf-8") as f:
+      f.write(f"Comparing Excel files \n\t A: {file_a} \n\t B: {file_b}\n\n")
+      for line in output:
+        f.write(line + "\n")
   return output
 
 
@@ -299,6 +312,7 @@ def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "
   """
   now = datetime.now()
   out_path = Path(f"comparison_at_{now.strftime('%Y%m%d_%H%M%S')}.txt")
+  print(f"Creating comparison file: {out_path}")
 
   excel_files_a = {f.name: f for f in dir_a.glob("*.xlsx") if f.is_file()}
   excel_files_b = {f.name: f for f in dir_b.glob("*.xlsx") if f.is_file()}
@@ -333,18 +347,12 @@ def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "
 if __name__ == "__main__":
   # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
   local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions")
-  sharepoint_path = Path(r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
-  compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+  sharepoint_path = Path(
+    r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
+  # compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+  file_a = local_path / "dairy_digester_operator_feedback_v004.xlsx"
+  file_b = local_path / "dairy_digester_operator_feedback_v005.xlsx"
+  print(f"{file_a}\n{file_b}")
 
-  # path_01 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\_templates")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Ana")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dan")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dorothy")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Dustin")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Emily")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Isis")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Jason")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Luke")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Steve")
-  # path_02 = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\testing_versions\dry_run\Val")
-  # compare_excel_directories(path_01, path_02, formatting_mode="common")
+  compare_excel_files(file_a, file_b, formatting_mode="common", log_to_file=True)
+

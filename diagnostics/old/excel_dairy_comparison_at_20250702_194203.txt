@@ -1,0 +1,1225 @@
+Comparing Excel files 
+	 A: C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions\dairy_digester_operator_feedback_v004.xlsx 
+	 B: C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions\dairy_digester_operator_feedback_v005.xlsx
+
+Comparing:
+  A: dairy_digester_operator_feedback_v004.xlsx
+  B: dairy_digester_operator_feedback_v005.xlsx
+
+SHA-256 Hashes:
+  A: 06619b1859a0f8c2a92c7b5b25c35db03db1d66e322d00fac10497016f1597f8
+  B: 782efd0adaa7608d10788d1e6f2059fb3a822bbd59440a595deee139f38a45f3
+→ Hashes differ; comparing content...
+
+
+=== Sheet: Feedback Form ===
+[Content Differences]
+  B57:
+    A: Q19.  Below is a list of manure management practices. For each row, please put an 'X' in column D if your facility utilizes the management practice;
+    B: Q19.  Below is a list of manure management practices. For each row, please put an 'X' in column D if your facility utilizes the management practice; otherwise, leave the cell blank.
+  D57:
+    A: None
+    B: Please enter X below or leave blank
+  U57:
+    A:  
+    B: None
+  B58:
+    A:           otherwise, leave the cell blank.
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  C59:
+    A: False
+    B: None
+  C60:
+    A: False
+    B: None
+  C61:
+    A: False
+    B: None
+  C62:
+    A: False
+    B: None
+  C63:
+    A: False
+    B: None
+  C64:
+    A: False
+    B: None
+  C65:
+    A: False
+    B: None
+  C66:
+    A: False
+    B: None
+  C67:
+    A: False
+    B: None
+  C68:
+    A: False
+    B: None
+  C69:
+    A: False
+    B: None
+  C70:
+    A: False
+    B: None
+  C71:
+    A: False
+    B: None
+  C72:
+    A: False
+    B: None
+  C73:
+    A: False
+    B: None
+  C74:
+    A: False
+    B: None
+  C75:
+    A: False
+    B: None
+  C76:
+    A: False
+    B: None
+  C77:
+    A: False
+    B: None
+  C78:
+    A: False
+    B: None
+  C79:
+    A: False
+    B: None
+  C80:
+    A: False
+    B: None
+  C81:
+    A: False
+    B: None
+  C82:
+    A: False
+    B: None
+  C83:
+    A: False
+    B: None
+  C84:
+    A: False
+    B: None
+  C85:
+    A: False
+    B: None
+  C86:
+    A: False
+    B: None
+  C87:
+    A: False
+    B: None
+  C88:
+    A: False
+    B: None
+  C89:
+    A: False
+    B: None
+  B90:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q20.  Below is a list of biogas-related equipment. For each row, please put an 'X' in column D if your facility utilizes the equipment; otherwise, leave the cell blank.
+  C90:
+    A: False
+    B: None
+  D90:
+    A: None
+    B: Please enter X below or leave blank
+  B91:
+    A: Q20.  Below is a list of biogas-related equipment. For each row, please put an 'X' in column D if your facility utilizes the equipment; 
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  B92:
+    A:           otherwise, leave the cell blank.
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  C93:
+    A: False
+    B: None
+  C94:
+    A: False
+    B: None
+  C95:
+    A: False
+    B: None
+  C96:
+    A: False
+    B: None
+  C97:
+    A: False
+    B: None
+  C98:
+    A: False
+    B: None
+  C99:
+    A: False
+    B: None
+  C100:
+    A: False
+    B: None
+  B101:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q21.  What portion of manure is managed by anaerobic digestion?
+  C101:
+    A: False
+    B: None
+  B102:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q22.  Please describe the transport method (truck, pipeline, etc) 
+(If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility):
+  C102:
+    A: False
+    B: None
+  B103:
+    A: Q21.  What portion of manure is managed by anaerobic digestion?
+    B: Q23.  Please provide the name or location of the recipient facility 
+(If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility):
+  B104:
+    A: Q22. If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility, please describe the transport method (truck, pipeline, etc):
+    B: Q24.  Please provide any additional information about manure and methane management at this facility, if applicable:
+  B105:
+    A: Q23. If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility, please provide the name or location of the recipient facility:
+    B: None
+  B106:
+    A: Q24.  Please provide any additional information about manure and methane management at this facility, if applicable:
+    B: None
+  B108:
+    A: None
+    B: Q25.  Please provide any additional notes, comments, or feedback on this form or the plume notification process, if applicable: 
+  B110:
+    A: Q25.  Please provide any additional notes, comments, or feedback on this form or the plume notification process, if applicable: 
+    B: None
+[Formula Differences]
+  B58:
+    A:           otherwise, leave the cell blank.
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  B90:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q20.  Below is a list of biogas-related equipment. For each row, please put an 'X' in column D if your facility utilizes the equipment; otherwise, leave the cell blank.
+  B91:
+    A: Q20.  Below is a list of biogas-related equipment. For each row, please put an 'X' in column D if your facility utilizes the equipment; 
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  B92:
+    A:           otherwise, leave the cell blank.
+    B: [unreadable: 'Cell' object has no attribute 'formula']
+  B101:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q21.  What portion of manure is managed by anaerobic digestion?
+  B102:
+    A: [unreadable: 'Cell' object has no attribute 'formula']
+    B: Q22.  Please describe the transport method (truck, pipeline, etc) 
+(If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility):
+[Comment Differences]
+  D57:
+    A: [Threaded comment]
+
+Your version of Excel allows you to read this threaded comment; however, any edits to it will get removed if the file is opened in a newer version of Excel. Learn more: https://go.microsoft.com/fwlink/?linkid=870924
+
+Comment:
+    Revised format
+    B: None
+[Cell Protection Differences]
+  D58: protection.locked changed
+  C59: protection.locked changed
+  D59: protection.locked changed
+  C60: protection.locked changed
+  D60: protection.locked changed
+  C61: protection.locked changed
+  D61: protection.locked changed
+  C62: protection.locked changed
+  D62: protection.locked changed
+  C63: protection.locked changed
+  D63: protection.locked changed
+  C64: protection.locked changed
+  D64: protection.locked changed
+  C65: protection.locked changed
+  D65: protection.locked changed
+  C66: protection.locked changed
+  D66: protection.locked changed
+  C67: protection.locked changed
+  D67: protection.locked changed
+  C68: protection.locked changed
+  D68: protection.locked changed
+  C69: protection.locked changed
+  D69: protection.locked changed
+  C70: protection.locked changed
+  D70: protection.locked changed
+  C71: protection.locked changed
+  D71: protection.locked changed
+  C72: protection.locked changed
+  D72: protection.locked changed
+  C73: protection.locked changed
+  D73: protection.locked changed
+  C74: protection.locked changed
+  D74: protection.locked changed
+  C75: protection.locked changed
+  D75: protection.locked changed
+  C76: protection.locked changed
+  D76: protection.locked changed
+  C77: protection.locked changed
+  D77: protection.locked changed
+  C78: protection.locked changed
+  D78: protection.locked changed
+  C79: protection.locked changed
+  D79: protection.locked changed
+  C80: protection.locked changed
+  D80: protection.locked changed
+  C81: protection.locked changed
+  D81: protection.locked changed
+  C82: protection.locked changed
+  D82: protection.locked changed
+  C83: protection.locked changed
+  D83: protection.locked changed
+  C84: protection.locked changed
+  D84: protection.locked changed
+  C85: protection.locked changed
+  D85: protection.locked changed
+  C86: protection.locked changed
+  D86: protection.locked changed
+  C87: protection.locked changed
+  D87: protection.locked changed
+  C88: protection.locked changed
+  D88: protection.locked changed
+  C89: protection.locked changed
+  D89: protection.locked changed
+  C90: protection.locked changed
+  D91: protection.locked changed
+  D92: protection.locked changed
+  C93: protection.locked changed
+  D93: protection.locked changed
+  C94: protection.locked changed
+  D94: protection.locked changed
+  C95: protection.locked changed
+  D95: protection.locked changed
+  C96: protection.locked changed
+  D96: protection.locked changed
+  C97: protection.locked changed
+  D97: protection.locked changed
+  C98: protection.locked changed
+  D98: protection.locked changed
+  C99: protection.locked changed
+  D99: protection.locked changed
+  C100: protection.locked changed
+  D100: protection.locked changed
+  C101: protection.locked changed
+  D101: protection.locked changed
+  C102: protection.locked changed
+  D102: protection.locked changed
+  D105: protection.locked changed
+  D106: protection.locked changed
+  D108: protection.locked changed
+  D110: protection.locked changed
+[Formatting Differences]
+  B57: fill.patternType changed
+  B57: fill.fgColor changed
+  B57: fill.bgColor changed
+  B57: alignment.vertical changed
+  B57: alignment.wrapText changed
+  C57: font.size changed
+  C57: font.name changed
+  C57: fill.patternType changed
+  C57: fill.fgColor changed
+  C57: fill.bgColor changed
+  C57: alignment.horizontal changed
+  C57: alignment.vertical changed
+  D57: font.size changed
+  D57: font.name changed
+  D57: fill.patternType changed
+  D57: fill.fgColor changed
+  D57: fill.bgColor changed
+  D57: alignment.horizontal changed
+  D57: alignment.vertical changed
+  D57: alignment.wrapText changed
+  B58: fill.patternType changed
+  B58: fill.fgColor changed
+  B58: fill.bgColor changed
+  B58: alignment.wrapText changed
+  C58: fill.patternType changed
+  C58: fill.fgColor changed
+  C58: fill.bgColor changed
+  C58: alignment.horizontal changed
+  D58: fill.fgColor changed
+  D58: alignment.horizontal changed
+  C59: font.size changed
+  C59: fill.patternType changed
+  C59: fill.fgColor changed
+  C59: fill.bgColor changed
+  C59: alignment.horizontal changed
+  C59: alignment.vertical changed
+  C59: alignment.wrapText changed
+  D59: font.size changed
+  D59: font.name changed
+  D59: fill.patternType changed
+  D59: fill.fgColor changed
+  D59: fill.bgColor changed
+  D59: alignment.horizontal changed
+  D59: alignment.vertical changed
+  D59: alignment.wrapText changed
+  C60: font.size changed
+  C60: fill.patternType changed
+  C60: fill.fgColor changed
+  C60: fill.bgColor changed
+  C60: alignment.horizontal changed
+  C60: alignment.vertical changed
+  C60: alignment.wrapText changed
+  D60: font.size changed
+  D60: font.name changed
+  D60: fill.patternType changed
+  D60: fill.fgColor changed
+  D60: fill.bgColor changed
+  D60: alignment.horizontal changed
+  D60: alignment.vertical changed
+  D60: alignment.wrapText changed
+  C61: font.size changed
+  C61: fill.patternType changed
+  C61: fill.fgColor changed
+  C61: fill.bgColor changed
+  C61: alignment.horizontal changed
+  C61: alignment.vertical changed
+  C61: alignment.wrapText changed
+  D61: font.size changed
+  D61: font.name changed
+  D61: fill.patternType changed
+  D61: fill.fgColor changed
+  D61: fill.bgColor changed
+  D61: alignment.horizontal changed
+  D61: alignment.vertical changed
+  D61: alignment.wrapText changed
+  C62: font.size changed
+  C62: fill.patternType changed
+  C62: fill.fgColor changed
+  C62: fill.bgColor changed
+  C62: alignment.horizontal changed
+  C62: alignment.vertical changed
+  C62: alignment.wrapText changed
+  D62: font.size changed
+  D62: font.name changed
+  D62: fill.patternType changed
+  D62: fill.fgColor changed
+  D62: fill.bgColor changed
+  D62: alignment.horizontal changed
+  D62: alignment.vertical changed
+  D62: alignment.wrapText changed
+  C63: font.size changed
+  C63: fill.patternType changed
+  C63: fill.fgColor changed
+  C63: fill.bgColor changed
+  C63: alignment.horizontal changed
+  C63: alignment.vertical changed
+  C63: alignment.wrapText changed
+  D63: font.size changed
+  D63: font.name changed
+  D63: fill.patternType changed
+  D63: fill.fgColor changed
+  D63: fill.bgColor changed
+  D63: alignment.horizontal changed
+  D63: alignment.vertical changed
+  D63: alignment.wrapText changed
+  C64: font.size changed
+  C64: fill.patternType changed
+  C64: fill.fgColor changed
+  C64: fill.bgColor changed
+  C64: alignment.horizontal changed
+  C64: alignment.vertical changed
+  C64: alignment.wrapText changed
+  D64: font.size changed
+  D64: font.name changed
+  D64: fill.patternType changed
+  D64: fill.fgColor changed
+  D64: fill.bgColor changed
+  D64: alignment.horizontal changed
+  D64: alignment.vertical changed
+  D64: alignment.wrapText changed
+  C65: font.size changed
+  C65: fill.patternType changed
+  C65: fill.fgColor changed
+  C65: fill.bgColor changed
+  C65: alignment.horizontal changed
+  C65: alignment.vertical changed
+  C65: alignment.wrapText changed
+  D65: font.size changed
+  D65: font.name changed
+  D65: fill.patternType changed
+  D65: fill.fgColor changed
+  D65: fill.bgColor changed
+  D65: alignment.horizontal changed
+  D65: alignment.vertical changed
+  D65: alignment.wrapText changed
+  C66: font.size changed
+  C66: fill.patternType changed
+  C66: fill.fgColor changed
+  C66: fill.bgColor changed
+  C66: alignment.horizontal changed
+  C66: alignment.vertical changed
+  C66: alignment.wrapText changed
+  D66: font.size changed
+  D66: font.name changed
+  D66: fill.patternType changed
+  D66: fill.fgColor changed
+  D66: fill.bgColor changed
+  D66: alignment.horizontal changed
+  D66: alignment.vertical changed
+  D66: alignment.wrapText changed
+  C67: font.size changed
+  C67: fill.patternType changed
+  C67: fill.fgColor changed
+  C67: fill.bgColor changed
+  C67: alignment.horizontal changed
+  C67: alignment.vertical changed
+  C67: alignment.wrapText changed
+  D67: font.size changed
+  D67: font.name changed
+  D67: fill.patternType changed
+  D67: fill.fgColor changed
+  D67: fill.bgColor changed
+  D67: alignment.horizontal changed
+  D67: alignment.vertical changed
+  D67: alignment.wrapText changed
+  C68: font.size changed
+  C68: fill.patternType changed
+  C68: fill.fgColor changed
+  C68: fill.bgColor changed
+  C68: alignment.horizontal changed
+  C68: alignment.vertical changed
+  C68: alignment.wrapText changed
+  D68: font.size changed
+  D68: font.name changed
+  D68: fill.patternType changed
+  D68: fill.fgColor changed
+  D68: fill.bgColor changed
+  D68: alignment.horizontal changed
+  D68: alignment.vertical changed
+  D68: alignment.wrapText changed
+  C69: font.size changed
+  C69: fill.patternType changed
+  C69: fill.fgColor changed
+  C69: fill.bgColor changed
+  C69: alignment.horizontal changed
+  C69: alignment.vertical changed
+  C69: alignment.wrapText changed
+  D69: font.size changed
+  D69: font.name changed
+  D69: fill.patternType changed
+  D69: fill.fgColor changed
+  D69: fill.bgColor changed
+  D69: alignment.horizontal changed
+  D69: alignment.vertical changed
+  D69: alignment.wrapText changed
+  C70: font.size changed
+  C70: fill.patternType changed
+  C70: fill.fgColor changed
+  C70: fill.bgColor changed
+  C70: alignment.horizontal changed
+  C70: alignment.vertical changed
+  C70: alignment.wrapText changed
+  D70: font.size changed
+  D70: font.name changed
+  D70: fill.patternType changed
+  D70: fill.fgColor changed
+  D70: fill.bgColor changed
+  D70: alignment.horizontal changed
+  D70: alignment.vertical changed
+  D70: alignment.wrapText changed
+  C71: font.size changed
+  C71: fill.patternType changed
+  C71: fill.fgColor changed
+  C71: fill.bgColor changed
+  C71: alignment.horizontal changed
+  C71: alignment.vertical changed
+  C71: alignment.wrapText changed
+  D71: font.size changed
+  D71: font.name changed
+  D71: fill.patternType changed
+  D71: fill.fgColor changed
+  D71: fill.bgColor changed
+  D71: alignment.horizontal changed
+  D71: alignment.vertical changed
+  D71: alignment.wrapText changed
+  C72: font.size changed
+  C72: fill.patternType changed
+  C72: fill.fgColor changed
+  C72: fill.bgColor changed
+  C72: alignment.horizontal changed
+  C72: alignment.vertical changed
+  C72: alignment.wrapText changed
+  D72: font.size changed
+  D72: font.name changed
+  D72: fill.patternType changed
+  D72: fill.fgColor changed
+  D72: fill.bgColor changed
+  D72: alignment.horizontal changed
+  D72: alignment.vertical changed
+  D72: alignment.wrapText changed
+  C73: font.size changed
+  C73: fill.patternType changed
+  C73: fill.fgColor changed
+  C73: fill.bgColor changed
+  C73: alignment.horizontal changed
+  C73: alignment.vertical changed
+  C73: alignment.wrapText changed
+  D73: font.size changed
+  D73: font.name changed
+  D73: fill.patternType changed
+  D73: fill.fgColor changed
+  D73: fill.bgColor changed
+  D73: alignment.horizontal changed
+  D73: alignment.vertical changed
+  D73: alignment.wrapText changed
+  C74: font.size changed
+  C74: fill.patternType changed
+  C74: fill.fgColor changed
+  C74: fill.bgColor changed
+  C74: alignment.horizontal changed
+  C74: alignment.vertical changed
+  C74: alignment.wrapText changed
+  D74: font.size changed
+  D74: font.name changed
+  D74: fill.patternType changed
+  D74: fill.fgColor changed
+  D74: fill.bgColor changed
+  D74: alignment.horizontal changed
+  D74: alignment.vertical changed
+  D74: alignment.wrapText changed
+  C75: font.size changed
+  C75: fill.patternType changed
+  C75: fill.fgColor changed
+  C75: fill.bgColor changed
+  C75: alignment.horizontal changed
+  C75: alignment.vertical changed
+  C75: alignment.wrapText changed
+  D75: font.size changed
+  D75: font.name changed
+  D75: fill.patternType changed
+  D75: fill.fgColor changed
+  D75: fill.bgColor changed
+  D75: alignment.horizontal changed
+  D75: alignment.vertical changed
+  D75: alignment.wrapText changed
+  C76: font.size changed
+  C76: fill.patternType changed
+  C76: fill.fgColor changed
+  C76: fill.bgColor changed
+  C76: alignment.horizontal changed
+  C76: alignment.vertical changed
+  C76: alignment.wrapText changed
+  D76: font.size changed
+  D76: font.name changed
+  D76: fill.patternType changed
+  D76: fill.fgColor changed
+  D76: fill.bgColor changed
+  D76: alignment.horizontal changed
+  D76: alignment.vertical changed
+  D76: alignment.wrapText changed
+  C77: font.size changed
+  C77: fill.patternType changed
+  C77: fill.fgColor changed
+  C77: fill.bgColor changed
+  C77: alignment.horizontal changed
+  C77: alignment.vertical changed
+  C77: alignment.wrapText changed
+  D77: font.size changed
+  D77: font.name changed
+  D77: fill.patternType changed
+  D77: fill.fgColor changed
+  D77: fill.bgColor changed
+  D77: alignment.horizontal changed
+  D77: alignment.vertical changed
+  D77: alignment.wrapText changed
+  C78: font.size changed
+  C78: fill.patternType changed
+  C78: fill.fgColor changed
+  C78: fill.bgColor changed
+  C78: alignment.horizontal changed
+  C78: alignment.vertical changed
+  C78: alignment.wrapText changed
+  D78: font.size changed
+  D78: font.name changed
+  D78: fill.patternType changed
+  D78: fill.fgColor changed
+  D78: fill.bgColor changed
+  D78: alignment.horizontal changed
+  D78: alignment.vertical changed
+  D78: alignment.wrapText changed
+  C79: font.size changed
+  C79: fill.patternType changed
+  C79: fill.fgColor changed
+  C79: fill.bgColor changed
+  C79: alignment.horizontal changed
+  C79: alignment.vertical changed
+  C79: alignment.wrapText changed
+  D79: font.size changed
+  D79: font.name changed
+  D79: fill.patternType changed
+  D79: fill.fgColor changed
+  D79: fill.bgColor changed
+  D79: alignment.horizontal changed
+  D79: alignment.vertical changed
+  D79: alignment.wrapText changed
+  C80: font.size changed
+  C80: fill.patternType changed
+  C80: fill.fgColor changed
+  C80: fill.bgColor changed
+  C80: alignment.horizontal changed
+  C80: alignment.vertical changed
+  C80: alignment.wrapText changed
+  D80: font.size changed
+  D80: font.name changed
+  D80: fill.patternType changed
+  D80: fill.fgColor changed
+  D80: fill.bgColor changed
+  D80: alignment.horizontal changed
+  D80: alignment.vertical changed
+  D80: alignment.wrapText changed
+  C81: font.size changed
+  C81: fill.patternType changed
+  C81: fill.fgColor changed
+  C81: fill.bgColor changed
+  C81: alignment.horizontal changed
+  C81: alignment.vertical changed
+  C81: alignment.wrapText changed
+  D81: font.size changed
+  D81: font.name changed
+  D81: fill.patternType changed
+  D81: fill.fgColor changed
+  D81: fill.bgColor changed
+  D81: alignment.horizontal changed
+  D81: alignment.vertical changed
+  D81: alignment.wrapText changed
+  C82: font.size changed
+  C82: fill.patternType changed
+  C82: fill.fgColor changed
+  C82: fill.bgColor changed
+  C82: alignment.horizontal changed
+  C82: alignment.vertical changed
+  C82: alignment.wrapText changed
+  D82: font.size changed
+  D82: font.name changed
+  D82: fill.patternType changed
+  D82: fill.fgColor changed
+  D82: fill.bgColor changed
+  D82: alignment.horizontal changed
+  D82: alignment.vertical changed
+  D82: alignment.wrapText changed
+  C83: font.size changed
+  C83: fill.patternType changed
+  C83: fill.fgColor changed
+  C83: fill.bgColor changed
+  C83: alignment.horizontal changed
+  C83: alignment.vertical changed
+  C83: alignment.wrapText changed
+  D83: font.size changed
+  D83: font.name changed
+  D83: fill.patternType changed
+  D83: fill.fgColor changed
+  D83: fill.bgColor changed
+  D83: alignment.horizontal changed
+  D83: alignment.vertical changed
+  D83: alignment.wrapText changed
+  C84: font.size changed
+  C84: fill.patternType changed
+  C84: fill.fgColor changed
+  C84: fill.bgColor changed
+  C84: alignment.horizontal changed
+  C84: alignment.vertical changed
+  C84: alignment.wrapText changed
+  D84: font.size changed
+  D84: font.name changed
+  D84: fill.patternType changed
+  D84: fill.fgColor changed
+  D84: fill.bgColor changed
+  D84: alignment.horizontal changed
+  D84: alignment.vertical changed
+  D84: alignment.wrapText changed
+  C85: font.size changed
+  C85: fill.patternType changed
+  C85: fill.fgColor changed
+  C85: fill.bgColor changed
+  C85: alignment.horizontal changed
+  C85: alignment.vertical changed
+  C85: alignment.wrapText changed
+  D85: font.size changed
+  D85: font.name changed
+  D85: fill.patternType changed
+  D85: fill.fgColor changed
+  D85: fill.bgColor changed
+  D85: alignment.horizontal changed
+  D85: alignment.vertical changed
+  D85: alignment.wrapText changed
+  C86: font.size changed
+  C86: fill.patternType changed
+  C86: fill.fgColor changed
+  C86: fill.bgColor changed
+  C86: alignment.horizontal changed
+  C86: alignment.vertical changed
+  C86: alignment.wrapText changed
+  D86: font.size changed
+  D86: font.name changed
+  D86: fill.patternType changed
+  D86: fill.fgColor changed
+  D86: fill.bgColor changed
+  D86: alignment.horizontal changed
+  D86: alignment.vertical changed
+  D86: alignment.wrapText changed
+  C87: font.size changed
+  C87: fill.patternType changed
+  C87: fill.fgColor changed
+  C87: fill.bgColor changed
+  C87: alignment.horizontal changed
+  C87: alignment.vertical changed
+  C87: alignment.wrapText changed
+  D87: font.size changed
+  D87: font.name changed
+  D87: fill.patternType changed
+  D87: fill.fgColor changed
+  D87: fill.bgColor changed
+  D87: alignment.horizontal changed
+  D87: alignment.vertical changed
+  D87: alignment.wrapText changed
+  C88: font.size changed
+  C88: fill.patternType changed
+  C88: fill.fgColor changed
+  C88: fill.bgColor changed
+  C88: alignment.horizontal changed
+  C88: alignment.vertical changed
+  C88: alignment.wrapText changed
+  D88: font.size changed
+  D88: font.name changed
+  D88: fill.patternType changed
+  D88: fill.fgColor changed
+  D88: fill.bgColor changed
+  D88: alignment.horizontal changed
+  D88: alignment.vertical changed
+  D88: alignment.wrapText changed
+  C89: font.size changed
+  C89: fill.patternType changed
+  C89: fill.fgColor changed
+  C89: fill.bgColor changed
+  C89: alignment.horizontal changed
+  C89: alignment.vertical changed
+  C89: alignment.wrapText changed
+  D89: font.size changed
+  D89: font.name changed
+  D89: fill.patternType changed
+  D89: fill.fgColor changed
+  D89: fill.bgColor changed
+  D89: alignment.horizontal changed
+  D89: alignment.vertical changed
+  D89: alignment.wrapText changed
+  C90: font.size changed
+  C90: fill.patternType changed
+  C90: fill.fgColor changed
+  C90: fill.bgColor changed
+  C90: alignment.horizontal changed
+  C90: alignment.vertical changed
+  C90: alignment.wrapText changed
+  D90: font.size changed
+  D90: font.name changed
+  D90: alignment.horizontal changed
+  D90: alignment.vertical changed
+  D90: alignment.wrapText changed
+  B91: fill.patternType changed
+  B91: fill.fgColor changed
+  B91: fill.bgColor changed
+  B91: alignment.vertical changed
+  B91: alignment.wrapText changed
+  C91: font.size changed
+  C91: font.name changed
+  C91: fill.patternType changed
+  C91: fill.fgColor changed
+  C91: fill.bgColor changed
+  C91: alignment.horizontal changed
+  C91: alignment.vertical changed
+  D91: font.size changed
+  D91: font.name changed
+  D91: fill.fgColor changed
+  D91: alignment.horizontal changed
+  D91: alignment.vertical changed
+  D91: alignment.wrapText changed
+  B92: fill.patternType changed
+  B92: fill.fgColor changed
+  B92: fill.bgColor changed
+  B92: alignment.vertical changed
+  B92: alignment.wrapText changed
+  C92: font.size changed
+  C92: font.name changed
+  C92: fill.patternType changed
+  C92: fill.fgColor changed
+  C92: fill.bgColor changed
+  C92: alignment.horizontal changed
+  C92: alignment.vertical changed
+  D92: font.size changed
+  D92: font.name changed
+  D92: fill.fgColor changed
+  D92: alignment.horizontal changed
+  D92: alignment.vertical changed
+  D92: alignment.wrapText changed
+  C93: font.size changed
+  C93: fill.patternType changed
+  C93: fill.fgColor changed
+  C93: fill.bgColor changed
+  C93: alignment.horizontal changed
+  C93: alignment.vertical changed
+  C93: alignment.wrapText changed
+  D93: font.size changed
+  D93: font.name changed
+  D93: fill.patternType changed
+  D93: fill.fgColor changed
+  D93: fill.bgColor changed
+  D93: alignment.horizontal changed
+  D93: alignment.vertical changed
+  D93: alignment.wrapText changed
+  C94: font.size changed
+  C94: fill.patternType changed
+  C94: fill.fgColor changed
+  C94: fill.bgColor changed
+  C94: alignment.horizontal changed
+  C94: alignment.vertical changed
+  C94: alignment.wrapText changed
+  D94: font.size changed
+  D94: font.name changed
+  D94: fill.patternType changed
+  D94: fill.fgColor changed
+  D94: fill.bgColor changed
+  D94: alignment.horizontal changed
+  D94: alignment.vertical changed
+  D94: alignment.wrapText changed
+  C95: font.size changed
+  C95: fill.patternType changed
+  C95: fill.fgColor changed
+  C95: fill.bgColor changed
+  C95: alignment.horizontal changed
+  C95: alignment.vertical changed
+  C95: alignment.wrapText changed
+  D95: font.size changed
+  D95: font.name changed
+  D95: fill.patternType changed
+  D95: fill.fgColor changed
+  D95: fill.bgColor changed
+  D95: alignment.horizontal changed
+  D95: alignment.vertical changed
+  D95: alignment.wrapText changed
+  C96: font.size changed
+  C96: fill.patternType changed
+  C96: fill.fgColor changed
+  C96: fill.bgColor changed
+  C96: alignment.horizontal changed
+  C96: alignment.vertical changed
+  C96: alignment.wrapText changed
+  D96: font.size changed
+  D96: font.name changed
+  D96: fill.patternType changed
+  D96: fill.fgColor changed
+  D96: fill.bgColor changed
+  D96: alignment.horizontal changed
+  D96: alignment.vertical changed
+  D96: alignment.wrapText changed
+  C97: font.size changed
+  C97: fill.patternType changed
+  C97: fill.fgColor changed
+  C97: fill.bgColor changed
+  C97: alignment.horizontal changed
+  C97: alignment.vertical changed
+  C97: alignment.wrapText changed
+  D97: font.size changed
+  D97: font.name changed
+  D97: fill.patternType changed
+  D97: fill.fgColor changed
+  D97: fill.bgColor changed
+  D97: alignment.horizontal changed
+  D97: alignment.vertical changed
+  D97: alignment.wrapText changed
+  C98: font.size changed
+  C98: fill.patternType changed
+  C98: fill.fgColor changed
+  C98: fill.bgColor changed
+  C98: alignment.horizontal changed
+  C98: alignment.vertical changed
+  C98: alignment.wrapText changed
+  D98: font.size changed
+  D98: font.name changed
+  D98: fill.patternType changed
+  D98: fill.fgColor changed
+  D98: fill.bgColor changed
+  D98: alignment.horizontal changed
+  D98: alignment.vertical changed
+  D98: alignment.wrapText changed
+  C99: font.size changed
+  C99: fill.patternType changed
+  C99: fill.fgColor changed
+  C99: fill.bgColor changed
+  C99: alignment.horizontal changed
+  C99: alignment.vertical changed
+  C99: alignment.wrapText changed
+  D99: font.size changed
+  D99: font.name changed
+  D99: fill.patternType changed
+  D99: fill.fgColor changed
+  D99: fill.bgColor changed
+  D99: alignment.horizontal changed
+  D99: alignment.vertical changed
+  D99: alignment.wrapText changed
+  C100: font.size changed
+  C100: fill.patternType changed
+  C100: fill.fgColor changed
+  C100: fill.bgColor changed
+  C100: alignment.horizontal changed
+  C100: alignment.vertical changed
+  C100: alignment.wrapText changed
+  D100: font.size changed
+  D100: font.name changed
+  D100: fill.patternType changed
+  D100: fill.fgColor changed
+  D100: fill.bgColor changed
+  D100: alignment.horizontal changed
+  D100: alignment.vertical changed
+  D100: alignment.wrapText changed
+  C101: font.size changed
+  C101: font.name changed
+  C101: fill.patternType changed
+  C101: fill.fgColor changed
+  C101: fill.bgColor changed
+  C101: alignment.wrapText changed
+  D101: font.size changed
+  D101: font.name changed
+  D101: fill.patternType changed
+  D101: fill.fgColor changed
+  D101: fill.bgColor changed
+  D101: alignment.horizontal changed
+  D101: alignment.vertical changed
+  D101: alignment.wrapText changed
+  C102: font.size changed
+  C102: font.name changed
+  C102: fill.patternType changed
+  C102: fill.fgColor changed
+  C102: fill.bgColor changed
+  C102: alignment.wrapText changed
+  D102: font.size changed
+  D102: font.name changed
+  D102: fill.patternType changed
+  D102: fill.fgColor changed
+  D102: fill.bgColor changed
+  D102: alignment.horizontal changed
+  D102: alignment.vertical changed
+  D102: alignment.wrapText changed
+  B105: alignment.wrapText changed
+  D105: font.italic changed
+  D105: font.size changed
+  D105: fill.patternType changed
+  D105: fill.fgColor changed
+  D105: fill.bgColor changed
+  D105: alignment.wrapText changed
+  B106: font.size changed
+  B106: font.name changed
+  B106: alignment.horizontal changed
+  B106: alignment.vertical changed
+  B106: alignment.wrapText changed
+  D106: font.size changed
+  D106: font.name changed
+  D106: fill.patternType changed
+  D106: fill.fgColor changed
+  D106: fill.bgColor changed
+  D106: alignment.horizontal changed
+  D106: alignment.vertical changed
+  D106: alignment.wrapText changed
+  B107: font.size changed
+  B107: font.name changed
+  B107: alignment.horizontal changed
+  B107: alignment.vertical changed
+  D107: font.italic changed
+  D107: font.name changed
+  D107: alignment.horizontal changed
+  D107: alignment.vertical changed
+  B108: font.size changed
+  B108: font.name changed
+  B108: alignment.horizontal changed
+  B108: alignment.vertical changed
+  B108: alignment.wrapText changed
+  C108: font.size changed
+  C108: font.name changed
+  C108: alignment.horizontal changed
+  C108: alignment.vertical changed
+  D108: font.size changed
+  D108: font.name changed
+  D108: fill.patternType changed
+  D108: fill.fgColor changed
+  D108: fill.bgColor changed
+  D108: alignment.horizontal changed
+  D108: alignment.vertical changed
+  D108: alignment.wrapText changed
+  B110: font.size changed
+  B110: font.name changed
+  B110: alignment.horizontal changed
+  B110: alignment.vertical changed
+  B110: alignment.wrapText changed
+  C110: font.size changed
+  C110: font.name changed
+  C110: alignment.horizontal changed
+  C110: alignment.vertical changed
+  D110: font.size changed
+  D110: font.name changed
+  D110: fill.patternType changed
+  D110: fill.fgColor changed
+  D110: fill.bgColor changed
+  D110: alignment.horizontal changed
+  D110: alignment.vertical changed
+  D110: alignment.wrapText changed
+
+=== Sheet: _carb_only ===
+
+=== Sheet: _issue_tracking ===
+
+=== Sheet: _json_metadata ===
+[Content Differences]
+  C15:
+    A: dairy_digester
+    B: Dairy Digester
+
+=== Sheet: _json_schema ===
+
+=== Sheet: _named_ranges ===
+[Content Differences]
+  C13:
+    A: $D$106
+    B: $D$104
+  C14:
+    A: $D$110
+    B: $D$108
+  C15:
+    A: $D$103
+    B: $D$101
+  C16:
+    A: $D$93
+    B: $D$91
+  C17:
+    A: $D$94
+    B: $D$92
+  C18:
+    A: $D$95
+    B: $D$93
+  C19:
+    A: $D$96
+    B: $D$94
+  C20:
+    A: $D$97
+    B: $D$95
+  C21:
+    A: $D$98
+    B: $D$96
+  C22:
+    A: $D$100
+    B: $D$98
+  C23:
+    A: $D$99
+    B: $D$97
+  C24:
+    A: $D$101
+    B: $D$99
+  C25:
+    A: $D$102
+    B: $D$100
+  C45:
+    A: $D$59
+    B: $D$58
+  C46:
+    A: $D$60
+    B: $D$59
+  C47:
+    A: $D$61
+    B: $D$60
+  C48:
+    A: $D$62
+    B: $D$61
+  C49:
+    A: $D$63
+    B: $D$62
+  C50:
+    A: $D$64
+    B: $D$63
+  C51:
+    A: $D$65
+    B: $D$64
+  C52:
+    A: $D$66
+    B: $D$65
+  C53:
+    A: $D$67
+    B: $D$66
+  C54:
+    A: $D$68
+    B: $D$67
+  C55:
+    A: $D$69
+    B: $D$68
+  C56:
+    A: $D$70
+    B: $D$69
+  C57:
+    A: $D$71
+    B: $D$70
+  C58:
+    A: $D$72
+    B: $D$71
+  C59:
+    A: $D$73
+    B: $D$72
+  C60:
+    A: $D$74
+    B: $D$73
+  C61:
+    A: $D$75
+    B: $D$74
+  C62:
+    A: $D$76
+    B: $D$75
+  C63:
+    A: $D$77
+    B: $D$76
+  C64:
+    A: $D$78
+    B: $D$77
+  C65:
+    A: $D$79
+    B: $D$78
+  C66:
+    A: $D$80
+    B: $D$79
+  C67:
+    A: $D$81
+    B: $D$80
+  C68:
+    A: $D$82
+    B: $D$81
+  C69:
+    A: $D$83
+    B: $D$82
+  C70:
+    A: $D$85
+    B: $D$84
+  C71:
+    A: $D$84
+    B: $D$83
+  C72:
+    A: $D$86
+    B: $D$85
+  C73:
+    A: $D$87
+    B: $D$86
+  C74:
+    A: $D$88
+    B: $D$87
+  C75:
+    A: $D$89
+    B: $D$88
+  C76:
+    A: $D$90
+    B: $D$89
+  C80:
+    A: $D$104
+    B: $D$102
+  C81:
+    A: $D$105
+    B: $D$103
+  C82:
+    A: $D$105
+    B: $D$103

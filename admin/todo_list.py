@@ -2,8 +2,14 @@
 
 # todo - Next Steps
 ----------------------------
+* have the log show only the last 1000 lines
+* have parse_xl_file alias the Sectors and Schemas
 * made a large merge or refactor 20 that i would like to cleanup and inspect
 * should march through these comments and update where relevant
+* make sure to strip checkbox feedback forms
+
+* add the plume processing log to the website:
+https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Daily%20Plume%20Processing%20Log.docx?d=wc90daa47482640fd9657cccb3c4f4614&csf=1&web=1&e=SOFzex
 
 * Anthy/quinn made some updates, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
   with the sharepoint review and make sure that both directories agree
