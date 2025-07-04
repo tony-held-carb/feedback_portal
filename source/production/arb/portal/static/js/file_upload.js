@@ -61,9 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show spinner overlay to indicate upload in progress
         overlay.classList.remove("d-none");
 
-        // Show upload progress notification if ToastManager is available
+        // Show upload progress notification if ToastManager is available (disabled in old system)
         if (window.ToastManager) {
             window.ToastManager.showUploadProgress();
+        } else {
+            // Fallback to console logging for debugging
+            console.info('Upload: Starting file upload process...');
         }
 
         // Submit form after a brief delay to ensure UI updates

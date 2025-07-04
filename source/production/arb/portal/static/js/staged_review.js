@@ -163,12 +163,29 @@ class ReviewStagedManager {
 
     /**
      * Shows context-aware notifications based on the staged data
+     * FALLBACK: If ToastManager is not available, uses console logging
+     * TODO: Consider implementing Bootstrap alert fallback for better UX
      */
     showContextNotifications() {
-        if (!window.ToastManager) return;
-
         const { changedCount, confirmCount, isNewRow } = this.options;
         
+        // Check if ToastManager is available (disabled in old system)
+        if (!window.ToastManager) {
+            // Fallback to console logging for debugging
+            if (isNewRow) {
+                console.info('New Record: This is a new record that will be created.');
+            } else if (changedCount === 0) {
+                console.warn('No Changes: No changes detected in the uploaded file.');
+            } else if (confirmCount > 10) {
+                console.warn(`Multiple Changes: Many changes detected (${confirmCount} fields). Review carefully.`);
+            } else {
+                console.info('Review Instructions: Check ✅ boxes for fields you want to update. Unchecked fields will remain unchanged.');
+            }
+            return;
+        }
+
+        // Original ToastManager implementation (commented out for old system)
+        /*
         if (isNewRow) {
             window.ToastManager.info('This is a new record that will be created.', {
                 title: 'New Record',
@@ -190,6 +207,7 @@ class ReviewStagedManager {
                 delay: 8000
             });
         }
+        */
     }
 }
 

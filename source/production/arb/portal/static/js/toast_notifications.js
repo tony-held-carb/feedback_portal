@@ -1,6 +1,22 @@
 /**
  * @fileoverview Toast notification system for the ARB Feedback Portal
  * 
+ * DISABLED IN OLD SYSTEM - This file is currently disabled to revert to the old
+ * warning and validation error presentation approach. The code is preserved for
+ * future use when switching back to the toast notification system.
+ * 
+ * Benefits of re-enabling this system in the future:
+ * - Better UX for ephemeral messages (upload progress, success notifications)
+ * - Non-intrusive feedback for non-critical warnings
+ * - Consistent notification system across the application
+ * - Auto-dismiss functionality reduces UI clutter
+ * - Modern notification patterns that users expect
+ * 
+ * To re-enable:
+ * 1. Uncomment the script tag in base.html
+ * 2. Uncomment the toast container div in base.html
+ * 3. Uncomment the ToastManager calls in staged_review.js and file_upload.js
+ * 
  * This script provides a comprehensive toast notification system that can be used
  * throughout the portal to show success, error, warning, and info messages.
  * 

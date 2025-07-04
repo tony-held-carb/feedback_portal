@@ -137,3 +137,11 @@ it seems like review_staged should determine the folder in the same way rather t
  staging_dir = Path(current_app.config["STAGING_UPLOAD_FOLDER"])
 
 which i don't is configured yet.
+
+
+
+I just ran the latest version of the flask app of refactor_21.  somewhere along the way, we changed they way warnings and validation errors on the upload_file and incidence_update work.
+
+I have put screenshots of how the old (git tagged v1.7.0) and new code look as well as logs in the /debugging folder.  I much prefer the old warning and validation error approach as it was a message next to the elements of interest rather than emphemerial bubble that disappear and have little context.
+
+Can you review the logs, screenshots, and source code an provide an analysis on the matter?
