@@ -37,7 +37,7 @@ from arb.utils.json import (
 )
 from arb.utils.misc import ensure_key_value_pair
 
-logger, pp_log = get_logger()
+logger, pp_log = get_logger("xl_create")
 
 
 def sort_xl_schema(xl_schema: dict,
