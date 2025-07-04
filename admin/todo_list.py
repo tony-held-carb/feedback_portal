@@ -4,7 +4,8 @@
 ----------------------------
 
 * ---------   Logging Related ----------
-* have the log show only the last 1000 lines
+* maybe refactor __get_logger.py
+* may want to put it in its own package.
 * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 * Ultimately, need to use the username in the log
 
