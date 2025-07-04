@@ -2,6 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
+* don't like the new yellow warnings
 * have the log show only the last 1000 lines
 * have parse_xl_file alias the Sectors and Schemas
 * made a large merge or refactor 20 that i would like to cleanup and inspect
