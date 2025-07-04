@@ -26,6 +26,7 @@ import jinja2
 from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.excel.xl_file_structure import (PROCESSED_VERSIONS, PROJECT_ROOT)
+from arb.utils.excel.xl_hardcoded import EXCEL_TEMPLATES
 from arb.utils.excel.xl_misc import xl_address_sort
 from arb.utils.file_io import ensure_dir_exists, ensure_parent_dirs
 from arb.utils.json import (
@@ -37,52 +38,6 @@ from arb.utils.json import (
 from arb.utils.misc import ensure_key_value_pair
 
 logger, pp_log = get_logger()
-# todo - consider changing sectors below to match the case and whitespace of the spreadsheet tab Sector Name
-# Centralized template metadata
-TEMPLATES = [
-    {
-        "sector": "landfill",
-        "schema_version": "landfill_v01_00",
-        "prefix": "landfill_operator_feedback",
-        "version": "v070",
-        "payload_name": "landfill_payload_01",
-    },
-    {
-        "sector": "landfill",
-        "schema_version": "landfill_v01_01",
-        "prefix": "landfill_operator_feedback",
-        "version": "v071",
-        "payload_name": "landfill_payload_01",
-    },
-    {
-        "sector": "oil_and_gas",
-        "schema_version": "oil_and_gas_v01_00",
-        "prefix": "oil_and_gas_operator_feedback",
-        "version": "v070",
-        "payload_name": "oil_and_gas_payload_01",
-    },
-    {
-        "sector": "energy",
-        "schema_version": "energy_v01_00",
-        "prefix": "energy_operator_feedback",
-        "version": "v003",
-        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
-    },
-    {
-        "sector": "dairy_digester",
-        "schema_version": "dairy_digester_v01_00",
-        "prefix": "dairy_digester_operator_feedback",
-        "version": "v005",
-        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
-    },
-    {
-        "sector": "generic",
-        "schema_version": "generic_v01_00",
-        "prefix": "generic_operator_feedback",
-        "version": "v002",
-        "payload_name": "generic_payload_01",  # reusing oil and gas payload
-    },
-]
 
 
 def sort_xl_schema(xl_schema: dict,
@@ -252,7 +207,7 @@ def update_vba_schemas() -> None:
   """
   logger.debug(f"update_vba_schemas() called")
 
-  for template in TEMPLATES:
+  for template in EXCEL_TEMPLATES:
     update_vba_schema(template["schema_version"])
 
 
@@ -419,7 +374,7 @@ def test_update_xlsx_payloads_01() -> None:
   """
   logger.debug(f"test_update_xlsx_payloads_01() called")
 
-  for template in TEMPLATES:
+  for template in EXCEL_TEMPLATES:
     schema_version = template["schema_version"]
     prefix = template["prefix"]
     version = template["version"]
@@ -471,7 +426,7 @@ def prep_xl_templates() -> None:
   ensure_dir_exists(output_dir / "xl_workbooks")
   ensure_dir_exists(output_dir / "xl_payloads")
 
-  for template in TEMPLATES:
+  for template in EXCEL_TEMPLATES:
     schema_version = template["schema_version"]
     prefix = template["prefix"]
     version = template["version"]
@@ -604,10 +559,9 @@ def create_payloads() -> None:
 
   logger.debug(f"create_payloads() called")
 
-  from arb.utils.excel.xl_hardcoded import landfill_payload_01, oil_and_gas_payload_01
   import arb.utils.excel.xl_hardcoded as xl_hardcoded
 
-  for template in TEMPLATES:
+  for template in EXCEL_TEMPLATES:
     schema_version = template["schema_version"]
     payload_name = template["payload_name"]
     # Dynamically get the payload object from xl_hardcoded
