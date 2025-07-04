@@ -39,6 +39,34 @@ arb/
 
 ## Usage
 
+### **Import Order Requirement**
+**Important**: `__get_logger` must be imported before any potential logging events to ensure proper configuration.
+
+**Note for PyCharm Users**: PyCharm's import optimization may reorder imports. Ensure `__get_logger` is imported first, even if PyCharm suggests a different order.
+
+```python
+# ✅ Correct - Import logging first
+from arb import __get_logger as get_logger
+logger, pp_log = get_logger(__name__)
+
+# ... other imports ...
+from arb.portal.config.accessors import get_upload_folder
+from arb.portal.constants import PLEASE_SELECT
+
+# Now safe to use logging
+logger.info("This will be properly configured")
+```
+
+```python
+# ❌ Incorrect - Other imports before logging
+from arb.portal.config.accessors import get_upload_folder
+from arb.portal.constants import PLEASE_SELECT
+from arb import __get_logger as get_logger  # Too late!
+
+logger, pp_log = get_logger(__name__)
+logger.info("This might use unconfigured logging")
+```
+
 ### **Existing Code (No Changes Required)**
 ```python
 from arb import __get_logger as get_logger

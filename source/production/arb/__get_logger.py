@@ -46,6 +46,16 @@ Recommendation:
 Place `__get_logger.py` near the root of your source tree and import it as early
 as possible in each module to guarantee consistent logging setup.
 
+IMPORTANT: Always import __get_logger before any other imports that might trigger
+logging events. This ensures logging is properly configured before use.
+
+Example:
+  from arb import __get_logger as get_logger  # Import FIRST
+  logger, pp_log = get_logger(__name__)
+  
+  # ... other imports ...
+  from arb.portal.config.accessors import get_upload_folder
+
 Implementation Note:
 -------------------
 The actual implementation has been moved to arb.logging module for better
