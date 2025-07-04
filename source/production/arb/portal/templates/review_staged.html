@@ -185,9 +185,9 @@
   This script block contains Jinja2 template variables that MUST be processed server-side
   before being passed to JavaScript. This cannot be moved to a .js file for the following reasons:
   
-  1. **Server-Side Processing Required**: The template variables ({{ staged_fields | selectattr('changed') | list | length }})
-     are processed by Jinja2 on the server before the HTML is sent to the browser. JavaScript files
-     are static assets that cannot access server-side template variables.
+  1. **Server-Side Processing Required**: The template variables are processed by Jinja2 on the server 
+     before the HTML is sent to the browser. JavaScript files are static assets that cannot access 
+     server-side template variables.
   
   2. **Security**: Moving this to a .js file would require either:
      - Exposing server-side data through an API endpoint (security risk)
@@ -201,11 +201,11 @@
      exactly as calculated to ensure the review interface shows accurate information.
   
   CONSEQUENCES OF MOVING THIS TO A .JS FILE:
-  - ❌ Template variables would not be processed (show as literal {{ }} text)
-  - ❌ JavaScript would receive undefined/null values
-  - ❌ Review interface would break completely
-  - ❌ No way to pass dynamic data from server to client
-  - ❌ Would require major architectural changes (API endpoints, etc.)
+  - Template variables would not be processed (show as literal text)
+  - JavaScript would receive undefined/null values
+  - Review interface would break completely
+  - No way to pass dynamic data from server to client
+  - Would require major architectural changes (API endpoints, etc.)
   
   ALTERNATIVE APPROACHES (NOT RECOMMENDED):
   - API endpoints: Adds complexity, security concerns, and performance overhead
