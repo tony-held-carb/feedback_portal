@@ -2,24 +2,14 @@
 
 # todo - Next Steps
 ----------------------------
-* don't like the new yellow warnings
-* have the log show only the last 1000 lines
+* TEMPLATES seem to use lower case no whitespace for sector names which is different from spreadsheet approach, make those the same
 * have parse_xl_file alias the Sectors and Schemas
-* made a large merge or refactor 20 that i would like to cleanup and inspect
-* should march through these comments and update where relevant
-* make sure to strip checkbox feedback forms
 
-* add the plume processing log to the website:
-https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Daily%20Plume%20Processing%20Log.docx?d=wc90daa47482640fd9657cccb3c4f4614&csf=1&web=1&e=SOFzex
-
-* Anthy/quinn made some updates, I should compare the files i have in C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
-  with the sharepoint review and make sure that both directories agree
+* have the log show only the last 1000 lines
+* looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
 
-* beginning refactor 20 to stage excel spreadsheet uploads
-* for the placeholder values, add for e.g. 123.45 so we don't get confused on real entries
-* have dan filter out None's and Please Selects from his display field
-
+* make a data contract regarding datetime, casting and storage
 * staging made it clear that the json files don't store in utc, which is against the
   data contract.
 
@@ -41,10 +31,6 @@ https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/Ge
   * look for any references to convert_time_to_ca and remove any casting to avoid confusion
   * looks like cast_model_value and make_dict_serializeable have some overlapping logic
       they may want to be consolidated or somehow aligned with json serialize/deserialize hooks/logic
-
-
-  * make a data contract regarding datetime, casting and storage
-
 
 * convert portal app from content_1 to standard content block pattern
   * update all templates in arb.portal to use {% block content %} instead of {% block content_1 %}
@@ -75,7 +61,6 @@ https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/Ge
 
 * check that the app/database is working using testing_protocol_and_notes.txt
 
-  * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
   * implement recs from gpt to make the site more robust
       Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
@@ -84,25 +69,16 @@ https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/Ge
 
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
-  * figure out if we want data to initially only be cached and then updated afterwards
-  * so you can revert back to old state when you propose a spreadsheet upload
-  * add flask user authentication and add to logging routines
   * refactor forms as they are currently duplicative
+
+* figure out how to handle the pseudo check boxes in the new dairy forms
+* make sure to strip checkbox feedback forms
 
 
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
 
-* code refactor to move file handling out of routes?
-* Probably want to have a form passes validation modal after you validate.  Maybe stay on same page?
 
-
-Forget me nots
-----------------------------
-1.  I asked chat gpt to make restructure the first time and did not accept them because their were mistakes
-and i was confused, there was some pretty interesting request preprocessing that I would like to revisit
-as I don't know how to do that and it seemed very powerful.  Try to revisit
-2. changed drop down to drop-down in python, likely have to make those changes on the spreadsheets at some point.
 
 """
