@@ -6,6 +6,7 @@
 * have parse_xl_file alias the Sectors and Schemas
 
 * have the log show only the last 1000 lines
+
 * looks like xl_create now logs to arb_portal.log, that was not the intent ...
 
 
@@ -47,7 +48,6 @@
 * UI/UX ideas
   * if a incidence passes validation, have it splash a success message before going to index
   * consider new color for validate that stands out more
-  * consider diff blue for card headers
   * if you click an old incidence that is no longer around in the portal updates, it will redirect you to the spreadsheet
   upload, it needs to have a message saying that the id needs to be created or that it was deleted ...
 
@@ -79,6 +79,6 @@
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
 
-
+* have new forms upload to database and json, but don't try to show forms that don't exist yet
 
 """
