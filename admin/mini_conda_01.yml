@@ -102,3 +102,4 @@ dependencies:
       - pdoc
       - wget
       - WTForms-Alchemy
+      - file-read-backwards
