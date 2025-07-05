@@ -26,7 +26,6 @@ from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
-from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
@@ -38,8 +37,10 @@ __version__ = "1.0.0"
 
 from arb.utils.misc import safe_cast
 from arb.utils.io_wrappers import save_json_safely, read_json_file
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 # todo - integrate new json techniques to the website,

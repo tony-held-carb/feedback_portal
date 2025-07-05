@@ -9,6 +9,7 @@ It includes:
 - Excel-specific wrapper for sector-based data (xl_dict_to_database)
 """
 import shutil
+import logging
 from pathlib import Path
 import datetime
 
@@ -16,7 +17,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.datastructures import FileStorage
 
-from arb.__get_logger import get_logger
 from arb.portal.config.accessors import get_upload_folder
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
@@ -25,7 +25,8 @@ from arb.utils.io_wrappers import copy_file_safe
 from arb.utils.json import extract_id_from_json, json_load_with_meta, json_save_with_meta
 from arb.utils.web_html import upload_single_file
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -373,6 +374,7 @@ def upload_and_stage_only(db: SQLAlchemy,
   from arb.utils.file_io import get_secure_timestamped_file_name
   from arb.utils.json import json_save_with_meta
   from arb.utils.wtf_forms_util import prep_payload_for_json
+from arb_logging import get_pretty_printer
 
   logger.debug(f"upload_and_stage_only() called with {request_file=}")
   id_ = None

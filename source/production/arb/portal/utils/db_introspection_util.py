@@ -6,15 +6,17 @@ SQLAlchemy reflection. It allows runtime access to models and retrieval or creat
 of rows using flexible table and column identifiers.
 """
 
+import logging
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
 
-from arb.__get_logger import get_logger
 from arb.utils.sql_alchemy import get_class_from_table_name
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

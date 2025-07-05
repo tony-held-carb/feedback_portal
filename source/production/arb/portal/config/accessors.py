@@ -6,7 +6,9 @@ using typed functions. Centralizing config usage improves maintainability,
 enables easier testing, and reduces repetition across modules.
 
 Typical usage:
+import logging
     from arb.portal.config.accessors import get_upload_folder
+from arb_logging import get_pretty_printer
 
     upload_path = get_upload_folder()
 """
@@ -15,9 +17,9 @@ from pathlib import Path
 
 from flask import current_app
 
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

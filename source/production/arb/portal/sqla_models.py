@@ -17,16 +17,18 @@ Examples:
   Output: file is inserted into the uploaded_files table with timestamps autopopulated
 """
 
+import logging
 from pathlib import Path
 
 from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
-from arb.__get_logger import get_logger
 from arb.portal.extensions import db
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

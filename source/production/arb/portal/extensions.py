@@ -15,6 +15,7 @@ Notes:
 
 """
 
+import logging
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
@@ -22,9 +23,9 @@ from flask_wtf import CSRFProtect
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 db = SQLAlchemy()

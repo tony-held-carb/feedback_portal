@@ -13,6 +13,7 @@ Timezone policy:
 - Naive timestamps are only assumed to be UTC if explicitly configured via arguments
 """
 import re
+import logging
 from collections.abc import Mapping
 from datetime import datetime
 from typing import Any
@@ -20,10 +21,10 @@ from zoneinfo import ZoneInfo
 
 from dateutil import parser
 
-from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 UTC_TZ = ZoneInfo("UTC")
 PACIFIC_TZ = ZoneInfo("America/Los_Angeles")

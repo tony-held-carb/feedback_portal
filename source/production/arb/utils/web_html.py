@@ -15,16 +15,18 @@ Examples:
     Input : file = request.files['data'], upload_dir = "/data/uploads"
     Output: Path object pointing to a securely saved file
 """
+import logging
 from pathlib import Path
 
 from werkzeug.datastructures import FileStorage
 
-from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.file_io import get_secure_timestamped_file_name
+from arb_logging import get_pretty_printer
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Path:

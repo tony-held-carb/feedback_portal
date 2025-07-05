@@ -9,18 +9,19 @@ enforces dropdown resets, and applies conditional rendering logic
 based on sector type and CRUD mode.
 """
 
+import logging
 from pathlib import Path
 
 from flask import Response, redirect, render_template, request, url_for
 from sqlalchemy.ext.automap import AutomapBase
 
-from arb.__get_logger import get_logger
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.utils.sql_alchemy import add_commit_and_log_model, sa_model_diagnostics, sa_model_to_dict
 from arb.utils.wtf_forms_util import initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, wtform_to_model
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -51,6 +52,7 @@ def incidence_prep(model_row: AutomapBase,
   # prior to first use (Globals.load_drop_downs(app, db)).
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
+from arb_logging import get_pretty_printer
 
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)

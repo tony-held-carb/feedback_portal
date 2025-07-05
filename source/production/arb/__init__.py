@@ -30,16 +30,16 @@ Usage:
 ------
 To use the shared logger and formatter in other modules:
 
+import logging
   from arb import logger, pp_log
   
   # Or use get_logger() which will return the same logger
-  from arb.__get_logger import get_logger
-  logger, pp_log = get_logger()  # Uses "arb_portal" logger
+    logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()  # Uses "arb_portal" logger
 """
 
 from pathlib import Path
 
-from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
 

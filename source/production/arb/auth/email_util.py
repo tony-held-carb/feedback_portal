@@ -3,13 +3,15 @@ Email utility functions for ARB Feedback Portal authentication.
 """
 
 import datetime
+import logging
 from flask import current_app, render_template, url_for
 from flask_mail import Message
 from arb.auth import get_mail
 from arb.auth.models import get_user_model
-from arb.__get_logger import get_logger
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 # ... (rest of the code is the same as before, just update imports) 
 

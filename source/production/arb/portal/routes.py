@@ -18,6 +18,7 @@ Notes:
 import csv
 import datetime
 import os
+import logging
 from io import StringIO
 from pathlib import Path
 from typing import Any, Union
@@ -31,7 +32,6 @@ from werkzeug.exceptions import abort
 
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
-from arb.__get_logger import get_logger
 from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
@@ -53,9 +53,11 @@ from arb.utils.file_io import read_file_reverse
 from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
+from arb_logging import get_pretty_printer
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 main = Blueprint("main", __name__)

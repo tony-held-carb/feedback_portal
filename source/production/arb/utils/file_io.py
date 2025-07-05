@@ -17,17 +17,19 @@ Potential Future Upgrades:
 - Expand run_diagnostics to perform write/delete tests in a sandbox directory.
 """
 
+import logging
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from werkzeug.utils import secure_filename
 
-from arb.__get_logger import get_logger
 from arb.portal.constants import DATETIME_WITH_SECONDS
+from arb_logging import get_pretty_printer
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def ensure_parent_dirs(file_name: str | Path) -> None:

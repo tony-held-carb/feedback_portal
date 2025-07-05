@@ -12,13 +12,14 @@ Notes:
 """
 
 import datetime
+import logging
 from pathlib import Path
 from typing import Any
 
-from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Sector classification constants
@@ -64,6 +65,7 @@ def add_og_dummy_data(db, base, table_name) -> None:
   """
 
   from arb.utils.sql_alchemy import get_class_from_table_name
+from arb_logging import get_pretty_printer
   logger.debug(f"Adding dummy oil and gas data to populate the database")
   table = get_class_from_table_name(base, table_name)
   col_name = "misc_json"

@@ -14,12 +14,14 @@ Contents:
 """
 
 import datetime
+import logging
 
-from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import list_differences
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 # -------------------------------------------------------------------------------------
 # EXCEL_TEMPLATES used to post-process workbooks to make compatible

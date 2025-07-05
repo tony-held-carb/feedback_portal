@@ -18,12 +18,12 @@ oil and gas, and energy templates.
 
 import shutil
 import zipfile
+import logging
 from functools import partial
 from pathlib import Path
 
 import jinja2
 
-from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.excel.xl_file_structure import (PROCESSED_VERSIONS, PROJECT_ROOT)
 from arb.utils.excel.xl_hardcoded import EXCEL_TEMPLATES
@@ -37,7 +37,8 @@ from arb.utils.json import (
 )
 from arb.utils.misc import ensure_key_value_pair
 
-logger, pp_log = get_logger(logger_name="xl_create")
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def sort_xl_schema(xl_schema: dict,
@@ -484,6 +485,7 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
     - Field names and types are sourced from `xl_hardcoded.default_value_types_v01_00`.
   """
   from arb.utils.excel.xl_hardcoded import default_value_types_v01_00
+from arb_logging import get_pretty_printer
 
   logger.debug(f"create_default_types_schema() called")
 

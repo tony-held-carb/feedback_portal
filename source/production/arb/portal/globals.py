@@ -15,14 +15,15 @@ Notes:
   - Static values that do not require runtime context should live in `constants.py`.
 """
 
+import logging
 from pathlib import Path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -88,6 +89,7 @@ class Globals:
     """
 
     from arb.utils.sql_alchemy import get_sa_automap_types
+from arb_logging import get_pretty_printer
 
     with flask_app.app_context():
       engine = db.engine

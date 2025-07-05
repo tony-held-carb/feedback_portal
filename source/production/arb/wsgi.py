@@ -105,16 +105,18 @@ Note on running Flask Apps:
     - Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 
+import logging
 from pathlib import Path
 
-from arb.__get_logger import get_logger
 from arb.portal.app import create_app
+from arb_logging import get_pretty_printer
 
 # Note: Logging is already configured in arb/__init__.py when the arb package is imported.
 # The get_logger() call here will return the existing "arb_portal" logger that was
 # set up during package initialization. This ensures consistent logging throughout
 # the application lifecycle.
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 app = create_app()

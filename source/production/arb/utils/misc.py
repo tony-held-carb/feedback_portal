@@ -29,11 +29,12 @@ TODO:
 """
 
 import traceback
+import logging
 
-from arb.__get_logger import get_logger
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:

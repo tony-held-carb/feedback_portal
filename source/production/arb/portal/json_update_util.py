@@ -13,16 +13,18 @@ Typical Use:
 """
 
 import datetime
+import logging
 
 from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy.orm import object_session
 
-from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
 from arb.utils.constants import PLEASE_SELECT
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def apply_json_patch_and_log(model,

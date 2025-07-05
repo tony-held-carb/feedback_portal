@@ -22,15 +22,16 @@ Key Features:
 - Multiple role support with flexible decorators for different access patterns.
 """
 
+import logging
 from functools import wraps
 from flask import Blueprint, render_template, abort, request, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from arb.auth.okta_settings import USE_OKTA
 from arb.auth.models import get_user_model, get_auth_config
 from arb.auth import get_db
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 def admin_required(f):
     """
@@ -437,6 +438,7 @@ def resend_confirmation():
                     # Generate new confirmation token and send email
                     try:
                         from arb.auth.email_util import send_email_confirmation
+from arb_logging import get_pretty_printer
                         token = user.generate_email_confirmation_token()
                         send_email_confirmation(user, token)
                         logger.debug(f"Confirmation email resent to user: {email}")

@@ -8,6 +8,7 @@ Notes:
 
 import copy
 import datetime
+import logging
 from decimal import Decimal
 from typing import Callable
 
@@ -18,7 +19,6 @@ from wtforms import SelectField, ValidationError
 from wtforms.fields.core import Field
 from wtforms.validators import InputRequired, Optional
 
-from arb.__get_logger import get_logger
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import get_changed_fields, list_differences
@@ -27,8 +27,10 @@ from arb.utils.json import deserialize_dict, make_dict_serializeable, safe_json_
 __version__ = "1.0.0"
 
 from arb.utils.sql_alchemy import load_model_json_column
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 
 def min_decimal_precision(min_digits: int) -> Callable:

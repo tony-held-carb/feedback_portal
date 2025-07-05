@@ -12,6 +12,7 @@ Key Features:
 
 Usage:
 ------
+import logging
     from config import get_config
     app.config.from_object(get_config())
 
@@ -24,10 +25,11 @@ Environment Variables:
 import os
 from pathlib import Path
 
-from arb.__get_logger import get_logger
 from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

@@ -10,6 +10,7 @@ This module configures Flask app behavior, including:
 Should be invoked during application factory setup:
 
 Example:
+import logging
   from startup.flask import configure_flask_app
   app = Flask(__name__)
   configure_flask_app(app)
@@ -21,13 +22,14 @@ import werkzeug
 from flask import Flask
 from jinja2 import StrictUndefined
 
-from arb.__get_logger import get_logger
 from arb.portal.startup.runtime_info import UPLOAD_PATH
 from arb.utils.date_and_time import date_to_string, repr_datetime_to_string
 from arb.utils.diagnostics import diag_recursive
 from arb.utils.misc import args_to_string
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

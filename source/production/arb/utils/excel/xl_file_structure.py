@@ -28,10 +28,12 @@ Attributes:
   PROCESSED_VERSIONS (Path): Path to output files generated via Python processing.
 """
 
-from arb.__get_logger import get_logger
+import logging
 from arb.utils.file_io import resolve_project_root
+from arb_logging import get_pretty_printer
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
 
 # directory structures that contain the project root
 candidate_structures = [
