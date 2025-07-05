@@ -21,9 +21,7 @@ from pathlib import Path
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -89,7 +87,6 @@ class Globals:
     """
 
     from arb.utils.sql_alchemy import get_sa_automap_types
-from arb_logging import get_pretty_printer
 
     with flask_app.app_context():
       engine = db.engine

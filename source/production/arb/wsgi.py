@@ -109,14 +109,11 @@ import logging
 from pathlib import Path
 
 from arb.portal.app import create_app
-from arb_logging import get_pretty_printer
+from arb.logging.arb_logging import setup_app_logging
 
-# Note: Logging is already configured in arb/__init__.py when the arb package is imported.
-# The get_logger() call here will return the existing "arb_portal" logger that was
-# set up during package initialization. This ensures consistent logging throughout
-# the application lifecycle.
+setup_app_logging("arb_portal")
+
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 app = create_app()

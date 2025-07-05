@@ -22,10 +22,8 @@ Notes:
 
 import logging
 from arb.utils.misc import get_nested_value
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def get_excel_row_column(xl_address: str) -> tuple[str, int]:

@@ -11,9 +11,7 @@ from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -36,7 +34,6 @@ def add_file_to_upload_table(db: SQLAlchemy,
 
   # todo (consider) to wrap commit in log?
   from arb.portal.sqla_models import UploadedFile
-from arb_logging import get_pretty_printer
 
   logger.debug(f"Adding uploaded file to upload table: {file_name=}")
   model_uploaded_file = UploadedFile(

@@ -15,6 +15,7 @@ import logging
   app = Flask(__name__)
   configure_flask_app(app)
 """
+import logging
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -26,10 +27,8 @@ from arb.portal.startup.runtime_info import UPLOAD_PATH
 from arb.utils.date_and_time import date_to_string, repr_datetime_to_string
 from arb.utils.diagnostics import diag_recursive
 from arb.utils.misc import args_to_string
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

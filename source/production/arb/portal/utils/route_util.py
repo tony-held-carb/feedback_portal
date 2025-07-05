@@ -21,7 +21,6 @@ from arb.utils.sql_alchemy import add_commit_and_log_model, sa_model_diagnostics
 from arb.utils.wtf_forms_util import initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, wtform_to_model
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -52,7 +51,6 @@ def incidence_prep(model_row: AutomapBase,
   # prior to first use (Globals.load_drop_downs(app, db)).
   from arb.portal.wtf_landfill import LandfillFeedback
   from arb.portal.wtf_oil_and_gas import OGFeedback
-from arb_logging import get_pretty_printer
 
   logger.debug(f"incidence_prep() called with {crud_type=}, {sector_type=}")
   sa_model_diagnostics(model_row)

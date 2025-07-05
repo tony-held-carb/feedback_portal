@@ -30,11 +30,8 @@ TODO:
 
 import traceback
 import logging
-
-
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:

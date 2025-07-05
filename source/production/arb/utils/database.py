@@ -26,7 +26,6 @@ from sqlalchemy.ext.automap import AutomapBase, automap_base
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 # def db_drop_all(flask_app: Flask, db: SQLAlchemy) -> None:
@@ -109,7 +108,6 @@ def cleanse_misc_json(db: SQLAlchemy,
   """
 
   from arb.utils.sql_alchemy import get_class_from_table_name
-from arb_logging import get_pretty_printer
 
   model_cls = get_class_from_table_name(base, table_name)
   if model_cls is None:

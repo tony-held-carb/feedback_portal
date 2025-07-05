@@ -25,11 +25,8 @@ Notes:
 import logging
 from pathlib import Path
 from zoneinfo import ZoneInfo
-
-
 # Initialize module-level logger
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # -----------------------------------------------------------------------------

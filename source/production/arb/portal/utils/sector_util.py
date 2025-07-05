@@ -19,10 +19,8 @@ from sqlalchemy.orm import DeclarativeMeta
 
 from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
 from arb.utils.sql_alchemy import get_foreign_value, get_table_row_and_column
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

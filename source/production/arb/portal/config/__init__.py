@@ -19,17 +19,16 @@ import logging
 Environment Variables:
 ----------------------
 - CONFIG_TYPE (str): Explicit config selector (e.g., "production", "testing").
-- FLASK_ENV (str): Flask’s default config selector, used if CONFIG_TYPE is unset.
+- FLASK_ENV (str): Flask's default config selector, used if CONFIG_TYPE is unset.
 """
 
 import os
 from pathlib import Path
+import logging
 
 from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

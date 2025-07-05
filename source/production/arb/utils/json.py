@@ -37,10 +37,8 @@ __version__ = "1.0.0"
 
 from arb.utils.misc import safe_cast
 from arb.utils.io_wrappers import save_json_safely, read_json_file
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 # todo - integrate new json techniques to the website,
@@ -693,12 +691,6 @@ def compute_field_differences(
 
 
 if __name__ == "__main__":
-  logging.basicConfig(
-    filename="util_json_v01.log",
-    encoding="utf-8",
-    level=logging.DEBUG,
-    format="+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | "
-           "%(filename)s | %(lineno)d | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-  )
+  from arb.logging.arb_logging import setup_standalone_logging
+  setup_standalone_logging("json_utils_diagnostics")
   run_diagnostics()

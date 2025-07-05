@@ -29,11 +29,9 @@ from sqlalchemy import Column, DateTime, Integer, String, Boolean
 from sqlalchemy.sql import func
 from arb.auth import get_db
 from arb.auth.okta_settings import USE_OKTA  # Centralized Okta/local auth toggle
-from arb_logging import get_pretty_printer
 from flask import current_app
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 def get_auth_config(key, default=None):
     """

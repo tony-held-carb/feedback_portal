@@ -21,6 +21,7 @@ Usage Patterns
 
     setup_app_logging("arb_portal")
 
+    logger = logging.getLogger(__name__)
     from arb.portal.app import create_app
     app = create_app()
 
@@ -72,7 +73,7 @@ from arb.utils.file_io import get_project_root_dir
 import pprint
 from typing import Callable
 
-APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb', 'portal']
+APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb']
 
 DEFAULT_LOG_FORMAT = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
 DEFAULT_LOG_DATEFMT = "%Y-%m-%d %H:%M:%S"
@@ -85,7 +86,7 @@ def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Pa
   Args:
     log_dir (str | Path): Directory for log files (relative to project root).
     app_dir_structure (list[str] | None): Directory structure to identify project root.
-      Defaults to ['feedback_portal', 'source', 'production', 'arb', 'portal'].
+      Defaults to ['feedback_portal', 'source', 'production', 'arb'].
   Returns:
     Path: The resolved log directory path.
   """

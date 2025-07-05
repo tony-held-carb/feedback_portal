@@ -26,7 +26,6 @@ from arb.utils.json import extract_id_from_json, json_load_with_meta, json_save_
 from arb.utils.web_html import upload_single_file
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
@@ -374,7 +373,6 @@ def upload_and_stage_only(db: SQLAlchemy,
   from arb.utils.file_io import get_secure_timestamped_file_name
   from arb.utils.json import json_save_with_meta
   from arb.utils.wtf_forms_util import prep_payload_for_json
-from arb_logging import get_pretty_printer
 
   logger.debug(f"upload_and_stage_only() called with {request_file=}")
   id_ = None

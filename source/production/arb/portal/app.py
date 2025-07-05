@@ -22,6 +22,7 @@ import logging
     app = create_app()
 """
 
+import logging
 from pathlib import Path
 
 from flask import Flask
@@ -34,10 +35,8 @@ from arb.portal.routes import main
 from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.utils.database import get_reflected_base
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 

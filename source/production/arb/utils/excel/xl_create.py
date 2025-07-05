@@ -38,7 +38,6 @@ from arb.utils.json import (
 from arb.utils.misc import ensure_key_value_pair
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def sort_xl_schema(xl_schema: dict,
@@ -485,7 +484,6 @@ def create_default_types_schema(diagnostics: bool = False) -> dict:
     - Field names and types are sourced from `xl_hardcoded.default_value_types_v01_00`.
   """
   from arb.utils.excel.xl_hardcoded import default_value_types_v01_00
-from arb_logging import get_pretty_printer
 
   logger.debug(f"create_default_types_schema() called")
 
@@ -649,6 +647,9 @@ def run_diagnostics() -> None:
 
 
 if __name__ == "__main__":
+  from arb.logging.arb_logging import setup_standalone_logging
+  
+  setup_standalone_logging("xl_create")
   create_schemas_and_payloads()
   # Uncomment below line to run additional test harness
   # run_diagnostics()

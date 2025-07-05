@@ -26,9 +26,7 @@ from arb.portal.constants import PLEASE_SELECT
 from arb.utils.date_and_time import is_datetime_naive, parse_unknown_datetime
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 # Spreadsheet formatting constants
 EXCEL_SCHEMA_TAB_NAME = '_json_schema'
@@ -139,7 +137,6 @@ def create_schema_file_map(schema_path: str | Path | None = None,
   if schema_names is None:
     # Import TEMPLATES from xl_create to ensure consistency
     from arb.utils.excel.xl_hardcoded import EXCEL_TEMPLATES
-from arb_logging import get_pretty_printer
     schema_names = [template["schema_version"] for template in EXCEL_TEMPLATES]
 
   schema_file_map = {}
@@ -507,6 +504,9 @@ def test_load_xl_schemas() -> None:
   """
   Debug test for loading default schemas from xl_schema_file_map.
   """
+  from arb.logging.arb_logging import get_pretty_printer
+  _, pp_log = get_pretty_printer()
+  
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")

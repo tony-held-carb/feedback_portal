@@ -15,10 +15,14 @@ Notes:
 - Additional validation for file size or filename may be added externally.
 """
 
+import logging
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import FileField, SubmitField
 from wtforms.validators import DataRequired
+
+logger = logging.getLogger(__name__)
 
 
 class UploadForm(FlaskForm):

@@ -26,11 +26,7 @@ from arb.utils.json import deserialize_dict, make_dict_serializeable, safe_json_
 
 __version__ = "1.0.0"
 
-from arb.utils.sql_alchemy import load_model_json_column
-from arb_logging import get_pretty_printer
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def min_decimal_precision(min_digits: int) -> Callable:

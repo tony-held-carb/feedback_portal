@@ -25,10 +25,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 
 from arb.portal.extensions import db
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

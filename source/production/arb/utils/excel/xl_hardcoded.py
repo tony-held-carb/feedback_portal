@@ -18,10 +18,8 @@ import logging
 
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import list_differences
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 # -------------------------------------------------------------------------------------
 # EXCEL_TEMPLATES used to post-process workbooks to make compatible

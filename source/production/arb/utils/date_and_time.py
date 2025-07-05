@@ -20,11 +20,8 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from dateutil import parser
-
-
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 UTC_TZ = ZoneInfo("UTC")
 PACIFIC_TZ = ZoneInfo("America/Los_Angeles")

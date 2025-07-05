@@ -13,12 +13,11 @@ Notes:
   - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
+import logging
 import os
 from pathlib import Path
 
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

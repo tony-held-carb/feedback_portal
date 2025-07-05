@@ -21,10 +21,8 @@ from sqlalchemy.orm import object_session
 from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
 from arb.utils.constants import PLEASE_SELECT
-from arb_logging import get_pretty_printer
 
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def apply_json_patch_and_log(model,

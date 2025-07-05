@@ -53,11 +53,9 @@ from arb.utils.file_io import read_file_reverse
 from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
-from arb_logging import get_pretty_printer
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 main = Blueprint("main", __name__)

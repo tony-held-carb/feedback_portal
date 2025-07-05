@@ -23,9 +23,7 @@ from flask_wtf import CSRFProtect
 # noinspection PyUnresolvedReferences
 from geoalchemy2 import Geometry  # <= not used but must be imported for introspection
 
-
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 db = SQLAlchemy()

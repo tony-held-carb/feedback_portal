@@ -22,11 +22,9 @@ from werkzeug.datastructures import FileStorage
 
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.file_io import get_secure_timestamped_file_name
-from arb_logging import get_pretty_printer
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()
 
 
 def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Path:
