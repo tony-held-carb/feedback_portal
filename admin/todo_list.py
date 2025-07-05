@@ -2,7 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-
+on refactor 22
 * ---------   Datetime Related ----------
 * make a data contract regarding datetime, casting and storage
 * staging made it clear that the json files don't store in utc, which is against the
