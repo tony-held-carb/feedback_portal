@@ -3,12 +3,6 @@
 # todo - Next Steps
 ----------------------------
 
-* ---------   Logging Related ----------
-* maybe refactor __get_logger.py
-* may want to put it in its own package.
-* looks like xl_create now logs to arb_portal.log, that was not the intent ...
-* Ultimately, need to use the username in the log
-
 * ---------   Datetime Related ----------
 * make a data contract regarding datetime, casting and storage
 * staging made it clear that the json files don't store in utc, which is against the
@@ -82,6 +76,7 @@ upload, it needs to have a message saying that the id needs to be created or tha
 * ---------   future initiatives----------
 
   * add user log-in
+    * Ultimately, need to use the username in the log
   * unit testing
   * move to s3 bucket
   * use carb ois github deployment (docker, etc)
