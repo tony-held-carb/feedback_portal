@@ -37,15 +37,30 @@ Usage Patterns
 3. All other files (including __init__.py):
   ----------------------------------------
     import logging
+    from arb_logging import get_pretty_printer
+
     logger = logging.getLogger(__name__)
+    _, pp_log = get_pretty_printer()
+
+    # Usage examples:
+    logger.debug("Basic log message")
+    logger.info(pp_log({"structured": "data", "for": "inspection"}))
 
 4. Pretty-printing complex objects in logs:
   ----------------------------------------
-  Only import and use `get_pretty_printer` in files where you want to pretty-print complex data structures in your logs. For example:
+  The `get_pretty_printer()` function provides a consistent way to format complex data structures in logs:
 
     from arb_logging import get_pretty_printer
     _, pp_log = get_pretty_printer()
-    logger.info(pp_log(my_complex_dict))
+    
+    data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+    logger.info(pp_log(data))
+    
+    # Output in log:
+    # {
+    #   'foo': [1, 2, 3],
+    #   'bar': {'baz': 'qux'}
+    # }
 
 Implementation
 --------------
