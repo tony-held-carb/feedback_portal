@@ -21,7 +21,7 @@ Usage Examples:
 Import and initialize the logger in any module:
 
   from arb import __get_logger as get_logger
-  logger, pp_log = get_logger(__name__)
+  logger, pp_log = get_logger(logger_name=__name__)
 
   logger.debug(f"Basic log message")
   logger.debug(pp_log({"structured": "data", "for": "inspection"}))
@@ -29,7 +29,7 @@ Import and initialize the logger in any module:
 To customize behavior:
 
   logger, pp_log = get_logger(
-    file_stem=__name__,
+    logger_name=__name__,
     log_to_console=True,
     force_command_line=False,
     file_path="custom_logs/")
@@ -51,7 +51,7 @@ logging events. This ensures logging is properly configured before use.
 
 Example:
   from arb import __get_logger as get_logger  # Import FIRST
-  logger, pp_log = get_logger(__name__)
+  logger, pp_log = get_logger(logger_name=__name__)
   
   # ... other imports ...
   from arb.portal.config.accessors import get_upload_folder
