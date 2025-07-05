@@ -1,6 +1,6 @@
 """
 Python Logging Best Practices for ARB Portal
-===========================================
+============================================
 
 Key Concepts
 ------------
@@ -11,55 +11,41 @@ Key Concepts
 - Multiple calls to `getLogger(__name__)` in different files give you different logger objects (with different names), but unless you add handlers, all messages go to the same global output.
 - This design allows you to filter or format logs by module, but keeps log file management centralized and predictable.
 
-This module documents and implements a robust, predictable, and flexible logging setup for both
-standalone scripts and web applications in the ARB codebase.
-
-Key Points & Recommendations
-----------------------------
-1. **Configure logging ONCE at the entry point of your application** (e.g., wsgi.py for web apps, or in the `if __name__ == "__main__"` block for scripts).
-2. **All other files (including __init__.py) should NOT configure logging**. They should only do:
-
-       import logging
-       logger = logging.getLogger(__name__)
-
-3. **Log messages emitted before logging is configured (before basicConfig or handler setup) will go to stderr or be lost.**
-   - This is Python's default behavior. It's not an error, but you should be aware of it.
-   - For scripts, configure logging as early as possible.
-   - For web apps, configure logging at the very top of wsgi.py (before importing the app).
-4. **Use a helper function for consistent, DRY setup in scripts.**
-5. **Always resolve log file paths relative to the project root, not the current working directory, to avoid log sprawl.**
-
-Flexible Logging Setup Functions
--------------------------------
-
-- `setup_standalone_logging(log_name, log_dir=..., level=...)`: For use in scripts run directly.
-- `setup_app_logging(log_name, log_dir=..., level=...)`: For use in wsgi.py or other app entry points.
-
 Usage Patterns
 --------------
 
-# For scripts (e.g., xl_create.py):
-import logging
-from arb_logging import setup_standalone_logging
+1. Web app entry point (e.g., wsgi.py):
+  ------------------------------------
+    import logging
+    from arb_logging import setup_app_logging
 
-if __name__ == "__main__":
-    setup_standalone_logging("xl_create")
+    setup_app_logging("arb_portal")
 
-logger = logging.getLogger(__name__)
+    from arb.portal.app import create_app
+    app = create_app()
 
-# For web app entry point (e.g., wsgi.py):
-import logging
-from arb_logging import setup_app_logging
+2. Scripts (e.g., xl_create.py):
+  -----------------------------
+    import logging
+    from arb_logging import setup_standalone_logging
 
-setup_app_logging("arb_portal")
+    if __name__ == "__main__":
+      setup_standalone_logging("xl_create")
 
-from arb.portal.app import create_app
-app = create_app()
+    logger = logging.getLogger(__name__)
 
-# In all other files (including __init__.py):
-import logging
-logger = logging.getLogger(__name__)
+3. All other files (including __init__.py):
+  ----------------------------------------
+    import logging
+    logger = logging.getLogger(__name__)
 
+4. Pretty-printing complex objects in logs:
+  ----------------------------------------
+  Only import and use `get_pretty_printer` in files where you want to pretty-print complex data structures in your logs. For example:
+
+    from arb_logging import get_pretty_printer
+    _, pp_log = get_pretty_printer()
+    logger.info(pp_log(my_complex_dict))
 
 Implementation
 --------------
@@ -67,45 +53,124 @@ Implementation
 import logging
 import os
 from pathlib import Path
+from arb.utils.file_io import get_project_root_dir
+import pprint
+from typing import Callable
 
-def _resolve_log_dir(log_dir: str | Path = "logs") -> Path:
-    """
-    Resolve the log directory relative to the project root (3 levels up from this file).
-    Ensures the directory exists.
-    """
-    project_root = Path(__file__).resolve().parents[2]  # Adjust as needed for your structure
-    resolved = project_root / log_dir
-    resolved.mkdir(parents=True, exist_ok=True)
-    return resolved
+APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb', 'portal']
 
-def setup_standalone_logging(log_name: str, log_dir: str | Path = "logs", level: int = logging.DEBUG):
-    """
-    Configure logging for a standalone script. Should be called in the `if __name__ == "__main__"` block.
-    Args:
-        log_name (str): Name of the log file (without extension).
-        log_dir (str | Path): Directory for log files (relative to project root).
-        level (int): Logging level (default: DEBUG).
-    """
-    resolved_dir = _resolve_log_dir(log_dir)
-    logging.basicConfig(
-        filename=str(resolved_dir / f"{log_name}.log"),
-        level=level,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s"
-    )
-    print(f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
+DEFAULT_LOG_FORMAT = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
+DEFAULT_LOG_DATEFMT = "%Y-%m-%d %H:%M:%S"
 
-def setup_app_logging(log_name: str, log_dir: str | Path = "logs", level: int = logging.DEBUG):
-    """
-    Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.
-    Args:
-        log_name (str): Name of the log file (without extension).
-        log_dir (str | Path): Directory for log files (relative to project root).
-        level (int): Logging level (default: DEBUG).
-    """
-    resolved_dir = _resolve_log_dir(log_dir)
-    logging.basicConfig(
-        filename=str(resolved_dir / f"{log_name}.log"),
-        level=level,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s"
-    )
-    print(f"[Logging] App logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})") 
+def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Path:
+  """
+  Resolve the log directory relative to the project root using directory structure.
+  Ensures the directory exists.
+
+  Args:
+    log_dir (str | Path): Directory for log files (relative to project root).
+    app_dir_structure (list[str] | None): Directory structure to identify project root.
+      Defaults to ['feedback_portal', 'source', 'production', 'arb', 'portal'].
+  Returns:
+    Path: The resolved log directory path.
+  """
+  if app_dir_structure is None:
+    app_dir_structure = APP_DIR_STRUCTURE
+  project_root = get_project_root_dir(__file__, app_dir_structure)
+  resolved = project_root / log_dir
+  resolved.mkdir(parents=True, exist_ok=True)
+  return resolved
+
+
+def setup_standalone_logging(
+  log_name: str,
+  log_dir: str | Path = "logs",
+  level: int = logging.DEBUG,
+  app_dir_structure=None,
+  log_format: str = DEFAULT_LOG_FORMAT,
+  log_datefmt: str = DEFAULT_LOG_DATEFMT
+):
+  """
+  Configure logging for a standalone script. Should be called in the `if __name__ == "__main__"` block.
+  Args:
+    log_name (str): Name of the log file (without extension).
+    log_dir (str | Path): Directory for log files (relative to project root).
+    level (int): Logging level (default: DEBUG).
+    app_dir_structure (list[str] | None): Directory structure to identify project root.
+    log_format (str): Log message format string. Defaults to ARB portal format.
+    log_datefmt (str): Log date format string. Defaults to ARB portal format.
+  """
+  resolved_dir = _resolve_log_dir(log_dir, app_dir_structure)
+  logging.basicConfig(
+    filename=str(resolved_dir / f"{log_name}.log"),
+    level=level,
+    format=log_format,
+    datefmt=log_datefmt
+  )
+  print(f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
+
+
+def setup_app_logging(
+  log_name: str,
+  log_dir: str | Path = "logs",
+  level: int = logging.DEBUG,
+  app_dir_structure=None,
+  log_format: str = DEFAULT_LOG_FORMAT,
+  log_datefmt: str = DEFAULT_LOG_DATEFMT
+):
+  """
+  Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.
+  Args:
+    log_name (str): Name of the log file (without extension).
+    log_dir (str | Path): Directory for log files (relative to project root).
+    level (int): Logging level (default: DEBUG).
+    app_dir_structure (list[str] | None): Directory structure to identify project root.
+    log_format (str): Log message format string. Defaults to ARB portal format.
+    log_datefmt (str): Log date format string. Defaults to ARB portal format.
+  """
+  resolved_dir = _resolve_log_dir(log_dir, app_dir_structure)
+  logging.basicConfig(
+    filename=str(resolved_dir / f"{log_name}.log"),
+    level=level,
+    format=log_format,
+    datefmt=log_datefmt
+  )
+  print(f"[Logging] App logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
+
+
+def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, Callable[[object], str]]:
+  """
+  Return a PrettyPrinter instance and a formatting function for structured logging.
+
+  Only import and use this in files where you want to pretty-print complex data structures in your logs.
+
+  Args:
+    **kwargs: Options passed to pprint.PrettyPrinter (indent, sort_dicts, width, etc.)
+  Returns:
+    tuple: (PrettyPrinter instance, .pformat method)
+
+  Examples:
+    # Basic usage:
+    from arb_logging import get_pretty_printer
+    _, pp_log = get_pretty_printer()
+    data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+    logger.info(pp_log(data))
+    # Output in log:
+    # {
+    #   'foo': [1, 2, 3],
+    #   'bar': {'baz': 'qux'}
+    # }
+
+    # Custom formatting:
+    from arb_logging import get_pretty_printer
+    _, pp_log = get_pretty_printer(indent=2, width=80)
+    logger.info(pp_log(data))
+  """
+  options = {
+    "indent": 4,
+    "sort_dicts": False,
+    "width": 120
+  }
+  options.update(kwargs)
+  pp = pprint.PrettyPrinter(**options)
+  return pp, pp.pformat 
