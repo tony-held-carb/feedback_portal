@@ -1,8 +1,8 @@
 """
 Package to group spreadsheet related routines.
 """
-from arb.__get_logger import get_logger
+import logging
 
 __version__ = "1.0.0"
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)

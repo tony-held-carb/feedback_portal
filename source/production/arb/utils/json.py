@@ -26,7 +26,6 @@ from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
-from arb.__get_logger import get_logger
 from arb.utils.date_and_time import (
   ca_naive_to_utc_datetime,
   datetime_to_ca_naive,
@@ -39,7 +38,7 @@ __version__ = "1.0.0"
 from arb.utils.misc import safe_cast
 from arb.utils.io_wrappers import save_json_safely, read_json_file
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 
 # todo - integrate new json techniques to the website,
@@ -692,12 +691,6 @@ def compute_field_differences(
 
 
 if __name__ == "__main__":
-  logging.basicConfig(
-    filename="util_json_v01.log",
-    encoding="utf-8",
-    level=logging.DEBUG,
-    format="+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)s | "
-           "%(filename)s | %(lineno)d | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-  )
+  from arb.logging.arb_logging import setup_standalone_logging
+  setup_standalone_logging("json_utils_diagnostics")
   run_diagnostics()

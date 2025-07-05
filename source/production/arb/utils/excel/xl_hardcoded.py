@@ -14,17 +14,68 @@ Contents:
 """
 
 import datetime
+import logging
 
-from arb.__get_logger import get_logger
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import list_differences
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
+
+# -------------------------------------------------------------------------------------
+# EXCEL_TEMPLATES used to post-process workbooks to make compatible
+# with tracker creation and portal ingestion
+# -------------------------------------------------------------------------------------
+
+EXCEL_TEMPLATES = [
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_00",
+        "prefix": "landfill_operator_feedback",
+        "version": "v070",
+        "payload_name": "landfill_payload_01",
+    },
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_01",
+        "prefix": "landfill_operator_feedback",
+        "version": "v071",
+        "payload_name": "landfill_payload_01",
+    },
+    {
+        "sector": "Oil and Gas",
+        "schema_version": "oil_and_gas_v01_00",
+        "prefix": "oil_and_gas_operator_feedback",
+        "version": "v070",
+        "payload_name": "oil_and_gas_payload_01",
+    },
+    {
+        "sector": "Energy",
+        "schema_version": "energy_v01_00",
+        "prefix": "energy_operator_feedback",
+        "version": "v003",
+        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
+    },
+    {
+        "sector": "Dairy Digester",
+        "schema_version": "dairy_digester_v01_00",
+        "prefix": "dairy_digester_operator_feedback",
+        "version": "v005",
+        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
+    },
+    {
+        "sector": "Generic",
+        "schema_version": "generic_v01_00",
+        "prefix": "generic_operator_feedback",
+        "version": "v002",
+        "payload_name": "generic_payload_01",  # reusing oil and gas payload
+    },
+]
 
 # -------------------------------------------------------------------------------------
 # v01_00 schema field types based on legacy old_v01 and old_v02 excel schemas
 # -------------------------------------------------------------------------------------
 
+# todo - may want to have the checkbox types to be bool rather than string
 # Maps field names to the expected Python types for value validation and deserialization
 default_value_types_v01_00 = {
   "additional_activities": str,
@@ -83,6 +134,68 @@ default_value_types_v01_00 = {
   "venting_description_1": str,
   "venting_description_2": str,
   "venting_exclusion": str,
+  # new fields 2025/07/01
+  "able_to_repair": str,
+  "additional_manure_management": str,
+  "anaerobic_digestion_portion": str,  # this seems like a number, but may be hard to enforce
+  "manure_advanced_solid_liquid": str,
+  "manure_anaerobic_digester": str,
+  "manure_anaerobic_lagoon": str,
+  "manure_centrifuge_decanter": str,
+  "manure_compost_bedded_pack": str,
+  "manure_composting_aerated": str,
+  "manure_composting_in_vessel": str,
+  "manure_composting_windrows": str,
+  "manure_daily_spread": str,
+  "manure_dry_lot_corral": str,
+  "manure_fertigation": str,
+  "manure_land_application_flood": str,
+  "manure_land_application_subsurface": str,
+  "manure_liquid_flush": str,
+  "manure_liquid_slurry": str,
+  "manure_other_mechanical": str,
+  "manure_pasture": str,
+  "manure_processing_pit": str,
+  "manure_roller_drum": str,
+  "manure_sand_lane": str,
+  "manure_screw_press": str,
+  "manure_settling_basin": str,
+  "manure_slatted_floor": str,
+  "manure_sloped_screen": str,
+  "manure_solar_drying": str,
+  "manure_solid_storage": str,
+  "manure_solid_dry_scrape": str,
+  "manure_stationary_screen": str,
+  "manure_vacuum": str,
+  "manure_vermifiltration": str,
+  "manure_vibrating_screen": str,
+  "manure_weeping_wall": str,
+  "bio_biogas_conditioning": str,
+  "bio_biogas_moving": str,
+  "bio_biomethane_upgrading": str,
+  "bio_covered_lagoon": str,
+  "bio_electricity": str,
+  "bio_heating": str,
+  "bio_interconnection": str,
+  "bio_in_vessel": str,
+  "bio_onsite_fuel": str,
+  "digester_facility_name": str,
+  "livestock_facility_name": str,
+  "id_arb_ciwqs": str,
+  "transport_method": str,
+  "additional_inspection_notes": str,
+  "id_arb": str,
+  "leak_cause": str,
+  "leak_description": str,
+  "bio_common_carrier": str,
+  "bio_fuel_cells": str,
+  "manure_compost_bedded": str,
+  "manure_composting": str,
+  "manure_flocculation": str,
+  "manure_gravity_separator": str,
+  "manure_land_application_drip": str,
+  "manure_mechanical_separator": str,
+  "transport_recipient": str,
 }
 
 # todo - see if these payloads still make sense
@@ -203,6 +316,9 @@ landfill_payload_02 = {
   "additional_notes": "Q31 Answer.",
 }
 
+dairy_digester_payload_01 = {}
+generic_payload_01 = {}
+
 # -------------------------------------------------------------------------------------
 # Jinja schema field names (used for legacy template validation)
 # -------------------------------------------------------------------------------------
@@ -279,3 +395,4 @@ if __name__ == "__main__":
   )
   print(f"{in_default_value_types_v01_00_only=}")
   print(f"{in_jinja_names_only=}")
+

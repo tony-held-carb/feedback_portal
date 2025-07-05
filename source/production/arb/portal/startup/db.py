@@ -6,6 +6,7 @@ These functions are intended to be called during Flask app startup
 and create missing tables.
 
 Usage:
+import logging
   from startup.db import reflect_database, db_initialize_and_create
 
 Notes:
@@ -13,14 +14,14 @@ Notes:
   - Logging is enabled throughout to trace database state and startup flow.
 """
 
+import logging
 from pathlib import Path
 
 from flask import current_app
 
-from arb.__get_logger import get_logger
 from arb.portal.extensions import db
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

@@ -28,19 +28,19 @@ Notes:
 - Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.
 """
 
+import logging
 from pathlib import Path
 
 from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField
 from wtforms.validators import Email, InputRequired, Length, NumberRange, Optional, Regexp
 
-from arb.__get_logger import get_logger
 from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.misc import replace_list_occurrences
 from arb.utils.wtf_forms_util import change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors, coerce_choices
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

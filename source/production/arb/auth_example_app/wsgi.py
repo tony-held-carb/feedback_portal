@@ -22,16 +22,15 @@ Usage:
 
 import os
 import sys
+import logging
 from pathlib import Path
 
 # Add the project root to the Python path
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from arb.__get_logger import get_logger
 from arb.auth_example_app.app import create_app
-
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Set default environment for development

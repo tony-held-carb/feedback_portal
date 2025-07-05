@@ -17,17 +17,17 @@ Potential Future Upgrades:
 - Expand run_diagnostics to perform write/delete tests in a sandbox directory.
 """
 
+import logging
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from werkzeug.utils import secure_filename
 
-from arb.__get_logger import get_logger
 from arb.portal.constants import DATETIME_WITH_SECONDS
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 
 def ensure_parent_dirs(file_name: str | Path) -> None:
@@ -187,6 +187,49 @@ def get_project_root_dir(file: str | Path, match_parts: list[str]) -> Path:
     current = current.parent
 
   raise ValueError(f"Could not locate project root using match_parts={match_parts} from path={path}")
+
+
+def read_file_reverse(path: str | Path, n: int = 1000,
+                      encoding: str = "utf-8") -> list[str]:
+  """
+  Efficiently read the last `n` lines of a text file in reverse order,
+  returning the result in normal top-down order (oldest to newest).
+
+  This function is optimized for large files by avoiding full memory loads.
+  It uses streaming reads from the end of the file, making it suitable for
+  real-time diagnostics, log viewers, or tail-style interfaces.
+
+  Args:
+    path (str | Path): Path to the log or text file.
+    n (int): Number of lines to read from the end of the file (default is 1000).
+    encoding (str): Text encoding used to decode the file (default is "utf-8").
+
+  Returns:
+    list[str]: A list of up to `n` lines from the end of the file,
+               returned in chronological (not reverse) order.
+
+  Raises:
+    FileNotFoundError: If the file does not exist.
+    OSError: If the file cannot be read due to permission or I/O issues.
+
+  Notes:
+    - This method uses the `file_read_backwards` library, which performs
+      disk-efficient reverse reads by buffering from the end.
+    - Handles variable-length lines and multi-byte encodings gracefully.
+    - Does not assume file fits in memory — ideal for large logs.
+  """
+  from file_read_backwards import FileReadBackwards
+
+  file_path = Path(path)
+  lines: list[str] = []
+
+  with FileReadBackwards(file_path, encoding=encoding) as f:
+    for i, line in enumerate(f):
+      lines.append(line)
+      if i + 1 >= n:
+        break
+
+  return list(reversed(lines))
 
 
 def run_diagnostics() -> None:

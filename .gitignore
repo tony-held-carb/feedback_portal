@@ -3,6 +3,8 @@
 # IDE/project settings
 .idea/
 *.iml
+.vscode/
+
 
 # Python cache
 __pycache__/
@@ -16,9 +18,11 @@ logs/
 #*.bak
 #*.csv~
 
-# Releases
-feedback_portal_releases/
+# diagnostics and debugging
+#/debugging/
 
+# Releases
+#feedback_portal_releases/
 
 # Portal uploads
 #portal_uploads/staging/
@@ -29,5 +33,6 @@ source/production/site/
 
 # Backups
 #*.zip
-source/production_*.zip
-.vscode/  
+#source/production_*.zip
+/archive/production_zips/
+

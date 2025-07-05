@@ -18,19 +18,20 @@ Notes:
 import csv
 import datetime
 import os
+import logging
 from io import StringIO
 from pathlib import Path
+from typing import Any, Union
 from urllib.parse import unquote
 
 from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
-  url_for, jsonify  # to access app context
+  url_for  # to access app context
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort
 
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
-from arb.__get_logger import get_logger
 from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
@@ -38,7 +39,8 @@ from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
-from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_stage_only, upload_and_update_db, xl_dict_to_database, extract_tab_and_sector
+from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, upload_and_stage_only, upload_and_update_db, \
+  xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import incidence_prep
@@ -47,12 +49,13 @@ from arb.portal.wtf_landfill import LandfillFeedback
 from arb.portal.wtf_oil_and_gas import OGFeedback
 from arb.portal.wtf_upload import UploadForm
 from arb.utils.diagnostics import obj_to_html
-from arb.utils.json import compute_field_differences, json_load_with_meta, json_save_with_meta
+from arb.utils.file_io import read_file_reverse
+from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 main = Blueprint("main", __name__)
@@ -79,7 +82,7 @@ def index() -> str:
 
 
 @main.route('/incidence_update/<int:id_>/', methods=('GET', 'POST'))
-def incidence_update(id_) -> str | Response:
+def incidence_update(id_: int) -> Union[str, Response]:
   """
   Display and edit a specific incidence record by ID.
 
@@ -107,7 +110,12 @@ def incidence_update(id_) -> str | Response:
   # model_row = db.session.query(table).get_or_404(id_)
   # todo turn this into a get and if it is null, then redirect? to the spreadsheet upload
   # todo consider turning into one_or_none and have error handling
-  rows = db.session.query(table).filter_by(id_incidence=id_).all()
+  if table is None:
+    abort(500, description="Could not get table class for incidences")
+
+  # Type cast to help with SQLAlchemy typing
+  table_class = table  # type: Any
+  rows = db.session.query(table_class).filter_by(id_incidence=id_).all()
   if not rows:
     message = f"A request was made to edit a non-existent id_incidence ({id_}).  Consider uploading the incidence by importing a spreadsheet."
     return redirect(url_for('main.upload_file', message=message))
@@ -184,7 +192,7 @@ def landfill_incidence_create() -> Response:
 
 
 @main.post('/incidence_delete/<int:id_>/')
-def incidence_delete(id_) -> Response:
+def incidence_delete(id_: int) -> ResponseReturnValue:
   """
   Delete a specified incidence from the database.
 
@@ -203,7 +211,12 @@ def incidence_delete(id_) -> Response:
 
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
-  model_row = db.session.query(table).get_or_404(id_)
+  if table is None:
+    abort(500, description="Could not get table class for incidences")
+
+  # Type cast to help with SQLAlchemy typing
+  table_class = table  # type: Any
+  model_row = db.session.query(table_class).get_or_404(id_)
 
   # todo - ensure portal changes are properly updated
   arb.utils.sql_alchemy.delete_commit_and_log_model(db,
@@ -231,9 +244,55 @@ def list_uploads() -> str:
   return render_template('uploads_list.html', files=files)
 
 
+@main.route('/list_staged')
+def list_staged() -> str:
+  """
+  List all staged files awaiting review.
+
+  Returns:
+    str: Rendered HTML showing all staged JSON files with their metadata.
+  """
+  logger.debug("list_staged route called")
+
+  staging_dir = Path(get_upload_folder()) / "staging"
+  staged_files = []
+
+  if staging_dir.exists():
+    for file_path in staging_dir.glob("*.json"):
+      try:
+        # Extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
+        filename = file_path.name
+        if filename.startswith("id_") and "_ts_" in filename:
+          id_part = filename.split("_ts_")[0]
+          id_incidence = int(id_part.replace("id_", ""))
+
+          # Load metadata to get more info
+          try:
+            _, metadata = json_load_with_meta(file_path)
+            base_misc_json = metadata.get("base_misc_json", {})
+            sector = base_misc_json.get("sector", "Unknown")
+          except Exception:
+            sector = "Unknown"
+
+          staged_files.append({
+            'filename': filename,
+            'id_incidence': id_incidence,
+            'sector': sector,
+            'file_size': file_path.stat().st_size,
+            'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime)
+          })
+      except Exception as e:
+        logger.warning(f"Could not process staged file {file_path}: {e}")
+
+  # Sort by modification time (newest first)
+  staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
+
+  return render_template('staged_list.html', staged_files=staged_files)
+
+
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
-def upload_file(message: str | None = None) -> str | Response:
+def upload_file(message: str | None = None) -> Union[str, Response]:
   """
   Upload a spreadsheet or JSON file and immediately apply it to the database.
 
@@ -302,7 +361,7 @@ def upload_file(message: str | None = None) -> str | Response:
 
 @main.route('/upload_staged', methods=['GET', 'POST'])
 @main.route('/upload_staged/<message>', methods=['GET', 'POST'])
-def upload_file_staged(message: str | None = None) -> str | Response:
+def upload_file_staged(message: str | None = None) -> Union[str, Response]:
   """
   Upload an Excel or JSON file, convert it to JSON, and stage it for review.
 
@@ -351,6 +410,7 @@ def upload_file_staged(message: str | None = None) -> str | Response:
         )
 
       logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
+      flash(f"✅ File '{request_file.filename}' staged successfully! Review changes for ID {id_}.", "success")
       return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
 
     except Exception as e:
@@ -442,7 +502,7 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     ResponseReturnValue: Redirect to confirmation or error page.
   """
   import shutil
-  
+
   # Resolve paths
   root = get_upload_folder()
   staged_path = os.path.join(root, "staging", filename)
@@ -470,7 +530,7 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
-  
+
   # Get or create the model row
   logger.info(f"[confirm_staged] Getting/creating model row for id_incidence={id_}")
   model_row, _, is_new_row = get_ensured_row(
@@ -489,17 +549,19 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   current_misc_json = getattr(model_row, "misc_json", {}) or {}
   logger.info(f"[confirm_staged] Current misc_json: {current_misc_json}")
   logger.info(f"[confirm_staged] Base misc_json from staging: {base_misc_json}")
-  
+
   if current_misc_json != base_misc_json:
     logger.warning(f"[confirm_staged] Concurrent DB changes detected! "
                    f"current_misc_json != base_misc_json")
-    flash("The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.", "warning")
+    flash(
+      "⚠️ The database was changed by another user before your updates were confirmed. Please review the new database state and reconfirm which fields you wish to update.",
+      "warning")
     return redirect(url_for("main.review_staged", id_=id_, filename=filename))
 
   # Build update patch only for fields user confirmed
   patch: dict = {}
   logger.info(f"[confirm_staged] Building patch from {len(form_data)} form fields")
-  
+
   for key in form_data:
     checkbox_name = f"confirm_overwrite_{key}"
     confirmed = checkbox_name in request.form
@@ -535,24 +597,24 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
       comments=f"Staged update confirmed for ID {id_}"
     )
     logger.info(f"[confirm_staged] ✅ apply_json_patch_and_log completed successfully")
-    
+
     # 🆕 Commit the database transaction to persist changes
     logger.info(f"[confirm_staged] About to commit database session")
     db.session.commit()
     logger.info(f"[confirm_staged] ✅ Database session committed successfully")
-    
+
     # Move the staged JSON file to the processed directory
     shutil.move(staged_path, processed_path)
     logger.info(f"[confirm_staged] ✅ Moved staged file to processed: {processed_path}")
-    
-    flash(f"Successfully updated record {id_}. {len(patch)} fields changed.", "success")
-    
+
+    flash(f"✅ Successfully updated record {id_}. {len(patch)} fields changed. Staged file moved to processed directory.", "success")
+
   except Exception as e:
     # Rollback on error to prevent partial commits
     logger.error(f"[confirm_staged] ❌ Error during database update: {e}")
     logger.exception(f"[confirm_staged] Full exception details:")
     db.session.rollback()
-    flash(f"Error applying updates for ID {id_}: {e}", "danger")
+    flash(f"❌ Error applying updates for ID {id_}: {e}", "danger")
     return redirect(url_for("main.upload_file_staged"))
 
   return redirect(url_for("main.upload_file_staged"))
@@ -861,26 +923,66 @@ def show_feedback_form_structure() -> str:
                          )
 
 
+# @main.route('/show_log_file')
+# def show_log_file() -> str:
+#   """
+#   Display the contents of the server's current log file.
+#
+#   Returns:
+#     str: Rendered HTML with the full log file shown inside a <pre> block.
+#
+#   Notes:
+#     - Useful for debugging in development or staging.
+#   """
+#
+#   logger.info(f"Displaying the log file as a diagnostic")
+#   lines = read_file_reverse(LOG_FILE, n=1000)
+#   file_content = ''.join(lines)
+#
+#   # result = obj_to_html(file_content)
+#   result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
+#   return render_template('diagnostics.html',
+#                          header="Log File Contents",
+#                          # subheader="Full log output from the running server instance.",
+#                          html_content=result,
+#                          )
+
+
 @main.route('/show_log_file')
 def show_log_file() -> str:
   """
-  Display the contents of the server's current log file.
+  Display the last N lines of the server's current log file.
+
+  Query Parameters:
+    lines (int, optional): Number of lines to show from the end of the log file.
+                           Defaults to 1000 if not provided or invalid.
 
   Returns:
-    str: Rendered HTML with the full log file shown inside a <pre> block.
+    str: Rendered HTML with the log file content shown inside a <pre> block.
+
+  Example Usage:
+    /show_log_file?lines=500
 
   Notes:
     - Useful for debugging in development or staging.
+    - Efficient for large files using read_file_reverse().
   """
+  default_lines = 1000
+  try:
+    num_lines = int(request.args.get('lines', default_lines))
+    if num_lines < 1:
+      raise ValueError
+  except ValueError:
+    num_lines = default_lines
 
-  logger.info(f"Displaying the log file as a diagnostic")
-  with open(LOG_FILE, 'r') as file:
-    file_content = file.read()
+  logger.info(f"Displaying the last {num_lines} lines of the log file as a diagnostic")
 
-  # result = obj_to_html(file_content)
-  result = f"<p><strong>Logger file content=</strong></p> <p><pre>{file_content}</pre></p>"
-  return render_template('diagnostics.html',
-                         header="Log File Contents",
-                         # subheader="Full log output from the running server instance.",
-                         html_content=result,
-                         )
+  lines = read_file_reverse(LOG_FILE, n=num_lines)
+  file_content = '\n'.join(lines)
+
+  result = f"<p><strong>Last {num_lines} lines of logger file:</strong></p><p><pre>{file_content}</pre></p>"
+  return render_template(
+    'diagnostics.html',
+    header="Log File Contents",
+    html_content=result,
+  )

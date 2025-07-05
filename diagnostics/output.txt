@@ -1,0 +1,52 @@
+
+(mini_conda_01) [C:\tony_local\pycharm\feedback_portal\source\production\arb]
+>flask --app wsgi run --debug --no-reload
+Traceback (most recent call last):
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Scripts\flask-script.py", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\cli.py", line 1129, in main
+    cli.main()
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\decorators.py", line 92, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\click\core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\cli.py", line 977, in run_command
+    raise e from None
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\cli.py", line 961, in run_command
+    app: WSGIApplication = info.load_app()  # pyright: ignore
+                           ^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\cli.py", line 349, in load_app
+    app = locate_app(import_name, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01\Lib\site-packages\flask\cli.py", line 245, in locate_app
+    __import__(module_name)
+  File "C:\tony_local\pycharm\feedback_portal\source\production\arb\wsgi.py", line 111, in <module>
+    from arb.portal.app import create_app
+  File "C:\tony_local\pycharm\feedback_portal\source\production\arb\portal\app.py", line 33, in <module>
+    from arb.portal.routes import main
+  File "C:\tony_local\pycharm\feedback_portal\source\production\arb\portal\routes.py", line 43, in <module>
+    from arb.portal.utils.db_ingest_util import dict_to_database, upload_and_stage_only, upload_and_update_db, xl_dict_to_database, extract_tab_and_sector
+  File "C:\tony_local\pycharm\feedback_portal\source\production\arb\portal\utils\db_ingest_util.py", line 23, in <module>
+    from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
+  File "C:\tony_local\pycharm\feedback_portal\source\production\arb\utils\excel\xl_parse.py", line 73
+    xl_schema_file_map: dict[str, Path] = {}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: annotated name 'xl_schema_file_map' can't be global
+
+(mini_conda_01) [C:\tony_local\pycharm\feedback_portal\source\production\arb]
+>

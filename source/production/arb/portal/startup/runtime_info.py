@@ -8,6 +8,7 @@ This module defines:
   - Diagnostic tools for runtime environment inspection
 
 Example:
+import logging
   from startup.runtime_info import (PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
     IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)
 
@@ -21,13 +22,13 @@ Notes:
       Path(__file__).resolve().parents[2] → .../source
       Path(__file__).resolve().parents[3] → .../feedback_portal
 """
+import logging
 from pathlib import Path
 from platform import system
 
-from arb.__get_logger import get_logger
 from arb.utils.file_io import get_project_root_dir
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

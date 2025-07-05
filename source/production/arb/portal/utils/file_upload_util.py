@@ -6,13 +6,12 @@ Utility functions for managing uploaded files in the feedback portal.
 This module provides functionality to record uploaded files into the
 `UploadedFile` table for audit tracking and troubleshooting purposes.
 """
+import logging
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 
-from arb.__get_logger import get_logger
-
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

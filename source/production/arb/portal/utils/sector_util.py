@@ -9,6 +9,7 @@ enforces dropdown resets, and applies conditional rendering logic
 based on sector type and CRUD mode.
 """
 
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -16,11 +17,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
 from sqlalchemy.orm import DeclarativeMeta
 
-from arb.__get_logger import get_logger
 from arb.portal.db_hardcoded import LANDFILL_SECTORS, OIL_AND_GAS_SECTORS
 from arb.utils.sql_alchemy import get_foreign_value, get_table_row_and_column
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

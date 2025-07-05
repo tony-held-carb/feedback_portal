@@ -22,15 +22,15 @@ Key Features:
 - Multiple role support with flexible decorators for different access patterns.
 """
 
+import logging
 from functools import wraps
 from flask import Blueprint, render_template, abort, request, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from arb.auth.okta_settings import USE_OKTA
 from arb.auth.models import get_user_model, get_auth_config
 from arb.auth import get_db
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 def admin_required(f):
     """

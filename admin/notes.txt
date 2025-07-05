@@ -810,3 +810,16 @@ trying to add credentials
 C:\Users\theld\.git-credentials
 
 had to remove the password from this file because github blocked it and fruck out so i have to hard commit to an older state
+
+set PYTHONPATH=D:\local\cursor\feedback_portal\source\production
+python arb/utils/excel/xl_create.py
+
+running python in cursor Terminal
+cd /d "D:\local\cursor\feedback_portal\source\production"
+python -m arb.utils.excel.xl_create
+
+Usually, you do NOT need to set PYTHONPATH if you run from the correct directory and use -m.
+If you run from a different directory, you might need to set PYTHONPATH to include the path to your top-level package (e.g., source/production).
+
+
+i'm concerned that i will have other circular imports, not just when we are trying to run xl_create

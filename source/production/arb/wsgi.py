@@ -105,12 +105,15 @@ Note on running Flask Apps:
     - Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 
+import logging
 from pathlib import Path
 
-from arb.__get_logger import get_logger
 from arb.portal.app import create_app
+from arb.logging.arb_logging import setup_app_logging
 
-logger, pp_log = get_logger()
+setup_app_logging("arb_portal")
+
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 app = create_app()

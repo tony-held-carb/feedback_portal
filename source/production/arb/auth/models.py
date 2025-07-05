@@ -22,6 +22,7 @@ Key Features:
 """
 
 import datetime
+import logging
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, DateTime, Integer, String, Boolean
@@ -29,9 +30,8 @@ from sqlalchemy.sql import func
 from arb.auth import get_db
 from arb.auth.okta_settings import USE_OKTA  # Centralized Okta/local auth toggle
 from flask import current_app
-from arb.__get_logger import get_logger
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 def get_auth_config(key, default=None):
     """

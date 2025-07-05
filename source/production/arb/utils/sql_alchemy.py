@@ -34,7 +34,7 @@ Usage Notes:
 Version:
     1.0.0
 """
-
+import logging
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc, inspect, text
 from sqlalchemy.engine import Engine
@@ -42,12 +42,11 @@ from sqlalchemy.ext.automap import AutomapBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
 
-from arb.__get_logger import get_logger
 from arb.utils.json import safe_json_loads
 from arb.utils.misc import log_error
 
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 
 def sa_model_diagnostics(model: AutomapBase, comment: str = "") -> None:
@@ -537,12 +536,9 @@ if __name__ == "__main__":
   from sqlalchemy.orm import Session
   from sqlalchemy.ext.automap import automap_base
   from sqlalchemy import create_engine
-  import logging
+  from arb.logging.arb_logging import setup_standalone_logging
 
-  logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-  )
+  setup_standalone_logging("sql_alchemy_test")
 
   # --- Replace with your connection string ---
   engine = create_engine("postgresql://username:password@localhost/dbname")

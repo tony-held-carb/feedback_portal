@@ -13,13 +13,11 @@ or ad-hoc inspection of application state during development.
 """
 
 import pprint
+import logging
 
 from bs4 import BeautifulSoup
-
-from arb.__get_logger import get_logger
-
 __version__ = "1.0.0"
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 
 def obj_diagnostics(obj: object,

@@ -1,16 +1,76 @@
 {
     "_metadata_": {
         "schema_version": "default_value_types_v01_00",
-        "File created at": "2025-06-03T21:15:10.161763+00:00",
+        "File created at": "2025-07-05T18:28:42.374549+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
     "_data_": {
+        "able_to_repair": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
         "additional_activities": {
             "__class__": "str",
             "__module__": "builtins"
         },
+        "additional_inspection_notes": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "additional_manure_management": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
         "additional_notes": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "anaerobic_digestion_portion": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_biogas_conditioning": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_biogas_moving": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_biomethane_upgrading": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_common_carrier": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_covered_lagoon": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_electricity": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_fuel_cells": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_heating": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_in_vessel": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_interconnection": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "bio_onsite_fuel": {
             "__class__": "str",
             "__module__": "builtins"
         },
@@ -31,6 +91,10 @@
             "__module__": "builtins"
         },
         "contact_phone": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "digester_facility_name": {
             "__class__": "str",
             "__module__": "builtins"
         },
@@ -80,6 +144,14 @@
         },
         "final_repair_concentration": {
             "__class__": "float",
+            "__module__": "builtins"
+        },
+        "id_arb": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "id_arb_ciwqs": {
+            "__class__": "str",
             "__module__": "builtins"
         },
         "id_arb_eggrt": {
@@ -142,12 +214,176 @@
             "__class__": "float",
             "__module__": "builtins"
         },
+        "leak_cause": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "leak_description": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "livestock_facility_name": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
         "long_carb": {
             "__class__": "float",
             "__module__": "builtins"
         },
         "long_revised": {
             "__class__": "float",
+            "__module__": "builtins"
+        },
+        "manure_advanced_solid_liquid": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_anaerobic_digester": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_anaerobic_lagoon": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_centrifuge_decanter": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_compost_bedded": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_compost_bedded_pack": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_composting": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_composting_aerated": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_composting_in_vessel": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_composting_windrows": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_daily_spread": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_dry_lot_corral": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_fertigation": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_flocculation": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_gravity_separator": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_land_application_drip": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_land_application_flood": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_land_application_subsurface": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_liquid_flush": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_liquid_slurry": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_mechanical_separator": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_other_mechanical": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_pasture": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_processing_pit": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_roller_drum": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_sand_lane": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_screw_press": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_settling_basin": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_slatted_floor": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_sloped_screen": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_solar_drying": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_solid_dry_scrape": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_solid_storage": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_stationary_screen": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_vacuum": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_vermifiltration": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_vibrating_screen": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "manure_weeping_wall": {
+            "__class__": "str",
             "__module__": "builtins"
         },
         "method21_date": {
@@ -209,6 +445,14 @@
         "repair_timestamp": {
             "__class__": "datetime",
             "__module__": "datetime"
+        },
+        "transport_method": {
+            "__class__": "str",
+            "__module__": "builtins"
+        },
+        "transport_recipient": {
+            "__class__": "str",
+            "__module__": "builtins"
         },
         "venting_description_1": {
             "__class__": "str",

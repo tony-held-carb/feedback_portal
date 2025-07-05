@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block footer_js %}
-  <script src="{{ url_for('static', filename='js/unsaved_changes.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/form_change_tracker.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -141,11 +141,11 @@
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 4. Facility Information") }}
-        {{ macros.input_element(wtf_form.facility_name, placeholder="Facility Name") }}
-        {{ macros.input_element(wtf_form.id_arb_eggrt, placeholder="ID") }}
-        {{ macros.input_element(wtf_form.contact_name, placeholder="Contact Name") }}
-        {{ macros.input_element(wtf_form.contact_phone, placeholder="(555) 555-5555") }}
-        {{ macros.input_element(wtf_form.contact_email, placeholder="your_name@server.com") }}
+        {{ macros.input_element(wtf_form.facility_name, placeholder="e.g., Facility Name") }}
+        {{ macros.input_element(wtf_form.id_arb_eggrt, placeholder="Optional EGGRT ID") }}
+        {{ macros.input_element(wtf_form.contact_name, placeholder="e.g., Contact Name") }}
+        {{ macros.input_element(wtf_form.contact_phone, placeholder="e.g., (555) 555-5555") }}
+        {{ macros.input_element(wtf_form.contact_email, placeholder="e.g., your_name@server.com") }}
         {{ macros.section_close() }}
 
         {{ macros.section_open("Section 5. Venting Exclusion Determination") }}
@@ -161,7 +161,7 @@
         {{ macros.input_element(wtf_form.method21_performed) }}
         {{ macros.input_element(wtf_form.method21_date) }}
         {{ macros.input_element(wtf_form.method21_result) }}
-        {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="123.45") }}
+        {{ macros.input_element(wtf_form.initial_leak_concentration, size=6, placeholder="e.g., 123.45") }}
         {{ macros.input_element(wtf_form.venting_description_2, size=12, rows=3) }}
         {{ macros.input_element(wtf_form.initial_mitigation_plan, size=12, rows=3) }}
         {{ macros.section_close() }}
@@ -172,7 +172,7 @@
         {{ macros.input_element(wtf_form.component_at_source, size=6) }}
         {{ macros.input_element(wtf_form.component_other_description, size=12, rows=1) }}
         {{ macros.input_element(wtf_form.repair_timestamp, size=6) }}
-        {{ macros.input_element(wtf_form.final_repair_concentration, size=6, placeholder="1234.56") }}
+        {{ macros.input_element(wtf_form.final_repair_concentration, size=6, placeholder="e.g., 1234.56") }}
         {{ macros.input_element(wtf_form.repair_description, size=12, rows=3) }}
         {{ macros.section_close() }}
 

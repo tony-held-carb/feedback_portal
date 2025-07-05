@@ -22,13 +22,11 @@ Notes:
     timezone-aware datetime objects.
 """
 
+import logging
 from pathlib import Path
 from zoneinfo import ZoneInfo
-
-from arb.__get_logger import get_logger
-
 # Initialize module-level logger
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # -----------------------------------------------------------------------------

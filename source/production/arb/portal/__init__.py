@@ -15,13 +15,12 @@ Recommendation:
 ---------------
 To reuse the package-wide logger and formatter:
 
-  from arb.portal import logger, pp_log
+from arb.logging.arb_logging import get_pretty_printer
 """
+import logging
 from pathlib import Path
-
-from arb.__get_logger import get_logger
 
 __version__ = "1.3.0"
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')

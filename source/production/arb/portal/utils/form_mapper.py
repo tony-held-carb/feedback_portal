@@ -6,12 +6,15 @@ Provides filtering logic for querying the portal_updates table.
 Includes logic for parsing ID ranges, substrings, and date filters
 from request arguments in the feedback portal interface.
 """
+import logging
 from datetime import datetime
 from typing import Any
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Query
 from sqlalchemy.orm import DeclarativeMeta
+
+logger = logging.getLogger(__name__)
 
 def apply_portal_update_filters(query: Query,
                                 portal_update_model: DeclarativeMeta | type[Any],

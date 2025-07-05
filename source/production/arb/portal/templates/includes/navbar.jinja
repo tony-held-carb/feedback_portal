@@ -54,9 +54,9 @@
               </li>
               <li><a class="dropdown-item" href="{{ url_for('main.show_feedback_form_structure') }}">Show Feedback Form
                 Structure</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>
+              {#              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>#}
+              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file', lines=1000) }}">Show Log File</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Diagnostics</a></li>
-
 
             </ul>
           </li>
@@ -68,6 +68,9 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Upload & Review (Staged)</a>
+              </li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
               <li>
                 <hr class="dropdown-divider">
@@ -79,25 +82,49 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false">
-              Help
+              CalSMP & Help
             </a>
             <ul class="dropdown-menu">
               <li>
                 <a class="dropdown-item" target="_blank"
                    href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/CalSMP%20Plume%20Processing%20Resources.docx?d=w033362d49d444a1a837352a7a4a1be55&csf=1&web=1&e=j04CSV">
-                  CalSMP Plume Processing Resources
+                  Plume Processing Resources
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" target="_blank"
                    href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/Daily%20CalSMP%20Protocol.docx?d=w9f7f6eadcfe04db5821bc23a70b7991a&csf=1&web=1&e=vEyuJy">
-                  CalSMP Daily Protocol
+                  Daily Protocol
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Daily%20Plume%20Processing%20Log.docx?d=wc90daa47482640fd9657cccb3c4f4614&csf=1&web=1&e=SOFzex">
+                  Daily Processing Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="https://carb.sharepoint.com/:x:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Open%20items%20log.xlsx?d=wd554b10efa62427e959961a52d8ccd11&csf=1&web=1&e=v5ge6u">
+                  Open Items Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="http://10.93.112.44:5003/">
+                  Plume Tracker
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank"
+                   href="https://internal-smdms-sdb-lb-shared-182971779.us-west-2.elb.amazonaws.com/app/dashboard">
+                  Contact Manager
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" target="_blank"
                    href="https://tony-held-carb.github.io/feedback_portal/">
-                  CalSMP Feedback Portal Source Code & Documentation
+                  Feedback Portal Source Code & Documentation
                 </a>
               </li>
             </ul>
@@ -111,14 +138,14 @@
           {#          <li class="nav-item">#}
           {#            <a class="nav-link" href="{{ url_for('main.index') }}">Index</a>#}
           {#          </li>#}
-          {#        </ul>#}
+        </ul>
 
-
-          <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                   name="navbar_search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+        {# Search bar has not been implemented yet, so it is a space hog to have it up and not do anything, consider implementing in the future #}
+        {#        <form class="d-flex" role="search" action="{{ url_for('main.search') }}" method='POST'>#}
+        {#          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"#}
+        {#                 name="navbar_search">#}
+        {#          <button class="btn btn-outline-success" type="submit">Search</button>#}
+        {#        </form>#}
       </div>
     </div>
   </nav>

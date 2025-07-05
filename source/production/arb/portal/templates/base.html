@@ -16,7 +16,15 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_styles_01.css') }}">
 
   <!-- Portal JavaScript -->
-  <script defer src="{{ url_for('static', filename='js/confirm_delete.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/delete_confirmation.js') }}"></script>
+  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system
+       Benefits of re-enabling in the future:
+       - Better UX for ephemeral messages (upload progress, success notifications)
+       - Non-intrusive feedback for non-critical warnings
+       - Consistent notification system across the application
+       - Auto-dismiss functionality reduces UI clutter
+  -->
+  <!-- <script defer src="{{ url_for('static', filename='js/toast_notifications.js') }}"></script> -->
 
   <!-- Portal Jinja Macros -->
   {% import 'macros/utility_macros.jinja' as macros %}
@@ -32,6 +40,14 @@
 
 <!-- Portal Navigation -->
 {% include 'includes/navbar.jinja' %}
+
+<!-- TOAST CONTAINER DISABLED - Reverted to old system
+     This container was used for dynamic toast notifications.
+     Re-enable when switching back to toast notification system.
+-->
+<!-- <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <!-- Toasts will be dynamically added here -->
+<!-- </div> -->
 
 <!-- Main Page Content -->
 {% block content_1 %}{% endblock %}

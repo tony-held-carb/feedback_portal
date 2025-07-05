@@ -22,18 +22,25 @@ from pathlib import Path
 
 import openpyxl
 
-from arb.__get_logger import get_logger
 from arb.portal.constants import PLEASE_SELECT
 from arb.utils.date_and_time import is_datetime_naive, parse_unknown_datetime
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
-
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 # Spreadsheet formatting constants
 EXCEL_SCHEMA_TAB_NAME = '_json_schema'
 EXCEL_METADATA_TAB_NAME = '_json_metadata'
 EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
+
+# --- Schema aliasing for backward compatibility ---
+# Maps old schema names to new schema names {old_schema_name: new_schema_name}.
+# If a file references an outdated schema,
+# the parser will use the mapped schema and log a warning.
+schema_alias = {
+    "energy_v00_01": "energy_v01_00",
+    "generic_v00_01": "generic_v01_00",
+}
 
 # xl_schema_map based on Excel PROCESSED_VERSIONS files
 xl_schema_file_map = {}
@@ -56,24 +63,25 @@ def set_globals(xl_schema_file_map_: dict[str, Path] | None = None) -> None:
 
   Args:
     xl_schema_file_map_ (dict[str, Path] | None): Optional override for the schema file map.
-      If not provided, use a default list of pre-defined schema files.
+      If not provided, use a default list of pre-defined schema files based on TEMPLATES.
 
   Notes:
     - Calls `load_schema_file_map()` to populate xl_schema_map from JSON files.
+    - Uses TEMPLATES structure from xl_create.py for consistency.
   """
   global xl_schema_file_map, xl_schema_map
-  # todo - update default roots with module paths, may make sense to remove globals and have
-  # a different logic since this is outdated given the project root approach
 
   logger.debug(f"set_globals() called with {xl_schema_file_map_=}")
 
-  # todo - not sure if these should be hard coded here ...
   if xl_schema_file_map_ is None:
-    xl_schema_file_map = {
-      "landfill_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "landfill_v01_00.json",
-      "oil_and_gas_v01_00": PROCESSED_VERSIONS / "xl_schemas" / "oil_and_gas_v01_00.json",
-      "energy_v00_01": PROCESSED_VERSIONS / "xl_schemas" / "energy_v00_01.json",
-    }
+    # Import TEMPLATES from xl_create to ensure consistency
+    from arb.utils.excel.xl_hardcoded import EXCEL_TEMPLATES
+
+    xl_schema_file_map = {}
+    for template in EXCEL_TEMPLATES:
+      schema_version = template["schema_version"]
+      schema_path = PROCESSED_VERSIONS / "xl_schemas" / f"{schema_version}.json"
+      xl_schema_file_map[schema_version] = schema_path
   else:
     xl_schema_file_map = xl_schema_file_map_
 
@@ -114,18 +122,22 @@ def create_schema_file_map(schema_path: str | Path | None = None,
 
   Args:
     schema_path (str | Path | None): Folder containing schema files. Defaults to processed versions dir.
-    schema_names (list[str] | None): Names of schemas to include. Defaults to known schemas.
+    schema_names (list[str] | None): Names of schemas to include. Defaults to schemas from TEMPLATES.
 
   Returns:
     dict[str, Path]: Map from schema name to a schema file path.
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
+  
+  if isinstance(schema_path, str):
+    schema_path = Path(schema_path)
+
   if schema_path is None:
     schema_path = PROCESSED_VERSIONS / "xl_schemas"
   if schema_names is None:
-    schema_names = ["landfill_v01_00",
-                    "oil_and_gas_v01_00",
-                    "energy_v00_01", ]
+    # Import TEMPLATES from xl_create to ensure consistency
+    from arb.utils.excel.xl_hardcoded import EXCEL_TEMPLATES
+    schema_names = [template["schema_version"] for template in EXCEL_TEMPLATES]
 
   schema_file_map = {}
 
@@ -189,12 +201,13 @@ def parse_xl_file(xl_path: str | Path,
                                                          EXCEL_METADATA_TAB_NAME,
                                                          EXCEL_TOP_LEFT_KEY_VALUE_CELL
                                                          )
-
+    # todo - maybe want to alias the Sector here?  Refinery -> Energy
   if EXCEL_SCHEMA_TAB_NAME in wb.sheetnames:
     logger.debug(f"Schema tab detected in Excel file")
     result['schemas'] = get_spreadsheet_key_value_pairs(wb,
                                                         EXCEL_SCHEMA_TAB_NAME,
                                                         EXCEL_TOP_LEFT_KEY_VALUE_CELL)
+    # todo - maybe want to alias schemas here before extract tabs
   else:
     ValueError(f'Spreadsheet must have a {EXCEL_SCHEMA_TAB_NAME} tab')
 
@@ -204,7 +217,7 @@ def parse_xl_file(xl_path: str | Path,
   return new_result
 
 
-def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
+def extract_tabs(wb: openpyxl.Workbook,
                  schema_map: dict[str, dict],
                  xl_as_dict: dict) -> dict:
   """
@@ -226,17 +239,21 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
   result = copy.deepcopy(xl_as_dict)
 
   for tab_name, formatting_schema in result['schemas'].items():
+    resolved_schema = ensure_schema(formatting_schema, schema_map, schema_alias, logger)
+    if not resolved_schema:
+      continue
     logger.debug(f"Extracting data from '{tab_name}', using the formatting schema '{formatting_schema}'")
     result['tab_contents'][tab_name] = {}
 
     ws = wb[tab_name]
-    format_dict = schema_map[formatting_schema]['schema']
+    format_dict = schema_map[resolved_schema]['schema']
 
     for html_field_name, lookup in format_dict.items():
       value_address = lookup['value_address']
       value_type = lookup['value_type']
       is_drop_down = lookup['is_drop_down']
-      value = ws[value_address].value
+      # works, but you get a lint error because this will break if value_address is not a single cell
+      value = ws[value_address].value  # type: ignore[attr-defined]
 
       if skip_please_selects is True:
         if is_drop_down and value == PLEASE_SELECT:
@@ -274,7 +291,8 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
 
       if 'label_address' in lookup and 'label' in lookup:
         label_address = lookup['label_address']
-        label_xl = ws[label_address].value
+        # works, but you get a lint error because this will break if value_address is not a single cell
+        label_xl = ws[label_address].value  # type: ignore[attr-defined]
         label_schema = lookup['label']
         if label_xl != label_schema:
           logger.warning(f"Schema data label and spreadsheet data label differ."
@@ -287,6 +305,33 @@ def extract_tabs(wb: openpyxl.workbook.workbook.Workbook,
     logger.debug(f"Final corrected spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
 
   return result
+
+def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger) -> str | None:
+    """
+    Resolves a schema version using the schema map and alias mapping.
+    Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.
+
+    Args:
+        formatting_schema (str): The schema version to resolve.
+        schema_map (dict): The mapping of valid schema versions.
+        schema_alias (dict): The mapping of old schema names to new ones.
+        logger: Logger for warnings/errors.
+
+    Returns:
+        str | None: The resolved schema version, or None if not found.
+    """
+    if formatting_schema in schema_map:
+        return formatting_schema
+    if formatting_schema in schema_alias:
+        new_schema_version = schema_alias[formatting_schema]
+        logger.warning(f"Schema '{formatting_schema}' not found. Using alias '{new_schema_version}' instead.")
+        if new_schema_version in schema_map:
+            return new_schema_version
+        else:
+            logger.error(f"Alias '{new_schema_version}' not found in schema_map.")
+            return None
+    logger.error(f"Schema '{formatting_schema}' not found and no alias available.")
+    return None
 
 
 def split_compound_keys(dict_: dict) -> None:
@@ -316,7 +361,7 @@ def split_compound_keys(dict_: dict) -> None:
       del dict_[html_field_name]
 
 
-def get_spreadsheet_key_value_pairs(wb: openpyxl.workbook.workbook.Workbook,
+def get_spreadsheet_key_value_pairs(wb: openpyxl.Workbook,
                                     tab_name: str,
                                     top_left_cell: str) -> dict[str, str | None]:
   """
@@ -459,6 +504,9 @@ def test_load_xl_schemas() -> None:
   """
   Debug test for loading default schemas from xl_schema_file_map.
   """
+  from arb.logging.arb_logging import get_pretty_printer
+  _, pp_log = get_pretty_printer()
+  
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
@@ -495,3 +543,4 @@ initialize_module()
 
 if __name__ == "__main__":
   main()
+

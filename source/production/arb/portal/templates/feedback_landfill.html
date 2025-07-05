@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block footer_js %}
-  <script src="{{ url_for('static', filename='js/unsaved_changes.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/form_change_tracker.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -112,11 +112,11 @@
 
         {{ macros.section_open("Section 3. Facility Information") }}
 
-        {{ macros.input_element(wtf_form.facility_name, placeholder="Facility Name") }}
+        {{ macros.input_element(wtf_form.facility_name, placeholder="e.g., Facility Name") }}
         {{ macros.input_element(wtf_form.id_arb_swis, placeholder="Optional SWIS ID") }}
-        {{ macros.input_element(wtf_form.contact_name, placeholder="Contact Name") }}
-        {{ macros.input_element(wtf_form.contact_phone, placeholder="(555) 555-5555") }}
-        {{ macros.input_element(wtf_form.contact_email, placeholder="your_name@server.com") }}
+        {{ macros.input_element(wtf_form.contact_name, placeholder="e.g., Contact Name") }}
+        {{ macros.input_element(wtf_form.contact_phone, placeholder="e.g., (555) 555-5555") }}
+        {{ macros.input_element(wtf_form.contact_email, placeholder="e.g., your_name@server.com") }}
 
         {{ macros.section_close() }}
 
@@ -133,7 +133,7 @@
         {{ macros.section_open("Section 5. Detailed Ground Monitoring Results") }}
 
         {{ macros.input_element(wtf_form.initial_leak_concentration, size=6,
-              placeholder="For example: 123.4") }}
+              placeholder="e.g., 123.4") }}
         {{ macros.input_element(wtf_form.lat_revised, size=6,
               placeholder="Optional valid CA latitude with 5 digits of precision).") }}
         {{ macros.input_element(wtf_form.long_revised, size=6,
@@ -157,7 +157,7 @@
         {{ macros.input_element(wtf_form.mitigation_timestamp, size=6) }}
         {{ macros.input_element(wtf_form.re_monitored_timestamp, size=6) }}
         {{ macros.input_element(wtf_form.re_monitored_concentration, size=6,
-              placeholder="For example: 123.4") }}
+              placeholder="e.g., 123.4") }}
         {{ macros.input_element(wtf_form.included_in_last_lmr, size=3) }}
         {{ macros.input_element(wtf_form.included_in_last_lmr_description, size=12, rows=3,
               placeholder="Description") }}

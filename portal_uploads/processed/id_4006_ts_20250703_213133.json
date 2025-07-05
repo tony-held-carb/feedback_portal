@@ -1,0 +1,64 @@
+{
+    "_metadata_": {
+        "base_misc_json": {},
+        "File created at": "2025-07-04T04:31:33.262641+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Oil and Gas",
+            "test value 01": 1,
+            "test value 02": 2
+        },
+        "schemas": {
+            "Feedback Form": "oil_and_gas_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 4006,
+                "id_plume": 1234,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2024-06-25T00:00:00"
+                },
+                "lat_carb": 35.3211,
+                "long_carb": -119.5808,
+                "id_message": "100-01",
+                "facility_name": "Q1.  Facility Name",
+                "id_arb_eggrt": "Q2.  Facility's Cal e-GGRT ARB ID (if known)",
+                "contact_name": "Q3.  Contact Name",
+                "contact_phone": "555-555-5555",
+                "contact_email": "me@email.com",
+                "venting_exclusion": "No",
+                "venting_description_1": "Q7.  If you answered 'Yes' to Q6, please provide a",
+                "ogi_performed": "No",
+                "ogi_date": {
+                    "__type__": "datetime.datetime",
+                    "value": "2023-08-14T00:00:00"
+                },
+                "ogi_result": "Venting-routine",
+                "method21_performed": "No",
+                "method21_date": {
+                    "__type__": "datetime.datetime",
+                    "value": "2023-08-14T00:00:00"
+                },
+                "method21_result": "Venting-routine",
+                "initial_leak_concentration": 100.0,
+                "venting_description_2": "Q15.  If you answered 'Venting' to Q10 or Q13, ple",
+                "initial_mitigation_plan": "Q16.  If you answered a 'Unintentional-leak' or 'U",
+                "equipment_at_source": "Piping",
+                "equipment_other_description": "Q18.  If you answered 'Other' for Q17, please prov",
+                "component_at_source": "Other",
+                "component_other_description": "Q20.  If you answered 'Other' for Q19, please prov",
+                "repair_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2023-08-21T16:00:00"
+                },
+                "final_repair_concentration": 40.0,
+                "repair_description": "Q23.  Repair/Mitigation actions taken (if applicab",
+                "additional_notes": "Q24.  Additional notes or comments."
+            }
+        }
+    }
+}

@@ -17,16 +17,17 @@ Usage:
 ------
 Used by WSGI, CLI tools, or testing utilities:
 
+import logging
     from arb.portal.app import create_app
     app = create_app()
 """
 
+import logging
 from pathlib import Path
 
 from flask import Flask
 from sqlalchemy.ext.automap import AutomapBase
 
-from arb.__get_logger import get_logger
 from arb.portal.config import get_config
 from arb.portal.extensions import db
 from arb.portal.globals import Globals
@@ -35,7 +36,7 @@ from arb.portal.startup.db import db_initialize_and_create, reflect_database
 from arb.portal.startup.flask import configure_flask_app
 from arb.utils.database import get_reflected_base
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 

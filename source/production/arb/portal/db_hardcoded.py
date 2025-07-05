@@ -12,13 +12,13 @@ Notes:
 """
 
 import datetime
+import logging
 from pathlib import Path
 from typing import Any
 
-from arb.__get_logger import get_logger
 from arb.utils.web_html import update_selector_dict
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 # Sector classification constants

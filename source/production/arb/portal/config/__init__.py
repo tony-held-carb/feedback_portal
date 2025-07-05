@@ -12,22 +12,23 @@ Key Features:
 
 Usage:
 ------
+import logging
     from config import get_config
     app.config.from_object(get_config())
 
 Environment Variables:
 ----------------------
 - CONFIG_TYPE (str): Explicit config selector (e.g., "production", "testing").
-- FLASK_ENV (str): Flask’s default config selector, used if CONFIG_TYPE is unset.
+- FLASK_ENV (str): Flask's default config selector, used if CONFIG_TYPE is unset.
 """
 
 import os
 from pathlib import Path
+import logging
 
-from arb.__get_logger import get_logger
 from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 

@@ -5,6 +5,7 @@ Defines base and derived configuration classes used by the ARB portal.
 Each config class inherits from `BaseConfig` and may override environment-specific values.
 
 Usage:
+import logging
   from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 Notes:
@@ -12,12 +13,11 @@ Notes:
   - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
+import logging
 import os
 from pathlib import Path
 
-from arb.__get_logger import get_logger
-
-logger, pp_log = get_logger()
+logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 
 
