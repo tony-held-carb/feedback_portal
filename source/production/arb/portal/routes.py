@@ -141,14 +141,14 @@ def og_incidence_create() -> Response:
     Response: Redirect to the `incidence_update` page for the newly created ID.
 
   Notes:
-    - Dummy data is loaded from `db_hardcoded.get_og_dummy_data()`.
+    - Dummy data is loaded from `db_hardcoded.get_og_dummy_form_data()`.
   """
   logger.debug(f"og_incidence_create() - beginning.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
 
-  data_dict = arb.portal.db_hardcoded.get_og_dummy_data()
+  data_dict = arb.portal.db_hardcoded.get_og_dummy_form_data()
 
   id_ = dict_to_database(db,
                          base,
@@ -170,7 +170,7 @@ def landfill_incidence_create() -> Response:
     Response: Redirect to the `incidence_update` page for the newly created ID.
 
   Notes:
-    - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_data()`.
+    - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_form_data()`.
   """
 
   logger.debug(f"landfill_incidence_create called.")
@@ -178,7 +178,7 @@ def landfill_incidence_create() -> Response:
   table_name = 'incidences'
   col_name = 'misc_json'
 
-  data_dict = arb.portal.db_hardcoded.get_landfill_dummy_data()
+  data_dict = arb.portal.db_hardcoded.get_landfill_dummy_form_data()
 
   id_ = dict_to_database(db,
                          base,

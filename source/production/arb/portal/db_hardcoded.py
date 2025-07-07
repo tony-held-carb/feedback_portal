@@ -15,8 +15,10 @@ import datetime
 import logging
 from pathlib import Path
 from typing import Any
+from datetime import timezone
 
 from arb.utils.web_html import update_selector_dict
+from arb.utils.date_and_time import utc_datetime_to_iso_str
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -47,74 +49,16 @@ LANDFILL_SECTORS = [
 ]
 
 
-def add_og_dummy_data(db, base, table_name) -> None:
-  """
-  (Depreciated) Populate the database with synthetic Oil & Gas incidence rows for diagnostics.
-
-  Args:
-    db (SQLAlchemy): Active SQLAlchemy session bound to the database.
-    base (AutomapBase): SQLAlchemy automap base for resolving table classes.
-    table_name (str): Target table name (e.g., 'incidences').
-
-  Notes:
-    - This routine is likely outdated and is kept only as a template.
-    - It is valid, but not necessary to specify 'Please Select' in dummy data.
-    - Uses an offset in `id_incidence` to avoid primary key conflicts.
-    - Inserts 9 rows with dummy `misc_json` fields.
-  """
-
-  from arb.utils.sql_alchemy import get_class_from_table_name
-  logger.debug(f"Adding dummy oil and gas data to populate the database")
-  table = get_class_from_table_name(base, table_name)
-  col_name = "misc_json"
-
-  offset = 2000000  # adjust so that you don't have a unique constraint issue
-
-  for i in range(1, 10):
-    id_incidence = i + offset
-    id_plume = i + 100
-    lat_arb = i + 50.
-    long_arb = i + 75.
-    observation_timestamp = datetime.datetime.now().replace(second=0, microsecond=0)
-
-    facility_name = f"facility_{i}"
-    contact_name = f"contact_name_{i}"
-    contact_phone = f"(555) 555-5555x{i}"
-    contact_email = f"my_email_{i}@server.com"
-    sector = "Oil & Gas"
-    sector_type = "Oil & Gas"
-
-    json_data = {"id_incidence": id_incidence,
-                 "id_plume": id_plume,
-                 "lat_arb": lat_arb,
-                 "long_arb": long_arb,
-                 # "observation_timestamp": observation_timestamp.strftime("%Y-%m-%d %H:%M:%S.%f"),
-                 "observation_timestamp": observation_timestamp,
-                 "facility_name": facility_name,
-                 "contact_name": contact_name,
-                 "contact_phone": contact_phone,
-                 "contact_email": contact_email,
-                 "sector": sector,
-                 "sector_type": sector_type,
-                 }
-
-    model = table(description="Dummy data created by add_og_dummy_data", **{col_name: json_data})
-
-    logger.debug(f"Adding incidence with json dummy data: {json_data=}")
-
-    db.session.add(model)
-  db.session.commit()
-
-
-def get_og_dummy_data() -> dict:
+def get_og_dummy_form_data() -> dict:
   """
   Generate dummy Oil & Gas form data as a dictionary.
 
   Returns:
-    dict: Pre-filled key/value pairs used to populate a feedback form.
+    dict: Pre-filled key/value pairs simulating user input from the HTML form.
 
   Notes:
-  - It is valid, but not necessary to specify 'Please Select' in dummy data.
+    - Datetime fields are naive (California local), matching what a user would submit.
+    - This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.
   """
 
   json_data = {
@@ -156,15 +100,16 @@ def get_og_dummy_data() -> dict:
   return json_data
 
 
-def get_landfill_dummy_data() -> dict:
+def get_landfill_dummy_form_data() -> dict:
   """
   Generate dummy Landfill form data as a dictionary.
 
   Returns:
-    dict: Pre-filled key/value pairs used to populate a feedback form.
+    dict: Pre-filled key/value pairs simulating user input from the HTML form.
 
   Notes:
-  - It is valid, but not necessary to specify 'Please Select' in dummy data.
+    - Datetime fields are naive (California local), matching what a user would submit.
+    - This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.
   """
   logger.debug(f"in landfill_dummy_data()")
 

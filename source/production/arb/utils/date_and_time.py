@@ -13,7 +13,7 @@ Timezone policy:
 """
 import logging
 from collections.abc import Mapping
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any
 from zoneinfo import ZoneInfo
 from dateutil import parser
@@ -175,23 +175,50 @@ def utc_datetime_to_html_naive_str(utc_dt: datetime) -> str:
         raise ValueError("Datetime must be UTC")
     return utc_datetime_to_ca_naive_datetime(utc_dt, utc_strict=True).strftime("%Y-%m-%dT%H:%M")
 
-def validate_datetime_contract(dt: datetime, context: str) -> None:
+def is_datetime_naive(dt: datetime) -> bool:
     """
-    Validate that a datetime is contract-compliant (UTC and timezone-aware).
+    Return True if a datetime is naive (lacks timezone info).
 
+    A datetime is considered naive if:
+      - dt.tzinfo is None: No timezone information is attached.
+      - OR dt.tzinfo.utcoffset(dt) is None: tzinfo is set, but it returns None for this datetime (per Python's datetime docs, this means the datetime is treated as naive).
+    This covers both cases described in the Python datetime documentation.
     Args:
-        dt (datetime): Datetime to validate.
-        context (str): Context for error messages.
-
-    Raises:
-        ValueError: If datetime is not contract-compliant.
+        dt (datetime): Datetime to check.
+    Returns:
+        bool: True if naive, False otherwise.
     """
     if dt is None:
-        return
+        # None is not a datetime, so treat as not naive (or could raise error)
+        return False
     if dt.tzinfo is None:
-        raise ValueError(f"Datetime in {context} must be timezone-aware")
-    if dt.tzinfo != UTC_TZ:
-        raise ValueError(f"Datetime in {context} must be UTC, got {dt.tzinfo}")
+        # No timezone info attached: definitely naive
+        return True
+    if dt.tzinfo.utcoffset(dt) is None:
+        # tzinfo is set, but utcoffset returns None: still considered naive
+        return True
+    # Otherwise, datetime is timezone-aware
+    return False
+
+def is_datetime_utc(dt: datetime) -> bool:
+    """
+    Return True if the datetime is timezone-aware and in UTC.
+
+    This check uses dt.tzinfo.utcoffset(dt) == timedelta(0) because:
+      - There are multiple ways a datetime can be marked as UTC (e.g., datetime.timezone.utc, zoneinfo.ZoneInfo("UTC"), pytz.UTC, custom tzinfo, etc.).
+      - Comparing tzinfo objects directly (e.g., dt.tzinfo == timezone.utc) is not reliable across all libraries and implementations.
+      - The UTC offset is always zero for UTC, regardless of the tzinfo class, so this test is robust and works for all compliant tzinfo implementations.
+    Args:
+        dt (datetime): Datetime to check.
+    Returns:
+        bool: True if dt is timezone-aware and in UTC, False otherwise.
+    """
+    if dt is None:
+        return False
+    if dt.tzinfo is None:
+        return False
+    # UTC offset must be zero for UTC, regardless of tzinfo implementation
+    return dt.tzinfo.utcoffset(dt) == timedelta(0)
 
 def excel_naive_datetime_to_utc_datetime(excel_dt: datetime) -> datetime:
     """
@@ -209,18 +236,6 @@ def excel_naive_datetime_to_utc_datetime(excel_dt: datetime) -> datetime:
     if excel_dt.tzinfo is not None:
         raise ValueError("Excel datetime should be naive (no timezone)")
     return ca_naive_datetime_to_utc_datetime(excel_dt)
-
-def is_datetime_naive(dt: datetime) -> bool:
-    """
-    Check if a datetime is naive (lacks timezone info).
-
-    Args:
-        dt (datetime): Datetime to check.
-
-    Returns:
-        bool: True if naive, False otherwise.
-    """
-    return dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None
 
 def utc_iso_str_to_ca_str(iso_str: str) -> str:
     """
