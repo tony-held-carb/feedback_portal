@@ -40,7 +40,7 @@
             {# Observation Timestamp #}
             {% set ts = misc.get('observation_timestamp') %}
             {% if ts %}
-              Plume Observed: {{ ts | repr_datetime_to_string }}
+              Plume Observed: {{ ts | utc_iso_str_to_ca_str }}
             {% else %}
               {#              Plume Observed:#}
             {% endif %}

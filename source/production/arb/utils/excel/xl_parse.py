@@ -23,7 +23,7 @@ from pathlib import Path
 import openpyxl
 
 from arb.portal.constants import PLEASE_SELECT
-from arb.utils.date_and_time import is_datetime_naive, parse_unknown_datetime
+from arb.utils.date_and_time import is_datetime_naive, excel_str_to_naive_datetime
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 logger = logging.getLogger(__name__)
@@ -274,7 +274,7 @@ def extract_tabs(wb: openpyxl.Workbook,
               # convert to datetime using a parser if possible
               # todo - datetime - seems like I could cast to utc here for persistence
               if value_type == datetime.datetime:
-                local_datetime = parse_unknown_datetime(value)
+                local_datetime = excel_str_to_naive_datetime(value)
                 if local_datetime and not is_datetime_naive(local_datetime):
                   logger.warning(f"Date time {value} is not a naive datetime, skipping to avoid data corruption")
                   continue
