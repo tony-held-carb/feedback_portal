@@ -130,6 +130,7 @@ def incidence_prep(model_row: AutomapBase,
                          crud_type=crud_type,
                          error_count_dict=error_count_dict,
                          id_incidence=getattr(model_row, "id_incidence", None),
+                         show_success_popup=False,  # Default to False for regular form display
                          )
 
 
