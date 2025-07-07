@@ -23,6 +23,7 @@ from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.utils.constants import PLEASE_SELECT
 from arb.utils.diagnostics import get_changed_fields, list_differences
 from arb.utils.json import deserialize_dict, make_dict_serializeable, safe_json_loads, wtform_types_and_values
+from arb.utils.sql_alchemy import load_model_json_column
 
 __version__ = "1.0.0"
 
