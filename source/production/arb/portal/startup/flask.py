@@ -84,7 +84,7 @@ def configure_flask_app(app: Flask) -> None:
   # Jinja: custom filters for debugging and string manipulation
   app.jinja_env.filters['debug'] = diag_recursive
   app.jinja_env.filters['args_to_string'] = args_to_string
-  app.jinja_env.filters['utc_iso_to_ca_local'] = utc_iso_str_to_ca_str
+  app.jinja_env.filters['utc_iso_str_to_ca_str'] = utc_iso_str_to_ca_str
 
   # Jinja: expose Python ZoneInfo class to templates for local time conversion
   app.jinja_env.globals["california_tz"] = ZoneInfo("America/Los_Angeles")
