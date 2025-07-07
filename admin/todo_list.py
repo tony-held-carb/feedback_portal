@@ -2,21 +2,18 @@
 
 # todo - Next Steps
 ----------------------------
-* if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
-  1) upload the file always if save/possible
-  2) convert the files to json if possible and save that too
-  3) update the database with json contents if possible
-  4) display the appropriate feedback form if it is an implemented sector (currenlty only Oil & Gas and Landfill)
-  5) provide diagnostic information as to whether the initial file was uploaded, if it was converted to json, if the database was updated, if show the feedback form if the sector is implemented, otherwise indicate that it is not
+* check if this was done:
+  * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
+    1) upload the file always if save/possible
+    2) convert the files to json if possible and save that too
+    3) update the database with json contents if possible
+    4) display the appropriate feedback form if it is an implemented sector (currenlty only Oil & Gas and Landfill)
+    5) provide diagnostic information as to whether the initial file was uploaded, if it was converted to json, if the database was updated, if show the feedback form if the sector is implemented, otherwise indicate that it is not
 
-
-* ---------   UI/UX ideas ----------
-* Currently, if you click save and the incidence update has no errors you are redirected to the index page
-  I would prefer that you stay on the incidence page and get a modal saying that your changes were saved
-  and that there are no known validation errors associated with the incidence
-* if you navigate to a route for an incidence that does not exist you should be redirected to the
-  upload_file url with a message indicating that the incidence does not exist, consider uploading
-  a spreadsheet with incidence feedback content
+* check if this was done:
+  * Currently, if you click save and the incidence update has no errors you are redirected to the index page
+    I would prefer that you stay on the incidence page and get a modal saying that your changes were saved
+    and that there are no known validation errors associated with the incidence
 
 
 * ---------   HTML & Forms ----------

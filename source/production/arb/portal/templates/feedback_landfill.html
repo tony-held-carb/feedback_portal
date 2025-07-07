@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% set form_id = "landfill-form" %}
 
+{% if show_success_popup %}
+  {% set body_attributes = 'data-show-success-popup="true"' %}
+{% endif %}
+
 {% if crud_type == "update" %}
   {% set title = "Update Incidence " ~ id_incidence %}
   {% set banner_title = "Operator Feedback Form (Landfill)" %}
@@ -15,6 +19,7 @@
 
 {% block footer_js %}
   <script src="{{ url_for('static', filename='js/form_change_tracker.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/success_popup.js') }}"></script>
 {% endblock %}
 
 {% block content_1 %}
@@ -182,4 +187,7 @@
       </form>
     </div>
   </div>
+
+  {% include 'includes/success_modal.html' %}
+
 {% endblock %}
