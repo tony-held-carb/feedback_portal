@@ -75,7 +75,7 @@
                       <td class="fw-bold">{{ field_name }}</td>
                       <td>
                         {% if field_value is none or field_value == '' %}
-                          <em class="text-muted">Not provided</em>
+                          <!-- Empty field - no text displayed -->
                         {% elif field_value is string and field_value|length > 100 %}
                           <div class="text-break">{{ field_value }}</div>
                         {% else %}
@@ -113,7 +113,7 @@
       {% endif %}
 
       <!-- Footer Actions -->
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between pb-4">
         <div>
           <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to Home
