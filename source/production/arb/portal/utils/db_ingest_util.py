@@ -1,12 +1,27 @@
 """
-database_ingest_util.py
+  Database ingestion helpers for inserting or updating rows based on structured dictionaries,
+  particularly those derived from Excel templates.
 
-This module provides database ingestion helpers for inserting or updating rows
-based on structured dictionaries, particularly those derived from Excel templates.
+  This module provides:
+    - Generic row ingestion from any dict using SQLAlchemy reflection
+    - Excel-specific wrapper for sector-based data (xl_dict_to_database)
 
-It includes:
-- Generic row ingestion from any dict using SQLAlchemy reflection
-- Excel-specific wrapper for sector-based data (xl_dict_to_database)
+  Args:
+    None
+
+  Returns:
+    None
+
+  Attributes:
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.utils.db_ingest_util import xl_dict_to_database, dict_to_database
+    id_, sector = xl_dict_to_database(db, base, xl_dict)
+
+  Notes:
+    - Used by upload and staging routes to process Excel/JSON payloads.
+    - The logger emits a debug message when this file is loaded.
 """
 import shutil
 import logging
@@ -32,20 +47,24 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 def extract_tab_and_sector(xl_dict: dict, tab_name: str = "Feedback Form") -> dict:
   """
   Extract form data from Excel-parsed JSON and include sector from metadata.
-  
-  This helper function combines tab contents with sector metadata into a single
-  payload for database insertion, ensuring consistency between staged and
-  production uploads.
-  
+
   Args:
     xl_dict (dict): Parsed Excel document with 'metadata' and 'tab_contents'.
     tab_name (str): Name of the worksheet tab to extract. Defaults to 'Feedback Form'.
-    
+
   Returns:
     dict: Combined payload with tab_contents and sector included.
-    
+
   Raises:
     ValueError: If the tab_name is missing or sector cannot be determined.
+
+  Examples:
+    form_data = extract_tab_and_sector(xl_dict)
+    # Returns a dict with form data and sector
+
+  Notes:
+    - Ensures consistency between staged and production uploads.
+    - Logs a warning if sector is missing in metadata.
   """
   if "tab_contents" not in xl_dict or tab_name not in xl_dict["tab_contents"]:
     raise ValueError(f"Tab '{tab_name}' not found in xl_dict")
@@ -82,16 +101,13 @@ def xl_dict_to_database(db: SQLAlchemy,
 
   Returns:
     tuple[int, str]: (id_incidence, sector)
-    
-  Note:
-    TODO: Future refactoring recommendation for consistency with staged uploads:
-    Replace the manual extraction below with:
-    ```
-    # Extract form data with sector (using helper for consistency)
-    tab_data = extract_tab_and_sector(xl_dict, tab_name)
-    sector = tab_data["sector"]
-    ```
-    This would ensure both staged and production uploads use the same logic.
+
+  Examples:
+    id_, sector = xl_dict_to_database(db, base, xl_dict)
+    # Inserts or stages the Excel data
+
+  Notes:
+    - For future consistency, consider using extract_tab_and_sector for all ingestion.
   """
   logger.debug(f"xl_dict_to_database() called with {xl_dict=}")
   metadata = xl_dict["metadata"]
@@ -113,8 +129,6 @@ def dict_to_database(db: SQLAlchemy,
   """
   Insert or update a row in the specified table using a dictionary payload.
 
-  If `dry_run` is True, no database write will occur. This is useful for staging uploads.
-
   Args:
     db (SQLAlchemy): SQLAlchemy DB instance.
     base (AutomapBase): Reflected model metadata.
@@ -130,6 +144,14 @@ def dict_to_database(db: SQLAlchemy,
   Raises:
     ValueError: If data_dict is empty.
     AttributeError: If PK cannot be resolved.
+
+  Examples:
+    id_ = dict_to_database(db, base, data_dict)
+    # Inserts or updates the row in the database
+
+  Notes:
+    - Uses get_ensured_row and update_model_with_payload for safe upsert.
+    - Commits the session unless dry_run is True.
   """
   from arb.utils.wtf_forms_util import update_model_with_payload
 
@@ -181,6 +203,10 @@ def json_file_to_db(db: SQLAlchemy,
 
   Returns:
     tuple[int, str]: (id_incidence, sector)
+
+  Examples:
+    id_, sector = json_file_to_db(db, "file.json", base)
+    # Loads JSON and inserts or stages the data
   """
   # todo - datetime - looks like this is where the json file gets loaded
   json_as_dict, metadata = json_load_with_meta(file_name)
@@ -205,6 +231,14 @@ def upload_and_update_db_old(db: SQLAlchemy,
 
   Returns:
     tuple[Path, int | None, str | None]: Filename, id_incidence, sector.
+
+  Examples:
+    file_name, id_, sector = upload_and_update_db_old(db, upload_dir, request_file, base)
+    # Handles upload and DB insert (deprecated)
+
+  Notes:
+    - If the file is Excel and can be converted to JSON, saves a JSON version and returns the filename.
+    - Deprecated in favor of staged upload logic.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -242,9 +276,12 @@ def upload_and_update_db(db: SQLAlchemy,
       - id_incidence of inserted row (if any),
       - sector extracted from the JSON file.
 
+  Examples:
+    file_name, id_, sector = upload_and_update_db(db, upload_dir, request_file, base)
+    # Handles upload, conversion, and DB insert
+
   Notes:
-    - This function performs a full ingest. It logs the file,
-      parses Excel → JSON, and inserts the data into the database.
+    - Performs a full ingest: logs the file, parses Excel → JSON, and inserts the data into the database.
     - If the file cannot be parsed or inserted, None values are returned.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")

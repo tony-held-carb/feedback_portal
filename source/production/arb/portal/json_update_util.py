@@ -1,15 +1,29 @@
 """
-Utility functions to apply updates to an SQLAlchemy model's JSON field and
-log each change to the portal_updates table for auditing purposes.
+  Utility functions to apply updates to an SQLAlchemy model's JSON field and
+  log each change to the portal_updates table for auditing purposes.
 
-Features:
-  - Compares current vs. new values in a model's JSON field
-  - Logs only meaningful changes to a structured audit table
-  - Excludes no-op or default placeholders (e.g., None, "")
+  Features:
+    - Compares current vs. new values in a model's JSON field
+    - Logs only meaningful changes to a structured audit table
+    - Excludes no-op or default placeholders (e.g., None, "")
 
-Typical Use:
-  Called when a form submission modifies a feedback record, with changes
-  applied to the model and written to the database via SQLAlchemy.
+  Args:
+    None
+
+  Returns:
+    None
+
+  Attributes:
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.json_update_util import apply_json_patch_and_log
+    apply_json_patch_and_log(model, updates)
+
+  Notes:
+    - Called when a form submission modifies a feedback record, with changes
+      applied to the model and written to the database via SQLAlchemy.
+    - The logger emits diagnostic messages for auditing and debugging.
 """
 
 import datetime
@@ -52,6 +66,15 @@ def apply_json_patch_and_log(model,
 
   Raises:
     AttributeError: If the specified JSON field does not exist on the model.
+
+  Examples:
+    apply_json_patch_and_log(model, {"field1": "new_value"}, user="alice")
+
+  Notes:
+    - Filters out non-useful updates (e.g., None → None, None → "", None → PLEASE_SELECT).
+    - Logs all changes to the portal_updates table for auditing.
+    - Commits the session after applying changes and logging.
+    - Raises and logs exceptions on commit failure.
   """
   
   # 🆕 DIAGNOSTIC: Log function entry and model state

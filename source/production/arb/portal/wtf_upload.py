@@ -4,15 +4,26 @@ WTForms-based upload form for the ARB Feedback Portal.
 Defines a minimal form used to upload Excel files via the web interface.
 Typically used in the `/upload` route.
 
-Fields:
---------
-- file: Accepts `.xls` or `.xlsx` files only.
-- submit: Triggers form submission.
+Args:
+  None
+
+Returns:
+  None
+
+Attributes:
+  UploadForm (type): WTForms form class for file uploads.
+  logger (logging.Logger): Logger instance for this module.
+
+Examples:
+  form = UploadForm()
+  if form.validate_on_submit():
+    # handle file upload
+    pass
 
 Notes:
-------
-- Leverages Flask-WTF integration with Bootstrap-compatible rendering.
-- Additional validation for file size or filename may be added externally.
+  - Leverages Flask-WTF integration with Bootstrap-compatible rendering.
+  - Additional validation for file size or filename may be added externally.
+  - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -29,9 +40,15 @@ class UploadForm(FlaskForm):
   """
   WTForm for uploading Excel or JSON files via the ARB Feedback Portal.
 
-  Fields:
+  Attributes:
     file (FileField): Upload field for selecting a `.xls` or `.xlsx` file.
     submit (SubmitField): Form button to initiate upload.
+
+  Examples:
+    form = UploadForm()
+    if form.validate_on_submit():
+      # handle file upload
+      pass
 
   Notes:
     - Uses Flask-WTF and integrates with Bootstrap templates.

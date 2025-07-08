@@ -1,19 +1,30 @@
 """
-Flask-specific application setup utilities for the ARB Feedback Portal.
+  Flask-specific application setup utilities for the ARB Feedback Portal.
 
-This module configures Flask app behavior, including:
-  - Jinja2 environment customization
-  - Upload limits and paths
-  - Flask logger settings
-  - Custom template filters and globals
+  This module configures Flask app behavior, including:
+    - Jinja2 environment customization
+    - Upload limits and paths
+    - Flask logger settings
+    - Custom template filters and globals
 
-Should be invoked during application factory setup:
+  Args:
+    None
 
-Example:
-import logging
-  from startup.flask import configure_flask_app
-  app = Flask(__name__)
-  configure_flask_app(app)
+  Returns:
+    None
+
+  Attributes:
+    configure_flask_app (function): Applies global configuration to a Flask app instance.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.startup.flask import configure_flask_app
+    app = Flask(__name__)
+    configure_flask_app(app)
+
+  Notes:
+    - Should be invoked during application factory setup.
+    - The logger emits a debug message when this file is loaded.
 """
 import logging
 from pathlib import Path
@@ -39,6 +50,14 @@ def configure_flask_app(app: Flask) -> None:
   Args:
     app (Flask): The Flask application to configure.
 
+  Returns:
+    None
+
+  Examples:
+    from arb.portal.startup.flask import configure_flask_app
+    app = Flask(__name__)
+    configure_flask_app(app)
+
   Configures:
     - Jinja2 environment:
         * Enables strict mode for undefined variables
@@ -50,6 +69,10 @@ def configure_flask_app(app: Flask) -> None:
     - Logger:
         * Applies `LOG_LEVEL` from app config
         * Disables Werkzeug color log markup
+
+  Notes:
+    - Should be called before registering blueprints or running the app.
+    - Modifies app config and Jinja environment in place.
   """
   logger.debug(f"configure_flask_app() called")
 

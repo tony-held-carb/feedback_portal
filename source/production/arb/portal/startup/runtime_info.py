@@ -1,26 +1,47 @@
 """
-Provides runtime metadata and dynamic paths for the application.
+  Provides runtime metadata and dynamic paths for the application.
 
-This module defines:
-  - Project root and key directories (uploads, logs, static)
-  - Operating system detection (Windows, Linux, macOS)
-  - Platform-level info useful for conditional behavior
-  - Diagnostic tools for runtime environment inspection
+  This module defines:
+    - Project root and key directories (uploads, logs, static)
+    - Operating system detection (Windows, Linux, macOS)
+    - Platform-level info useful for conditional behavior
+    - Diagnostic tools for runtime environment inspection
 
-Example:
-import logging
-  from startup.runtime_info import (PROJECT_ROOT, UPLOAD_PATH, LOG_DIR,
-    IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)
+  Args:
+    None
 
-Notes:
-  - The project root directory is assumed to be named "feedback_portal".
-  - If the app is run from:
-      feedback_portal/source/production/arb/wsgi.py
-    then directory resolution is:
-      Path(__file__).resolve().parents[0] → .../arb
-      Path(__file__).resolve().parents[1] → .../production
-      Path(__file__).resolve().parents[2] → .../source
-      Path(__file__).resolve().parents[3] → .../feedback_portal
+  Returns:
+    None
+
+  Attributes:
+    PROJECT_ROOT (Path): Path to the project root directory.
+    UPLOAD_PATH (Path): Path to the uploads directory.
+    LOG_DIR (Path): Path to the logs directory.
+    LOG_FILE (Path): Path to the main log file.
+    STATIC_DIR (Path): Path to the static assets directory.
+    IS_WINDOWS (bool): True if running on Windows.
+    IS_LINUX (bool): True if running on Linux.
+    IS_MAC (bool): True if running on macOS.
+    print_runtime_diagnostics (function): Prints/logs runtime diagnostics.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.startup.runtime_info import (
+      PROJECT_ROOT, UPLOAD_PATH, LOG_DIR, IS_WINDOWS, IS_LINUX, IS_MAC, print_runtime_diagnostics)
+    print_runtime_diagnostics()
+
+  Notes:
+    - The project root directory is assumed to be named "feedback_portal".
+    - Directory resolution is based on the known app structure.
+    - The logger emits a debug message when this file is loaded.
+    - The project root directory is assumed to be named "feedback_portal".
+    - If the app is run from:
+        feedback_portal/source/production/arb/wsgi.py
+      then directory resolution is:
+        Path(__file__).resolve().parents[0] → .../arb
+        Path(__file__).resolve().parents[1] → .../production
+        Path(__file__).resolve().parents[2] → .../source
+        Path(__file__).resolve().parents[3] → .../feedback_portal
 """
 import logging
 from pathlib import Path
@@ -39,13 +60,19 @@ def print_runtime_diagnostics() -> None:
   """
   Print and log detected runtime paths and platform flags for debugging.
 
-  Outputs:
-    - Platform name and OS flags
-    - Resolved project root path
-    - Paths for uploads, logs, and static assets
+  Args:
+    None
 
   Returns:
     None
+
+  Examples:
+    print_runtime_diagnostics()
+    # Logs platform, directory, and path info for debugging
+
+  Notes:
+    - Outputs platform name, OS flags, and resolved paths.
+    - Uses the logger for info-level diagnostics.
   """
   logger.info(f"{'PLATFORM':<20} = {PLATFORM}")
   logger.info(f"{'IS_WINDOWS':<20} = {IS_WINDOWS}")

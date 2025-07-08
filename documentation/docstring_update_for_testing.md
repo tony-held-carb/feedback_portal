@@ -20,34 +20,78 @@ This document tracks the progress and methodology of enhancing docstrings in the
 
 ## Progress Table
 
-| File (portal/util)                | Enhanced Documentation | Unit Testing Status         |
-|-----------------------------------|:---------------------:|:--------------------------:|
-| portal/constants.py               | No                    | No                         |
-| portal/json_update_util.py        | No                    | No                         |
-| portal/db_hardcoded.py            | No                    | No                         |
-| portal/globals.py                 | No                    | No                         |
-| portal/wtf_upload.py              | No                    | No                         |
-| portal/routes.py                  | No                    | No (integration suggested) |
-| portal/sqla_models.py             | No                    | No (integration suggested) |
-| portal/extensions.py              | No                    | No                         |
-| portal/app.py                     | No                    | No                         |
-| utils/date_and_time.py            | Yes                   | Yes                        |
-| utils/json.py                     | Yes                   | No                         |
-| utils/misc.py                     | Yes                   | No                         |
-| utils/file_io.py                  | Yes                   | No                         |
-| utils/constants.py                | Yes                   | No                         |
-| utils/io_wrappers.py              | Yes                   | No                         |
-| utils/wtf_forms_util.py           | Yes                   | Partial (~)                |
-| utils/diagnostics.py              | Yes                   | No                         |
-| utils/web_html.py                 | Yes                   | No                         |
-| utils/log_util.py                 | Yes                   | No                         |
-| utils/sql_alchemy.py              | Yes                   | No                         |
-| utils/database.py                 | Yes                   | No                         | 
+| # | File (arb/portal/util)                        | Enhanced Documentation| Unit Testing Status        |
+|---|-----------------------------------------------|:---------------------:|:--------------------------:|
+|  1| arb/__init__.py                               | Yes                   | No                         |
+|  2| arb/logging/arb_logging.py                    | Yes                   | No                         |
+|  3| arb/portal/__init__.py                        | Yes                   | No                         |
+|  4| arb/portal/app.py                             | Yes                   | No                         |
+|  5| arb/portal/constants.py                       | Yes                   | No                         |
+|  6| arb/portal/db_hardcoded.py                    | Yes                   | No                         |
+|  7| arb/portal/extensions.py                      | Yes                   | No                         |
+|  8| arb/portal/globals.py                         | Yes                   | No                         |
+|  9| arb/portal/json_update_util.py                | Yes                   | No                         |
+| 10| arb/portal/routes.py                          | Yes                   | No (integration suggested) |
+| 11| arb/portal/sqla_models.py                     | Yes                   | No (integration suggested) |
+| 12| arb/portal/wtf_landfill.py                    | Yes                   | No                         |
+| 13| arb/portal/wtf_oil_and_gas.py                 | Yes                   | No                         |
+| 14| arb/portal/wtf_upload.py                      | Yes                   | No                         |
+| 15| arb/portal/startup/__init__.py                | Yes                   | No                         |
+| 16| arb/portal/startup/db.py                      | Yes                   | No                         |
+| 17| arb/portal/startup/flask.py                   | Yes                   | No                         |
+| 18| arb/portal/startup/runtime_info.py            | Yes                   | No                         |
+| 19| arb/portal/utils/__init__.py                  | Yes                   | No                         |
+| 20| arb/portal/utils/db_ingest_util.py            | Yes                   | No                         |
+| 21| arb/portal/utils/db_introspection_util.py     | Yes                   | No                         |
+| 22| arb/portal/utils/file_upload_util.py          | Yes                   | No                         |
+| 23| arb/portal/utils/form_mapper.py               | Yes                   | No                         |
+| 24| arb/portal/utils/github_and_ai.py             | Yes                   | No                         |
+| 25| arb/portal/utils/route_util.py                | Yes                   | No                         |
+| 26| arb/portal/utils/sector_util.py               | Yes                   | No                         |
+| 27| arb/utils/__init__.py                         | Yes                   | No                         |
+| 28| arb/utils/constants.py                        | Yes                   | No                         |
+| 29| arb/utils/database.py                         | Yes                   | No                         |
+| 30| arb/utils/date_and_time.py                    | Yes                   | Yes                        |
+| 31| arb/utils/diagnostics.py                      | Yes                   | No                         |
+| 32| arb/utils/file_io.py                          | Yes                   | No                         |
+| 33| arb/utils/io_wrappers.py                      | Yes                   | No                         |
+| 34| arb/utils/json.py                             | Yes                   | No                         |
+| 35| arb/utils/log_util.py                         | Yes                   | No                         |
+| 36| arb/utils/misc.py                             | Yes                   | No                         |
+| 37| arb/utils/sql_alchemy.py                      | Yes                   | No                         |
+| 38| arb/utils/web_html.py                         | Yes                   | No                         |
+| 39| arb/utils/wtf_forms_util.py                   | Yes                   | Partial (~)                |
+| 40| arb/wsgi.py                                   | Yes                   | No                         |
+| 41| arb/portal/config/__init__.py                 | Yes                   | No                         |
+| 42| arb/portal/config/accessors.py                | Yes                   | No                         |
+| 43| arb/portal/config/settings.py                 | Yes                   | No                         |
+
+## Progress Table 2 - Authentication related
+
+| # | File (arb/auth/auth_example_app)              | Enhanced Documentation | Unit Testing Status         |
+|---|-----------------------------------------------|:---------------------:|:--------------------------:|
+|  1| arb/auth/__init__.py                          | No                    | No                         |
+|  2| arb/auth/default_settings.py                  | No                    | No                         |
+|  3| arb/auth/email_util.py                        | No                    | No                         |
+|  4| arb/auth/forms.py                             | No                    | No                         |
+|  5| arb/auth/login_manager.py                     | No                    | No                         |
+|  6| arb/auth/migrate_roles.py                     | No                    | No                         |
+|  7| arb/auth/models.py                            | No                    | No                         |
+|  8| arb/auth/okta_settings.py                     | No                    | No                         |
+|  9| arb/auth/role_decorators.py                   | No                    | No                         |
+| 10| arb/auth/role_examples.py                     | No                    | No                         |
+| 11| arb/auth/routes.py                            | No                    | No                         |
+| 12| arb/auth/test_auth.py                         | No                    | No                         |
+| 13| arb/auth_example_app/__init__.py              | No                    | No                         |
+| 14| arb/auth_example_app/app.py                   | No                    | No                         |
+| 15| arb/auth_example_app/config.py                | No                    | No                         |
+| 16| arb/auth_example_app/extensions.py            | No                    | No                         |
+| 17| arb/auth_example_app/wsgi.py                  | No                    | No                         |
 
 ---
 
 **Update (YYYY-MM-DD):**
-As of today, all functions in `utils/wtf_forms_util.py` have been reviewed and enhanced for docstring clarity, explicit argument edge case documentation, and consistently formatted examples. This completes the documentation enhancement phase for this file. 
+As of today, all functions in `utils/wtf_forms_util.py` have been reviewed and enhanced for docstring clarity, explicit argument edge case documentation, and consistently formatted Input/Output examples. This completes the documentation enhancement phase for this file. 
 
 ---
 

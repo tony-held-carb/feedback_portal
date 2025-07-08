@@ -1,12 +1,31 @@
 """
-route_util.py
+  Utilities for preparing rendering context and template output for feedback form pages.
 
-This module prepares the rendering context and template output for individual
-feedback form pages, supporting both 'create' and 'update' operations.
+  This module supports both 'create' and 'update' operations for feedback forms,
+  integrating SQLAlchemy model rows with WTForms-based forms, enforcing dropdown resets,
+  and applying conditional rendering logic based on sector type and CRUD mode.
 
-It integrates SQLAlchemy model rows with WTForms-based feedback forms,
-enforces dropdown resets, and applies conditional rendering logic
-based on sector type and CRUD mode.
+  Args:
+    None
+
+  Returns:
+    None
+
+  Attributes:
+    incidence_prep (function): Prepares and renders feedback form pages.
+    render_readonly_sector_view (function): Renders read-only sector views.
+    generate_upload_diagnostics (function): Generates diagnostics for upload failures.
+    generate_staging_diagnostics (function): Generates diagnostics for staging failures.
+    format_diagnostic_message (function): Formats diagnostic messages for display.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.utils.route_util import incidence_prep
+    html = incidence_prep(model_row, 'create', 'Oil & Gas', 'Please Select')
+
+  Notes:
+    - Used by feedback portal routes for form rendering and diagnostics.
+    - Integrates with WTForms and SQLAlchemy models.
 """
 
 import logging
@@ -43,10 +62,19 @@ def incidence_prep(model_row: AutomapBase,
     default_dropdown (str): Value used to fill in blank selects.
 
   Returns:
-    str: Rendered HTML from the appropriate feedback template.
+    str | Response: Rendered HTML from the appropriate feedback template or a Flask Response.
 
   Raises:
     ValueError: If the sector type is invalid.
+
+  Examples:
+    html = incidence_prep(model_row, 'update', 'Oil & Gas', 'Please Select')
+    # Renders the Oil & Gas feedback form for updating a record
+
+  Notes:
+    - Handles both GET and POST requests for feedback forms.
+    - Integrates with WTForms and SQLAlchemy models.
+    - Shows a success popup if validation passes on submit.
   """
   # The imports below can't be moved to the top of the file because they require Globals to be initialized
   # prior to first use (Globals.load_drop_downs(app, db)).
@@ -145,14 +173,22 @@ def incidence_prep(model_row: AutomapBase,
 def render_readonly_sector_view(model_row: AutomapBase, sector_type: str, crud_type: str) -> str:
   """
   Render a read-only view for sectors that don't have interactive forms.
-  
+
   Args:
-    model_row: Database model row containing incidence data.
-    sector_type: The unsupported sector type.
-    crud_type: Type of CRUD operation ('create', 'update', 'delete').
-    
+    model_row (AutomapBase): Database model row containing incidence data.
+    sector_type (str): The unsupported sector type.
+    crud_type (str): Type of CRUD operation ('create', 'update', 'delete').
+
   Returns:
     str: Rendered HTML with formatted read-only data.
+
+  Examples:
+    html = render_readonly_sector_view(model_row, 'Unknown', 'update')
+    # Renders a read-only view for an unsupported sector
+
+  Notes:
+    - Used for sectors that do not have interactive feedback forms.
+    - Displays all misc_json fields in alphabetical order.
   """
   logger.debug(f"render_readonly_sector_view() called for sector_type={sector_type}")
   
@@ -180,17 +216,25 @@ def generate_upload_diagnostics(request_file, file_path: Optional[Path] = None,
                                include_id_extraction: bool = False) -> List[str]:
   """
   Generate diagnostic information for upload failures.
-  
+
   This function analyzes what succeeded and what failed in the upload process,
   providing detailed information to help users understand and fix issues.
-  
+
   Args:
-    request_file: The uploaded file object from Flask request
-    file_path: Optional path to the saved file
-    include_id_extraction: Whether to include ID extraction diagnostics (for staged uploads)
-    
+    request_file: The uploaded file object from Flask request.
+    file_path (Optional[Path]): Optional path to the saved file.
+    include_id_extraction (bool): Whether to include ID extraction diagnostics (for staged uploads).
+
   Returns:
-    List[str]: List of diagnostic messages with ✅/❌ indicators
+    List[str]: List of diagnostic messages with ✅/❌ indicators.
+
+  Examples:
+    diagnostics = generate_upload_diagnostics(request_file, file_path)
+    # Returns a list of diagnostic messages for the upload process
+
+  Notes:
+    - Checks file upload, disk save, JSON conversion, and optional ID extraction.
+    - Returns early if any step fails.
   """
   error_details = []
   
@@ -243,19 +287,27 @@ def generate_staging_diagnostics(request_file, file_path: Optional[Path] = None,
                                 sector: Optional[str] = None) -> List[str]:
   """
   Generate diagnostic information specifically for staging failures.
-  
+
   This function provides detailed diagnostics for the staging workflow,
   including staging file creation and metadata capture.
-  
+
   Args:
-    request_file: The uploaded file object from Flask request
-    file_path: Optional path to the saved file
-    staged_filename: Optional name of the staged file
-    id_: Optional extracted ID
-    sector: Optional detected sector
-    
+    request_file: The uploaded file object from Flask request.
+    file_path (Optional[Path]): Optional path to the saved file.
+    staged_filename (Optional[str]): Optional name of the staged file.
+    id_ (Optional[int]): Optional extracted ID.
+    sector (Optional[str]): Optional detected sector.
+
   Returns:
-    List[str]: List of diagnostic messages with ✅/❌ indicators
+    List[str]: List of diagnostic messages with ✅/❌ indicators.
+
+  Examples:
+    diagnostics = generate_staging_diagnostics(request_file, file_path, staged_filename, id_, sector)
+    # Returns a list of diagnostic messages for the staging process
+
+  Notes:
+    - Builds on upload diagnostics and adds staging-specific checks.
+    - Verifies staging file creation and metadata capture.
   """
   error_details = []
   
@@ -294,13 +346,21 @@ def format_diagnostic_message(error_details: List[str],
                              custom_message: str = "Upload processing failed.") -> str:
   """
   Format diagnostic information into a user-friendly message.
-  
+
   Args:
-    error_details: List of diagnostic messages from generate_upload_diagnostics
-    custom_message: Custom message to prepend to diagnostics
-    
+    error_details (List[str]): List of diagnostic messages from generate_upload_diagnostics.
+    custom_message (str): Custom message to prepend to diagnostics.
+
   Returns:
-    str: Formatted diagnostic message for display
+    str: Formatted diagnostic message for display.
+
+  Examples:
+    msg = format_diagnostic_message(["✅ File uploaded", "❌ Save failed"])
+    # Returns a formatted string for display to the user
+
+  Notes:
+    - Summarizes successes and failures in the upload/staging process.
+    - Returns the custom message if no details are provided.
   """
   if not error_details:
     return custom_message

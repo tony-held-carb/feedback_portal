@@ -1,9 +1,26 @@
 """
-db_introspection_util.py
+  Database utility functions for dynamic schema operations using SQLAlchemy reflection.
 
-This module provides database utility functions for dynamic schema operations using
-SQLAlchemy reflection. It allows runtime access to models and retrieval or creation
-of rows using flexible table and column identifiers.
+  This module allows runtime access to models and retrieval or creation of rows
+  using flexible table and column identifiers.
+
+  Args:
+    None
+
+  Returns:
+    None
+
+  Attributes:
+    get_ensured_row (function): Retrieve or create a row in a table by primary key.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.utils.db_introspection_util import get_ensured_row
+    model, id_, is_new = get_ensured_row(db, base, table_name="incidences", id_=123)
+
+  Notes:
+    - Used by ingestion and upload utilities for safe upsert operations.
+    - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -11,6 +28,7 @@ from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
+from sqlalchemy.ext.declarative import DeclarativeMeta
 
 from arb.utils.sql_alchemy import get_class_from_table_name
 
@@ -26,8 +44,6 @@ def get_ensured_row(db: SQLAlchemy,
                     add_to_session: bool = False) -> tuple:
   """
   Retrieve or create a row in the specified table using a primary key.
-
-  If the row exists, it is returned. Otherwise, a new row is created and committed.
 
   Args:
     db (SQLAlchemy): SQLAlchemy database instance.
@@ -49,11 +65,16 @@ def get_ensured_row(db: SQLAlchemy,
     AttributeError: If the model class lacks the specified primary key.
     UnmappedClassError: If the table name is not mapped in metadata.
 
+  Examples:
+    model, id_, is_new = get_ensured_row(db, base, table_name="incidences", id_=123)
+    # Retrieves or creates a row in the incidences table
+
   Notes:
     - MODIFIED FOR STAGED UPLOADS: Added add_to_session parameter to support staged upload
       functionality without breaking existing upload_file behavior.
     - When add_to_session=True, new models are added to the session for proper tracking.
     - When add_to_session=False (default), behavior remains unchanged for upload_file compatibility.
+    - Logs detailed diagnostics for debugging and session state.
   """
 
   # 🆕 DIAGNOSTIC: Log function entry
@@ -63,18 +84,20 @@ def get_ensured_row(db: SQLAlchemy,
   is_new_row = False
 
   session = db.session
-  table = get_class_from_table_name(base, table_name)
+  table = get_class_from_table_name(base, table_name)  # type: ignore  # mapped ORM class
+  if table is None:
+    raise ValueError(f"Table '{table_name}' not found or not mapped in metadata.")
   
   logger.info(f"[get_ensured_row] Table class: {table}, Session: {session is not None}")
 
   if id_ is not None:
     logger.info(f"[get_ensured_row] Attempting to retrieve existing row with {primary_key_name}={id_}")
-    model = session.get(table, id_)
+    model = session.get(table, id_)  # type: ignore
     
     if model is None:
       is_new_row = True
       logger.info(f"[get_ensured_row] No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
-      model = table(**{primary_key_name: id_})
+      model = table(**{primary_key_name: id_})  # type: ignore
       # 🆕 CONDITIONAL: Add to session only if requested (for staged uploads)
       if add_to_session:
         session.add(model)
@@ -87,7 +110,7 @@ def get_ensured_row(db: SQLAlchemy,
   else:
     is_new_row = True
     logger.info(f"[get_ensured_row] Creating new {table_name} row with auto-generated {primary_key_name}")
-    model = table(**{primary_key_name: None})
+    model = table(**{primary_key_name: None})  # type: ignore
     session.add(model)
     
     logger.info(f"[get_ensured_row] About to commit new row to database")

@@ -6,9 +6,27 @@ This module provides:
   - Lookup values for HTML dropdowns (independent and contingent)
   - Shared test values for local debugging or spreadsheet seeding
 
+Args:
+  None
+
+Returns:
+  None
+
+Attributes:
+  logger (logging.Logger): Logger instance for this module.
+  OIL_AND_GAS_SECTORS (list[str]): Oil & Gas sector names for dropdowns.
+  LANDFILL_SECTORS (list[str]): Landfill sector names for dropdowns.
+
+Examples:
+  from arb.portal.db_hardcoded import get_og_dummy_form_data
+  data = get_og_dummy_form_data()
+  print(data["sector"])
+  # Output: 'Oil & Gas'
+
 Notes:
-  - Intended for use during development and offline diagnostics
-  - Not suitable for production database seeding
+  - Intended for use during development and offline diagnostics.
+  - Not suitable for production database seeding.
+  - The logger emits a debug message when this file is loaded.
 """
 
 import datetime
@@ -53,8 +71,16 @@ def get_og_dummy_form_data() -> dict:
   """
   Generate dummy Oil & Gas form data as a dictionary.
 
+  Args:
+    None
+
   Returns:
     dict: Pre-filled key/value pairs simulating user input from the HTML form.
+
+  Examples:
+    data = get_og_dummy_form_data()
+    print(data["sector"])
+    # Output: 'Oil & Gas'
 
   Notes:
     - Datetime fields are naive (California local), matching what a user would submit.
@@ -104,8 +130,16 @@ def get_landfill_dummy_form_data() -> dict:
   """
   Generate dummy Landfill form data as a dictionary.
 
+  Args:
+    None
+
   Returns:
     dict: Pre-filled key/value pairs simulating user input from the HTML form.
+
+  Examples:
+    data = get_landfill_dummy_form_data()
+    print(data["sector"])
+    # Output: 'Landfill'
 
   Notes:
     - Datetime fields are naive (California local), matching what a user would submit.
@@ -157,27 +191,30 @@ def get_landfill_dummy_form_data() -> dict:
   return json_data
 
 
-def get_excel_dropdown_data() -> tuple[
-  dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]],
-  dict[str, dict[str, list[str | Any]]]
-]:
+def get_excel_dropdown_data() -> tuple[dict, dict]:
   """
   Return dropdown lookup values used in Excel and HTML form rendering.
 
+  Args:
+    None
+
   Returns:
     tuple:
-      - dict[str, list[str]]: Independent dropdowns keyed by HTML field name.
-      - dict[str, dict[str, list[str]]]: Contingent dropdowns dependent on parent field values.
+      - dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]]: Independent dropdowns keyed by HTML field name.
+      - dict[str, dict[str, list[str | Any]]]: Contingent dropdowns dependent on parent field values.
+
+  Examples:
+    drop_downs, contingent = get_excel_dropdown_data()
+    print(list(drop_downs.keys()))
+    # Output: [ ... field names ... ]
 
   Notes:
     - Dropdown values mirror those found in Excel templates.
-    - Each list element is a selectable value; `"Please Select"` is prepended externally.
-    - Contingent keys follow the format: `field2_contingent_on_field1`.
+    - Each list element is a selectable value; 'Please Select' is prepended externally.
+    - Contingent keys follow the format: field2_contingent_on_field1.
     - Each tuple is 2 or 3 items in length with the format:
       (select value, select text, and an optional dictionary of additional html formatting)
-
-  # todo - The new drop-downs are not context dependent like they are in excel and the
-           validate logic needs to be updated.
+    - The new drop-downs are not context dependent like they are in excel and the validate logic needs to be updated.
   """
 
   # Oil & Gas

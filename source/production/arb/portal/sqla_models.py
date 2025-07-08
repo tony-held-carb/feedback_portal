@@ -4,17 +4,29 @@ SQLAlchemy model definitions for the ARB Feedback Portal.
 This module defines ORM classes that map to key tables in the database,
 including uploaded file metadata and portal JSON update logs.
 
-Notes:
-  * Only models explicitly defined here will be created by SQLAlchemy via `db.create_all()`.
-  * Most schema inspection and data access for `incidences` is handled dynamically via reflection.
-  * Timezone-aware UTC timestamps are used on all tracked models.
-  * All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
+Args:
+  None
+
+Returns:
+  None
+
+Attributes:
+  UploadedFile (type): SQLAlchemy model for uploaded file metadata.
+  PortalUpdate (type): SQLAlchemy model for portal update logs.
+  logger (logging.Logger): Logger instance for this module.
 
 Examples:
-  Input : file = UploadedFile(path="uploads/report.xlsx", status="pending")
-         db.session.add(file)
-         db.session.commit()
-  Output: file is inserted into the uploaded_files table with timestamps autopopulated
+  file = UploadedFile(path="uploads/report.xlsx", status="pending")
+  db.session.add(file)
+  db.session.commit()
+  # file is inserted into the uploaded_files table with timestamps autopopulated
+
+Notes:
+  - Only models explicitly defined here will be created by SQLAlchemy via `db.create_all()`.
+  - Most schema inspection and data access for `incidences` is handled dynamically via reflection.
+  - Timezone-aware UTC timestamps are used on all tracked models.
+  - All models inherit from `db.Model`, and can be directly queried with SQLAlchemy syntax.
+  - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -34,14 +46,10 @@ class UploadedFile(db.Model):
   """
     SQLAlchemy model representing a user-uploaded file.
 
-    Stores metadata for files uploaded via the portal interface, including
-    the file path, status, and optional description. Automatically tracks
-    creation and last modification timestamps.
-
     Table Name:
       uploaded_files
 
-    Columns:
+    Attributes:
       id_ (int): Primary key.
       path (str): Filesystem path to the uploaded file.
       description (str | None): Optional human-friendly explanation.
@@ -50,15 +58,15 @@ class UploadedFile(db.Model):
       modified_timestamp (datetime): UTC timestamp of last update.
 
     Examples:
-      Input : file = UploadedFile(path="uploads/test.xlsx", status="pending")
-             db.session.add(file)
-             db.session.commit()
-      Output: file appears in the uploaded_files table with 'pending' status
+      file = UploadedFile(path="uploads/test.xlsx", status="pending")
+      db.session.add(file)
+      db.session.commit()
+      # file appears in the uploaded_files table with 'pending' status
 
     Notes:
       - Timestamps use UTC and are timezone-aware.
       - This table is managed by SQLAlchemy directly (not introspected).
-    """
+  """
 
   __tablename__ = "uploaded_files"
 
@@ -79,12 +87,16 @@ class UploadedFile(db.Model):
     """
     Return a human-readable string representation of the uploaded file record.
 
+    Args:
+      None
+
     Returns:
-        str: Summary string showing the ID, path, description, and status.
+      str: Summary string showing the ID, path, description, and status.
 
     Examples:
-      Input : UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
-      Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'
+      file = UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
+      print(repr(file))
+      # Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'
     """
     return (
       f'<Uploaded File: {self.id_}, Path: {self.path}, '
@@ -96,13 +108,10 @@ class PortalUpdate(db.Model):
   """
   SQLAlchemy model tracking updates to the misc_json field on incidence records.
 
-  Used for auditing key/value changes made through the portal interface. Each row
-  represents a single change to a single field on a specific incidence.
-
   Table Name:
     portal_updates
 
-  Columns:
+  Attributes:
     id (int): Primary key.
     timestamp (datetime): UTC time when the change was logged.
     key (str): JSON key that was modified.
@@ -111,6 +120,12 @@ class PortalUpdate(db.Model):
     user (str): Username or identifier of the user making the change.
     comments (str): Optional explanatory comment.
     id_incidence (int | None): Foreign key to the modified incidence (nullable).
+
+  Examples:
+    update = PortalUpdate(key="field1", old_value="A", new_value="B", user="alice", id_incidence=1)
+    db.session.add(update)
+    db.session.commit()
+    # update appears in the portal_updates table
 
   Notes:
     - Automatically populated by `apply_json_patch_and_log()`.
@@ -130,6 +145,20 @@ class PortalUpdate(db.Model):
   id_incidence = Column(Integer, nullable=True)
 
   def __repr__(self):
+    """
+    Return a human-readable string representation of the portal update record.
+
+    Args:
+      None
+
+    Returns:
+      str: Summary string showing the update ID, key, old/new values, user, and timestamp.
+
+    Examples:
+      update = PortalUpdate(id=1, key="field1", old_value="A", new_value="B", user="alice")
+      print(repr(update))
+      # Output: '<PortalUpdate id=1 key='field1' old='A' new='B' user='alice' at=...>'
+    """
     return (
       f"<PortalUpdate id={self.id} key={self.key!r} old={self.old_value!r} "
       f"new={self.new_value!r} user={self.user!r} at={self.timestamp}>"
@@ -140,14 +169,18 @@ def run_diagnostics() -> None:
   """
   Run a test transaction to validate UploadedFile model functionality.
 
-  This utility performs an insert, fetch, and rollback on the UploadedFile
-  model to verify that the ORM mapping and database connection are working.
+  Args:
+    None
 
   Returns:
     None
 
   Raises:
     RuntimeError: If database access or fetch fails.
+
+  Examples:
+    run_diagnostics()
+    # Logs diagnostic info and rolls back the transaction
 
   Notes:
     - Meant for developer use in test environments only.
