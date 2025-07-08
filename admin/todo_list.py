@@ -3,7 +3,6 @@
 # todo - Next Steps
 ----------------------------
 
-
 * check if this was done:
   * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
     1) upload the file always if save/possible
@@ -19,10 +18,6 @@
 
 
 * ---------   HTML & Forms ----------
-* convert portal app from content_1 to standard content block pattern
-  * update all templates in arb.portal to use {% block content %} instead of {% block content_1 %}
-  * this will improve consistency with Flask conventions and reduce confusion when integrating with other packages
-  * consider using descriptive block names like main_content, sidebar_content if multiple content areas are needed
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
   and stay on the current page
 * consider having all the pages use the frozen buttons on the bottom approach across the site
@@ -34,10 +29,6 @@
 
 * check that the app/database is working using testing_protocol_and_notes.txt
 
-* implement recs from gpt to make the site more robust
-    Flask Data Integrity Review:  https://chatgpt.com/share/6823ec4c-bd20-800b-b83f-a85fb93ffcd8
-      * Ensure Optional() validators are used in WTForms where nullable columns exist in SQLAlchemy.
-          - not sure this really applies as we are updating the json field keys, not db column names.
 
 * ---------   Create New Form Capacity for the new sectors ----------
 * refactor forms as they are currently duplicative
