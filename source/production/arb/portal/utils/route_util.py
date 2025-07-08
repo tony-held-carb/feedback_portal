@@ -160,68 +160,19 @@ def render_readonly_sector_view(model_row: AutomapBase, sector_type: str, crud_t
   id_incidence = getattr(model_row, "id_incidence", None)
   misc_json = getattr(model_row, "misc_json", {}) or {}
   
-  # Format the data for display
-  formatted_data = []
+  # Create alphabetically sorted list of all fields
+  all_fields = []
   
-  # Add basic record info
-  formatted_data.append({
-    'section': 'Record Information',
-    'fields': [
-      ('Incidence/Emission ID', id_incidence),
-      ('Sector', sector_type),
-      ('Record Type', crud_type.title()),
-    ]
-  })
-  
-  # Add all misc_json fields, grouped by common patterns
+  # Add all misc_json fields, sorted alphabetically
   if misc_json:
-    # Group fields by common prefixes or types
-    location_fields = {}
-    monitoring_fields = {}
-    description_fields = {}
-    other_fields = {}
-    
-    for key, value in misc_json.items():
-      key_lower = key.lower()
-      if any(prefix in key_lower for prefix in ['location', 'address', 'site', 'facility']):
-        location_fields[key] = value
-      elif any(prefix in key_lower for prefix in ['monitor', 'detect', 'measure', 'sensor']):
-        monitoring_fields[key] = value
-      elif any(prefix in key_lower for prefix in ['description', 'comment', 'note', 'detail']):
-        description_fields[key] = value
-      else:
-        other_fields[key] = value
-    
-    # Add sections if they have data
-    if location_fields:
-      formatted_data.append({
-        'section': 'Location Information',
-        'fields': [(k, v) for k, v in location_fields.items()]
-      })
-    
-    if monitoring_fields:
-      formatted_data.append({
-        'section': 'Monitoring Information',
-        'fields': [(k, v) for k, v in monitoring_fields.items()]
-      })
-    
-    if description_fields:
-      formatted_data.append({
-        'section': 'Descriptions & Comments',
-        'fields': [(k, v) for k, v in description_fields.items()]
-      })
-    
-    if other_fields:
-      formatted_data.append({
-        'section': 'Other Information',
-        'fields': [(k, v) for k, v in other_fields.items()]
-      })
+    for key, value in sorted(misc_json.items()):
+      all_fields.append((key, value))
   
   return render_template('readonly_sector_view.html',
                          sector_type=sector_type,
                          id_incidence=id_incidence,
                          crud_type=crud_type,
-                         formatted_data=formatted_data,
+                         all_fields=all_fields,
                          misc_json=misc_json)
 
 
