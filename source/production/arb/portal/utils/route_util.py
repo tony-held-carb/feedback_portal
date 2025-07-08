@@ -114,9 +114,11 @@ def incidence_prep(model_row: AutomapBase,
       # Check if there are any validation errors
       error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
       total_errors = sum(error_count_dict.values())
+      logger.debug(f"Error count dict: {error_count_dict}, total_errors: {total_errors}")
       
       if total_errors == 0:
         # No validation errors - show success popup
+        logger.debug("No validation errors found - showing success popup")
         flash("✅ All changes have been saved successfully! No validation warnings or errors found.", "success")
         return render_template(template_file,
                                wtf_form=wtf_form,
@@ -124,6 +126,8 @@ def incidence_prep(model_row: AutomapBase,
                                error_count_dict=error_count_dict,
                                id_incidence=getattr(model_row, "id_incidence", None),
                                show_success_popup=True)
+      else:
+        logger.debug(f"Validation errors found: {total_errors} - not showing success popup")
 
   error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
 
