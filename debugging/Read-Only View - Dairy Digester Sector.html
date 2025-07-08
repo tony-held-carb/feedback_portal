@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)http://127.0.0.1:5000/incidence_update/4001/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+
+  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./Read-Only View - Dairy Digester Sector_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script defer="" src="./Read-Only View - Dairy Digester Sector_files/bootstrap.bundle.min.js.download" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Portal Styles -->
+  <link rel="stylesheet" href="./Read-Only View - Dairy Digester Sector_files/portal_styles_01.css">
+
+  <!-- Portal JavaScript -->
+  <script defer="" src="./Read-Only View - Dairy Digester Sector_files/delete_confirmation.js.download"></script>
+  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system
+       Benefits of re-enabling in the future:
+       - Better UX for ephemeral messages (upload progress, success notifications)
+       - Non-intrusive feedback for non-critical warnings
+       - Consistent notification system across the application
+       - Auto-dismiss functionality reduces UI clutter
+  -->
+  <!-- <script defer src="/static/js/toast_notifications.js"></script> -->
+
+  <!-- Portal Jinja Macros -->
+
+  <!-- Page-Specific CSS & JS -->
+
+  <title>Read-Only View - Dairy Digester Sector</title>
+</head>
+
+<body data-form-id="">
+
+<!-- Portal Navigation -->
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="http://127.0.0.1:5000/">
+        <img src="./Read-Only View - Dairy Digester Sector_files/carb_logo_01.jpg" alt="California Air Resources Board" width="40" height="40">
+        Methane Satellite Portal
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Facility Feedback
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/og_incidence_create/">Create Incidence (Oil &amp;
+                Gas)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/landfill_incidence_create/">Create Incidence
+                (Landfill)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/portal_updates">Portal Updates</a></li>
+
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/incidence_update/1/">Update
+                Incidence</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Developer Utilities
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_dropdown_dict">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_database_structure">Show Database
+                Structure</a>
+              </li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_feedback_form_structure">Show Feedback Form
+                Structure</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_log_file?lines=1000">Show Log File</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/diagnostics">Diagnostics</a></li>
+
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Spreadsheet
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload_staged">Upload &amp; Review (Staged)</a>
+              </li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/list_staged">View Staged Files</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/list_uploads">List Uploaded Files</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/incidence_update/4001/#">Something else here</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CalSMP &amp; Help
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/CalSMP%20Plume%20Processing%20Resources.docx?d=w033362d49d444a1a837352a7a4a1be55&amp;csf=1&amp;web=1&amp;e=j04CSV">
+                  Plume Processing Resources
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/Daily%20CalSMP%20Protocol.docx?d=w9f7f6eadcfe04db5821bc23a70b7991a&amp;csf=1&amp;web=1&amp;e=vEyuJy">
+                  Daily Protocol
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Daily%20Plume%20Processing%20Log.docx?d=wc90daa47482640fd9657cccb3c4f4614&amp;csf=1&amp;web=1&amp;e=SOFzex">
+                  Daily Processing Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:x:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Open%20items%20log.xlsx?d=wd554b10efa62427e959961a52d8ccd11&amp;csf=1&amp;web=1&amp;e=v5ge6u">
+                  Open Items Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="http://10.93.112.44:5003/">
+                  Plume Tracker
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://internal-smdms-sdb-lb-shared-182971779.us-west-2.elb.amazonaws.com/app/dashboard">
+                  Contact Manager
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://tony-held-carb.github.io/feedback_portal/">
+                  Feedback Portal Source Code &amp; Documentation
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+</div>
+<!-- TOAST CONTAINER DISABLED - Reverted to old system
+     This container was used for dynamic toast notifications.
+     Re-enable when switching back to toast notification system.
+-->
+<!-- <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <!-- Toasts will be dynamically added here -->
+<!-- </div> -->
+
+<!-- Main Page Content -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <!-- Header -->
+      <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">
+          <i class="fas fa-info-circle"></i> Read-Only View
+        </h4>
+        <p class="mb-0">
+          This sector (<strong>Dairy Digester</strong>) does not currently have an interactive web form associated with it. 
+          The data is displayed below in read-only format.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="mb-3">
+        <a href="http://127.0.0.1:5000/" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <a href="http://127.0.0.1:5000/upload" class="btn btn-primary">
+          <i class="fas fa-upload"></i> Upload New File
+        </a>
+      </div>
+
+      <!-- Record Information -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <i class="fas fa-database"></i> Record Information
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Incidence/Emission ID:</strong><br>
+              <span class="badge bg-primary">4001</span>
+            </div>
+            <div class="col-md-4">
+              <strong>Sector:</strong><br>
+              <span class="badge bg-info">Dairy Digester</span>
+            </div>
+            <div class="col-md-4">
+              <strong>Record Type:</strong><br>
+              <span class="badge bg-secondary">Update</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Database State -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="fas fa-table"></i> Current Database State
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 40%;">Field Name</th>
+                    <th style="width: 60%;">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td class="fw-bold">able_to_repair</td>
+                      <td>
+                          No
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">additional_activities</td>
+                      <td>
+                          Q8.  If no emission source was identified, please 
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">additional_manure_management</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">additional_notes</td>
+                      <td>
+                          Q25.  Please provide any additional notes, comment
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">anaerobic_digestion_portion</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_biogas_conditioning</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_biogas_moving</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_biomethane_upgrading</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_common_carrier</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_covered_lagoon</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_electricity</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_fuel_cells</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_heating</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_in_vessel</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">bio_onsite_fuel</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">contact_email</td>
+                      <td>
+                          me@email.com
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">contact_name</td>
+                      <td>
+                          Contact Person Name
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">contact_phone</td>
+                      <td>
+                          555-555-5555
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">digester_facility_name</td>
+                      <td>
+                          Digester Facility Name
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">emission_cause</td>
+                      <td>
+                          Venting-intentional/routine
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">emission_cause_notes</td>
+                      <td>
+                          Q15.  Please provide a more detailed description o
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">emission_location</td>
+                      <td>
+                          Stacking slab/stockpile/other manure storage
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">emission_location_notes</td>
+                      <td>
+                          Q13.  Please provide a more detailed description o
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">emission_type_fk</td>
+                      <td>
+                          An unintentional leak (i.e. the operator was not aware of, and could be repaired if discovered)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">id_arb_ciwqs</td>
+                      <td>
+                          CIWQS Place ID
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">id_incidence</td>
+                      <td>
+                          4001
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">id_message</td>
+                      <td>
+                          200-02
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">id_plume</td>
+                      <td>
+                          447
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">initial_leak_concentration</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">inspection_timestamp</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">instrument</td>
+                      <td>
+                          Q10.  Instrument used to perform monitoring (e.g.,
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">lat_carb</td>
+                      <td>
+                          35.3211
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">livestock_facility_name</td>
+                      <td>
+                          Livestock Facility Name
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">long_carb</td>
+                      <td>
+                          -119.5808
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_anaerobic_digester</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_anaerobic_lagoon</td>
+                      <td>
+                          X
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_compost_bedded</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_composting</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_daily_spread</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_dry_lot_corral</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_flocculation</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_gravity_separator</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_land_application_drip</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_land_application_flood</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_liquid_flush</td>
+                      <td>
+                          X
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_liquid_slurry</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_mechanical_separator</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_pasture</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_slatted_floor</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_solar_drying</td>
+                      <td>
+                          X
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_solid_dry_scrape</td>
+                      <td>
+                          X
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_solid_storage</td>
+                      <td>
+                          X
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_vacuum</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_vermifiltration</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">manure_weeping_wall</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">mitigation_actions</td>
+                      <td>
+                          Q18.  Please describe what actions were taken to r
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">mitigation_timestamp</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">observation_timestamp</td>
+                      <td>
+                          2024-06-25T07:00:00+00:00
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">sector</td>
+                      <td>
+                          Dairy Digester
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">transport_method</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">transport_recipient</td>
+                      <td>
+                          <em class="text-muted">Not provided</em>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      <!-- Raw JSON Data (Collapsible) -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#rawJsonCollapse" aria-expanded="false" aria-controls="rawJsonCollapse">
+                <i class="fas fa-code"></i> Raw JSON Data
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h5>
+          </div>
+          <div class="collapse" id="rawJsonCollapse">
+            <div class="card-body">
+              <pre class="bg-light p-3 rounded"><code>{
+  "able_to_repair": "No",
+  "additional_activities": "Q8.  If no emission source was identified, please ",
+  "additional_manure_management": null,
+  "additional_notes": "Q25.  Please provide any additional notes, comment",
+  "anaerobic_digestion_portion": null,
+  "bio_biogas_conditioning": null,
+  "bio_biogas_moving": null,
+  "bio_biomethane_upgrading": null,
+  "bio_common_carrier": null,
+  "bio_covered_lagoon": null,
+  "bio_electricity": null,
+  "bio_fuel_cells": null,
+  "bio_heating": null,
+  "bio_in_vessel": null,
+  "bio_onsite_fuel": null,
+  "contact_email": "me@email.com",
+  "contact_name": "Contact Person Name",
+  "contact_phone": "555-555-5555",
+  "digester_facility_name": "Digester Facility Name",
+  "emission_cause": "Venting-intentional/routine",
+  "emission_cause_notes": "Q15.  Please provide a more detailed description o",
+  "emission_location": "Stacking slab/stockpile/other manure storage",
+  "emission_location_notes": "Q13.  Please provide a more detailed description o",
+  "emission_type_fk": "An unintentional leak (i.e. the operator was not aware of, and could be repaired if discovered)",
+  "id_arb_ciwqs": "CIWQS Place ID",
+  "id_incidence": 4001,
+  "id_message": "200-02",
+  "id_plume": 447,
+  "initial_leak_concentration": null,
+  "inspection_timestamp": null,
+  "instrument": "Q10.  Instrument used to perform monitoring (e.g.,",
+  "lat_carb": 35.3211,
+  "livestock_facility_name": "Livestock Facility Name",
+  "long_carb": -119.5808,
+  "manure_anaerobic_digester": null,
+  "manure_anaerobic_lagoon": "X",
+  "manure_compost_bedded": null,
+  "manure_composting": null,
+  "manure_daily_spread": null,
+  "manure_dry_lot_corral": null,
+  "manure_flocculation": null,
+  "manure_gravity_separator": null,
+  "manure_land_application_drip": null,
+  "manure_land_application_flood": null,
+  "manure_liquid_flush": "X",
+  "manure_liquid_slurry": null,
+  "manure_mechanical_separator": null,
+  "manure_pasture": null,
+  "manure_slatted_floor": null,
+  "manure_solar_drying": "X",
+  "manure_solid_dry_scrape": "X",
+  "manure_solid_storage": "X",
+  "manure_vacuum": null,
+  "manure_vermifiltration": null,
+  "manure_weeping_wall": null,
+  "mitigation_actions": "Q18.  Please describe what actions were taken to r",
+  "mitigation_timestamp": null,
+  "observation_timestamp": "2024-06-25T07:00:00+00:00",
+  "sector": "Dairy Digester",
+  "transport_method": null,
+  "transport_recipient": null
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+      <!-- Footer Actions -->
+      <div class="d-flex justify-content-between">
+        <div>
+          <a href="http://127.0.0.1:5000/" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Home
+          </a>
+        </div>
+        <div>
+          <a href="http://127.0.0.1:5000/upload" class="btn btn-primary">
+            <i class="fas fa-upload"></i> Upload New File
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer Scripts -->
+
+
+</body></html>

@@ -2,6 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
+* dairy has fields that wont take text - need to fix
+
 * check if this was done:
   * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
     1) upload the file always if save/possible
