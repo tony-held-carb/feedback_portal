@@ -26,11 +26,7 @@ from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
-from arb.utils.date_and_time import (
-  ca_naive_to_utc_datetime,
-  datetime_to_ca_naive,
-  iso8601_to_utc_dt, normalize_value
-)
+from arb.utils.date_and_time import ca_naive_datetime_to_utc_datetime, utc_datetime_to_ca_naive_datetime, iso_str_to_utc_datetime
 from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
@@ -335,8 +331,8 @@ def cast_model_value(
     elif value_type in [bool, int, float]:
       return value_type(value)
     elif value_type == datetime.datetime:
-      dt = iso8601_to_utc_dt(value)
-      return datetime_to_ca_naive(dt) if convert_time_to_ca else dt
+      dt = iso_str_to_utc_datetime(value)
+      return utc_datetime_to_ca_naive_datetime(dt) if convert_time_to_ca else dt
     elif value_type == decimal.Decimal:
       return decimal.Decimal(value)
     else:
@@ -416,7 +412,7 @@ def make_dict_serializeable(
     # todo - datetime - change this to ensure datetime is iso and fail if it is not
     if isinstance(value, datetime.datetime):
       if convert_time_to_ca:
-        value = ca_naive_to_utc_datetime(value)
+        value = ca_naive_datetime_to_utc_datetime(value)
       value = value.isoformat()
 
     elif isinstance(value, decimal.Decimal):
@@ -627,6 +623,28 @@ def extract_tab_payload(json_data: dict,
   except Exception as e:
     logger.warning(f"extract_tab_payload() failed for tab '{tab_name}': {e}")
     return {}
+
+
+def normalize_value(val):
+    """
+    Normalize a value for string-based diffing or comparison.
+
+    - None and empty strings ("") are treated identically, returning "".
+    - Naive datetime values are assumed to be in California time and converted to UTC.
+    - All other types are stringified using str(val).
+
+    This ensures fields that were previously None but now filled with an empty string (or vice versa)
+    are not falsely flagged as changed. Datetime normalization is contract-compliant.
+    """
+    from datetime import datetime
+    from arb.utils.date_and_time import is_datetime_naive, ca_naive_datetime_to_utc_datetime
+    if val is None or val == "":
+        return ""
+    if isinstance(val, datetime):
+        if is_datetime_naive(val):
+            val = ca_naive_datetime_to_utc_datetime(val)
+        return val.isoformat()
+    return str(val)
 
 
 def compute_field_differences(

@@ -53,6 +53,7 @@ from arb.utils.file_io import read_file_reverse
 from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
+from arb.portal.utils.route_util import generate_upload_diagnostics, format_diagnostic_message, generate_staging_diagnostics
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -141,14 +142,14 @@ def og_incidence_create() -> Response:
     Response: Redirect to the `incidence_update` page for the newly created ID.
 
   Notes:
-    - Dummy data is loaded from `db_hardcoded.get_og_dummy_data()`.
+    - Dummy data is loaded from `db_hardcoded.get_og_dummy_form_data()`.
   """
   logger.debug(f"og_incidence_create() - beginning.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
 
-  data_dict = arb.portal.db_hardcoded.get_og_dummy_data()
+  data_dict = arb.portal.db_hardcoded.get_og_dummy_form_data()
 
   id_ = dict_to_database(db,
                          base,
@@ -170,7 +171,7 @@ def landfill_incidence_create() -> Response:
     Response: Redirect to the `incidence_update` page for the newly created ID.
 
   Notes:
-    - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_data()`.
+    - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_form_data()`.
   """
 
   logger.debug(f"landfill_incidence_create called.")
@@ -178,7 +179,7 @@ def landfill_incidence_create() -> Response:
   table_name = 'incidences'
   col_name = 'misc_json'
 
-  data_dict = arb.portal.db_hardcoded.get_landfill_dummy_data()
+  data_dict = arb.portal.db_hardcoded.get_landfill_dummy_form_data()
 
   id_ = dict_to_database(db,
                          base,
@@ -333,26 +334,36 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
-      # Save file and attempt DB ingest
+      # Step 1: Save file and attempt DB ingest
       file_path, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
 
       if id_:
         logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
         return redirect(url_for('main.incidence_update', id_=id_))
 
+      # Step 2: Handle schema recognition failure with enhanced diagnostics
       logger.warning(f"Upload failed schema recognition: {file_path=}")
+      error_details = generate_upload_diagnostics(request_file, file_path)
+      detailed_message = format_diagnostic_message(error_details, 
+                                                  "Uploaded file format not recognized.")
       return render_template(
         'upload.html',
         form=form,
-        upload_message=f"Uploaded file: {file_path.name} — format not recognized."
+        upload_message=detailed_message
       )
 
     except Exception as e:
       logger.exception("Exception occurred during upload or parsing.")
+      
+      # Enhanced error handling with diagnostic information
+      error_details = generate_upload_diagnostics(request_file, 
+                                                 file_path if 'file_path' in locals() else None)
+      detailed_message = format_diagnostic_message(error_details)
+      
       return render_template(
         'upload.html',
         form=form,
-        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
+        upload_message=detailed_message
       )
 
   # GET request: display form
@@ -410,15 +421,36 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
         )
 
       logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
-      flash(f"✅ File '{request_file.filename}' staged successfully! Review changes for ID {id_}.", "success")
+      
+      # Enhanced success feedback with staging details
+      success_message = (
+        f"✅ File '{request_file.filename}' staged successfully!\n"
+        f"📋 ID: {id_}\n"
+        f"🏭 Sector: {sector}\n"
+        f"📁 Staged as: {staged_filename}\n"
+        f"🔍 Ready for review and confirmation."
+      )
+      flash(success_message, "success")
       return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
 
     except Exception as e:
       logger.exception("Exception occurred during staged upload.")
+      
+      # Enhanced error handling with staging-specific diagnostic information
+      error_details = generate_staging_diagnostics(
+        request_file, 
+        file_path if 'file_path' in locals() else None,
+        staged_filename if 'staged_filename' in locals() else None,
+        id_ if 'id_' in locals() else None,
+        sector if 'sector' in locals() else None
+      )
+      detailed_message = format_diagnostic_message(error_details, 
+                                                  "Staged upload processing failed.")
+      
       return render_template(
         'upload_staged.html',
         form=form,
-        upload_message="Error: Could not process the uploaded file. Make sure it is closed and try again."
+        upload_message=detailed_message
       )
 
   # GET request: display form

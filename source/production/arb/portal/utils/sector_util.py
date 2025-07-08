@@ -161,10 +161,12 @@ def get_sector_type(sector: str) -> str:
     sector (str): Input sector label.
 
   Returns:
-    str: One of "Oil & Gas" or "Landfill".
+    str: One of "Oil & Gas", "Landfill", or the original sector name for unsupported sectors.
 
-  Raises:
-    ValueError: On unknown sector input.
+  Notes:
+    - For unsupported sectors, returns the original sector name so the calling code
+      can handle it appropriately (e.g., show read-only view).
+    - This prevents ValueError exceptions and allows graceful handling of new sectors.
   """
 
   if sector in OIL_AND_GAS_SECTORS:
@@ -172,4 +174,6 @@ def get_sector_type(sector: str) -> str:
   elif sector in LANDFILL_SECTORS:
     return "Landfill"
   else:
-    raise ValueError(f"Unknown sector type: '{sector}'.")
+    # Return the original sector name for unsupported sectors
+    # This allows the calling code to handle it gracefully
+    return sector

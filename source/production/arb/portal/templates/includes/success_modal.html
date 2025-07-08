@@ -1,0 +1,47 @@
+{# 
+  Success Modal Include Template
+  
+  This template provides a reusable success modal that can be included
+  in any page that needs to show success feedback to users.
+  
+  Usage:
+    {% include 'includes/success_modal.html' %}
+  
+  The modal will automatically show if show_success_popup is True
+  when the success_popup.js script is loaded.
+  
+  @version 1.0.0
+  @author ARB Feedback Portal
+#}
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="successModalLabel">
+          <i class="fas fa-check-circle me-2"></i>Changes Saved Successfully
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
+        </div>
+        <h6 class="text-center mb-3">✅ All changes have been saved successfully!</h6>
+        <p class="text-center mb-0">
+          No validation warnings or errors were found for this incidence.
+          Your data has been securely stored in the database.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          <i class="fas fa-check me-1"></i>Continue Editing
+        </button>
+        <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+          <i class="fas fa-home me-1"></i>Return to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -24,7 +24,7 @@ from flask import Flask
 from jinja2 import StrictUndefined
 
 from arb.portal.startup.runtime_info import UPLOAD_PATH
-from arb.utils.date_and_time import date_to_string, repr_datetime_to_string
+from arb.utils.date_and_time import iso_str_to_utc_datetime, utc_datetime_to_ca_naive_datetime, utc_iso_str_to_ca_str
 from arb.utils.diagnostics import diag_recursive
 from arb.utils.misc import args_to_string
 
@@ -83,10 +83,8 @@ def configure_flask_app(app: Flask) -> None:
 
   # Jinja: custom filters for debugging and string manipulation
   app.jinja_env.filters['debug'] = diag_recursive
-  # todo - make sure these datetime filters work in light of the use of native and UTC timestamps
-  app.jinja_env.filters['date_to_string'] = date_to_string
-  app.jinja_env.filters['repr_datetime_to_string'] = repr_datetime_to_string
   app.jinja_env.filters['args_to_string'] = args_to_string
+  app.jinja_env.filters['utc_iso_str_to_ca_str'] = utc_iso_str_to_ca_str
 
   # Jinja: expose Python ZoneInfo class to templates for local time conversion
   app.jinja_env.globals["california_tz"] = ZoneInfo("America/Los_Angeles")

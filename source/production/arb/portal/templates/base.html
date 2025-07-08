@@ -36,7 +36,7 @@
   <title>{% block title %}Placeholder Title{% endblock %}</title>
 </head>
 
-<body data-form-id="{{ form_id | default('') }}">
+<body data-form-id="{{ form_id | default('') }}" {{ body_attributes | default('') | safe }}>
 
 <!-- Portal Navigation -->
 {% include 'includes/navbar.jinja' %}
@@ -50,8 +50,8 @@
 <!-- </div> -->
 
 <!-- Main Page Content -->
-{% block content_1 %}{% endblock %}
-{% block content_2 %}{% endblock %}
+{% block content %}{% endblock %}
+{% block overlay_content %}{% endblock %}
 
 <!-- Footer Scripts -->
 {% block footer_js %}{% endblock %}

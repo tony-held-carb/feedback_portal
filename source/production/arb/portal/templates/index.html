@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block content_1 %}
+{% block content %}
   <div class="container-fluid post-nav-buffer mb-2">
     <h2>{% block title %}Operator Feedback Incidence List{% endblock %}</h2>
   </div>
@@ -40,7 +40,7 @@
             {# Observation Timestamp #}
             {% set ts = misc.get('observation_timestamp') %}
             {% if ts %}
-              Plume Observed: {{ ts | repr_datetime_to_string }}
+              Plume Observed: {{ ts | utc_iso_str_to_ca_str }}
             {% else %}
               {#              Plume Observed:#}
             {% endif %}
