@@ -36,7 +36,7 @@
   <title>{% block title %}Placeholder Title{% endblock %}</title>
 </head>
 
-<body data-form-id="{{ form_id | default('') }}">
+<body data-form-id="{{ form_id | default('') }}" {{ body_attributes | default('') | safe }}>
 
 <!-- Portal Navigation -->
 {% include 'includes/navbar.jinja' %}
