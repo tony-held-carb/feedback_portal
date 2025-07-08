@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)http://127.0.0.1:5000/incidence_update/4001/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+
+  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./Read-Only View - Dairy Digester Sector_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script defer="" src="./Read-Only View - Dairy Digester Sector_files/bootstrap.bundle.min.js.download" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Portal Styles -->
+  <link rel="stylesheet" href="./Read-Only View - Dairy Digester Sector_files/portal_styles_01.css">
+
+  <!-- Portal JavaScript -->
+  <script defer="" src="./Read-Only View - Dairy Digester Sector_files/delete_confirmation.js.download"></script>
+  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system
+       Benefits of re-enabling in the future:
+       - Better UX for ephemeral messages (upload progress, success notifications)
+       - Non-intrusive feedback for non-critical warnings
+       - Consistent notification system across the application
+       - Auto-dismiss functionality reduces UI clutter
+  -->
+  <!-- <script defer src="/static/js/toast_notifications.js"></script> -->
+
+  <!-- Portal Jinja Macros -->
+
+  <!-- Page-Specific CSS & JS -->
+
+  <title>Read-Only View - Dairy Digester Sector</title>
+</head>
+
+<body data-form-id="">
+
+<!-- Portal Navigation -->
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="http://127.0.0.1:5000/">
+        <img src="./Read-Only View - Dairy Digester Sector_files/carb_logo_01.jpg" alt="California Air Resources Board" width="40" height="40">
+        Methane Satellite Portal
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Facility Feedback
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/og_incidence_create/">Create Incidence (Oil &amp;
+                Gas)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/landfill_incidence_create/">Create Incidence
+                (Landfill)</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/portal_updates">Portal Updates</a></li>
+
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/incidence_update/1/">Update
+                Incidence</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Developer Utilities
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_dropdown_dict">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_database_structure">Show Database
+                Structure</a>
+              </li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_feedback_form_structure">Show Feedback Form
+                Structure</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/show_log_file?lines=1000">Show Log File</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/diagnostics">Diagnostics</a></li>
+
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Spreadsheet
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/upload_staged">Upload &amp; Review (Staged)</a>
+              </li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/list_staged">View Staged Files</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:5000/list_uploads">List Uploaded Files</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item disabled" href="http://127.0.0.1:5000/incidence_update/4001/#">Something else here</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://127.0.0.1:5000/incidence_update/4001/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CalSMP &amp; Help
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/CalSMP%20Plume%20Processing%20Resources.docx?d=w033362d49d444a1a837352a7a4a1be55&amp;csf=1&amp;web=1&amp;e=j04CSV">
+                  Plume Processing Resources
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Data%20Management%20Plan/Daily%20CalSMP%20Protocol.docx?d=w9f7f6eadcfe04db5821bc23a70b7991a&amp;csf=1&amp;web=1&amp;e=vEyuJy">
+                  Daily Protocol
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:w:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Daily%20Plume%20Processing%20Log.docx?d=wc90daa47482640fd9657cccb3c4f4614&amp;csf=1&amp;web=1&amp;e=SOFzex">
+                  Daily Processing Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://carb.sharepoint.com/:x:/r/teams/RDSatelliteProject/Shared%20Documents/General/Plume%20Processing/Open%20items%20log.xlsx?d=wd554b10efa62427e959961a52d8ccd11&amp;csf=1&amp;web=1&amp;e=v5ge6u">
+                  Open Items Log
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="http://10.93.112.44:5003/">
+                  Plume Tracker
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://internal-smdms-sdb-lb-shared-182971779.us-west-2.elb.amazonaws.com/app/dashboard">
+                  Contact Manager
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" target="_blank" href="https://tony-held-carb.github.io/feedback_portal/">
+                  Feedback Portal Source Code &amp; Documentation
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+</div>
+<!-- TOAST CONTAINER DISABLED - Reverted to old system
+     This container was used for dynamic toast notifications.
+     Re-enable when switching back to toast notification system.
+-->
+<!-- <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <!-- Toasts will be dynamically added here -->
+<!-- </div> -->
+
+<!-- Main Page Content -->
+
+<!-- Footer Scripts -->
+
+
+</body></html>
