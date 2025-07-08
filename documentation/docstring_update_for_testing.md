@@ -22,7 +22,7 @@ This document tracks the progress and methodology of enhancing docstrings in the
 
 | # | File (arb/portal/util)                        | Enhanced Documentation| Unit Testing Status        |
 |---|-----------------------------------------------|:---------------------:|:--------------------------:|
-|  1| arb/__init__.py                               | Yes                   | No                         |
+|  1| arb/__init__.py                               | Yes                   | Not Needed - Trivial        |
 |  2| arb/logging/arb_logging.py                    | Yes                   | No                         |
 |  3| arb/portal/__init__.py                        | Yes                   | No                         |
 |  4| arb/portal/app.py                             | Yes                   | No                         |
@@ -40,16 +40,16 @@ This document tracks the progress and methodology of enhancing docstrings in the
 | 16| arb/portal/startup/db.py                      | Yes                   | No                         |
 | 17| arb/portal/startup/flask.py                   | Yes                   | No                         |
 | 18| arb/portal/startup/runtime_info.py            | Yes                   | No                         |
-| 19| arb/portal/utils/__init__.py                  | Yes                   | No                         |
+| 19| arb/portal/utils/__init__.py                  | Yes                   | Not Needed - Trivial        |
 | 20| arb/portal/utils/db_ingest_util.py            | Yes                   | No                         |
 | 21| arb/portal/utils/db_introspection_util.py     | Yes                   | No                         |
 | 22| arb/portal/utils/file_upload_util.py          | Yes                   | No                         |
 | 23| arb/portal/utils/form_mapper.py               | Yes                   | No                         |
-| 24| arb/portal/utils/github_and_ai.py             | Yes                   | No                         |
+| 24| arb/portal/utils/github_and_ai.py             | Yes                   | Not Needed - Trivial        |
 | 25| arb/portal/utils/route_util.py                | Yes                   | No                         |
 | 26| arb/portal/utils/sector_util.py               | Yes                   | No                         |
-| 27| arb/utils/__init__.py                         | Yes                   | No                         |
-| 28| arb/utils/constants.py                        | Yes                   | No                         |
+| 27| arb/utils/__init__.py                         | Yes                   | Not Needed - Trivial        |
+| 28| arb/utils/constants.py                        | Yes                   | Not Needed - Trivial        |
 | 29| arb/utils/database.py                         | Yes                   | No                         |
 | 30| arb/utils/date_and_time.py                    | Yes                   | Yes                        |
 | 31| arb/utils/diagnostics.py                      | Yes                   | No                         |
@@ -62,7 +62,7 @@ This document tracks the progress and methodology of enhancing docstrings in the
 | 38| arb/utils/web_html.py                         | Yes                   | No                         |
 | 39| arb/utils/wtf_forms_util.py                   | Yes                   | Partial (~)                |
 | 40| arb/wsgi.py                                   | Yes                   | No                         |
-| 41| arb/portal/config/__init__.py                 | Yes                   | No                         |
+| 41| arb/portal/config/__init__.py                 | Yes                   | Not Needed - Trivial        |
 | 42| arb/portal/config/accessors.py                | Yes                   | No                         |
 | 43| arb/portal/config/settings.py                 | Yes                   | No                         |
 
