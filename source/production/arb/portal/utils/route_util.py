@@ -111,13 +111,17 @@ def incidence_prep(model_row: AutomapBase,
     # todo - change the button name to save?
     if button == 'validate_and_submit':
       logger.debug(f"validate_and_submit was pressed")
-      if wtf_form.validate():
-        # Instead of redirecting, return success flag for popup
+      # Check if there are any validation errors
+      error_count_dict = wtf_count_errors(wtf_form, log_errors=True)
+      total_errors = sum(error_count_dict.values())
+      
+      if total_errors == 0:
+        # No validation errors - show success popup
         flash("✅ All changes have been saved successfully! No validation warnings or errors found.", "success")
         return render_template(template_file,
                                wtf_form=wtf_form,
                                crud_type=crud_type,
-                               error_count_dict=wtf_count_errors(wtf_form, log_errors=True),
+                               error_count_dict=error_count_dict,
                                id_incidence=getattr(model_row, "id_incidence", None),
                                show_success_popup=True)
 
