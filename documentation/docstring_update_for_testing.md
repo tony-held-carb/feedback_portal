@@ -49,18 +49,3 @@ This document tracks the progress and methodology of enhancing docstrings in the
 **Update (YYYY-MM-DD):**
 As of today, all functions in `utils/wtf_forms_util.py` have been reviewed and enhanced for docstring clarity, explicit argument edge case documentation, and consistently formatted examples. This completes the documentation enhancement phase for this file. 
 
----
-
-**Comprehensively Refactored utils Files (docstrings, edge cases, examples):**
-- date_and_time.py
-- json.py
-- misc.py
-- file_io.py
-- constants.py
-- io_wrappers.py
-- wtf_forms_util.py
-- diagnostics.py
-- web_html.py
-- log_util.py
-- sql_alchemy.py
-- database.py 
