@@ -90,6 +90,10 @@ def list_differences(iterable_01: list | dict,
   Notes:
     - If either iterable is None, it is treated as an empty list/dict.
   """
+  if iterable_01 is None:
+    iterable_01 = []
+  if iterable_02 is None:
+    iterable_02 = []
   in_iterable_1_only = [x for x in iterable_01 if x not in iterable_02]
   in_iterable_2_only = [x for x in iterable_02 if x not in iterable_01]
 
@@ -168,6 +172,8 @@ def dict_to_str(x: dict, depth: int = 0) -> str:
   Notes:
     - If `x` is None, returns an empty string.
   """
+  if x is None:
+    return ""
   msg = ""
   indent = ' ' * 3 * depth
   for k, v in x.items():
@@ -238,6 +244,10 @@ def compare_dicts(dict1: dict,
   Notes:
     - If either dict is None, it is treated as an empty dict.
   """
+  if dict1 is None:
+    dict1 = {}
+  if dict2 is None:
+    dict2 = {}
   dict1_name = dict1_name or "dict_1"
   dict2_name = dict2_name or "dict_2"
   logger.debug(f"compare_dicts called to compare {dict1_name} with {dict2_name}")
@@ -283,7 +293,10 @@ def get_changed_fields(new_dict: dict, old_dict: dict) -> dict:
     - Only keys present in new_dict are considered. This prevents unrelated fields from being overwritten when merging partial form data into a larger stored structure.
     - If either dict is None, it is treated as an empty dict.
   """
-
+  if new_dict is None:
+    new_dict = {}
+  if old_dict is None:
+    old_dict = {}
   changes = {}
   for key in new_dict:
     if new_dict[key] != old_dict.get(key):

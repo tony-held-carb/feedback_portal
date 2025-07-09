@@ -50,6 +50,8 @@ def save_json_safely(
     - If `data` is None, writes 'null' to the file.
     - If `path` is None, raises ValueError.
   """
+  if path is None:
+    raise ValueError("Path must not be None.")
   json_options = json_options or {"indent": 2}
   path.parent.mkdir(parents=True, exist_ok=True)
   with path.open("w", encoding=encoding) as f:
@@ -84,6 +86,8 @@ def read_json_file(
   Notes:
     - If `path` is None, raises ValueError.
   """
+  if path is None:
+    raise ValueError("Path must not be None.")
   json_options = json_options or {}
   with path.open("r", encoding=encoding) as f:
     return json.load(f, **json_options)
@@ -110,6 +114,10 @@ def write_text_file(text: str, path: Path, encoding: str = "utf-8") -> None:
     - If `text` is None, writes an empty file.
     - If `path` is None, raises ValueError.
   """
+  if path is None:
+    raise ValueError("Path must not be None.")
+  if text is None:
+    text = ""
   path.parent.mkdir(parents=True, exist_ok=True)
   path.write_text(text, encoding=encoding)
 
@@ -134,5 +142,7 @@ def copy_file_safe(src: Path, dst: Path) -> None:
   Notes:
     - If `src` or `dst` is None, raises ValueError.
   """
+  if src is None or dst is None:
+    raise ValueError("src and dst must not be None.")
   dst.parent.mkdir(parents=True, exist_ok=True)
   copy2(src, dst)
