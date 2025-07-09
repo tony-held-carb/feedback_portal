@@ -78,6 +78,19 @@ To ensure all tests are discovered and run correctly, follow these steps:
 
    - This will run the tests for `db_hardcoded.py` and can be adapted for other test files as needed.
 
+   - **Integration Tests:**
+     The same process applies for running integration tests. Just substitute the test file path as needed, e.g.:
+     ```sh
+     set PYTHONPATH=D:\local\cursor\feedback_portal\source\production
+     pytest tests/arb/portal/test_integration_app.py -v
+     ```
+
+   - **Output Redirection (Windows):**
+     To save the test output to a file for later review, use:
+     ```sh
+     pytest tests/arb/portal/test_integration_app.py -v > integration_test_output.txt
+     ```
+
 5. **Best Practices**
 
    - Always run tests from the project root.
