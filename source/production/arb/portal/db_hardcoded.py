@@ -39,6 +39,8 @@ from typing import Any
 from datetime import timezone
 import copy
 
+from arb.portal.constants import PLEASE_SELECT
+
 # from arb.utils.web_html import update_selector_dict
 # from arb.utils.date_and_time import utc_datetime_to_iso_str
 
@@ -429,8 +431,6 @@ def get_excel_dropdown_data() -> tuple[dict, dict]:
     - The transformation logic is inlined here to avoid circular imports. If the canonical logic changes, update both places to keep them in sync.
     - This approach avoids circular imports but requires vigilance to prevent future divergence if the canonical logic is updated elsewhere in the codebase.
   """
-  from arb.utils.constants import PLEASE_SELECT
-
   drop_downs = copy.deepcopy(_drop_downs)
   drop_downs_contingent = copy.deepcopy(_drop_downs_contingent)
 
