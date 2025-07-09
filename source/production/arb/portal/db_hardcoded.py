@@ -29,7 +29,7 @@ Notes:
   - Intended for use during development and offline diagnostics.
   - Not suitable for production database seeding.
   - The logger emits a debug message when this file is loaded.
-  - The dropdown transformation logic in get_excel_dropdown_data is inlined from arb.utils.web_html.update_selector_dict and selector_list_to_tuples to avoid circular imports. If the canonical logic changes, update both places to keep them in sync.
+  - The dropdown transformation logic in get_excel_dropdown_data is imported from arb.utils.web_html.update_selector_dict to ensure consistency with the canonical implementation.
 """
 
 import datetime
@@ -426,25 +426,15 @@ def get_excel_dropdown_data() -> tuple[dict, dict]:
 
   Notes:
     - The module-level variables _drop_downs and _drop_downs_contingent contain the canonical, human-readable dropdown data as found in Excel templates and business logic.
-    - This function returns a deep copy of _drop_downs, transformed so that each list of values is converted to a list of (value, label) tuples, with a prepended disabled 'Please Select' option, matching the logic of arb.utils.web_html.update_selector_dict and selector_list_to_tuples.
+    - This function returns a deep copy of _drop_downs, transformed using arb.utils.web_html.update_selector_dict, which applies the canonical (value, label) tuple structure and prepends a disabled 'Please Select' option.
     - The contingent dropdowns (_drop_downs_contingent) are returned as a deep copy, unmodified.
-    - The transformation logic is inlined here to avoid circular imports. If the canonical logic changes, update both places to keep them in sync.
-    - This approach avoids circular imports but requires vigilance to prevent future divergence if the canonical logic is updated elsewhere in the codebase.
+    - The transformation logic is always imported from the canonical implementation to ensure consistency and maintainability.
+    - NOT COVERED BY UNIT TESTS: This function is not directly covered by unit tests because the transformation logic is delegated to arb.utils.web_html.update_selector_dict, which is tested elsewhere and imported inside the function. Change with caution. See documentation/docstring_update_for_testing.md for details.
   """
   drop_downs = copy.deepcopy(_drop_downs)
   drop_downs_contingent = copy.deepcopy(_drop_downs_contingent)
 
-  def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[str, str, dict]]:
-    # Inlined here to avoid circular imports
-    # see arb.utils.web_html for details
-    result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
-    result += [(v, v) for v in values]
-    return result
-
-  def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
-    # Inlined here to avoid circular imports
-    # see arb.utils.web_html for details
-    return {key: selector_list_to_tuples(values) for key, values in input_dict.items()}
+  from arb.utils.web_html import update_selector_dict
 
   drop_downs = update_selector_dict(drop_downs)
 

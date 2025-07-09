@@ -74,6 +74,7 @@ class Globals:
       - Uses `get_excel_dropdown_data()` from `db_hardcoded` to populate form options.
       - Populates both `Globals.drop_downs` and `Globals.drop_downs_contingent`.
       - Should be called once after app startup or reflection.
+      - NOT COVERED BY UNIT TESTS: This function is not covered by unit tests because the dependency (get_excel_dropdown_data) is imported inside the method body, making it impossible to robustly patch/mock for testing. Change with caution. See documentation/docstring_update_for_testing.md for details.
     """
 
     from arb.portal.db_hardcoded import get_excel_dropdown_data
@@ -105,6 +106,7 @@ class Globals:
     Notes:
       - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.
       - The resulting `Globals.db_column_types` is used in form pre-population and validation.
+      - NOT COVERED BY UNIT TESTS: This function is not covered by unit tests because the dependency (get_sa_automap_types) is imported inside the method body, making it impossible to robustly patch/mock for testing. Change with caution. See documentation/docstring_update_for_testing.md for details.
     """
 
     from arb.utils.sql_alchemy import get_sa_automap_types
