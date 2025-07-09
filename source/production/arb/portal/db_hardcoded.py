@@ -16,6 +16,8 @@ Attributes:
   logger (logging.Logger): Logger instance for this module.
   OIL_AND_GAS_SECTORS (list[str]): Oil & Gas sector names for dropdowns.
   LANDFILL_SECTORS (list[str]): Landfill sector names for dropdowns.
+  _drop_downs (dict): Canonical dropdown data for forms. Do not mutate at runtime.
+  _drop_downs_contingent (dict): Canonical contingent dropdown data for forms. Do not mutate at runtime.
 
 Examples:
   from arb.portal.db_hardcoded import get_og_dummy_form_data
@@ -27,6 +29,7 @@ Notes:
   - Intended for use during development and offline diagnostics.
   - Not suitable for production database seeding.
   - The logger emits a debug message when this file is loaded.
+  - The dropdown transformation logic in get_excel_dropdown_data is inlined from arb.utils.web_html.update_selector_dict and selector_list_to_tuples to avoid circular imports. If the canonical logic changes, update both places to keep them in sync.
 """
 
 import datetime
@@ -34,9 +37,10 @@ import logging
 from pathlib import Path
 from typing import Any
 from datetime import timezone
+import copy
 
-from arb.utils.web_html import update_selector_dict
-from arb.utils.date_and_time import utc_datetime_to_iso_str
+# from arb.utils.web_html import update_selector_dict
+# from arb.utils.date_and_time import utc_datetime_to_iso_str
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -65,6 +69,219 @@ LANDFILL_SECTORS = [
   "Recycling & Waste: Landfills",
   "Recycling & Waste: Other",
 ]
+
+# _drop_downs: Human-readable canonical dropdown data. Do not alter at runtime.
+_drop_downs = {
+  "venting_exclusion": [
+    "Yes",
+    "No",
+  ],
+  "ogi_performed": [
+    "Yes",
+    "No",
+  ],
+  "ogi_result": [
+    "Not applicable as OGI was not performed",
+    "No source found",
+    "Unintentional-leak",
+    "Unintentional-non-component",
+    "Venting-construction/maintenance",
+    "Venting-routine",
+  ],
+  "method21_performed": [
+    "Yes",
+    "No",
+  ],
+  "method21_result": [
+    "Not applicable as Method 21 was not performed",
+    "No source found",
+    "Unintentional-below leak threshold",
+    "Unintentional-leak",
+    "Unintentional-non-component",
+    "Venting-construction/maintenance",
+    "Venting-routine",
+  ],
+  "equipment_at_source": [
+    "Centrifugal Natural Gas Compressor",
+    "Continuous High Bleed Natural Gas-actuated Pneumatic Device",
+    "Continuous Low Bleed Natural Gas-actuated Pneumatic Device",
+    "Intermittent Bleed Natural Gas-actuated Pneumatic Device",
+    "Natural Gas-actuated Pneumatic Pump",
+    "Pressure Separator",
+    "Reciprocating Natural Gas Compressor",
+    "Separator",
+    "Tank",
+    "Open Well Casing Vent",
+    "Piping",
+    "Well",
+    "Other",
+  ],
+  "component_at_source": [
+    "Valve",
+    "Connector",
+    "Flange",
+    "Fitting - pressure meter/gauge",
+    "Fitting - not pressure meter/gauge",
+    "Open-ended line",
+    "Plug",
+    "Pressure relief device",
+    "Stuffing box",
+    "Other",
+  ],
+
+  # Landfill
+  "emission_identified_flag_fk": [
+    "Operator was aware of the leak prior to receiving the CARB plume notification",
+    "Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification",
+    "No leak was detected",
+  ],
+  "emission_type_fk": [
+    "Not applicable as no leak was detected",
+    "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation",
+    "An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)",
+    "An intentional or allowable vent (i.e., the operator was aware of, and/or would not repair)",
+    "Due to a temporary activity (i.e., would be resolved without corrective action when the activity is complete)",
+  ],
+  "emission_location": [
+    "Not applicable as no leak was detected",
+    "Gas Collection System Component (e.g., blower, well, valve, port)",
+    "Gas Control Device/Control System Component",
+    "Landfill Surface: Daily Cover",
+    "Landfill Surface: Final Cover",
+    "Landfill Surface: Intermediate Cover",
+    "Leachate Management System",
+    "Working Face (area where active filling was being conducted at the time of detection)",
+  ],
+  "emission_cause": [
+    "Not applicable as no leak was detected",
+    "Collection system downtime",
+    "Construction - New Well Installation",
+    "Construction - Well Raising or Horizontal Extension",
+    "Cover integrity",
+    "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+    "Cracked/Broken Seal",
+    "Damaged component",
+    "Insufficient vacuum",
+    "Offline Gas Collection Well(s)",
+    "Other",
+    "Uncontrolled Area (no gas collection infrastructure)",
+  ],
+  "emission_cause_secondary": [
+    "Not applicable as no leak was detected",
+    "Not applicable as no additional leak cause suspected",
+    "Collection system downtime",
+    "Construction - New Well Installation",
+    "Construction - Well Raising or Horizontal Extension",
+    "Cover integrity",
+    "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+    "Cracked/Broken Seal",
+    "Damaged component",
+    "Insufficient vacuum",
+    "Offline Gas Collection Well(s)",
+    "Other",
+    "Uncontrolled Area (no gas collection infrastructure)",
+  ],
+  "emission_cause_tertiary": [
+    "Not applicable as no leak was detected",
+    "Not applicable as no additional leak cause suspected",
+    "Collection system downtime",
+    "Construction - New Well Installation",
+    "Construction - Well Raising or Horizontal Extension",
+    "Cover integrity",
+    "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+    "Cracked/Broken Seal",
+    "Damaged component",
+    "Insufficient vacuum",
+    "Offline Gas Collection Well(s)",
+    "Other",
+    "Uncontrolled Area (no gas collection infrastructure)",
+  ],
+
+  "included_in_last_lmr": [
+    "Yes",
+    "No",
+  ],
+  "planned_for_next_lmr": [
+    "Yes",
+    "No",
+  ],
+}
+
+# _drop_downs_contingent: Human-readable canonical contingent dropdown data. Do not alter at runtime.
+# keys to the contingent dropdowns follow the patter html_selector2_contingent_on_html_selector1
+# for instance, emission_cause_contingent_on_emission_location means that the choices for
+# emission_cause are based on a lookup of the emission_location
+
+_drop_downs_contingent = {
+  "emission_cause_contingent_on_emission_location": {
+    "Gas Collection System Component (e.g., blower, well, valve, port)": [
+      "Construction - New Well Installation",
+      "Construction - Well Raising or Horizontal Extension",
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Damaged component",
+      "Insufficient vacuum",
+      "Offline Gas Collection Well(s)",
+      "Other",
+    ],
+    "Gas Control Device/Control System Component": [
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Damaged component",
+      "Other",
+    ],
+    "Landfill Surface: Daily Cover": [
+      "Collection system downtime",
+      "Construction - New Well Installation",
+      "Construction - Well Raising or Horizontal Extension",
+      "Cover integrity",
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Cracked/Broken Seal",
+      "Damaged component",
+      "Insufficient vacuum",
+      "Offline Gas Collection Well(s)",
+      "Other",
+      "Uncontrolled Area (no gas collection infrastructure)",
+    ],
+    "Landfill Surface: Intermediate Cover": [
+      "Collection system downtime",
+      "Construction - New Well Installation",
+      "Cover integrity",
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Cracked/Broken Seal",
+      "Damaged component",
+      "Insufficient vacuum",
+      "Offline Gas Collection Well(s)",
+      "Other",
+      "Uncontrolled Area (no gas collection infrastructure)",
+    ],
+    "Landfill Surface: Final Cover": [
+      "Collection system downtime",
+      "Construction - New Well Installation",
+      "Construction - Well Raising or Horizontal Extension",
+      "Cover integrity",
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Cracked/Broken Seal",
+      "Damaged component",
+      "Insufficient vacuum",
+      "Offline Gas Collection Well(s)",
+      "Other",
+      "Uncontrolled Area (no gas collection infrastructure)",
+    ],
+    "Leachate Management System": [
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Damaged component",
+      "Offline Gas Collection Well(s)",
+      "Other",
+    ],
+    "Working Face (area where active filling was being conducted at the time of detection)": [
+      "Construction - New Well Installation",
+      "Construction - Well Raising or Horizontal Extension",
+      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+      "Offline Gas Collection Well(s)",
+      "Other",
+      "Uncontrolled Area (no gas collection infrastructure)",
+    ],
+  },
+}
 
 
 def get_og_dummy_form_data() -> dict:
@@ -193,15 +410,12 @@ def get_landfill_dummy_form_data() -> dict:
 
 def get_excel_dropdown_data() -> tuple[dict, dict]:
   """
-  Return dropdown lookup values used in Excel and HTML form rendering.
-
-  Args:
-    None
+  Return transformed dropdown lookup values for use in HTML form rendering.
 
   Returns:
     tuple:
-      - dict[str, list[str | tuple[str, str] | tuple[str, str, dict[str, Any]]]]: Independent dropdowns keyed by HTML field name.
-      - dict[str, dict[str, list[str | Any]]]: Contingent dropdowns dependent on parent field values.
+      - dict[str, list[tuple[str, str] | tuple[str, str, dict[str, Any]]]]: Independent dropdowns keyed by HTML field name, with each value as a tuple suitable for form rendering.
+      - dict[str, dict[str, list[str | Any]]]: Contingent dropdowns dependent on parent field values, as deep copies of the module-level canonical data.
 
   Examples:
     drop_downs, contingent = get_excel_dropdown_data()
@@ -209,227 +423,29 @@ def get_excel_dropdown_data() -> tuple[dict, dict]:
     # Output: [ ... field names ... ]
 
   Notes:
-    - Dropdown values mirror those found in Excel templates.
-    - Each list element is a selectable value; 'Please Select' is prepended externally.
-    - Contingent keys follow the format: field2_contingent_on_field1.
-    - Each tuple is 2 or 3 items in length with the format:
-      (select value, select text, and an optional dictionary of additional html formatting)
-    - The new drop-downs are not context dependent like they are in excel and the validate logic needs to be updated.
+    - The module-level variables _drop_downs and _drop_downs_contingent contain the canonical, human-readable dropdown data as found in Excel templates and business logic.
+    - This function returns a deep copy of _drop_downs, transformed so that each list of values is converted to a list of (value, label) tuples, with a prepended disabled 'Please Select' option, matching the logic of arb.utils.web_html.update_selector_dict and selector_list_to_tuples.
+    - The contingent dropdowns (_drop_downs_contingent) are returned as a deep copy, unmodified.
+    - The transformation logic is inlined here to avoid circular imports. If the canonical logic changes, update both places to keep them in sync.
+    - This approach avoids circular imports but requires vigilance to prevent future divergence if the canonical logic is updated elsewhere in the codebase.
   """
+  from arb.utils.constants import PLEASE_SELECT
 
-  # Oil & Gas
-  drop_downs = {
-    "venting_exclusion": [
-      "Yes",
-      "No",
-    ],
-    "ogi_performed": [
-      "Yes",
-      "No",
-    ],
-    "ogi_result": [
-      "Not applicable as OGI was not performed",
-      "No source found",
-      "Unintentional-leak",
-      "Unintentional-non-component",
-      "Venting-construction/maintenance",
-      "Venting-routine",
-    ],
-    "method21_performed": [
-      "Yes",
-      "No",
-    ],
-    "method21_result": [
-      "Not applicable as Method 21 was not performed",
-      "No source found",
-      "Unintentional-below leak threshold",
-      "Unintentional-leak",
-      "Unintentional-non-component",
-      "Venting-construction/maintenance",
-      "Venting-routine",
-    ],
-    "equipment_at_source": [
-      "Centrifugal Natural Gas Compressor",
-      "Continuous High Bleed Natural Gas-actuated Pneumatic Device",
-      "Continuous Low Bleed Natural Gas-actuated Pneumatic Device",
-      "Intermittent Bleed Natural Gas-actuated Pneumatic Device",
-      "Natural Gas-actuated Pneumatic Pump",
-      "Pressure Separator",
-      "Reciprocating Natural Gas Compressor",
-      "Separator",
-      "Tank",
-      "Open Well Casing Vent",
-      "Piping",
-      "Well",
-      "Other",
-    ],
-    "component_at_source": [
-      "Valve",
-      "Connector",
-      "Flange",
-      "Fitting - pressure meter/gauge",
-      "Fitting - not pressure meter/gauge",
-      "Open-ended line",
-      "Plug",
-      "Pressure relief device",
-      "Stuffing box",
-      "Other",
-    ],
+  drop_downs = copy.deepcopy(_drop_downs)
+  drop_downs_contingent = copy.deepcopy(_drop_downs_contingent)
 
-    # Landfill
-    "emission_identified_flag_fk": [
-      "Operator was aware of the leak prior to receiving the CARB plume notification",
-      "Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification",
-      "No leak was detected",
-    ],
-    "emission_type_fk": [
-      "Not applicable as no leak was detected",
-      "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation",
-      "An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)",
-      "An intentional or allowable vent (i.e., the operator was aware of, and/or would not repair)",
-      "Due to a temporary activity (i.e., would be resolved without corrective action when the activity is complete)",
-    ],
-    "emission_location": [
-      "Not applicable as no leak was detected",
-      "Gas Collection System Component (e.g., blower, well, valve, port)",
-      "Gas Control Device/Control System Component",
-      "Landfill Surface: Daily Cover",
-      "Landfill Surface: Final Cover",
-      "Landfill Surface: Intermediate Cover",
-      "Leachate Management System",
-      "Working Face (area where active filling was being conducted at the time of detection)",
-    ],
-    "emission_cause": [
-      "Not applicable as no leak was detected",
-      "Collection system downtime",
-      "Construction - New Well Installation",
-      "Construction - Well Raising or Horizontal Extension",
-      "Cover integrity",
-      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-      "Cracked/Broken Seal",
-      "Damaged component",
-      "Insufficient vacuum",
-      "Offline Gas Collection Well(s)",
-      "Other",
-      "Uncontrolled Area (no gas collection infrastructure)",
-    ],
-    "emission_cause_secondary": [
-      "Not applicable as no leak was detected",
-      "Not applicable as no additional leak cause suspected",
-      "Collection system downtime",
-      "Construction - New Well Installation",
-      "Construction - Well Raising or Horizontal Extension",
-      "Cover integrity",
-      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-      "Cracked/Broken Seal",
-      "Damaged component",
-      "Insufficient vacuum",
-      "Offline Gas Collection Well(s)",
-      "Other",
-      "Uncontrolled Area (no gas collection infrastructure)",
-    ],
-    "emission_cause_tertiary": [
-      "Not applicable as no leak was detected",
-      "Not applicable as no additional leak cause suspected",
-      "Collection system downtime",
-      "Construction - New Well Installation",
-      "Construction - Well Raising or Horizontal Extension",
-      "Cover integrity",
-      "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-      "Cracked/Broken Seal",
-      "Damaged component",
-      "Insufficient vacuum",
-      "Offline Gas Collection Well(s)",
-      "Other",
-      "Uncontrolled Area (no gas collection infrastructure)",
-    ],
+  def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[str, str, dict]]:
+    # Inlined here to avoid circular imports
+    # see arb.utils.web_html for details
+    result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
+    result += [(v, v) for v in values]
+    return result
 
-    "included_in_last_lmr": [
-      "Yes",
-      "No",
-    ],
-    "planned_for_next_lmr": [
-      "Yes",
-      "No",
-    ],
+  def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
+    # Inlined here to avoid circular imports
+    # see arb.utils.web_html for details
+    return {key: selector_list_to_tuples(values) for key, values in input_dict.items()}
 
-  }
-
-  # keys to the contingent dropdowns follow the patter html_selector2_contingent_on_html_selector1
-  # for instance, emission_cause_contingent_on_emission_location means that the choices for
-  # emission_cause are based on a lookup of the emission_location
-
-  drop_downs_contingent = {
-    "emission_cause_contingent_on_emission_location": {
-      "Gas Collection System Component (e.g., blower, well, valve, port)": [
-        "Construction - New Well Installation",
-        "Construction - Well Raising or Horizontal Extension",
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Damaged component",
-        "Insufficient vacuum",
-        "Offline Gas Collection Well(s)",
-        "Other",
-      ],
-      "Gas Control Device/Control System Component": [
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Damaged component",
-        "Other",
-      ],
-      "Landfill Surface: Daily Cover": [
-        "Collection system downtime",
-        "Construction - New Well Installation",
-        "Construction - Well Raising or Horizontal Extension",
-        "Cover integrity",
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Cracked/Broken Seal",
-        "Damaged component",
-        "Insufficient vacuum",
-        "Offline Gas Collection Well(s)",
-        "Other",
-        "Uncontrolled Area (no gas collection infrastructure)",
-      ],
-      "Landfill Surface: Intermediate Cover": [
-        "Collection system downtime",
-        "Construction - New Well Installation",
-        "Cover integrity",
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Cracked/Broken Seal",
-        "Damaged component",
-        "Insufficient vacuum",
-        "Offline Gas Collection Well(s)",
-        "Other",
-        "Uncontrolled Area (no gas collection infrastructure)",
-      ],
-      "Landfill Surface: Final Cover": [
-        "Collection system downtime",
-        "Construction - New Well Installation",
-        "Construction - Well Raising or Horizontal Extension",
-        "Cover integrity",
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Cracked/Broken Seal",
-        "Damaged component",
-        "Insufficient vacuum",
-        "Offline Gas Collection Well(s)",
-        "Other",
-        "Uncontrolled Area (no gas collection infrastructure)",
-      ],
-      "Leachate Management System": [
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Damaged component",
-        "Offline Gas Collection Well(s)",
-        "Other",
-      ],
-      "Working Face (area where active filling was being conducted at the time of detection)": [
-        "Construction - New Well Installation",
-        "Construction - Well Raising or Horizontal Extension",
-        "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
-        "Offline Gas Collection Well(s)",
-        "Other",
-        "Uncontrolled Area (no gas collection infrastructure)",
-      ],
-    },
-  }
-
-  # Note, the drop_downs get "Please Select" prepended, but the drop_down_contingent content is not modified
   drop_downs = update_selector_dict(drop_downs)
+
   return drop_downs, drop_downs_contingent
