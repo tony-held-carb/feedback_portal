@@ -2,7 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-* creating new refactor 23 branch - initial thought it to add testing where convenient
+* creating new refactor 24 branch - resuming unit testing after docstring refactor
 
 * check if this was done:
   * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
