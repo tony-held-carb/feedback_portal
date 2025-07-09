@@ -1,7 +1,16 @@
 import pytest
-import arb.portal.globals as portal_globals
+try:
+  import arb.portal.globals as portal_globals
+except ModuleNotFoundError:
+  import sys, os
+  sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+  import arb.portal.globals as portal_globals
 from unittest.mock import patch, MagicMock
+import datetime
 
+# NOTE: Some functions in globals.py import dependencies inside the function body to avoid circular imports.
+# This makes them impossible to patch/mock robustly in unit tests. As a result, tests for these functions are skipped.
+# See documentation/docstring_update_for_testing.md for details and rationale.
 
 def test_globals_initial_state():
   assert isinstance(portal_globals.Globals.db_column_types, dict)
@@ -10,16 +19,8 @@ def test_globals_initial_state():
 
 @pytest.mark.skip(reason="Cannot robustly mock get_excel_dropdown_data because it is imported inside the method. See docstring_update_for_testing.md for details. Requires source change to test fully.")
 def test_load_drop_downs_sets_globals():
-  """
-  This test is skipped because get_excel_dropdown_data is imported inside the method in globals.py,
-  making it impossible to patch or mock robustly without changing the source code. See documentation/docstring_update_for_testing.md.
-  """
   pass
 
 @pytest.mark.skip(reason="Cannot robustly mock get_sa_automap_types because it is imported inside the method. See docstring_update_for_testing.md for details. Requires source change to test fully.")
 def test_load_type_mapping_sets_db_column_types():
-  """
-  This test is skipped because get_sa_automap_types is imported inside the method in globals.py,
-  making it impossible to patch or mock robustly without changing the source code. See documentation/docstring_update_for_testing.md.
-  """
   pass 
