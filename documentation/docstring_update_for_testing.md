@@ -34,14 +34,14 @@ Our approach to unit testing in this codebase is guided by the following princip
 
 **Summary Table of Testing Philosophy**
 
-| Principle                | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| Maximize meaningful coverage | Test all production logic that can be robustly unit tested.                  |
-| No source changes for testability | Do not refactor production code just for testing.                          |
-| Document all limitations | Clearly mark and explain any untestable code in tests, docstrings, and docs. |
-| Prioritize maintainability | Focus on protecting business logic and managing risk, not just coverage %.   |
-| Consistent policy        | Apply the same standards across all modules and new code.                    |
-| Edge cases/examples      | Include edge cases and docstring examples in tests where possible.            |
+| Principle                         | Description                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------|
+| Maximize meaningful coverage      | Test all production logic that can be robustly unit tested.                 |
+| No source changes for testability | Do not refactor production code just for testing.                           |
+| Document all limitations          | Clearly mark and explain any untestable code in tests, docstrings, and docs.|
+| Prioritize maintainability        | Focus on protecting business logic and managing risk, not just coverage %.  |
+| Consistent policy                 | Apply the same standards across all modules and new code.                   |
+| Edge cases/examples               | Include edge cases and docstring examples in tests where possible.          |
 
 # Docstring Update for Testing Tracker
 
@@ -119,51 +119,55 @@ To ensure all tests are discovered and run correctly, follow these steps:
 
 ## Table 1. Progress Table
 
-| # | File (arb/portal/util)                        | Testing Status             |
-|---|-----------------------------------------------|:--------------------------:|
-|  1| arb/__init__.py                               | Complete - Not Needed       |
-|  2| arb/logging/arb_logging.py                    | Complete                   |
-|  3| arb/portal/__init__.py                        | Complete - Not Needed       |
-|  4| arb/portal/app.py                             | Integration Testing Recommended |
-|  5| arb/portal/constants.py                       | Complete - Not Needed       |
-|  6| arb/portal/db_hardcoded.py                    | Complete as Reasonably Possible |
-|  7| arb/portal/extensions.py                      | Complete - Not Needed       |
-|  8| arb/portal/globals.py                         | Complete as Reasonably Possible |
-|  9| arb/portal/json_update_util.py                | Complete                   |
-| 10| arb/portal/routes.py                          | Integration Testing Recommended |
-| 11| arb/portal/sqla_models.py                     | Complete (except run_diagnostics, see notes)          |
-| 12| arb/portal/wtf_landfill.py                    | Skipped (all tests)        |
-| 13| arb/portal/wtf_oil_and_gas.py                 | Skipped (all tests)        |
-| 14| arb/portal/wtf_upload.py                      | Skipped (all tests)        |
-| 15| arb/portal/startup/__init__.py                | Not Needed - Trivial       |
-| 16| arb/portal/startup/db.py                      | Integration Testing Recommended |
-| 17| arb/portal/startup/flask.py                   | Skipped (all tests)        |
-| 18| arb/portal/startup/runtime_info.py            | Skipped (partial)          |
-| 19| arb/portal/utils/__init__.py                  | Complete - Not Needed       |
-| 20| arb/portal/utils/db_ingest_util.py            | Skipped (all tests)        |
-| 21| arb/portal/utils/db_introspection_util.py     | Skipped (all tests)        |
-| 22| arb/portal/utils/file_upload_util.py          | Skipped (all tests)        |
-| 23| arb/portal/utils/form_mapper.py               | Skipped (all tests)        |
-| 24| arb/portal/utils/github_and_ai.py             | Complete - Not Needed       |
-| 25| arb/portal/utils/route_util.py                | Skipped (all tests)        |
-| 26| arb/portal/utils/sector_util.py               | Skipped (all tests)        |
-| 27| arb/utils/__init__.py                         | Complete - Not Needed       |
-| 28| arb/utils/constants.py                        | Complete - Not Needed       |
-| 29| arb/utils/database.py                         | Unit Testing Complete      |
-| 30| arb/utils/date_and_time.py                    | Unit Testing Complete      |
-| 31| arb/utils/diagnostics.py                      | Unit Testing Complete      |
-| 32| arb/utils/file_io.py                          | Unit Testing Complete      |
-| 33| arb/utils/io_wrappers.py                      | Unit Testing Complete      |
-| 34| arb/utils/json.py                             | Unit Testing Complete      |
-| 35| arb/utils/log_util.py                         | Unit Testing Recommended   |
-| 36| arb/utils/misc.py                             | Unit Testing Recommended   |
-| 37| arb/utils/sql_alchemy.py                      | Unit Testing Recommended   |
-| 38| arb/utils/web_html.py                         | Unit Testing Recommended   |
-| 39| arb/utils/wtf_forms_util.py                   | Complete (except Flask/DB integration)   | All utility logic is fully covered by unit tests. Functions requiring a real Flask app or DB context are skipped and clearly documented in both the test file and source docstrings. |
-| 40| arb/wsgi.py                                   | Complete - Not Needed       |
-| 41| arb/portal/config/__init__.py                 | Complete - Not Needed       |
-| 42| arb/portal/config/accessors.py                | Complete            | All accessor logic is fully covered by unit tests. No further tests are needed unless new accessors are added. |
-| 43| arb/portal/config/settings.py                 | Complete            | All config class logic, inheritance, and environment overrides are fully covered by unit tests. No further tests are needed unless new config logic is added. |
+| # | File (arb/portal/util)                        | Testing Status             
+|---|-----------------------------------------------|:--------------------------:
+|  1| arb/__init__.py                               | Complete - Not Needed       
+|  2| arb/logging/arb_logging.py                    | Complete                   
+|  3| arb/portal/__init__.py                        | Complete - Not Needed       
+|  4| arb/portal/app.py                             | Integration Testing Recommended 
+|  5| arb/portal/constants.py                       | Complete - Not Needed       
+|  6| arb/portal/db_hardcoded.py                    | Complete as Reasonably Possible 
+|  7| arb/portal/extensions.py                      | Complete - Not Needed       
+|  8| arb/portal/globals.py                         | Complete as Reasonably Possible 
+|  9| arb/portal/json_update_util.py                | Complete                   
+| 10| arb/portal/routes.py                          | Integration Testing Recommended 
+| 11| arb/portal/sqla_models.py                     | Complete (except run_diagnostics, see notes)          
+| 12| arb/portal/wtf_landfill.py                    | Skipped (all tests)        
+| 13| arb/portal/wtf_oil_and_gas.py                 | Skipped (all tests)        
+| 14| arb/portal/wtf_upload.py                      | Skipped (all tests)        
+| 15| arb/portal/startup/__init__.py                | Not Needed - Trivial       
+| 16| arb/portal/startup/db.py                      | Integration Testing Recommended 
+| 17| arb/portal/startup/flask.py                   | Skipped (all tests)       
+| 18| arb/portal/startup/runtime_info.py            | Skipped (partial)         
+| 19| arb/portal/utils/__init__.py                  | Complete - Not Needed      
+| 20| arb/portal/utils/db_ingest_util.py            | Skipped (all tests)       
+| 21| arb/portal/utils/db_introspection_util.py     | Skipped (all tests)       
+| 22| arb/portal/utils/file_upload_util.py          | Skipped (all tests)       
+| 23| arb/portal/utils/form_mapper.py               | Skipped (all tests)       
+| 24| arb/portal/utils/github_and_ai.py             | Complete - Not Needed      
+| 25| arb/portal/utils/route_util.py                | Skipped (all tests)       
+| 26| arb/portal/utils/sector_util.py               | Skipped (all tests)       
+| 27| arb/utils/__init__.py                         | Complete - Not Needed      
+| 28| arb/utils/constants.py                        | Complete - Not Needed      
+| 29| arb/utils/database.py                         | Unit Testing Complete     
+| 30| arb/utils/date_and_time.py                    | Unit Testing Complete     
+| 31| arb/utils/diagnostics.py                      | Unit Testing Complete     
+| 32| arb/utils/file_io.py                          | Unit Testing Complete     
+| 33| arb/utils/io_wrappers.py                      | Unit Testing Complete     
+| 34| arb/utils/json.py                             | Unit Testing Complete     
+| 35| arb/utils/log_util.py                         | Unit Testing Recommended  
+| 36| arb/utils/misc.py                             | Unit Testing Recommended  
+| 37| arb/utils/sql_alchemy.py                      | Unit Testing Recommended  
+| 38| arb/utils/web_html.py                         | Unit Testing Recommended  
+| 39| arb/utils/wtf_forms_util.py                   | Complete (except Flask/DB integration)   
+                                                      All utility logic is fully covered by unit tests. Functions requiring a real Flask app or DB context are skipped and clearly documented in both the test file and source docstrings. 
+| 40| arb/wsgi.py                                   | Complete - Not Needed       
+| 41| arb/portal/config/__init__.py                 | Complete - Not Needed       
+| 42| arb/portal/config/accessors.py                | Complete             
+                                                      All accessor logic is fully covered by unit tests. 
+                                                      No further tests are needed unless new accessors are added. 
+| 43| arb/portal/config/settings.py                 | Complete             
+                                                      All config class logic, inheritance, and environment overrides are fully covered by unit tests. No further tests are needed unless new config logic is added. 
 
 ## Table 2. Supplemental Progress Notes
 
@@ -173,18 +177,21 @@ To ensure all tests are discovered and run correctly, follow these steps:
 | arb/portal/db_hardcoded.py                | Complete            | All tests pass. Functions not directly covered by unit tests (e.g., get_excel_dropdown_data) now have explicit docstring notes explaining the limitation and caution for changes. |
 | arb/portal/globals.py                     | Partial (Skipped)   | 2 tests skipped: cannot robustly mock methods due to imports inside methods. Docstrings for load_drop_downs and load_type_mapping now explicitly note the lack of coverage, reason, and caution for changes. |
 | arb/portal/json_update_util.py            | Complete            | All tests pass                |
-| arb/portal/sqla_models.py                 | Complete (except run_diagnostics)   | All production logic is fully covered by unit tests. The only untested function is run_diagnostics, which is likely obsolete, developer-only, and not robustly testable. This is clearly documented in the source and test files. |
+| arb/portal/sqla_models.py                 | Partial (Skipped)   | Only __repr__ methods tested; run_diagnostics skipped as legacy/dev code. |
 | arb/portal/wtf_landfill.py                | Skipped (all tests) | WTForm requires Flask app context; see test file. |
 | arb/portal/wtf_oil_and_gas.py             | Skipped (all tests) | WTForm requires Flask app context; see test file. |
 | arb/portal/wtf_upload.py                  | Skipped (all tests) | WTForm requires Flask app context; see test file. |
-| arb/portal/startup/flask.py               | Skipped (all tests) | configure_flask_app requires Flask app context.   |
-| arb/portal/startup/runtime_info.py        | Skipped (partial)   | print_runtime_diagnostics skipped; others testable.|
-| arb/portal/utils/db_ingest_util.py        | Skipped (all tests) | Requires DB/SQLAlchemy context; see test file.    |
-| arb/portal/utils/db_introspection_util.py | Skipped (all tests) | Requires DB/SQLAlchemy context; see test file.    |
-| arb/portal/utils/file_upload_util.py      | Skipped (all tests) | Requires Flask/file I/O context; see test file.   |
-| arb/portal/utils/form_mapper.py           | Skipped (all tests) | Requires Flask/WTForms context; see test file.    |
-| arb/portal/utils/route_util.py            | Skipped (all tests) | Requires Flask/request context; see test file.    |
-| arb/portal/utils/sector_util.py           | Skipped (all tests) | Requires integration context; see test file.      |
+| arb/portal/startup/flask.py               | Skipped (all tests) | configure_flask_app requires Flask app context. |
+| arb/portal/startup/runtime_info.py        | Partial (Skipped)   | print_runtime_diagnostics skipped; others testable. |
+| arb/portal/utils/db_ingest_util.py        | Skipped (all tests) | Requires DB/SQLAlchemy context; see test file. |
+| arb/portal/utils/db_introspection_util.py | Skipped (all tests) | Requires DB/SQLAlchemy context; see test file. |
+| arb/portal/utils/file_upload_util.py      | Skipped (all tests) | Requires Flask/file I/O context; see test file. |
+| arb/portal/utils/form_mapper.py           | Skipped (all tests) | Requires Flask/WTForms context; see test file. |
+| arb/portal/utils/route_util.py            | Skipped (all tests) | Requires Flask/request context; see test file. |
+| arb/portal/utils/sector_util.py           | Skipped (all tests) | Requires integration context; see test file. |
+| arb/utils/wtf_forms_util.py               | Partial (Skipped)   | All utility logic is fully covered by unit tests. Functions requiring a real Flask app or DB context are skipped and clearly documented in both the test file and source docstrings. |
+| arb/portal/config/accessors.py            | Complete            | All accessor logic is fully covered by unit tests. No further tests are needed unless new accessors are added. |
+| arb/portal/config/settings.py             | Complete            | All config class logic, inheritance, and environment overrides are fully covered by unit tests. No further tests are needed unless new config logic is added. |
 
 **Batch status:**
 - All test files for this batch were created and discovered by pytest.
