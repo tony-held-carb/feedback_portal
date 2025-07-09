@@ -28,18 +28,22 @@ def obj_diagnostics(obj: object,
   Log detailed diagnostics about an object's attributes and values.
 
   Args:
-      obj (object): The object to inspect.
-      include_hidden (bool): Whether to include private attributes (starting with `_`).
-      include_functions (bool): Whether to include methods or callable attributes.
-      message (str | None): Optional prefix message to label the diagnostic output.
+    obj (object): The object to inspect. If None, logs 'None' and returns.
+    include_hidden (bool): Whether to include private attributes (starting with `_`).
+    include_functions (bool): Whether to include methods or callable attributes.
+    message (str | None): Optional prefix message to label the diagnostic output.
 
   Returns:
-      None
+    None
 
-  Example:
-      Input : my_object with attributes and methods
-              include_hidden=True, include_functions=True
-      Output: Logs all attributes (including private) and functions to debug logger
+  Examples:
+    Input : obj={'a': 1, 'b': 2}, include_hidden=False, include_functions=False
+    Output: Logs all public attributes and their values
+    Input : obj=None
+    Output: Logs 'None' and returns
+
+  Notes:
+    - If `obj` is None, logs 'None' and returns.
   """
   logger.debug(f"Diagnostics for: {obj}")
   if message:
@@ -64,19 +68,27 @@ def list_differences(iterable_01: list | dict,
   Identify differences between two iterable objects (list or dict).
 
   Args:
-      iterable_01 (list | dict): First iterable object to compare.
-      iterable_02 (list | dict): Second iterable object to compare.
-      iterable_01_name (str): Label for the first iterable in log messages.
-      iterable_02_name (str): Label for the second iterable in log messages.
-      print_warning (bool): If True, log warnings for non-overlapping items.
+    iterable_01 (list | dict): First iterable object to compare. If None, treated as empty.
+    iterable_02 (list | dict): Second iterable object to compare. If None, treated as empty.
+    iterable_01_name (str): Label for the first iterable in log messages.
+    iterable_02_name (str): Label for the second iterable in log messages.
+    print_warning (bool): If True, log warnings for non-overlapping items.
 
   Returns:
-      tuple[list, list]:
-          - Items in `iterable_01` but not in `iterable_02`
-          - Items in `iterable_02` but not in `iterable_01`
+    tuple[list, list]:
+      - Items in `iterable_01` but not in `iterable_02`
+      - Items in `iterable_02` but not in `iterable_01`
+
   Examples:
-      Input : ["a", "b"], ["b", "c"]
-      Output: (["a"], ["c"])
+    Input : ["a", "b"], ["b", "c"]
+    Output: (["a"], ["c"])
+    Input : None, ["b", "c"]
+    Output: ([], ["b", "c"])
+    Input : ["a", "b"], None
+    Output: (["a", "b"], [])
+
+  Notes:
+    - If either iterable is None, it is treated as an empty list/dict.
   """
   in_iterable_1_only = [x for x in iterable_01 if x not in iterable_02]
   in_iterable_2_only = [x for x in iterable_02 if x not in iterable_01]
@@ -97,15 +109,22 @@ def diag_recursive(x: object, depth: int = 0, index: int = 0) -> None:
   Recursively log the structure and values of a nested iterable.
 
   Args:
-      x (object): Input object to inspect.
-      depth (int): Current recursion depth.
-      index (int): Index at the current level (if applicable).
+    x (object): Input object to inspect. If None, logs and returns.
+    depth (int): Current recursion depth.
+    index (int): Index at the current level (if applicable).
 
   Returns:
-      None
+    None
+
+  Examples:
+    Input : [[1, 2], [3, 4]]
+    Output: Logs nested structure and values
+    Input : None
+    Output: Logs and returns
 
   Notes:
-      Strings are treated as non-iterables.
+    - Strings are treated as non-iterables.
+    - If `x` is None, logs and returns.
   """
   indent = ' ' * 3 * depth
   if depth == 0:
@@ -116,8 +135,10 @@ def diag_recursive(x: object, depth: int = 0, index: int = 0) -> None:
 
   if not isinstance(x, str):
     try:
-      for i, y in enumerate(x):
-        diag_recursive(y, depth + 1, index=i)
+      from collections.abc import Iterable
+      if isinstance(x, Iterable):
+        for i, y in enumerate(x):
+          diag_recursive(y, depth + 1, index=i)
     except TypeError:
       pass
 
@@ -127,20 +148,25 @@ def dict_to_str(x: dict, depth: int = 0) -> str:
   Convert a dictionary to a pretty-printed multiline string.
 
   Args:
-      x (dict): Dictionary to convert.
-      depth (int): Current indentation depth for nested dictionaries.
+    x (dict): Dictionary to convert. If None, returns an empty string.
+    depth (int): Current indentation depth for nested dictionaries.
 
   Returns:
-      str: String representation of dictionary with indentation.
+    str: String representation of dictionary with indentation.
 
   Examples:
-      Input : {"a": 1, "b": {"c": 2}}
-      Output:
-        a:
-           1
-        b:
-           c:
-              2
+    Input : {"a": 1, "b": {"c": 2}}
+    Output:
+      a:
+         1
+      b:
+         c:
+            2
+    Input : None
+    Output: ""
+
+  Notes:
+    - If `x` is None, returns an empty string.
   """
   msg = ""
   indent = ' ' * 3 * depth
@@ -158,23 +184,26 @@ def obj_to_html(obj: object) -> str:
   Convert any Python object to a formatted HTML string for Jinja rendering.
 
   Args:
-      obj (object): A Python object suitable for `pprint`.
+    obj (object): A Python object suitable for `pprint`. If None, returns an empty <pre> block.
 
   Returns:
-      str: HTML string wrapped in <pre> tags that are safe for use with `|safe` in templates.
+    str: HTML string wrapped in <pre> tags that are safe for use with `|safe` in templates. e.g.,{{ result|safe }}
+
+  Examples:
+    Input : {"a": 1, "b": {"c": 2}}
+    Output: <pre>{'a': 1, 'b': {'c': 2}}</pre>
+    Input : None
+    Output: <pre></pre>
 
   Notes:
-      The HTML content must be marked `|safe` in the template to avoid escaping.
-
-  Example (in Jinja):
-      {% if result is defined %}
-        {{ result|safe }}
-      {% endif %}
+    - The HTML content must be marked `|safe` in the template to avoid escaping.
+    - If `obj` is None, returns an empty <pre> block.
   """
   pp = pprint.PrettyPrinter(indent=4, width=200)
   formatted_data = pp.pformat(obj)
   soup = BeautifulSoup("<pre></pre>", "html.parser")
-  soup.pre.string = formatted_data
+  if soup.pre is not None:
+    soup.pre.string = formatted_data
   return soup.prettify()
 
 
@@ -186,19 +215,28 @@ def compare_dicts(dict1: dict,
   Compare two dictionaries and log differences in keys and values.
 
   Args:
-      dict1 (dict): First dictionary.
-      dict2 (dict): Second dictionary.
-      dict1_name (str | None): Optional label for first dictionary in logs.
-      dict2_name (str | None): Optional label for second dictionary in logs.
+    dict1 (dict): First dictionary. If None, treated as empty dict.
+    dict2 (dict): Second dictionary. If None, treated as empty dict.
+    dict1_name (str | None): Optional label for first dictionary in logs.
+    dict2_name (str | None): Optional label for second dictionary in logs.
 
   Returns:
-      bool: True if dictionaries are equivalent; False otherwise.
+    bool: True if dictionaries are equivalent; False otherwise.
 
   Examples:
-      Input :
-        dict1 = {"a": 1, "b": 2, "c": 3}
-        dict2 = {"a": 1, "b": 4, "d": 5}
-      Output: False
+    Input :
+      dict1 = {"a": 1, "b": 2, "c": 3}
+      dict2 = {"a": 1, "b": 4, "d": 5}
+    Output: False
+    Input : None, {"a": 1}
+    Output: False
+    Input : {"a": 1}, None
+    Output: False
+    Input : None, None
+    Output: True
+
+  Notes:
+    - If either dict is None, it is treated as an empty dict.
   """
   dict1_name = dict1_name or "dict_1"
   dict2_name = dict2_name or "dict_2"
@@ -235,15 +273,15 @@ def get_changed_fields(new_dict: dict, old_dict: dict) -> dict:
   Extract fields from new_dict that differ from old_dict.
 
   Args:
-      new_dict (dict): New/updated values (e.g., from a form).
-      old_dict (dict): Old/reference values (e.g., from model JSON).
+    new_dict (dict): New/updated values (e.g., from a form). If None, treated as empty dict.
+    old_dict (dict): Old/reference values (e.g., from model JSON). If None, treated as empty dict.
 
   Returns:
-      dict: Keys with values that have changed.
+    dict: Keys with values that have changed.
 
   Notes:
-  - Only keys present in new_dict are considered. This prevents unrelated fields
-    from being overwritten when merging partial form data into a larger stored structure.
+    - Only keys present in new_dict are considered. This prevents unrelated fields from being overwritten when merging partial form data into a larger stored structure.
+    - If either dict is None, it is treated as an empty dict.
   """
 
   changes = {}

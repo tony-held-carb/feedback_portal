@@ -51,21 +51,26 @@ logger = logging.getLogger(__name__)
 
 def sa_model_diagnostics(model: AutomapBase, comment: str = "") -> None:
   """
-  Log diagnostic details about a SQLAlchemy model instance.
+  Log diagnostic details about a SQLAlchemy model instance, including all field names and values.
 
   Args:
-      model (AutomapBase): SQLAlchemy model instance.
-      comment (str): Optional comment header for log output.
+    model (AutomapBase): SQLAlchemy model instance to inspect. Must not be None.
+    comment (str): Optional comment header for log output.
 
   Returns:
-      None
+    None
 
+  Examples:
+    Input : user_model, comment="User diagnostics"
+    Output: Logs all field names and values for user_model
+
+  Notes:
+    - If `model` is None, a TypeError or AttributeError will occur.
   """
   logger.debug(f"Diagnostics for model of type {type(model)=}")
   if comment:
     logger.debug(f"{comment}")
   logger.debug(f"{model=}")
-
   fields = get_sa_fields(model)
   for key in fields:
     value = getattr(model, key)
@@ -74,39 +79,45 @@ def sa_model_diagnostics(model: AutomapBase, comment: str = "") -> None:
 
 def get_sa_fields(model: AutomapBase) -> list[str]:
   """
-  Get a sorted list of column names for a SQLAlchemy model.
+  Return a sorted list of column attribute names for a SQLAlchemy model.
 
   Args:
-      model (AutomapBase): SQLAlchemy AutomapBase.
+    model (AutomapBase): SQLAlchemy AutomapBase model instance. Must not be None.
 
   Returns:
-      list[str]: Alphabetically sorted list of column attribute names.
-  """
+    list[str]: Alphabetically sorted list of column attribute names.
 
-  inst = inspect(model)
-  model_fields = [c_attr.key for c_attr in inst.mapper.column_attrs]
+  Examples:
+    Input : user_model
+    Output: ['email', 'id', 'name']
+
+  Notes:
+    - If `model` is None, a TypeError or AttributeError will occur.
+  """
+  inst = inspect(model)  # type: ignore
+  model_fields = [c_attr.key for c_attr in inst.mapper.column_attrs]  # type: ignore
   model_fields.sort()
   return model_fields
 
 
 def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
   """
-  Return a mapping of each column to its SQLAlchemy and Python types.
+  Return a mapping of each column to its SQLAlchemy and Python types for a model.
 
   Args:
-      model (AutomapBase): SQLAlchemy model instance or class.
-      is_instance (bool): True if `model` is an instance, False if a class.
+    model (AutomapBase): SQLAlchemy model instance or class. Must not be None.
+    is_instance (bool): True if `model` is an instance, False if a class.
 
   Returns:
-      dict: Mapping from column names to a dict with 'sqlalchemy_type' and 'python_type'.
+    dict: Mapping from column names to a dict with 'sqlalchemy_type' and 'python_type'.
 
-  Example:
-    {
-      'id': {'sa_type': 'Integer', 'py_type': 'int'},
-      'email': {'sa_type': 'String', 'py_type': 'str'}
-    }
+  Examples:
+    Input : user_model
+    Output: {'id': {'sqlalchemy_type': Integer, 'python_type': int}, ...}
+
+  Raises:
+    AttributeError: If `model` is None or does not have valid metadata.
   """
-
   # Get the table inspector for the model
   if is_instance:
     inspector = inspect(type(model))
@@ -117,7 +128,7 @@ def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
   logger.debug(f"\t{inspector=}")
 
   columns_info = {}
-  for column in inspector.columns:
+  for column in inspector.columns:  # type: ignore
     col_name = column.name
     try:
       columns_info[col_name] = {
@@ -138,22 +149,27 @@ def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
 
 def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict:
   """
-  Return column type metadata for all mapped classes.
+  Return column type metadata for all mapped classes in an automap base.
 
   Args:
-      engine (Engine): SQLAlchemy engine instance.
-      base (AutomapBase): Automap base prepared with reflected metadata.
+    engine (Engine): SQLAlchemy engine instance. Must not be None.
+    base (AutomapBase): Automap base prepared with reflected metadata. Must not be None.
 
   Returns:
-      dict: Nested mapping: table -> column -> type category.
-            The dict is database of table names, column names, and datatypes with the structure:
-              result[table_name][column_name][kind] = type
-              where: kind can be 'database_type', 'sqlalchemy_type', or 'python_type'
+    dict: Nested mapping: table -> column -> type category.
+    Structure:
+      result[table_name][column_name][kind] = type
+      where kind can be 'database_type', 'sqlalchemy_type', or 'python_type'.
+
+  Examples:
+    Input : engine, base
+    Output: {'users': {'id': {'python_type': int, ...}, ...}, ...}
 
   Notes:
-    - base likely created with:
+    - `base` is typically created with:
         base = automap_base()
         base.prepare(db.engine, reflect=True)
+    - If `engine` or `base` is None, a TypeError or AttributeError will occur.
   """
   logger.debug(f"calling get_sa_automap_types()")
 
@@ -163,7 +179,7 @@ def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict:
   # Loop through all the mapped classes (tables)
   # print(f"{type(base)=}")
   # print(f"{type(base.classes)=}")
-  for class_name, mapped_class in base.classes.items():
+  for class_name, mapped_class in base.classes.items():  # type: ignore
     # print(f"Table: {class_name}")
     result[class_name] = {}
 
@@ -208,14 +224,25 @@ def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict:
 
 def sa_model_dict_compare(model_before: dict, model_after: dict) -> dict:
   """
-  Compare two model dictionaries and return changed fields.
+  Compare two model dictionaries and return a dict of changed fields and their new values.
 
   Args:
-      model_before (dict): Original state.
-      model_after (dict): New state.
+    model_before (dict): Original model state as a dictionary. If None, treated as empty dict.
+    model_after (dict): New model state as a dictionary. If None, treated as empty dict.
 
   Returns:
-      dict: Changed fields and their new values.
+    dict: Dictionary of changed fields and their new values.
+
+  Examples:
+    Input : {'email': 'old@example.com'}, {'email': 'new@example.com'}
+    Output: {'email': 'new@example.com'}
+    Input : None, {'email': 'new@example.com'}
+    Output: {'email': 'new@example.com'}
+    Input : {'email': 'old@example.com'}, None
+    Output: {}
+
+  Notes:
+    - If either input is None, it is treated as an empty dict.
   """
   changes = {}
   for field in model_after:
@@ -226,13 +253,20 @@ def sa_model_dict_compare(model_before: dict, model_after: dict) -> dict:
 
 def sa_model_to_dict(model: AutomapBase) -> dict:
   """
-  Convert a SQLAlchemy model to a Python dictionary.
+  Convert a SQLAlchemy model instance to a Python dictionary.
 
   Args:
-      model (AutomapBase): SQLAlchemy model.
+    model (AutomapBase): SQLAlchemy model instance. Must not be None.
 
   Returns:
-      dict: Dictionary with column names as keys and values from the model.
+    dict: Dictionary with column names as keys and model values as values.
+
+  Examples:
+    Input : user_model
+    Output: {'id': 1, 'email': 'user@example.com'}
+
+  Notes:
+    - If `model` is None, a TypeError or AttributeError will occur.
   """
   model_as_dict = {}
   fields = get_sa_fields(model)
@@ -245,15 +279,27 @@ def sa_model_to_dict(model: AutomapBase) -> dict:
 
 def table_to_list(base: AutomapBase, session: Session, table_name: str) -> list[dict]:
   """
-  Convert all rows of a mapped table to a list of dicts.
+  Convert all rows of a mapped table to a list of dictionaries.
 
   Args:
-      base (AutomapBase): Automap base.
-      session (Session): SQLAlchemy session.
-      table_name (str): Table name to query.
+    base (AutomapBase): Automap base. Must not be None.
+    session (Session): SQLAlchemy session. Must not be None.
+    table_name (str): Table name to query. If None or empty, raises ValueError.
 
   Returns:
-      list[dict]: List of row dictionaries.
+    list[dict]: List of row dictionaries, one per row in the table.
+
+  Examples:
+    Input : Base, session, 'users'
+    Output: [{'id': 1, 'email': ...}, ...]
+    Input : Base, session, None
+    Output: ValueError
+    Input : Base, session, ''
+    Output: ValueError
+
+  Notes:
+    - If `table_name` is None or empty, raises ValueError.
+    - If table is not found, returns an empty list and logs a warning.
   """
   result = []
   table = base.classes.get(table_name)
@@ -272,30 +318,36 @@ def table_to_list(base: AutomapBase, session: Session, table_name: str) -> list[
   return result
 
 
-def get_class_from_table_name(base: AutomapBase | None,
-                              table_name: str) -> AutomapBase | None:
+def get_class_from_table_name(base: AutomapBase | None, table_name: str) -> AutomapBase | None:
   """
-  Retrieves the mapped class for a given table name.
+  Retrieve the mapped ORM class for a given table name from an automap base.
 
   Args:
-      base (AutomapBase): SQLAlchemy AutomapBase.
-      table_name (str): Database table name.
+    base (AutomapBase): SQLAlchemy AutomapBase. Must not be None.
+    table_name (str): Database table name. If None or empty, returns None.
 
   Returns:
-      AutomapBase | None: Mapped SQLAlchemy ORM class, or None if not found.
+    AutomapBase | None: Mapped SQLAlchemy ORM class, or None if not found.
+
+  Examples:
+    Input : base, 'users'
+    Output: <User ORM class>
+    Input : base, None
+    Output: None
+    Input : None, 'users'
+    Output: None
 
   Notes:
-  - To access the class mapped to a specific table name in SQLAlchemy without directly using _class_registry,
-    you can use the Base.metadata object, which stores information about all mapped tables.
-
-  - get_class_from_table_name seems to fail from gpt refactor, so I kept my original code here.
-  - it failed because my old test of is not None was changed to if - be on the lookout for other subtle bugs like this
+    - Uses Base.metadata and registry to find the mapped class.
+    - If the table is not found, returns None.
+    - If `base` is None, returns None.
+    - If `table_name` is None or empty, returns None.
   """
   try:
     # Look up the table in metadata and find its mapped class
-    table = base.metadata.tables.get(table_name)
+    table = base.metadata.tables.get(table_name)  # type: ignore
     if table is not None:
-      for mapper in base.registry.mappers:
+      for mapper in base.registry.mappers:  # type: ignore
         if mapper.local_table == table:
           return mapper.class_
     return None
@@ -308,24 +360,36 @@ def get_class_from_table_name(base: AutomapBase | None,
 
 
 def get_rows_by_table_name(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    table_name: str,
-    colum_name_pk: str | None = None,
-    ascending: bool = True
+  db: SQLAlchemy,
+  base: AutomapBase,
+  table_name: str,
+  colum_name_pk: str | None = None,
+  ascending: bool = True
 ) -> list:
   """
-    Retrieve all rows from a table, optionally sorted by a column.
+  Retrieve all rows from a table, optionally sorted by a column.
 
-    Args:
-        db: SQLAlchemy db object.
-        base (AutomapBase): Declarative base.
-        table_name (str): Table name.
-        colum_name_pk (str | None): Column to sort by.
-        ascending (bool): Sort order.
+  Args:
+    db (SQLAlchemy): SQLAlchemy db object. Must not be None.
+    base (AutomapBase): Declarative base. Must not be None.
+    table_name (str): Table name. If None or empty, raises ValueError.
+    colum_name_pk (str | None): Column to sort by (primary key or other). If None, no sorting is applied.
+    ascending (bool): Sort order (True for ascending, False for descending).
 
-    Returns:
-        list[DeclarativeMeta]: List of ORM model instances.
+  Returns:
+    list[DeclarativeMeta]: List of ORM model instances.
+
+  Examples:
+    Input : db, Base, 'users', 'id', ascending=False
+    Output: List of user ORM instances sorted by id descending
+    Input : db, Base, None
+    Output: ValueError
+    Input : db, Base, ''
+    Output: ValueError
+
+  Notes:
+    - If `table_name` is None or empty, raises ValueError.
+    - If table is not found, returns an empty list and logs a warning.
   """
   table = get_class_from_table_name(base, table_name)
   logger.info(f"{type(table)=}")
@@ -342,12 +406,26 @@ def get_rows_by_table_name(
 
 def delete_commit_and_log_model(db: SQLAlchemy, model_row: AutomapBase, comment: str = "") -> None:
   """
-  Delete a model instance, log it, and commit the change.
+  Delete a model instance from the database, log the operation, and commit the change.
 
   Args:
-      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-      model_row (AutomapBase): ORM model instance.
-      comment (str): Optional log comment.
+    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app. Must not be None.
+    model_row (AutomapBase): ORM model instance to delete. Must not be None.
+    comment (str): Optional log comment for auditing.
+
+  Returns:
+    None
+
+  Examples:
+    Input : db, user_row, comment="Deleting user"
+    Output: Deletes user_row from the database and logs the operation
+    Input : db, None
+    Output: Exception
+    Input : None, user_row
+    Output: Exception
+
+  Notes:
+    - If `db` or `model_row` is None, an exception will be raised.
   """
   # todo (update) - use the payload routine apply_json_patch_and_log and or some way to track change
   logger.info(f"Deleting model {comment=}: {sa_model_to_dict(model_row)}")
@@ -360,19 +438,33 @@ def delete_commit_and_log_model(db: SQLAlchemy, model_row: AutomapBase, comment:
 
 
 def add_commit_and_log_model(
-    db: SQLAlchemy,
-    model_row: AutomapBase,
-    comment: str = "",
-    model_before: dict | None = None
+  db: SQLAlchemy,
+  model_row: AutomapBase,
+  comment: str = "",
+  model_before: dict | None = None
 ) -> None:
   """
-  Add or update a model instance, log changes, and commit.
+  Add or update a model instance in the database, log changes, and commit.
 
   Args:
-      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-      model_row (AutomapBase): ORM model instance.
-      comment (str): Optional log comment.
-      model_before (dict | None): Optional snapshot before changes.
+    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app. Must not be None.
+    model_row (AutomapBase): ORM model instance to add or update. Must not be None.
+    comment (str): Optional log comment for auditing.
+    model_before (dict | None): Optional snapshot of the model before changes.
+
+  Returns:
+    None
+
+  Examples:
+    Input : db, user_row, comment="Adding user"
+    Output: Adds or updates user_row in the database and logs changes
+    Input : db, None
+    Output: Exception
+    Input : None, user_row
+    Output: Exception
+
+  Notes:
+    - If `db` or `model_row` is None, an exception will be raised.
   """
   # todo (update) - use the payload routine apply_json_patch_and_log
   if model_before:
@@ -392,29 +484,43 @@ def add_commit_and_log_model(
 
 
 def get_table_row_and_column(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    table_name: str,
-    column_name: str,
-    id_: int
+  db: SQLAlchemy,
+  base: AutomapBase,
+  table_name: str,
+  column_name: str,
+  id_: int
 ) -> tuple | None:
   """
-  Fetch a row and column value given table name and primary key.
+  Fetch a row and a specific column value given table name and primary key value.
 
   Args:
-      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-      base (AutomapBase): AutomapBase.
-      table_name (str): Table name.
-      column_name (str): Column of interest.
-      id_ (int): Primary key value.
+    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app. Must not be None.
+    base (AutomapBase): AutomapBase. Must not be None.
+    table_name (str): Table name. If None or empty, raises ValueError.
+    column_name (str): Column of interest. If None or empty, raises ValueError.
+    id_ (int): Primary key value.
 
   Returns:
-      tuple | None: (row, value) if found, else (None, None).
+    tuple | None: (row, value) if found, else (None, None).
+
+  Examples:
+    Input : db, Base, 'users', 'email', 1
+    Output: (user_row, user_row.email)
+    Input : db, Base, None, 'email', 1
+    Output: ValueError
+    Input : db, Base, 'users', None, 1
+    Output: ValueError
+
+  Notes:
+    - If `table_name` or `column_name` is None or empty, raises ValueError.
+    - If row is not found, returns (None, None).
   """
   logger.debug(f"Getting {column_name} from {table_name} where pk={id_}")
   column_value = None
   table = get_class_from_table_name(base, table_name)
-  row = db.session.query(table).get(id_)
+  if table is None:
+    return None, None
+  row = db.session.query(table).get(id_)  # type: ignore
 
   if row:
     column_value = getattr(row, column_name)
@@ -424,32 +530,44 @@ def get_table_row_and_column(
 
 
 def get_foreign_value(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    primary_table_name: str,
-    foreign_table_name: str,
-    primary_table_fk_name: str,
-    foreign_table_column_name: str,
-    primary_table_pk_value: int,
-    primary_table_pk_name: str | None = None,
-    foreign_table_pk_name: str | None = None
+  db: SQLAlchemy,
+  base: AutomapBase,
+  primary_table_name: str,
+  foreign_table_name: str,
+  primary_table_fk_name: str,
+  foreign_table_column_name: str,
+  primary_table_pk_value: int,
+  primary_table_pk_name: str | None = None,
+  foreign_table_pk_name: str | None = None
 ) -> str | None:
   """
-    Resolve a foreign key reference and return its value.
+  Resolve a foreign key reference and return the referenced value from the foreign table.
 
-    Args:
-        db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-        base (AutomapBase): Declarative base.
-        primary_table_name (str): Table with FK.
-        foreign_table_name (str): Table with desired value.
-        primary_table_fk_name (str): FK field name.
-        foreign_table_column_name (str): Target field name in foreign table.
-        primary_table_pk_value (int): PK value of row in primary table.
-        primary_table_pk_name (str | None): Optional PK field override.
-        foreign_table_pk_name (str | None): Optional PK override in foreign table.
+  Args:
+    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app. Must not be None.
+    base (AutomapBase): Declarative base. Must not be None.
+    primary_table_name (str): Table with the foreign key. If None or empty, raises ValueError.
+    foreign_table_name (str): Table containing the referenced value. If None or empty, raises ValueError.
+    primary_table_fk_name (str): Foreign key field name in the primary table. If None or empty, raises ValueError.
+    foreign_table_column_name (str): Target field name in the foreign table. If None or empty, raises ValueError.
+    primary_table_pk_value (int): Primary key value of the row in the primary table.
+    primary_table_pk_name (str | None): Optional primary key field override in the primary table.
+    foreign_table_pk_name (str | None): Optional primary key field override in the foreign table.
 
-    Returns:
-        str | None: Foreign value if found, else None.
+  Returns:
+    str | None: The referenced value from the foreign table, or None if not found.
+
+  Examples:
+    Input : db, base, 'orders', 'users', 'user_id', 'email', 123
+    Output: 'user@example.com'
+    Input : db, base, None, 'users', 'user_id', 'email', 123
+    Output: ValueError
+    Input : db, base, 'orders', None, 'user_id', 'email', 123
+    Output: ValueError
+
+  Notes:
+    - If any required argument is None or empty, raises ValueError.
+    - If the referenced value is not found, returns None.
   """
   logger.debug(f"Looking up foreign value: {locals()}")
   result = None
@@ -459,17 +577,17 @@ def get_foreign_value(
 
   if primary_table_pk_name:
     pk_column = getattr(primary_table, primary_table_pk_name)
-    primary_row = db.session.query(primary_table).filter(pk_column == primary_table_pk_value).first()
+    primary_row = db.session.query(primary_table).filter(pk_column == primary_table_pk_value).first()  # type: ignore
   else:
-    primary_row = db.session.query(primary_table).get(primary_table_pk_value)
+    primary_row = db.session.query(primary_table).get(primary_table_pk_value)  # type: ignore
 
   if primary_row:
     fk_value = getattr(primary_row, primary_table_fk_name)
     if foreign_table_pk_name:
       fk_column = getattr(foreign_table, foreign_table_pk_name)
-      foreign_row = db.session.query(foreign_table).filter(fk_column == fk_value).first()
+      foreign_row = db.session.query(foreign_table).filter(fk_column == fk_value).first()  # type: ignore
     else:
-      foreign_row = db.session.query(foreign_table).get(fk_value)
+      foreign_row = db.session.query(foreign_table).get(fk_value)  # type: ignore
 
     if foreign_row:
       result = getattr(foreign_row, foreign_table_column_name)
@@ -483,12 +601,15 @@ def find_auto_increment_value(db: SQLAlchemy, table_name: str, column_name: str)
   Find the next auto-increment value for a table column (PostgresQL only).
 
   Args:
-      db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
-      table_name (str): Table name.
-      column_name (str): Column name.
+    db (SQLAlchemy): SQLAlchemy instance bound to the Flask app.
+    table_name (str): Table name.
+    column_name (str): Column name.
 
   Returns:
-      str: Human-readable summary of the next sequence value.
+    str: Human-readable summary of the next sequence value.
+
+  Example:
+    summary = find_auto_increment_value(db, 'users', 'id')
   """
   with db.engine.connect() as connection:
     sql_seq = f"SELECT pg_get_serial_sequence('{table_name}', '{column_name}')"
@@ -506,9 +627,8 @@ def load_model_json_column(model: AutomapBase, column_name: str) -> dict:
 
   This helper ensures that the value stored in a model's JSON column is returned
   as a Python dictionary, regardless of whether it's stored as a JSON string or
-  a native dict in the database.
-
-  If the value is a malformed JSON string, a warning is logged and an empty dict is returned.
+  a native dict in the database. If the value is a malformed JSON string, a warning
+  is logged and an empty dict is returned.
 
   Args:
     model (AutomapBase): SQLAlchemy ORM model instance.
@@ -519,6 +639,9 @@ def load_model_json_column(model: AutomapBase, column_name: str) -> dict:
 
   Raises:
     TypeError: If the value is not a string, dict, or None.
+
+  Example:
+    misc = load_model_json_column(user_model, 'misc_json')
   """
   raw_value = getattr(model, column_name)
 

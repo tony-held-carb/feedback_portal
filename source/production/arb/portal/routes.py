@@ -4,11 +4,19 @@ Blueprint-based route definitions for the ARB Feedback Portal.
 This module defines all Flask routes originally found in `app.py`,
 now organized under the `main` Blueprint for modularity.
 
-Routes cover:
-  - Incidence form creation, editing, and deletion
-  - File upload and viewing
-  - Portal update log display and export
-  - Diagnostics and developer views
+Args:
+  None
+
+Returns:
+  None
+
+Attributes:
+  main (Blueprint): Flask Blueprint for all portal routes.
+  logger (logging.Logger): Logger instance for this module.
+
+Examples:
+  from arb.portal.routes import main
+  app.register_blueprint(main)
 
 Notes:
   - All routes assume that `create_app()` registers the `main` Blueprint.
@@ -67,11 +75,15 @@ def index() -> str:
   """
   Display the homepage with a list of all existing incidence records.
 
-  Queries the 'incidences' table in descending order of ID and renders
-  the results in a summary table on the landing page.
+  Args:
+    None
 
   Returns:
     str: Rendered HTML for the homepage with incidence records.
+
+  Examples:
+    # In browser: GET /
+    # Returns: HTML page with table of incidences
   """
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
@@ -96,6 +108,10 @@ def incidence_update(id_: int) -> Union[str, Response]:
 
   Raises:
     500 Internal Server Error: If multiple records are found for the same ID.
+
+  Examples:
+    # In browser: GET /incidence_update/123/
+    # Returns: HTML form for editing incidence 123
 
   Notes:
     - Redirects if the ID is not found in the database.
@@ -138,8 +154,15 @@ def og_incidence_create() -> Response:
   """
   Create a new dummy Oil & Gas incidence and redirect to its edit form.
 
+  Args:
+    None
+
   Returns:
     Response: Redirect to the `incidence_update` page for the newly created ID.
+
+  Examples:
+    # In browser: POST /og_incidence_create/
+    # Redirects to: /incidence_update/<new_id>/
 
   Notes:
     - Dummy data is loaded from `db_hardcoded.get_og_dummy_form_data()`.
@@ -167,8 +190,15 @@ def landfill_incidence_create() -> Response:
   """
   Create a new dummy Landfill incidence and redirect to its edit form.
 
+  Args:
+    None
+
   Returns:
     Response: Redirect to the `incidence_update` page for the newly created ID.
+
+  Examples:
+    # In browser: POST /landfill_incidence_create/
+    # Redirects to: /incidence_update/<new_id>/
 
   Notes:
     - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_form_data()`.
@@ -203,6 +233,10 @@ def incidence_delete(id_: int) -> ResponseReturnValue:
   Returns:
     Response: Redirect to the homepage after deletion.
 
+  Examples:
+    # In browser: POST /incidence_delete/123/
+    # Redirects to: /
+
   Notes:
     - Future: consider adding authorization (e.g., CARB password) to restrict access.
   """
@@ -231,8 +265,15 @@ def list_uploads() -> str:
   """
   List all files in the upload directory.
 
+  Args:
+    None
+
   Returns:
     str: Rendered HTML showing all uploaded Excel files available on disk.
+
+  Examples:
+    # In browser: GET /list_uploads
+    # Returns: HTML page listing uploaded files
   """
 
   logger.debug(f"in list_uploads")
@@ -248,10 +289,17 @@ def list_uploads() -> str:
 @main.route('/list_staged')
 def list_staged() -> str:
   """
-  List all staged files awaiting review.
+  List all staged files available for review or processing.
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML showing all staged JSON files with their metadata.
+    str: Rendered HTML showing all staged files.
+
+  Examples:
+    # In browser: GET /list_staged
+    # Returns: HTML page listing staged files
   """
   logger.debug("list_staged route called")
 
@@ -295,18 +343,19 @@ def list_staged() -> str:
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message: str | None = None) -> Union[str, Response]:
   """
-  Upload a spreadsheet or JSON file and immediately apply it to the database.
-
-  This route handles file uploads (Excel or JSON), converts them into a
-  structured format, and applies the contents directly to the database.
-  If the upload and update succeed, the user is redirected to the update form.
+  Handle file upload form and process uploaded Excel files.
 
   Args:
-    message (str | None): Optional redirect message to show in the template.
+    message (str | None): Optional message to display on the upload page.
 
   Returns:
-    str | Response: Redirect to incidence update page on success, otherwise
-    renders the upload form with error or status messages.
+    str|Response: Rendered HTML for the upload form, or redirect after upload.
+
+  Examples:
+    # In browser: GET /upload
+    # Returns: HTML upload form
+    # In browser: POST /upload
+    # Redirects to: /list_uploads or error page
   """
   logger.debug("upload_file route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
@@ -374,17 +423,19 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 @main.route('/upload_staged/<message>', methods=['GET', 'POST'])
 def upload_file_staged(message: str | None = None) -> Union[str, Response]:
   """
-  Upload an Excel or JSON file, convert it to JSON, and stage it for review.
-
-  This route handles both GET (form rendering) and POST (file upload) requests.
-  Uploaded files are parsed and saved to a staging location, but are NOT applied
-  to the database.
+  Handle staged file upload form and process staged Excel files.
 
   Args:
-    message (str | None): Optional message to display on page (from redirect).
+    message (str | None): Optional message to display on the staged upload page.
 
   Returns:
-    str | Response: HTML response or redirect based on staging outcome.
+    str|Response: Rendered HTML for the staged upload form, or redirect after upload.
+
+  Examples:
+    # In browser: GET /upload_staged
+    # Returns: HTML staged upload form
+    # In browser: POST /upload_staged
+    # Redirects to: /list_staged or error page
   """
   logger.debug("upload_file_staged route called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
@@ -460,18 +511,18 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
 @main.route("/review_staged/<int:id_>/<filename>", methods=["GET"])
 def review_staged(id_: int, filename: str) -> str | Response:
   """
-  Show a diff between a staged upload and the current database row.
-
-  This view compares all keys in the staged JSON payload and marks
-  which fields changed. It also passes metadata and supports display
-  of unchanged fields for full audit.
+  Review the contents of a staged file for a specific incidence ID.
 
   Args:
-    id_ (int): ID of the row that was staged for update.
-    filename (str): The staged file name to review.
+    id_ (int): Incidence ID associated with the staged file.
+    filename (str): Name of the staged file to review.
 
   Returns:
-    str: Rendered HTML with row-level differences and actions.
+    str|Response: Rendered HTML for file review, or redirect if not found.
+
+  Examples:
+    # In browser: GET /review_staged/123/myfile.xlsx
+    # Returns: HTML review page for the file
   """
   logger.debug(f"Reviewing staged upload for id={id_}, filename={filename}")
 
@@ -520,18 +571,18 @@ def review_staged(id_: int, filename: str) -> str | Response:
 @main.route("/confirm_staged/<int:id_>/<filename>", methods=["POST"])
 def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   """
-  Final confirmation of staged data. This route applies the staged changes to the
-  database model and moves the staged JSON to the committed directory.
-
-  The user must explicitly approve field-level overwrites via checkboxes. Only
-  approved fields are updated; all others are left unchanged.
+  Confirm and apply a staged update for a specific incidence ID and file.
 
   Args:
-    id_ (int): The incidence/emission ID being confirmed.
-    filename (str): The staged file name being confirmed.
+    id_ (int): Incidence ID to update.
+    filename (str): Name of the staged file to confirm.
 
   Returns:
-    ResponseReturnValue: Redirect to confirmation or error page.
+    Response: Redirect to the incidence update page after applying the update.
+
+  Examples:
+    # In browser: POST /confirm_staged/123/myfile.xlsx
+    # Redirects to: /incidence_update/123/
   """
   import shutil
 
@@ -655,13 +706,17 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
 @main.route("/discard_staged_update/<int:id_>", methods=["POST"])
 def discard_staged_update(id_: int) -> Response:
   """
-  Discard a staged upload file without applying it to the database.
+  Discard a staged update for a specific incidence ID.
 
   Args:
-    id_ (int): ID of the staged incidence file to discard.
+    id_ (int): Incidence ID for which to discard the staged update.
 
   Returns:
-    Response: Redirect to the staged upload page with status message.
+    Response: Redirect to the staged uploads list after discarding the update.
+
+  Examples:
+    # In browser: POST /discard_staged_update/123
+    # Redirects to: /list_staged
   """
   staging_dir = Path(get_upload_folder()) / "staging"
   staged_file = staging_dir / f"{id_}.json"
@@ -685,18 +740,17 @@ def discard_staged_update(id_: int) -> Response:
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])
 def apply_staged_update(id_: int):
   """
-  Apply a previously staged update to the database.
+  Apply a staged update to the database for a specific incidence ID.
 
   Args:
-    id_ (int): ID of the incidence row to update.
+    id_ (int): Incidence ID to apply the staged update to.
 
   Returns:
-    Response: Redirect to the incidence update page with status message.
+    Response: Redirect to the incidence update page after applying the update.
 
-  Notes:
-    - Loads the staged JSON file from the staging folder.
-    - Applies the JSON to the database using xl_dict_to_database.
-    - Deletes the staged file if applied successfully.
+  Examples:
+    # In browser: POST /apply_staged_update/123
+    # Redirects to: /incidence_update/123/
   """
   try:
     # staging_dir = Path(current_app.config["UPLOAD_STAGING_FOLDER"])
@@ -732,16 +786,17 @@ def apply_staged_update(id_: int):
 @main.route("/serve_file/<path:filename>")
 def serve_file(filename) -> Response:
   """
-  Serve a file from the server's upload directory.
+  Serve a file from the uploads directory.
 
   Args:
     filename (str): Name of the file to serve.
 
   Returns:
-    Response: Sends file content to the browser or triggers download.
+    Response: File response for download or viewing in browser.
 
-  Raises:
-    404 Not Found: If the file does not exist on disk.
+  Examples:
+    # In browser: GET /serve_file/myfile.xlsx
+    # Returns: File download or inline view
   """
 
   upload_folder = get_upload_folder()
@@ -756,10 +811,13 @@ def serve_file(filename) -> Response:
 @main.route("/portal_updates")
 def view_portal_updates() -> str:
   """
-  Display a table of all updates recorded in `portal_updates`.
+  Display a table of all portal update log entries.
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML with sortable and filterable update logs.
+    str: Rendered HTML table of portal update logs.
 
   Notes:
     - Supports pagination, filtering, and sorting via query parameters.
@@ -795,10 +853,13 @@ def view_portal_updates() -> str:
 @main.route("/portal_updates/export")
 def export_portal_updates() -> Response:
   """
-  Export filtered portal update logs as a downloadable CSV file.
+  Export all portal update log entries as a CSV file.
+
+  Args:
+    None
 
   Returns:
-    Response: CSV content as an attachment.
+    Response: CSV file download of portal update logs.
 
   Notes:
     - Respects filters set in the `/portal_updates` page.
@@ -834,10 +895,13 @@ def export_portal_updates() -> Response:
 @main.route('/search/', methods=('GET', 'POST'))
 def search() -> str:
   """
-  Search route triggered by the navigation bar (stub for future use).
+  Search for incidences or updates in the portal database.
+
+  Args:
+    None
 
   Returns:
-    str: Renders a search results page showing the query string.
+    str: Rendered HTML search results page.
 
   Notes:
     - Currently echoes the user-submitted query string.
@@ -859,10 +923,17 @@ def search() -> str:
 @main.route('/diagnostics')
 def diagnostics() -> str:
   """
-  Run diagnostics on the 'incidences' table and show the next ID.
+  Display developer diagnostics and runtime information.
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML showing auto-increment ID diagnostic.
+    str: Rendered HTML diagnostics page.
+
+  Examples:
+    # In browser: GET /diagnostics
+    # Returns: HTML diagnostics info
   """
 
   logger.info(f"diagnostics() called")
@@ -882,10 +953,13 @@ def diagnostics() -> str:
 @main.route('/show_dropdown_dict')
 def show_dropdown_dict() -> str:
   """
-  Display current dropdown and contingent dropdown values.
+  Show the current dropdown dictionary used in forms.
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML table of dropdown structures.
+    str: Rendered HTML of dropdown dictionary.
 
   Notes:
     - Useful for verifying dropdown contents used in WTForms.
@@ -908,10 +982,17 @@ def show_dropdown_dict() -> str:
 @main.route('/show_database_structure')
 def show_database_structure() -> str:
   """
-  Show structure of all reflected database columns.
+  Show the structure of the portal database (tables, columns, types).
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML with column type information for all tables.
+    str: Rendered HTML of database structure.
+
+  Examples:
+    # In browser: GET /show_database_structure
+    # Returns: HTML with database structure
   """
 
   logger.info(f"Displaying database structure")
@@ -927,13 +1008,17 @@ def show_database_structure() -> str:
 @main.route('/show_feedback_form_structure')
 def show_feedback_form_structure() -> str:
   """
-  Inspect and display WTForms structure for feedback forms.
+  Show the structure of the feedback form (fields, types, validators).
+
+  Args:
+    None
 
   Returns:
-    str: Rendered HTML showing field names/types for OG and Landfill forms.
+    str: Rendered HTML of feedback form structure.
 
-  Notes:
-    - Uses `get_wtforms_fields()` utility to introspect each form.
+  Examples:
+    # In browser: GET /show_feedback_form_structure
+    # Returns: HTML with feedback form structure
   """
   logger.info(f"Displaying wtforms structure as a diagnostic")
 
@@ -983,11 +1068,13 @@ def show_feedback_form_structure() -> str:
 @main.route('/show_log_file')
 def show_log_file() -> str:
   """
-  Display the last N lines of the server's current log file.
+  Display the last N lines of the portal log file.
 
   Query Parameters:
     lines (int, optional): Number of lines to show from the end of the log file.
                            Defaults to 1000 if not provided or invalid.
+  Args:
+    None
 
   Returns:
     str: Rendered HTML with the log file content shown inside a <pre> block.

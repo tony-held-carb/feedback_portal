@@ -1,12 +1,30 @@
 """
-route_util.py
+  Sector utilities for resolving and classifying feedback form sectors.
 
-This module prepares the rendering context and template output for individual
-feedback form pages, supporting both 'create' and 'update' operations.
+  This module provides functions to extract sector payloads from Excel data,
+  resolve sector and sector_type for incidences, and map sector names to
+  broad classifications (e.g., 'Oil & Gas', 'Landfill').
 
-It integrates SQLAlchemy model rows with WTForms-based feedback forms,
-enforces dropdown resets, and applies conditional rendering logic
-based on sector type and CRUD mode.
+  Args:
+    None
+
+  Returns:
+    None
+
+  Attributes:
+    extract_sector_payload (function): Combines worksheet tab and metadata into a payload.
+    get_sector_info (function): Resolves sector and sector_type for an incidence ID.
+    resolve_sector (function): Determines the correct sector from FK and JSON sources.
+    get_sector_type (function): Maps a sector name to its broad classification.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.utils.sector_util import get_sector_info
+    sector, sector_type = get_sector_info(db, base, 123)
+
+  Notes:
+    - Used by feedback portal ingestion and display logic.
+    - Integrates with SQLAlchemy and Excel ingestion utilities.
 """
 
 import logging
@@ -31,18 +49,22 @@ def extract_sector_payload(xl_dict: dict,
   Combines worksheet tab contents with sector metadata into a single payload for database insertion.
 
   Args:
-    xl_dict (dict): Dictionary from an Excel-parsed source, containing
-      'metadata' and 'tab_contents'.
-    metadata_key (str): Key in xl_dict containing the metadata dictionary
-      (default: "metadata").
-    tab_name (str): Name of the worksheet tab to extract from tab_contents
-      (default: "Feedback Form").
+    xl_dict (dict): Dictionary from an Excel-parsed source, containing 'metadata' and 'tab_contents'.
+    metadata_key (str): Key in xl_dict containing the metadata dictionary (default: "metadata").
+    tab_name (str): Name of the worksheet tab to extract from tab_contents (default: "Feedback Form").
 
   Returns:
     dict: Combined payload with tab_contents and sector included.
 
   Raises:
     ValueError: If the metadata key, sector, or tab_name is missing.
+
+  Examples:
+    payload = extract_sector_payload(xl_dict)
+    # Returns a dict with tab data and sector for database insertion
+
+  Notes:
+    - Used during Excel ingestion to prepare data for database upload.
   """
   if metadata_key not in xl_dict:
     raise ValueError(f"Expected key '{metadata_key}' in xl_dict but it was missing.")
@@ -74,6 +96,14 @@ def get_sector_info(db: SQLAlchemy,
 
   Returns:
     tuple[str, str]: (sector, sector_type)
+
+  Examples:
+    sector, sector_type = get_sector_info(db, base, 123)
+    # Returns the sector and its broad classification for the given ID
+
+  Notes:
+    - Uses both foreign key and misc_json to resolve the sector.
+    - Returns the sector and its type for display or further processing.
   """
   logger.debug(f"get_sector_info() called to determine sector & sector type for {id_=}")
   primary_table_name = "incidences"
@@ -122,11 +152,13 @@ def resolve_sector(sector_by_foreign_key: str | None,
     str: Sector string.
 
   Notes:
-    Can't control if the database changes the sector in a foreign table.
-    rather than raise an error if json and foreign key have different sectors,
-    the json sector will be assumed correct if in conflict.
-  Raises:
-    ValueError: If values are missing or conflict.   <-- this was turned off
+    - Prefers the sector from misc_json if both are present and conflict.
+    - Logs warnings if sector cannot be determined.
+    - Does not raise on mismatch, but logs an error.
+
+  Examples:
+    sector = resolve_sector('Oil', row, {'sector': 'Oil'})
+    # Returns 'Oil' as the resolved sector
   """
   logger.debug(f"resolve_sector() called with {sector_by_foreign_key=}, {row=}, {misc_json=}")
   sector_by_json = misc_json.get("sector")
@@ -167,6 +199,12 @@ def get_sector_type(sector: str) -> str:
     - For unsupported sectors, returns the original sector name so the calling code
       can handle it appropriately (e.g., show read-only view).
     - This prevents ValueError exceptions and allows graceful handling of new sectors.
+
+  Examples:
+    sector_type = get_sector_type('Oil & Gas')
+    # Returns 'Oil & Gas'
+    sector_type = get_sector_type('Unknown')
+    # Returns 'Unknown' for unsupported sectors
   """
 
   if sector in OIL_AND_GAS_SECTORS:

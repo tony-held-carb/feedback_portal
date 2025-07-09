@@ -32,20 +32,31 @@ def upload_single_file(upload_dir: str | Path, request_file: FileStorage) -> Pat
   Save a user-uploaded file to the server using a secure, timestamped filename.
 
   Args:
-      upload_dir (str | Path): Directory to save the uploaded file.
-      request_file (FileStorage): Werkzeug object from `request.files['<field>']`.
+    upload_dir (str | Path): Directory to save the uploaded file. If None or empty, raises ValueError.
+    request_file (FileStorage): Werkzeug object from `request.files['<field>']`. If None, raises ValueError.
 
   Returns:
-      Path: Full path to the uploaded file on disk.
+    Path: Full path to the uploaded file on disk.
 
   Raises:
-      OSError: If the file cannot be written to disk.
+    OSError: If the file cannot be written to disk.
+    ValueError: If `upload_dir` or `request_file` is None or empty.
 
-  Example:
+  Examples:
     Input : file = request.files['data'], upload_dir = "/data/uploads"
     Output: Path object pointing to a securely saved file
+    Input : upload_dir=None, request_file=file
+    Output: ValueError
+    Input : upload_dir="/data/uploads", request_file=None
+    Output: ValueError
+
+  Notes:
+    - Uses a secure, timestamped filename for storage.
+    - If `upload_dir` or `request_file` is None or empty, raises ValueError.
   """
   logger.debug(f"Attempting to upload {request_file.filename=}")
+  if not request_file.filename:
+    raise ValueError("request_file.filename must not be None or empty")
   file_name = get_secure_timestamped_file_name(upload_dir, request_file.filename)
   logger.debug(f"Upload single file as: {file_name}")
   request_file.save(file_name)
@@ -59,7 +70,7 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
   Adds a disabled "Please Select" entry at the top of the list.
 
   Args:
-    values (list[str]): Dropdown options (excluding "Please Select").
+    values (list[str]): Dropdown options (excluding "Please Select"). If None or empty, returns only the placeholder.
 
   Returns:
     list[tuple[str, str] | tuple[str, str, dict]]:
@@ -69,6 +80,13 @@ def selector_list_to_tuples(values: list[str]) -> list[tuple[str, str] | tuple[s
     Input : ["Red", "Green"]
     Output: [('Please Select', 'Please Select', {'disabled': True}),
              ('Red', 'Red'), ('Green', 'Green')]
+    Input : []
+    Output: [('Please Select', 'Please Select', {'disabled': True})]
+    Input : None
+    Output: [('Please Select', 'Please Select', {'disabled': True})]
+
+  Notes:
+    - If `values` is None or empty, returns only the placeholder.
   """
   result = [(PLEASE_SELECT, PLEASE_SELECT, {"disabled": True})]
   result += [(v, v) for v in values]
@@ -82,14 +100,21 @@ def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
   Each tuple contains (value, label, metadata).
 
   Args:
-      values (list[str]): List of form options.
+    values (list[str]): List of form options. If None or empty, returns an empty list.
 
   Returns:
-      list[tuple[str, str, dict]]: Triple tuples for WTForms SelectField.
+    list[tuple[str, str, dict]]: Triple tuples for WTForms SelectField.
 
   Examples:
-      Input : ["A", "B"]
-      Output: [('A', 'A', {}), ('B', 'B', {})]
+    Input : ["A", "B"]
+    Output: [('A', 'A', {}), ('B', 'B', {})]
+    Input : []
+    Output: []
+    Input : None
+    Output: []
+
+  Notes:
+    - If `values` is None or empty, returns an empty list.
   """
   return [(v, v, {}) for v in values]
 
@@ -104,13 +129,13 @@ def update_triple_tuple_dict(
   Update the metadata dict of each WTForms triple tuple based on value match.
 
   Args:
-      tuple_list (list[tuple[str, str, dict]]): Existing list of selector tuples.
-      match_list (list[str]): Values to match against.
-      match_update_dict (dict): Metadata to apply if value is in `match_list`.
-      unmatch_update_dict (dict | None): Metadata to apply otherwise (optional).
+    tuple_list (list[tuple[str, str, dict]]): Existing list of selector tuples. If None or empty, returns empty list.
+    match_list (list[str]): Values to match against. If None or empty, no matches will occur.
+    match_update_dict (dict): Metadata to apply if value is in `match_list`. If None, no update is applied.
+    unmatch_update_dict (dict | None): Metadata to apply otherwise (optional). If None, no update is applied to unmatched.
 
   Returns:
-      list[tuple[str, str, dict]]: Updated list of selector tuples.
+    list[tuple[str, str, dict]]: Updated list of selector tuples.
 
   Examples:
     Input :
@@ -120,6 +145,14 @@ def update_triple_tuple_dict(
       unmatch_update_dict = {'class': 'available'}
     Output:
       [('A', 'A', {'disabled': True}), ('B', 'B', {'class': 'available'})]
+    Input : [], ['A'], {'disabled': True}, None
+    Output: []
+    Input : None, ['A'], {'disabled': True}, None
+    Output: []
+
+  Notes:
+    - If `tuple_list` is None or empty, returns empty list.
+    - If `match_list` is None or empty, no matches will occur.
   """
   if unmatch_update_dict is None:
     unmatch_update_dict = {}
@@ -139,11 +172,11 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
   followed by (value, label) tuples.
 
   Args:
-      input_dict (dict[str, list[str]]): Dict of dropdown options per field.
+    input_dict (dict[str, list[str]]): Dict of dropdown options per field. If None or empty, returns empty dict.
 
   Returns:
-      dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
-          Dict with WTForms-ready selector tuples.
+    dict[str, list[tuple[str, str] | tuple[str, str, dict]]]:
+        Dict with WTForms-ready selector tuples.
 
   Examples:
     Input : {"colors": ["Red", "Blue"]}
@@ -155,6 +188,13 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
           ("Blue", "Blue")
         ]
       }
+    Input : {}
+    Output: {}
+    Input : None
+    Output: {}
+
+  Notes:
+    - If `input_dict` is None or empty, returns empty dict.
   """
   return {key: selector_list_to_tuples(values) for key, values in input_dict.items()}
 
@@ -174,17 +214,26 @@ def ensure_placeholder_option(
   exists but is not the first item, it is optionally moved to the first position.
 
   Args:
-      tuple_list (list[tuple[str, str, dict]]): Original selector list.
-      item (str): Value for the placeholder. Default is "Please Select".
-      item_dict (dict): Metadata for the placeholder. Default disables the option.
-      ensure_first (bool): If True, move placeholder to top if found elsewhere.
+    tuple_list (list[tuple[str, str, dict]]): Original selector list. If None or empty, returns a list with only the placeholder.
+    item (str): Value for the placeholder. Default is "Please Select". If None, uses default.
+    item_dict (dict): Metadata for the placeholder. Default disables the option. If None, uses default.
+    ensure_first (bool): If True, move placeholder to top if found elsewhere.
 
   Returns:
-      list[tuple[str, str, dict]]: Updated tuple list with ensured placeholder.
+    list[tuple[str, str, dict]]: Updated tuple list with ensured placeholder.
 
   Examples:
     Input : [("A", "A", {})]
     Output: [('Please Select', 'Please Select', {'disabled': True}), ('A', 'A', {})]
+    Input : None
+    Output: [('Please Select', 'Please Select', {'disabled': True})]
+    Input : [], item=None
+    Output: [('Please Select', 'Please Select', {'disabled': True})]
+
+  Notes:
+    - If `tuple_list` is None or empty, returns a list with only the placeholder.
+    - If `item` is None, uses "Please Select".
+    - If `item_dict` is None, uses {"disabled": True}.
   """
 
   if item is None:
@@ -223,8 +272,8 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
   Remove one or more values from a tuple list by matching the first element.
 
   Args:
-    tuple_list (list[tuple[str, str, dict]]): Selector tuples.
-    remove_items (str | list[str]): One or more values to remove by key match.
+    tuple_list (list[tuple[str, str, dict]]): Selector tuples. If None or empty, returns empty list.
+    remove_items (str | list[str]): One or more values to remove by key match. If None or empty, returns the original list.
 
   Returns:
     list[tuple[str, str, dict]]: Filtered list excluding the removed values.
@@ -232,6 +281,16 @@ def remove_items(tuple_list: list[tuple[str, str, dict]],
   Examples:
     Input : [("A", "A", {}), ("B", "B", {})], remove_items="B"
     Output: [('A', 'A', {})]
+    Input : [("A", "A", {}), ("B", "B", {})], remove_items=["A", "B"]
+    Output: []
+    Input : [], remove_items="A"
+    Output: []
+    Input : None, remove_items="A"
+    Output: []
+
+  Notes:
+    - If `tuple_list` is None or empty, returns empty list.
+    - If `remove_items` is None or empty, returns the original list.
   """
   remove_set = {remove_items} if isinstance(remove_items, str) else set(remove_items)
   return [t for t in tuple_list if t[0] not in remove_set]

@@ -73,18 +73,27 @@ def log_function_parameters(
   Log the current function's name and arguments using debug-level logging.
 
   Args:
-      logger (logging.Logger | None): Optional logger. If None, derives one from caller's module.
-      print_to_console (bool): If True, also print the message to stdout.
+    logger (logging.Logger | None): Optional logger. If None, derives one from caller's module. If not a Logger instance, raises TypeError.
+    print_to_console (bool): If True, also print the message to stdout.
 
-  Example:
-      Input :
-          def example(a, b=2): log_function_parameters()
-          example(1)
+  Examples:
+    Input :
+      def example(a, b=2): log_function_parameters()
+      example(1)
+    Output:
+      Logs: example(a=1, b=2)
+    Input : logger=None, print_to_console=True
+    Output: Prints and logs the function call
 
-      Output:
-          Logs: example(a=1, b=2)
+  Notes:
+    - If logger is None, uses the caller's module logger.
+    - If logger is not a Logger instance, raises TypeError.
   """
-  frame = inspect.currentframe().f_back
+  frame = inspect.currentframe()
+  if frame is None or frame.f_back is None:
+    logging.getLogger(__name__).warning("log_function_parameters: Unable to access caller frame.")
+    return
+  frame = frame.f_back
   func_name = frame.f_code.co_name
 
   if logger is None:
@@ -121,21 +130,27 @@ def log_parameters(
   Decorator to log all arguments passed to a function upon each invocation.
 
   Args:
-      logger (logging.Logger | None): Optional logger instance. Defaults to caller's module logger.
-      print_to_console (bool): If True, also prints the log message to stdout.
+    logger (logging.Logger | None): Optional logger instance. Defaults to caller's module logger. If not a Logger instance, raises TypeError.
+    print_to_console (bool): If True, also prints the log message to stdout.
 
   Returns:
-      Callable: A decorator that logs parameter values each time the function is called.
+    Callable: A decorator that logs parameter values each time the function is called.
 
-  Example:
-      Input :
-          @log_parameters(print_to_console=True)
-          def greet(name, lang="en"):
-              return f"Hello {name} [{lang}]"
+  Examples:
+    Input :
+      @log_parameters(print_to_console=True)
+      def greet(name, lang="en"):
+        return f"Hello {name} [{lang}]"
+      greet("Alice", lang="fr")
+    Output:
+      greet(name='Alice', lang='fr')
+      (logged and printed on each invocation)
+    Input : logger=None, print_to_console=False
+    Output: Only logs the function call
 
-      Output:
-          greet(name='...', lang='...')
-          (logged on each invocation)
+  Notes:
+    - If logger is None, uses the function's module logger.
+    - If logger is not a Logger instance, raises TypeError.
   """
 
   def decorator(func: Callable) -> Callable:
@@ -165,7 +180,17 @@ class FlaskUserContextFilter(logging.Filter):
   This allows log formats to include the active Flask user for traceability.
 
   Adds:
-      record.user (str): User identifier from Flask's request context, or "n/a" if unavailable.
+    record.user (str): User identifier from Flask's request context, or "n/a" if unavailable.
+
+  Examples:
+    Input :
+      filter = FlaskUserContextFilter()
+      logger.addFilter(filter)
+    Output: Log records include a 'user' attribute with the Flask user or 'n/a'.
+
+  Notes:
+    - If Flask's request context is not available or g.user is missing, sets user to 'n/a'.
+    - Safe to use in non-Flask contexts; always sets a user attribute.
   """
 
   def filter(self, record):

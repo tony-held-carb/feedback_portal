@@ -1,21 +1,19 @@
 """
-Initialization module for the `arb.portal` package.
+  Initialization module for the arb.portal package.
 
-This package implements the web-based feedback portal for ARB operations.
-It provides the Flask app instance, routes, form definitions, template rendering,
-data models, and configuration logic.
+  This package implements the web-based feedback portal for ARB operations.
+  It defines the package version.
 
-Key Responsibilities:
----------------------
-- Defines the `__version__` string for the portal subpackage.
-- Initializes the shared `logger` and `pp_log` formatter using `__get_logger`.
-- Logs file load events to aid diagnostics and traceability.
+  Args:
+    None
 
-Recommendation:
----------------
-To reuse the package-wide logger and formatter:
+  Returns:
+    None
 
-from arb.logging.arb_logging import get_pretty_printer
+  Attributes:
+    __version__ (str): Semantic version of the portal package.
+    logger (logging.Logger): Logger instance.
+
 """
 import logging
 from pathlib import Path

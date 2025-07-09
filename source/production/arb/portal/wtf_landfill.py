@@ -6,30 +6,28 @@ HTML form for collecting information on methane emission inspections and respons
 at landfill sites. The form is organized into multiple logical sections and includes
 dynamic dropdown behavior, conditional validation, and cross-field logic.
 
-Key Features:
--------------
-- Uses `FlaskForm` as a base and is rendered using Bootstrap-compatible templates.
-- Dropdowns support conditional dependencies using `Globals.drop_downs_contingent`.
-- Validators are programmatically adjusted to enforce or relax constraints based on user input.
-- Supports optional "Other" fields that are only required when triggered.
-- Final validation is managed via a custom `validate()` override.
+Args:
+  None
 
-Example Usage:
---------------
+Returns:
+  None
+
+Attributes:
+  LandfillFeedback (type): WTForms form class for landfill feedback data.
+  logger (logging.Logger): Logger instance for this module.
+
+Examples:
   form = LandfillFeedback()
   form.process(request.form)
-
   if form.validate_on_submit():
-    # Process and store form data
     save_landfill_feedback(form.data)
 
 Notes:
-------
-- The `update_contingent_selectors()` method updates selector/contingent choices.
-- The `determine_contingent_fields()` method enforces dynamic field-level validation.
-- Intended for use with the `landfill_incidence_update` route and similar flows.
-- General-purpose WTForms utilities are located in:
-    arb.utils.wtf_forms_util.py
+  - The `update_contingent_selectors()` method updates selector/contingent choices.
+  - The `determine_contingent_fields()` method enforces dynamic field-level validation.
+  - Intended for use with the `landfill_incidence_update` route and similar flows.
+  - General-purpose WTForms utilities are located in: arb.utils.wtf_forms_util.py
+  - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -56,6 +54,15 @@ class LandfillFeedback(FlaskForm):
   Captures user-submitted information about methane emissions,
   inspections, corrective actions, and contact details related to
   landfill facility operations.
+
+  Attributes:
+    (See field definitions in class body for all form fields.)
+
+  Examples:
+    form = LandfillFeedback()
+    form.process(request.form)
+    if form.validate_on_submit():
+      save_landfill_feedback(form.data)
 
   Notes:
     - Some fields are conditionally validated depending on selections.
@@ -323,16 +330,17 @@ class LandfillFeedback(FlaskForm):
 
   def __init__(self, *args, **kwargs):
     """
-    Initialize the LandfillFeedback form and set SelectField choices dynamically.
-
-    This approach ensures that dropdown choices are always populated from
-    Globals.drop_downs at instantiation time, rather than at import time.
-    This avoids fragile import order issues and KeyErrors that can occur
-    if the global dropdowns are not yet populated when the form class is defined.
+    Initialize the LandfillFeedback form and set up contingent selectors.
 
     Args:
-        *args: Positional arguments passed to FlaskForm.
-        **kwargs: Keyword arguments passed to FlaskForm.
+      *args: Positional arguments passed to FlaskForm.
+      **kwargs: Keyword arguments passed to FlaskForm.
+
+    Returns:
+      None
+
+    Notes:
+      - Calls update_contingent_selectors() to initialize dropdowns.
     """
     super().__init__(*args, **kwargs)
     self.emission_identified_flag_fk.choices = coerce_choices(Globals.drop_downs.get("emission_identified_flag_fk"))
@@ -346,7 +354,7 @@ class LandfillFeedback(FlaskForm):
 
   def update_contingent_selectors(self) -> None:
     """
-    Update contingent dropdown field choices based on current field selections.
+    Update contingent dropdown selectors based on current form state.
 
     This method looks up selector/contingent relationships defined in
     `Globals.drop_downs_contingent` and dynamically modifies the `choices`
@@ -365,6 +373,10 @@ class LandfillFeedback(FlaskForm):
 
     Returns:
       None
+
+    Notes:
+      - Uses Globals.drop_downs_contingent to update choices.
+      - Should be called whenever a parent dropdown value changes.
     """
     # todo - update contingent dropdowns?
 
@@ -401,21 +413,17 @@ class LandfillFeedback(FlaskForm):
 
   def validate(self, extra_validators=None) -> bool:
     """
-    Override WTForms default validation with custom cross-field logic.
+    Perform full-form validation, including dynamic and cross-field checks.
 
-    Ensures required fields are conditionally enforced based on upstream
-    values, including:
-      - Facility activity selections imply required contingent selections
-      - If "Other" is chosen, corresponding text input must be filled
-      - If leak is confirmed, additional emission details are required
+    Args:
+      extra_validators (list | None): Additional validators to apply.
 
     Returns:
-      bool: True if form is valid, False otherwise.
+      bool: True if the form is valid, False otherwise.
 
     Notes:
-      - Calls `determine_contingent_fields()` before validation to
-        ensure field validators are correct.
-      - Uses built-in `super().validate()` after adjusting validators.
+      - Enforces conditional requirements based on user input.
+      - Calls determine_contingent_fields() for dynamic validation.
     """
 
     logger.debug(f"validate() called.")
@@ -548,20 +556,17 @@ class LandfillFeedback(FlaskForm):
 
   def determine_contingent_fields(self):
     """
-    Add or remove field validators depending on contingent dropdown selections.
+    Enforce dynamic field-level validation for contingent fields.
 
-    Some dropdown options imply that no further input is needed (e.g.,
-    selecting "No leak was detected" disables required validation on
-    follow-up questions). This function clears or restores validators
-    accordingly.
+    Args:
+      None
 
-    These fields toggle between required and optional depending on related
-    field values (e.g., dropdowns that are set to "Other", or location-dependent fields).
-    Some validation rules involve mutually exclusive or fallback logic.
+    Returns:
+      None
 
     Notes:
-      - This function should be called before validation to sync requirements.
-      - May need to re-order exclusions (e.g., venting) for edge cases.
+      - Adjusts validators for fields that depend on other field values.
+      - Called during form validation to ensure correct requirements.
     """
     # If a venting exclusion is claimed, then a venting description is required and many fields become optional
     required_if_emission_identified = [

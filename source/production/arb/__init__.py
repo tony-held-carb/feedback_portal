@@ -1,41 +1,16 @@
 """
-ARB Portal Package
+  ARB Portal package initializer.
 
-This package initializes the logging system for the entire application.
-Logging is configured here to ensure it's available throughout the application lifecycle.
+  Args:
+    None
 
-Key Responsibilities:
----------------------
-- Sets the `__version__` for the portal subpackage.
-- Initializes application-wide logging system using `get_logger`.
-- Provides shared logger and pretty-printer for all modules.
+  Returns:
+    None
 
-Logging Configuration:
----------------------
-- Logger Name: "arb_portal" (used for the main application)
-- Log File: feedback_portal/logs/arb_portal.log
-- Log Level: DEBUG (configurable)
-- Console Output: Disabled (configurable)
+  Attributes:
+    __version__ (str): Semantic version of the portal package.
+    logger (logging.Logger): logger instance.
 
-This logger will be used by all modules in the application that call get_logger()
-without specifying a logger_name, or that import this module's logger directly.
-
-Attributes:
------------
-__version__ (str): Semantic version of the portal package.
-logger (logging.Logger): Application-wide logger instance.
-pp_log (Callable): Pretty-print log formatter for structured objects.
-
-Usage:
-------
-To use the shared logger and formatter in other modules:
-
-import logging
-  from arb import logger, pp_log
-  
-  # Or use get_logger() which will return the same logger
-    logger = logging.getLogger(__name__)
-_, pp_log = get_pretty_printer()  # Uses "arb_portal" logger
 """
 
 import logging
