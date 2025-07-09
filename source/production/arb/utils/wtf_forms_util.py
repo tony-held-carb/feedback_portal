@@ -52,6 +52,8 @@ def min_decimal_precision(min_digits: int) -> Callable:
     - If `min_digits` is None or less than 0, raises ValueError.
     - Used as a custom validator in WTForms field definitions.
   """
+  if min_digits is None or min_digits < 0:
+    raise ValueError("min_digits must be a non-negative integer.")
 
   def _min_decimal_precision(form, field):
     """

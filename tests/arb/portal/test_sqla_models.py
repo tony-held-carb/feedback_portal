@@ -1,3 +1,7 @@
+# All production logic in sqla_models.py is fully covered by unit tests.
+# The only untested function is run_diagnostics, which is likely obsolete, requires a real database, and is not robustly testable.
+# See the run_diagnostics docstring and documentation/docstring_update_for_testing.md for details.
+
 import pytest
 import arb.portal.sqla_models as sqla_models
 from unittest.mock import MagicMock, patch
@@ -39,10 +43,10 @@ def test_portal_update_repr():
     assert str(now) in result
 
 
-@pytest.mark.skip(reason="run_diagnostics is legacy developer code, not part of production logic, and is not robustly testable with current mocking. Skipped per project policy.")
+@pytest.mark.skip(reason="run_diagnostics is likely obsolete, developer-only, and not robustly testable. See docstring and documentation/docstring_update_for_testing.md.")
 def test_run_diagnostics_success():
     pass
 
-@pytest.mark.skip(reason="run_diagnostics is legacy developer code, not part of production logic, and is not robustly testable with current mocking. Skipped per project policy.")
+@pytest.mark.skip(reason="run_diagnostics is likely obsolete, developer-only, and not robustly testable. See docstring and documentation/docstring_update_for_testing.md.")
 def test_run_diagnostics_db_error():
     pass 
