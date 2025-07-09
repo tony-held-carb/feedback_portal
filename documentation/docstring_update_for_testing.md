@@ -1,3 +1,48 @@
+# Unit Testing Philosophy and Goals
+
+Our approach to unit testing in this codebase is guided by the following principles:
+
+1. **Comprehensive, Honest Coverage:**
+   - Achieve the maximum meaningful unit test coverage for all production logic.
+   - All functions/classes that can be robustly unit tested should have direct tests.
+   - If a function/class cannot be unit tested (e.g., requires a real Flask app, database, or is pure integration glue), this is clearly documented in both the test file (with skip markers and reasons) and the source docstring.
+
+2. **No Source Changes for Testability:**
+   - Do not refactor or alter production code solely to make it more testable.
+   - All workarounds, mocks, and test-specific logic are implemented in the test files only.
+   - If a function cannot be tested without changing the source, document the limitation and do not change the source.
+
+3. **Transparency and Documentation:**
+   - Every limitation in test coverage is explicitly documented in:
+     - The test file (with `@pytest.mark.skip` and a reason)
+     - The source code docstring (with a note about lack of coverage and why)
+     - The central testing documentation (this file)
+   - Documentation makes it clear to future maintainers which parts of the code are covered, which are not, and why.
+
+4. **Maintainability and Risk Management:**
+   - The goal is not just to maximize coverage numbers, but to ensure that all critical business logic is protected by tests.
+   - Uncovered or untestable code is clearly marked so that future changes are made with caution and awareness of risk.
+
+5. **Testing Policy Consistency:**
+   - The same standards and process are applied across all modules: portal, utils, and any new code.
+   - Trivial files (e.g., `__init__.py`, constants-only modules) are marked as “Complete - Not Needed” and do not require tests.
+   - Integration-heavy files (e.g., Flask app setup, database startup) are marked for integration testing, not unit testing.
+
+6. **Examples and Edge Cases:**
+   - Where possible, tests should include edge cases and examples that match those in the docstrings.
+   - Docstrings should be kept up to date with the actual test coverage and behavior.
+
+**Summary Table of Testing Philosophy**
+
+| Principle                | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| Maximize meaningful coverage | Test all production logic that can be robustly unit tested.                  |
+| No source changes for testability | Do not refactor production code just for testing.                          |
+| Document all limitations | Clearly mark and explain any untestable code in tests, docstrings, and docs. |
+| Prioritize maintainability | Focus on protecting business logic and managing risk, not just coverage %.   |
+| Consistent policy        | Apply the same standards across all modules and new code.                    |
+| Edge cases/examples      | Include edge cases and docstring examples in tests where possible.            |
+
 # Docstring Update for Testing Tracker
 
 ## Purpose
@@ -114,11 +159,11 @@ To ensure all tests are discovered and run correctly, follow these steps:
 | 36| arb/utils/misc.py                             | Unit Testing Recommended   |
 | 37| arb/utils/sql_alchemy.py                      | Unit Testing Recommended   |
 | 38| arb/utils/web_html.py                         | Unit Testing Recommended   |
-| 39| arb/utils/wtf_forms_util.py                   | Unit Testing Partial (~)   |
+| 39| arb/utils/wtf_forms_util.py                   | Complete (except Flask/DB integration)   | All utility logic is fully covered by unit tests. Functions requiring a real Flask app or DB context are skipped and clearly documented in both the test file and source docstrings. |
 | 40| arb/wsgi.py                                   | Complete - Not Needed       |
 | 41| arb/portal/config/__init__.py                 | Complete - Not Needed       |
-| 42| arb/portal/config/accessors.py                | Unit Testing Recommended   |
-| 43| arb/portal/config/settings.py                 | Unit Testing Recommended   |
+| 42| arb/portal/config/accessors.py                | Complete            | All accessor logic is fully covered by unit tests. No further tests are needed unless new accessors are added. |
+| 43| arb/portal/config/settings.py                 | Complete            | All config class logic, inheritance, and environment overrides are fully covered by unit tests. No further tests are needed unless new config logic is added. |
 
 ## Table 2. Supplemental Progress Notes
 

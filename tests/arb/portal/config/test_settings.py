@@ -1,3 +1,4 @@
+# All meaningful logic in settings.py is covered by these tests. No further tests are needed unless new config logic is added.
 import pytest
 import os
 from unittest.mock import patch

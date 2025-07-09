@@ -1,3 +1,4 @@
+# All meaningful logic in accessors.py is covered by these tests. No further tests are needed unless new accessors are added.
 import pytest
 from unittest.mock import patch
 from flask import Flask
