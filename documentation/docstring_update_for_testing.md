@@ -36,7 +36,55 @@ This document tracks the progress and methodology of enhancing docstrings in the
 
 ---
 
-## Test Coverage Status for Current Batch (as of 2025-07-04)
+## Table 1. Progress Table
+
+| # | File (arb/portal/util)                        | Testing Status             |
+|---|-----------------------------------------------|:--------------------------:|
+|  1| arb/__init__.py                               | Not Needed - Trivial       |
+|  2| arb/logging/arb_logging.py                    | Complete                   |
+|  3| arb/portal/__init__.py                        | Not Needed - Trivial       |
+|  4| arb/portal/app.py                             | Integration Testing Recommended |
+|  5| arb/portal/constants.py                       | Not Needed - Trivial       |
+|  6| arb/portal/db_hardcoded.py                    | Complete                   |
+|  7| arb/portal/extensions.py                      | Not Needed - Trivial       |
+|  8| arb/portal/globals.py                         | Partial (Skipped)          |
+|  9| arb/portal/json_update_util.py                | Complete                   |
+| 10| arb/portal/routes.py                          | Integration Testing Recommended |
+| 11| arb/portal/sqla_models.py                     | Partial (Skipped)          |
+| 12| arb/portal/wtf_landfill.py                    | Skipped (all tests)        |
+| 13| arb/portal/wtf_oil_and_gas.py                 | Skipped (all tests)        |
+| 14| arb/portal/wtf_upload.py                      | Skipped (all tests)        |
+| 15| arb/portal/startup/__init__.py                | Not Needed - Trivial       |
+| 16| arb/portal/startup/db.py                      | Integration Testing Recommended |
+| 17| arb/portal/startup/flask.py                   | Skipped (all tests)        |
+| 18| arb/portal/startup/runtime_info.py            | Skipped (partial)          |
+| 19| arb/portal/utils/__init__.py                  | Not Needed - Trivial       |
+| 20| arb/portal/utils/db_ingest_util.py            | Skipped (all tests)        |
+| 21| arb/portal/utils/db_introspection_util.py     | Skipped (all tests)        |
+| 22| arb/portal/utils/file_upload_util.py          | Skipped (all tests)        |
+| 23| arb/portal/utils/form_mapper.py               | Skipped (all tests)        |
+| 24| arb/portal/utils/github_and_ai.py             | Not Needed - Trivial       |
+| 25| arb/portal/utils/route_util.py                | Skipped (all tests)        |
+| 26| arb/portal/utils/sector_util.py               | Skipped (all tests)        |
+| 27| arb/utils/__init__.py                         | Not Needed - Trivial       |
+| 28| arb/utils/constants.py                        | Not Needed - Trivial       |
+| 29| arb/utils/database.py                         | Unit Testing Complete      |
+| 30| arb/utils/date_and_time.py                    | Unit Testing Complete      |
+| 31| arb/utils/diagnostics.py                      | Unit Testing Complete      |
+| 32| arb/utils/file_io.py                          | Unit Testing Complete      |
+| 33| arb/utils/io_wrappers.py                      | Unit Testing Complete      |
+| 34| arb/utils/json.py                             | Unit Testing Complete      |
+| 35| arb/utils/log_util.py                         | Unit Testing Recommended   |
+| 36| arb/utils/misc.py                             | Unit Testing Recommended   |
+| 37| arb/utils/sql_alchemy.py                      | Unit Testing Recommended   |
+| 38| arb/utils/web_html.py                         | Unit Testing Recommended   |
+| 39| arb/utils/wtf_forms_util.py                   | Unit Testing Partial (~)   |
+| 40| arb/wsgi.py                                   | Not Needed - Trivial       |
+| 41| arb/portal/config/__init__.py                 | Not Needed - Trivial       |
+| 42| arb/portal/config/accessors.py                | Unit Testing Recommended   |
+| 43| arb/portal/config/settings.py                 | Unit Testing Recommended   |
+
+## Table 2. Supplemental Progress Notes
 
 | File                                      | Test Status         | Notes / Pending Source Change |
 |-------------------------------------------|---------------------|-------------------------------|
@@ -62,54 +110,6 @@ This document tracks the progress and methodology of enhancing docstrings in the
 - All tests were skipped as intended, with clear skip reasons matching source code and context limitations.
 - No source code changes were made for testability in this batch.
 - The source code change counter remains at 1.
-
-## Progress Table
-
-| # | File (arb/portal/util)                        | Enhanced Documentation| Testing Status             | Unit Testing Order |
-|---|-----------------------------------------------|:---------------------:|:--------------------------:|:------------------:|
-|  1| arb/__init__.py                               | Yes                   | Not Needed - Trivial       |                    |
-|  2| arb/logging/arb_logging.py                    | Yes                   | Unit Testing Recommended   |  5                 |
-|  3| arb/portal/__init__.py                        | Yes                   | Not Needed - Trivial       |                    |
-|  4| arb/portal/app.py                             | Yes                   | Integration Testing Recommended |                |
-|  5| arb/portal/constants.py                       | Yes                   | Not Needed - Trivial       |                    |
-|  6| arb/portal/db_hardcoded.py                    | Yes                   | Unit Testing Recommended   | 13                 |
-|  7| arb/portal/extensions.py                      | Yes                   | Not Needed - Trivial       |                    |
-|  8| arb/portal/globals.py                         | Yes                   | Unit Testing Recommended   | 12                 |
-|  9| arb/portal/json_update_util.py                | Yes                   | Unit Testing Recommended   | 10                 |
-| 10| arb/portal/routes.py                          | Yes                   | Integration Testing Recommended |                |
-| 11| arb/portal/sqla_models.py                     | Yes                   | Unit Testing Recommended   | 14                 |
-| 12| arb/portal/wtf_landfill.py                    | Yes                   | Skipped (all tests)        | 18                 |
-| 13| arb/portal/wtf_oil_and_gas.py                 | Yes                   | Skipped (all tests)        | 19                 |
-| 14| arb/portal/wtf_upload.py                      | Yes                   | Skipped (all tests)        | 20                 |
-| 15| arb/portal/startup/__init__.py                | Yes                   | Not Needed - Trivial       |                    |
-| 16| arb/portal/startup/db.py                      | Yes                   | Integration Testing Recommended |                |
-| 17| arb/portal/startup/flask.py                   | Yes                   | Skipped (all tests)        | 16                 |
-| 18| arb/portal/startup/runtime_info.py            | Yes                   | Skipped (partial)          | 17                 |
-| 19| arb/portal/utils/__init__.py                  | Yes                   | Not Needed - Trivial       |                    |
-| 20| arb/portal/utils/db_ingest_util.py            | Yes                   | Skipped (all tests)        |  2                 |
-| 21| arb/portal/utils/db_introspection_util.py     | Yes                   | Skipped (all tests)        |  8                 |
-| 22| arb/portal/utils/file_upload_util.py          | Yes                   | Skipped (all tests)        | 15                 |
-| 23| arb/portal/utils/form_mapper.py               | Yes                   | Skipped (all tests)        |  3                 |
-| 24| arb/portal/utils/github_and_ai.py             | Yes                   | Not Needed - Trivial       |                    |
-| 25| arb/portal/utils/route_util.py                | Yes                   | Skipped (all tests)        | 11                 |
-| 26| arb/portal/utils/sector_util.py               | Yes                   | Skipped (all tests)        |  9                 |
-| 27| arb/utils/__init__.py                         | Yes                   | Not Needed - Trivial       |                    |
-| 28| arb/utils/constants.py                        | Yes                   | Not Needed - Trivial       |                    |
-| 29| arb/utils/database.py                         | Yes                   | Unit Testing Complete      |  7                 |
-| 30| arb/utils/date_and_time.py                    | Yes                   | Unit Testing Complete      |  1                 |
-| 31| arb/utils/diagnostics.py                      | Yes                   | Unit Testing Complete      | 21                 |
-| 32| arb/utils/file_io.py                          | Yes                   | Unit Testing Complete      |  6                 |
-| 33| arb/utils/io_wrappers.py                      | Yes                   | Unit Testing Complete      | 22                 |
-| 34| arb/utils/json.py                             | Yes                   | Unit Testing Complete      |  4                 |
-| 35| arb/utils/log_util.py                         | Yes                   | Unit Testing Recommended   | 23                 |
-| 36| arb/utils/misc.py                             | Yes                   | Unit Testing Recommended   | 24                 |
-| 37| arb/utils/sql_alchemy.py                      | Yes                   | Unit Testing Recommended   |  2                 |
-| 38| arb/utils/web_html.py                         | Yes                   | Unit Testing Recommended   | 25                 |
-| 39| arb/utils/wtf_forms_util.py                   | Yes                   | Unit Testing Partial (~)   | 26                 |
-| 40| arb/wsgi.py                                   | Yes                   | Not Needed - Trivial       |                    |
-| 41| arb/portal/config/__init__.py                 | Yes                   | Not Needed - Trivial       |                    |
-| 42| arb/portal/config/accessors.py                | Yes                   | Unit Testing Recommended   | 27                 |
-| 43| arb/portal/config/settings.py                 | Yes                   | Unit Testing Recommended   | 28                 |
 
 ## Progress Table 2 - Authentication related
 
@@ -152,4 +152,4 @@ This document tracks the progress and methodology of enhancing docstrings in the
 ### Detailed Analysis by File:
 
 #### **Not Needed - Trivial (8 files):**
-- `arb/__init__.py`, `arb/portal/__init__.py`, `arb/portal/constants.py`, `arb/portal/extensions.py`, `
+- `arb/__init__.py`, `arb/portal/__init__.py`, `arb/portal/constants.py`, `arb/portal/extensions.py`,
