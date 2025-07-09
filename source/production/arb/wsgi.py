@@ -1,66 +1,81 @@
 """
-WSGI entry point for serving the Flask app.
+  WSGI entry point for serving the ARB Feedback Portal Flask app.
 
-This file enables the application to be run via a WSGI server
-(e.g., Gunicorn or uWSGI) or directly via `flask run` or `python wsgi.py`.
+  This file enables the application to be run via a WSGI server
+  (e.g., Gunicorn or uWSGI) or directly via `flask run` or `python wsgi.py`.
 
-It provides detailed notes for various execution contexts, Flask CLI behavior,
-debugging strategies, and developer workflows including PyCharm integration.
+  It provides detailed notes for various execution contexts, Flask CLI behavior,
+  debugging strategies, and developer workflows including PyCharm integration.
 
-Note on running Flask Apps:
+  Args:
+    None
 
-1) You can run a flask app from the CLI in two ways:
+  Returns:
+    None
 
-  * python <file_name_with_app>
-    * run flask app directly from python without the flask CLI
-    * Errors shown in terminal; browser only shows generic 500 unless debug=True in source code
-  * flask run <optional_file_name_with_app>
-    * uses the Flask CLI
-    * makes use of Flask related environment variables and command line arguments
+  Attributes:
+    app (Flask): The Flask application instance created by create_app().
+    logger (logging.Logger): Logger instance for this module.
 
-2) Flask configuration precedence:
+  Examples:
+    # Run with Flask CLI:
+    #   flask run --app wsgi
+    # Run directly:
+    #   python wsgi.py
+    # Run with Gunicorn:
+    #   gunicorn arb.wsgi:app
 
-    The effective behavior of your Flask app depends on how it's launched and which
-    configuration values are set at various levels. The following precedence applies:
+  Notes:
+    - See the detailed notes below for configuration, environment variables, and best practices.
+    - Use app.run(debug=True) for development and debugging, but not for production deployment.
+    - The project root directory is "feedback_portal".
+    - For PyCharm debugging, set FLASK_ENV=development and FLASK_DEBUG=0.
 
-    Precedence Order (from strongest to weakest):
+  -----------------------------------------------------------------------------
+  Note on running Flask Apps:
 
-      1. Arguments passed directly to `app.run(...)`
-         - These override everything else, including CLI flags and environment variables.
+  1) You can run a flask app from the CLI in two ways:
+    * python <file_name_with_app>
+      * run flask app directly from python without the flask CLI
+      * Errors shown in terminal; browser only shows generic 500 unless debug=True in source code
+    * flask run <optional_file_name_with_app>
+      * uses the Flask CLI
+      * makes use of Flask related environment variables and command line arguments
 
-      2. Flask CLI command-line options
-         - e.g., `flask run --port=8000` overrides any FLASK_RUN_PORT setting.
+  2) Flask configuration precedence:
+      The effective behavior of your Flask app depends on how it's launched and which
+      configuration values are set at various levels. The following precedence applies:
+      Precedence Order (from strongest to weakest):
+        1. Arguments passed directly to `app.run(...)`
+        2. Flask CLI command-line options
+            - e.g., `flask run --port=8000` overrides any FLASK_RUN_PORT setting.
+        3. Environment variables
+            - e.g., FLASK_ENV, FLASK_DEBUG, FLASK_RUN_PORT
 
-      3. Environment variables
-         - e.g., FLASK_ENV, FLASK_DEBUG, FLASK_RUN_PORT
+  3) Environmental variables and running from the Flask CLI
+      * FLASK_APP:
+          sets the default name for the flask app if not specified.
+          "flask run" is equivalent to "flask --app FLASK_APP run"
+          Likely FLASK_APP=app.py or FLASK_APP=wsgi
+      * FLASK_ENV:
+          can be 'development' or 'production'
+          development enables debug mode, auto-reload, and detailed error pages,
+          production disables them.
+          Likely want FLASK_ENV=development for CARB development
+      * FLASK_DEBUG:
+          1 enables the interactive browser debugger (Werkzeug);
+          0 disables it.
+      * PYTHONPATH:
+          Adds directories to Python's module resolution path (sometimes needed for imports)
 
-2) Environmental variables and running from the Flask CLI
+  4) Flask CLI arguments
+      * key options
+        * --app <file_name>
+        * --debug or --no-debug
+          * determines if the Werkzeug browser debugger is on/off
+        * --no-reload <-- faster load time and does not restart app on source code changes
 
-   * FLASK_APP:
-      sets the default name for the flask app if not specified.
-      "flask run" is equivalent to "flask --app FLASK_APP run"
-      Likely FLASK_APP=app.py or FLASK_APP=wsgi
-  * FLASK_ENV:
-      can be 'development' or 'production'
-      development enables debug mode, auto-reload, and detailed error pages,
-      production disables them.
-      Likely want FLASK_ENV=development for CARB development
-  * FLASK_DEBUG:
-      1 enables the interactive browser debugger (Werkzeug);
-      0 disables it.
-  * PYTHONPATH:
-      Adds directories to Python's module resolution path (sometimes needed for imports)
-
-3) Flask CLI arguments
-    * key options
-      * --app <file_name>
-      * --debug or --no-debug
-        * determines if the Werkzeug browser debugger is on/off
-      * --no-reload <-- faster load time and does not restart app on source code changes
-
-4) Source code app arguments:
-
-    Commonly used arguments for `app.run()`:
+  5) Commonly used arguments for `app.run()`:
       * host (str, optional): The IP address to bind to.
           Defaults to `'127.0.0.1'`. Use `'0.0.0.0'` to make the app
           publicly accessible (e.g., on a local network).
@@ -79,30 +94,18 @@ Note on running Flask Apps:
       * load_dotenv (bool, optional): Whether to load environment variables from
           a `.env` file. Defaults to `True`.
 
-5) Best practices:
-  1. use app.run(debug=True) in the wsgi file except for official release to 3rd parties
-    * will give you access to Browser-based call trace or python debugger depending on other factors
-  2. Use 'development' over 'production' until a product is final.
-  3. testing web interactions in browser without python debugger
-    * flask run --app wsgi
-  4. Debugging with PyCharm (breakpoints + console)
-    * Use a Run Configuration:
-        * Script: wsgi.py
-        * Working Dir: production/arb
-        * Env vars: FLASK_ENV=development, FLASK_DEBUG=0
-        * app.run(debug=True) in wsgi.py
-  5. Combined Workflow (PyCharm + Browser)
-    * Run wsgi.py in PyCharm with debug=True
-    * Set FLASK_ENV=development, FLASK_DEBUG=1
-      * This allows:
-        * PyCharm to log and capture
-        * Browser to display detailed error trace
-        * Breakpoints still work (though sometimes suppressed by Werkzeug internals)
+  6) Best practices:
+     * Use app.run(debug=True) in wsgi.py for development (not for production)
+     * Use 'development' over 'production' until product is final
+     * For browser-based testing: flask run --app wsgi
+     * For PyCharm debugging: Run wsgi.py with debug=True, FLASK_ENV=development, FLASK_DEBUG=0
+     * Combined workflow: PyCharm + browser, debug=True, FLASK_ENV=development, FLASK_DEBUG=1
 
-6) Root directory notes:
-  - The project root directory is "feedback_portal"
-  - if the app is run from wsgi.py file with path: feedback_portal/source/production/arb/wsgi.py
-    - Path(__file__).resolve().parents[3] → .../feedback_portal
+  7) Root directory notes:
+     - The project root directory is "feedback_portal"
+     - If the app is run from wsgi.py at feedback_portal/source/production/arb/wsgi.py
+       Path(__file__).resolve().parents[3] → .../feedback_portal
+  -----------------------------------------------------------------------------
 """
 
 import logging

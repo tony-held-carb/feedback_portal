@@ -4,15 +4,26 @@ Global variables and dropdown selector loading for Flask/SQLAlchemy applications
 This module provides the `Globals` class for holding runtime-initialized
 data structures such as dropdown selectors and database column type mappings.
 
-Primary Uses:
-  - Prevent circular imports in SQLAlchemy/Flask environments
-  - Store shared type and dropdown definitions used throughout the app
-  - Enable lazy initialization of values dependent on app context
+Args:
+  None
+
+Returns:
+  None
+
+Attributes:
+  logger (logging.Logger): Logger instance for this module.
+  Globals (type): Class for holding runtime-global mappings.
+
+Examples:
+  from arb.portal.globals import Globals
+  Globals.load_drop_downs(app, db)
+  print(Globals.drop_downs)
 
 Notes:
   - Globals are not intended to be mutable after initialization.
   - Centralizes dropdown and type mapping logic for app-wide reuse.
   - Static values that do not require runtime context should live in `constants.py`.
+  - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -30,11 +41,13 @@ class Globals:
   Central class for holding runtime-global mappings used in the Flask app.
 
   Attributes:
-    db_column_types (dict[str, dict[str, dict[str, Any]]]): Mapping of table.column
-      to SQLAlchemy type metadata (includes `db_type`, `sa_type`, `py_type`).
-    drop_downs (dict[str, list[str]]): Field name to independent dropdown options.
-    drop_downs_contingent (dict[str, dict[str, list[str]]]): Parent-dependent options
-      for contingent dropdowns (e.g., county → list of subcounties).
+    db_column_types (dict): Mapping of table.column to SQLAlchemy type metadata (includes `db_type`, `sa_type`, `py_type`).
+    drop_downs (dict): Field name to independent dropdown options.
+    drop_downs_contingent (dict): Parent-dependent options for contingent dropdowns (e.g., county → list of subcounties).
+
+  Examples:
+    Globals.load_drop_downs(app, db)
+    print(Globals.drop_downs)
   """
 
   db_column_types = {}
@@ -52,6 +65,10 @@ class Globals:
 
     Returns:
       None
+
+    Examples:
+      Globals.load_drop_downs(app, db)
+      print(Globals.drop_downs)
 
     Notes:
       - Uses `get_excel_dropdown_data()` from `db_hardcoded` to populate form options.
@@ -80,6 +97,10 @@ class Globals:
 
     Returns:
       None
+
+    Examples:
+      Globals.load_type_mapping(app, db, base)
+      print(Globals.db_column_types)
 
     Notes:
       - Uses `arb.utils.sql_alchemy.get_sa_automap_types()` for reflection.

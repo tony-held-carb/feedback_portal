@@ -222,6 +222,8 @@ def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "comm
           for attr in ALIGNMENT_ATTRS:
             if getattr(c1.alignment, attr) != getattr(c2.alignment, attr):
               formatting_diffs.append(f"  {coord}: alignment.{attr} changed")
+          if c1.number_format != c2.number_format:
+            formatting_diffs.append(f"  {coord}: number_format changed\n    A: {c1.number_format}\n    B: {c2.number_format}")
           if formatting_mode == "full":
             for side in BORDER_SIDES:
               b1 = getattr(c1.border, side)
@@ -345,14 +347,16 @@ def compare_excel_directories(dir_a: Path, dir_b: Path, formatting_mode: str = "
 
 
 if __name__ == "__main__":
+  # todo - i don't think this detects changes in the date string formatting, which should be implemented
+
   # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
-  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions")
+  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
   sharepoint_path = Path(
     r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
-  compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+  # compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
 
-  file_a = local_path / "dairy_digester_operator_feedback_v004.xlsx"
-  file_b = local_path / "dairy_digester_operator_feedback_v005.xlsx"
-  # print(f"{file_a}\n{file_b}")
-  # compare_excel_files(file_a, file_b, formatting_mode="common", log_to_file=True)
+  file_a = local_path / "dairy_digester_operator_feedback_v005.xlsx"
+  file_b = local_path / "dairy_digester_operator_feedback_v006.xlsx"
+  print(f"{file_a}\n{file_b}")
+  compare_excel_files(file_a, file_b, formatting_mode="common", log_to_file=True)
 

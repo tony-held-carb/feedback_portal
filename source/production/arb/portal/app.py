@@ -1,25 +1,25 @@
 """
-Application factory for the ARB Feedback Portal (Flask app).
+  Application factory for the ARB Feedback Portal (Flask app).
 
-This module defines the `create_app()` function, which initializes and configures
-the Flask application with required extensions, startup behavior, routing, and globals.
+  This module defines the `create_app()` function, which initializes and configures
+  the Flask application with required extensions, startup behavior, routing, and globals.
 
-Key Responsibilities:
----------------------
-- Load Flask configuration dynamically using `get_config()`
-- Apply global app settings via `configure_flask_app()`
-- Initialize SQLAlchemy and optionally CSRF protection
-- Reflect and optionally create the application database schema
-- Load dropdowns and type mappings into the app context
-- Register Flask blueprints (e.g., `main`)
+  Args:
+    None
 
-Usage:
-------
-Used by WSGI, CLI tools, or testing utilities:
+  Returns:
+    None
 
-import logging
+  Attributes:
+    None
+
+  Examples:
     from arb.portal.app import create_app
     app = create_app()
+
+  Notes:
+    - Used by WSGI, CLI tools, or testing utilities to create the Flask app instance.
+    - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -49,11 +49,18 @@ def create_app() -> Flask:
   initializes extensions, binds SQLAlchemy to the app, and registers the
   route blueprints and global utilities.
 
+  Args:
+    None
+
   Returns:
     Flask: A fully initialized Flask application instance with:
       - App context globals (dropdowns, types)
       - SQLAlchemy base metadata (`app.base`)
       - Registered routes via blueprints
+
+  Examples:
+    from arb.portal.app import create_app
+    app = create_app()
   """
   app: Flask = Flask(__name__)
 
@@ -75,7 +82,7 @@ def create_app() -> Flask:
 
     # Load dropdowns, mappings, and other global data
     base: AutomapBase = get_reflected_base(db)  # reuse db.metadata without hitting DB again
-    app.base = base  # ✅ Attach automap base to app object
+    app.base = base  # type: ignore[attr-defined]  # ✅ Attach automap base to app object
 
     Globals.load_type_mapping(app, db, base)
     Globals.load_drop_downs(app, db)

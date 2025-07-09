@@ -1,16 +1,29 @@
 """
-Environment-specific configuration classes for the Flask application.
+  Environment-specific configuration classes for the ARB Feedback Portal Flask application.
 
-Defines base and derived configuration classes used by the ARB portal.
-Each config class inherits from `BaseConfig` and may override environment-specific values.
+  Defines base and derived configuration classes used by the ARB portal.
+  Each config class inherits from `BaseConfig` and may override environment-specific values.
 
-Usage:
-import logging
-  from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
+  Args:
+    None
 
-Notes:
-  - Static and environment-derived values belong here.
-  - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
+  Returns:
+    None
+
+  Attributes:
+    BaseConfig (class): Base configuration shared across all environments.
+    DevelopmentConfig (class): Configuration for local development.
+    ProductionConfig (class): Configuration for deployed production environments.
+    TestingConfig (class): Configuration for isolated testing environments.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
+    app.config.from_object(DevelopmentConfig)
+
+  Notes:
+    - Static and environment-derived values belong here.
+    - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
 import logging
@@ -25,6 +38,12 @@ class BaseConfig:
   """
   Base configuration shared across all environments.
 
+  Args:
+    None
+
+  Returns:
+    None
+
   Attributes:
     POSTGRES_DB_URI (str): Default PostgresQL URI if DATABASE_URI is unset.
     SQLALCHEMY_ENGINE_OPTIONS (dict): Connection settings for SQLAlchemy.
@@ -36,6 +55,14 @@ class BaseConfig:
     LOG_LEVEL (str): Default logging level.
     TIMEZONE (str): Target timezone for timestamp formatting.
     FAST_LOAD (bool): Enables performance optimizations at startup.
+    logger (logging.Logger): Logger instance for this module.
+
+  Examples:
+    app.config.from_object(BaseConfig)
+
+  Notes:
+    - All environment-specific configs inherit from this class.
+    - FAST_LOAD can be set via the FAST_LOAD environment variable.
   """
   # noinspection SpellCheckingInspection
   POSTGRES_DB_URI = (
@@ -79,10 +106,23 @@ class DevelopmentConfig(BaseConfig):
   """
   Configuration for local development.
 
+  Args:
+    None
+
+  Returns:
+    None
+
   Attributes:
     DEBUG (bool): Enables debug mode.
     FLASK_ENV (str): Flask environment indicator.
     LOG_LEVEL (str): Logging level (default: "DEBUG").
+
+  Examples:
+    app.config.from_object(DevelopmentConfig)
+
+  Notes:
+    - Inherits from BaseConfig.
+    - Sets DEBUG to True and LOG_LEVEL to "DEBUG".
   """
   DEBUG = True
   FLASK_ENV = "development"
@@ -94,11 +134,24 @@ class ProductionConfig(BaseConfig):
   """
   Configuration for deployed production environments.
 
+  Args:
+    None
+
+  Returns:
+    None
+
   Attributes:
     DEBUG (bool): Disables debug features.
     FLASK_ENV (str): Environment label for Flask runtime.
     WTF_CSRF_ENABLED (bool): Enables CSRF protection.
     LOG_LEVEL (str): Logging level (default: "INFO").
+
+  Examples:
+    app.config.from_object(ProductionConfig)
+
+  Notes:
+    - Inherits from BaseConfig.
+    - Sets DEBUG to False and LOG_LEVEL to "INFO".
   """
   DEBUG = False
   FLASK_ENV = "production"
@@ -110,12 +163,25 @@ class TestingConfig(BaseConfig):
   """
   Configuration for isolated testing environments.
 
+  Args:
+    None
+
+  Returns:
+    None
+
   Attributes:
     TESTING (bool): Enables Flask test mode.
     DEBUG (bool): Enables debug logging.
     FLASK_ENV (str): Flask environment label.
     WTF_CSRF_ENABLED (bool): Disables CSRF for test convenience.
     LOG_LEVEL (str): Logging level (default: "WARNING").
+
+  Examples:
+    app.config.from_object(TestingConfig)
+
+  Notes:
+    - Inherits from BaseConfig.
+    - Sets TESTING to True and LOG_LEVEL to "WARNING".
   """
   TESTING = True
   DEBUG = True

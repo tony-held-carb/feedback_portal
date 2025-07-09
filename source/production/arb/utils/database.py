@@ -47,14 +47,31 @@ logger = logging.getLogger(__name__)
 #     db.drop_all()
 
 
-def execute_sql_script(script_path: str | Path = None,
+def execute_sql_script(script_path: str | Path | None = None,
                        connection: sqlite3.Connection | None = None) -> None:
   """
   Execute an SQL script using a provided or default SQLite connection.
 
   Args:
-    script_path (str | Path | None): Path to the `.sql` script. Defaults to `../sql_scripts/script_01.sql`.
+    script_path (str | Path | None): Path to the `.sql` script. If None, defaults to '../sql_scripts/script_01.sql'.
+      If an empty string is provided, a FileNotFoundError will be raised.
     connection (sqlite3.Connection | None): SQLite connection (defaults to `sqlite3.connect('app.db')` if None).
+
+  Notes:
+    - If `script_path` is None, a default path is used. If it is an empty string or invalid, FileNotFoundError will occur.
+    - If `connection` is None, a new connection to 'app.db' is created.
+
+  Raises:
+    FileNotFoundError: If the script file does not exist or is an empty string.
+    sqlite3.DatabaseError: If there is an error executing the script.
+
+  Examples:
+    Input : script_path=None, connection=None
+    Output: Executes default script on 'app.db'
+    Input : script_path="/tmp/test.sql", connection=None
+    Output: Executes /tmp/test.sql on 'app.db'
+    Input : script_path="", connection=None
+    Output: FileNotFoundError
   """
   logger.debug(f"execute_sql_script() called with {script_path=}, {connection=}")
 
@@ -75,10 +92,19 @@ def get_reflected_base(db: SQLAlchemy) -> AutomapBase:
   Return a SQLAlchemy automap base using the existing metadata (no re-reflection).
 
   Args:
-    db (SQLAlchemy): SQLAlchemy instance with metadata.
+    db (SQLAlchemy): SQLAlchemy instance with metadata. Must not be None.
 
   Returns:
     AutomapBase: Reflected base class.
+
+  Raises:
+    AttributeError: If `db` is None or does not have valid metadata.
+
+  Examples:
+    Input : db (valid SQLAlchemy instance)
+    Output: AutomapBase instance
+    Input : db=None
+    Output: AttributeError
   """
   base = automap_base(metadata=db.metadata)  # reuse metadata!
   base.prepare(db.engine, reflect=False)  # no extra reflection
@@ -86,7 +112,7 @@ def get_reflected_base(db: SQLAlchemy) -> AutomapBase:
 
 
 def cleanse_misc_json(db: SQLAlchemy,
-                      base: AutomapBase,
+                      base: AutomapBase,  # base is a mapped base, not to be passed directly to query
                       table_name: str,
                       json_column_name: str = "misc_json",
                       remove_value: str = "Please Select",
@@ -95,16 +121,32 @@ def cleanse_misc_json(db: SQLAlchemy,
   Remove key/value pairs in a JSON column where value == `remove_value`.
 
   Args:
-    db (SQLAlchemy): SQLAlchemy instance.
-    base (AutomapBase): Declarative or automap base.
-    table_name (str): Table name to target (e.g., 'incidences').
-    json_column_name (str): Column name to scan (default: "misc_json").
-    remove_value (str): Value to match for deletion (default: "Please Select").
+    db (SQLAlchemy): SQLAlchemy instance. Must not be None.
+    base (AutomapBase): Declarative or automap base. Must not be None.
+    table_name (str): Table name to target (e.g., 'incidences'). If None or empty, raises ValueError.
+    json_column_name (str): Column name to scan (default: "misc_json"). If None or empty, raises ValueError.
+    remove_value (str): Value to match for deletion (default: "Please Select"). If None, removes all keys with value None.
     dry_run (bool): If True, logs changes but rolls back.
+
+  Notes:
+    - If `table_name` or `json_column_name` are invalid, a ValueError is raised.
+    - If `remove_value` is None, all keys with value None are removed.
+    - If the JSON column is not a dict, the row is skipped.
+    - If `dry_run` is True, changes are rolled back after logging.
 
   Raises:
     ValueError: If table or column cannot be found or mapped.
     RuntimeError: On failure to commit or query.
+
+  Examples:
+    Input : db, base, table_name="incidences", json_column_name="misc_json", remove_value="Please Select", dry_run=True
+    Output: Logs how many rows would be modified, rolls back changes
+    Input : db, base, table_name="incidences", json_column_name="misc_json", remove_value=None, dry_run=False
+    Output: Removes all keys with value None, commits changes
+    Input : db, base, table_name=None
+    Output: ValueError
+    Input : db, base, table_name="incidences", json_column_name=None
+    Output: ValueError
   """
 
   from arb.utils.sql_alchemy import get_class_from_table_name
@@ -117,7 +159,7 @@ def cleanse_misc_json(db: SQLAlchemy,
     raise ValueError(f"Column '{json_column_name}' not found on model for table '{table_name}'.")
 
   try:
-    rows = db.session.query(model_cls).all()
+    rows = db.session.query(model_cls).all()  # type: ignore
     count_total = len(rows)
     count_modified = 0
 

@@ -1,20 +1,25 @@
 """
-Utility functions for file and path handling, including directory creation,
-secure file name generation, and project root resolution.
+File and path utility functions for the ARB Feedback Portal.
+
+This module provides helpers for directory creation, secure file name generation, project root resolution,
+and efficient file reading. These utilities are designed to support robust file handling and diagnostics
+across ARB portal workflows.
 
 Features:
 - Ensures parent and target directories exist
 - Generates secure, timestamped file names using UTC
 - Dynamically resolves the project root based on directory structure
-- Includes diagnostics for local testing and validation
+- Efficiently reads the last N lines of large files
 
 Notes:
 - Uses `werkzeug.utils.secure_filename` to sanitize input filenames
 - Timestamps are formatted in UTC using the DATETIME_WITH_SECONDS pattern
 
-Potential Future Upgrades:
-- Add support for Windows-specific path edge cases, if needed.
-- Expand run_diagnostics to perform write/delete tests in a sandbox directory.
+Intended use:
+- Shared helpers for ARB portal and related utilities
+- Promotes DRY principles and robust file handling
+
+Version: 1.0.0
 """
 
 import logging
@@ -35,7 +40,7 @@ def ensure_parent_dirs(file_name: str | Path) -> None:
   Ensure that the parent directories for a given file path exist.
 
   Args:
-    file_name (str | Path): The full path to a file. Parent folders will be created if needed.
+    file_name (str | Path): The full path to a file. Parent folders will be created if needed. If None or empty, no action is taken.
 
   Returns:
     None
@@ -43,9 +48,15 @@ def ensure_parent_dirs(file_name: str | Path) -> None:
   Examples:
     Input : "/tmp/some/deep/file.txt"
     Output: Ensures intermediate directories exist
-
     Input : "local_file.txt"
     Output: No error if directory already exists or is current
+    Input : None
+    Output: No action
+    Input : ""
+    Output: No action
+
+  Notes:
+    - If `file_name` is None or empty, no action is taken.
   """
   logger.debug(f"ensure_parent_dirs() called for: {file_name=}")
   file_path = Path(file_name)
@@ -57,17 +68,24 @@ def ensure_dir_exists(dir_path: str | Path) -> None:
   Ensure that the specified directory exists, creating it if necessary.
 
   Args:
-    dir_path (str | Path): Path to the directory.
+    dir_path (str | Path): Path to the directory. If None or empty, no action is taken.
 
   Raises:
     ValueError: If the path exists but is not a directory.
 
   Returns:
-      None
+    None
 
-  Example:
+  Examples:
     Input : "logs/output"
     Output: Creates the directory and parents if needed
+    Input : None
+    Output: No action
+    Input : ""
+    Output: No action
+
+  Notes:
+    - If `dir_path` is None or empty, no action is taken.
   """
   logger.debug(f"ensure_dir_exists() called for: {dir_path=}")
   dir_path = Path(dir_path)
@@ -83,15 +101,28 @@ def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> P
   Generate a sanitized file name in the given directory, appending a UTC timestamp.
 
   Args:
-    directory (str | Path): Target directory where the file will be saved.
-    file_name (str): Proposed name for the file, possibly unsafe.
+    directory (str | Path): Target directory where the file will be saved. If None or empty, uses the home directory.
+    file_name (str): Proposed name for the file, possibly unsafe. If None or empty, raises ValueError.
 
   Returns:
     Path: The full secure, timestamped file path.
 
-  Example:
-    Input : directory = "/tmp", file_name = "user report.xlsx"
+  Examples:
+    Input : "/tmp", "user report.xlsx"
     Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+    Input : None, "user report.xlsx"
+    Output: Path("/home/user/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+    Input : "/tmp", None
+    Output: ValueError
+    Input : "/tmp", ""
+    Output: ValueError
+
+  Raises:
+    ValueError: If `file_name` is None or empty.
+
+  Notes:
+    - Uses `werkzeug.utils.secure_filename` to sanitize input filenames.
+    - If `directory` is None or empty, uses the home directory.
   """
   file_name_clean = secure_filename(file_name)
   full_path = Path.home() / directory / file_name_clean
@@ -118,18 +149,27 @@ def resolve_project_root(
   Attempt to locate the project root directory using known folder sequences.
 
   Args:
-    file_path (str | Path): The file path to begin traversal from (typically `__file__`).
-    candidate_structures (list[list[str]] | None): List of folder name sequences to match.
+    file_path (str | Path): The file path to begin traversal from (typically `__file__`). If None or empty, raises ValueError.
+    candidate_structures (list[list[str]] | None): List of folder name sequences to match. If None, uses defaults.
 
   Returns:
     Path: Path to the root of the matched folder chain.
 
   Raises:
     ProjectRootNotFoundError: If no matching sequence is found.
+    ValueError: If `file_path` is None or empty.
 
-  Example:
-    Input : file_path = __file__
+  Examples:
+    Input : __file__
     Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedback_portal")
+    Input : None
+    Output: ValueError
+    Input : ""
+    Output: ValueError
+
+  Notes:
+    - If `file_path` is None or empty, raises ValueError.
+    - If `candidate_structures` is None, uses default structures.
   """
   if candidate_structures is None:
     candidate_structures = [
@@ -157,25 +197,25 @@ def get_project_root_dir(file: str | Path, match_parts: list[str]) -> Path:
   Traverse up the directory tree from a file path to locate the root of a known structure.
 
   Args:
-      file (str | Path): The starting file path, typically `__file__`.
-      match_parts (list[str]): Folder names expected in the path, ordered from root to leaf.
+    file (str | Path): The starting file path, typically `__file__`. If None or empty, raises ValueError.
+    match_parts (list[str]): Folder names expected in the path, ordered from root to leaf. If None or empty, raises ValueError.
 
   Returns:
-      Path: Path to the top of the matched folder chain.
+    Path: Path to the top of the matched folder chain.
 
   Raises:
-      ValueError: If no matching structure is found in the parent hierarchy.
+    ValueError: If no matching structure is found in the parent hierarchy, or if arguments are None or empty.
 
-  Passing Example:
-    If `file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"`
-    and `match_parts = ["feedback_portal", "source", "production", "arb", "portal"]`,
-    then:
-      → match found at /Users/tony/dev/**feedback_portal**/source/production/arb/portal
-      → returns: Path("/Users/tony/dev/feedback_portal")
+  Examples:
+    Input : "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py", ["feedback_portal", "source", "production", "arb", "portal"]
+    Output: Path("/Users/tony/dev/feedback_portal")
+    Input : None, ["feedback_portal", "source", "production", "arb", "portal"]
+    Output: ValueError
+    Input : "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py", []
+    Output: ValueError
 
-  Failing Example:
-    If the file path is unrelated (e.g., "/tmp/random_file.py"),
-    the function will raise a ValueError.
+  Notes:
+    - If `file` or `match_parts` is None or empty, raises ValueError.
   """
   path = Path(file).resolve()
   match_len = len(match_parts)
@@ -200,7 +240,7 @@ def read_file_reverse(path: str | Path, n: int = 1000,
   real-time diagnostics, log viewers, or tail-style interfaces.
 
   Args:
-    path (str | Path): Path to the log or text file.
+    path (str | Path): Path to the log or text file. If None or empty, raises ValueError.
     n (int): Number of lines to read from the end of the file (default is 1000).
     encoding (str): Text encoding used to decode the file (default is "utf-8").
 
@@ -211,12 +251,21 @@ def read_file_reverse(path: str | Path, n: int = 1000,
   Raises:
     FileNotFoundError: If the file does not exist.
     OSError: If the file cannot be read due to permission or I/O issues.
+    ValueError: If `path` is None or empty.
 
   Notes:
     - This method uses the `file_read_backwards` library, which performs
       disk-efficient reverse reads by buffering from the end.
     - Handles variable-length lines and multi-byte encodings gracefully.
     - Does not assume file fits in memory — ideal for large logs.
+
+  Examples:
+    Input : "/var/log/syslog", n=100
+    Output: Returns the last 100 lines in chronological order
+    Input : None, n=100
+    Output: ValueError
+    Input : "", n=100
+    Output: ValueError
   """
   from file_read_backwards import FileReadBackwards
 
@@ -230,45 +279,3 @@ def read_file_reverse(path: str | Path, n: int = 1000,
         break
 
   return list(reversed(lines))
-
-
-def run_diagnostics() -> None:
-  """
-  Run a series of checks to validate directory creation, secure filename generation,
-  and project root resolution logic.
-
-  Returns:
-      None
-  """
-  import tempfile
-
-  print("Running diagnostics...")
-
-  # Test ensure_dir_exists
-  test_dir = Path(tempfile.gettempdir()) / "arb_test_nested/subdir"
-  ensure_dir_exists(test_dir)
-  assert test_dir.exists() and test_dir.is_dir()
-
-  # Test ensure_parent_dirs
-  test_file = test_dir / "test_file.txt"
-  ensure_parent_dirs(test_file)
-  assert test_file.parent.exists()
-
-  # Test secure file name generation
-  secured_path = get_secure_timestamped_file_name(test_dir, "My Unsafe Report.xlsx")
-  print(f"Generated secure file: {secured_path}")
-  assert secured_path.name.startswith("My_Unsafe_Report_ts_")
-
-  # Test project root resolution
-  try:
-    project_root = resolve_project_root(__file__)
-    print(f"Resolved project root: {project_root}")
-    assert project_root.exists()
-  except ProjectRootNotFoundError as e:
-    print("WARNING: Could not resolve project root. Skipping root validation.")
-
-  print("All diagnostics completed successfully.")
-
-
-if __name__ == "__main__":
-  run_diagnostics()

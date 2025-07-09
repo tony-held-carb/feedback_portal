@@ -6,26 +6,28 @@ about methane emission incidents in the oil and gas sector. The form logic mirro
 O&G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
 timestamp-based consistency checks.
 
-Key Features:
--------------
-- Enforces the correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
-- Includes geospatial validation and timestamp sequencing checks.
-- Cross-field validation logic implemented in `validate()`.
-- Supports conditional validation with custom helpers like `change_validators_on_test()`.
+Args:
+  None
 
-Usage:
-------
+Returns:
+  None
+
+Attributes:
+  OGFeedback (type): WTForms form class for oil & gas feedback data.
+  logger (logging.Logger): Logger instance for this module.
+
+Examples:
   form = OGFeedback()
   form.process(request.form)
-
   if form.validate_on_submit():
     process_feedback_data(form.data)
 
 Notes:
-------
-- Fields such as `id_incidence` are read-only and display-only.
-- Contingent dropdowns are updated via `update_contingent_selectors()`.
-- Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.
+  - Enforces the correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).
+  - Fields such as `id_incidence` are read-only and display-only.
+  - Contingent dropdowns are updated via `update_contingent_selectors()`.
+  - Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.
+  - The logger emits a debug message when this file is loaded.
 """
 
 import logging
@@ -53,15 +55,14 @@ class OGFeedback(FlaskForm):
   Sections include metadata, inspection information, emissions details,
   mitigation actions, and contact data.
 
-  Core Features:
-    - Uses standard WTForms field types, with conditionally required fields.
-    - Dropdowns update dynamically based on user selections.
-    - Includes geospatial coordinates and timestamp logic.
-    - Implements cross-field validation for inspection results and mitigation status.
+  Attributes:
+    (See field definitions in class body for all form fields.)
 
-  Used by:
-    - The web-based feedback form in the ARB Feedback Portal.
-    - Routes such as `og_incidence_create` and `incidence_update`.
+  Examples:
+    form = OGFeedback()
+    form.process(request.form)
+    if form.validate_on_submit():
+      process_feedback_data(form.data)
 
   Notes:
     - Sector-specific contingent dropdowns are handled via Globals.
@@ -297,16 +298,17 @@ class OGFeedback(FlaskForm):
 
   def __init__(self, *args, **kwargs):
     """
-    Initialize the OGFeedback form and set SelectField choices dynamically.
-
-    This approach ensures that dropdown choices are always populated from
-    Globals.drop_downs at instantiation time, rather than at import time.
-    This avoids fragile import order issues and KeyErrors that can occur
-    if the global dropdowns are not yet populated when the form class is defined.
+    Initialize the OGFeedback form and set up contingent selectors.
 
     Args:
-        *args: Positional arguments passed to FlaskForm.
-        **kwargs: Keyword arguments passed to FlaskForm.
+      *args: Positional arguments passed to FlaskForm.
+      **kwargs: Keyword arguments passed to FlaskForm.
+
+    Returns:
+      None
+
+    Notes:
+      - Calls update_contingent_selectors() to initialize dropdowns.
     """
     super().__init__(*args, **kwargs)
     self.venting_exclusion.choices = coerce_choices(Globals.drop_downs.get("venting_exclusion"))
@@ -319,40 +321,35 @@ class OGFeedback(FlaskForm):
 
   def update_contingent_selectors(self) -> None:
     """
-    Update dropdown field options based on dependent selector fields.
+    Update contingent dropdown selectors based on current form state.
 
-    Dynamically replaces `.choices` for contingent fields depending on
-    parent selections. Uses the `Globals.drop_downs_contingent` structure
-    for Oil & Gas to determine appropriate mappings.
-
-    Examples:
-      - not implemented yet
+    Args:
+      None
 
     Returns:
       None
+
+    Notes:
+      - Uses Globals.drop_downs_contingent to update choices.
+      - Should be called whenever a parent dropdown value changes.
     """
 
   pass
 
   def validate(self, extra_validators=None) -> bool:
     """
-      Override the default WTForms validation logic with cross-field rules
-      specific to Oil & Gas reporting.
+    Perform full-form validation, including dynamic and cross-field checks.
 
-      Invokes:
-        - `determine_contingent_fields()` to update validators before validation.
-        - `super().validate()` to apply all field and form-level validations.
+    Args:
+      extra_validators (list | None): Additional validators to apply.
 
-      Custom checks include:
-        - Required fields based on mitigation status or inspection outcomes.
-        - Logical enforcement of conditional relationships between fields.
+    Returns:
+      bool: True if the form is valid, False otherwise.
 
-      Args:
-        extra_validators (dict, optional): Additional validators provided at runtime.
-
-      Returns:
-        bool: True if form passes all validation rules, otherwise False.
-      """
+    Notes:
+      - Enforces conditional requirements based on user input.
+      - Calls determine_contingent_fields() for dynamic validation.
+    """
     logger.debug(f"validate() called.")
     form_fields = get_wtforms_fields(self)
 
@@ -477,20 +474,24 @@ class OGFeedback(FlaskForm):
 
   def determine_contingent_fields(self) -> None:
     """
-    Adjust validators based on user selections that imply exclusions or
-    optional behavior.
+    Enforce dynamic field-level validation for contingent fields.
 
     Affects validation logic such as:
-      - 95669.1(b)(1) exclusions where OGI inspection is not required.
-      - Skipping downstream fields when "No leak was detected" is selected.
-      - Making "Other" explanations required only if "Other" is selected.
+    - 95669.1(b)(1) exclusions where OGI inspection is not required.
+    - Skipping downstream fields when "No leak was detected" is selected.
+    - Making "Other" explanations required only if "Other" is selected.
 
-    Notes:
-      - Should be called before validation to sync rules with input state.
-      - Venting-related exclusions may need careful ordering to preserve business logic.
+    Args:
+      None
 
     Returns:
-      None.
+      None
+
+    Notes:
+      - Adjusts validators for fields that depend on other field values.
+      - Called during form validation to ensure correct requirements.
+      - Should be called before validation to sync rules with input state.
+      - Venting-related exclusions may need careful ordering to preserve business logic.
     """
 
     # logger.debug(f"In determine_contingent_fields()")

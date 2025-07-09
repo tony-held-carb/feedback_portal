@@ -1,70 +1,77 @@
 """
-Python Logging Best Practices for ARB Portal
-============================================
+  Logging utilities for the ARB Feedback Portal.
 
-Key Concepts
-------------
-- `logging.getLogger(__name__)` returns a logger object for each module, but does NOT create a new log file or handler. All loggers propagate messages to the root logger unless you add handlers to them explicitly.
-- Only a call to `logging.basicConfig(...)` or explicit handler setup creates log files or configures output. The first such call in a process sets up the global logging configuration.
-- Log messages emitted before `basicConfig` (or handler setup) are sent to a default handler (stderr) or are ignored, depending on severity and environment.
-- After `basicConfig`, all loggers (including those created earlier) use the configured handlers (e.g., file, console) for output.
-- Multiple calls to `getLogger(__name__)` in different files give you different logger objects (with different names), but unless you add handlers, all messages go to the same global output.
-- This design allows you to filter or format logs by module, but keeps log file management centralized and predictable.
+  This module provides functions to configure logging for the main application and standalone scripts,
+  and a utility for pretty-printing complex objects in logs. It is designed to centralize and standardize
+  logging setup and formatting across the project.
 
-Usage Patterns
---------------
+  Args:
+    None
 
-1. Web app entry point (e.g., wsgi.py):
-  ------------------------------------
-    import logging
-    from arb_logging import setup_app_logging
+  Returns:
+    None
 
-    setup_app_logging("arb_portal")
+  Attributes:
+    APP_DIR_STRUCTURE (list[str]): Default directory structure for resolving the project root.
+    DEFAULT_LOG_FORMAT (str): Default log message format string.
+    DEFAULT_LOG_DATEFMT (str): Default log date format string.
 
-    logger = logging.getLogger(__name__)
-    from arb.portal.app import create_app
-    app = create_app()
+  Examples:
+    1. Web app entry point (e.g., wsgi.py):
+      ------------------------------------
+        import logging
+        from arb_logging import setup_app_logging
 
-2. Scripts (e.g., xl_create.py):
-  -----------------------------
-    import logging
-    from arb_logging import setup_standalone_logging
+        setup_app_logging("arb_portal")
 
-    if __name__ == "__main__":
-      setup_standalone_logging("xl_create")
+        logger = logging.getLogger(__name__)
+        from arb.portal.app import create_app
+        app = create_app()
 
-    logger = logging.getLogger(__name__)
+    2. Scripts (e.g., xl_create.py):
+      -----------------------------
+        import logging
+        from arb_logging import setup_standalone_logging
 
-3. All other files (including __init__.py):
-  ----------------------------------------
-    import logging
-    from arb_logging import get_pretty_printer
+        if __name__ == "__main__":
+          setup_standalone_logging("xl_create")
 
-    logger = logging.getLogger(__name__)
-    _, pp_log = get_pretty_printer()
+        logger = logging.getLogger(__name__)
 
-    # Usage examples:
-    logger.debug("Basic log message")
-    logger.info(pp_log({"structured": "data", "for": "inspection"}))
+    3. All other files (including __init__.py):
+      ----------------------------------------
+        import logging
+        from arb_logging import get_pretty_printer
 
-4. Pretty-printing complex objects in logs:
-  ----------------------------------------
-  The `get_pretty_printer()` function provides a consistent way to format complex data structures in logs:
+        logger = logging.getLogger(__name__)
+        _, pp_log = get_pretty_printer()
 
-    from arb_logging import get_pretty_printer
-    _, pp_log = get_pretty_printer()
-    
-    data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
-    logger.info(pp_log(data))
-    
-    # Output in log:
-    # {
-    #   'foo': [1, 2, 3],
-    #   'bar': {'baz': 'qux'}
-    # }
 
-Implementation
---------------
+    4. Pretty-printing complex objects in logs:
+      ----------------------------------------
+      The `get_pretty_printer()` function provides a consistent way to format complex data structures in logs:
+        from arb_logging import get_pretty_printer
+        data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+        logger.info(pp_log(data))
+        
+        # Output in log:
+        # {
+        #   'foo': [1, 2, 3],
+        #   'bar': {'baz': 'qux'}
+        # }
+
+  Notes:
+    - Only the first call to logging.basicConfig in a process sets up the global logging configuration.
+    - All loggers propagate messages to the root logger unless handlers are added explicitly.
+    - Use get_pretty_printer() for consistent formatting of structured log data.
+
+  Additional Discussion on Key Logging Concepts:
+    - `logging.getLogger(__name__)` returns a logger object for each module, but does NOT create a new log file or handler. All loggers propagate messages to the root logger unless you add handlers to them explicitly.
+    - Only a call to `logging.basicConfig(...)` or explicit handler setup creates log files or configures output. The first such call in a process sets up the global logging configuration.
+    - Log messages emitted before `basicConfig` (or handler setup) are sent to a default handler (stderr) or are ignored, depending on severity and environment.
+    - After `basicConfig`, all loggers (including those created earlier) use the configured handlers (e.g., file, console) for output.
+    - Multiple calls to `getLogger(__name__)` in different files give you different logger objects (with different names), but unless you add handlers, all messages go to the same global output.
+    - This design allows you to filter or format logs by module, but keeps log file management centralized and predictable.
 """
 import logging
 import os
@@ -89,6 +96,10 @@ def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Pa
       Defaults to ['feedback_portal', 'source', 'production', 'arb'].
   Returns:
     Path: The resolved log directory path.
+
+  Examples:
+    resolved = _resolve_log_dir("logs")
+    # Ensures the 'logs' directory exists at the project root
   """
   if app_dir_structure is None:
     app_dir_structure = APP_DIR_STRUCTURE
@@ -108,6 +119,7 @@ def setup_standalone_logging(
 ):
   """
   Configure logging for a standalone script. Should be called in the `if __name__ == "__main__"` block.
+
   Args:
     log_name (str): Name of the log file (without extension).
     log_dir (str | Path): Directory for log files (relative to project root).
@@ -115,6 +127,10 @@ def setup_standalone_logging(
     app_dir_structure (list[str] | None): Directory structure to identify project root.
     log_format (str): Log message format string. Defaults to ARB portal format.
     log_datefmt (str): Log date format string. Defaults to ARB portal format.
+
+  Examples:
+    setup_standalone_logging("my_script")
+    # Configures logging to 'logs/my_script.log' at DEBUG level
   """
   resolved_dir = _resolve_log_dir(log_dir, app_dir_structure)
   logging.basicConfig(
@@ -136,6 +152,7 @@ def setup_app_logging(
 ):
   """
   Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.
+
   Args:
     log_name (str): Name of the log file (without extension).
     log_dir (str | Path): Directory for log files (relative to project root).
@@ -143,6 +160,10 @@ def setup_app_logging(
     app_dir_structure (list[str] | None): Directory structure to identify project root.
     log_format (str): Log message format string. Defaults to ARB portal format.
     log_datefmt (str): Log date format string. Defaults to ARB portal format.
+
+  Examples:
+    setup_app_logging("arb_portal")
+    # Configures logging to 'logs/arb_portal.log' at DEBUG level
   """
   resolved_dir = _resolve_log_dir(log_dir, app_dir_structure)
   logging.basicConfig(
@@ -167,7 +188,7 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, Callable[[object
 
   Examples:
     # Basic usage:
-    from arb_logging import get_pretty_printer
+    from arb.logging.arb_logging import get_pretty_printer
     _, pp_log = get_pretty_printer()
     data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
     logger.info(pp_log(data))
@@ -178,7 +199,6 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, Callable[[object
     # }
 
     # Custom formatting:
-    from arb_logging import get_pretty_printer
     _, pp_log = get_pretty_printer(indent=2, width=80)
     logger.info(pp_log(data))
   """

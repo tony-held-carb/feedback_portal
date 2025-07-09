@@ -825,3 +825,51 @@ If you run from a different directory, you might need to set PYTHONPATH to inclu
 
 
 i'm concerned that i will have other circular imports, not just when we are trying to run xl_create
+
+Here are the files previously identified as excellent candidates for unit testing because they are likely to be composed mostly of standalone, pure functions (i.e., minimal dependencies on Flask, global state, or the database):
+arb/portal/
+constants.py
+json_update_util.py
+
+arb/utils/
+date_and_time.py  (already tested)
+json.py
+misc.py
+file_io.py
+generate_github_file_metadata.py
+time_launch.py
+constants.py
+io_wrappers.py
+
+
+It is my understanding that we have:
+
+implemented unit testing for:
+arb/utils/
+date_and_time.py  
+
+Partially implemented unit testing for 
+arb/utils/
+json.py
+
+updated the docstrings and are ready to implement unit testing for:
+arb/utils/
+misc.py
+file_io.py
+constants.py
+io_wrappers.py
+
+Here is the list of files in arb/utils with an asterisk () next to those for which we have already refactored the docstrings:
+* date_and_time.py
+* json.py
+* misc.py
+* file_io.py
+* constants.py
+* io_wrappers.py
+wtf_forms_util.py
+sql_alchemy.py
+database.py
+web_html.py
+diagnostics.py
+__init__.py
+log_util.py

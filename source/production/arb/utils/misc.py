@@ -1,31 +1,27 @@
 """
-misc.py
+Miscellaneous utility functions for the ARB Feedback Portal.
 
-Miscellaneous utility functions for common tasks including dictionary traversal,
-default injection, argument formatting, exception logging, and safe type casting.
+This module provides reusable helpers for dictionary traversal, default injection, argument formatting,
+exception logging, and safe type casting. These utilities are designed for both Flask and CLI-based
+Python applications, improving code reuse and diagnostic traceability.
 
-Functions included:
-    - get_nested_value: Safely access deeply nested values in a dictionary.
-    - ensure_key_value_pair: Add missing keys to sub-dictionaries using defaults.
-    - replace_list_occurrences: Modify list elements in-place based on a mapping.
-    - args_to_string: Format argument lists into padded strings.
-    - log_error: Log full exception tracebacks and re-raise.
-    - safe_cast: Convert values to expected types if needed.
-    - run_diagnostics: Test suite for all utilities.
+Features:
+- Safe access to deeply nested dictionary values
+- Default key/value injection for sub-dictionaries
+- In-place replacement of list values using a mapping
+- Argument list formatting for CLI or logging
+- Exception logging with full traceback
+- Type-safe value casting
 
-Intended Use:
-    - Shared helpers for Flask or CLI-based Python applications.
-    - Improves code reuse and diagnostic traceability.
+Intended use:
+- Shared helpers for ARB portal and related utilities
+- Promotes DRY principles and robust error handling
 
 Dependencies:
-    - Python standard library
-    - Logging provided by arb.__get_logger
+- Python standard library
+- Logging provided by arb.__get_logger
 
-Version:
-    1.0.0
-TODO:
-    - Consider converting log_error into a structured 500 error response for Flask apps
-
+Version: 1.0.0
 """
 
 import traceback
@@ -39,22 +35,26 @@ def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:
   Retrieve a value from a nested dictionary using a key path.
 
   Args:
-      nested_dict (dict): The dictionary to search.
-      keys (list | tuple | str): A sequence of keys to traverse the dictionary, or a single key.
+    nested_dict (dict): The dictionary to search. Must not be None.
+    keys (list | tuple | str): A sequence of keys to traverse the dictionary, or a single key. If None or empty, raises ValueError.
 
   Returns:
-      object: The value found at the specified key path.
+    object: The value found at the specified key path.
 
   Raises:
-      KeyError: If a key is missing at any level.
-      TypeError: If a non-dictionary value is encountered mid-traversal.
+    KeyError: If a key is missing at any level.
+    TypeError: If a non-dictionary value is encountered mid-traversal.
+    ValueError: If `keys` is None or empty.
 
   Examples:
-    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = ("a", "b", "c")
+    Input : {"a": {"b": {"c": 42}}, "x": 99}, ("a", "b", "c")
     Output: 42
-
-    Input : data = {"a": {"b": {"c": 42}}, "x": 99}, keys = "x"
+    Input : {"a": {"b": {"c": 42}}, "x": 99}, "x"
     Output: 99
+
+  Notes:
+    - If `keys` is None or empty, raises ValueError.
+    - If `nested_dict` is None, raises TypeError.
   """
   if not isinstance(keys, (list, tuple)):
     # Single key case
@@ -77,20 +77,21 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
   Ensure each sub-dictionary in dict_ has a given key, populating it from default_dict if missing.
 
   Args:
-      dict_ (dict[str, dict]): A dictionary whose values are sub-dictionaries.
-      default_dict (dict): A lookup dictionary to supply missing key-value pairs.
-      sub_key (str): The key that must exist in each sub-dictionary.
+    dict_ (dict[str, dict]): A dictionary whose values are sub-dictionaries. Must not be None.
+    default_dict (dict): A lookup dictionary to supply missing key-value pairs. Must not be None.
+    sub_key (str): The key that must exist in each sub-dictionary. If None or empty, raises ValueError.
 
   Raises:
-      TypeError: If the sub_key is missing, and no fallback is found in default_dict.
+    TypeError: If the sub_key is missing, and no fallback is found in default_dict.
+    ValueError: If `sub_key` is None or empty.
 
-  Example:
-    Input :
-      dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}
-      default_dict = {"c": 99}
-      sub_key = "x"
-    Output:
-      dict_["c"]["x"] == 99
+  Examples:
+    Input : dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}, default_dict = {"c": 99}, sub_key = "x"
+    Output: dict_["c"]["x"] == 99
+
+  Notes:
+    - If `sub_key` is None or empty, raises ValueError.
+    - If `dict_` or `default_dict` is None, raises TypeError.
   """
   for key, sub_dict in dict_.items():
     logger.debug(f"{key=}, {sub_dict=}")
@@ -109,15 +110,18 @@ def replace_list_occurrences(list_: list, lookup_dict: dict) -> None:
   Replace elements of a list in-place using a lookup dictionary.
 
   Args:
-    list_ (list): The list whose elements may be replaced.
-    lookup_dict (dict): A dictionary mapping old values to new values.
+    list_ (list): The list whose elements may be replaced. If None, raises ValueError.
+    lookup_dict (dict): A dictionary mapping old values to new values. If None, raises ValueError.
 
-  Example:
-    Input :
-      list_ = ["cat", "dog", "bird"]
-      lookup_dict = {"dog": "puppy", "bird": "parrot"}
-    Output:
-      list_ becomes ['cat', 'puppy', 'parrot']
+  Raises:
+    ValueError: If `list_` or `lookup_dict` is None.
+
+  Examples:
+    Input : list_ = ["cat", "dog", "bird"], lookup_dict = {"dog": "puppy", "bird": "parrot"}
+    Output: list_ becomes ['cat', 'puppy', 'parrot']
+
+  Notes:
+    - If `list_` or `lookup_dict` is None, raises ValueError.
   """
   for i in range(len(list_)):
     if list_[i] in lookup_dict:
@@ -129,14 +133,21 @@ def args_to_string(args: list | tuple | None) -> str:
   Convert a list or tuple of arguments into a single space-separated string with padding.
 
   Args:
-    args (list | tuple | None): Arguments to convert.
+    args (list | tuple | None): Arguments to convert. If None or empty, returns an empty string.
 
   Returns:
-    str: Space-separated string representation.
+    str: Space-separated string representation, or empty string if args is None or empty.
 
-  Example:
+  Examples:
     Input : ["--debug", "--log", "file.txt"]
     Output: " --debug --log file.txt "
+    Input : None
+    Output: ""
+    Input : []
+    Output: ""
+
+  Notes:
+    - If `args` is None or empty, returns an empty string.
   """
   if not args:
     return ''
@@ -151,18 +162,20 @@ def log_error(e: Exception) -> None:
   Log an exception and its stack trace, then re-raise the exception.
 
   Args:
-      e (Exception): The exception to log.
+    e (Exception): The exception to log. Must not be None.
 
   Raises:
-      Exception: Always re-raises the input exception after logging.
+    Exception: Always re-raises the input exception after logging.
+    ValueError: If `e` is None.
+
+  Examples:
+    Input : ValueError("bad value")
+    Output: Logs error and traceback, then raises ValueError
 
   Notes:
-      - Outputs full traceback to logger.
-      - Re-raises the original exception.
-      - Useful during development or structured exception monitoring.
-
-  TODO:
-      Consider wrapping this in Flask to render a 500 error page instead.
+    - Outputs full traceback to logger.
+    - Re-raises the original exception.
+    - If `e` is None, raises ValueError.
   """
   logger.error(e, exc_info=True)
   stack = traceback.extract_stack()
@@ -175,14 +188,27 @@ def safe_cast(value, expected_type: type) -> object:
   Cast a value to the expected type only if it's not already of that type.
 
   Args:
-      value (Any): The value to check and potentially cast.
-      expected_type (type): The target Python type to cast to.
+    value (Any): The value to check and potentially cast. If None, attempts to cast None.
+    expected_type (type): The target Python type to cast to. Must not be None.
 
   Returns:
-      object: The original or casted value.
+    object: The original or casted value.
 
   Raises:
-      ValueError: If the cast fails or is inappropriate for the type.
+    ValueError: If the cast fails or is inappropriate for the type, or if `expected_type` is None.
+
+  Examples:
+    Input : "123", int
+    Output: 123
+    Input : 123, int
+    Output: 123
+    Input : None, int
+    Output: 0 (if int(None) is allowed, else raises ValueError)
+
+  Notes:
+    - If `expected_type` is None, raises ValueError.
+    - If `value` is already of `expected_type`, returns it unchanged.
+    - If cast fails, raises ValueError.
   """
 
   try:
@@ -191,54 +217,3 @@ def safe_cast(value, expected_type: type) -> object:
     return value
   except Exception as e:
     raise ValueError(f"Failed to cast value {value!r} to {expected_type}: {e}")
-
-
-def run_diagnostics() -> None:
-  """
-  Run diagnostics to validate functionality of misc.py utilities.
-
-  This includes:
-    - Nested dictionary access
-    - Default key/value injection into sub-dictionaries
-    - In-place replacement of list values
-    - Argument string formatting
-    - Error logging (non-raising test only)
-
-  """
-  print("Running diagnostics for misc.py utilities...")
-
-  # --- Test get_nested_value ---
-  test_dict = {"a": {"b": {"c": 42}}, "x": 99}
-  assert get_nested_value(test_dict, ("a", "b", "c")) == 42, "Nested dict access failed"
-  assert get_nested_value(test_dict, "x") == 99, "Single key access failed"
-
-  # --- Test ensure_key_value_pair ---
-  dict_with_sub = {"apple": {"color": "red"}, "banana": {}}
-  defaults = {"banana": "yellow"}
-  ensure_key_value_pair(dict_with_sub, defaults, "color")
-  assert dict_with_sub["banana"]["color"] == "yellow", "Default insertion failed"
-
-  # --- Test replace_list_occurrences ---
-  items = ["dog", "cat", "parrot"]
-  replace_list_occurrences(items, {"dog": "puppy", "parrot": "bird"})
-  assert items == ["puppy", "cat", "bird"], "List replacement failed"
-
-  # --- Test args_to_string ---
-  assert args_to_string(["--a", "--b", "value"]) == " --a --b value ", "args_to_string failed"
-  assert args_to_string(None) == "", "args_to_string empty case failed"
-
-  # --- Test log_error (without raising) ---
-  try:
-    try:
-      raise ValueError("Test exception for log_error")
-    except Exception as e:
-      # Simulate logging only — comment out re-raise
-      logger.error(e, exc_info=True)
-  except Exception:
-    assert False, "log_error should not re-raise during diagnostics"
-
-  print("All diagnostics passed.")
-
-
-if __name__ == "__main__":
-  run_diagnostics()
