@@ -119,55 +119,51 @@ To ensure all tests are discovered and run correctly, follow these steps:
 
 ## Table 1. Progress Table
 
-| # | File (arb/portal/util)                        | Testing Status             
-|---|-----------------------------------------------|:--------------------------:
-|  1| arb/__init__.py                               | Complete - Not Needed       
-|  2| arb/logging/arb_logging.py                    | Complete                   
-|  3| arb/portal/__init__.py                        | Complete - Not Needed       
+| # | File (arb/portal/util)                        | Testing Status             |
+|---|-----------------------------------------------|:--------------------------:|
+|  1| arb/__init__.py                               | Unit Testing Complete - Not Needed       
+|  2| arb/logging/arb_logging.py                    | Unit Testing Complete                   
+|  3| arb/portal/__init__.py                        | Unit Testing Complete - Not Needed       
 |  4| arb/portal/app.py                             | Integration Testing Recommended 
-|  5| arb/portal/constants.py                       | Complete - Not Needed       
-|  6| arb/portal/db_hardcoded.py                    | Complete as Reasonably Possible 
-|  7| arb/portal/extensions.py                      | Complete - Not Needed       
-|  8| arb/portal/globals.py                         | Complete as Reasonably Possible 
-|  9| arb/portal/json_update_util.py                | Complete                   
+|  5| arb/portal/constants.py                       | Unit Testing Complete - Not Needed       
+|  6| arb/portal/db_hardcoded.py                    | Unit Testing Complete as Reasonably Possible 
+|  7| arb/portal/extensions.py                      | Unit Testing Complete - Not Needed       
+|  8| arb/portal/globals.py                         | Unit Testing Complete as Reasonably Possible 
+|  9| arb/portal/json_update_util.py                | Unit Testing Complete                   
 | 10| arb/portal/routes.py                          | Integration Testing Recommended 
-| 11| arb/portal/sqla_models.py                     | Complete (except run_diagnostics, see notes)          
+| 11| arb/portal/sqla_models.py                     | Unit Testing Complete (except run_diagnostics, see notes)          
 | 12| arb/portal/wtf_landfill.py                    | Skipped (all tests)        
 | 13| arb/portal/wtf_oil_and_gas.py                 | Skipped (all tests)        
 | 14| arb/portal/wtf_upload.py                      | Skipped (all tests)        
 | 15| arb/portal/startup/__init__.py                | Not Needed - Trivial       
 | 16| arb/portal/startup/db.py                      | Integration Testing Recommended 
-| 17| arb/portal/startup/flask.py                   | Skipped (all tests)       
-| 18| arb/portal/startup/runtime_info.py            | Skipped (partial)         
-| 19| arb/portal/utils/__init__.py                  | Complete - Not Needed      
-| 20| arb/portal/utils/db_ingest_util.py            | Skipped (all tests)       
-| 21| arb/portal/utils/db_introspection_util.py     | Skipped (all tests)       
-| 22| arb/portal/utils/file_upload_util.py          | Skipped (all tests)       
-| 23| arb/portal/utils/form_mapper.py               | Skipped (all tests)       
-| 24| arb/portal/utils/github_and_ai.py             | Complete - Not Needed      
-| 25| arb/portal/utils/route_util.py                | Skipped (all tests)       
-| 26| arb/portal/utils/sector_util.py               | Skipped (all tests)       
-| 27| arb/utils/__init__.py                         | Complete - Not Needed      
-| 28| arb/utils/constants.py                        | Complete - Not Needed      
-| 29| arb/utils/database.py                         | Unit Testing Complete     
-| 30| arb/utils/date_and_time.py                    | Unit Testing Complete     
-| 31| arb/utils/diagnostics.py                      | Unit Testing Complete     
-| 32| arb/utils/file_io.py                          | Unit Testing Complete     
-| 33| arb/utils/io_wrappers.py                      | Unit Testing Complete     
-| 34| arb/utils/json.py                             | Unit Testing Complete     
-| 35| arb/utils/log_util.py                         | Unit Testing Recommended  
-| 36| arb/utils/misc.py                             | Unit Testing Recommended  
-| 37| arb/utils/sql_alchemy.py                      | Unit Testing Recommended  
-| 38| arb/utils/web_html.py                         | Unit Testing Recommended  
-| 39| arb/utils/wtf_forms_util.py                   | Complete (except Flask/DB integration)   
-                                                      All utility logic is fully covered by unit tests. Functions requiring a real Flask app or DB context are skipped and clearly documented in both the test file and source docstrings. 
-| 40| arb/wsgi.py                                   | Complete - Not Needed       
-| 41| arb/portal/config/__init__.py                 | Complete - Not Needed       
-| 42| arb/portal/config/accessors.py                | Complete             
-                                                      All accessor logic is fully covered by unit tests. 
-                                                      No further tests are needed unless new accessors are added. 
-| 43| arb/portal/config/settings.py                 | Complete             
-                                                      All config class logic, inheritance, and environment overrides are fully covered by unit tests. No further tests are needed unless new config logic is added. 
+| 17| arb/portal/startup/flask.py                   | Skipped (all tests)        
+| 18| arb/portal/startup/runtime_info.py            | Skipped (partial)          
+| 19| arb/portal/utils/__init__.py                  | Unit Testing Complete - Not Needed       
+| 20| arb/portal/utils/db_ingest_util.py            | Skipped (all tests)        
+| 21| arb/portal/utils/db_introspection_util.py     | Skipped (all tests)        
+| 22| arb/portal/utils/file_upload_util.py          | Skipped (all tests)        
+| 23| arb/portal/utils/form_mapper.py               | Skipped (all tests)        
+| 24| arb/portal/utils/github_and_ai.py             | Unit Testing Complete - Not Needed       
+| 25| arb/portal/utils/route_util.py                | Skipped (all tests)        
+| 26| arb/portal/utils/sector_util.py               | Skipped (all tests)        
+| 27| arb/utils/__init__.py                         | Unit Testing Complete - Not Needed       
+| 28| arb/utils/constants.py                        | Unit Testing Complete - Not Needed       
+| 29| arb/utils/database.py                         | Unit Testing Complete      
+| 30| arb/utils/date_and_time.py                    | Unit Testing Complete      
+| 31| arb/utils/diagnostics.py                      | Unit Testing Complete      
+| 32| arb/utils/file_io.py                          | Unit Testing Complete      
+| 33| arb/utils/io_wrappers.py                      | Unit Testing Complete      
+| 34| arb/utils/json.py                             | Unit Testing Complete      
+| 35| arb/utils/log_util.py                         | Unit Testing Complete   
+| 36| arb/utils/misc.py                             | Unit Testing Complete   
+| 37| arb/utils/sql_alchemy.py                      | Unit Testing Complete   
+| 38| arb/utils/web_html.py                         | Unit Testing Complete   
+| 39| arb/utils/wtf_forms_util.py                   | Unit Testing Complete (except Flask/DB integration)   
+| 40| arb/wsgi.py                                   | Unit Testing Complete - Not Needed       
+| 41| arb/portal/config/__init__.py                 | Unit Testing Complete - Not Needed       
+| 42| arb/portal/config/accessors.py                | Unit Testing Complete                  
+| 43| arb/portal/config/settings.py                 | Unit Testing Complete                  
 
 ## Table 2. Supplemental Progress Notes
 
