@@ -47,13 +47,18 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
     logger.info(f"Cleaning table: {table_name}")
     
     for column in table.columns:
+      logger.info(f"  Processing column: {column.name} (type: {column.type})")
+      
       # Handle PostgreSQL sequences in DEFAULT values
-      if column.default is not None:
-        default_str = str(column.default)
-        if 'nextval(' in default_str:
-          logger.info(f"  Removing sequence default from column {column.name}")
-          column.default = None
-          column.server_default = None
+      # Check both default and server_default
+      for default_attr in ['default', 'server_default']:
+        default_obj = getattr(column, default_attr, None)
+        if default_obj is not None:
+          default_str = str(default_obj)
+          logger.info(f"    {default_attr}: {default_str}")
+          if any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
+            logger.info(f"    Removing PostgreSQL sequence default from column {column.name} ({default_attr})")
+            setattr(column, default_attr, None)
       
       # Convert PostgreSQL-specific types to SQLite-compatible types
       if hasattr(column.type, '__class__'):
