@@ -56,7 +56,16 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
         if default_obj is not None:
           default_str = str(default_obj)
           logger.info(f"    {default_attr}: {default_str}")
-          if any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
+          
+          # Check if it's a DefaultClause with TextClause
+          if hasattr(default_obj, 'arg') and hasattr(default_obj.arg, 'text'):
+            # Extract the actual SQL text from the TextClause
+            actual_sql = default_obj.arg.text
+            logger.info(f"    Actual SQL: {actual_sql}")
+            if any(keyword in actual_sql.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
+              logger.info(f"    Removing PostgreSQL sequence default from column {column.name} ({default_attr})")
+              setattr(column, default_attr, None)
+          elif any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
             logger.info(f"    Removing PostgreSQL sequence default from column {column.name} ({default_attr})")
             setattr(column, default_attr, None)
       
