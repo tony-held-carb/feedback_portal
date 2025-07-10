@@ -162,7 +162,34 @@ def create_sqlite_snapshot_from_engine(
     metadata = clean_metadata_for_sqlite(metadata)
     
     # Create tables in SQLite
-    metadata.create_all(sqlite_engine)
+    # Use a custom compilation context to handle PostGIS-specific SQL
+    with sqlite_engine.connect() as conn:
+      # Disable foreign key constraints temporarily
+      conn.execute(text("PRAGMA foreign_keys=OFF"))
+      
+      # Create tables one by one to handle any PostGIS-specific issues
+      for table_name, table in metadata.tables.items():
+        try:
+          logger.info(f"Creating table: {table_name}")
+          table.create(conn, checkfirst=False)
+        except Exception as e:
+          logger.warning(f"Error creating table {table_name}: {e}")
+          # Try creating without constraints
+          try:
+            # Create a simplified version of the table
+            columns_sql = []
+            for column in table.columns:
+              col_type = str(column.type)
+              nullable = "" if column.nullable else " NOT NULL"
+              columns_sql.append(f"{column.name} {col_type}{nullable}")
+            
+            create_sql = f"CREATE TABLE {table_name} ({', '.join(columns_sql)})"
+            logger.info(f"Creating simplified table {table_name}: {create_sql}")
+            conn.execute(text(create_sql))
+          except Exception as e2:
+            logger.error(f"Failed to create table {table_name} even with simplified approach: {e2}")
+            raise
+    
     logger.info(f"Created {len(metadata.tables)} tables in SQLite")
     
     if include_data:
