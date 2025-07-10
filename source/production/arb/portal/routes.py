@@ -64,6 +64,8 @@ from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 from arb.portal.utils.route_util import generate_upload_diagnostics, format_diagnostic_message, generate_staging_diagnostics
 from flask import current_app, send_file
 from arb.util.db_snapshot import create_sqlite_snapshot_from_engine, get_snapshot_info
+from arb.util.sqlite_diagnostics import analyze_sqlite_file, get_sqlite_summary, export_analysis_report
+from typing import Dict, Any
 import os
 import tempfile
 import datetime
@@ -1059,6 +1061,9 @@ def create_sqlite_snapshot() -> str:
       # Create download link using serve_file route
       download_url = url_for('main.serve_sqlite_snapshot', filename=snapshot_filename)
       
+      # Create diagnostics link
+      diagnostics_url = url_for('main.analyze_sqlite_snapshot', filename=snapshot_filename)
+      
       # Build warnings section if any warnings occurred
       warnings_html = ""
       if warnings:
@@ -1083,6 +1088,9 @@ def create_sqlite_snapshot() -> str:
         <br>
         <a href="{download_url}" class="btn btn-primary">
           <i class="fas fa-download"></i> Download SQLite Snapshot
+        </a>
+        <a href="{diagnostics_url}" class="btn btn-info">
+          <i class="fas fa-chart-bar"></i> View Detailed Analysis
         </a>
       </div>
       {warnings_html}
@@ -1158,6 +1166,233 @@ def serve_sqlite_snapshot(filename) -> Response:
     download_name=filename,
     mimetype='application/x-sqlite3'
   )
+
+
+@main.route('/analyze_sqlite_snapshot/<path:filename>')
+def analyze_sqlite_snapshot(filename) -> str:
+  """
+  Analyze a SQLite snapshot file and display comprehensive diagnostics.
+
+  Args:
+    filename (str): Name of the SQLite file to analyze.
+
+  Returns:
+    str: HTML response with detailed analysis results.
+
+  Notes:
+    - Performs comprehensive analysis of table structure, data integrity, and conversion issues
+    - Provides recommendations for using the SQLite file
+    - Includes export functionality for detailed reports
+    - Only files matching the arb_snapshot_*.sqlite pattern are allowed
+  """
+  logger.info(f"Analyzing SQLite snapshot: {filename}")
+  
+  # Validate filename for security
+  if not filename.startswith('arb_snapshot_') or not filename.endswith('.sqlite'):
+    return render_template('diagnostics.html',
+                         header="SQLite Analysis Error",
+                         html_content="<div class='alert alert-danger'><h4>Invalid filename</h4><p>Only arb_snapshot_*.sqlite files can be analyzed.</p></div>")
+  
+  snapshots_dir = os.path.join(os.getcwd(), "database_snapshots")
+  file_path = os.path.join(snapshots_dir, filename)
+  
+  if not os.path.exists(file_path):
+    return render_template('diagnostics.html',
+                         header="SQLite Analysis Error",
+                         html_content="<div class='alert alert-danger'><h4>File not found</h4><p>The specified SQLite file does not exist.</p></div>")
+  
+  try:
+    # Perform comprehensive analysis
+    analysis = analyze_sqlite_file(file_path)
+    
+    if "error" in analysis:
+      return render_template('diagnostics.html',
+                           header="SQLite Analysis Error",
+                           html_content=f"<div class='alert alert-danger'><h4>Analysis Error</h4><p>{analysis['error']}</p></div>")
+    
+    # Generate HTML content from analysis results
+    html_content = _format_analysis_html(analysis, filename)
+    
+    return render_template('diagnostics.html',
+                         header=f"SQLite Snapshot Analysis: {filename}",
+                         subheader="Comprehensive diagnostics and conversion verification",
+                         html_content=html_content)
+    
+  except Exception as e:
+    logger.error(f"Error analyzing SQLite file {filename}: {e}")
+    return render_template('diagnostics.html',
+                         header="SQLite Analysis Error",
+                         html_content=f"<div class='alert alert-danger'><h4>Unexpected Error</h4><p>Error analyzing SQLite file: {e}</p></div>")
+
+
+def _format_analysis_html(analysis: Dict[str, Any], filename: str) -> str:
+  """Format analysis results as HTML for display."""
+  file_info = analysis.get("file_info", {})
+  tables = analysis.get("tables", {})
+  data_integrity = analysis.get("data_integrity", {})
+  conversion_issues = analysis.get("conversion_issues", [])
+  recommendations = analysis.get("recommendations", [])
+  
+  # File Information Section
+  file_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>📁 File Information</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Path:</strong> {file_info.get('path', 'N/A')}</p>
+      <p><strong>Size:</strong> {file_info.get('size_mb', 'N/A')} MB ({file_info.get('size_bytes', 'N/A'):,} bytes)</p>
+      <p><strong>Created:</strong> {file_info.get('created', 'N/A')}</p>
+      <p><strong>Modified:</strong> {file_info.get('modified', 'N/A')}</p>
+    </div>
+  </div>
+  """
+  
+  # Tables Summary Section
+  total_rows = sum(table.get("row_count", 0) for table in tables.values())
+  tables_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>📊 Tables Summary</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Total Tables:</strong> {len(tables)}</p>
+      <p><strong>Total Rows:</strong> {total_rows:,}</p>
+      <p><strong>Tables with Data:</strong> {data_integrity.get('tables_with_data', 0)}</p>
+      <p><strong>Empty Tables:</strong> {len(data_integrity.get('empty_tables', []))}</p>
+    </div>
+  </div>
+  """
+  
+  # Data Integrity Section
+  integrity_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>🔍 Data Integrity</h5>
+    </div>
+    <div class="card-body">
+  """
+  
+  empty_tables = data_integrity.get("empty_tables", [])
+  if empty_tables:
+    integrity_html += f"<p><strong>Empty Tables ({len(empty_tables)}):</strong></p><ul>"
+    for table in empty_tables[:10]:  # Show first 10
+      integrity_html += f"<li>{table}</li>"
+    if len(empty_tables) > 10:
+      integrity_html += f"<li>... and {len(empty_tables) - 10} more</li>"
+    integrity_html += "</ul>"
+  
+  large_tables = data_integrity.get("large_tables", [])
+  if large_tables:
+    integrity_html += f"<p><strong>Large Tables (>10K rows):</strong></p><ul>"
+    for large_table in large_tables:
+      integrity_html += f"<li>{large_table['table']}: {large_table['rows']:,} rows</li>"
+    integrity_html += "</ul>"
+  
+  integrity_html += "</div></div>"
+  
+  # Conversion Issues Section
+  issues_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>⚠️ Conversion Issues</h5>
+    </div>
+    <div class="card-body">
+  """
+  
+  if conversion_issues:
+    issues_html += "<ul>"
+    for issue in conversion_issues:
+      issues_html += f"<li>{issue}</li>"
+    issues_html += "</ul>"
+  else:
+    issues_html += "<p class='text-success'>✅ No conversion issues detected!</p>"
+  
+  issues_html += "</div></div>"
+  
+  # Recommendations Section
+  rec_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>💡 Recommendations</h5>
+    </div>
+    <div class="card-body">
+      <ul>
+  """
+  
+  for rec in recommendations:
+    rec_html += f"<li>{rec}</li>"
+  
+  rec_html += "</ul></div></div>"
+  
+  # Export Report Button
+  export_html = f"""
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>📄 Export Report</h5>
+    </div>
+    <div class="card-body">
+      <p>Generate a detailed text report of this analysis:</p>
+      <a href="{url_for('main.export_sqlite_analysis', filename=filename)}" class="btn btn-secondary">
+        <i class="fas fa-file-download"></i> Export Analysis Report
+      </a>
+    </div>
+  </div>
+  """
+  
+  return file_html + tables_html + integrity_html + issues_html + rec_html + export_html
+
+
+@main.route('/export_sqlite_analysis/<path:filename>')
+def export_sqlite_analysis(filename) -> Response:
+  """
+  Export SQLite analysis results to a text report file.
+
+  Args:
+    filename (str): Name of the SQLite file to analyze.
+
+  Returns:
+    Response: Text file response with analysis report.
+
+  Notes:
+    - Generates a comprehensive text report of the SQLite analysis
+    - Includes all table details, conversion issues, and recommendations
+    - Only files matching the arb_snapshot_*.sqlite pattern are allowed
+  """
+  logger.info(f"Exporting SQLite analysis report: {filename}")
+  
+  # Validate filename for security
+  if not filename.startswith('arb_snapshot_') or not filename.endswith('.sqlite'):
+    abort(400, "Invalid filename")
+  
+  snapshots_dir = os.path.join(os.getcwd(), "database_snapshots")
+  file_path = os.path.join(snapshots_dir, filename)
+  
+  if not os.path.exists(file_path):
+    abort(404, "File not found")
+  
+  try:
+    # Perform analysis
+    analysis = analyze_sqlite_file(file_path)
+    
+    if "error" in analysis:
+      abort(500, f"Analysis error: {analysis['error']}")
+    
+    # Generate report file
+    report_filename = f"sqlite_analysis_{filename.replace('.sqlite', '')}_{dt.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    report_path = export_analysis_report(analysis, report_filename)
+    
+    # Serve the report file
+    return send_file(
+      report_path,
+      as_attachment=True,
+      download_name=report_filename,
+      mimetype='text/plain'
+    )
+    
+  except Exception as e:
+    logger.error(f"Error exporting SQLite analysis for {filename}: {e}")
+    abort(500, f"Export error: {e}")
 
 
 @main.route('/show_feedback_form_structure')
