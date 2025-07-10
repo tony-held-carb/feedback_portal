@@ -873,3 +873,26 @@ web_html.py
 diagnostics.py
 __init__.py
 log_util.py
+
+using a local postgres database
+  export DATABASE_URI=postgresql+psycopg2://postgres:<your_password>@localhost:5432/tony_home_tracker
+
+ checking the python path
+python -c "import sys; print('\n'.join(sys.path))"
+
+Best Value for Your Project
+D:\local\cursor\feedback_portal\source\production
+
+2. How to Set PYTHONPATH (Windows, CMD)
+You can set it for your current session with:
+set PYTHONPATH=D:\local\cursor\feedback_portal\source\production
+
+Or, to make it permanent for your user:
+setx PYTHONPATH "D:\local\cursor\feedback_portal\source\production"
+
+2. How to Append/Prepend
+To Prepend (recommended for your project):
+set PYTHONPATH=D:\local\cursor\feedback_portal\source\production;%PYTHONPATH%
+
+This puts your project directory first, so Python will look there before any other paths.
+set PYTHONPATH=%PYTHONPATH%;D:\local\cursor\feedback_portal\source\production

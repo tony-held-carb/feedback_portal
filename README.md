@@ -17,8 +17,11 @@
       * rm /home/theld/code/git_repos/feedback_portal/logs/*.log
     * show contents of the log file:
 * Laptop (Windows): http://127.0.0.1:2113/
-    * cd %portal%\source\production\arb"
+    * cd %portal%\source\production\arb
       * flask --app wsgi run --debug --no-reload -p 2113
+  * cursor says if you run from arb, Python treats arb as the current directory, not as a package, which can break relative imports and Flask’s app discovery. it recommends:
+    * cd %portal%\source\production
+      * flask --app arb/wsgi run --debug --no-reload -p 2113
 
 ### Common Git Commands
   * cd to project directory:
