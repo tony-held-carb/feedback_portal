@@ -23,6 +23,81 @@ from sqlalchemy.exc import SQLAlchemyError
 logger = logging.getLogger(__name__)
 
 
+def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
+  """
+  Clean PostgreSQL-specific features from metadata to make it SQLite-compatible.
+
+  Args:
+    metadata (MetaData): Original SQLAlchemy metadata from PostgreSQL.
+
+  Returns:
+    MetaData: Cleaned metadata suitable for SQLite.
+
+  Notes:
+    - Removes PostgreSQL sequences from DEFAULT values
+    - Converts PostgreSQL-specific data types to SQLite-compatible types
+    - Removes PostgreSQL-specific constraints and functions
+    - Handles GEOMETRY types by converting to TEXT
+  """
+  import re
+  
+  logger.info("Cleaning metadata for SQLite compatibility")
+  
+  for table_name, table in metadata.tables.items():
+    logger.info(f"Cleaning table: {table_name}")
+    
+    for column in table.columns:
+      # Handle PostgreSQL sequences in DEFAULT values
+      if column.default is not None:
+        default_str = str(column.default)
+        if 'nextval(' in default_str:
+          logger.info(f"  Removing sequence default from column {column.name}")
+          column.default = None
+          column.server_default = None
+      
+      # Convert PostgreSQL-specific types to SQLite-compatible types
+      if hasattr(column.type, '__class__'):
+        type_name = column.type.__class__.__name__
+        
+        if type_name in ['GEOMETRY', 'GEOGRAPHY']:
+          logger.info(f"  Converting {type_name} to TEXT for column {column.name}")
+          from sqlalchemy import Text
+          column.type = Text()
+        
+        elif type_name in ['UUID']:
+          logger.info(f"  Converting UUID to TEXT for column {column.name}")
+          from sqlalchemy import Text
+          column.type = Text()
+        
+        elif type_name in ['JSON', 'JSONB']:
+          logger.info(f"  Converting {type_name} to TEXT for column {column.name}")
+          from sqlalchemy import Text
+          column.type = Text()
+        
+        elif type_name in ['ARRAY']:
+          logger.info(f"  Converting ARRAY to TEXT for column {column.name}")
+          from sqlalchemy import Text
+          column.type = Text()
+    
+    # Remove PostgreSQL-specific constraints
+    constraints_to_remove = []
+    for constraint in table.constraints:
+      try:
+        if hasattr(constraint, 'sqltext'):
+          constraint_sql = str(constraint.sqltext)
+          if any(keyword in constraint_sql.upper() for keyword in ['REGCLASS', 'NEXTVAL', 'CURRVAL']):
+            logger.info(f"  Removing PostgreSQL-specific constraint: {constraint.name}")
+            constraints_to_remove.append(constraint)
+      except Exception:
+        # Skip constraints that can't be processed
+        continue
+    
+    for constraint in constraints_to_remove:
+      table.constraints.remove(constraint)
+  
+  return metadata
+
+
 def create_sqlite_snapshot_from_engine(
     source_engine: Engine,
     output_path: Optional[str] = None,
@@ -68,6 +143,9 @@ def create_sqlite_snapshot_from_engine(
     # Reflect schema from source engine
     metadata = MetaData()
     metadata.reflect(bind=source_engine)
+    
+    # Clean metadata for SQLite compatibility
+    metadata = clean_metadata_for_sqlite(metadata)
     
     # Create tables in SQLite
     metadata.create_all(sqlite_engine)
