@@ -328,11 +328,29 @@ def create_simplified_table(conn, table_name: str, table: Table) -> List[str]:
   
   # Create a simplified version of the table
   columns_sql = []
+  column_mapping = {}  # Track original -> safe column name mappings
+  
   for column in table.columns:
     # Convert column type to SQLite-compatible string
     col_type = get_sqlite_column_type(column)
     nullable = "" if column.nullable else " NOT NULL"
-    columns_sql.append(f"{column.name} {col_type}{nullable}")
+    
+    # Handle invalid SQLite column names (containing colons, spaces, etc.)
+    safe_column_name = column.name
+    if ':' in column.name or ' ' in column.name or column.name.startswith('_'):
+      # Replace colons with underscores and handle other invalid characters
+      safe_column_name = column.name.replace(':', '_').replace(' ', '_')
+      if safe_column_name.startswith('_'):
+        safe_column_name = 'col_' + safe_column_name[1:]
+      
+      warning_msg = f"Renamed column '{column.name}' to '{safe_column_name}' (invalid SQLite column name)"
+      logger.warning(warning_msg)
+      warnings.append(warning_msg)
+      
+      # Store the mapping for data copying
+      column_mapping[column.name] = safe_column_name
+    
+    columns_sql.append(f'"{safe_column_name}" {col_type}{nullable}')
   
   create_sql = f"CREATE TABLE {table_name} ({', '.join(columns_sql)})"
   logger.info(f"Creating simplified table {table_name}: {create_sql}")
@@ -341,6 +359,13 @@ def create_simplified_table(conn, table_name: str, table: Table) -> List[str]:
     conn.execute(text(create_sql))
     warning_msg = f"Created simplified table {table_name} (PostgreSQL features removed)"
     warnings.append(warning_msg)
+    
+    # Store column mapping in table metadata for data copying
+    if hasattr(table, '_column_mapping'):
+      table._column_mapping.update(column_mapping)
+    else:
+      table._column_mapping = column_mapping
+      
   except Exception as e:
     if "already exists" in str(e).lower():
       # Table was partially created, drop and recreate
@@ -349,6 +374,13 @@ def create_simplified_table(conn, table_name: str, table: Table) -> List[str]:
         conn.execute(text(create_sql))
         warning_msg = f"Recreated simplified table {table_name} after cleanup"
         warnings.append(warning_msg)
+        
+        # Store column mapping in table metadata for data copying
+        if hasattr(table, '_column_mapping'):
+          table._column_mapping.update(column_mapping)
+        else:
+          table._column_mapping = column_mapping
+          
       except Exception as e2:
         raise Exception(f"Failed to recreate table {table_name}: {e2}")
     else:
