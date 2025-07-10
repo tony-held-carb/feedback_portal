@@ -172,19 +172,8 @@
         
       <div class="alert alert-danger">
         <h4>Error Creating SQLite Snapshot</h4>
-        <p><strong>Error:</strong> Database error creating snapshot: (sqlite3.OperationalError) near "(": syntax error
-[SQL: 
-CREATE TABLE uploaded_files (
-	id_ INTEGER NOT NULL, 
-	path TEXT NOT NULL, 
-	description TEXT, 
-	status TEXT, 
-	created_timestamp TIMESTAMP DEFAULT now(), 
-	modified_timestamp TIMESTAMP DEFAULT now(), 
-	CONSTRAINT uploaded_files_pkey PRIMARY KEY (id_)
-)
-
-]
+        <p><strong>Error:</strong> Unexpected error creating snapshot: Failed to recreate table scenes: (sqlite3.OperationalError) near ":gas": syntax error
+[SQL: CREATE TABLE scenes (id TEXT, scene_id TEXT NOT NULL, public INTEGER, published_plume_count INTEGER, timestamp TEXT, created_scene TEXT, instrument TEXT, mission_phase TEXT, not_cloudy INTEGER, cloud_cover_pct TEXT, azimuth TEXT, gsd_scene TEXT, light_haze_pct TEXT, off_nadir TEXT, pixel_resolution TEXT, sensitivity_mode TEXT, solar_zenith_angle TEXT, sun_azimuth TEXT, sun_elevation TEXT, plume_count INTEGER, valid_plume_count INTEGER, assessment_status TEXT, note TEXT, atmospheric_artifacts TEXT, geolocation_error TEXT, image_artifacts TEXT, low_snr TEXT, gsd TEXT, cm:gas TEXT, created_l2b TEXT, proj:epsg TEXT, cm:cmf_type TEXT, processing:level TEXT, processing:lineage TEXT, view:sun_elevation TEXT, processing:software TEXT, version TEXT, cm:elevation TEXT, cm:elevation_source TEXT, cm:water_vapor TEXT, cm:water_vapor_source TEXT, gsd_l2b TEXT, view:zenith TEXT, eo:cloud_cover TEXT, geometry TEXT NOT NULL, proj:shape TEXT, cm:active_wavelengths TEXT, cm:elevation_units TEXT, cm:elevation_method TEXT, area_sqkm TEXT)]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)</p>
       </div>
       
