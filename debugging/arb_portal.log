@@ -1,0 +1,45 @@
++2025-07-09 17:23:42.204 | INFO     | arb.utils.sql_alchemy | user:anonymous | 395   | sql_alchemy.py       | type(table)=<class 'sqlalchemy.orm.decl_api.DeclarativeMeta'>
++2025-07-09 17:23:42.450 | DEBUG    | arb.utils.sql_alchemy | user:anonymous | 403   | sql_alchemy.py       | Query result: type(rows)=<class 'list'>
++2025-07-09 17:23:42.582 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET / HTTP/1.1" 200 -
++2025-07-09 17:23:42.636 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET /static/css/portal_styles_01.css HTTP/1.1" 304 -
++2025-07-09 17:23:42.654 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET /static/images/carb_logo_01.jpg HTTP/1.1" 304 -
++2025-07-09 17:23:42.667 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET /static/images/clipboard_01.jpeg HTTP/1.1" 304 -
++2025-07-09 17:23:42.677 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET /static/js/delete_confirmation.js HTTP/1.1" 304 -
++2025-07-09 17:23:42.743 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:42] "GET /favicon.ico HTTP/1.1" 404 -
++2025-07-09 17:23:47.069 | INFO     | arb.portal.routes | user:anonymous | 1032  | routes.py            | create_sqlite_snapshot() called
++2025-07-09 17:23:47.069 | INFO     | arb.portal.routes | user:anonymous | 1037  | routes.py            | Creating snapshot from existing engine
++2025-07-09 17:23:47.071 | INFO     | arb.util.db_snapshot | user:anonymous | 62    | db_snapshot.py       | Creating SQLite snapshot from existing engine
++2025-07-09 17:23:47.071 | INFO     | arb.util.db_snapshot | user:anonymous | 63    | db_snapshot.py       | Output path: C:\tony_local\pycharm\feedback_portal\source\production\arb\database_snapshots\arb_snapshot_20250709_172347.sqlite
++2025-07-09 17:23:48.076 | ERROR    | arb.util.db_snapshot | user:anonymous | 85    | db_snapshot.py       | Database error creating snapshot: (sqlite3.OperationalError) near "(": syntax error
+[SQL: 
+CREATE TABLE coabdis_geo83 (
+	gid INTEGER DEFAULT nextval('coabdis_geo83_gid_seq'::regclass) NOT NULL, 
+	objectid INTEGER, 
+	co_name VARCHAR(20), 
+	co_num INTEGER, 
+	basin_name VARCHAR(40), 
+	basa_id NUMERIC, 
+	dis_name VARCHAR(30), 
+	dist_type VARCHAR(11), 
+	disa_id NUMERIC, 
+	island_nam VARCHAR(35), 
+	island_id NUMERIC, 
+	bay_splint VARCHAR(35), 
+	bay_id NUMERIC, 
+	coabdis_id NUMERIC, 
+	coabdis_ar NUMERIC, 
+	shape_leng NUMERIC, 
+	shape_area NUMERIC, 
+	ab VARCHAR(3), 
+	dis VARCHAR(3), 
+	coabdis VARCHAR(10), 
+	geom GEOMETRY, 
+	CONSTRAINT coabdis_geo83_pkey PRIMARY KEY (gid)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
++2025-07-09 17:23:48.095 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:48] "GET /create_sqlite_snapshot HTTP/1.1" 200 -
++2025-07-09 17:23:48.139 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:48] "GET /static/js/delete_confirmation.js HTTP/1.1" 304 -
++2025-07-09 17:23:48.141 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:48] "GET /static/css/portal_styles_01.css HTTP/1.1" 304 -
++2025-07-09 17:23:48.143 | INFO     | werkzeug         | user:anonymous | 97    | _internal.py         | 127.0.0.1 - - [09/Jul/2025 17:23:48] "GET /static/images/carb_logo_01.jpg HTTP/1.1" 304 -
