@@ -65,13 +65,38 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> Tuple[MetaData, List[str]]:
             # Extract the actual SQL text from the TextClause
             actual_sql = default_obj.arg.text
             logger.info(f"    Actual SQL: {actual_sql}")
+            
+            # Check for PostgreSQL sequences
             if any(keyword in actual_sql.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
               warning_msg = f"Removing PostgreSQL sequence default from column {column.name} ({default_attr}): {actual_sql}"
               logger.warning(warning_msg)
               warnings.append(warning_msg)
               setattr(column, default_attr, None)
-          elif any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
-            warning_msg = f"Removing PostgreSQL sequence default from column {column.name} ({default_attr}): {default_str}"
+            
+            # Check for PostgreSQL now() function
+            elif 'now()' in actual_sql.lower():
+              warning_msg = f"Converting PostgreSQL now() to SQLite CURRENT_TIMESTAMP for column {column.name} ({default_attr})"
+              logger.warning(warning_msg)
+              warnings.append(warning_msg)
+              # Replace now() with CURRENT_TIMESTAMP
+              new_default = actual_sql.replace('now()', 'CURRENT_TIMESTAMP')
+              logger.info(f"    New default: {new_default}")
+              # Create a new DefaultClause with the corrected SQL
+              from sqlalchemy import text as sql_text
+              setattr(column, default_attr, text(new_default))
+            
+            # Check for other PostgreSQL timestamp functions
+            elif any(func in actual_sql.lower() for func in ['current_timestamp(', 'clock_timestamp(', 'statement_timestamp(']):
+              warning_msg = f"Converting PostgreSQL timestamp function to SQLite CURRENT_TIMESTAMP for column {column.name} ({default_attr})"
+              logger.warning(warning_msg)
+              warnings.append(warning_msg)
+              new_default = 'CURRENT_TIMESTAMP'
+              logger.info(f"    New default: {new_default}")
+              from sqlalchemy import text as sql_text
+              setattr(column, default_attr, text(new_default))
+          
+          elif any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass', 'now()']):
+            warning_msg = f"Removing PostgreSQL-specific default from column {column.name} ({default_attr}): {default_str}"
             logger.warning(warning_msg)
             warnings.append(warning_msg)
             setattr(column, default_attr, None)
@@ -241,6 +266,16 @@ def create_tables_in_sqlite(sqlite_engine: Engine, metadata: MetaData) -> List[s
     for table_name, table in metadata.tables.items():
       try:
         logger.info(f"Creating table: {table_name}")
+        logger.info(f"  Table columns: {[col.name for col in table.columns]}")
+        logger.info(f"  Table constraints: {[c.name for c in table.constraints]}")
+        
+        # Log the CREATE TABLE SQL that will be generated
+        try:
+          create_sql = str(table.compile(compile_kwargs={"literal_binds": True}))
+          logger.info(f"  Generated SQL: {create_sql}")
+        except Exception as sql_error:
+          logger.warning(f"  Could not generate SQL preview: {sql_error}")
+        
         table.create(conn, checkfirst=False)
         logger.info(f"Successfully created table: {table_name}")
         
