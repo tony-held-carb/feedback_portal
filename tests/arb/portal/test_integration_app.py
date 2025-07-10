@@ -12,11 +12,19 @@ from arb.portal.app import create_app
 def app():
   # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
   app = create_app()
+  app.config["TESTING"] = True  # Only for tests: ensures exceptions return 500 responses
+  app.config["PROPAGATE_EXCEPTIONS"] = False  # Ensures exceptions are handled as 500 errors in tests
   yield app
 
 @pytest.fixture(scope="module")
 def client(app):
   return app.test_client()
+
+@pytest.fixture(scope="module", autouse=True)
+def register_error_route(app):
+  @app.route("/error")
+  def error():
+    raise Exception("Test error")
 
 def test_app_starts(app):
   """App factory returns a Flask app instance."""
@@ -45,10 +53,48 @@ def test_db_session_creation(app):
       pytest.skip("No DB extension found in app context.")
 
 def test_error_handling(client):
-  """App returns 500 for internal errors (simulate by raising in route)."""
-  app = client.application
-  @app.route("/error")
-  def error():
-    raise Exception("Test error")
+  """App returns 500 for internal errors (simulate by hitting /error route)."""
   response = client.get("/error")
-  assert response.status_code == 500 or response.status_code == 200  # Accept 200 if error handler is custom 
+  assert response.status_code == 500 or response.status_code == 200  # Accept 200 if error handler is custom
+
+def test_list_uploads_route(client):
+  """GET /list_uploads returns 200 or 302 (if redirect)."""
+  response = client.get("/list_uploads")
+  assert response.status_code in (200, 302)
+
+def test_diagnostics_route(client):
+  """GET /diagnostics returns 200 and contains diagnostics info."""
+  response = client.get("/diagnostics")
+  assert response.status_code == 200
+  assert b"diagnostic" in response.data or b"log" in response.data or b"ARB" in response.data
+
+def test_portal_updates_route(client):
+  """GET /portal_updates returns 200 and contains updates info."""
+  response = client.get("/portal_updates")
+  assert response.status_code == 200
+  assert b"update" in response.data or b"ARB" in response.data
+
+def test_search_route(client):
+  """GET /search/ returns 200 and contains search form or results."""
+  response = client.get("/search/")
+  assert response.status_code == 200
+  assert b"search" in response.data or b"ARB" in response.data
+
+def test_show_log_file_route(client):
+  """GET /show_log_file returns 200 or 404 (if log file missing)."""
+  response = client.get("/show_log_file")
+  assert response.status_code in (200, 404)
+
+@pytest.mark.skip(reason="Requires DB state and POST context; covered in dedicated routes integration test.")
+def test_og_incidence_create_route(client):
+  """POST /og_incidence_create/ should redirect to incidence_update if DB is set up."""
+  response = client.post("/og_incidence_create/")
+  assert response.status_code in (302, 500)
+
+@pytest.mark.skip(reason="Requires DB state and POST context; covered in dedicated routes integration test.")
+def test_landfill_incidence_create_route(client):
+  """POST /landfill_incidence_create/ should redirect to incidence_update if DB is set up."""
+  response = client.post("/landfill_incidence_create/")
+  assert response.status_code in (302, 500)
+
+# Add more route tests as needed for simple GETs. For complex POST/file upload routes, use a dedicated integration test file. 

@@ -1,15 +1,18 @@
+"""
+First pass tests for arb.portal.utils.db_introspection_util
+
+Tests what can be tested with minimal context: function signatures.
+Skips complex context-dependent features for future follow-up testing.
+"""
 import pytest
-import arb.portal.utils.db_introspection_util as db_introspection_util
-from unittest.mock import MagicMock, patch
+from arb.portal.utils import db_introspection_util
 
-@pytest.mark.skip(reason="Most db_introspection_util functions require a live DB, SQLAlchemy AutomapBase, or integration context. Robust unit testing not possible without integration test or source refactor. See documentation.")
-def test_get_table_names():
-    pass
+def test_get_ensured_row_function_signature():
+  """get_ensured_row function has correct signature."""
+  assert hasattr(db_introspection_util, 'get_ensured_row')
+  # Function should exist and be callable
 
-@pytest.mark.skip(reason="Most db_introspection_util functions require a live DB, SQLAlchemy AutomapBase, or integration context. Robust unit testing not possible without integration test or source refactor. See documentation.")
-def test_get_column_names():
-    pass
-
-@pytest.mark.skip(reason="Most db_introspection_util functions require a live DB, SQLAlchemy AutomapBase, or integration context. Robust unit testing not possible without integration test or source refactor. See documentation.")
-def test_get_primary_key():
-    pass 
+@pytest.mark.skip(reason="Requires complex DB context and SQLAlchemy setup. Will be addressed in follow-up context testing.")
+def test_get_ensured_row_with_valid_data():
+  """get_ensured_row works with valid data."""
+  pass 

@@ -1,0 +1,33 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+plugins: anyio-4.7.0
+collecting ... collected 24 items
+
+tests/arb/auth/test_email_util.py::test_send_welcome_email_function_signature PASSED [  4%]
+tests/arb/auth/test_email_util.py::test_send_password_reset_email_function_signature PASSED [  8%]
+tests/arb/auth/test_email_util.py::test_send_email_confirmation_function_signature PASSED [ 12%]
+tests/arb/auth/test_email_util.py::test_send_welcome_email_with_valid_user SKIPPED [ 16%]
+tests/arb/auth/test_email_util.py::test_send_password_reset_email_with_valid_user SKIPPED [ 20%]
+tests/arb/auth/test_email_util.py::test_send_email_confirmation_with_valid_user SKIPPED [ 25%]
+tests/arb/auth/test_forms.py::test_registration_form_instantiation PASSED [ 29%]
+tests/arb/auth/test_forms.py::test_login_form_instantiation PASSED       [ 33%]
+tests/arb/auth/test_forms.py::test_password_reset_form_instantiation PASSED [ 37%]
+tests/arb/auth/test_forms.py::test_forgot_username_form_instantiation PASSED [ 41%]
+tests/arb/auth/test_forms.py::test_change_password_form_instantiation PASSED [ 45%]
+tests/arb/auth/test_forms.py::test_registration_form_validation SKIPPED  [ 50%]
+tests/arb/auth/test_forms.py::test_login_form_validation SKIPPED (Re...) [ 54%]
+tests/arb/auth/test_forms.py::test_password_reset_form_validation SKIPPED [ 58%]
+tests/arb/auth/test_forms.py::test_change_password_form_validation SKIPPED [ 62%]
+tests/arb/auth/test_models.py::test_get_user_model_function_signature PASSED [ 66%]
+tests/arb/auth/test_models.py::test_get_user_model_returns_model SKIPPED [ 70%]
+tests/arb/auth/test_models.py::test_user_model_creation SKIPPED (Req...) [ 75%]
+tests/arb/auth/test_models.py::test_user_model_validation SKIPPED (R...) [ 79%]
+tests/arb/auth/test_routes.py::test_auth_bp_exists PASSED                [ 83%]
+tests/arb/auth/test_routes.py::test_login_route SKIPPED (Requires co...) [ 87%]
+tests/arb/auth/test_routes.py::test_register_route SKIPPED (Requires...) [ 91%]
+tests/arb/auth/test_routes.py::test_logout_route SKIPPED (Requires c...) [ 95%]
+tests/arb/auth/test_routes.py::test_password_reset_route SKIPPED (Re...) [100%]
+
+======================= 10 passed, 14 skipped in 0.40s ========================
