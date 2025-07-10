@@ -112,3 +112,23 @@ def get_app_mode() -> str:
     # Returns 'dev' or the configured app mode
   """
   return current_app.config.get("APP_MODE", "dev")
+
+
+def get_database_uri() -> str:
+  """
+  Returns the SQLAlchemy database URI from the Flask app configuration.
+
+  Args:
+    None
+
+  Returns:
+    str: The configured SQLAlchemy database URI.
+
+  Raises:
+    KeyError: If 'SQLALCHEMY_DATABASE_URI' is not in the config.
+
+  Examples:
+    db_uri = get_database_uri()
+    # Returns the database connection string
+  """
+  return current_app.config["SQLALCHEMY_DATABASE_URI"]

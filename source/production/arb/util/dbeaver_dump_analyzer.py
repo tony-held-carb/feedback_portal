@@ -49,61 +49,78 @@ def read_sql_dump(file_path: str) -> str:
     raise OSError(f"Failed to read SQL dump {file_path}: {e}")
 
 
+def list_create_table_statements(file_path: str) -> List[str]:
+  """
+  List all CREATE TABLE statements (with schema if present) in a SQL dump file.
+
+  Args:
+    file_path (str): Path to the .sql file.
+
+  Returns:
+    List[str]: All CREATE TABLE statements found (first line only, for manual comparison).
+
+  Examples:
+    Input : "database_snapshots/dump-plumetracker-202507091443.sql"
+    Output: ["CREATE TABLE satellite_tracker_new.air_district_contacts (", ...]
+  """
+  dump_path = Path(file_path)
+  if not dump_path.exists():
+    raise FileNotFoundError(f"SQL dump file not found: {file_path}")
+  
+  with open(dump_path, 'r', encoding='utf-8') as f:
+    content = f.read()
+
+  # Robust regex: match CREATE TABLE [schema.]table_name ( ... ); (multiline)
+  create_table_pattern = r'CREATE\s+TABLE\s+((?:[\w]+\.)?[\w]+)\s*\((?:[^;]*?\n)*?\);'
+  matches = re.finditer(create_table_pattern, content, re.IGNORECASE)
+  
+  create_lines = []
+  for match in matches:
+    # Print the first line of the CREATE TABLE statement for easy comparison
+    statement = match.group(0)
+    first_line = statement.split('\n', 1)[0].strip()
+    create_lines.append(first_line)
+  return create_lines
+
+
 def extract_table_schemas_dbeaver(sql_content: str) -> Dict[str, Dict]:
   """
-  Extract table creation statements from DBeaver SQL dump.
+  Extract table creation statements from DBeaver SQL dump (robust multiline).
 
   Args:
     sql_content (str): SQL content from the DBeaver dump.
 
   Returns:
     Dict[str, Dict]: Mapping of table names to their schema information.
-      Each table dict contains:
-      - 'create_statement': Full CREATE TABLE statement
-      - 'columns': List of column definitions
-      - 'constraints': List of constraint definitions
-      - 'indexes': List of index definitions
-
-  Examples:
-    Input : "CREATE TABLE users (id SERIAL PRIMARY KEY, name TEXT);"
-    Output: {
-      'users': {
-        'create_statement': 'CREATE TABLE users...',
-        'columns': ['id SERIAL PRIMARY KEY', 'name TEXT'],
-        'constraints': [],
-        'indexes': []
-      }
-    }
   """
-  # DBeaver often includes schema prefixes and additional formatting
-  # Look for CREATE TABLE statements with or without schema prefixes
-  create_table_pattern = r'CREATE TABLE\s+(?:[^.]*\.)?([^\s(]+)\s*\(([^)]+)\);'
-  matches = re.finditer(create_table_pattern, sql_content, re.IGNORECASE | re.DOTALL)
+  # Robust regex: match CREATE TABLE [schema.]table_name ( ... ); (multiline)
+  create_table_pattern = r'CREATE\s+TABLE\s+((?:[\w]+\.)?[\w]+)\s*\((?:[^;]*?\n)*?\);'
+  matches = re.finditer(create_table_pattern, sql_content, re.IGNORECASE)
   
   schemas = {}
   for match in matches:
-    table_name = match.group(1).strip()
-    table_body = match.group(2).strip()
-    
-    # Split columns and constraints
-    lines = [line.strip() for line in table_body.split('\n') if line.strip()]
+    full_table_name = match.group(1).strip()
+    statement = match.group(0)
+    # Extract just the table name (without schema) for the key, but keep full name in schema
+    table_name = full_table_name.split('.')[-1]
+    # Extract columns and constraints (lines between first '(' and last ')')
+    body = statement[statement.find('(')+1:statement.rfind(')')]
+    lines = [line.strip() for line in body.split('\n') if line.strip()]
     columns = []
     constraints = []
-    
     for line in lines:
       line = line.strip().rstrip(',')
       if line.upper().startswith(('CONSTRAINT', 'PRIMARY KEY', 'FOREIGN KEY', 'UNIQUE', 'CHECK')):
         constraints.append(line)
       elif line and not line.startswith('--'):
         columns.append(line)
-    
     schemas[table_name] = {
-      'create_statement': match.group(0),
+      'full_table_name': full_table_name,
+      'create_statement': statement,
       'columns': columns,
       'constraints': constraints,
       'indexes': []
     }
-  
   return schemas
 
 
@@ -317,3 +334,14 @@ def get_table_details(sql_content: str, table_name: str) -> Dict:
         'sample_data': data_statements.get(table_name, [])[:3],  # First 3 rows
         'indexes': indexes.get(table_name, [])
     } 
+
+# Add a CLI entry point for listing CREATE TABLE statements
+if __name__ == "__main__":
+  import sys
+  if len(sys.argv) < 2:
+    print("Usage: python dbeaver_dump_analyzer.py <dump_file.sql>")
+    sys.exit(1)
+  dump_file = sys.argv[1]
+  print("All CREATE TABLE statements (first line only):")
+  for line in list_create_table_statements(dump_file):
+    print(line) 

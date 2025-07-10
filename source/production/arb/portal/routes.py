@@ -62,6 +62,11 @@ from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 from arb.portal.utils.route_util import generate_upload_diagnostics, format_diagnostic_message, generate_staging_diagnostics
+from flask import current_app, send_file
+from arb.util.db_snapshot import create_sqlite_snapshot_from_engine, get_snapshot_info
+import os
+import tempfile
+import datetime
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -1003,6 +1008,142 @@ def show_database_structure() -> str:
                          subheader="Reflecting SQLAlchemy model metadata.",
                          html_content=result,
                          )
+
+
+@main.route('/create_sqlite_snapshot')
+def create_sqlite_snapshot() -> str:
+  """
+  Create and download a SQLite snapshot of the current Postgres database for local development/testing.
+
+  Args:
+    None
+
+  Returns:
+    str: Rendered HTML page with download link or error message.
+
+  Notes:
+    - This route creates a SQLite copy of the current Postgres database using SQLAlchemy reflection.
+    - The snapshot includes all tables and data from the source database.
+    - A download link is provided for the generated SQLite file.
+    - The file is created with a timestamp in the filename for uniqueness.
+    - Files are saved to a dedicated snapshots directory for persistence.
+    - Uses the existing SQLAlchemy engine with all proper configuration and engine options.
+  """
+  logger.info(f"create_sqlite_snapshot() called")
+  
+  try:
+    # Use the existing SQLAlchemy engine that's already properly configured
+    source_engine = db.engine
+    logger.info(f"Creating snapshot from existing engine")
+    
+    # Create snapshots directory if it doesn't exist
+    snapshots_dir = os.path.join(os.getcwd(), "database_snapshots")
+    os.makedirs(snapshots_dir, exist_ok=True)
+    
+    # Generate unique filename with timestamp
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    snapshot_filename = f"arb_snapshot_{timestamp}.sqlite"
+    snapshot_path = os.path.join(snapshots_dir, snapshot_filename)
+    
+    # Create the SQLite snapshot using the existing engine
+    success, result = create_sqlite_snapshot_from_engine(
+      source_engine=source_engine,
+      output_path=snapshot_path,
+      include_data=True
+    )
+    
+    if success:
+      # Get info about the created snapshot
+      info = get_snapshot_info(snapshot_path)
+      
+      # Create download link using serve_file route
+      download_url = url_for('main.serve_sqlite_snapshot', filename=snapshot_filename)
+      
+      result_html = f"""
+      <div class="alert alert-success">
+        <h4>SQLite Snapshot Created Successfully!</h4>
+        <p><strong>File:</strong> {snapshot_filename}</p>
+        <p><strong>Size:</strong> {info['size_bytes']:,} bytes</p>
+        <p><strong>Tables:</strong> {info['table_count']}</p>
+        <p><strong>Total Rows:</strong> {info['total_rows']:,}</p>
+        <p><strong>Created:</strong> {info['created_time']}</p>
+        <br>
+        <a href="{download_url}" class="btn btn-primary">
+          <i class="fas fa-download"></i> Download SQLite Snapshot
+        </a>
+      </div>
+      """
+      
+      return render_template('diagnostics.html',
+                           header="Create SQLite Snapshot",
+                           subheader="Export Postgres DB to SQLite for local dev/testing",
+                           html_content=result_html,
+                           )
+    else:
+      error_html = f"""
+      <div class="alert alert-danger">
+        <h4>Error Creating SQLite Snapshot</h4>
+        <p><strong>Error:</strong> {result}</p>
+      </div>
+      """
+      
+      return render_template('diagnostics.html',
+                           header="Create SQLite Snapshot",
+                           subheader="Export Postgres DB to SQLite for local dev/testing",
+                           html_content=error_html,
+                           )
+  
+  except Exception as e:
+    error_msg = f"Unexpected error: {e}"
+    logger.error(error_msg)
+    
+    error_html = f"""
+    <div class="alert alert-danger">
+      <h4>Unexpected Error</h4>
+      <p><strong>Error:</strong> {error_msg}</p>
+    </div>
+    """
+    
+    return render_template('diagnostics.html',
+                         header="Create SQLite Snapshot",
+                         subheader="Export Postgres DB to SQLite for local dev/testing",
+                         html_content=error_html,
+                         )
+
+
+@main.route('/serve_sqlite_snapshot/<path:filename>')
+def serve_sqlite_snapshot(filename) -> Response:
+  """
+  Serve a SQLite snapshot file for download.
+
+  Args:
+    filename (str): Name of the SQLite file to serve.
+
+  Returns:
+    Response: File response for download.
+
+  Notes:
+    - This route serves SQLite snapshot files from the database_snapshots directory.
+    - Files are served with appropriate headers for SQLite database files.
+    - Only files matching the arb_snapshot_*.sqlite pattern are allowed.
+  """
+  # Validate filename for security
+  if not filename.startswith('arb_snapshot_') or not filename.endswith('.sqlite'):
+    abort(400, "Invalid filename")
+  
+  snapshots_dir = os.path.join(os.getcwd(), "database_snapshots")
+  file_path = os.path.join(snapshots_dir, filename)
+  
+  if not os.path.exists(file_path):
+    abort(404, "File not found")
+  
+  return send_from_directory(
+    snapshots_dir, 
+    filename,
+    as_attachment=True,
+    download_name=filename,
+    mimetype='application/x-sqlite3'
+  )
 
 
 @main.route('/show_feedback_form_structure')

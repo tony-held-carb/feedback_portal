@@ -1,0 +1,1288 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+plugins: anyio-4.7.0
+collecting ... collected 5 items
+
+tests/arb/portal/test_integration_app.py::test_app_starts ERROR          [ 20%]
+tests/arb/portal/test_integration_app.py::test_homepage_route ERROR      [ 40%]
+tests/arb/portal/test_integration_app.py::test_404_route ERROR           [ 60%]
+tests/arb/portal/test_integration_app.py::test_db_session_creation ERROR [ 80%]
+tests/arb/portal/test_integration_app.py::test_error_handling ERROR      [100%]
+
+=================================== ERRORS ====================================
+______________________ ERROR at setup of test_app_starts ______________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000027AEA4F4F10>
+engine = Engine(postgresql+psycopg2://methane:***@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="module")
+    def app():
+      # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
+>     app = create_app()
+            ^^^^^^^^^^^^
+
+tests\arb\portal\test_integration_app.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+source\production\arb\portal\app.py:80: in create_app
+    db_initialize_and_create()
+source\production\arb\portal\startup\db.py:132: in db_initialize_and_create
+    db_create()
+source\production\arb\portal\startup\db.py:109: in db_create
+    db.create_all()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:900: in create_all
+    self._call_for_binds(bind_key, "create_all")
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:881: in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\sql\schema.py:5907: in create_all
+    bind._run_ddl_visitor(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3248: in _run_ddl_visitor
+    with self.begin() as conn:
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3238: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3274: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+----------------------------- Captured log setup ------------------------------
+DEBUG    arb.portal.startup.flask:flask.py:114 Flask Jinja2 globals and logging initialized.
+____________________ ERROR at setup of test_homepage_route ____________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000027AEA4F4F10>
+engine = Engine(postgresql+psycopg2://methane:***@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="module")
+    def app():
+      # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
+>     app = create_app()
+            ^^^^^^^^^^^^
+
+tests\arb\portal\test_integration_app.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+source\production\arb\portal\app.py:80: in create_app
+    db_initialize_and_create()
+source\production\arb\portal\startup\db.py:132: in db_initialize_and_create
+    db_create()
+source\production\arb\portal\startup\db.py:109: in db_create
+    db.create_all()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:900: in create_all
+    self._call_for_binds(bind_key, "create_all")
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:881: in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\sql\schema.py:5907: in create_all
+    bind._run_ddl_visitor(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3248: in _run_ddl_visitor
+    with self.begin() as conn:
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3238: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3274: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+______________________ ERROR at setup of test_404_route _______________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000027AEA4F4F10>
+engine = Engine(postgresql+psycopg2://methane:***@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="module")
+    def app():
+      # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
+>     app = create_app()
+            ^^^^^^^^^^^^
+
+tests\arb\portal\test_integration_app.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+source\production\arb\portal\app.py:80: in create_app
+    db_initialize_and_create()
+source\production\arb\portal\startup\db.py:132: in db_initialize_and_create
+    db_create()
+source\production\arb\portal\startup\db.py:109: in db_create
+    db.create_all()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:900: in create_all
+    self._call_for_binds(bind_key, "create_all")
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:881: in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\sql\schema.py:5907: in create_all
+    bind._run_ddl_visitor(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3248: in _run_ddl_visitor
+    with self.begin() as conn:
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3238: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3274: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+_________________ ERROR at setup of test_db_session_creation __________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000027AEA4F4F10>
+engine = Engine(postgresql+psycopg2://methane:***@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="module")
+    def app():
+      # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
+>     app = create_app()
+            ^^^^^^^^^^^^
+
+tests\arb\portal\test_integration_app.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+source\production\arb\portal\app.py:80: in create_app
+    db_initialize_and_create()
+source\production\arb\portal\startup\db.py:132: in db_initialize_and_create
+    db_create()
+source\production\arb\portal\startup\db.py:109: in db_create
+    db.create_all()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:900: in create_all
+    self._call_for_binds(bind_key, "create_all")
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:881: in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\sql\schema.py:5907: in create_all
+    bind._run_ddl_visitor(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3248: in _run_ddl_visitor
+    with self.begin() as conn:
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3238: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3274: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+____________________ ERROR at setup of test_error_handling ____________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000027AEA4F4F10>
+engine = Engine(postgresql+psycopg2://methane:***@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="module")
+    def app():
+      # create_app() does not accept a 'testing' parameter; test config must be set via config/settings.py or environment
+>     app = create_app()
+            ^^^^^^^^^^^^
+
+tests\arb\portal\test_integration_app.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+source\production\arb\portal\app.py:80: in create_app
+    db_initialize_and_create()
+source\production\arb\portal\startup\db.py:132: in db_initialize_and_create
+    db_create()
+source\production\arb\portal\startup\db.py:109: in db_create
+    db.create_all()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:900: in create_all
+    self._call_for_binds(bind_key, "create_all")
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\flask_sqlalchemy\extension.py:881: in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\sql\schema.py:5907: in create_all
+    bind._run_ddl_visitor(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3248: in _run_ddl_visitor
+    with self.begin() as conn:
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3238: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3274: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\base.py:3298: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:713: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:179: in _do_get
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:675: in __init__
+    self.__connect()
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:901: in __connect
+    with util.safe_reraise():
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\pool\base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\sqlalchemy\engine\default.py:622: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = "host=prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com dbname=plumetracker user=methane password=methaneCH4 options='-c search_path=satellite_tracker_new,public -c timezone=UTC'"
+connection_factory = None, cursor_factory = None
+kwargs = {'dbname': 'plumetracker', 'host': 'prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com', 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC', 'password': 'methaneCH4', ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com" (10.93.123.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_01\Lib\site-packages\psycopg2\__init__.py:122: OperationalError
+=========================== short test summary info ===========================
+ERROR tests/arb/portal/test_integration_app.py::test_app_starts - sqlalchemy....
+ERROR tests/arb/portal/test_integration_app.py::test_homepage_route - sqlalch...
+ERROR tests/arb/portal/test_integration_app.py::test_404_route - sqlalchemy.e...
+ERROR tests/arb/portal/test_integration_app.py::test_db_session_creation - sq...
+ERROR tests/arb/portal/test_integration_app.py::test_error_handling - sqlalch...
+============================= 5 errors in 23.08s ==============================
