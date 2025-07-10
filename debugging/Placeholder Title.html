@@ -172,8 +172,19 @@
         
       <div class="alert alert-danger">
         <h4>Error Creating SQLite Snapshot</h4>
-        <p><strong>Error:</strong> Database error creating snapshot: (sqlite3.OperationalError) table coabdis_geo83 already exists
-[SQL: CREATE TABLE coabdis_geo83 (gid INTEGER NOT NULL, objectid INTEGER, co_name VARCHAR(20), co_num INTEGER, basin_name VARCHAR(40), basa_id NUMERIC, dis_name VARCHAR(30), dist_type VARCHAR(11), disa_id NUMERIC, island_nam VARCHAR(35), island_id NUMERIC, bay_splint VARCHAR(35), bay_id NUMERIC, coabdis_id NUMERIC, coabdis_ar NUMERIC, shape_leng NUMERIC, shape_area NUMERIC, ab VARCHAR(3), dis VARCHAR(3), coabdis VARCHAR(10), geom geometry(MULTIPOLYGON,4326))]
+        <p><strong>Error:</strong> Database error creating snapshot: (sqlite3.OperationalError) near "(": syntax error
+[SQL: 
+CREATE TABLE uploaded_files (
+	id_ INTEGER NOT NULL, 
+	path TEXT NOT NULL, 
+	description TEXT, 
+	status TEXT, 
+	created_timestamp TIMESTAMP DEFAULT now(), 
+	modified_timestamp TIMESTAMP DEFAULT now(), 
+	CONSTRAINT uploaded_files_pkey PRIMARY KEY (id_)
+)
+
+]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)</p>
       </div>
       
