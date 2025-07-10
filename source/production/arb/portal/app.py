@@ -66,6 +66,7 @@ def create_app() -> Flask:
 
   # Load configuration from config/settings.py
   app.config.from_object(get_config())
+  logger.info(f"App config SQLALCHEMY_DATABASE_URI: {app.config.get('SQLALCHEMY_DATABASE_URI')}")
 
   # Setup Jinja2, logging, and app-wide config
   configure_flask_app(app)
@@ -77,15 +78,17 @@ def create_app() -> Flask:
 
   # Database initialization and reflection (within app context)
   with app.app_context():
-    db_initialize_and_create()
-    reflect_database()
-
-    # Load dropdowns, mappings, and other global data
-    base: AutomapBase = get_reflected_base(db)  # reuse db.metadata without hitting DB again
-    app.base = base  # type: ignore[attr-defined]  # ✅ Attach automap base to app object
-
-    Globals.load_type_mapping(app, db, base)
-    Globals.load_drop_downs(app, db)
+    try:
+      db_initialize_and_create()
+      reflect_database()
+      # Load dropdowns, mappings, and other global data
+      base: AutomapBase = get_reflected_base(db)  # reuse db.metadata without hitting DB again
+      app.base = base  # type: ignore[attr-defined]  # ✅ Attach automap base to app object
+      logger.info(f"Automap base classes after reflection: {list(base.classes.keys())}")
+      Globals.load_type_mapping(app, db, base)
+      Globals.load_drop_downs(app, db)
+    except Exception as e:
+      logger.error(f"Error during app database setup: {e}")
 
   # Register route blueprints
   app.register_blueprint(main)

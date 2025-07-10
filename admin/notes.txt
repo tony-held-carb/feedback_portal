@@ -896,3 +896,17 @@ set PYTHONPATH=D:\local\cursor\feedback_portal\source\production;%PYTHONPATH%
 
 This puts your project directory first, so Python will look there before any other paths.
 set PYTHONPATH=%PYTHONPATH%;D:\local\cursor\feedback_portal\source\production
+
+How Dan creates a backup snapshot of the database
+while [ 1 ]
+do
+  env LD_LIBRARY_PATH=/home/plumes/apps/builds/postgresql-16.1/src/interfaces/libpq /home/plumes/apps/builds/postgresql-16.1/src/bin/pg_dump/pg_dump  --schema=satellite_tracker_new -d postgres://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1.cdae8kkz3fpi.us-west-2.rds.amazonaws.com:5432/plumetracker | gzip | aws s3 cp - s3://carbmethane/backups/plume_tracker_db/current_satellite_tracker`date +%y%m%d%H%M`.sql.gz
+  sleep 3600
+done
+
+importing the snapshot into my home postgress system
+psql -U postgres -c "DROP DATABASE IF EXISTS tony_home_tracker;"
+psql -U postgres -c "CREATE DATABASE tony_home_tracker;"
+psql -U postgres -c "CREATE ROLE methane LOGIN;"
+psql -U postgres -d tony_home_tracker -c "CREATE EXTENSION postgis;"
+psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql > import_02.log 2>&1
