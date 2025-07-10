@@ -7,23 +7,25 @@ This module provides functionality to:
   - Copy all tables and data from an existing SQLAlchemy engine to a SQLite database
   - Generate downloadable SQLite files for local development
   - Handle data type conversions between Postgres and SQLite
+  - Gracefully handle PostgreSQL/PostGIS features that don't exist in SQLite
 """
 import os
 import logging
 import tempfile
 import shutil
 from datetime import datetime
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, List
 from pathlib import Path
 
-from sqlalchemy import create_engine, MetaData, inspect, text
+from sqlalchemy import create_engine, MetaData, inspect, text, Column, Table
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.schema import CreateTable
 
 logger = logging.getLogger(__name__)
 
 
-def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
+def clean_metadata_for_sqlite(metadata: MetaData) -> Tuple[MetaData, List[str]]:
   """
   Clean PostgreSQL-specific features from metadata to make it SQLite-compatible.
 
@@ -31,15 +33,16 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
     metadata (MetaData): Original SQLAlchemy metadata from PostgreSQL.
 
   Returns:
-    MetaData: Cleaned metadata suitable for SQLite.
+    Tuple[MetaData, List[str]]: (cleaned metadata, list of warnings)
 
   Notes:
     - Removes PostgreSQL sequences from DEFAULT values
     - Converts PostgreSQL-specific data types to SQLite-compatible types
     - Removes PostgreSQL-specific constraints and functions
     - Handles GEOMETRY types by converting to TEXT
+    - Logs all conversions as warnings for transparency
   """
-  import re
+  warnings = []
   
   logger.info("Cleaning metadata for SQLite compatibility")
   
@@ -63,10 +66,14 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
             actual_sql = default_obj.arg.text
             logger.info(f"    Actual SQL: {actual_sql}")
             if any(keyword in actual_sql.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
-              logger.info(f"    Removing PostgreSQL sequence default from column {column.name} ({default_attr})")
+              warning_msg = f"Removing PostgreSQL sequence default from column {column.name} ({default_attr}): {actual_sql}"
+              logger.warning(warning_msg)
+              warnings.append(warning_msg)
               setattr(column, default_attr, None)
           elif any(keyword in default_str.lower() for keyword in ['nextval(', 'currval(', '::regclass']):
-            logger.info(f"    Removing PostgreSQL sequence default from column {column.name} ({default_attr})")
+            warning_msg = f"Removing PostgreSQL sequence default from column {column.name} ({default_attr}): {default_str}"
+            logger.warning(warning_msg)
+            warnings.append(warning_msg)
             setattr(column, default_attr, None)
       
       # Convert PostgreSQL-specific types to SQLite-compatible types
@@ -74,24 +81,46 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
         type_name = column.type.__class__.__name__
         
         if type_name in ['GEOMETRY', 'GEOGRAPHY']:
-          logger.info(f"  Converting {type_name} to TEXT for column {column.name}")
+          warning_msg = f"Converting {type_name} to TEXT for column {column.name} (PostGIS not supported in SQLite)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
           from sqlalchemy import Text
           column.type = Text()
         
         elif type_name in ['UUID']:
-          logger.info(f"  Converting UUID to TEXT for column {column.name}")
+          warning_msg = f"Converting UUID to TEXT for column {column.name} (UUID not natively supported in SQLite)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
           from sqlalchemy import Text
           column.type = Text()
         
         elif type_name in ['JSON', 'JSONB']:
-          logger.info(f"  Converting {type_name} to TEXT for column {column.name}")
+          warning_msg = f"Converting {type_name} to TEXT for column {column.name} (JSONB not natively supported in SQLite)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
           from sqlalchemy import Text
           column.type = Text()
         
         elif type_name in ['ARRAY']:
-          logger.info(f"  Converting ARRAY to TEXT for column {column.name}")
+          warning_msg = f"Converting ARRAY to TEXT for column {column.name} (ARRAY not supported in SQLite)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
           from sqlalchemy import Text
           column.type = Text()
+        
+        elif type_name in ['DOUBLE_PRECISION']:
+          warning_msg = f"Converting DOUBLE_PRECISION to REAL for column {column.name} (SQLite uses REAL for doubles)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
+          from sqlalchemy import Float
+          column.type = Float()
+        
+        elif type_name in ['NUMERIC']:
+          warning_msg = f"Converting NUMERIC to REAL for column {column.name} (SQLite uses REAL for numeric)"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
+          from sqlalchemy import Float
+          column.type = Float()
     
     # Remove PostgreSQL-specific constraints
     constraints_to_remove = []
@@ -100,7 +129,9 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
         if hasattr(constraint, 'sqltext'):
           constraint_sql = str(constraint.sqltext)
           if any(keyword in constraint_sql.upper() for keyword in ['REGCLASS', 'NEXTVAL', 'CURRVAL']):
-            logger.info(f"  Removing PostgreSQL-specific constraint: {constraint.name}")
+            warning_msg = f"Removing PostgreSQL-specific constraint from table {table_name}: {constraint.name}"
+            logger.warning(warning_msg)
+            warnings.append(warning_msg)
             constraints_to_remove.append(constraint)
       except Exception:
         # Skip constraints that can't be processed
@@ -109,14 +140,14 @@ def clean_metadata_for_sqlite(metadata: MetaData) -> MetaData:
     for constraint in constraints_to_remove:
       table.constraints.remove(constraint)
   
-  return metadata
+  return metadata, warnings
 
 
 def create_sqlite_snapshot_from_engine(
     source_engine: Engine,
     output_path: Optional[str] = None,
     include_data: bool = True
-) -> Tuple[bool, str]:
+) -> Tuple[bool, str, List[str]]:
   """
   Create a SQLite snapshot from an existing SQLAlchemy engine.
 
@@ -127,17 +158,20 @@ def create_sqlite_snapshot_from_engine(
     include_data (bool): Whether to copy data (True) or just schema (False).
 
   Returns:
-    Tuple[bool, str]: (success, message or file path)
+    Tuple[bool, str, List[str]]: (success, message or file path, warnings)
                      - success: True if snapshot created successfully
                      - message: Error message if failed, or file path if successful
+                     - warnings: List of warnings about conversions/limitations
 
   Examples:
     Input: source_engine=db.engine, output_path="snapshot.sqlite"
-    Output: (True, "/path/to/snapshot.sqlite")
+    Output: (True, "/path/to/snapshot.sqlite", ["Converted GEOMETRY to TEXT", ...])
 
     Input: source_engine=db.engine, output_path=None
-    Output: (True, "/tmp/arb_snapshot_20250709_143022.sqlite")
+    Output: (True, "/tmp/arb_snapshot_20250709_143022.sqlite", ["Removed sequence defaults", ...])
   """
+  warnings = []
+  
   try:
     # Create output path if not provided
     if output_path is None:
@@ -159,61 +193,183 @@ def create_sqlite_snapshot_from_engine(
     metadata.reflect(bind=source_engine)
     
     # Clean metadata for SQLite compatibility
-    metadata = clean_metadata_for_sqlite(metadata)
+    metadata, cleaning_warnings = clean_metadata_for_sqlite(metadata)
+    warnings.extend(cleaning_warnings)
     
-    # Create tables in SQLite
-    # Use a custom compilation context to handle PostGIS-specific SQL
-    with sqlite_engine.connect() as conn:
-      # Disable foreign key constraints temporarily
-      conn.execute(text("PRAGMA foreign_keys=OFF"))
-      
-      # Create tables one by one to handle any PostGIS-specific issues
-      for table_name, table in metadata.tables.items():
-        try:
-          logger.info(f"Creating table: {table_name}")
-          table.create(conn, checkfirst=False)
-        except Exception as e:
-          logger.warning(f"Error creating table {table_name}: {e}")
-          # Try creating without constraints
-          try:
-            # Create a simplified version of the table
-            columns_sql = []
-            for column in table.columns:
-              col_type = str(column.type)
-              nullable = "" if column.nullable else " NOT NULL"
-              columns_sql.append(f"{column.name} {col_type}{nullable}")
-            
-            create_sql = f"CREATE TABLE {table_name} ({', '.join(columns_sql)})"
-            logger.info(f"Creating simplified table {table_name}: {create_sql}")
-            conn.execute(text(create_sql))
-          except Exception as e2:
-            logger.error(f"Failed to create table {table_name} even with simplified approach: {e2}")
-            raise
+    # Create tables in SQLite with comprehensive error handling
+    table_creation_warnings = create_tables_in_sqlite(sqlite_engine, metadata)
+    warnings.extend(table_creation_warnings)
     
     logger.info(f"Created {len(metadata.tables)} tables in SQLite")
     
     if include_data:
       # Copy data from source engine to SQLite
-      copy_data_between_engines(source_engine, sqlite_engine, metadata)
+      data_copy_warnings = copy_data_between_engines(source_engine, sqlite_engine, metadata)
+      warnings.extend(data_copy_warnings)
     
     logger.info(f"SQLite snapshot created successfully: {output_path}")
-    return True, output_path
+    return True, output_path, warnings
     
   except SQLAlchemyError as e:
     error_msg = f"Database error creating snapshot: {e}"
     logger.error(error_msg)
-    return False, error_msg
+    return False, error_msg, warnings
   except Exception as e:
     error_msg = f"Unexpected error creating snapshot: {e}"
     logger.error(error_msg)
-    return False, error_msg
+    return False, error_msg, warnings
+
+
+def create_tables_in_sqlite(sqlite_engine: Engine, metadata: MetaData) -> List[str]:
+  """
+  Create tables in SQLite with comprehensive error handling for PostgreSQL/PostGIS features.
+
+  Args:
+    sqlite_engine (Engine): SQLite engine to create tables in.
+    metadata (MetaData): Cleaned metadata with SQLite-compatible types.
+
+  Returns:
+    List[str]: List of warnings about table creation issues.
+  """
+  warnings = []
+  
+  with sqlite_engine.connect() as conn:
+    # Disable foreign key constraints temporarily
+    conn.execute(text("PRAGMA foreign_keys=OFF"))
+    
+    # Create tables one by one to handle any PostgreSQL/PostGIS-specific issues
+    for table_name, table in metadata.tables.items():
+      try:
+        logger.info(f"Creating table: {table_name}")
+        table.create(conn, checkfirst=False)
+        logger.info(f"Successfully created table: {table_name}")
+        
+      except Exception as e:
+        error_msg = str(e)
+        logger.warning(f"Error creating table {table_name}: {error_msg}")
+        
+        # Check for specific PostgreSQL/PostGIS issues
+        if any(keyword in error_msg.lower() for keyword in [
+          'recovergeometrycolumn', 'addgeometrycolumn', 'postgis', 'geometry',
+          'nextval', 'currval', 'regclass', 'sequence', 'serial'
+        ]):
+          warning_msg = f"PostgreSQL/PostGIS feature detected in table {table_name}, using simplified creation"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
+          
+          # Try creating a simplified version of the table
+          try:
+            simplified_warnings = create_simplified_table(conn, table_name, table)
+            warnings.extend(simplified_warnings)
+          except Exception as e2:
+            error_msg2 = str(e2)
+            if "already exists" in error_msg2.lower():
+              warning_msg2 = f"Table {table_name} already exists, skipping creation"
+              logger.warning(warning_msg2)
+              warnings.append(warning_msg2)
+            else:
+              logger.error(f"Failed to create table {table_name} even with simplified approach: {e2}")
+              raise
+        else:
+          # Unknown error, re-raise
+          raise
+  
+  return warnings
+
+
+def create_simplified_table(conn, table_name: str, table: Table) -> List[str]:
+  """
+  Create a simplified table without PostgreSQL/PostGIS-specific features.
+
+  Args:
+    conn: SQLite connection.
+    table_name (str): Name of the table to create.
+    table (Table): SQLAlchemy table object.
+
+  Returns:
+    List[str]: List of warnings about simplifications made.
+  """
+  warnings = []
+  
+  # Create a simplified version of the table
+  columns_sql = []
+  for column in table.columns:
+    # Convert column type to SQLite-compatible string
+    col_type = get_sqlite_column_type(column)
+    nullable = "" if column.nullable else " NOT NULL"
+    columns_sql.append(f"{column.name} {col_type}{nullable}")
+  
+  create_sql = f"CREATE TABLE {table_name} ({', '.join(columns_sql)})"
+  logger.info(f"Creating simplified table {table_name}: {create_sql}")
+  
+  try:
+    conn.execute(text(create_sql))
+    warning_msg = f"Created simplified table {table_name} (PostgreSQL features removed)"
+    warnings.append(warning_msg)
+  except Exception as e:
+    if "already exists" in str(e).lower():
+      # Table was partially created, drop and recreate
+      try:
+        conn.execute(text(f"DROP TABLE {table_name}"))
+        conn.execute(text(create_sql))
+        warning_msg = f"Recreated simplified table {table_name} after cleanup"
+        warnings.append(warning_msg)
+      except Exception as e2:
+        raise Exception(f"Failed to recreate table {table_name}: {e2}")
+    else:
+      raise
+  
+  return warnings
+
+
+def get_sqlite_column_type(column: Column) -> str:
+  """
+  Get SQLite-compatible column type string.
+
+  Args:
+    column (Column): SQLAlchemy column object.
+
+  Returns:
+    str: SQLite-compatible type string.
+  """
+  type_name = column.type.__class__.__name__
+  
+  # Map PostgreSQL types to SQLite types
+  type_mapping = {
+    'INTEGER': 'INTEGER',
+    'BIGINT': 'INTEGER',
+    'SMALLINT': 'INTEGER',
+    'SERIAL': 'INTEGER',
+    'BIGSERIAL': 'INTEGER',
+    'SMALLSERIAL': 'INTEGER',
+    'VARCHAR': 'TEXT',
+    'CHAR': 'TEXT',
+    'TEXT': 'TEXT',
+    'FLOAT': 'REAL',
+    'DOUBLE_PRECISION': 'REAL',
+    'NUMERIC': 'REAL',
+    'DECIMAL': 'REAL',
+    'REAL': 'REAL',
+    'TIMESTAMP': 'TEXT',
+    'DATE': 'TEXT',
+    'TIME': 'TEXT',
+    'BOOLEAN': 'INTEGER',
+    'UUID': 'TEXT',
+    'JSON': 'TEXT',
+    'JSONB': 'TEXT',
+    'ARRAY': 'TEXT',
+    'GEOMETRY': 'TEXT',
+    'GEOGRAPHY': 'TEXT',
+  }
+  
+  return type_mapping.get(type_name, 'TEXT')
 
 
 def copy_data_between_engines(
     source_engine: Engine,
     target_engine: Engine,
     metadata: MetaData
-) -> None:
+) -> List[str]:
   """
   Copy all data from source engine to target engine for all tables in metadata.
 
@@ -222,11 +378,16 @@ def copy_data_between_engines(
     target_engine (Engine): Target SQLAlchemy engine (SQLite).
     metadata (MetaData): SQLAlchemy metadata containing table definitions.
 
+  Returns:
+    List[str]: List of warnings about data copying issues.
+
   Notes:
     - Handles data type conversions between Postgres and SQLite.
     - Processes tables in dependency order to handle foreign key constraints.
     - Logs progress for large datasets.
+    - Gracefully handles conversion errors with warnings.
   """
+  warnings = []
   inspector = inspect(source_engine)
   
   # Get tables in dependency order (parents before children)
@@ -252,21 +413,111 @@ def copy_data_between_engines(
       # Insert data into target
       with target_engine.connect() as target_conn:
         # Convert rows to dictionaries for easier handling
-        data_dicts = [dict(zip(columns, row)) for row in rows]
+        data_dicts = []
+        for row in rows:
+          try:
+            # Convert row data to SQLite-compatible format
+            converted_row = convert_row_for_sqlite(row, columns, table)
+            data_dicts.append(converted_row)
+          except Exception as e:
+            warning_msg = f"Failed to convert row in table {table_name}: {e}"
+            logger.warning(warning_msg)
+            warnings.append(warning_msg)
+            continue
+        
+        if not data_dicts:
+          warning_msg = f"No valid data to copy for table {table_name}"
+          logger.warning(warning_msg)
+          warnings.append(warning_msg)
+          continue
         
         # Insert in batches to handle large datasets
         batch_size = 1000
         for i in range(0, len(data_dicts), batch_size):
           batch = data_dicts[i:i + batch_size]
-          target_conn.execute(table.insert(), batch)
-          target_conn.commit()
+          try:
+            target_conn.execute(table.insert(), batch)
+            target_conn.commit()
+          except Exception as e:
+            warning_msg = f"Failed to insert batch {i//batch_size + 1} for table {table_name}: {e}"
+            logger.warning(warning_msg)
+            warnings.append(warning_msg)
+            continue
         
-        logger.info(f"  Successfully copied {len(rows)} rows to {table_name}")
+        logger.info(f"  Successfully copied {len(data_dicts)} rows to {table_name}")
     
     except Exception as e:
-      logger.error(f"  Error copying data for table {table_name}: {e}")
+      warning_msg = f"Error copying data for table {table_name}: {e}"
+      logger.warning(warning_msg)
+      warnings.append(warning_msg)
       # Continue with other tables even if one fails
       continue
+  
+  return warnings
+
+
+def convert_row_for_sqlite(row, columns, table: Table) -> Dict:
+  """
+  Convert a row of data to SQLite-compatible format.
+
+  Args:
+    row: Raw row data from PostgreSQL.
+    columns: Column names.
+    table (Table): SQLAlchemy table object.
+
+  Returns:
+    Dict: Converted row data.
+  """
+  converted_row = {}
+  
+  for i, column_name in enumerate(columns):
+    value = row[i]
+    
+    # Handle None values
+    if value is None:
+      converted_row[column_name] = None
+      continue
+    
+    # Get column type for conversion
+    column = table.columns.get(column_name)
+    if column is None:
+      # Column not found in table, skip
+      continue
+    
+    type_name = column.type.__class__.__name__
+    
+    try:
+      # Convert based on type
+      if type_name in ['GEOMETRY', 'GEOGRAPHY']:
+        # Convert geometry to WKT string
+        converted_row[column_name] = str(value) if value else None
+      elif type_name in ['UUID']:
+        # Convert UUID to string
+        converted_row[column_name] = str(value) if value else None
+      elif type_name in ['JSON', 'JSONB']:
+        # Convert JSON to string
+        if isinstance(value, (dict, list)):
+          import json
+          converted_row[column_name] = json.dumps(value)
+        else:
+          converted_row[column_name] = str(value) if value else None
+      elif type_name in ['ARRAY']:
+        # Convert array to string
+        converted_row[column_name] = str(value) if value else None
+      elif type_name in ['TIMESTAMP']:
+        # Convert timestamp to string
+        converted_row[column_name] = str(value) if value else None
+      elif type_name in ['BOOLEAN']:
+        # Convert boolean to integer
+        converted_row[column_name] = 1 if value else 0
+      else:
+        # Use value as-is for compatible types
+        converted_row[column_name] = value
+    except Exception as e:
+      # If conversion fails, use string representation
+      converted_row[column_name] = str(value) if value else None
+  
+  return converted_row
 
 
 def get_snapshot_info(sqlite_path: str) -> Dict[str, Any]:
@@ -283,94 +534,90 @@ def get_snapshot_info(sqlite_path: str) -> Dict[str, Any]:
                    - created_time (str): File creation timestamp
                    - table_count (int): Number of tables
                    - total_rows (int): Total rows across all tables
-                   - error (str): Error message if any
 
   Examples:
-    Input: sqlite_path="snapshot.sqlite"
+    Input : "snapshot.sqlite"
     Output: {
-      "exists": True,
-      "size_bytes": 1048576,
-      "created_time": "2025-07-09 14:30:22",
-      "table_count": 15,
-      "total_rows": 1250,
-      "error": None
+      'exists': True,
+      'size_bytes': 1048576,
+      'created_time': '2025-07-09 14:30:22',
+      'table_count': 15,
+      'total_rows': 1250
     }
   """
-  info = {
-    "exists": False,
-    "size_bytes": 0,
-    "created_time": None,
-    "table_count": 0,
-    "total_rows": 0,
-    "error": None
-  }
-  
   try:
-    if not os.path.exists(sqlite_path):
-      info["error"] = f"File not found: {sqlite_path}"
-      return info
+    path = Path(sqlite_path)
+    if not path.exists():
+      return {'exists': False}
     
-    # File info
-    stat = os.stat(sqlite_path)
-    info["exists"] = True
-    info["size_bytes"] = stat.st_size
-    info["created_time"] = datetime.fromtimestamp(stat.st_ctime).strftime("%Y-%m-%d %H:%M:%S")
+    # Get basic file info
+    stat = path.stat()
+    created_time = datetime.fromtimestamp(stat.st_ctime).strftime('%Y-%m-%d %H:%M:%S')
     
-    # Database info
+    # Get database info
     engine = create_engine(f"sqlite:///{sqlite_path}")
     inspector = inspect(engine)
     
     tables = inspector.get_table_names()
-    info["table_count"] = len(tables)
-    
-    # Count total rows
     total_rows = 0
-    with engine.connect() as conn:
-      for table in tables:
-        result = conn.execute(text(f"SELECT COUNT(*) FROM {table}"))
-        count = result.scalar()
-        if count is not None:
-          total_rows += count
     
-    info["total_rows"] = total_rows
+    for table in tables:
+      try:
+        with engine.connect() as conn:
+          result = conn.execute(text(f"SELECT COUNT(*) FROM {table}"))
+          count = result.scalar()
+          total_rows += count
+      except Exception:
+        # Skip tables that can't be counted
+        continue
+    
+    return {
+      'exists': True,
+      'size_bytes': stat.st_size,
+      'created_time': created_time,
+      'table_count': len(tables),
+      'total_rows': total_rows
+    }
     
   except Exception as e:
-    info["error"] = f"Error reading snapshot info: {e}"
-    logger.error(f"Error getting snapshot info for {sqlite_path}: {e}")
-  
-  return info
+    logger.error(f"Error getting snapshot info: {e}")
+    return {'exists': False, 'error': str(e)}
 
 
 def cleanup_old_snapshots(directory: str, max_age_hours: int = 24) -> int:
   """
-  Clean up old SQLite snapshot files in a directory.
+  Clean up old SQLite snapshot files.
 
   Args:
-    directory (str): Directory to search for snapshot files.
-    max_age_hours (int): Maximum age in hours before files are deleted.
+    directory (str): Directory containing snapshot files.
+    max_age_hours (int): Maximum age in hours before deletion.
 
   Returns:
     int: Number of files deleted.
 
-  Notes:
-    - Only deletes files matching pattern "arb_snapshot_*.sqlite"
-    - Files older than max_age_hours will be removed.
-    - Logs all deletions for audit purposes.
+  Examples:
+    Input : directory="snapshots", max_age_hours=24
+    Output: 3
   """
-  deleted_count = 0
-  cutoff_time = datetime.now().timestamp() - (max_age_hours * 3600)
-  
   try:
-    for file_path in Path(directory).glob("arb_snapshot_*.sqlite"):
+    path = Path(directory)
+    if not path.exists():
+      return 0
+    
+    cutoff_time = datetime.now().timestamp() - (max_age_hours * 3600)
+    deleted_count = 0
+    
+    for file_path in path.glob("*.sqlite"):
       if file_path.stat().st_mtime < cutoff_time:
         try:
           file_path.unlink()
-          logger.info(f"Deleted old snapshot: {file_path}")
           deleted_count += 1
+          logger.info(f"Deleted old snapshot: {file_path}")
         except Exception as e:
           logger.error(f"Failed to delete {file_path}: {e}")
-  
+    
+    return deleted_count
+    
   except Exception as e:
-    logger.error(f"Error during cleanup: {e}")
-  
-  return deleted_count 
+    logger.error(f"Error cleaning up snapshots: {e}")
+    return 0 

@@ -1046,7 +1046,7 @@ def create_sqlite_snapshot() -> str:
     snapshot_path = os.path.join(snapshots_dir, snapshot_filename)
     
     # Create the SQLite snapshot using the existing engine
-    success, result = create_sqlite_snapshot_from_engine(
+    success, result, warnings = create_sqlite_snapshot_from_engine(
       source_engine=source_engine,
       output_path=snapshot_path,
       include_data=True
@@ -1059,9 +1059,22 @@ def create_sqlite_snapshot() -> str:
       # Create download link using serve_file route
       download_url = url_for('main.serve_sqlite_snapshot', filename=snapshot_filename)
       
+      # Build warnings section if any warnings occurred
+      warnings_html = ""
+      if warnings:
+        warnings_list = "\n".join([f"<li>{warning}</li>" for warning in warnings])
+        warnings_html = f"""
+        <div class="alert alert-warning">
+          <h5>⚠️ Conversion Warnings</h5>
+          <p>The following PostgreSQL/PostGIS features were converted for SQLite compatibility:</p>
+          <ul>{warnings_list}</ul>
+          <p><small>These conversions are normal and expected when converting from PostgreSQL to SQLite.</small></p>
+        </div>
+        """
+      
       result_html = f"""
       <div class="alert alert-success">
-        <h4>SQLite Snapshot Created Successfully!</h4>
+        <h4>✅ SQLite Snapshot Created Successfully!</h4>
         <p><strong>File:</strong> {snapshot_filename}</p>
         <p><strong>Size:</strong> {info['size_bytes']:,} bytes</p>
         <p><strong>Tables:</strong> {info['table_count']}</p>
@@ -1072,6 +1085,7 @@ def create_sqlite_snapshot() -> str:
           <i class="fas fa-download"></i> Download SQLite Snapshot
         </a>
       </div>
+      {warnings_html}
       """
       
       return render_template('diagnostics.html',
