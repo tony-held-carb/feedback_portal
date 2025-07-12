@@ -7,6 +7,18 @@ Skips complex context-dependent features for future follow-up testing.
 import pytest
 from flask import Flask
 from arb.portal.wtf_upload import UploadForm
+from werkzeug.datastructures import FileStorage
+import io
+import tempfile
+
+# Helper to create a FileStorage object for testing
+
+def make_filestorage(filename, content=b"dummy", content_type="application/vnd.ms-excel"):
+  return FileStorage(
+    stream=io.BytesIO(content),
+    filename=filename,
+    content_type=content_type
+  )
 
 @pytest.fixture(scope="module")
 def app():
@@ -41,17 +53,37 @@ def test_submit_field_present(app_ctx):
   assert hasattr(form, 'submit')
   assert form.submit.label.text == "Upload"
 
-@pytest.mark.skip(reason="Requires complex Flask request context and file upload data. Will be addressed in follow-up context testing.")
-def test_form_validation_with_file(app_ctx):
-  """Form validates correctly with valid file upload."""
-  pass
+def test_form_validation_with_valid_excel_file(app):
+  """Form validates with a valid .xlsx file upload."""
+  with app.test_request_context(method="POST", data={}):
+    form = UploadForm()
+    file = make_filestorage("test.xlsx")
+    form.file.data = file
+    assert form.validate() is True
 
-@pytest.mark.skip(reason="Requires complex Flask request context and file upload data. Will be addressed in follow-up context testing.")
-def test_form_validation_with_invalid_file(app_ctx):
-  """Form validation fails with invalid file type."""
-  pass
+def test_form_validation_with_invalid_file_type(app):
+  """Form fails validation with a .txt file upload (invalid type)."""
+  with app.test_request_context(method="POST", data={}):
+    form = UploadForm()
+    file = make_filestorage("test.txt", content_type="text/plain")
+    form.file.data = file
+    assert form.validate() is False
+    assert any("Excel files only" in str(e) for e in form.file.errors)
 
-@pytest.mark.skip(reason="Requires complex Flask request context and file upload data. Will be addressed in follow-up context testing.")
-def test_form_validation_without_file(app_ctx):
-  """Form validation fails when no file is provided."""
-  pass 
+def test_form_validation_without_file(app):
+  """Form fails validation when no file is provided."""
+  with app.test_request_context(method="POST", data={}):
+    form = UploadForm()
+    form.file.data = None
+    assert form.validate() is False
+    assert any("This field is required" in str(e) for e in form.file.errors)
+
+def test_form_validation_with_empty_filename(app):
+  """Form fails validation when file has empty filename."""
+  with app.test_request_context(method="POST", data={}):
+    form = UploadForm()
+    file = make_filestorage("")
+    form.file.data = file
+    assert form.validate() is False
+    # Should fail DataRequired
+    assert any("This field is required" in str(e) for e in form.file.errors) 
