@@ -41,4 +41,39 @@ def test_env_override_sqlalchemy_database_uri(monkeypatch):
     monkeypatch.setenv("DATABASE_URI", "postgresql://test/test")
     import importlib
     importlib.reload(settings)
-    assert settings.BaseConfig.SQLALCHEMY_DATABASE_URI == "postgresql://test/test" 
+    assert settings.BaseConfig.SQLALCHEMY_DATABASE_URI == "postgresql://test/test"
+
+def test_fast_load_environment_variable_true(monkeypatch):
+    """Test FAST_LOAD is set to True when FAST_LOAD=true environment variable is set."""
+    monkeypatch.setenv("FAST_LOAD", "true")
+    import importlib
+    importlib.reload(settings)
+    assert settings.BaseConfig.FAST_LOAD is True
+
+def test_fast_load_environment_variable_false(monkeypatch):
+    """Test FAST_LOAD remains False when FAST_LOAD is not 'true'."""
+    monkeypatch.setenv("FAST_LOAD", "false")
+    import importlib
+    importlib.reload(settings)
+    assert settings.BaseConfig.FAST_LOAD is False
+
+def test_fast_load_environment_variable_not_set(monkeypatch):
+    """Test FAST_LOAD remains False when FAST_LOAD environment variable is not set."""
+    monkeypatch.delenv("FAST_LOAD", raising=False)
+    import importlib
+    importlib.reload(settings)
+    assert settings.BaseConfig.FAST_LOAD is False
+
+def test_secret_key_from_environment(monkeypatch):
+    """Test SECRET_KEY is set from environment variable when available."""
+    monkeypatch.setenv("SECRET_KEY", "test-secret-key")
+    import importlib
+    importlib.reload(settings)
+    assert settings.BaseConfig.SECRET_KEY == "test-secret-key"
+
+def test_secret_key_default_when_not_set(monkeypatch):
+    """Test SECRET_KEY defaults to 'secret-key-goes-here' when not set in environment."""
+    monkeypatch.delenv("SECRET_KEY", raising=False)
+    import importlib
+    importlib.reload(settings)
+    assert settings.BaseConfig.SECRET_KEY == "secret-key-goes-here" 

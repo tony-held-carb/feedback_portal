@@ -34,6 +34,12 @@ def test_get_app_mode_custom():
         app.config["APP_MODE"] = "prod"
         assert accessors.get_app_mode() == "prod"
 
+def test_get_database_uri():
+    app = Flask(__name__)
+    with app.app_context():
+        app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://test/test"
+        assert accessors.get_database_uri() == "postgresql://test/test"
+
 def test_missing_config_keys():
     app = Flask(__name__)
     with app.app_context():
@@ -42,4 +48,6 @@ def test_missing_config_keys():
         with pytest.raises(KeyError):
             accessors.get_upload_folder()
         with pytest.raises(KeyError):
-            accessors.get_payload_save_dir() 
+            accessors.get_payload_save_dir()
+        with pytest.raises(KeyError):
+            accessors.get_database_uri() 
