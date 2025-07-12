@@ -1,87 +1,86 @@
 # Quick Start Guide - Running Tests
 
-## Prerequisites
+This file provides minimal steps to get up and running with tests. 
 
-1. **Set PYTHONPATH** (from project root):
-   ```bash
+For addtionial details see
+- [Project Testing](./project_testing.md)
+
+
+## Setup
+
+1. Set directory to project root: `D:\local\cursor\feedback_portal`
+   cd /d "D:\local\cursor\feedback_portal"
+
+2. Set PYTHONPATH (from project root):
    set PYTHONPATH=D:\local\cursor\feedback_portal\source\production;%PYTHONPATH%
-   ```
+   echo %PYTHONPATH%
 
-2. **Install Dependencies**:
-   ```bash
+3. Install Dependencies
    pip install pytest selenium webdriver-manager
-   ```
+
+## Test Options
+
+1. Use the -v flag for verbose diagnostics
+2. Redirect output and errors to diagnostic file rather than terminal
+   - this will stop cursor from hanging
+   - pytest tests/arb/ -v > test_output.txt 2>&1
+3. If you want to run the test in Pycharm
+   - Right-click the test file or function and select "Run pytest…"
 
 ## Test Types & How to Run
 
 ### 1. Unit Tests
 **Purpose:** Test individual functions and modules
-```bash
-# Run all unit tests
-pytest tests/arb/
 
-# Run specific test file
-pytest tests/arb/utils/test_date_and_time.py
+#### Run all unit tests
+pytest tests/arb/ -v > test_units.txt 2>&1
 
-# Run with verbose output
-pytest -v tests/arb/
-```
+#### Run specific test file
+pytest tests/arb/utils/test_date_and_time.py -v > test_unit_date_and_time.txt 2>&1
 
 ### 2. Integration Tests
 **Purpose:** Test complete workflows and database operations
-```bash
-# Run all integration tests
-pytest tests/arb/portal/
 
-# Run specific integration test
-pytest tests/arb/portal/test_file_upload_suite.py
+#### Run all integration tests
+pytest tests/arb/portal/ -v > test_integration.txt 2>&1
 
-# Run with output redirection
-pytest tests/arb/portal/ > integration_test_output.txt 2>&1
-```
+#### Run specific integration test
+pytest tests/arb/portal/test_file_upload_suite.py -v > test_output.txt 2>&1
 
-### 3. E2E UI Tests
-**Purpose:** Test complete user workflows via browser automation
-```bash
-# Start Flask app first (in separate terminal)
-cd source/production
-python -m flask run
-
-# Run E2E tests (in another terminal)
-python tests/e2e/test_excel_upload_ui.py > e2e_test_output.txt 2>&1
-```
-
-### 4. Generate Test Data
+### 3. Generate Test Data
 **Purpose:** Create Excel files for testing
-```bash
-# Generate comprehensive test data
+
+#### Generate comprehensive test data
 python scripts/generate_test_excel_files.py > generate_test_data_output.txt 2>&1
 
-# Output location: feedback_forms/testing_versions/generated/
-```
+#### Output location: feedback_forms/testing_versions/generated/
 
-## Quick Test Commands
+### 4. E2E UI Tests
+**Purpose:** Test complete user workflows via browser automation
 
-### Run All Tests (Recommended Order)
-```bash
-# 1. Unit tests
-pytest tests/arb/ -v
+#### Start Flask app first (in separate terminal)
+cd D:\local\cursor\feedback_portal\source\production
+flask --app arb/wsgi run --debug --no-reload
 
-# 2. Integration tests  
-pytest tests/arb/portal/ -v
+#### Run E2E tests (in another terminal)
+python tests/e2e/test_excel_upload_ui.py > e2e_test_output.txt 2>&1
 
-# 3. Generate test data
+### 5. Run All Tests (Recommended Order)
+
+#### 1. Unit tests
+pytest tests/arb/ -v > test_unit.txt 2>&1
+
+#### 2. Integration tests  
+pytest tests/arb/portal/ -v > test_integration.txt 2>&1
+
+#### 3. Generate test data
 python scripts/generate_test_excel_files.py
 
-# 4. E2E tests (requires Flask app running)
+#### 4. E2E tests (requires Flask app running)
 python tests/e2e/test_excel_upload_ui.py
-```
 
-### Debug E2E Tests
-```bash
-# Debug upload page structure
+#### Debug E2E Tests
 python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
-```
 
 ## Expected Results
 
@@ -93,15 +92,16 @@ python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
 - ✅ All tests should pass
 - Coverage: File upload workflows, database operations
 
+### Test Data Generation
+- ✅ 36+ Excel files generated
+- Location: `feedback_forms/testing_versions/generated/`
+- Includes: Valid, invalid, and edge case scenarios
+
 ### E2E Tests
 - ✅ 100% success rate (5/5 files)
 - Coverage: Complete UI workflows
 - Requires: Flask app running at http://127.0.0.1:5000
 
-### Test Data Generation
-- ✅ 36+ Excel files generated
-- Location: `feedback_forms/testing_versions/generated/`
-- Includes: Valid, invalid, and edge case scenarios
 
 ## Troubleshooting
 
@@ -146,7 +146,3 @@ echo %PYTHONPATH%
 - **Integration Tests**: Complete workflows
 - **E2E Tests**: Full UI automation
 - **Test Data**: Comprehensive scenarios
-
----
-
-*For detailed documentation, see `TEST_COVERAGE.md`* 

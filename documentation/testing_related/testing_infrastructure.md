@@ -1,3 +1,8 @@
+# Testing Infrastructure & CI
+
+---
+*This file details the technical setup, tools, and CI/CD integration for testing. For quick start, coverage, or protocols, see the other docs in this folder.*
+
 # Testing Infrastructure Implementation Summary
 *Implementation Date: 2025-07-11*
 

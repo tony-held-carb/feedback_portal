@@ -1,3 +1,8 @@
+# Testing Protocols & Notes
+
+---
+*This file contains protocols, conventions, best practices, and miscellaneous notes. For quick start, infrastructure, or coverage, see the other docs in this folder.*
+
 Testing Protocol for Operator Portal Functionality
 
 1. (Optional) Clear logs from:
@@ -115,4 +120,4 @@ Refactered and retesting 6/2/25
 
 5. loop through all incidences and make sure you don't get any sector or sector_type not found errors
 
-it is a little confusing on how some things go from None to blank string ...
+it is a little confusing on how some things go from None to blank string ... 

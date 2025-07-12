@@ -922,3 +922,26 @@ do you agree with the status for file(s) xx-yy?  Do you think they could benefit
 Files that were double checked
 1-43
 
+## Progress Table 3 - Authentication related
+
+| # | File (arb/auth/auth_example_app)              | Enhanced Documentation | Unit Testing Status         |
+|---|-----------------------------------------------|:---------------------:|:--------------------------:|
+|  1| arb/auth/__init__.py                          | No                    | No                         |
+|  2| arb/auth/default_settings.py                  | No                    | No                         |
+|  3| arb/auth/email_util.py                        | No                    | No                         |
+|  4| arb/auth/forms.py                             | No                    | No                         |
+|  5| arb/auth/login_manager.py                     | No                    | No                         |
+|  6| arb/auth/migrate_roles.py                     | No                    | No                         |
+|  7| arb/auth/models.py                            | No                    | No                         |
+|  8| arb/auth/okta_settings.py                     | No                    | No                         |
+|  9| arb/auth/role_decorators.py                   | No                    | No                         |
+| 10| arb/auth/role_examples.py                     | No                    | No                         |
+| 11| arb/auth/routes.py                            | No                    | No                         |
+| 12| arb/auth/test_auth.py                         | No                    | No                         |
+| 13| arb/auth_example_app/__init__.py              | No                    | No                         |
+| 14| arb/auth_example_app/app.py                   | No                    | No                         |
+| 15| arb/auth_example_app/config.py                | No                    | No                         |
+| 16| arb/auth_example_app/extensions.py            | No                    | No                         |
+| 17| arb/auth_example_app/wsgi.py                  | No                    | No                         |
+
+---
