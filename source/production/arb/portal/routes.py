@@ -736,15 +736,20 @@ def discard_staged_update(id_: int) -> Response:
     # Redirects to: /list_staged
   """
   staging_dir = Path(get_upload_folder()) / "staging"
-  staged_file = staging_dir / f"{id_}.json"
+  
+  # Find staged file that starts with id_{id_}_ts_
+  staged_file = None
+  for file_path in staging_dir.glob(f"id_{id_}_ts_*.json"):
+    staged_file = file_path
+    break
 
   try:
-    if staged_file.exists():
+    if staged_file and staged_file.exists():
       staged_file.unlink()
       logger.info(f"✅ Discarded staged upload file: {staged_file}")
       flash(f"Discarded staged file for ID {id_}.", "info")
     else:
-      logger.warning(f"⚠️ Tried to discard non-existent staged file: {staged_file}")
+      logger.warning(f"⚠️ Tried to discard non-existent staged file for ID {id_}")
       flash(f"No staged file found for ID {id_}.", "warning")
 
   except Exception as e:
