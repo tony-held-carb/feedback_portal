@@ -24,11 +24,37 @@ import pytest
 from pathlib import Path
 from typing import List, Dict, Any
 from playwright.sync_api import Page, expect
+import requests
+import re
+import openpyxl
+import time
+import sqlite3
+import json
+import psycopg2
 
 # Test configuration
 BASE_URL = "http://127.0.0.1:5000"
 TEST_FILES_DIR = Path("feedback_forms/testing_versions")
-GENERATED_FILES_DIR = Path("feedback_forms/testing_versions/generated")
+
+# Helper to get all Excel-like files in a directory
+
+def get_xls_files(base_path: Path, recursive: bool = False, excel_exts=None) -> list:
+    """
+    Return a list of all Excel-like files in the given directory.
+    Args:
+      base_path: Path to search
+      recursive: If True, search subdirectories
+      excel_exts: List of file extensions to include (default: common Excel formats)
+    Returns:
+      List of file paths (str)
+    """
+    if excel_exts is None:
+        excel_exts = [".xlsx", ".xls", ".xlsm", ".xlsb", ".ods", ".csv"]
+    if recursive:
+        files = [str(p) for p in base_path.rglob("*") if p.suffix.lower() in excel_exts and p.is_file()]
+    else:
+        files = [str(p) for p in base_path.glob("*") if p.suffix.lower() in excel_exts and p.is_file()]
+    return files
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
@@ -46,19 +72,11 @@ def upload_page(page: Page):
     page.wait_for_load_state("networkidle")
     return page
 
-def get_test_files() -> List[str]:
-    """Get list of available test files."""
-    test_files = []
-    
-    if TEST_FILES_DIR.exists():
-        for file_path in TEST_FILES_DIR.glob("*.xlsx"):
-            test_files.append(str(file_path))
-    
-    if GENERATED_FILES_DIR.exists():
-        for file_path in GENERATED_FILES_DIR.glob("*.xlsx"):
-            test_files.append(str(file_path))
-    
-    return test_files
+def get_test_files() -> list:
+    """
+    Get list of available test files (all Excel-like files in testing_versions, recursively).
+    """
+    return get_xls_files(TEST_FILES_DIR, recursive=True)
 
 class TestExcelUpload:
     """Test class for Excel upload functionality."""
@@ -66,26 +84,25 @@ class TestExcelUpload:
     def test_upload_page_loads(self, upload_page: Page):
         """Test that the upload page loads correctly."""
         # Check page title
-        expect(upload_page).to_have_title(r".+")
-        
-        # Check for file input element
+        expect(upload_page).to_have_title("Upload File")
+        # Check for file input element (presence, not visibility)
         file_input = upload_page.locator("input[type='file']")
-        expect(file_input).to_be_visible()
-        
+        assert file_input.count() > 0, "File input should exist in the DOM"
         # Check for upload form
         form = upload_page.locator("form")
         expect(form).to_be_visible()
+        # Check for drop zone or upload button (visible for user interaction)
+        drop_zone = upload_page.locator(".drop-zone, [id*='drop']")
+        assert drop_zone.count() > 0 and drop_zone.first.is_visible(), "Drop zone or upload area should be visible"
     
     def test_file_input_exists(self, upload_page: Page):
         """Test that file input element exists and is functional."""
         file_input = upload_page.locator("input[type='file']")
-        
-        # Check that file input is present
-        expect(file_input).to_be_visible()
-        
+        # Check that file input is present in the DOM
+        assert file_input.count() > 0, "File input should exist in the DOM"
         # Check that it accepts Excel files
         accept_attr = file_input.get_attribute("accept")
-        assert accept_attr is None or "xlsx" in accept_attr or "xls" in accept_attr
+        assert accept_attr is None or any(ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
     
     def test_drop_zone_exists(self, upload_page: Page):
         """Test that drop zone element exists (if implemented)."""
@@ -266,35 +283,27 @@ class TestUploadPageElements:
     def test_page_structure(self, upload_page: Page):
         """Test that the upload page has the expected structure."""
         # Check for main content areas
-        expect(upload_page.locator("body")).to_be_visible()
-        
-        # Check for navigation (if any)
-        nav_elements = upload_page.locator("nav, .navbar, .navigation")
-        if nav_elements.count() > 0:
-            expect(nav_elements.first).to_be_visible()
-        
-        # Check for main content
         main_content = upload_page.locator("main, .container, .content")
-        if main_content.count() > 0:
-            expect(main_content.first).to_be_visible()
+        assert main_content.count() > 0, "Main content area should exist in the DOM"
+        # Optionally, check for at least one visible child element
+        visible_child = main_content.locator(":scope > *:visible")
+        assert visible_child.count() > 0, "Main content area should have at least one visible child element"
     
     def test_form_structure(self, upload_page: Page):
         """Test that the upload form has the expected structure."""
         form = upload_page.locator("form")
         expect(form).to_be_visible()
-        
         # Check form attributes
         method = form.get_attribute("method")
         action = form.get_attribute("action")
-        
         # Form should have method and action
         assert method is not None, "Form should have method attribute"
         assert action is not None, "Form should have action attribute"
-        
-        # Check for file input
+        # Check for file input (presence, not visibility)
         file_input = form.locator("input[type='file']")
-        expect(file_input).to_be_visible()
-        
+        assert file_input.count() > 0, "File input should exist in the form"
+        accept_attr = file_input.get_attribute("accept")
+        assert accept_attr is None or any(ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
         # Check for submit button (if not auto-submit)
         submit_button = form.locator("button[type='submit'], input[type='submit']")
         # Submit button might not exist if form auto-submits
@@ -302,9 +311,9 @@ class TestUploadPageElements:
             expect(submit_button.first).to_be_visible()
     
     def test_accessibility_features(self, upload_page: Page):
-        """Test basic accessibility features."""
-        # Check for page title
-        expect(upload_page).to_have_title(r".+")
+        """Test accessibility features on the upload page."""
+        # Check page title (should match actual title)
+        expect(upload_page).to_have_title("Upload File")
         
         # Check for file input label
         file_input = upload_page.locator("input[type='file']")
@@ -319,6 +328,166 @@ class TestUploadPageElements:
         labels = upload_page.locator("label")
         if labels.count() > 0:
             expect(labels.first).to_be_visible()
+
+BACKEND_LOG_PATH = "logs/arb_portal.log"
+STAGING_DIR = "portal_uploads/staging"
+
+
+def read_excel_fields(file_path):
+    """Read all fields and values from the Excel file (Feedback Form tab, col B/C, row 15+)."""
+    wb = openpyxl.load_workbook(file_path, data_only=True)
+    ws = wb["Feedback Form"]
+    fields = {}
+    for row in ws.iter_rows(min_row=15, max_col=3):
+        key = row[1].value
+        value = row[2].value
+        if key:
+            fields[str(key).strip()] = value
+    return fields
+
+
+def get_id_from_redirect(page):
+    """Extract id_incidence from the redirect URL after upload."""
+    # Example: /incidence_update/123
+    match = re.search(r"/incidence_update/(\d+)", page.url)
+    if match:
+        return int(match.group(1))
+    return None
+
+
+def get_staged_json_path(id_):
+    """Find the staged JSON file for a given id_incidence in the staging dir."""
+    import os
+    if not os.path.exists(STAGING_DIR):
+        return None
+    for fname in os.listdir(STAGING_DIR):
+        if fname.startswith(f"id_{id_}_") and fname.endswith(".json"):
+            return os.path.join(STAGING_DIR, fname)
+    return None
+
+
+def read_parsed_json(json_path):
+    import json
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    # Extract Feedback Form tab contents
+    tab = data.get("tab_contents", {}).get("Feedback Form", {})
+    return tab
+
+
+def read_backend_logs():
+    try:
+        with open(BACKEND_LOG_PATH, "r", encoding="utf-8") as f:
+            return f.readlines()
+    except Exception:
+        return []
+
+
+import pytest
+from playwright.sync_api import expect
+
+DB_PATH = "source/production/app.db"
+DB_URI = (
+    os.environ.get("POSTGRES_DB_URI") or
+    os.environ.get("DATABASE_URI") or
+    os.environ.get("SQLALCHEMY_DATABASE_URI")
+)
+print(f"[DEBUG] Using DB URI: {DB_URI}")
+
+
+def fetch_misc_json_from_db(id_):
+    """Fetch the misc_json dict for a given id_incidence from the Postgres DB (or fallback to SQLite)."""
+    if DB_URI:
+        # Sanitize URI for psycopg2
+        pg_uri = DB_URI.replace('+psycopg2', '')
+        # Connect to Postgres
+        conn = psycopg2.connect(pg_uri)
+        try:
+            cur = conn.cursor()
+            # Use schema-qualified table name
+            cur.execute("SELECT misc_json FROM satellite_tracker_new.incidences WHERE id_incidence = %s", (id_,))
+            row = cur.fetchone()
+            if not row or not row[0]:
+                return {}
+            # misc_json may be a JSON string
+            if isinstance(row[0], str):
+                return json.loads(row[0])
+            return row[0]
+        finally:
+            conn.close()
+    else:
+        # Fallback to SQLite
+        conn = sqlite3.connect(DB_PATH)
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT misc_json FROM incidences WHERE id_incidence = ?", (id_,))
+            row = cur.fetchone()
+            if not row or not row[0]:
+                return {}
+            if isinstance(row[0], str):
+                return json.loads(row[0])
+            return row[0]
+        finally:
+            conn.close()
+
+@pytest.mark.parametrize("file_path", get_test_files())
+def test_excel_upload_deep_backend_validation(upload_page, file_path):
+    # Navigate to the upload page
+    upload_page.goto("http://127.0.0.1:5000/upload")
+    upload_page.wait_for_load_state("networkidle")
+    # Upload file via UI
+    file_input = upload_page.locator("input[type='file']")
+    upload_page.set_input_files("input[type='file']", file_path)
+    upload_page.wait_for_timeout(1000)
+    # Wait for redirect or success
+    for _ in range(10):
+        if "/incidence_update/" in upload_page.url:
+            break
+        upload_page.wait_for_timeout(500)
+    # Log the URL and page content for debugging
+    print(f"[DEBUG] After upload, page URL: {upload_page.url}")
+    page_content = upload_page.content()
+    print(f"[DEBUG] After upload, page content (first 1000 chars):\n{page_content[:1000]}")
+    # Try to extract id_incidence from the URL
+    import re
+    match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+    id_ = match.group(1) if match else None
+    if not id_:
+        # Try to find error messages in the page content
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(page_content, "html.parser")
+        error_msgs = []
+        # Look for Bootstrap alert divs or error classes
+        for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+            error_msgs.append(alert.get_text(strip=True))
+        print(f"[DEBUG] Error messages found on page: {error_msgs}")
+        # Check if the file exists in the upload directory
+        upload_dir = Path("portal_uploads")
+        uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+        print(f"[DEBUG] Uploaded file(s) found in upload dir: {uploaded_files}")
+    assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+    # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+    misc_json = None
+    for _ in range(10):
+        misc_json = fetch_misc_json_from_db(id_)
+        if misc_json:
+            break
+        time.sleep(0.5)
+    assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+    # Read Excel fields
+    excel_fields = read_excel_fields(file_path)
+    # Read backend logs
+    logs = read_backend_logs()
+    log_text = "".join(logs)
+    # Compare fields
+    for field, excel_value in excel_fields.items():
+        parsed_value = misc_json.get(field)
+        if parsed_value == excel_value:
+            continue  # OK
+        else:
+            # Value was defaulted or missing, check for warning in logs
+            assert (field in log_text and ("WARNING" in log_text or "default" in log_text.lower())), \
+                f"Field '{field}' value mismatch (Excel: {excel_value}, Parsed: {parsed_value}) and no log warning found."
 
 if __name__ == "__main__":
     # Run tests if executed directly

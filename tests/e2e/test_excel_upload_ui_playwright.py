@@ -33,6 +33,26 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Helper to get all Excel-like files in a directory
+
+def get_xls_files(base_path: Path, recursive: bool = False, excel_exts=None) -> list:
+  """
+  Return a list of all Excel-like files in the given directory.
+  Args:
+    base_path: Path to search
+    recursive: If True, search subdirectories
+    excel_exts: List of file extensions to include (default: common Excel formats)
+  Returns:
+    List of file paths (str)
+  """
+  if excel_exts is None:
+    excel_exts = [".xlsx", ".xls", ".xlsm", ".xlsb", ".ods", ".csv"]
+  if recursive:
+    files = [str(p) for p in base_path.rglob("*") if p.suffix.lower() in excel_exts and p.is_file()]
+  else:
+    files = [str(p) for p in base_path.glob("*") if p.suffix.lower() in excel_exts and p.is_file()]
+  return files
+
 class ExcelUploadE2ETest:
   """End-to-end test suite for Excel upload functionality using Playwright."""
   
@@ -307,18 +327,7 @@ class ExcelUploadE2ETest:
     Returns:
       List of file paths for testing
     """
-    test_files = []
-    
-    if self.test_files_dir.exists():
-      for file_path in self.test_files_dir.glob("*.xlsx"):
-        test_files.append(str(file_path))
-    
-    if self.generated_files_dir.exists():
-      for file_path in self.generated_files_dir.glob("*.xlsx"):
-        test_files.append(str(file_path))
-    
-    logger.info(f"Found {len(test_files)} test files")
-    return test_files
+    return get_xls_files(self.test_files_dir, recursive=True)
   
   def run_basic_upload_test(self, file_path: str) -> Dict[str, Any]:
     """Run a basic upload test for a single file.

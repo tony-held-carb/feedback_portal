@@ -21,7 +21,7 @@
       * flask --app wsgi run --debug --no-reload -p 2113
   * cursor says if you run from arb, Python treats arb as the current directory, not as a package, which can break relative imports and Flask’s app discovery. it recommends:
     * cd %portal%\source\production
-    * cd D:\local\cursor\feedback_portal\source\production
+    * cd /d D:\local\cursor\feedback_portal\source\production
       * flask --app arb/wsgi run --debug --no-reload -p 2113
 
 ### Common Git Commands

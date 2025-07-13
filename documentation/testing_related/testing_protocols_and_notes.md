@@ -7,7 +7,6 @@ Testing Protocol for Operator Portal Functionality
 
 1. (Optional) Clear logs from:
     C:\one_drive\code\pycharm\feedback_portal\logs
-    C:\one_drive\code\pycharm\feedback_portal\source\production\arb\logs
 
 2. Launch portal
     from laptop:

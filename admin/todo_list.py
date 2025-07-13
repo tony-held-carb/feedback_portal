@@ -4,6 +4,8 @@
 ----------------------------
 * creating new refactor 24 branch - resuming unit testing after docstring refactor
 
+* update notes and scripts to launch from app/wsgi
+
 * check if this was done:
   * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
     1) upload the file always if save/possible
