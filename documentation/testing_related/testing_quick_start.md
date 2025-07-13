@@ -89,8 +89,10 @@ python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
 - Coverage: Individual module functionality
 
 ### Integration Tests  
-- ✅ All tests should pass
-- Coverage: File upload workflows, database operations
+- ✅ Integration tests now use PostgreSQL database
+- Uses your configured `DATABASE_URI` environment variable
+- Tests real database operations and schema interactions
+- Coverage: File upload workflows, database operations, model interactions
 
 ### Test Data Generation
 - ✅ 36+ Excel files generated
@@ -104,6 +106,29 @@ python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
 
 
 ## Troubleshooting
+
+### Database Configuration
+The tests use your PostgreSQL database configuration securely:
+
+1. **Environment Variable Required**: Set `DATABASE_URI` to your PostgreSQL connection string
+   ```bash
+   export DATABASE_URI=postgresql+psycopg2://postgres:password@localhost:5432/your_db
+   ```
+
+2. **Security**: No hardcoded credentials in test files - only environment variables are used
+
+3. **Schema**: Tests work with the `satellite_tracker_new` schema and PostgreSQL-specific features
+
+### Common Issues
+
+**Database Connection Errors**
+- Ensure PostgreSQL is running
+- Verify `DATABASE_URI` environment variable is set correctly
+- Check database permissions
+
+**Missing Environment Variable**
+- Tests will fail if `DATABASE_URI` is not set
+- No fallback credentials are provided for security reasons
 
 ### Import Errors
 ```bash
@@ -137,12 +162,17 @@ echo %PYTHONPATH%
 
 ### ✅ All Tests Passing
 - Unit tests: No failures
-- Integration tests: All workflows successful
+- Integration tests: Core functionality tested (some skipped for database compatibility)
 - E2E tests: 100% success rate
 - Test data: 36+ files generated
 
 ### 📊 Coverage Summary
 - **Unit Tests**: Individual module functionality
-- **Integration Tests**: Complete workflows
+- **Integration Tests**: Core workflows (partial due to database compatibility)
 - **E2E Tests**: Full UI automation
 - **Test Data**: Comprehensive scenarios
+
+### 🔧 Known Issues
+- **Database Compatibility**: Some integration tests skipped due to PostgreSQL vs SQLite differences
+- **SQLAlchemy Warnings**: Legacy Query.get() usage (non-critical)
+- **Relationship Warnings**: SQLAlchemy relationship conflicts (non-critical)

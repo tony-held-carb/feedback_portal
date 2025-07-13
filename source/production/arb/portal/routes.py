@@ -537,14 +537,26 @@ def review_staged(id_: int, filename: str) -> str | Response:
 
   if not staged_json_path.exists():
     logger.warning(f"Staged JSON file not found: {staged_json_path}")
-    return render_template("review_staged.html", error=f"No staged data found for ID {id_}.")
+    return render_template("review_staged.html", 
+                         error=f"No staged data found for ID {id_}.", 
+                         is_new_row=False,
+                         id_incidence=id_,
+                         staged_fields=[],
+                         metadata={},
+                         filename=filename)
 
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
     staged_payload = extract_tab_and_sector(staged_data, tab_name="Feedback Form")
   except Exception:
     logger.exception("Error loading staged JSON")
-    return render_template("review_staged.html", error="Could not load staged data.")
+    return render_template("review_staged.html", 
+                         error="Could not load staged data.", 
+                         is_new_row=False,
+                         id_incidence=id_,
+                         staged_fields=[],
+                         metadata={},
+                         filename=filename)
 
   model, _, is_new_row = get_ensured_row(
     db=db,
