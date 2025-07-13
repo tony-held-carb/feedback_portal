@@ -16,7 +16,8 @@ For addtionial details see
    echo %PYTHONPATH%
 
 3. Install Dependencies
-   pip install pytest selenium webdriver-manager
+   pip install pytest playwright
+   playwright install
 
 ## Test Options
 
@@ -59,11 +60,15 @@ python scripts/generate_test_excel_files.py > generate_test_data_output.txt 2>&1
 **Purpose:** Test complete user workflows via browser automation
 
 #### Start Flask app first (in separate terminal)
-cd D:\local\cursor\feedback_portal\source\production
+cd /d D:\local\cursor\feedback_portal\source\production
 flask --app arb/wsgi run --debug --no-reload
 
 #### Run E2E tests (in another terminal)
-python tests/e2e/test_excel_upload_ui.py > e2e_test_output.txt 2>&1
+# Standalone test suite
+python tests/e2e/test_excel_upload_ui_playwright.py > e2e_test_output.txt 2>&1
+
+# Pytest-compatible tests (recommended)
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v > e2e_test_output.txt 2>&1
 
 ### 5. Run All Tests (Recommended Order)
 
@@ -77,10 +82,14 @@ pytest tests/arb/portal/ -v > test_integration.txt 2>&1
 python scripts/generate_test_excel_files.py
 
 #### 4. E2E tests (requires Flask app running)
-python tests/e2e/test_excel_upload_ui.py
+# Standalone test suite
+python tests/e2e/test_excel_upload_ui_playwright.py
+
+# Pytest-compatible tests (recommended)
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v
 
 #### Debug E2E Tests
-python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
+python tests/e2e/debug_upload_page_playwright.py > debug_output.txt 2>&1
 
 ## Expected Results
 
@@ -100,9 +109,10 @@ python tests/e2e/debug_upload_page.py > debug_output.txt 2>&1
 - Includes: Valid, invalid, and edge case scenarios
 
 ### E2E Tests
-- ✅ 100% success rate (5/5 files)
-- Coverage: Complete UI workflows
+- ✅ 100% success rate with Playwright
+- Coverage: Complete UI workflows with enhanced reliability
 - Requires: Flask app running at http://127.0.0.1:5000
+- Benefits: Auto-waiting, video recording, better debugging
 
 
 ## Troubleshooting
@@ -139,8 +149,9 @@ echo %PYTHONPATH%
 
 ### E2E Test Failures
 1. **Flask app not running**: Start with `python -m flask run`
-2. **Chrome not installed**: Install Chrome browser
-3. **Selenium not installed**: `pip install selenium webdriver-manager`
+2. **Playwright not installed**: `pip install playwright && playwright install`
+3. **Browser not found**: Run `playwright install` to download browsers
+4. **Tests timing out**: Increase timeout values or check Flask app is running
 
 ### Test Data Generation Issues
 1. **Missing directories**: Ensure `feedback_forms/testing_versions/` exists
@@ -163,13 +174,13 @@ echo %PYTHONPATH%
 ### ✅ All Tests Passing
 - Unit tests: No failures
 - Integration tests: Core functionality tested (some skipped for database compatibility)
-- E2E tests: 100% success rate
+- E2E tests: 100% success rate with Playwright
 - Test data: 36+ files generated
 
 ### 📊 Coverage Summary
 - **Unit Tests**: Individual module functionality
 - **Integration Tests**: Core workflows (partial due to database compatibility)
-- **E2E Tests**: Full UI automation
+- **E2E Tests**: Full UI automation with Playwright (enhanced reliability)
 - **Test Data**: Comprehensive scenarios
 
 ### 🔧 Known Issues

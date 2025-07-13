@@ -5,6 +5,7 @@
 - [Testing Infrastructure & CI](./testing_infrastructure.md)
 - [Testing Feedback Form File](./testing_feedback_form_file.md)
 - [Testing Protocols & Notes](./testing_protocols_and_notes.md)
+- [E2E Testing with Playwright](../tests/e2e/README.md)
 
 ---
 
@@ -112,10 +113,11 @@ This approach ensures that our documentation is not only comprehensive but also 
 
 ### 3. E2E UI Automation
 - **Purpose:** Test complete user workflows via browser automation
-- **Coverage:** Full UI automation with Selenium WebDriver
+- **Coverage:** Full UI automation with Playwright
 - **Location:** `tests/e2e/`
-- **Status:** 100% success rate, automated ChromeDriver management
-- **Requirements:** Flask app running, Chrome browser, Selenium packages
+- **Status:** 100% success rate, enhanced reliability and debugging
+- **Requirements:** Flask app running, Playwright installed with browsers
+- **Benefits:** Auto-waiting, video recording, trace viewer, cross-browser support
 
 ### 4. Automated Test Data Generation
 - **Purpose:** Generate comprehensive test data for all scenarios
@@ -133,10 +135,40 @@ This approach ensures that our documentation is not only comprehensive but also 
 
 ### 7. Integration Test Suite
 
+## E2E Testing Migration to Playwright
+
+### Migration Completed ✅
+The E2E testing framework has been successfully migrated from Selenium WebDriver to Playwright for improved reliability, performance, and debugging capabilities.
+
+### Key Benefits Achieved
+- **Better Reliability**: Auto-waiting for elements reduces flaky tests
+- **Enhanced Debugging**: Built-in video recording and trace viewer
+- **Modern Web Support**: Better handling of dynamic content and JavaScript
+- **Performance**: Faster execution and lower resource usage
+- **Cross-Browser**: Single API for Chrome, Firefox, and Safari
+
+### New E2E Test Files
+- `tests/e2e/test_excel_upload_ui_playwright.py` - Standalone test suite
+- `tests/e2e/test_excel_upload_playwright_pytest.py` - Pytest-compatible tests
+- `tests/e2e/debug_upload_page_playwright.py` - Debug utility
+- `tests/e2e/test_playwright_setup.py` - Setup verification
+- `tests/e2e/README.md` - Comprehensive documentation
+
+### Removed Selenium Dependencies
+- `selenium` package
+- `webdriver-manager` package
+- Chrome WebDriver setup and management
+- Selenium-specific selectors and wait conditions
+
+### Migration Impact
+- **Low Migration Effort**: Only 2 files needed migration (~579 lines total)
+- **High Impact**: Critical file upload functionality now more reliable
+- **Future-Proof**: Better support for modern web features and debugging
+
 ## How We Measure Coverage
 - **Unit Test Coverage:** Individual module testing with mocked dependencies
 - **Integration Test Coverage:** End-to-end workflows, database operations, file uploads
-- **E2E Test Coverage:** Complete user workflows via browser automation
+- **E2E Test Coverage:** Complete user workflows via Playwright automation with enhanced debugging
 - **Test Data Coverage:** Comprehensive scenarios for all sectors and validation cases
 
 

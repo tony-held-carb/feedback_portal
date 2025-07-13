@@ -113,7 +113,9 @@ This document summarizes the comprehensive testing infrastructure implemented fo
 
 ### Dependencies Added
 ```bash
-pip install selenium webdriver-manager
+pip install selenium webdriver-manager  (no longer used)
+pip install playwright
+playwright install
 ```
 
 ### File Structure
