@@ -3,49 +3,8 @@
 {% block title %}Delete Testing Range{% endblock %}
 
 {% block header_css_and_js %}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const dryRunCheckbox = document.getElementById('dry_run');
-      const submitBtn = document.getElementById('delete-preview-btn');
-      function updateButton() {
-        submitBtn.textContent = dryRunCheckbox.checked ? 'Preview' : 'Delete';
-        submitBtn.classList.toggle('btn-danger', !dryRunCheckbox.checked);
-        submitBtn.classList.toggle('btn-primary', dryRunCheckbox.checked);
-      }
-      dryRunCheckbox.addEventListener('change', updateButton);
-      updateButton();
-
-      // Modal logic
-      const form = document.getElementById('delete-testing-range-form');
-      const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-      const confirmBtn = document.getElementById('modal-confirm-delete');
-      const previewBtn = document.getElementById('modal-preview');
-      const cancelBtn = document.getElementById('modal-cancel');
-      let skipModal = false;
-      form.addEventListener('submit', function (e) {
-        if (!dryRunCheckbox.checked && !skipModal) {
-          e.preventDefault();
-          modal.show();
-        }
-        skipModal = false;
-      });
-      confirmBtn.addEventListener('click', function () {
-        skipModal = true;
-        modal.hide();
-        form.submit();
-      });
-      previewBtn.addEventListener('click', function () {
-        dryRunCheckbox.checked = true;
-        updateButton();
-        skipModal = true;
-        modal.hide();
-        form.submit();
-      });
-      cancelBtn.addEventListener('click', function () {
-        modal.hide();
-      });
-    });
-  </script>
+  {# JavaScript for this page is now in static/js/delete_testing_range.js #}
+  <script defer src="{{ url_for('static', filename='js/delete_testing_range.js') }}"></script>
 {% endblock %}
 
 {% block content %}
