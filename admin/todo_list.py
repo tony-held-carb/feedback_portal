@@ -81,4 +81,7 @@
   * Status: E2E discard tests will be skipped for now to allow continued testing without modifying source code
   * TODO: Debug backend discard logic - check file paths, permissions, glob pattern matching, and add logging to identify why files are not being deleted
 
+* ---------   Error Handling and Debugging Improvements ----------
+* TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
+
 """
