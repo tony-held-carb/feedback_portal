@@ -67,6 +67,7 @@ from typing import Dict, Any
 import os
 import tempfile
 import datetime
+from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -1128,4 +1129,68 @@ def show_log_file() -> str:
     'diagnostics.html',
     header="Log File Contents",
     html_content=result,
+  )
+
+
+@main.route('/delete_testing_range', methods=['GET', 'POST'])
+def delete_testing_range() -> str:
+  """
+  Developer utility: Delete testing rows in a specified id_incidence range.
+
+  GET: Show form to specify min_id, max_id, and dry_run.
+  POST: Run delete_testing_rows and show summary/results, including id_incidences if dry run.
+  """
+  from flask import current_app
+  base = current_app.base  # type: ignore[attr-defined]
+  error = None
+  result = None
+  min_id = 2000
+  max_id = 2999
+  dry_run = True
+  submitted = False
+  portal_updates_ids = []
+  incidences_ids = []
+
+  if request.method == 'POST':
+    try:
+      min_id = int(request.form.get('min_id', 2000))
+      max_id = int(request.form.get('max_id', 2999))
+      dry_run = bool(request.form.get('dry_run'))
+      submitted = True
+      if min_id < 2000 or max_id < 2000:
+        error = "Both min and max id_incidence must be at least 2000."
+      elif min_id > max_id:
+        error = "min_id cannot be greater than max_id."
+      else:
+        if dry_run:
+          # Get the IDs that would be deleted
+          preview = list_testing_rows(db, base, min_id, max_id)
+          portal_updates_ids = sorted(set(row['id_incidence'] for row in preview['portal_updates']))
+          incidences_ids = sorted(row['id_incidence'] for row in preview['incidences'])
+        result = delete_testing_rows(db, base, min_id, max_id, dry_run=dry_run)
+    except Exception as e:
+      error = f"Error: {e}"
+
+  instructions = (
+    "<ul>"
+    "<li><b>Use this tool to delete test rows from the portal_updates and incidences tables.</b></li>"
+    "<li>Specify a min and max id_incidence (both must be at least 2000).</li>"
+    "<li>Check 'Dry Run' to preview what would be deleted without making changes.</li>"
+    "<li><b>Warning:</b> This cannot delete real data (id_incidence < 2000 is not allowed).</li>"
+    "<li>For safety, always do a dry run first!</li>"
+    "</ul>"
+  )
+
+  # Remove summarize_ids and always pass full lists
+  return render_template(
+    'delete_testing_range.html',
+    min_id=min_id,
+    max_id=max_id,
+    dry_run=dry_run,
+    error=error,
+    result=result,
+    submitted=submitted,
+    instructions=instructions,
+    portal_updates_ids=portal_updates_ids,
+    incidences_ids=incidences_ids
   )

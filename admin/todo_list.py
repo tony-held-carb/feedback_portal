@@ -4,6 +4,9 @@
 ----------------------------
 * creating new refactor 24 branch - resuming unit testing after docstring refactor
 
+* create a utility to remove incidences and portal updates within a range so they can be easily deleted
+  * clean up the new code
+
 * update notes and scripts to launch from app/wsgi
 
 * check if this was done:
