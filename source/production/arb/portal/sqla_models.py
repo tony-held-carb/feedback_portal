@@ -4,9 +4,6 @@ SQLAlchemy model definitions for the ARB Feedback Portal.
 This module defines ORM classes that map to key tables in the database,
 including uploaded file metadata and portal JSON update logs.
 
-Args:
-  None
-
 Returns:
   None
 
@@ -169,9 +166,6 @@ def run_diagnostics() -> None:
   """
   Run a test transaction to validate UploadedFile model functionality.
 
-  Args:
-    None
-
   Returns:
     None
 
@@ -186,6 +180,7 @@ def run_diagnostics() -> None:
     - Meant for developer use in test environments only.
     - This function leaves no data in the database due to rollback.
     - Logs diagnostic information using the project logger.
+    - LIKELY OBSOLETE: This function is not covered by unit tests and is likely obsolete. It requires a real database connection and is not robustly testable with mocks or in CI environments. Change with caution. See documentation/docstring_update_for_testing.md for details.
   """
 
   logger.info(f"Running UploadedFile diagnostics...")

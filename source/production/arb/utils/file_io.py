@@ -59,6 +59,8 @@ def ensure_parent_dirs(file_name: str | Path) -> None:
     - If `file_name` is None or empty, no action is taken.
   """
   logger.debug(f"ensure_parent_dirs() called for: {file_name=}")
+  if not file_name:
+    return
   file_path = Path(file_name)
   file_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -88,11 +90,11 @@ def ensure_dir_exists(dir_path: str | Path) -> None:
     - If `dir_path` is None or empty, no action is taken.
   """
   logger.debug(f"ensure_dir_exists() called for: {dir_path=}")
+  if not dir_path:
+    return
   dir_path = Path(dir_path)
-
   if dir_path.exists() and not dir_path.is_dir():
     raise ValueError(f"The path {dir_path} exists and is not a directory.")
-
   dir_path.mkdir(parents=True, exist_ok=True)
 
 
@@ -124,12 +126,12 @@ def get_secure_timestamped_file_name(directory: str | Path, file_name: str) -> P
     - Uses `werkzeug.utils.secure_filename` to sanitize input filenames.
     - If `directory` is None or empty, uses the home directory.
   """
+  if not file_name:
+    raise ValueError("file_name must not be None or empty")
   file_name_clean = secure_filename(file_name)
   full_path = Path.home() / directory / file_name_clean
-
   timestamp = datetime.now(ZoneInfo("UTC")).strftime(DATETIME_WITH_SECONDS)
   new_name = f"{full_path.stem}_ts_{timestamp}{full_path.suffix}"
-
   return full_path.with_name(new_name)
 
 

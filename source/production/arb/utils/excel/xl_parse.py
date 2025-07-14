@@ -43,8 +43,8 @@ schema_alias = {
 }
 
 # xl_schema_map based on Excel PROCESSED_VERSIONS files
-xl_schema_file_map = {}
-xl_schema_map = {}
+xl_schema_file_map = {}  # type: dict[str, Path]
+xl_schema_map = {}       # type: dict[str, dict]
 
 
 def initialize_module() -> None:

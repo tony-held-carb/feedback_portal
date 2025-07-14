@@ -64,7 +64,7 @@ def configure_flask_app(app: Flask) -> None:
         * Trims and left-strips whitespace blocks
         * Registers custom filters and timezone globals
     - Upload settings:
-        * Sets `UPLOAD_FOLDER` to the shared upload path
+        * Sets `UPLOAD_FOLDER` to the shared upload path (as a string for Flask compatibility)
         * Limits `MAX_CONTENT_LENGTH` to 16MB
     - Logger:
         * Applies `LOG_LEVEL` from app config
@@ -73,6 +73,7 @@ def configure_flask_app(app: Flask) -> None:
   Notes:
     - Should be called before registering blueprints or running the app.
     - Modifies app config and Jinja environment in place.
+    - `UPLOAD_FOLDER` is always set as a string (not a Path object) for maximum compatibility with Flask and extensions.
   """
   logger.debug(f"configure_flask_app() called")
 
@@ -88,7 +89,7 @@ def configure_flask_app(app: Flask) -> None:
   # -------------------------------------------------------------------------
   # Upload Configuration
   # -------------------------------------------------------------------------
-  app.config['UPLOAD_FOLDER'] = UPLOAD_PATH
+  app.config['UPLOAD_FOLDER'] = str(UPLOAD_PATH)  # Always store as string for Flask compatibility
   app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 
   # -------------------------------------------------------------------------

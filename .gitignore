@@ -18,13 +18,19 @@ logs/
 #*.bak
 #*.csv~
 
+# test files
+test_*.txt
+
 # diagnostics and debugging
 #/debugging/
 
 # Releases
 #feedback_portal_releases/
 
+feedback_forms/testing_versions/generated
+
 # Portal uploads
+portal_uploads
 #portal_uploads/staging/
 #feedback_forms/testing_versions/
 

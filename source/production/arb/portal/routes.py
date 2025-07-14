@@ -62,6 +62,12 @@ from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 from arb.portal.utils.route_util import generate_upload_diagnostics, format_diagnostic_message, generate_staging_diagnostics
+from flask import current_app, send_file
+from typing import Dict, Any
+import os
+import tempfile
+import datetime
+from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -532,14 +538,26 @@ def review_staged(id_: int, filename: str) -> str | Response:
 
   if not staged_json_path.exists():
     logger.warning(f"Staged JSON file not found: {staged_json_path}")
-    return render_template("review_staged.html", error=f"No staged data found for ID {id_}.")
+    return render_template("review_staged.html", 
+                         error=f"No staged data found for ID {id_}.", 
+                         is_new_row=False,
+                         id_incidence=id_,
+                         staged_fields=[],
+                         metadata={},
+                         filename=filename)
 
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
     staged_payload = extract_tab_and_sector(staged_data, tab_name="Feedback Form")
   except Exception:
     logger.exception("Error loading staged JSON")
-    return render_template("review_staged.html", error="Could not load staged data.")
+    return render_template("review_staged.html", 
+                         error="Could not load staged data.", 
+                         is_new_row=False,
+                         id_incidence=id_,
+                         staged_fields=[],
+                         metadata={},
+                         filename=filename)
 
   model, _, is_new_row = get_ensured_row(
     db=db,
@@ -719,15 +737,20 @@ def discard_staged_update(id_: int) -> Response:
     # Redirects to: /list_staged
   """
   staging_dir = Path(get_upload_folder()) / "staging"
-  staged_file = staging_dir / f"{id_}.json"
+  
+  # Find staged file that starts with id_{id_}_ts_
+  staged_file = None
+  for file_path in staging_dir.glob(f"id_{id_}_ts_*.json"):
+    staged_file = file_path
+    break
 
   try:
-    if staged_file.exists():
+    if staged_file and staged_file.exists():
       staged_file.unlink()
       logger.info(f"✅ Discarded staged upload file: {staged_file}")
       flash(f"Discarded staged file for ID {id_}.", "info")
     else:
-      logger.warning(f"⚠️ Tried to discard non-existent staged file: {staged_file}")
+      logger.warning(f"⚠️ Tried to discard non-existent staged file for ID {id_}")
       flash(f"No staged file found for ID {id_}.", "warning")
 
   except Exception as e:
@@ -1005,6 +1028,8 @@ def show_database_structure() -> str:
                          )
 
 
+
+
 @main.route('/show_feedback_form_structure')
 def show_feedback_form_structure() -> str:
   """
@@ -1104,4 +1129,68 @@ def show_log_file() -> str:
     'diagnostics.html',
     header="Log File Contents",
     html_content=result,
+  )
+
+
+@main.route('/delete_testing_range', methods=['GET', 'POST'])
+def delete_testing_range() -> str:
+  """
+  Developer utility: Delete testing rows in a specified id_incidence range.
+
+  GET: Show form to specify min_id, max_id, and dry_run.
+  POST: Run delete_testing_rows and show summary/results, including id_incidences if dry run.
+  """
+  from flask import current_app
+  base = current_app.base  # type: ignore[attr-defined]
+  error = None
+  result = None
+  min_id = 2000
+  max_id = 2999
+  dry_run = True
+  submitted = False
+  portal_updates_ids = []
+  incidences_ids = []
+
+  if request.method == 'POST':
+    try:
+      min_id = int(request.form.get('min_id', 2000))
+      max_id = int(request.form.get('max_id', 2999))
+      dry_run = bool(request.form.get('dry_run'))
+      submitted = True
+      if min_id < 2000 or max_id < 2000:
+        error = "Both min and max id_incidence must be at least 2000."
+      elif min_id > max_id:
+        error = "min_id cannot be greater than max_id."
+      else:
+        if dry_run:
+          # Get the IDs that would be deleted
+          preview = list_testing_rows(db, base, min_id, max_id)
+          portal_updates_ids = sorted(set(row['id_incidence'] for row in preview['portal_updates']))
+          incidences_ids = sorted(row['id_incidence'] for row in preview['incidences'])
+        result = delete_testing_rows(db, base, min_id, max_id, dry_run=dry_run)
+    except Exception as e:
+      error = f"Error: {e}"
+
+  instructions = (
+    "<ul>"
+    "<li><b>Use this tool to delete test rows from the portal_updates and incidences tables.</b></li>"
+    "<li>Specify a min and max id_incidence (both must be at least 2000).</li>"
+    "<li>Check 'Dry Run' to preview what would be deleted without making changes.</li>"
+    "<li><b>Warning:</b> This cannot delete real data (id_incidence < 2000 is not allowed).</li>"
+    "<li>For safety, always do a dry run first!</li>"
+    "</ul>"
+  )
+
+  # Remove summarize_ids and always pass full lists
+  return render_template(
+    'delete_testing_range.html',
+    min_id=min_id,
+    max_id=max_id,
+    dry_run=dry_run,
+    error=error,
+    result=result,
+    submitted=submitted,
+    instructions=instructions,
+    portal_updates_ids=portal_updates_ids,
+    incidences_ids=incidences_ids
   )

@@ -162,6 +162,8 @@ def json_save(
   """
   logger.debug(f"json_save() called with {file_path=}, {json_options=}, {data=}")
 
+  if not file_path:
+    raise ValueError("file_path must not be None or empty.")
   file_path = pathlib.Path(file_path)
 
   if json_options is None:
@@ -204,6 +206,8 @@ def json_save_with_meta(
   """
   logger.debug(f"json_save_with_meta() called with {file_path=}, {json_options=}, {metadata=}, {data=}")
 
+  if not file_path:
+    raise ValueError("file_path must not be None or empty.")
   file_path = pathlib.Path(file_path)
 
   if metadata is None:
@@ -463,14 +467,14 @@ def wtform_types_and_values(
     - If wtform is None or invalid, raises ValueError.
     - 'Please Select' is a valid value for SelectField.
   """
+  if wtform is None or not hasattr(wtform, '_fields'):
+    raise ValueError("wtform must have a _fields attribute")
   type_map = {}
   field_data = {}
 
   for name, field in wtform._fields.items():
     value = field.data
     field_data[name] = value
-
-    # Identify complex field types for type mapping
     if isinstance(field, DateTimeField):
       type_map[name] = datetime.datetime
     elif isinstance(field, DecimalField):
@@ -613,13 +617,10 @@ def safe_json_loads(value: str | dict | None, context_label: str = "") -> dict:
   """
   if value is None or (isinstance(value, str) and value.strip() == ""):
     return {}
-
   if isinstance(value, dict):
     return value
-
   if not isinstance(value, str):
     raise TypeError(f"Expected str, dict, or None; got {type(value).__name__}")
-
   try:
     return json.loads(value)
   except json.JSONDecodeError:
@@ -769,7 +770,6 @@ def compute_field_differences(
     - If either input dict is None, it is treated as empty dict.
   """
   differences = []
-
   for key in sorted(new_data.keys()):
     new_value = new_data.get(key)
     old_value = existing_data.get(key)

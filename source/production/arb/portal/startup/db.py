@@ -55,8 +55,13 @@ def reflect_database() -> None:
     - Logs info and debug messages for tracing.
   """
   logger.info(f"Reflecting database metadata.")
-  db.metadata.reflect(bind=db.engine)
-  logger.debug(f"Reflection complete.")
+  try:
+    logger.info(f"Database engine URI: {db.engine.url}")
+    db.metadata.reflect(bind=db.engine)
+    logger.debug(f"Reflection complete.")
+    logger.info(f"Reflected tables: {list(db.metadata.tables.keys())}")
+  except Exception as e:
+    logger.error(f"Error during database reflection: {e}")
 
 
 def db_initialize() -> None:
