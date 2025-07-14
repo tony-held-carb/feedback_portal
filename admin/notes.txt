@@ -945,3 +945,22 @@ Files that were double checked
 | 17| arb/auth_example_app/wsgi.py                  | No                    | No                         |
 
 ---
+
+I asked cursor to use redirects rather than console output. for example:
+git branch -a > cursor/git_branch_output.txt 2>&1
+
+For this session, please name all output files in D:/local/cursor/feedback_portal/diagnostics/cursor/ using the format YYYY_MM_DD_HH_MM_description.txt, where the timestamp is the current date and 24-hour time, and the description is a brief summary of the command.
+You should always generate the filename internally (in Python), using the current system date and time at the exact moment the command is run, and use that exact filename in the output redirection.
+Do not rely on shell or OS date/time expansion for the filename—always compute it yourself and use the full absolute path.
+Each command should result in a uniquely timestamped output file, even if the same command is run multiple times in a session.
+
+For this session, please name all output files in D:/local/cursor/feedback_portal/diagnostics/cursor/ using the format YYYY_MM_DD_HH_MM_description.txt, where the timestamp is the current date and 24-hour (California/Pacific) time, and the description is a brief summary of the command.
+You should always generate the filename internally (in Python), using the current California (Pacific) system date and time at the exact moment the command is run, and use that exact filename in the output redirection.
+Do not rely on shell or OS date/time expansion for the filename—always compute it yourself and use the full absolute path.
+The timestamp must reflect the actual current California time at the moment the command is executed, not a placeholder or cached value.
+Each command should result in a uniquely timestamped output file, even if the same command is run multiple times in a session.
+Example:
+If I request git status at 2025-07-13 at 2:45 pm California time, the output file should be:
+D:/local/cursor/feedback_portal/diagnostics/cursor/2025_07_13_14_45_git_status.txt
+
+git branch -a > D:/local/cursor/feedback_portal/diagnostics/cursor/git_branch.txt 2>&1

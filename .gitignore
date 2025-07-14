@@ -5,6 +5,8 @@
 *.iml
 .vscode/
 
+# diagnostics from cursor
+diagnostics/cursor
 
 # Python cache
 __pycache__/
