@@ -945,3 +945,33 @@ Files that were double checked
 | 17| arb/auth_example_app/wsgi.py                  | No                    | No                         |
 
 ---
+
+For this session, please name all output files in D:/local/cursor/feedback_portal/diagnostics/cursor/ using a brief, descriptive filename that summarizes the command (e.g., git_status.txt, git_branch.txt, pip_list.txt).
+Do not include any timestamp or date information in the filename.
+Always use the full absolute path for output redirection, and ensure the filename clearly reflects the command or output content.
+
+git branch -a > D:/local/cursor/feedback_portal/diagnostics/cursor/git_branch.txt 2>&1
+cd /d "D:/local/cursor/feedback_portal" && git status &2>1 > D:/local/cursor/feedback_portal/diagnostics/cursor/git_status.txt
+
+Installed git bash to my home and work machines so i can use linux consistently
+
+$ echo $HOME
+/c/Users/tonyh
+
+explorer . -> opens explore in pwd 
+
+Most Important Dotfiles in Git Bash
+| Filename              | Purpose                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
+| **`~/.bashrc`**       | Main interactive shell config. Aliases, functions, env vars.                 |
+| **`~/.bash_profile`** | Run on **login shells** (loads `.bashrc` manually).                          |
+| **`~/.profile`**      | Generic POSIX startup file, often ignored in Bash if `.bash_profile` exists. |
+| **`~/.inputrc`**      | Customizes keyboard and tab-completion behavior in Bash.                     |
+| **`~/.gitconfig`**    | Git-specific config (e.g. user.name, aliases).                               |
+| **`~/.ssh/config`**   | SSH settings for GitHub, remotes, keys.                                      |
+
+
+/c/Users/tonyh/miniconda3/Scripts/conda.exe init bash
+
+The logic that powers conda shell.bash hook lives inside the Python scripts of your Conda installation — particularly in:
+C:\Users\tonyh\miniconda3\lib\site-packages\conda\shell\bash.py
