@@ -44,3 +44,6 @@ source/production/site/
 #source/production_*.zip
 /archive/production_zips/
 
+# Ignore the run_all_commands.txt file so users can customize their batch commands
+scripts/run_all_commands.txt
+
