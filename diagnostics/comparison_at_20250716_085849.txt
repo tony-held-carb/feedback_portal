@@ -1,0 +1,84 @@
+Comparing:
+  A: D:\local\cursor\feedback_portal\diagnostics\dairy_digester_operator_feedback_v006_for_review_local.xlsx
+  B: D:\local\cursor\feedback_portal\diagnostics\dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx
+
+File Info:
+  A: Size=99578, Modified=7/15/2025 6:25:48 PM
+  B: Size=95883, Modified=7/15/2025 6:25:48 PM
+[Workbook Property] Last author differs
+    A: Held, Tony@ARB
+    B: Zelinka, Stephen@ARB
+[Workbook Property] Application name differs
+    A: Microsoft Excel
+    B: Microsoft Excel Online
+[Workbook Property] Last print date differs
+    A: Microsoft Excel
+    B: Microsoft Excel Online
+[Workbook Property] Last save time differs
+    A: 7/8/2025 11:29:31 AM
+    B: 7/8/2025 11:40:25 AM
+[Workbook Property] Total editing time differs
+    A: 7/8/2025 11:29:31 AM
+    B: 7/8/2025 11:40:25 AM
+[Workbook Property] Number of pages differs
+    A: 7/8/2025 11:29:31 AM
+    B: 7/8/2025 11:40:25 AM
+[Workbook Property] Number of words differs
+    A: 7/8/2025 11:29:31 AM
+    B: 7/8/2025 11:40:25 AM
+[Workbook Property] Number of characters differs
+    A: 7/8/2025 11:29:31 AM
+    B: 7/8/2025 11:40:25 AM
+[Workbook Property] Security differs
+    A: 0
+    B: 7/8/2025 11:40:25 AM
+
+=== Sheet: Feedback Form ===
+[Content Differences]
+[Row/Column Differences]
+  Column 1: ColumnWidth differs\n    A: 3.38\n    B: 3.46
+  Column 5: ColumnWidth differs\n    A: 3.38\n    B: 3.46
+[Sheet Protection Differences]
+  No sheet protection differences.
+
+=== Sheet: _versioning ===
+[Content Differences]
+[Row/Column Differences]
+[Sheet Protection Differences]
+  No sheet protection differences.
+  No differences found.
+
+=== Sheet: _issue_tracking ===
+[Content Differences]
+[Row/Column Differences]
+  Column 5: ColumnWidth differs\n    A: 11.92\n    B: 11.85
+[Sheet Protection Differences]
+  No sheet protection differences.
+
+=== Sheet: _carb_only ===
+[Content Differences]
+[Row/Column Differences]
+  Column 3: ColumnWidth differs\n    A: 36.38\n    B: 36.46
+[Sheet Protection Differences]
+  No sheet protection differences.
+
+=== Sheet: _json_schema ===
+[Content Differences]
+[Row/Column Differences]
+[Sheet Protection Differences]
+  No sheet protection differences.
+  No differences found.
+
+=== Sheet: _json_metadata ===
+[Content Differences]
+[Row/Column Differences]
+[Sheet Protection Differences]
+  No sheet protection differences.
+  No differences found.
+
+=== Sheet: _named_ranges ===
+[Content Differences]
+[Row/Column Differences]
+  Column 2: ColumnWidth differs\n    A: 24.38\n    B: 24.46
+[Sheet Protection Differences]
+  No sheet protection differences.
