@@ -1272,3 +1272,16 @@ ProgramData=C:\ProgramData
 CURSOR_TRACE_ID=9f881b42df854b37911b65588116d9bd
 _=/usr/bin/env
 feedback_portal$ 
+
+7/16/25 ran comparison of feedback spreadsheets. see comparison for details.
+the only key file that differed was dairy_digester_operator_feedback_v006.xlsx
+both dairy_digester_operator_feedback_v006.xlsx and dairy_digester_operator_feedback_v006_for_review.xlsx were copied to C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
+7/17/25 ran GenerateAllTemplates for
+  wb_names = Array( _
+    "dairy_digester_operator_feedback_v006.xlsx", _
+    "energy_operator_feedback_v003.xlsx", _
+    "generic_operator_feedback_v002.xlsx", _
+    "landfill_operator_feedback_v070.xlsx", _
+    "landfill_operator_feedback_v071.xlsx", _
+    "oil_and_gas_operator_feedback_v070.xlsx" _
+  )

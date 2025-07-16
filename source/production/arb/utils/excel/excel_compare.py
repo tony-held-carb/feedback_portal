@@ -343,7 +343,7 @@ if __name__ == "__main__":
   sharepoint_path = Path(
     r"C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
 
-  if False:
+  if True:
     compare_excel_directories(local_path, sharepoint_path, formatting_mode="full")
 
   if True:

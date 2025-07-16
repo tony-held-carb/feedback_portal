@@ -59,7 +59,7 @@ EXCEL_TEMPLATES = [
         "sector": "Dairy Digester",
         "schema_version": "dairy_digester_v01_00",
         "prefix": "dairy_digester_operator_feedback",
-        "version": "v005",
+        "version": "v006",
         "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
     },
     {

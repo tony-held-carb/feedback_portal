@@ -1,7 +1,7 @@
 {
     "_metadata_": {
         "schema_version": "dairy_digester_v01_00",
-        "File created at": "2025-07-05T18:28:42.952999+00:00",
+        "File created at": "2025-07-16T18:33:28.606707+00:00",
         "Serialized with": "utils.json.json_save_with_meta",
         "Deserialize with": "utils.json.json_load_with_meta"
     },
@@ -147,7 +147,7 @@
             "is_drop_down": false
         },
         "initial_leak_concentration": {
-            "label": "Q9:  Please provide the maximum concentration of methane leak (in ppmv if applicable/possible).",
+            "label": "Q9:  Please provide the maximum concentration of methane leak (in ppmv, if applicable).",
             "label_address": "$B$41",
             "value_address": "$D$41",
             "value_type": {
