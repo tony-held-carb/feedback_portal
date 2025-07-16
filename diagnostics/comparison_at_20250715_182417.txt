@@ -1,0 +1,27 @@
+Comparing Excel files 
+	 A: C:\tony_local\pycharm\feedback_portal\diagnostics\dairy_digester_operator_feedback_v006_for_review_local.xlsx 
+	 B: C:\tony_local\pycharm\feedback_portal\diagnostics\dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx
+
+Comparing:
+  A: dairy_digester_operator_feedback_v006_for_review_local.xlsx
+  B: dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx
+
+SHA-256 Hashes:
+  A: 0c696b60fe60d829ec3ccc2146bdee400d05067c2d9245a45ad4de4714683dd2
+  B: 5cc4588b9e74f2607bc87df8b2d759e13e36efe7ebe5c33ea1e67a7ce9b2df10
+→ Hashes differ; comparing content...
+
+
+=== Sheet: Feedback Form ===
+
+=== Sheet: _carb_only ===
+
+=== Sheet: _issue_tracking ===
+
+=== Sheet: _json_metadata ===
+
+=== Sheet: _json_schema ===
+
+=== Sheet: _named_ranges ===
+
+=== Sheet: _versioning ===

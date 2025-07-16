@@ -350,13 +350,17 @@ if __name__ == "__main__":
   # todo - i don't think this detects changes in the date string formatting, which should be implemented
 
   # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
-  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
+  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions")
   sharepoint_path = Path(
-    r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
-  # compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+    r"C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
 
-  file_a = local_path / "dairy_digester_operator_feedback_v005.xlsx"
-  file_b = local_path / "dairy_digester_operator_feedback_v006.xlsx"
-  print(f"{file_a}\n{file_b}")
-  compare_excel_files(file_a, file_b, formatting_mode="common", log_to_file=True)
+  if False:
+    compare_excel_directories(local_path, sharepoint_path, formatting_mode="full")
+
+  if True:
+    local_path = Path(r"C:\tony_local\pycharm\feedback_portal\diagnostics")
+    file_a = local_path / "dairy_digester_operator_feedback_v006_for_review_local.xlsx"
+    file_b = local_path / "dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx"
+    print(f"{file_a}\n{file_b}")
+    compare_excel_files(file_a, file_b, formatting_mode="full", log_to_file=True)
 

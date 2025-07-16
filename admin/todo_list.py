@@ -5,6 +5,8 @@
 * pulled in refactor_24 and started refactor_25
 
 * make sure feedback form spreadsheets are up to date on the laptop
+  * dairy 06 is likely only on sharepoint and should be backed up first.
+  * compare the rest of the files using compare
 * create new testing files based on the new feedback form versions - that cover the following scenarios:
   * spreadsheet with blank incidence_id (should fail)
   * properly filled out complete sheet of each type
