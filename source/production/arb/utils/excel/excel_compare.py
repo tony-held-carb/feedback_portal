@@ -1,31 +1,20 @@
 """
 excel_compare.py
 
-Compare Excel workbooks (.xlsx) individually or across two directories.
+Limitations (openpyxl and Python-based Excel comparison):
+--------------------------------------------------------
+- openpyxl does not fully capture all Excel formatting differences, especially:
+    * Theme, tint, and indexed colors may not be resolved to their true RGB values.
+    * Some border styles, conditional formatting, and advanced cell styles may not be detected.
+    * Data validation, dropdowns, and protection flags are only partially supported.
+    * Visual differences in Excel (as seen in the UI) may not be reflected in the Python object model.
+    * Some workbook/sheet protection settings and cell-level protection may not be fully compared.
+- As a result, two files that look different in Excel may appear identical to this script, and vice versa.
+- For full-fidelity Excel comparison (including all formatting, protection, and UI-visible differences),
+  consider using the provided VBA-based tool (see excel_compare_vba.bas).
 
-New Features:
-  - Tracks dropdown list changes (data validation of type 'list')
-  - Detects workbook protection differences
-  - Detects sheet protection differences (e.g., formatCells, sort)
-  - Detects locked/hidden cell-level protection differences
+This script is best used for basic content and common formatting checks, not for pixel-perfect or compliance-critical audits.
 
-Retained Features:
-  - File metadata (created, modified)
-  - SHA-256 binary comparison
-  - Cell-by-cell value comparison
-  - Formula and array formula detection
-  - Comment comparison
-  - Formatting comparison (off, common, full)
-  - Sheet mismatch detection
-  - Grouped and labeled output: content, formulas, comments, formatting, dropdowns
-  - Directory comparison output to timestamped file
-
-Example usage:
-    compare_excel_directories(
-      Path("C:/local/folder"),
-      Path("C:/onedrive/folder"),
-      formatting_mode="full"
-    )
 """
 
 import hashlib
