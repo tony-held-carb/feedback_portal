@@ -347,7 +347,8 @@ if __name__ == "__main__":
     compare_excel_directories(local_path, sharepoint_path, formatting_mode="full")
 
   if True:
-    local_path = Path(r"C:\tony_local\pycharm\feedback_portal\diagnostics")
+    # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\diagnostics")
+    local_path = Path(r"D:\local\cursor\feedback_portal\diagnostics")
     file_a = local_path / "dairy_digester_operator_feedback_v006_for_review_local.xlsx"
     file_b = local_path / "dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx"
     print(f"{file_a}\n{file_b}")
