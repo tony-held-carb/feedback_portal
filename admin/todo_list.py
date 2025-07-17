@@ -76,4 +76,6 @@ PR 27 (upcoming) is to continue e2e
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
 
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
+
+* not sure if i want to pursue the view staged routes so i disabled them 
 """
