@@ -672,7 +672,7 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     misc_json = getattr(model_row, "misc_json", {}) or {}
     old_val = misc_json.get(key)
 
-    if confirmed or old_val in (None, "", [], {}):
+    if confirmed:
       patch[key] = new_val
       logger.debug(f"[confirm_staged] Added to patch: {key}={new_val} (confirmed={confirmed})")
 
