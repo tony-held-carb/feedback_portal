@@ -1348,4 +1348,4 @@ EXCEL_TEMPLATES = [
 ]
 
 running e2e pytests: 
-pytest tests/e2e/test_excel_upload_playwright_pytest.py -v
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v > pytest_output_02.txt
