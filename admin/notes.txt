@@ -1285,3 +1285,64 @@ both dairy_digester_operator_feedback_v006.xlsx and dairy_digester_operator_feed
     "landfill_operator_feedback_v071.xlsx", _
     "oil_and_gas_operator_feedback_v070.xlsx" _
   )
+
+Creating testing spreadsheets for e2e testing:
+
+
+EXCEL_TEMPLATES = [
+    {
+        "sector": "Dairy Digester",
+        "schema_version": "dairy_digester_v01_00",
+        "prefix": "dairy_digester_operator_feedback",
+        "version": "v006",
+        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
+    },
+         testing id range 2000-2009
+
+    {
+        "sector": "Energy",
+        "schema_version": "energy_v01_00",
+        "prefix": "energy_operator_feedback",
+        "version": "v003",
+        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
+    },
+         testing id range 2010-2019
+
+    {
+        "sector": "Generic",
+        "schema_version": "generic_v01_00",
+        "prefix": "generic_operator_feedback",
+        "version": "v002",
+        "payload_name": "generic_payload_01",  # reusing oil and gas payload
+    },
+        testing id range 2020-2029
+
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_00",
+        "prefix": "landfill_operator_feedback",
+        "version": "v070",
+        "payload_name": "landfill_payload_01",
+    },
+        testing id range 2030-2039
+        landfill dummy gets 2030
+
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_01",
+        "prefix": "landfill_operator_feedback",
+        "version": "v071",
+        "payload_name": "landfill_payload_01",
+    },
+        testing id range 2040-2049
+
+    {
+        "sector": "Oil and Gas",
+        "schema_version": "oil_and_gas_v01_00",
+        "prefix": "oil_and_gas_operator_feedback",
+        "version": "v070",
+        "payload_name": "oil_and_gas_payload_01",
+    },
+        testing id range 2050-2059
+        landfill dummy gets 2050
+]

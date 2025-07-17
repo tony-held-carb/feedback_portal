@@ -2,6 +2,11 @@
 
 # todo - Next Steps
 ----------------------------
+* figure out the default id_incidence for the create links
+  * def og_incidence_create() -> Response:"id_incidence": 2001,
+  * def landfill_incidence_create() -> Response: "id_incidence": 2002,
+
+
 * create new testing files based on the new feedback form versions - that cover the following scenarios:
   * spreadsheet with blank incidence_id (should fail)
   * properly filled out complete sheet of each type
