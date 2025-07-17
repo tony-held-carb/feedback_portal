@@ -103,3 +103,4 @@ dependencies:
       - wget
       - WTForms-Alchemy
       - file-read-backwards
+      - pytest-asyncio

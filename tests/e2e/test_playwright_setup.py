@@ -3,41 +3,27 @@ Simple test to verify Playwright setup is working correctly.
 This test doesn't require the Flask app to be running.
 """
 
-from playwright.sync_api import sync_playwright
+import pytest
+import asyncio
+from playwright.async_api import async_playwright
 
-def test_playwright_setup():
-    """Test that Playwright can launch a browser and navigate to a simple page."""
-    print("Testing Playwright setup...")
-    
-    with sync_playwright() as p:
-        # Launch browser
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        
+@pytest.mark.asyncio
+async def test_playwright_setup():
+    """Test that Playwright can launch a browser and navigate to a simple page (async version)."""
+    print("Testing Playwright setup (async)...")
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
         try:
-            # Navigate to a simple page
             print("Navigating to example.com...")
-            page.goto("https://example.com")
-            
-            # Check page title
-            title = page.title()
+            await page.goto("https://example.com")
+            title = await page.title()
             print(f"Page title: {title}")
-            
-            # Check for expected content
-            content = page.content()
-            if "Example Domain" in content:
-                print("✅ Playwright setup is working correctly!")
-                return True
-            else:
-                print("❌ Unexpected page content")
-                return False
-                
-        except Exception as e:
-            print(f"❌ Error during Playwright test: {e}")
-            return False
-            
+            content = await page.content()
+            assert "Example Domain" in content, "❌ Unexpected page content"
+            print("✅ Playwright setup is working correctly!")
         finally:
-            browser.close()
+            await browser.close()
 
 if __name__ == "__main__":
     success = test_playwright_setup()

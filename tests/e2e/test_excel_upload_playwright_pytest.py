@@ -512,6 +512,16 @@ class TestExcelUploadStaged:
             if "/review_staged/" in page.url:
                 break
             page.wait_for_timeout(500)
+        # Check if this file is expected to be missing id_incidence (e.g., blank file)
+        if "blank" in Path(file_path).name.lower():
+            # Should remain on upload_staged and show error message
+            assert "/upload_staged" in page.url, f"Expected to remain on upload_staged for blank file, got: {page.url}"
+            page_content = page.content().lower()
+            assert "missing a valid" in page_content or "id_incidence" in page_content, (
+                f"Expected error message about missing id_incidence for blank file. Content: {page_content[:300]}"
+            )
+            return  # Test passes for blank file scenario
+        # Otherwise, proceed as before
         assert "/review_staged/" in page.url, f"Did not redirect to review_staged after upload: {page.url}"
         # Extract id_ and filename from URL
         match = re.search(r"/review_staged/(\d+)/(.*?)$", page.url)
@@ -528,43 +538,33 @@ class TestExcelUploadStaged:
         # Check that at least one field is shown for review
         assert "staged_fields" in page.content() or "Review" in page.content(), "Review page did not load staged fields."
         # 4. Confirm and apply staged update (select all fields)
-        # Find all checkboxes for confirm_overwrite_*
         checkboxes = page.locator("input[type='checkbox'][name^='confirm_overwrite_']")
         count = checkboxes.count()
         for i in range(count):
             checkboxes.nth(i).check()
-        # Submit the form (simulate clicking the confirm button)
         submit_btn = page.locator("form button[type='submit'], form input[type='submit']")
         if submit_btn.count() > 0:
             submit_btn.first.click()
         else:
-            # Fallback: submit the form via JS
             page.evaluate("document.querySelector('form').submit()")
-        # Wait for redirect and success message - handle navigation properly
         original_url = page.url
         for _ in range(10):
             try:
-                # Wait for URL to change or page to load completely
                 page.wait_for_timeout(500)
                 current_url = page.url
                 if current_url != original_url:
                     break
-                # If URL hasn't changed, wait for page to be stable
                 page.wait_for_load_state("networkidle", timeout=1000)
                 break
             except Exception:
-                # Page might be navigating, continue waiting
                 continue
-        # Now check for success indicators after navigation is complete
         try:
             page.wait_for_load_state("networkidle", timeout=5000)
             page_content = page.content().lower()
             success_found = "success" in page_content or "/upload_staged" in page.url
             assert success_found, f"Expected success after confirming staged upload. URL: {page.url}, Content preview: {page_content[:200]}"
         except Exception as e:
-            # If we can't get content, at least verify we're on the right page
             assert "/upload_staged" in page.url, f"Expected redirect to /upload_staged after confirmation. Current URL: {page.url}"
-        # 5. Validate DB: check misc_json for id_
         misc_json = None
         for _ in range(10):
             misc_json = fetch_misc_json_from_db(id_)
@@ -572,15 +572,12 @@ class TestExcelUploadStaged:
                 break
             time.sleep(0.5)
         assert misc_json, f"misc_json not found in DB for id {id_} after confirming staged upload"
-        # Read Excel fields
         excel_fields = read_excel_fields(file_path)
-        # Compare fields
         for field, excel_value in excel_fields.items():
             parsed_value = misc_json.get(field)
             if parsed_value == excel_value:
-                continue  # OK
+                continue
             else:
-                # Value was defaulted or missing, check for warning in logs
                 logs = read_backend_logs()
                 log_text = "".join(logs)
                 assert (field in log_text and ("WARNING" in log_text or "default" in log_text.lower())), \
