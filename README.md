@@ -107,7 +107,7 @@
 git status
 git fetch --all --prune
 git branch -a
-git checkout refactor_25
+git checkout refactor_26
 git status
-git branch -d refactor_24
+git branch -d refactor_25
 git remote prune origin
