@@ -396,6 +396,19 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
         logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
         return redirect(url_for('main.incidence_update', id_=id_))
 
+      # If id_ is None, check if likely blocked due to missing/invalid id_incidence
+      if file_path and (file_path.exists() if hasattr(file_path, 'exists') else True):
+        # Check log message or just show the message if id_ is None
+        logger.warning(f"Upload blocked: missing or invalid id_incidence in {file_path.name}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=(
+            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+            "Please add a positive integer id_incidence to your spreadsheet before uploading."
+          )
+        )
+
       # Step 2: Handle schema recognition failure with enhanced diagnostics
       logger.warning(f"Upload failed schema recognition: {file_path=}")
       error_details = generate_upload_diagnostics(request_file, file_path)
@@ -468,27 +481,39 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
       # Save and stage (no DB commit)
       file_path, id_, sector, json_data, staged_filename = upload_and_stage_only(db, upload_folder, request_file, base)
 
-      if id_ is None or not staged_filename:
-        logger.warning(f"Staging failed: missing or invalid id_incidence in {file_path.name}")
+      if id_ and staged_filename:
+        logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
+        # Enhanced success feedback with staging details
+        success_message = (
+          f"✅ File '{request_file.filename}' staged successfully!\n"
+          f"📋 ID: {id_}\n"
+          f"🏭 Sector: {sector}\n"
+          f"📁 Staged as: {staged_filename}\n"
+          f"🔍 Ready for review and confirmation."
+        )
+        flash(success_message, "success")
+        return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
+
+      # If id_ is None or not staged, check if likely blocked due to missing/invalid id_incidence
+      if file_path and (file_path.exists() if hasattr(file_path, 'exists') else True):
+        logger.warning(f"Staging blocked: missing or invalid id_incidence in {file_path.name}")
         return render_template(
           'upload_staged.html',
           form=form,
-          upload_message="This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
-                         "Please verify the spreadsheet includes that field and try again."
+          upload_message=(
+            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+            "Please add a positive integer id_incidence to your spreadsheet before uploading."
+          )
         )
 
-      logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
-      
-      # Enhanced success feedback with staging details
-      success_message = (
-        f"✅ File '{request_file.filename}' staged successfully!\n"
-        f"📋 ID: {id_}\n"
-        f"🏭 Sector: {sector}\n"
-        f"📁 Staged as: {staged_filename}\n"
-        f"🔍 Ready for review and confirmation."
+      # Fallback: schema recognition failure or other error
+      logger.warning(f"Staging failed: missing or invalid id_incidence in {file_path.name}")
+      return render_template(
+        'upload_staged.html',
+        form=form,
+        upload_message="This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+                       "Please verify the spreadsheet includes that field and try again."
       )
-      flash(success_message, "success")
-      return redirect(url_for('main.review_staged', id_=id_, filename=staged_filename))
 
     except Exception as e:
       logger.exception("Exception occurred during staged upload.")
