@@ -422,6 +422,26 @@ def read_backend_logs():
     except Exception:
         return []
 
+# --- Audit Log Helpers ---
+def extract_audit_block(log_path, filename):
+    """Extracts the audit block for a given filename from the audit log."""
+    with open(log_path, encoding="utf-8") as f:
+        log = f.read()
+    pattern = re.compile(
+        rf"=== BEGIN AUDIT: {re.escape(filename)} ===(.*?)=== END AUDIT: {re.escape(filename)} ===",
+        re.DOTALL
+    )
+    match = pattern.search(log)
+    return match.group(1) if match else None
+
+def extract_machine_summary(audit_block):
+    """Extracts the machine-readable summary JSON from an audit block."""
+    pattern = re.compile(r"--- MACHINE READABLE SUMMARY ---\n(.*?)\n--- END MACHINE READABLE SUMMARY ---", re.DOTALL)
+    match = pattern.search(audit_block)
+    if match:
+        return json.loads(match.group(1))
+    return None
+
 # --- DB Access Helpers ---
 DB_PATH = "source/production/app.db"
 DB_URI = (
