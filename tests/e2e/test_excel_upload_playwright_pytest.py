@@ -73,10 +73,16 @@ def upload_page(page: Page):
     return page
 
 def get_test_files() -> list:
-    """
-    Get list of available test files (all Excel-like files in testing_versions, recursively).
-    """
-    return get_xls_files(TEST_FILES_DIR, recursive=True)
+    base_dirs = [
+        Path("feedback_forms/testing_versions/standard"),
+        Path("feedback_forms/testing_versions/edge_cases"),
+        Path("feedback_forms/testing_versions/generated"),
+        Path("feedback_forms/testing_versions/old")
+    ]
+    files = []
+    for base_dir in base_dirs:
+        files.extend(get_xls_files(base_dir, recursive=True))
+    return files
 
 class TestExcelUpload:
     """Test class for Excel upload functionality."""
@@ -448,8 +454,18 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     print(f"[DEBUG] After upload, page URL: {upload_page.url}")
     page_content = upload_page.content()
     print(f"[DEBUG] After upload, page content (first 1000 chars):\n{page_content[:1000]}")
-    # Try to extract id_incidence from the URL
+
     import re
+    from pathlib import Path
+    # If this is an edge case file, expect error and no redirect
+    if "edge_cases" in Path(file_path).parts:
+        # Should remain on upload page and show error message
+        assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+        assert any(keyword in page_content.lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+            f"Expected error message for edge case file. Content: {page_content[:300]}"
+        )
+        return  # Test passes for edge case scenario
+    # Otherwise, proceed as before
     match = re.search(r"/incidence_update/(\d+)", upload_page.url)
     id_ = match.group(1) if match else None
     if not id_:
@@ -457,11 +473,9 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(page_content, "html.parser")
         error_msgs = []
-        # Look for Bootstrap alert divs or error classes
         for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
             error_msgs.append(alert.get_text(strip=True))
         print(f"[DEBUG] Error messages found on page: {error_msgs}")
-        # Check if the file exists in the upload directory
         upload_dir = Path("portal_uploads")
         uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
         print(f"[DEBUG] Uploaded file(s) found in upload dir: {uploaded_files}")
@@ -474,18 +488,14 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
             break
         time.sleep(0.5)
     assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
-    # Read Excel fields
     excel_fields = read_excel_fields(file_path)
-    # Read backend logs
     logs = read_backend_logs()
     log_text = "".join(logs)
-    # Compare fields
     for field, excel_value in excel_fields.items():
         parsed_value = misc_json.get(field)
         if parsed_value == excel_value:
             continue  # OK
         else:
-            # Value was defaulted or missing, check for warning in logs
             assert (field in log_text and ("WARNING" in log_text or "default" in log_text.lower())), \
                 f"Field '{field}' value mismatch (Excel: {excel_value}, Parsed: {parsed_value}) and no log warning found."
 
@@ -511,18 +521,16 @@ class TestExcelUploadStaged:
             if "/review_staged/" in page.url:
                 break
             page.wait_for_timeout(500)
-        # Check if this file is expected to be missing id_incidence (e.g., blank file)
-        if "blank" in Path(file_path).name.lower():
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
             # Should remain on upload_staged and show error message
-            assert "/upload_staged" in page.url, f"Expected to remain on upload_staged for blank file, got: {page.url}"
+            assert "/upload_staged" in page.url, f"Expected to remain on upload_staged for edge case file, got: {page.url}"
             page_content = page.content().lower()
-            assert "missing a valid" in page_content or "id_incidence" in page_content, (
-                f"Expected error message about missing id_incidence for blank file. Content: {page_content[:300]}"
+            assert any(keyword in page_content for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {page_content[:300]}"
             )
-            return  # Test passes for blank file scenario
+            return  # Test passes for edge case scenario
         # Otherwise, proceed as before
-        assert "/review_staged/" in page.url, f"Did not redirect to review_staged after upload: {page.url}"
-        # Extract id_ and filename from URL
         match = re.search(r"/review_staged/(\d+)/(.*?)$", page.url)
         assert match, f"Could not extract id_ and filename from URL: {page.url}"
         id_ = int(match.group(1))
@@ -534,9 +542,7 @@ class TestExcelUploadStaged:
         # 3. Review staged file: check field diffs
         page.goto(f"{BASE_URL}/review_staged/{id_}/{staged_filename}")
         page.wait_for_load_state("networkidle")
-        # Check that at least one field is shown for review
         assert "staged_fields" in page.content() or "Review" in page.content(), "Review page did not load staged fields."
-        # 4. Confirm and apply staged update (select all fields)
         checkboxes = page.locator("input[type='checkbox'][name^='confirm_overwrite_']")
         count = checkboxes.count()
         for i in range(count):

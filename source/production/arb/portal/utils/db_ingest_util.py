@@ -39,6 +39,9 @@ from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_
 from arb.utils.io_wrappers import copy_file_safe
 from arb.utils.json import extract_id_from_json, json_load_with_meta, json_save_with_meta
 from arb.utils.web_html import upload_single_file
+from arb.portal.utils.import_audit import generate_import_audit
+from arb.utils.excel.xl_parse import xl_schema_map, parse_xl_file
+from arb.portal.startup.runtime_info import LOG_DIR
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -292,6 +295,17 @@ def upload_and_update_db(db: SQLAlchemy,
   add_file_to_upload_table(db, file_path, status="File Added", description=None)
 
   json_path, sector = convert_excel_to_json_if_valid(file_path)
+  # --- DIAGNOSTIC: Generate import audit ---
+  try:
+    parse_result = parse_xl_file(file_path)
+    audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+    audit_log_path = LOG_DIR / "import_audit.log"
+    audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(audit_log_path, "a", encoding="utf-8") as f:
+      f.write(audit + "\n\n")
+  except Exception as e:
+    logging.getLogger(__name__).warning(f"Failed to generate import audit: {e}")
+  # --- END DIAGNOSTIC ---
   if json_path:
     id_, _ = json_file_to_db(db, json_path, base)  # ✅ Perform full ingest
 
@@ -420,6 +434,17 @@ def upload_and_stage_only(db: SQLAlchemy,
   add_file_to_upload_table(db, file_path, status="File Added", description="Staged only (no DB write)")
 
   json_path, sector = convert_excel_to_json_if_valid(file_path)
+  # --- DIAGNOSTIC: Generate import audit ---
+  try:
+    parse_result = parse_xl_file(file_path)
+    audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_staged")
+    audit_log_path = LOG_DIR / "import_audit.log"
+    audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(audit_log_path, "a", encoding="utf-8") as f:
+      f.write(audit + "\n\n")
+  except Exception as e:
+    logging.getLogger(__name__).warning(f"Failed to generate import audit: {e}")
+  # --- END DIAGNOSTIC ---
   if json_path:
     json_data, _ = json_load_with_meta(json_path)
     id_ = extract_id_from_json(json_data)
