@@ -2,8 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
-PR 25 was about updating spreadsheets and creating testing spreadsheets
-PR 26 (upcoming) is to have the logic of staged uploads make more sense
+creating PR 26
+PR 26 is to have the logic of staged uploads make more sense
 PR 27 (upcoming) is to continue e2e
 
 * continue e2e testing so that all of these sheets are tested for upload and upload_staged
