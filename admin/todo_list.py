@@ -2,23 +2,12 @@
 
 # todo - Next Steps
 ----------------------------
-* figure out the default id_incidence for the create links
-  * def og_incidence_create() -> Response:"id_incidence": 2001,
-  * def landfill_incidence_create() -> Response: "id_incidence": 2002,
-
-
-* create new testing files based on the new feedback form versions - that cover the following scenarios:
-  * spreadsheet with blank incidence_id (should fail)
-  * properly filled out complete sheet of each type
-  * simulate garbage for all fields accept incidence_id to see if they fail
-
-* PR in refactor_25 as it should likely only be about updating spreadsheets
-
-* create refactor_26 and continue e2e
+PR 25 was about updating spreadsheets and creating testing spreadsheets
+PR 26 (upcoming) is to have the logic of staged uploads make more sense
+PR 27 (upcoming) is to continue e2e
 
 * continue e2e testing so that all of these sheets are tested for upload and upload_staged
 * add additional e2e testing for all other routes?
-
 
 * update notes and scripts to launch from app/wsgi
 
@@ -27,7 +16,7 @@
     1) upload the file always if save/possible
     2) convert the files to json if possible and save that too
     3) update the database with json contents if possible
-    4) display the appropriate feedback form if it is an implemented sector (currenlty only Oil & Gas and Landfill)
+    4) display the appropriate feedback form if it is an implemented sector (currently only Oil & Gas and Landfill)
     5) provide diagnostic information as to whether the initial file was uploaded, if it was converted to json, if the database was updated, if show the feedback form if the sector is implemented, otherwise indicate that it is not
 
 * check if this was done:
