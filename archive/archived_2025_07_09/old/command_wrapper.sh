@@ -1,0 +1,45 @@
+#!/bin/bash
+# command_wrapper.sh: Run a command, save output to a timestamped file in diagnostics/cursor, and echo a completion marker.
+# timestamps are offset by -7 hours to convert from UTC to PDT
+
+# Usage: ./command_wrapper.sh <command> [args...]
+
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <command> [args...]"
+  exit 1
+fi
+
+# Ensure output directory exists
+OUTPUT_DIR="$(dirname "$0")"
+
+# Try to get milliseconds; fallback to PID if not supported
+if date +"%N" | grep -q '[0-9]'; then
+  TIMESTAMP=$(date -u -d "-7 hours" +"%Y_%m_%d_%H_%M_%S_%3N")
+else
+  TIMESTAMP=$(date -u -d "-7 hours" +"%Y_%m_%d_%H_%M_%S")_$$
+fi
+OUTPUT_FILE="$OUTPUT_DIR/output_${TIMESTAMP}.txt"
+
+# Gather diagnostic info
+CMD_RUN="$@"
+PWD_RUN="$(pwd)"
+DATE_RUN=$(date -u -d "-7 hours")
+
+# Write header to output file
+{
+  echo "===== COMMAND WRAPPER DIAGNOSTICS ====="
+  echo "Command: $CMD_RUN"
+  echo "Working Directory: $PWD_RUN"
+  echo "Timestamp: $DATE_RUN (UTC-7, Pacific Daylight Time)"
+  echo "========================================"
+  echo
+} > "$OUTPUT_FILE"
+
+# Run the command, appending stdout and stderr to the output file
+"$@" >> "$OUTPUT_FILE" 2>&1
+STATUS=$?
+
+echo "OUTPUT_FILE=$OUTPUT_FILE"
+echo "EXIT_STATUS=$STATUS"
+echo "COMMAND_DONE"
+exit $STATUS 

@@ -945,3 +945,404 @@ Files that were double checked
 | 17| arb/auth_example_app/wsgi.py                  | No                    | No                         |
 
 ---
+
+For this session, please name all output files in D:/local/cursor/feedback_portal/diagnostics/cursor/ using a brief, descriptive filename that summarizes the command (e.g., git_status.txt, git_branch.txt, pip_list.txt).
+Do not include any timestamp or date information in the filename.
+Always use the full absolute path for output redirection, and ensure the filename clearly reflects the command or output content.
+
+git branch -a > D:/local/cursor/feedback_portal/diagnostics/cursor/git_branch.txt 2>&1
+cd /d "D:/local/cursor/feedback_portal" && git status &2>1 > D:/local/cursor/feedback_portal/diagnostics/cursor/git_status.txt
+
+Installed git bash to my home and work machines so i can use linux consistently
+
+$ echo $HOME
+/c/Users/tonyh
+
+explorer . -> opens explore in pwd 
+
+Most Important Dotfiles in Git Bash
+| Filename              | Purpose                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
+| **`~/.bashrc`**       | Main interactive shell config. Aliases, functions, env vars.                 |
+| **`~/.bash_profile`** | Run on **login shells** (loads `.bashrc` manually).                          |
+| **`~/.profile`**      | Generic POSIX startup file, often ignored in Bash if `.bash_profile` exists. |
+| **`~/.inputrc`**      | Customizes keyboard and tab-completion behavior in Bash.                     |
+| **`~/.gitconfig`**    | Git-specific config (e.g. user.name, aliases).                               |
+| **`~/.ssh/config`**   | SSH settings for GitHub, remotes, keys.                                      |
+
+
+/c/Users/tonyh/miniconda3/Scripts/conda.exe init bash
+
+The logic that powers conda shell.bash hook lives inside the Python scripts of your Conda installation — particularly in:
+C:\Users\tonyh\miniconda3\lib\site-packages\conda\shell\bash.py
+
+C:\Users\tonyh\AppData\Roaming\Cursor\User\settings.json
+{
+    "window.commandCenter": true,
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "workbench.colorTheme": "Daynight Darcula",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true
+}
+
+{
+  "window.commandCenter": true,
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe"
+    }
+  },
+  "workbench.colorTheme": "Daynight Darcula",
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true
+}
+
+my git bash is at: "C:\Program Files\Git\git-bash.exe"
+
+path mangling was fixed by uninstalling and then reinstalling the plugins wtih shift-control-x
+
+
+/c/Users/tonyh/miniconda3/Scripts/conda.exe init bash
+
+
+feedback_portal$ env
+ProgramFiles(x86)=C:\Program Files (x86)
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+SHELL=/usr/bin/bash.exe
+NUMBER_OF_PROCESSORS=24
+FPS_BROWSER_USER_PROFILE_STRING=Default
+COLORTERM=truecolor
+PROCESSOR_LEVEL=6
+TERM_PROGRAM_VERSION=1.2.4
+CONDA_EXE=C:/Users/tonyh/miniconda3/Scripts/conda.exe
+MINGW_PREFIX=C:/Program Files/Git/mingw64
+DATABASE_URI=postgresql+psycopg2://postgres:methane@localhost:5432/tony_home_tracker
+PKG_CONFIG_PATH=C:\Program Files\Git\mingw64\lib\pkgconfig;C:\Program Files\Git\mingw64\share\pkgconfig
+USERDOMAIN_ROAMINGPROFILE=TONY_DESKTOP
+HOSTNAME=tony_desktop
+CUDA_PATH_V11_2=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+PROGRAMFILES=C:\Program Files
+MSYSTEM=MINGW64
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+JAVA_HOME=C:\java\jdk_1.8
+ORIGINAL_TEMP=C:/Users/tonyh/AppData/Local/Temp
+MINGW_CHOST=x86_64-w64-mingw32
+OS=Windows_NT
+HOMEDRIVE=C:
+MSYSTEM_CARCH=x86_64
+SPARK_LOCAL_HOSTNAME=localhost
+USERDOMAIN=TONY_DESKTOP
+PWD=/d/local/cursor/feedback_portal
+USERPROFILE=C:\Users\tonyh
+CONDA_PREFIX=C:\Users\tonyh\miniconda3
+MANPATH=C:\Program Files\Git\mingw64\local\man;C:\Program Files\Git\mingw64\share\man;C:\Program Files\Git\usr\local\man;C:\Program Files\Git\usr\share\man;C:\Program Files\Git\usr\man;C:\Program Files\Git\share\man
+VSCODE_GIT_ASKPASS_NODE=C:\Users\tonyh\AppData\Local\Programs\cursor\Cursor.exe
+MINGW_PACKAGE_PREFIX=mingw-w64-x86_64
+ALLUSERSPROFILE=C:\ProgramData
+ORIGINAL_PATH=/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/dotnet:/c/Program Files/Graphviz/bin:/c/Program Files/Docker/Docker/resources/bin:/c/Program Files/PuTTY:%SPARK_HOME%/bin:%HADOOP_HOME%/bin:%JAVA_HOME%/bin:/c/Program Files/nodejs:/c/Program Files/NVIDIA Corporation/Nsight Compute 2020.3.1:/cmd:/c/Users/tonyh/v_env/py_01/Scripts:/c/Users/tonyh/AppData/Local/Microsoft/WindowsApps:/c/Users/tonyh/.dotnet/tools:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Users/tonyh/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/tonyh/AppData/Roaming/npm:/c/Users/tonyh/AppData/Local/Programs/cursor/resources/app/bin:/c/tony_apps/PostgreSQL/14/bin
+CommonProgramW6432=C:\Program Files\Common Files
+HOME=/c/Users/tonyh
+USERNAME=tonyh
+SSH_ASKPASS=C:/Program Files/Git/mingw64/bin/git-askpass.exe
+LANG=en_US.UTF-8
+VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+PLINK_PROTOCOL=ssh
+OneDrive=C:\Users\tonyh\OneDrive
+COMSPEC=C:\WINDOWS\system32\cmd.exe
+NVCUDASAMPLES11_2_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v11.2
+EFC_1892_2775293581=1
+CONDA_PROMPT_MODIFIER=(base)
+TMPDIR=/tmp
+GIT_ASKPASS=c:\Users\tonyh\AppData\Local\Programs\cursor\resources\app\extensions\git\dist\askpass.sh
+APPDATA=C:\Users\tonyh\AppData\Roaming
+NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v11.2
+SYSTEMROOT=C:\WINDOWS
+LOCALAPPDATA=C:\Users\tonyh\AppData\Local
+EFC_1892_2283032206=1
+COMPUTERNAME=TONY_DESKTOP
+INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info  
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+PYSPARK_PYTHON=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
+PYTHONPATH=D:\local\cursor\feedback_portal\source\production;
+TERM=xterm
+HADOOP_HOME=C:\hadoop
+LOGONSERVER=\\TONY_DESKTOP
+PYSPARK_HOME=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
+ACLOCAL_PATH=C:\Program Files\Git\mingw64\share\aclocal;C:\Program Files\Git\usr\share\aclocal
+CURL_CA_BUNDLE=C:\tony_apps\PostgreSQL\14\ssl\certs\ca-bundle.crt
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules      
+NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-2bbd251d92-sock
+CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+CONDA_SHLVL=1
+TEMP=/tmp
+MSYSTEM_CHOST=x86_64-w64-mingw32
+DISPLAY=needs-to-be-defined
+SHLVL=3
+ORIGINAL_TMP=C:/Users/tonyh/AppData/Local/Temp
+PROCESSOR_REVISION=b701
+DriverData=C:\Windows\System32\Drivers\DriverData
+EFC_1892_1262719628=1
+SPARK_HOME=C:\spark\spark-3.3.2-bin-hadoop2
+PROJ_LIB=C:\tony_apps\PostgreSQL\14\share\contrib\postgis-3.4\proj
+COMMONPROGRAMFILES=C:\Program Files\Common Files
+CONDA_PYTHON_EXE=C:/Users/tonyh/miniconda3/python.exe
+MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit PDF Reader\plugins\
+LC_CTYPE=en_US.UTF-8
+POSTGIS_GDAL_ENABLED_DRIVERS=GTiff PNG JPEG GIF XYZ DTED USGSDEM AAIGrid
+SSL_CERT_FILE=C:\Users\tonyh\cacert.pem
+EXEPATH=C:\Program Files\Git\bin
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+SESSIONNAME=Console
+PS1=\[\]$(basename "$PWD")\$ \[\]
+CONDA_DEFAULT_ENV=base
+EFC_1892_1592913036=1
+POSTGIS_ENABLE_OUTDB_RASTERS=1
+PKG_CONFIG_SYSTEM_LIBRARY_PATH=C:/Program Files/Git/mingw64/lib
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\tonyh\AppData\Local\Programs\cursor\resources\app\extensions\git\dist\askpass-main.js
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_1840_LYUDSCHNLLUQVGGK
+HOMEPATH=\Users\tonyh
+TMP=/tmp
+GDAL_DATA=C:\tony_apps\PostgreSQL\14\gdal-data
+CONFIG_SITE=C:/Program Files/Git/etc/config.site
+PATH=/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Users/tonyh/miniconda3:/c/Users/tonyh/miniconda3/Library/mingw-w64/bin:/c/Users/tonyh/miniconda3/Library/usr/bin:/c/Users/tonyh/miniconda3/Library/bin:/c/Users/tonyh/miniconda3/Scripts:/c/Users/tonyh/miniconda3/bin:/c/Users/tonyh/miniconda3/condabin:/c/Users/tonyh/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/dotnet:/c/Program Files/Graphviz/bin:/c/Program Files/Docker/Docker/resources/bin:/c/Program Files/PuTTY:%SPARK_HOME%/bin:%HADOOP_HOME%/bin:%JAVA_HOME%/bin:/c/Program Files/nodejs:/c/Program Files/NVIDIA Corporation/Nsight Compute 2020.3.1:/cmd:/c/Users/tonyh/v_env/py_01/Scripts:/c/Users/tonyh/AppData/Local/Microsoft/WindowsApps:/c/Users/tonyh/.dotnet/tools:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Users/tonyh/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/tonyh/AppData/Roaming/npm:/c/Users/tonyh/AppData/Local/Programs/cursor/resources/app/bin:/c/tony_apps/PostgreSQL/14/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Users/tonyh/bin:/c/Users/tonyh/bin
+EFC_1892_3789132940=1
+ProgramW6432=C:\Program Files
+MSYSTEM_PREFIX=C:/Program Files/Git/mingw64
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+WINDIR=C:\WINDOWS
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PROCESSOR_ARCHITECTURE=AMD64
+PUBLIC=C:\Users\Public
+PKG_CONFIG_SYSTEM_INCLUDE_PATH=C:/Program Files/Git/mingw64/include
+SYSTEMDRIVE=C:
+TERM_PROGRAM=vscode
+ProgramData=C:\ProgramData
+CURSOR_TRACE_ID=9f881b42df854b37911b65588116d9bd
+_=/usr/bin/env
+feedback_portal$ where conda
+C:\Users\tonyh\miniconda3\Library\bin\conda.bat
+C:\Users\tonyh\miniconda3\Scripts\conda.exe
+C:\Users\tonyh\miniconda3\condabin\conda.bat
+feedback_portal$ conda activate mini_conda_01
+
+CondaError: Run 'conda init' before 'conda activate'
+
+feedback_portal$ conda init
+no change     C:\Users\tonyh\miniconda3\Scripts\conda.exe
+no change     C:\Users\tonyh\miniconda3\Scripts\conda-env.exe
+no change     C:\Users\tonyh\miniconda3\Scripts\conda-script.py
+no change     C:\Users\tonyh\miniconda3\Scripts\conda-env-script.py
+no change     C:\Users\tonyh\miniconda3\condabin\conda.bat
+no change     C:\Users\tonyh\miniconda3\Library\bin\conda.bat
+no change     C:\Users\tonyh\miniconda3\condabin\_conda_activate.bat
+no change     C:\Users\tonyh\miniconda3\condabin\rename_tmp.bat
+no change     C:\Users\tonyh\miniconda3\condabin\conda_auto_activate.bat
+no change     C:\Users\tonyh\miniconda3\condabin\conda_hook.bat
+no change     C:\Users\tonyh\miniconda3\Scripts\activate.bat
+no change     C:\Users\tonyh\miniconda3\condabin\activate.bat
+no change     C:\Users\tonyh\miniconda3\condabin\deactivate.bat
+no change     C:\Users\tonyh\miniconda3\Scripts\activate
+no change     C:\Users\tonyh\miniconda3\Scripts\deactivate
+no change     C:\Users\tonyh\miniconda3\etc\profile.d\conda.sh
+no change     C:\Users\tonyh\miniconda3\etc\fish\conf.d\conda.fish
+no change     C:\Users\tonyh\miniconda3\shell\condabin\Conda.psm1
+no change     C:\Users\tonyh\miniconda3\shell\condabin\conda-hook.ps1
+no change     C:\Users\tonyh\miniconda3\Lib\site-packages\xontrib\conda.xsh
+no change     C:\Users\tonyh\miniconda3\etc\profile.d\conda.csh
+modified      C:\Users\tonyh\OneDrive\Documents\WindowsPowerShell\profile.ps1
+modified      HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun
+
+==> For changes to take effect, close and re-open your current shell. <==
+
+feedback_portal$ env
+ProgramFiles(x86)=C:\Program Files (x86)
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+SHELL=/usr/bin/bash.exe
+NUMBER_OF_PROCESSORS=24
+FPS_BROWSER_USER_PROFILE_STRING=Default
+COLORTERM=truecolor
+PROCESSOR_LEVEL=6
+TERM_PROGRAM_VERSION=1.2.4
+CONDA_EXE=C:/Users/tonyh/miniconda3/Scripts/conda.exe
+MINGW_PREFIX=C:/Program Files/Git/mingw64
+DATABASE_URI=postgresql+psycopg2://postgres:methane@localhost:5432/tony_home_tracker
+PKG_CONFIG_PATH=C:\Program Files\Git\mingw64\lib\pkgconfig;C:\Program Files\Git\mingw64\share\pkgconfig
+USERDOMAIN_ROAMINGPROFILE=TONY_DESKTOP
+HOSTNAME=tony_desktop
+CUDA_PATH_V11_2=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+PROGRAMFILES=C:\Program Files
+MSYSTEM=MINGW64
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+JAVA_HOME=C:\java\jdk_1.8
+ORIGINAL_TEMP=C:/Users/tonyh/AppData/Local/Temp
+MINGW_CHOST=x86_64-w64-mingw32
+OS=Windows_NT
+HOMEDRIVE=C:
+MSYSTEM_CARCH=x86_64
+SPARK_LOCAL_HOSTNAME=localhost
+USERDOMAIN=TONY_DESKTOP
+PWD=/d/local/cursor/feedback_portal
+USERPROFILE=C:\Users\tonyh
+CONDA_PREFIX=C:\Users\tonyh\miniconda3
+MANPATH=C:\Program Files\Git\mingw64\local\man;C:\Program Files\Git\mingw64\share\man;C:\Program Files\Git\usr\local\man;C:\Program Files\Git\usr\share\man;C:\Program Files\Git\usr\man;C:\Program Files\Git\share\man
+VSCODE_GIT_ASKPASS_NODE=C:\Users\tonyh\AppData\Local\Programs\cursor\Cursor.exe
+MINGW_PACKAGE_PREFIX=mingw-w64-x86_64
+ALLUSERSPROFILE=C:\ProgramData
+ORIGINAL_PATH=/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/dotnet:/c/Program Files/Graphviz/bin:/c/Program Files/Docker/Docker/resources/bin:/c/Program Files/PuTTY:%SPARK_HOME%/bin:%HADOOP_HOME%/bin:%JAVA_HOME%/bin:/c/Program Files/nodejs:/c/Program Files/NVIDIA Corporation/Nsight Compute 2020.3.1:/cmd:/c/Users/tonyh/v_env/py_01/Scripts:/c/Users/tonyh/AppData/Local/Microsoft/WindowsApps:/c/Users/tonyh/.dotnet/tools:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Users/tonyh/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/tonyh/AppData/Roaming/npm:/c/Users/tonyh/AppData/Local/Programs/cursor/resources/app/bin:/c/tony_apps/PostgreSQL/14/bin
+CommonProgramW6432=C:\Program Files\Common Files
+HOME=/c/Users/tonyh
+USERNAME=tonyh
+SSH_ASKPASS=C:/Program Files/Git/mingw64/bin/git-askpass.exe
+LANG=en_US.UTF-8
+VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+PLINK_PROTOCOL=ssh
+OneDrive=C:\Users\tonyh\OneDrive
+COMSPEC=C:\WINDOWS\system32\cmd.exe
+NVCUDASAMPLES11_2_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v11.2
+EFC_1892_2775293581=1
+CONDA_PROMPT_MODIFIER=(base)
+TMPDIR=/tmp
+GIT_ASKPASS=c:\Users\tonyh\AppData\Local\Programs\cursor\resources\app\extensions\git\dist\askpass.sh
+APPDATA=C:\Users\tonyh\AppData\Roaming
+NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v11.2
+SYSTEMROOT=C:\WINDOWS
+LOCALAPPDATA=C:\Users\tonyh\AppData\Local
+EFC_1892_2283032206=1
+COMPUTERNAME=TONY_DESKTOP
+INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info  
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+PYSPARK_PYTHON=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
+PYTHONPATH=D:\local\cursor\feedback_portal\source\production;
+TERM=xterm
+HADOOP_HOME=C:\hadoop
+LOGONSERVER=\\TONY_DESKTOP
+PYSPARK_HOME=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
+ACLOCAL_PATH=C:\Program Files\Git\mingw64\share\aclocal;C:\Program Files\Git\usr\share\aclocal
+CURL_CA_BUNDLE=C:\tony_apps\PostgreSQL\14\ssl\certs\ca-bundle.crt
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules      
+NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-2bbd251d92-sock
+CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+CONDA_SHLVL=1
+TEMP=/tmp
+MSYSTEM_CHOST=x86_64-w64-mingw32
+DISPLAY=needs-to-be-defined
+SHLVL=3
+ORIGINAL_TMP=C:/Users/tonyh/AppData/Local/Temp
+PROCESSOR_REVISION=b701
+DriverData=C:\Windows\System32\Drivers\DriverData
+EFC_1892_1262719628=1
+SPARK_HOME=C:\spark\spark-3.3.2-bin-hadoop2
+PROJ_LIB=C:\tony_apps\PostgreSQL\14\share\contrib\postgis-3.4\proj
+COMMONPROGRAMFILES=C:\Program Files\Common Files
+CONDA_PYTHON_EXE=C:/Users/tonyh/miniconda3/python.exe
+MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit PDF Reader\plugins\
+LC_CTYPE=en_US.UTF-8
+POSTGIS_GDAL_ENABLED_DRIVERS=GTiff PNG JPEG GIF XYZ DTED USGSDEM AAIGrid
+SSL_CERT_FILE=C:\Users\tonyh\cacert.pem
+EXEPATH=C:\Program Files\Git\bin
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+SESSIONNAME=Console
+PS1=\[\]$(basename "$PWD")\$ \[\]
+CONDA_DEFAULT_ENV=base
+EFC_1892_1592913036=1
+POSTGIS_ENABLE_OUTDB_RASTERS=1
+PKG_CONFIG_SYSTEM_LIBRARY_PATH=C:/Program Files/Git/mingw64/lib
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\tonyh\AppData\Local\Programs\cursor\resources\app\extensions\git\dist\askpass-main.js
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_1840_LYUDSCHNLLUQVGGK
+HOMEPATH=\Users\tonyh
+TMP=/tmp
+GDAL_DATA=C:\tony_apps\PostgreSQL\14\gdal-data
+CONFIG_SITE=C:/Program Files/Git/etc/config.site
+PATH=/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Users/tonyh/miniconda3:/c/Users/tonyh/miniconda3/Library/mingw-w64/bin:/c/Users/tonyh/miniconda3/Library/usr/bin:/c/Users/tonyh/miniconda3/Library/bin:/c/Users/tonyh/miniconda3/Scripts:/c/Users/tonyh/miniconda3/bin:/c/Users/tonyh/miniconda3/condabin:/c/Users/tonyh/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/tonyh/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/dotnet:/c/Program Files/Graphviz/bin:/c/Program Files/Docker/Docker/resources/bin:/c/Program Files/PuTTY:%SPARK_HOME%/bin:%HADOOP_HOME%/bin:%JAVA_HOME%/bin:/c/Program Files/nodejs:/c/Program Files/NVIDIA Corporation/Nsight Compute 2020.3.1:/cmd:/c/Users/tonyh/v_env/py_01/Scripts:/c/Users/tonyh/AppData/Local/Microsoft/WindowsApps:/c/Users/tonyh/.dotnet/tools:/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/c/Users/tonyh/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/tonyh/AppData/Roaming/npm:/c/Users/tonyh/AppData/Local/Programs/cursor/resources/app/bin:/c/tony_apps/PostgreSQL/14/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Users/tonyh/bin:/c/Users/tonyh/bin
+EFC_1892_3789132940=1
+ProgramW6432=C:\Program Files
+MSYSTEM_PREFIX=C:/Program Files/Git/mingw64
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+WINDIR=C:\WINDOWS
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PROCESSOR_ARCHITECTURE=AMD64
+PUBLIC=C:\Users\Public
+PKG_CONFIG_SYSTEM_INCLUDE_PATH=C:/Program Files/Git/mingw64/include
+SYSTEMDRIVE=C:
+TERM_PROGRAM=vscode
+ProgramData=C:\ProgramData
+CURSOR_TRACE_ID=9f881b42df854b37911b65588116d9bd
+_=/usr/bin/env
+feedback_portal$ 
+
+7/16/25 ran comparison of feedback spreadsheets. see comparison for details.
+the only key file that differed was dairy_digester_operator_feedback_v006.xlsx
+both dairy_digester_operator_feedback_v006.xlsx and dairy_digester_operator_feedback_v006_for_review.xlsx were copied to C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
+7/17/25 ran GenerateAllTemplates for
+  wb_names = Array( _
+    "dairy_digester_operator_feedback_v006.xlsx", _
+    "energy_operator_feedback_v003.xlsx", _
+    "generic_operator_feedback_v002.xlsx", _
+    "landfill_operator_feedback_v070.xlsx", _
+    "landfill_operator_feedback_v071.xlsx", _
+    "oil_and_gas_operator_feedback_v070.xlsx" _
+  )
+
+Creating testing spreadsheets for e2e testing:
+
+
+EXCEL_TEMPLATES = [
+    {
+        "sector": "Dairy Digester",
+        "schema_version": "dairy_digester_v01_00",
+        "prefix": "dairy_digester_operator_feedback",
+        "version": "v006",
+        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
+    },
+         testing id range 2000-2009
+
+    {
+        "sector": "Energy",
+        "schema_version": "energy_v01_00",
+        "prefix": "energy_operator_feedback",
+        "version": "v003",
+        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
+    },
+         testing id range 2010-2019
+
+    {
+        "sector": "Generic",
+        "schema_version": "generic_v01_00",
+        "prefix": "generic_operator_feedback",
+        "version": "v002",
+        "payload_name": "generic_payload_01",  # reusing oil and gas payload
+    },
+        testing id range 2020-2029
+
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_00",
+        "prefix": "landfill_operator_feedback",
+        "version": "v070",
+        "payload_name": "landfill_payload_01",
+    },
+        testing id range 2030-2039
+        landfill dummy gets 2030
+
+    {
+        "sector": "Landfill",
+        "schema_version": "landfill_v01_01",
+        "prefix": "landfill_operator_feedback",
+        "version": "v071",
+        "payload_name": "landfill_payload_01",
+    },
+        testing id range 2040-2049
+
+    {
+        "sector": "Oil and Gas",
+        "schema_version": "oil_and_gas_v01_00",
+        "prefix": "oil_and_gas_operator_feedback",
+        "version": "v070",
+        "payload_name": "oil_and_gas_payload_01",
+    },
+        testing id range 2050-2059
+        landfill dummy gets 2050
+]

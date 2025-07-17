@@ -1,31 +1,20 @@
 """
 excel_compare.py
 
-Compare Excel workbooks (.xlsx) individually or across two directories.
+Limitations (openpyxl and Python-based Excel comparison):
+--------------------------------------------------------
+- openpyxl does not fully capture all Excel formatting differences, especially:
+    * Theme, tint, and indexed colors may not be resolved to their true RGB values.
+    * Some border styles, conditional formatting, and advanced cell styles may not be detected.
+    * Data validation, dropdowns, and protection flags are only partially supported.
+    * Visual differences in Excel (as seen in the UI) may not be reflected in the Python object model.
+    * Some workbook/sheet protection settings and cell-level protection may not be fully compared.
+- As a result, two files that look different in Excel may appear identical to this script, and vice versa.
+- For full-fidelity Excel comparison (including all formatting, protection, and UI-visible differences),
+  consider using the provided VBA-based tool (see excel_compare_vba.bas).
 
-New Features:
-  - Tracks dropdown list changes (data validation of type 'list')
-  - Detects workbook protection differences
-  - Detects sheet protection differences (e.g., formatCells, sort)
-  - Detects locked/hidden cell-level protection differences
+This script is best used for basic content and common formatting checks, not for pixel-perfect or compliance-critical audits.
 
-Retained Features:
-  - File metadata (created, modified)
-  - SHA-256 binary comparison
-  - Cell-by-cell value comparison
-  - Formula and array formula detection
-  - Comment comparison
-  - Formatting comparison (off, common, full)
-  - Sheet mismatch detection
-  - Grouped and labeled output: content, formulas, comments, formatting, dropdowns
-  - Directory comparison output to timestamped file
-
-Example usage:
-    compare_excel_directories(
-      Path("C:/local/folder"),
-      Path("C:/onedrive/folder"),
-      formatting_mode="full"
-    )
 """
 
 import hashlib
@@ -350,13 +339,18 @@ if __name__ == "__main__":
   # todo - i don't think this detects changes in the date string formatting, which should be implemented
 
   # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
-  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\processed_versions\xl_workbooks")
+  local_path = Path(r"C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions")
   sharepoint_path = Path(
-    r"C:\one_drive\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
-  # compare_excel_directories(local_path, sharepoint_path, formatting_mode="common")
+    r"C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks")
 
-  file_a = local_path / "dairy_digester_operator_feedback_v005.xlsx"
-  file_b = local_path / "dairy_digester_operator_feedback_v006.xlsx"
-  print(f"{file_a}\n{file_b}")
-  compare_excel_files(file_a, file_b, formatting_mode="common", log_to_file=True)
+  if True:
+    compare_excel_directories(local_path, sharepoint_path, formatting_mode="full")
+
+  if True:
+    # local_path = Path(r"C:\tony_local\pycharm\feedback_portal\diagnostics")
+    local_path = Path(r"D:\local\cursor\feedback_portal\diagnostics")
+    file_a = local_path / "dairy_digester_operator_feedback_v006_for_review_local.xlsx"
+    file_b = local_path / "dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx"
+    print(f"{file_a}\n{file_b}")
+    compare_excel_files(file_a, file_b, formatting_mode="full", log_to_file=True)
 

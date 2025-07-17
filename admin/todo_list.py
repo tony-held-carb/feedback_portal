@@ -2,20 +2,12 @@
 
 # todo - Next Steps
 ----------------------------
-* pull in refactor_24 and start refactor_25
-* make sure feedback form spreadsheets are up to date on the laptop
-* create new testing files based on the new feedback form versions - that cover the following scenarios:
-  * spreadsheet with blank incidence_id (should fail)
-  * properly filled out complete sheet of each type
-  * simulate garbage for all fields accept incidence_id to see if they fail
-
-* PR in refactor_25 as it should likely only be about updating spreadsheets
-
-* create refactor_26 and continue e2e
+PR 25 was about updating spreadsheets and creating testing spreadsheets
+PR 26 (upcoming) is to have the logic of staged uploads make more sense
+PR 27 (upcoming) is to continue e2e
 
 * continue e2e testing so that all of these sheets are tested for upload and upload_staged
 * add additional e2e testing for all other routes?
-
 
 * update notes and scripts to launch from app/wsgi
 
@@ -24,7 +16,7 @@
     1) upload the file always if save/possible
     2) convert the files to json if possible and save that too
     3) update the database with json contents if possible
-    4) display the appropriate feedback form if it is an implemented sector (currenlty only Oil & Gas and Landfill)
+    4) display the appropriate feedback form if it is an implemented sector (currently only Oil & Gas and Landfill)
     5) provide diagnostic information as to whether the initial file was uploaded, if it was converted to json, if the database was updated, if show the feedback form if the sector is implemented, otherwise indicate that it is not
 
 * check if this was done:
@@ -80,39 +72,8 @@
   * Status: E2E discard tests will be skipped for now to allow continued testing without modifying source code
   * TODO: Debug backend discard logic - check file paths, permissions, glob pattern matching, and add logging to identify why files are not being deleted
 
-"""
-"""
-PR Overview: Merge refactor_24 into main
+* ---------   Error Handling and Debugging Improvements ----------
+* TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
 
-Summary of Major Changes and Improvements
-
-- Comprehensive E2E Testing Enhancements
-  - Added and refactored Playwright-based E2E tests for both /upload (production) and /upload_staged (staged) workflows.
-  - Deep backend validation: tests now verify that spreadsheet data is correctly inserted into the database.
-  - Improved test output handling, diagnostics, and error reporting.
-
-- Staged Upload Workflow
-  - Implemented and validated the full staged upload flow: upload, review, confirm/apply, and discard.
-  - Identified and documented backend issues with staged discard logic; tests and TODOs updated accordingly.
-
-- Developer Utilities
-  - Added a new “Delete Testing Range” developer tool (UI + backend) to safely delete test data by id_incidence range.
-  - Includes dry run/preview mode, modal confirmation, and full auditability of affected IDs.
-  - All related JavaScript moved to dedicated, well-documented static files.
-
-- Testing and Safety Improvements
-  - Improved test isolation: ability to skip slow/validated tests during staged workflow debugging.
-  - Added clear warnings, instructions, and UI feedback for all destructive actions.
-  - All destructive actions require explicit confirmation and provide previews.
-
-- Codebase Hygiene and Documentation
-  - Refactored and documented utility functions for test data cleanup.
-  - Improved code and docstring consistency, following project style and safety guidelines.
-  - Navbar and UI updated for better developer workflow and discoverability.
-
-Notes
-- All major E2E and backend tests pass, except for the known staged discard backend issue (documented and skipped).
-- All new developer utilities are isolated, safe, and well-documented.
-- Ready for further development in refactor_25.
-
+* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 """

@@ -168,7 +168,7 @@
 "is_drop_down": false
 },
 "initial_leak_concentration": {
-"label": "Q9:  Please provide the maximum concentration of methane leak (in ppmv if applicable/possible).",
+"label": "Q9:  Please provide the maximum concentration of methane leak (in ppmv, if applicable).",
 "label_address": "$B$41",
 "value_address": "$D$41",
 "is_drop_down": false

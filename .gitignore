@@ -5,6 +5,8 @@
 *.iml
 .vscode/
 
+# diagnostics from cursor
+diagnostics/cursor
 
 # Python cache
 __pycache__/
@@ -41,4 +43,7 @@ source/production/site/
 #*.zip
 #source/production_*.zip
 /archive/production_zips/
+
+# Ignore the run_all_commands.txt file so users can customize their batch commands
+scripts/run_all_commands.txt
 

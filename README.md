@@ -102,3 +102,12 @@
   * mkdocs gh-deploy --clean
 * run local server
   * mkdocs serve
+
+### Updating home repo after PR on my work machine
+git status
+git fetch --all --prune
+git branch -a
+git checkout refactor_25
+git status
+git branch -d refactor_24
+git remote prune origin
