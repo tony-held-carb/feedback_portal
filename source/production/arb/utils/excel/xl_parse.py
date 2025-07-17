@@ -254,6 +254,12 @@ def extract_tabs(wb: openpyxl.Workbook,
       is_drop_down = lookup['is_drop_down']
       # works, but you get a lint error because this will break if value_address is not a single cell
       value = ws[value_address].value  # type: ignore[attr-defined]
+      # Strip whitespace for string fields and log if changed
+      if value is not None and value_type == str and isinstance(value, str):
+          stripped_value = value.strip()
+          if value != stripped_value:
+              logger.warning(f"Whitespace detected for field '{html_field_name}' at {value_address}: before strip: {repr(value)}, after strip: {repr(stripped_value)}")
+          value = stripped_value
 
       if skip_please_selects is True:
         if is_drop_down and value == PLEASE_SELECT:
