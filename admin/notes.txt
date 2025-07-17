@@ -1346,3 +1346,6 @@ EXCEL_TEMPLATES = [
         testing id range 2050-2059
         landfill dummy gets 2050
 ]
+
+running e2e pytests: 
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v
