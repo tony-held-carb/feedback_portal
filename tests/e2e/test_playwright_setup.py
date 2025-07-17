@@ -5,11 +5,13 @@ This test doesn't require the Flask app to be running.
 
 import pytest
 import asyncio
+import sniffio
 from playwright.async_api import async_playwright
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_playwright_setup():
-    """Test that Playwright can launch a browser and navigate to a simple page (async version)."""
+    if sniffio.current_async_library() != "asyncio":
+        pytest.skip("Playwright only supports asyncio backend")
     print("Testing Playwright setup (async)...")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)

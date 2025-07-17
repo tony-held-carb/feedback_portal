@@ -430,7 +430,6 @@ def fetch_misc_json_from_db(id_):
         finally:
             conn.close()
 
-@pytest.mark.skip(reason="Temporarily skipping /upload E2E tests to speed up /upload_staged debugging. TODO: Re-enable after staged workflow is stable.")
 @pytest.mark.parametrize("file_path", get_test_files())
 def test_excel_upload_deep_backend_validation(upload_page, file_path):
     # Navigate to the upload page
