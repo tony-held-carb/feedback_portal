@@ -753,27 +753,61 @@ class TestExcelUploadStaged:
         page.wait_for_load_state("networkidle")
         assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
 
+    @pytest.mark.parametrize("file_path", get_test_files())
     def test_discard_staged_by_filename(self, page: Page, file_path: str):
         """
         E2E: Upload a file via /upload_staged, then discard it by filename from /list_staged.
         Ensures discard by filename works and file is removed from the list.
         """
-        # Upload file via /upload_staged
         page.goto(f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
         page.wait_for_timeout(1000)
-        # Go to /list_staged
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
         filename = Path(file_path).name
         assert filename in page.content()
-        # Click discard for this file
         discard_btn = page.locator(f"form[action*='{filename}'] button[type='submit']").first
         discard_btn.click()
-        page.wait_for_load_state("networkidle")
-        # Assert file is no longer listed
+        for _ in range(10):
+            page.wait_for_timeout(500)
+            if filename not in page.content():
+                break
         assert filename not in page.content()
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_multiple_staged_files_same_id(self, page: Page, file_path: str):
+        """
+        E2E: Upload two files for the same id_incidence via /upload_staged, ensure both appear in /list_staged, and can be discarded independently.
+        """
+        page.goto(f"{BASE_URL}/upload_staged")
+        file_input = page.locator("input[type='file']")
+        file_input.set_input_files(file_path)
+        page.wait_for_timeout(1000)
+        staging_dir = Path("portal_uploads/staging")
+        staged_files = list(staging_dir.glob("*.json"))
+        assert staged_files, "No staged files found after upload"
+        first_staged = staged_files[-1]
+        second_staged = staging_dir / ("copy_" + first_staged.name)
+        shutil.copy(first_staged, second_staged)
+        page.goto(f"{BASE_URL}/list_staged")
+        page.wait_for_load_state("networkidle")
+        assert first_staged.name in page.content()
+        assert second_staged.name in page.content()
+        discard_btn = page.locator(f"form[action*='{second_staged.name}'] button[type='submit']").first
+        discard_btn.click()
+        for _ in range(10):
+            page.wait_for_timeout(500)
+            if second_staged.name not in page.content():
+                break
+        assert second_staged.name not in page.content()
+        discard_btn = page.locator(f"form[action*='{first_staged.name}'] button[type='submit']").first
+        discard_btn.click()
+        for _ in range(10):
+            page.wait_for_timeout(500)
+            if first_staged.name not in page.content():
+                break
+        assert first_staged.name not in page.content()
 
     def test_malformed_staged_file_handling(self, page: Page, tmp_path):
         """
@@ -783,48 +817,16 @@ class TestExcelUploadStaged:
         staging_dir.mkdir(parents=True, exist_ok=True)
         malformed_file = staging_dir / "malformed_test.json"
         malformed_file.write_text("{ this is not valid json }")
-        # Go to /list_staged
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
         assert "malformed_test.json" in page.content()
-        # Discard the malformed file
         discard_btn = page.locator(f"form[action*='malformed_test.json'] button[type='submit']").first
         discard_btn.click()
-        page.wait_for_load_state("networkidle")
-        # Assert file is no longer listed
+        for _ in range(10):
+            page.wait_for_timeout(500)
+            if "malformed_test.json" not in page.content():
+                break
         assert "malformed_test.json" not in page.content()
-
-    def test_multiple_staged_files_same_id(self, page: Page, file_path: str):
-        """
-        E2E: Upload two files for the same id_incidence via /upload_staged, ensure both appear in /list_staged, and can be discarded independently.
-        """
-        # Upload first file
-        page.goto(f"{BASE_URL}/upload_staged")
-        file_input = page.locator("input[type='file']")
-        file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
-        # Copy file to a new name to simulate a second staged file for same id
-        staging_dir = Path("portal_uploads/staging")
-        staged_files = list(staging_dir.glob("*.json"))
-        assert staged_files, "No staged files found after upload"
-        first_staged = staged_files[-1]
-        second_staged = staging_dir / ("copy_" + first_staged.name)
-        shutil.copy(first_staged, second_staged)
-        # Go to /list_staged
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert first_staged.name in page.content()
-        assert second_staged.name in page.content()
-        # Discard the second file
-        discard_btn = page.locator(f"form[action*='{second_staged.name}'] button[type='submit']").first
-        discard_btn.click()
-        page.wait_for_load_state("networkidle")
-        assert second_staged.name not in page.content()
-        # Discard the first file
-        discard_btn = page.locator(f"form[action*='{first_staged.name}'] button[type='submit']").first
-        discard_btn.click()
-        page.wait_for_load_state("networkidle")
-        assert first_staged.name not in page.content()
 
 if __name__ == "__main__":
     # Run tests if executed directly
