@@ -131,6 +131,18 @@
             </ul>
           </li>
 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="diagnosticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Diagnostics
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="diagnosticsDropdown">
+              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">Staged Files</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">Uploads</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JS Diagnostics Test</a></li>
+              <!-- Add more diagnostics links here -->
+            </ul>
+          </li>
+
           {#          <li class="nav-item">#}
           {#            <a class="nav-link disabled" aria-disabled="true">Disabled</a>#}
           {#          </li>#}

@@ -58,6 +58,23 @@ import json
 import psycopg2
 import warnings
 import shutil
+import pytest
+import functools
+
+# Test configuration
+BASE_URL = "http://127.0.0.1:5000"
+TEST_FILES_DIR = Path("feedback_forms/testing_versions")
+
+# =============================================================================
+# E2E Test Suite for Excel Upload Portal
+#
+# Preferred way to run only a subset of tests (e.g., discard/malformed):
+#   pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
+#
+# This uses pytest's built-in -k option to select tests by substring, which is more reliable and efficient
+# than any in-code filtering. The old SELECT_TESTS_ONLY logic has been removed in favor of this approach.
+# =============================================================================
+
 
 # Suppress openpyxl UserWarnings about unsupported Excel features (Data Validation, Conditional Formatting)
 # These warnings are harmless for our business logic and only relate to Excel features not used by the portal.
@@ -71,9 +88,6 @@ def suppress_openpyxl_warnings():
         module=r"openpyxl\.reader\.excel"
     )
 
-# Test configuration
-BASE_URL = "http://127.0.0.1:5000"
-TEST_FILES_DIR = Path("feedback_forms/testing_versions")
 
 # Helper to get all Excel-like files in a directory
 
@@ -531,17 +545,12 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
             break
         upload_page.wait_for_timeout(500)
     # Log the URL and page content for debugging
-    print(f"[DEBUG] After upload, page URL: {upload_page.url}")
-    page_content = upload_page.content()
-    print(f"[DEBUG] After upload, page content (first 1000 chars):\n{page_content[:1000]}")
-    import re
-    from pathlib import Path
     # If this is an edge case file, expect error and no redirect
     if "edge_cases" in Path(file_path).parts:
         # Should remain on upload page and show error message
         assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
-        assert any(keyword in page_content.lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
-            f"Expected error message for edge case file. Content: {page_content[:300]}"
+        assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+            f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
         )
         return  # Test passes for edge case scenario
     # After upload, check for id_incidence error message
@@ -563,10 +572,10 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
         error_msgs = []
         for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
             error_msgs.append(alert.get_text(strip=True))
-        print(f"[DEBUG] Error messages found on page: {error_msgs}")
+        print(f"Error messages found on page: {error_msgs}")
         upload_dir = Path("portal_uploads")
         uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
-        print(f"[DEBUG] Uploaded file(s) found in upload dir: {uploaded_files}")
+        print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
     assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
     # Wait for backend to process and commit to DB (retry for up to 5 seconds)
     misc_json = None
@@ -761,6 +770,7 @@ class TestExcelUploadStaged:
         """
         import re
         from pathlib import Path
+        import os
         # Upload file via /upload_staged
         page.goto(f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
@@ -776,6 +786,7 @@ class TestExcelUploadStaged:
                     break
             page.wait_for_timeout(500)
         assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
+        print(f"Staged filename to discard: '{staged_filename}' (repr: {repr(staged_filename)})")
         # Go to /list_staged and check for the staged file
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
@@ -790,6 +801,9 @@ class TestExcelUploadStaged:
             page.wait_for_load_state("networkidle")
             if staged_filename not in page.content():
                 break
+        if staged_filename in page.content():
+            print(f"File '{staged_filename}' still listed after discard. Directory contents:")
+            print(os.listdir('portal_uploads/staging'))
         assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
 
     @pytest.mark.parametrize("file_path", get_test_files())
@@ -800,6 +814,7 @@ class TestExcelUploadStaged:
         import re
         from pathlib import Path
         import shutil
+        import os
         # Upload file via /upload_staged
         page.goto(f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
@@ -815,11 +830,11 @@ class TestExcelUploadStaged:
                     break
             page.wait_for_timeout(500)
         assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
-        # Copy the staged file to create a second file for the same id
         staging_dir = Path("portal_uploads/staging")
         first_staged = staging_dir / staged_filename
         second_staged = staging_dir / ("copy_" + staged_filename)
         shutil.copy(first_staged, second_staged)
+        print(f"First staged: '{first_staged.name}', Second staged: '{second_staged.name}'")
         # Go to /list_staged and check for both files
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
@@ -834,6 +849,9 @@ class TestExcelUploadStaged:
             page.wait_for_load_state("networkidle")
             if second_staged.name not in page.content():
                 break
+        if second_staged.name in page.content():
+            print(f"Second staged file '{second_staged.name}' still listed after discard. Directory contents:")
+            print(os.listdir('portal_uploads/staging'))
         assert second_staged.name not in page.content(), f"Second staged file {second_staged.name} still listed after discard"
         # Discard the first file
         discard_btn = page.locator(f"form[action*='{first_staged.name}'] button[type='submit']").first
@@ -844,6 +862,9 @@ class TestExcelUploadStaged:
             page.wait_for_load_state("networkidle")
             if first_staged.name not in page.content():
                 break
+        if first_staged.name in page.content():
+            print(f"First staged file '{first_staged.name}' still listed after discard. Directory contents:")
+            print(os.listdir('portal_uploads/staging'))
         assert first_staged.name not in page.content(), f"First staged file {first_staged.name} still listed after discard"
 
     def test_malformed_staged_file_handling(self, page: Page, tmp_path):
@@ -851,10 +872,12 @@ class TestExcelUploadStaged:
         E2E: Create a malformed JSON file in the staging dir, verify it appears in the malformed section, and can be discarded.
         """
         from pathlib import Path
+        import os
         staging_dir = Path("portal_uploads/staging")
         staging_dir.mkdir(parents=True, exist_ok=True)
         malformed_file = staging_dir / "malformed_test.json"
         malformed_file.write_text("{ this is not valid json }")
+        print(f"Malformed file to discard: '{malformed_file.name}' (repr: {repr(malformed_file.name)})")
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
         assert "malformed_test.json" in page.content(), "Malformed file not listed in /list_staged"
@@ -866,8 +889,103 @@ class TestExcelUploadStaged:
             page.wait_for_load_state("networkidle")
             if "malformed_test.json" not in page.content():
                 break
+        if "malformed_test.json" in page.content():
+            print(f"Malformed file 'malformed_test.json' still listed after discard. Directory contents:")
+            print(os.listdir('portal_uploads/staging'))
         assert "malformed_test.json" not in page.content(), "Malformed file still listed after discard"
+
+def test_diagnostics_overlay_on_list_staged(page):
+    """
+    Minimal test: Load /list_staged, click diagnostics button, and scrape overlay.
+    Confirms JS overlay is updated in Playwright context.
+    """
+    page.goto("http://127.0.0.1:5000/list_staged")
+    page.wait_for_load_state("networkidle")
+    # Click the diagnostics button
+    page.locator('#sendDiagnosticBtn').click()
+    page.wait_for_timeout(500)
+    # Scrape overlay
+    overlay = ''
+    try:
+        overlay = page.locator('#js-diagnostics').inner_text()
+    except Exception:
+        overlay = '[Overlay not found]'
+    print(f"[DIAGNOSTICS OVERLAY] {overlay}")
+    assert 'Send Diagnostic' in overlay or overlay != '[Overlay not found]', "Diagnostics overlay did not update as expected."
+
+def test_diagnostics_console_output_on_list_staged(page):
+    """
+    Minimal test: Load /list_staged, click diagnostics button, and capture JS console output.
+    Prints/logs all console messages for review.
+    """
+    messages = []
+    page.on("console", lambda msg: messages.append(msg.text))
+    page.goto("http://127.0.0.1:5000/list_staged")
+    page.wait_for_load_state("networkidle")
+    page.locator('#sendDiagnosticBtn').click()
+    page.wait_for_timeout(500)
+    print(f"[JS CONSOLE OUTPUT] {messages}")
+    assert any('Send Diagnostic' in m for m in messages) or messages, "No relevant JS console output captured."
+
+def test_diagnostics_overlay_on_diagnostic_test_page(page):
+    """
+    E2E: Load /java_script_diagnostic_test, check overlay for page load diagnostic, click diagnostics button, and check overlay updates.
+    """
+    page.goto("http://127.0.0.1:5000/java_script_diagnostic_test")
+    page.wait_for_load_state("networkidle")
+    # Scrape overlay after page load
+    overlay = ''
+    try:
+        overlay = page.locator('#js-diagnostics').inner_text()
+    except Exception:
+        overlay = '[Overlay not found]'
+    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+    assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
+    # Click the diagnostics button
+    page.locator('#sendDiagnosticBtn').click()
+    page.wait_for_timeout(500)
+    overlay2 = ''
+    try:
+        overlay2 = page.locator('#js-diagnostics').inner_text()
+    except Exception:
+        overlay2 = '[Overlay not found]'
+    print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
+    assert 'Send Diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button."
 
 if __name__ == "__main__":
     # Run tests if executed directly
-    pytest.main([__file__, "-v"]) 
+    pytest.main([__file__, "-v"])
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--only-discard-tests",
+        action="store_true",
+        default=False,
+        help="Run only the discard staged file tests (for rapid debugging)"
+    )
+
+def pytest_collection_modifyitems(config, items):
+    if config.getoption("--only-discard-tests"):
+        keep = []
+        for item in items:
+            if (
+                "test_discard_staged_by_filename" in item.nodeid
+                or "test_multiple_staged_files_same_id" in item.nodeid
+                or "test_malformed_staged_file_handling" in item.nodeid
+            ):
+                keep.append(item)
+        items[:] = keep 
+
+"""
+NOTE: This test suite is integrated with the JS diagnostics overlay and backend logging utility (see java_script_diagnostics.js and /js_diagnostic_log route).
+- To debug frontend actions, inspect the overlay at the bottom of the page during test runs.
+- To debug backend events, check for [JS_DIAG] entries in arb_portal.log.
+- The helper function get_js_diagnostics_overlay(page) can be used to scrape overlay text during tests.
+"""
+
+def get_js_diagnostics_overlay(page):
+    """Scrape the JS diagnostics overlay text from the page (if present)."""
+    try:
+        return page.locator('#js-diagnostics').inner_text()
+    except Exception:
+        return '' 

@@ -12,6 +12,10 @@
   <script defer src="{{ url_for('static', filename='js/table_management.js') }}"></script>
 {% endblock %}
 
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
+{% endblock %}
+
 {% block content %}
   <div class="container-fluid post-nav-buffer">
 
@@ -21,6 +25,35 @@
 
     <div class="alert alert-info mb-4">
       <strong>ℹ️ About Staged Files:</strong> These files have been uploaded and parsed but are awaiting your review and confirmation before being applied to the database.
+    </div>
+
+    <!-- Diagnostics Block (matching java_script_diagnostic_test.html) -->
+    <div class="container mt-4">
+      <h2>JavaScript Diagnostics Test Block (Staged Files Page)</h2>
+      <p>This block is for testing frontend and backend JavaScript diagnostics logging on the staged files page.</p>
+      <div class="mb-3">
+        <label for="diagnosticText" class="form-label">Diagnostic Message</label>
+        <input type="text" class="form-control" id="diagnosticText" value="Diagnostic from /list_staged page">
+      </div>
+      <button id="sendDiagnosticBtn" class="btn btn-primary">Send Diagnostic Information</button>
+      <button id="returnHomeBtn" class="btn btn-warning ms-2">Return to Homepage</button>
+    </div>
+    <!-- Confirmation Modal for Diagnostics Block -->
+    <div class="modal" tabindex="-1" id="confirmReturnModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Return</h5>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to return to the homepage?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelReturnBtn">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmReturnBtn">Yes, Return</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     {% if staged_files %}
@@ -66,8 +99,7 @@
                           👁️ Review
                         </a>
                       {% endif %}
-                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" 
-                            class="d-inline">
+                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" class="d-inline">
                         <button type="submit" class="btn btn-outline-danger">
                           🗑️ Discard
                         </button>

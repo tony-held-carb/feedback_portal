@@ -37,12 +37,13 @@ from flask import Blueprint, Response, abort, current_app, flash, redirect, rend
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort
+from flask import request, jsonify
 
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
-from arb.portal.extensions import db
+from arb.portal.extensions import db, csrf
 from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
@@ -301,6 +302,7 @@ def list_staged() -> str:
       str: Rendered HTML showing all staged files.
     """
     logger.debug("list_staged route called")
+    logger.warning('[DEBUG] /list_staged route called')
 
     staging_dir = Path(get_upload_folder()) / "staging"
     staged_files = []
@@ -344,6 +346,7 @@ def list_staged() -> str:
     staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
     malformed_files.sort(key=lambda x: x['modified_time'], reverse=True)
 
+    logger.warning(f'[DEBUG] /list_staged rendering {len(staged_files)} staged, {len(malformed_files)} malformed files')
     # Always pass both variables, even if empty
     return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
 
@@ -749,35 +752,33 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   return redirect(url_for("main.upload_file_staged"))
 
 
+@csrf.exempt
 @main.route("/discard_staged_update/<int:id_>/<filename>", methods=["POST"])
 def discard_staged_update(id_: int, filename: str) -> Response:
     """
     Discard a staged update for a specific incidence ID and filename.
-
-    Args:
-      id_ (int): Incidence ID for which to discard the staged update.
-      filename (str): Name of the staged file to discard.
-
-    Returns:
-      Response: Redirect to the staged uploads list after discarding the update.
-
-    Examples:
-      # In browser: POST /discard_staged_update/123/myfile.json
-      # Redirects to: /list_staged
+    CSRF is disabled for this route.
     """
+    import unicodedata
     staging_dir = Path(get_upload_folder()) / "staging"
-    staged_file = staging_dir / filename
+    # Normalize filename for cross-platform compatibility
+    safe_filename = unicodedata.normalize('NFC', filename.strip())
+    staged_file = staging_dir / safe_filename
     try:
         if staged_file.exists():
-            staged_file.unlink()
-            logger.info(f"✅ Discarded staged upload file: {staged_file}")
-            flash(f"Discarded staged file '{filename}' for ID {id_}.", "info")
+            try:
+                staged_file.unlink()
+                logger.info(f"Discarded staged upload file: {staged_file}")
+                flash(f"Discarded staged file '{safe_filename}' for ID {id_}.", "info")
+            except Exception as unlink_err:
+                logger.error(f"Failed to delete file: {staged_file} | Error: {unlink_err}")
+                flash(f"Error discarding file '{safe_filename}': {unlink_err}", "danger")
         else:
-            logger.warning(f"⚠️ Tried to discard non-existent staged file: {staged_file}")
-            flash(f"No staged file found with name '{filename}' for ID {id_}.", "warning")
+            logger.warning(f"Tried to discard non-existent staged file: {staged_file}")
+            flash(f"No staged file found with name '{safe_filename}' for ID {id_}.", "warning")
     except Exception as e:
         logger.exception("Error discarding staged file")
-        flash(f"Error discarding file '{filename}': {e}", "danger")
+        flash(f"Error discarding file '{safe_filename}': {e}", "danger")
     return redirect(url_for("main.list_staged"))
 
 
@@ -1215,3 +1216,72 @@ def delete_testing_range() -> str:
     portal_updates_ids=portal_updates_ids,
     incidences_ids=incidences_ids
   )
+
+
+@main.route('/js_diagnostic_log', methods=['POST'])
+def js_diagnostic_log():
+    """
+    JavaScript Diagnostics Logging Endpoint
+    =======================================
+    Purpose:
+        This route allows frontend JavaScript code to send diagnostic or debug messages directly to the backend server.
+        These messages are then written to the backend log file, making it possible to correlate frontend/browser events
+        with backend activity, errors, or user actions. This is especially useful for debugging issues that are hard to
+        capture with browser console logs alone (e.g., page reloads, E2E tests, or user-reported problems).
+
+    How to Use (Frontend JavaScript):
+        Use the provided JS helper function (see below) to send a POST request to this endpoint:
+
+        Example JS function:
+            function sendJsDiagnostic(msg, extra) {
+                fetch('/js_diagnostic_log', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({msg, ts: new Date().toISOString(), ...extra})
+                });
+            }
+
+        Example usage:
+            sendJsDiagnostic('User clicked discard', {action: '/discard_staged_update/0/file.json', userId: 123});
+
+    Expected Payload (JSON):
+        {
+            "msg": "A human-readable message (required)",
+            "ts": "ISO timestamp (optional, will be included in log if present)",
+            ... any other key-value pairs (optional, will be logged as 'extra')
+        }
+
+    What Happens:
+        - The backend receives the POST request and parses the JSON payload.
+        - It extracts the 'msg' (message), 'ts' (timestamp), and any other fields (as 'extra').
+        - It writes a log entry to the backend log file in the format:
+            [JS_DIAG][timestamp] message | extra: {...}
+        - Returns a simple JSON response: {"status": "ok"}
+
+    Why Use This:
+        - Console logs in the browser are lost on navigation/reload and are not visible to backend developers.
+        - This route allows you to persistently log important frontend events, errors, or user actions for later analysis.
+        - Especially useful for E2E testing, debugging user issues, or tracking hard-to-reproduce bugs.
+
+    Security Note:
+        - This endpoint is for diagnostics only. Do not send sensitive user data.
+        - Rate limiting or authentication can be added if needed for production.
+
+    """
+    data = request.get_json(force=True, silent=True) or {}
+    msg = data.get('msg', '[NO MSG]')
+    ts = data.get('ts')
+    extra = {k: v for k, v in data.items() if k not in ('msg', 'ts')}
+    log_line = f"[JS_DIAG]{'['+ts+']' if ts else ''} {msg}"
+    if extra:
+        log_line += f" | extra: {extra}"
+    logger.info(log_line)
+    return jsonify({'status': 'ok'})
+
+
+@main.route('/java_script_diagnostic_test')
+def java_script_diagnostic_test():
+    """
+    Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
+    """
+    return render_template('java_script_diagnostic_test.html')

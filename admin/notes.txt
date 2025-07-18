@@ -1349,3 +1349,10 @@ EXCEL_TEMPLATES = [
 
 running e2e pytests: 
 pytest tests/e2e/test_excel_upload_playwright_pytest.py -v > pytest_output_02.txt
+
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v | tee pytest_output_04.txt
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 | tee pytest_output_04.txt
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v | tee pytest_output_04.txt
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"

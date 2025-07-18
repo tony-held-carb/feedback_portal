@@ -20,7 +20,11 @@
  * - DataTables CSS and JS must be loaded
  * - Bootstrap 5 DataTables integration
  */
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function() {
+    if (typeof logToDiagnostics === 'function') {
+        logToDiagnostics('[JS_DIAG] [table_management] /list_staged page loaded');
+        sendJsDiagnostic('/list_staged page loaded (table_management.js)', {source: 'table_management.js'});
+    }
     // Initialize staged files table
     initializeStagedFilesTable();
     
@@ -104,10 +108,22 @@ function initializeDiscardConfirmations() {
     
     discardForms.forEach(form => {
         form.addEventListener('submit', function(event) {
+            if (typeof logToDiagnostics === 'function') {
+                logToDiagnostics('[JS_DIAG] [table_management] Discard button clicked for action: ' + form.action);
+                sendJsDiagnostic('Discard button clicked (table_management.js)', {action: form.action, source: 'table_management.js'});
+            }
             const confirmed = confirm('Are you sure you want to discard this staged file?');
             if (!confirmed) {
                 event.preventDefault();
-                return false;
+                if (typeof logToDiagnostics === 'function') {
+                    logToDiagnostics('[JS_DIAG] [table_management] Discard cancelled for action: ' + form.action);
+                    sendJsDiagnostic('Discard cancelled (table_management.js)', {action: form.action, source: 'table_management.js'});
+                }
+            } else {
+                if (typeof logToDiagnostics === 'function') {
+                    logToDiagnostics('[JS_DIAG] [table_management] Discard confirmed for action: ' + form.action);
+                    sendJsDiagnostic('Discard confirmed (table_management.js)', {action: form.action, source: 'table_management.js'});
+                }
             }
         });
     });
