@@ -60,11 +60,13 @@
                   </td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
-                      <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
-                         class="btn btn-outline-primary">
-                        👁️ Review
-                      </a>
-                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence) }}" 
+                      {% if file.id_incidence is not none %}
+                        <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
+                           class="btn btn-outline-primary">
+                          👁️ Review
+                        </a>
+                      {% endif %}
+                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" 
                             class="d-inline">
                         <button type="submit" class="btn btn-outline-danger">
                           🗑️ Discard
@@ -86,6 +88,42 @@
           <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary">
             📤 Upload & Stage a File
           </a>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if malformed_files %}
+      <div class="card mt-4 border-danger">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">⚠️ Malformed or Corrupt Staged Files ({{ malformed_files | length }})</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>Staged</th>
+                <th>Error</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for file in malformed_files %}
+                <tr>
+                  <td><code class="small">{{ file.filename }}</code></td>
+                  <td><small>{{ (file.file_size / 1024) | round(1) }} KB</small></td>
+                  <td><small>{{ file.modified_time.strftime('%Y-%m-%d %H:%M:%S') }}</small></td>
+                  <td><span class="text-danger small">{{ file.error }}</span></td>
+                  <td>
+                    <form method="POST" action="{{ url_for('main.discard_staged_update', id_=0, filename=file.filename) }}" class="d-inline">
+                      <button type="submit" class="btn btn-outline-danger btn-sm">🗑️ Discard</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     {% endif %}

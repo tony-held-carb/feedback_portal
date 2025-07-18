@@ -294,55 +294,58 @@ def list_uploads() -> str:
 
 @main.route('/list_staged')
 def list_staged() -> str:
-  """
-  List all staged files available for review or processing.
+    """
+    List all staged files available for review or processing.
 
-  Args:
-    None
+    Returns:
+      str: Rendered HTML showing all staged files.
+    """
+    logger.debug("list_staged route called")
 
-  Returns:
-    str: Rendered HTML showing all staged files.
+    staging_dir = Path(get_upload_folder()) / "staging"
+    staged_files = []
+    malformed_files = []
 
-  Examples:
-    # In browser: GET /list_staged
-    # Returns: HTML page listing staged files
-  """
-  logger.debug("list_staged route called")
-
-  staging_dir = Path(get_upload_folder()) / "staging"
-  staged_files = []
-
-  if staging_dir.exists():
-    for file_path in staging_dir.glob("*.json"):
-      try:
-        # Extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
-        filename = file_path.name
-        if filename.startswith("id_") and "_ts_" in filename:
-          id_part = filename.split("_ts_")[0]
-          id_incidence = int(id_part.replace("id_", ""))
-
-          # Load metadata to get more info
-          try:
-            _, metadata = json_load_with_meta(file_path)
-            base_misc_json = metadata.get("base_misc_json", {})
-            sector = base_misc_json.get("sector", "Unknown")
-          except Exception:
+    if staging_dir.exists():
+        for file_path in staging_dir.glob("*.json"):
+            filename = file_path.name
+            id_incidence = None
             sector = "Unknown"
+            try:
+                # Try to extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
+                if filename.startswith("id_") and "_ts_" in filename:
+                    id_part = filename.split("_ts_")[0]
+                    id_incidence = int(id_part.replace("id_", ""))
+                # Try to load metadata to get sector
+                try:
+                    _, metadata = json_load_with_meta(file_path)
+                    base_misc_json = metadata.get("base_misc_json", {})
+                    sector = base_misc_json.get("sector", "Unknown")
+                except Exception:
+                    sector = "Unknown"
+                staged_files.append({
+                    'filename': filename,
+                    'id_incidence': id_incidence,
+                    'sector': sector,
+                    'file_size': file_path.stat().st_size,
+                    'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+                    'malformed': False
+                })
+            except Exception as e:
+                logger.warning(f"Could not process staged file {file_path}: {e}")
+                malformed_files.append({
+                    'filename': filename,
+                    'file_size': file_path.stat().st_size,
+                    'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+                    'error': str(e)
+                })
 
-          staged_files.append({
-            'filename': filename,
-            'id_incidence': id_incidence,
-            'sector': sector,
-            'file_size': file_path.stat().st_size,
-            'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime)
-          })
-      except Exception as e:
-        logger.warning(f"Could not process staged file {file_path}: {e}")
+    # Sort by modification time (newest first)
+    staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
+    malformed_files.sort(key=lambda x: x['modified_time'], reverse=True)
 
-  # Sort by modification time (newest first)
-  staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
-
-  return render_template('staged_list.html', staged_files=staged_files)
+    # Always pass both variables, even if empty
+    return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
 
 
 @main.route('/upload', methods=['GET', 'POST'])
@@ -746,43 +749,36 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
   return redirect(url_for("main.upload_file_staged"))
 
 
-@main.route("/discard_staged_update/<int:id_>", methods=["POST"])
-def discard_staged_update(id_: int) -> Response:
-  """
-  Discard a staged update for a specific incidence ID.
+@main.route("/discard_staged_update/<int:id_>/<filename>", methods=["POST"])
+def discard_staged_update(id_: int, filename: str) -> Response:
+    """
+    Discard a staged update for a specific incidence ID and filename.
 
-  Args:
-    id_ (int): Incidence ID for which to discard the staged update.
+    Args:
+      id_ (int): Incidence ID for which to discard the staged update.
+      filename (str): Name of the staged file to discard.
 
-  Returns:
-    Response: Redirect to the staged uploads list after discarding the update.
+    Returns:
+      Response: Redirect to the staged uploads list after discarding the update.
 
-  Examples:
-    # In browser: POST /discard_staged_update/123
-    # Redirects to: /list_staged
-  """
-  staging_dir = Path(get_upload_folder()) / "staging"
-  
-  # Find staged file that starts with id_{id_}_ts_
-  staged_file = None
-  for file_path in staging_dir.glob(f"id_{id_}_ts_*.json"):
-    staged_file = file_path
-    break
-
-  try:
-    if staged_file and staged_file.exists():
-      staged_file.unlink()
-      logger.info(f"✅ Discarded staged upload file: {staged_file}")
-      flash(f"Discarded staged file for ID {id_}.", "info")
-    else:
-      logger.warning(f"⚠️ Tried to discard non-existent staged file for ID {id_}")
-      flash(f"No staged file found for ID {id_}.", "warning")
-
-  except Exception as e:
-    logger.exception("Error discarding staged file")
-    flash(f"Error discarding file: {e}", "danger")
-
-  return redirect(url_for("main.upload_file_staged"))
+    Examples:
+      # In browser: POST /discard_staged_update/123/myfile.json
+      # Redirects to: /list_staged
+    """
+    staging_dir = Path(get_upload_folder()) / "staging"
+    staged_file = staging_dir / filename
+    try:
+        if staged_file.exists():
+            staged_file.unlink()
+            logger.info(f"✅ Discarded staged upload file: {staged_file}")
+            flash(f"Discarded staged file '{filename}' for ID {id_}.", "info")
+        else:
+            logger.warning(f"⚠️ Tried to discard non-existent staged file: {staged_file}")
+            flash(f"No staged file found with name '{filename}' for ID {id_}.", "warning")
+    except Exception as e:
+        logger.exception("Error discarding staged file")
+        flash(f"Error discarding file '{filename}': {e}", "danger")
+    return redirect(url_for("main.list_staged"))
 
 
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])
