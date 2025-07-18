@@ -759,74 +759,114 @@ class TestExcelUploadStaged:
         E2E: Upload a file via /upload_staged, then discard it by filename from /list_staged.
         Ensures discard by filename works and file is removed from the list.
         """
+        import re
+        from pathlib import Path
+        # Upload file via /upload_staged
         page.goto(f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
         page.wait_for_timeout(1000)
+        # Extract staged JSON filename from redirect URL
+        staged_filename = None
+        for _ in range(10):
+            if "/review_staged/" in page.url:
+                match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+                if match:
+                    staged_filename = match.group(1)
+                    break
+            page.wait_for_timeout(500)
+        assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
+        # Go to /list_staged and check for the staged file
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
-        filename = Path(file_path).name
-        assert filename in page.content()
-        discard_btn = page.locator(f"form[action*='{filename}'] button[type='submit']").first
+        assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged"
+        # Discard the staged file by filename
+        discard_btn = page.locator(f"form[action*='{staged_filename}'] button[type='submit']").first
         discard_btn.click()
+        # Wait for the file to disappear from the list
         for _ in range(10):
             page.wait_for_timeout(500)
-            if filename not in page.content():
+            page.goto(f"{BASE_URL}/list_staged")
+            page.wait_for_load_state("networkidle")
+            if staged_filename not in page.content():
                 break
-        assert filename not in page.content()
+        assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
 
     @pytest.mark.parametrize("file_path", get_test_files())
     def test_multiple_staged_files_same_id(self, page: Page, file_path: str):
         """
         E2E: Upload two files for the same id_incidence via /upload_staged, ensure both appear in /list_staged, and can be discarded independently.
         """
+        import re
+        from pathlib import Path
+        import shutil
+        # Upload file via /upload_staged
         page.goto(f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
         page.wait_for_timeout(1000)
+        # Extract staged JSON filename from redirect URL
+        staged_filename = None
+        for _ in range(10):
+            if "/review_staged/" in page.url:
+                match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+                if match:
+                    staged_filename = match.group(1)
+                    break
+            page.wait_for_timeout(500)
+        assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
+        # Copy the staged file to create a second file for the same id
         staging_dir = Path("portal_uploads/staging")
-        staged_files = list(staging_dir.glob("*.json"))
-        assert staged_files, "No staged files found after upload"
-        first_staged = staged_files[-1]
-        second_staged = staging_dir / ("copy_" + first_staged.name)
+        first_staged = staging_dir / staged_filename
+        second_staged = staging_dir / ("copy_" + staged_filename)
         shutil.copy(first_staged, second_staged)
+        # Go to /list_staged and check for both files
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
-        assert first_staged.name in page.content()
-        assert second_staged.name in page.content()
+        assert first_staged.name in page.content(), f"First staged file {first_staged.name} not listed"
+        assert second_staged.name in page.content(), f"Second staged file {second_staged.name} not listed"
+        # Discard the second file
         discard_btn = page.locator(f"form[action*='{second_staged.name}'] button[type='submit']").first
         discard_btn.click()
         for _ in range(10):
             page.wait_for_timeout(500)
+            page.goto(f"{BASE_URL}/list_staged")
+            page.wait_for_load_state("networkidle")
             if second_staged.name not in page.content():
                 break
-        assert second_staged.name not in page.content()
+        assert second_staged.name not in page.content(), f"Second staged file {second_staged.name} still listed after discard"
+        # Discard the first file
         discard_btn = page.locator(f"form[action*='{first_staged.name}'] button[type='submit']").first
         discard_btn.click()
         for _ in range(10):
             page.wait_for_timeout(500)
+            page.goto(f"{BASE_URL}/list_staged")
+            page.wait_for_load_state("networkidle")
             if first_staged.name not in page.content():
                 break
-        assert first_staged.name not in page.content()
+        assert first_staged.name not in page.content(), f"First staged file {first_staged.name} still listed after discard"
 
     def test_malformed_staged_file_handling(self, page: Page, tmp_path):
         """
         E2E: Create a malformed JSON file in the staging dir, verify it appears in the malformed section, and can be discarded.
         """
+        from pathlib import Path
         staging_dir = Path("portal_uploads/staging")
         staging_dir.mkdir(parents=True, exist_ok=True)
         malformed_file = staging_dir / "malformed_test.json"
         malformed_file.write_text("{ this is not valid json }")
         page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
-        assert "malformed_test.json" in page.content()
+        assert "malformed_test.json" in page.content(), "Malformed file not listed in /list_staged"
         discard_btn = page.locator(f"form[action*='malformed_test.json'] button[type='submit']").first
         discard_btn.click()
         for _ in range(10):
             page.wait_for_timeout(500)
+            page.goto(f"{BASE_URL}/list_staged")
+            page.wait_for_load_state("networkidle")
             if "malformed_test.json" not in page.content():
                 break
-        assert "malformed_test.json" not in page.content()
+        assert "malformed_test.json" not in page.content(), "Malformed file still listed after discard"
 
 if __name__ == "__main__":
     # Run tests if executed directly
