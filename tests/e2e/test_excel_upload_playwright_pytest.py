@@ -941,8 +941,8 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page):
         overlay = '[Overlay not found]'
     print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
     assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
-    # Click the diagnostics button
-    page.locator('#sendDiagnosticBtn').click()
+    # Click the diagnostics button (use class-based selector)
+    page.locator('.js-send-diagnostic-btn').click()
     page.wait_for_timeout(500)
     overlay2 = ''
     try:
@@ -951,6 +951,79 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page):
         overlay2 = '[Overlay not found]'
     print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
     assert 'Send Diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button."
+
+def test_list_staged_diagnostics_overlay(page):
+    """
+    E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
+    """
+    page.goto("http://127.0.0.1:5000/list_staged")
+    page.wait_for_load_state("networkidle")
+    # Scrape overlay after page load
+    overlay = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+    # Click the diagnostics block send button
+    page.locator('.js-send-diagnostic-btn').click()
+    page.wait_for_timeout(500)
+    overlay2 = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
+    # Click the discard button for the first staged file
+    discard_btn = page.locator("form[action*='discard_staged_update'] button[type='submit']").first
+    page.on("dialog", lambda dialog: dialog.accept())  # Accept the confirmation
+    discard_btn.click()
+    page.wait_for_timeout(500)
+    overlay3 = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after discard] {overlay3}")
+    assert "Discard button clicked" in overlay3 or "Discard confirmed" in overlay3
+
+# Update one failing discard test to scrape and print overlay after each key action
+@pytest.mark.parametrize("file_path", get_test_files())
+def test_discard_staged_by_filename_with_overlay_logging(page: Page, file_path: str):
+    """
+    E2E: Upload a file via /upload_staged, then discard it by filename from /list_staged.
+    Scrape and print overlay after each key action.
+    """
+    import re
+    from pathlib import Path
+    import os
+    # Upload file via /upload_staged
+    page.goto(f"{BASE_URL}/upload_staged")
+    file_input = page.locator("input[type='file']")
+    file_input.set_input_files(file_path)
+    page.wait_for_timeout(1000)
+    # Extract staged JSON filename from redirect URL
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        page.wait_for_timeout(500)
+    assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
+    # Go to /list_staged and check for the staged file
+    page.goto(f"{BASE_URL}/list_staged")
+    page.wait_for_load_state("networkidle")
+    overlay = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+    assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged"
+    # Discard the staged file by filename
+    discard_btn = page.locator(f"form[action*='{staged_filename}'] button[type='submit']").first
+    page.on("dialog", lambda dialog: dialog.accept())
+    discard_btn.click()
+    page.wait_for_timeout(500)
+    overlay2 = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after discard] {overlay2}")
+    # Wait for the file to disappear from the list
+    for _ in range(10):
+        page.wait_for_timeout(500)
+        page.goto(f"{BASE_URL}/list_staged")
+        page.wait_for_load_state("networkidle")
+        if staged_filename not in page.content():
+            break
+    if staged_filename in page.content():
+        print(f"File '{staged_filename}' still listed after discard. Directory contents:")
+        print(os.listdir('portal_uploads/staging'))
+    assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
 
 if __name__ == "__main__":
     # Run tests if executed directly

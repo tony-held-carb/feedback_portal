@@ -1356,3 +1356,19 @@ pytest tests/e2e/test_excel_upload_playwright_pytest.py -v > pytest_output_02.tx
   pytest tests/e2e/test_excel_upload_playwright_pytest.py -v | tee pytest_output_04.txt
   pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
   pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed" | tee pytest_output_04.txt
+
+
+  the test for the  http://127.0.0.1:5000/java_script_diagnostic_test is test_diagnostics_overlay_on_diagnostic_test_page
+  
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_output_04.txt
+  
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_diag_01.txt
+
+pytest tests/e2e/test_diagnostics.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_diag_02.txt
+
+pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
+
+/list_staged
+ staged_list.html
+ table_management.js
