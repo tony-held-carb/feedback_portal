@@ -20,11 +20,7 @@
  * - DataTables CSS and JS must be loaded
  * - Bootstrap 5 DataTables integration
  */
-window.addEventListener('DOMContentLoaded', function() {
-    log_to_client('[JS_DIAG] [table_management] /list_staged page loaded');
-    log_to_server('/list_staged page loaded (table_management.js)', {source: 'table_management.js'});
-    log_to_client('[JS_DIAG] [table_management] Initializing staged files table');
-    log_to_server('Initializing staged files table (table_management.js)', {source: 'table_management.js'});
+document.addEventListener('DOMContentLoaded', function() {
     // Initialize staged files table
     initializeStagedFilesTable();
     
@@ -108,19 +104,10 @@ function initializeDiscardConfirmations() {
     
     discardForms.forEach(form => {
         form.addEventListener('submit', function(event) {
-            log_to_client('[JS_DIAG] [table_management] Discard button clicked for action: ' + form.action);
-            log_to_server('Discard button clicked (table_management.js)', {action: form.action, source: 'table_management.js'});
-            log_to_client('[JS_DIAG] [table_management] Showing confirmation modal for discard.');
             const confirmed = confirm('Are you sure you want to discard this staged file?');
-            log_to_client('[JS_DIAG] [table_management] Modal result: ' + (confirmed ? 'Confirmed' : 'Cancelled'));
-            log_to_server('Modal result (table_management.js)', {action: form.action, confirmed, source: 'table_management.js'});
             if (!confirmed) {
                 event.preventDefault();
-                log_to_client('[JS_DIAG] [table_management] Discard cancelled for action: ' + form.action + ' (event.preventDefault called)');
-                log_to_server('Discard cancelled (table_management.js)', {action: form.action, source: 'table_management.js'});
-            } else {
-                log_to_client('[JS_DIAG] [table_management] Discard confirmed for action: ' + form.action + ' (form will submit)');
-                log_to_server('Discard confirmed (table_management.js)', {action: form.action, source: 'table_management.js'});
+                return false;
             }
         });
     });
