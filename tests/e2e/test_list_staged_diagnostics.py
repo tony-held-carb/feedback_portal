@@ -94,7 +94,7 @@ def test_list_staged_diagnostics_block_functionality(page: Page):
     print(f"[INITIAL OVERLAY] {initial_overlay}")
     
     # Test the send diagnostic button
-    send_btn = page.locator('.js-send-diagnostic-btn')
+    send_btn = page.locator(".js-log-btn[data-js-logging-context='send-diagnostic']")
     assert send_btn.is_visible(), "Send diagnostic button should be visible"
     
     # Click the send button and check overlay updates
@@ -158,7 +158,7 @@ def test_list_staged_diagnostics_text_input(page: Page):
     assert updated_value == custom_message, f"Input should contain custom message, got '{updated_value}'"
     
     # Send the custom message
-    send_btn = page.locator('.js-send-diagnostic-btn')
+    send_btn = page.locator(".js-log-btn[data-js-logging-context='send-diagnostic']")
     send_btn.click()
     page.wait_for_timeout(500)
     
@@ -184,7 +184,7 @@ def test_list_staged_diagnostics_structure(page: Page):
     required_elements = [
         '.js-diagnostics-block',
         '.js-diagnostic-text',
-        '.js-send-diagnostic-btn',
+        '.js-log-btn[data-js-logging-context="send-diagnostic"]',
         '.js-return-home-btn',
         '.js-confirm-return-modal',
         '.js-confirm-return-btn',

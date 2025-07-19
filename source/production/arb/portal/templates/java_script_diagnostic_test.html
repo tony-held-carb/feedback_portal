@@ -8,21 +8,22 @@
       <label class="form-label">Diagnostic Message</label>
       <input type="text" class="form-control js-diagnostic-text" value="Example diagnostic message from JS test page">
     </div>
-    <button class="btn btn-primary js-send-diagnostic-btn">Send Diagnostic Information</button>
-    <button class="btn btn-warning ms-2 js-return-home-btn">Return to Homepage</button>
-    <!-- Confirmation Modal -->
-    <div class="modal js-confirm-return-modal" tabindex="-1">
+    <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
+    <button id="return-home-btn" class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to Homepage</button>
+    <!-- Modal -->
+    <div class="modal fade js-confirm-return-modal" id="confirmReturnModal" tabindex="-1" aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Confirm Return</h5>
+            <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Are you sure you want to return to the homepage?</p>
+            Are you sure you want to return to the homepage?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary js-cancel-return-btn">Cancel</button>
-            <button type="button" class="btn btn-primary js-confirm-return-btn">Yes, Return</button>
+            <button type="button" class="btn btn-primary" id="confirm-return-btn" data-bs-dismiss="modal">Yes, Return</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
@@ -31,5 +32,23 @@
 </div>
 {% endblock %}
 {% block scripts %}
-  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
-{% endblock %} 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var returnBtn = document.getElementById('return-home-btn');
+  var confirmBtn = document.getElementById('confirm-return-btn');
+  var modal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
+
+  if (returnBtn) {
+    returnBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.show();
+    });
+  }
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function() {
+      window.location.href = '/';
+    });
+  }
+});
+</script>
+{% endblock %}

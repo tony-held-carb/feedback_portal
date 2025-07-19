@@ -56,8 +56,8 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     # Verify page load diagnostic is present
     assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
     
-    # Click the diagnostics button (use class-based selector)
-    page.locator('.js-send-diagnostic-btn').click()
+    # Click the diagnostics button (use new class and data attribute selector)
+    page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]').click()
     page.wait_for_timeout(500)
     
     # Scrape overlay after button click
@@ -65,7 +65,7 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
     
     # Verify send diagnostic action was logged
-    assert 'Send Diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
+    assert 'Button clicked: send-diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
 
 def test_diagnostics_overlay_on_list_staged(page: Page):
     """
@@ -89,8 +89,8 @@ def test_diagnostics_overlay_on_list_staged(page: Page):
     # Verify page load diagnostic is present
     assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
     
-    # Click the diagnostics button (use class-based selector)
-    page.locator('.js-send-diagnostic-btn').click()
+    # Click the diagnostics button (use new class and data attribute selector)
+    page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]').click()
     page.wait_for_timeout(500)
     
     # Scrape overlay after button click
@@ -98,7 +98,7 @@ def test_diagnostics_overlay_on_list_staged(page: Page):
     print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
     
     # Verify send diagnostic action was logged
-    assert 'Send Diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
+    assert 'Button clicked: send-diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
 
 
 def test_list_staged_diagnostics_overlay(page: 'Page'):
@@ -112,7 +112,7 @@ def test_list_staged_diagnostics_overlay(page: 'Page'):
     overlay = page.locator('#js-diagnostics').inner_text()
     print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
     # Click the diagnostics block send button
-    page.locator('.js-send-diagnostic-btn').click()
+    page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]').click()
     page.wait_for_timeout(500)
     overlay2 = page.locator('#js-diagnostics').inner_text()
     print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")

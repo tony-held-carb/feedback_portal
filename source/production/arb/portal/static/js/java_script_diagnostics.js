@@ -128,59 +128,36 @@ function log_to_server(msg, extra) {
     }
 }
 
-// Main diagnostics block handler: runs after the DOM is loaded
+// Add event listeners for all loggable buttons using the new diagnostics system
 window.addEventListener('DOMContentLoaded', function() {
-    // For each diagnostics block on the page...
-    document.querySelectorAll('.js-diagnostics-block').forEach(function(block) {
-        // Get the page/section context for logging
-        const page = block.dataset.page || 'unknown_page';
-        // Find the first input, send button, return button, and modal elements within the block
-        const input = block.querySelector('.js-diagnostic-text');
-        const sendBtn = block.querySelector('.js-send-diagnostic-btn');
-        const returnBtn = block.querySelector('.js-return-home-btn');
-        const modal = block.querySelector('.js-confirm-return-modal');
-        const confirmBtn = block.querySelector('.js-confirm-return-btn');
-        const cancelBtn = block.querySelector('.js-cancel-return-btn');
-
-        // Log page load for this block
-        log_to_client(`[JS_DIAG] Page loaded (${page})`);
-        log_to_server('Page loaded', {page});
-
-        // Send Diagnostic button: logs the input value to overlay and backend
-        if (sendBtn) {
-            sendBtn.addEventListener('click', function() {
-                const val = input?.value || '';
-                log_to_client(`[JS_DIAG] Send Diagnostic clicked: ${val} (${page})`);
-                log_to_server('Send Diagnostic clicked', {value: val, page});
-            });
-        }
-
-        // Return to Homepage button: shows the confirmation modal and logs the action
-        if (returnBtn && modal) {
-            returnBtn.addEventListener('click', function() {
-                log_to_client(`[JS_DIAG] Return to Homepage button clicked (showing modal) (${page})`);
-                log_to_server('Return to Homepage button clicked (showing modal)', {page});
-                const bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            });
-        }
-
-        // Modal confirm: logs and redirects to homepage
-        if (confirmBtn && modal) {
-            confirmBtn.addEventListener('click', function() {
-                log_to_client(`[JS_DIAG] Confirmed return to homepage (${page})`);
-                log_to_server('Confirmed return to homepage', {page});
-                window.location.href = '/';
-            });
-        }
-        // Modal cancel: logs and hides the modal
-        if (cancelBtn && modal) {
-            cancelBtn.addEventListener('click', function() {
-                log_to_client(`[JS_DIAG] Cancelled return to homepage (${page})`);
-                log_to_server('Cancelled return to homepage', {page});
-                const bsModal = bootstrap.Modal.getInstance(modal);
-                bsModal.hide();
-            });
-        }
+    document.querySelectorAll('.js-log-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(event) {
+            const context = btn.getAttribute('data-js-logging-context') || 'unknown-action';
+            let message = `Button clicked: ${context}`;
+            // If the button is a send-diagnostic, include the diagnostic text if present
+            if (context === 'send-diagnostic') {
+                const block = btn.closest('.js-diagnostics-block');
+                let value = '';
+                if (block) {
+                    const input = block.querySelector('.js-diagnostic-text');
+                    if (input) value = input.value;
+                }
+                message += `: ${value}`;
+            }
+            // Intercept discard actions: log, then submit after a short delay
+            if (context.startsWith('discard-')) {
+                event.preventDefault();
+                log_to_client(message);
+                log_to_server(message, { context });
+                // Submit the form after a short delay to allow logging
+                setTimeout(function() {
+                    const form = btn.closest('form');
+                    if (form) form.submit();
+                }, 150); // 150ms delay
+                return;
+            }
+            log_to_client(message);
+            log_to_server(message, { context });
+        });
     });
 }); 

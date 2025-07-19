@@ -36,21 +36,22 @@
           <label class="form-label">Diagnostic Message</label>
           <input type="text" class="form-control js-diagnostic-text" value="Diagnostic from /list_staged page">
         </div>
-        <button class="btn btn-primary js-send-diagnostic-btn">Send Diagnostic Information</button>
-        <button class="btn btn-warning ms-2 js-return-home-btn">Return to Homepage</button>
-        <!-- Confirmation Modal -->
-        <div class="modal js-confirm-return-modal" tabindex="-1">
+        <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
+        <button class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to Homepage</button>
+        <!-- Modal -->
+        <div class="modal fade js-confirm-return-modal" tabindex="-1" aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Confirm Return</h5>
+                <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p>Are you sure you want to return to the homepage?</p>
+                Are you sure you want to return to the homepage?
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary js-cancel-return-btn">Cancel</button>
-                <button type="button" class="btn btn-primary js-confirm-return-btn">Yes, Return</button>
+                <button type="button" class="btn btn-primary js-log-btn" data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return</button>
+                <button type="button" class="btn btn-secondary js-log-btn" data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
@@ -97,14 +98,14 @@
                     <div class="btn-group btn-group-sm" role="group">
                       {% if file.id_incidence is not none %}
                         <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
-                           class="btn btn-outline-primary js-send-diagnostic-btn">
+                           class="btn btn-outline-primary js-log-btn" data-js-logging-context="review-staged">
                           <!-- TODO: Ideally, use a dedicated class like js-review-btn for review actions. -->
                           👁️ Review
                         </a>
                       {% endif %}
                       <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" class="d-inline">
                         <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
-                        <button type="submit" class="btn btn-outline-danger js-return-home-btn">
+                        <button type="submit" class="btn btn-outline-danger js-log-btn" data-js-logging-context="discard-staged">
                           🗑️ Discard
                         </button>
                       </form>
@@ -121,7 +122,7 @@
         <div class="card-body text-center py-5">
           <h4 class="text-muted">📭 No Staged Files</h4>
           <p class="text-muted mb-4">There are no files currently staged for review.</p>
-          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-send-diagnostic-btn">
+          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-log-btn" data-js-logging-context="upload-staged">
             <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
             📤 Upload & Stage a File
           </a>
@@ -155,7 +156,7 @@
                   <td>
                     <form method="POST" action="{{ url_for('main.discard_staged_update', id_=0, filename=file.filename) }}" class="d-inline">
                       <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
-                      <button type="submit" class="btn btn-outline-danger btn-sm js-return-home-btn">🗑️ Discard</button>
+                      <button type="submit" class="btn btn-outline-danger btn-sm js-log-btn" data-js-logging-context="discard-malformed">🗑️ Discard</button>
                     </form>
                   </td>
                 </tr>
@@ -167,11 +168,11 @@
     {% endif %}
 
     <div class="mt-4">
-      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-send-diagnostic-btn">
+      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-log-btn" data-js-logging-context="upload-new-staged">
         <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
         📤 Upload New File (Staged)
       </a>
-      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary js-send-diagnostic-btn">
+      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary js-log-btn" data-js-logging-context="view-all-uploads">
         <!-- TODO: Ideally, use a dedicated class like js-list-uploads-btn for navigation actions. -->
         📁 View All Uploads
       </a>
