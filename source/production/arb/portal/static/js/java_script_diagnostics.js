@@ -130,6 +130,12 @@ function log_to_server(msg, extra) {
 
 // Add event listeners for all loggable buttons using the new diagnostics system
 window.addEventListener('DOMContentLoaded', function() {
+    // Log page load
+    const diagnosticsBlock = document.querySelector('.js-diagnostics-block');
+    const pageName = diagnosticsBlock?.getAttribute('data-page') || 'unknown-page';
+    log_to_client(`[JS_DIAG] Page loaded: ${pageName}`);
+    log_to_server(`Page loaded: ${pageName}`, { context: 'page-load', page: pageName });
+    
     document.querySelectorAll('.js-log-btn').forEach(function(btn) {
         btn.addEventListener('click', function(event) {
             const context = btn.getAttribute('data-js-logging-context') || 'unknown-action';

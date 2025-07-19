@@ -23,7 +23,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" id="confirm-return-btn" data-bs-dismiss="modal">Yes, Return</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" id="cancel-return-btn" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
@@ -32,21 +32,34 @@
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var returnBtn = document.getElementById('return-home-btn');
   var confirmBtn = document.getElementById('confirm-return-btn');
+  var cancelBtn = document.getElementById('cancel-return-btn');
   var modal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
 
   if (returnBtn) {
     returnBtn.addEventListener('click', function(e) {
       e.preventDefault();
+      // commented out to avoid double logging.
+      // if (typeof log_to_client === 'function') log_to_client('Button clicked: return-home');
+      // if (typeof log_to_server === 'function') log_to_server('Button clicked: return-home', {context: 'return-home'});
       modal.show();
     });
   }
   if (confirmBtn) {
     confirmBtn.addEventListener('click', function() {
+      if (typeof log_to_client === 'function') log_to_client('Button clicked: modal-confirm');
+      if (typeof log_to_server === 'function') log_to_server('Button clicked: modal-confirm', {context: 'modal-confirm'});
       window.location.href = '/';
+    });
+  }
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', function() {
+      if (typeof log_to_client === 'function') log_to_client('Button clicked: modal-cancel');
+      if (typeof log_to_server === 'function') log_to_server('Button clicked: modal-cancel', {context: 'modal-cancel'});
     });
   }
 });
