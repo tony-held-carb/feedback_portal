@@ -104,10 +104,13 @@
   * mkdocs serve
 
 ### Updating home repo after PR on my work machine
+update                            git checkout refactor_27
+so that it is one greater than    git branch -d refactor_26
+
 git status
 git fetch --all --prune
 git branch -a
-git checkout refactor_26
+git checkout refactor_27
 git status
-git branch -d refactor_25
+git branch -d refactor_26
 git remote prune origin

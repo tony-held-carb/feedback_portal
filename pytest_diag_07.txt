@@ -1,0 +1,52 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 105 items / 104 deselected / 1 selected
+
+tests/e2e/test_excel_upload_playwright_pytest.py::test_list_staged_diagnostics_overlay[chromium] FAILED [100%]
+
+================================== FAILURES ===================================
+_______________ test_list_staged_diagnostics_overlay[chromium] ________________
+
+page = <Page url='http://127.0.0.1:5000/list_staged'>
+
+    def test_list_staged_diagnostics_overlay(page):
+        """
+        E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
+        """
+        page.goto("http://127.0.0.1:5000/list_staged")
+        page.wait_for_load_state("networkidle")
+        # Scrape overlay after page load
+        overlay = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+        # Click the diagnostics block send button
+        page.locator('.js-send-diagnostic-btn').click()
+        page.wait_for_timeout(500)
+        overlay2 = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
+        # Click the discard button for the first staged file
+        discard_btn = page.locator("form[action*='discard_staged_update'] button[type='submit']").first
+        page.on("dialog", lambda dialog: dialog.accept())  # Accept the confirmation
+        discard_btn.click()
+        page.wait_for_timeout(500)
+        overlay3 = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after discard] {overlay3}")
+>       assert "Discard button clicked" in overlay3 or "Discard confirmed" in overlay3
+E       AssertionError: assert ('Discard button clicked' in '[JS_DIAG] Page loaded (list_staged)\n' or 'Discard confirmed' in '[JS_DIAG] Page loaded (list_staged)\n')
+
+tests\e2e\test_excel_upload_playwright_pytest.py:976: AssertionError
+---------------------------- Captured stdout call -----------------------------
+[DIAGNOSTICS OVERLAY after load] [JS_DIAG] Page loaded (list_staged)
+
+[DIAGNOSTICS OVERLAY after send click] [JS_DIAG] Page loaded (list_staged)
+[JS_DIAG] Send Diagnostic clicked: Diagnostic from /list_staged page (list_staged)
+
+[DIAGNOSTICS OVERLAY after discard] [JS_DIAG] Page loaded (list_staged)
+
+=========================== short test summary info ===========================
+FAILED tests/e2e/test_excel_upload_playwright_pytest.py::test_list_staged_diagnostics_overlay[chromium]
+====================== 1 failed, 104 deselected in 2.80s ======================

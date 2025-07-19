@@ -12,6 +12,10 @@
   <script defer src="{{ url_for('static', filename='js/table_management.js') }}"></script>
 {% endblock %}
 
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
+{% endblock %}
+
 {% block content %}
   <div class="container-fluid post-nav-buffer">
 
@@ -21,6 +25,38 @@
 
     <div class="alert alert-info mb-4">
       <strong>ℹ️ About Staged Files:</strong> These files have been uploaded and parsed but are awaiting your review and confirmation before being applied to the database.
+    </div>
+
+    <!-- Diagnostics Block (matching java_script_diagnostic_test.html) -->
+    <div class="container mt-4">
+      <div class="js-diagnostics-block" data-page="list_staged">
+        <h2>JavaScript Diagnostics Test Block (Staged Files Page)</h2>
+        <p>This block is for testing frontend and backend JavaScript diagnostics logging on the staged files page.</p>
+        <div class="mb-3">
+          <label class="form-label">Diagnostic Message</label>
+          <input type="text" class="form-control js-diagnostic-text" value="Diagnostic from /list_staged page">
+        </div>
+        <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
+        <button class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to Homepage</button>
+        <!-- Modal -->
+        <div class="modal fade js-confirm-return-modal" tabindex="-1" aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to return to the homepage?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary js-log-btn" data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return</button>
+                <button type="button" class="btn btn-secondary js-log-btn" data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     {% if staged_files %}
@@ -60,13 +96,16 @@
                   </td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
-                      <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
-                         class="btn btn-outline-primary">
-                        👁️ Review
-                      </a>
-                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence) }}" 
-                            class="d-inline">
-                        <button type="submit" class="btn btn-outline-danger">
+                      {% if file.id_incidence is not none %}
+                        <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
+                           class="btn btn-outline-primary js-log-btn" data-js-logging-context="review-staged">
+                          <!-- TODO: Ideally, use a dedicated class like js-review-btn for review actions. -->
+                          👁️ Review
+                        </a>
+                      {% endif %}
+                      <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" class="d-inline">
+                        <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
+                        <button type="submit" class="btn btn-outline-danger js-log-btn" data-js-logging-context="discard-staged">
                           🗑️ Discard
                         </button>
                       </form>
@@ -83,18 +122,58 @@
         <div class="card-body text-center py-5">
           <h4 class="text-muted">📭 No Staged Files</h4>
           <p class="text-muted mb-4">There are no files currently staged for review.</p>
-          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary">
+          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-log-btn" data-js-logging-context="upload-staged">
+            <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
             📤 Upload & Stage a File
           </a>
         </div>
       </div>
     {% endif %}
 
+    {% if malformed_files %}
+      <div class="card mt-4 border-danger">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">⚠️ Malformed or Corrupt Staged Files ({{ malformed_files | length }})</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>Staged</th>
+                <th>Error</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for file in malformed_files %}
+                <tr>
+                  <td><code class="small">{{ file.filename }}</code></td>
+                  <td><small>{{ (file.file_size / 1024) | round(1) }} KB</small></td>
+                  <td><small>{{ file.modified_time.strftime('%Y-%m-%d %H:%M:%S') }}</small></td>
+                  <td><span class="text-danger small">{{ file.error }}</span></td>
+                  <td>
+                    <form method="POST" action="{{ url_for('main.discard_staged_update', id_=0, filename=file.filename) }}" class="d-inline">
+                      <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
+                      <button type="submit" class="btn btn-outline-danger btn-sm js-log-btn" data-js-logging-context="discard-malformed">🗑️ Discard</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+
     <div class="mt-4">
-      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary">
+      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-log-btn" data-js-logging-context="upload-new-staged">
+        <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
         📤 Upload New File (Staged)
       </a>
-      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary">
+      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary js-log-btn" data-js-logging-context="view-all-uploads">
+        <!-- TODO: Ideally, use a dedicated class like js-list-uploads-btn for navigation actions. -->
         📁 View All Uploads
       </a>
     </div>

@@ -71,7 +71,7 @@
               <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback Spreadsheet</a>
               </li>
-              <li><a class="dropdown-item disabled" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
               <li>
                 <hr class="dropdown-divider">
@@ -128,6 +128,18 @@
                   Feedback Portal Source Code & Documentation
                 </a>
               </li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="diagnosticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Diagnostics
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="diagnosticsDropdown">
+              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">Staged Files</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">Uploads</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JS Diagnostics Test</a></li>
+              <!-- Add more diagnostics links here -->
             </ul>
           </li>
 

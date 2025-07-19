@@ -327,7 +327,16 @@ class ExcelUploadE2ETest:
     Returns:
       List of file paths for testing
     """
-    return get_xls_files(self.test_files_dir, recursive=True)
+    base_dirs = [
+      Path("feedback_forms/testing_versions/standard"),
+      Path("feedback_forms/testing_versions/edge_cases"),
+      Path("feedback_forms/testing_versions/generated"),
+      # Path("feedback_forms/testing_versions/old")
+    ]
+    files = []
+    for base_dir in base_dirs:
+      files.extend(get_xls_files(base_dir, recursive=True))
+    return files
   
   def run_basic_upload_test(self, file_path: str) -> Dict[str, Any]:
     """Run a basic upload test for a single file.

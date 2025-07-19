@@ -27,6 +27,7 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from datetime import datetime, timedelta
 import random
+import string
 
 # Output directory
 OUTPUT_DIR = Path("feedback_forms/testing_versions/generated")
@@ -195,4 +196,89 @@ with open(manifest_path, "w") as f:
     json.dump(manifest, f, indent=2)
 
 print(f"Generated {len(manifest)} test Excel files in {OUTPUT_DIR}")
-print(f"Manifest written to {manifest_path}") 
+print(f"Manifest written to {manifest_path}")
+
+import os
+from openpyxl import Workbook
+import random
+import string
+
+EDGE_CASE_DIR = "feedback_forms/testing_versions/edge_cases"
+os.makedirs(EDGE_CASE_DIR, exist_ok=True)
+
+# 1. Corrupted Excel file (actually a text file with .xlsx extension)
+with open(os.path.join(EDGE_CASE_DIR, "corrupted_file.xlsx"), "w") as f:
+    f.write("This is not a real Excel file.")
+
+# 2. Missing columns (missing required fields)
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+ws.append([15, "SomeField", "SomeValue"])  # Missing required fields
+wb.save(os.path.join(EDGE_CASE_DIR, "missing_columns.xlsx"))
+
+# 3. Extra columns
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value", "Extra1", "Extra2"])
+ws.append([15, "id_incidence", 123, "foo", "bar"])
+ws.append([16, "SomeField", "SomeValue", "baz", "qux"])
+wb.save(os.path.join(EDGE_CASE_DIR, "extra_columns.xlsx"))
+
+# 4. Duplicate fields
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+ws.append([15, "id_incidence", 123])
+ws.append([16, "id_incidence", 456])  # Duplicate field
+wb.save(os.path.join(EDGE_CASE_DIR, "duplicate_fields.xlsx"))
+
+# 5. Large file (1000 rows)
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+for i in range(15, 1015):
+    ws.append([i, f"Field{i}", f"Value{i}"])
+wb.save(os.path.join(EDGE_CASE_DIR, "large_file.xlsx"))
+
+# 6. Unicode/special characters
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+ws.append([15, "id_incidence", 123])
+ws.append([16, "EmojiField", "😀🚀✨"])
+ws.append([17, "RTLField", "مرحبا"])
+ws.append([18, "CJKField", "漢字"])
+wb.save(os.path.join(EDGE_CASE_DIR, "unicode_fields.xlsx"))
+
+# 7. Mixed data types
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+ws.append([15, "id_incidence", 123])
+ws.append([16, "NumericField", "not_a_number"])  # Should be numeric
+ws.append([17, "DateField", "not_a_date"])      # Should be date
+wb.save(os.path.join(EDGE_CASE_DIR, "mixed_types.xlsx"))
+
+# 8. Headers only
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+ws.append(["Row", "Field", "Value"])
+wb.save(os.path.join(EDGE_CASE_DIR, "headers_only.xlsx"))
+
+# 9. Data only (no headers)
+wb = Workbook()
+ws = wb.active
+ws.title = "Feedback Form"
+for i in range(15, 18):
+    ws.append([i, f"Field{i}", f"Value{i}"])
+wb.save(os.path.join(EDGE_CASE_DIR, "data_only.xlsx"))
+
+print("Edge case Excel files generated in:", EDGE_CASE_DIR) 
