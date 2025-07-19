@@ -97,12 +97,14 @@
                     <div class="btn-group btn-group-sm" role="group">
                       {% if file.id_incidence is not none %}
                         <a href="{{ url_for('main.review_staged', id_=file.id_incidence, filename=file.filename) }}" 
-                           class="btn btn-outline-primary">
+                           class="btn btn-outline-primary js-send-diagnostic-btn">
+                          <!-- TODO: Ideally, use a dedicated class like js-review-btn for review actions. -->
                           👁️ Review
                         </a>
                       {% endif %}
                       <form method="POST" action="{{ url_for('main.discard_staged_update', id_=file.id_incidence if file.id_incidence is not none else 0, filename=file.filename) }}" class="d-inline">
-                        <button type="submit" class="btn btn-outline-danger">
+                        <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
+                        <button type="submit" class="btn btn-outline-danger js-return-home-btn">
                           🗑️ Discard
                         </button>
                       </form>
@@ -119,7 +121,8 @@
         <div class="card-body text-center py-5">
           <h4 class="text-muted">📭 No Staged Files</h4>
           <p class="text-muted mb-4">There are no files currently staged for review.</p>
-          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary">
+          <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-send-diagnostic-btn">
+            <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
             📤 Upload & Stage a File
           </a>
         </div>
@@ -151,7 +154,8 @@
                   <td><span class="text-danger small">{{ file.error }}</span></td>
                   <td>
                     <form method="POST" action="{{ url_for('main.discard_staged_update', id_=0, filename=file.filename) }}" class="d-inline">
-                      <button type="submit" class="btn btn-outline-danger btn-sm">🗑️ Discard</button>
+                      <!-- TODO: Ideally, use a dedicated class like js-discard-btn for discard actions. For now, using js-return-home-btn for diagnostics logging. -->
+                      <button type="submit" class="btn btn-outline-danger btn-sm js-return-home-btn">🗑️ Discard</button>
                     </form>
                   </td>
                 </tr>
@@ -163,10 +167,12 @@
     {% endif %}
 
     <div class="mt-4">
-      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary">
+      <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-primary js-send-diagnostic-btn">
+        <!-- TODO: Ideally, use a dedicated class like js-upload-btn for upload actions. -->
         📤 Upload New File (Staged)
       </a>
-      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary">
+      <a href="{{ url_for('main.list_uploads') }}" class="btn btn-secondary js-send-diagnostic-btn">
+        <!-- TODO: Ideally, use a dedicated class like js-list-uploads-btn for navigation actions. -->
         📁 View All Uploads
       </a>
     </div>

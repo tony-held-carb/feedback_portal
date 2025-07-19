@@ -100,4 +100,29 @@ def test_diagnostics_overlay_on_list_staged(page: Page):
     # Verify send diagnostic action was logged
     assert 'Send Diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
 
+
+def test_list_staged_diagnostics_overlay(page: 'Page'):
+    """
+    E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
+    This is a standalone version of the overlay+discard test from the main suite.
+    """
+    page.goto("http://127.0.0.1:5000/list_staged")
+    page.wait_for_load_state("networkidle")
+    # Scrape overlay after page load
+    overlay = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+    # Click the diagnostics block send button
+    page.locator('.js-send-diagnostic-btn').click()
+    page.wait_for_timeout(500)
+    overlay2 = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
+    # Click the discard button for the first staged file
+    discard_btn = page.locator("form[action*='discard_staged_update'] button[type='submit']").first
+    page.on("dialog", lambda dialog: dialog.accept())  # Accept the confirmation
+    discard_btn.click()
+    page.wait_for_timeout(500)
+    overlay3 = page.locator('#js-diagnostics').inner_text()
+    print(f"[DIAGNOSTICS OVERLAY after discard] {overlay3}")
+    assert "Discard button clicked" in overlay3 or "Discard confirmed" in overlay3 
+
     

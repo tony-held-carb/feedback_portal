@@ -1372,3 +1372,8 @@ pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
 /list_staged
  staged_list.html
  table_management.js
+
+
+pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "discard or malformed" | tee pytest_output_04.txt
+
+pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_05.txt
