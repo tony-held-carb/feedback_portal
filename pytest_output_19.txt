@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 107 items / 105 deselected / 2 selected
+
+tests/e2e/test_excel_upload_playwright_pytest.py::test_upload_file_only[chromium] PASSED [ 50%]
+tests/e2e/test_excel_upload_playwright_pytest.py::test_discard_staged_file_only[chromium] PASSED [100%]
+
+===================== 2 passed, 105 deselected in 10.42s ======================

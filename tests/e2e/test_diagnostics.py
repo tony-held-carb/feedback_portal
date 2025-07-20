@@ -104,8 +104,10 @@ def test_diagnostics_overlay_on_list_staged(page: Page):
 def test_list_staged_diagnostics_overlay(page: 'Page'):
     """
     E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
-    This is a standalone version of the overlay+discard test from the main suite.
+    This is a standalone version of the overlay+discard test from the main suite, updated for the custom modal system.
+    The overlay is checked for the modal confirm log immediately after clicking confirm, before the page reload.
     """
+    from playwright.sync_api import expect
     page.goto("http://127.0.0.1:5000/list_staged")
     page.wait_for_load_state("networkidle")
     # Scrape overlay after page load
@@ -116,13 +118,22 @@ def test_list_staged_diagnostics_overlay(page: 'Page'):
     page.wait_for_timeout(500)
     overlay2 = page.locator('#js-diagnostics').inner_text()
     print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
-    # Click the discard button for the first staged file
-    discard_btn = page.locator("form[action*='discard_staged_update'] button[type='submit']").first
-    page.on("dialog", lambda dialog: dialog.accept())  # Accept the confirmation
+    # Click the discard button for the first staged file (triggers custom modal)
+    discard_btn = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']").first
     discard_btn.click()
     page.wait_for_timeout(500)
-    overlay3 = page.locator('#js-diagnostics').inner_text()
-    print(f"[DIAGNOSTICS OVERLAY after discard] {overlay3}")
-    assert "Discard button clicked" in overlay3 or "Discard confirmed" in overlay3 
+    # Confirm modal appears
+    modal = page.locator('#discardConfirmModal')
+    assert modal.is_visible(), "Custom discard modal did not appear."
+    # Click the confirm button in the modal
+    confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
+    confirm_btn.click()
+    # Immediately check overlay for confirm log before reload clears it
+    expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
+    print(f"[DIAGNOSTICS OVERLAY after modal confirm click] {page.locator('#js-diagnostics').inner_text()}")
+    # Wait for form submission and page reload
+    page.wait_for_timeout(1000)
+    # Optionally, check that the file is no longer listed (if you want to verify backend effect)
+    # assert ... 
 
     

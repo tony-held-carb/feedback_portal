@@ -1,0 +1,64 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 3 items
+
+tests/e2e/test_diagnostics.py::test_diagnostics_overlay_on_diagnostic_test_page[chromium] PASSED [ 33%]
+tests/e2e/test_diagnostics.py::test_diagnostics_overlay_on_list_staged[chromium] PASSED [ 66%]
+tests/e2e/test_diagnostics.py::test_list_staged_diagnostics_overlay[chromium] FAILED [100%]
+
+================================== FAILURES ===================================
+_______________ test_list_staged_diagnostics_overlay[chromium] ________________
+
+page = <Page url='http://127.0.0.1:5000/list_staged'>
+
+    def test_list_staged_diagnostics_overlay(page: 'Page'):
+        """
+        E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
+        This is a standalone version of the overlay+discard test from the main suite, updated for the custom modal system.
+        """
+        page.goto("http://127.0.0.1:5000/list_staged")
+        page.wait_for_load_state("networkidle")
+        # Scrape overlay after page load
+        overlay = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+        # Click the diagnostics block send button
+        page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]').click()
+        page.wait_for_timeout(500)
+        overlay2 = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
+        # Click the discard button for the first staged file (triggers custom modal)
+        discard_btn = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']").first
+        discard_btn.click()
+        page.wait_for_timeout(500)
+        # Confirm modal appears
+        modal = page.locator('#discardConfirmModal')
+        assert modal.is_visible(), "Custom discard modal did not appear."
+        # Click the confirm button in the modal
+        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
+        confirm_btn.click()
+        page.wait_for_timeout(1000)  # Wait for form submission and page reload
+        # Scrape overlay after discard
+        overlay3 = page.locator('#js-diagnostics').inner_text()
+        print(f"[DIAGNOSTICS OVERLAY after discard] {overlay3}")
+        # Assert that modal confirm was logged
+>       assert "discard-modal-confirm" in overlay3 or "Button clicked: discard-modal-confirm" in overlay3, "Overlay did not log modal confirm after discard."
+E       AssertionError: Overlay did not log modal confirm after discard.
+E       assert ('discard-modal-confirm' in '[JS_DIAG] Page loaded: list_staged\n' or 'Button clicked: discard-modal-confirm' in '[JS_DIAG] Page loaded: list_staged\n')
+
+tests\e2e\test_diagnostics.py:134: AssertionError
+---------------------------- Captured stdout call -----------------------------
+[DIAGNOSTICS OVERLAY after load] [JS_DIAG] Page loaded: list_staged
+
+[DIAGNOSTICS OVERLAY after send click] [JS_DIAG] Page loaded: list_staged
+Button clicked: send-diagnostic: Diagnostic from /list_staged page
+
+[DIAGNOSTICS OVERLAY after discard] [JS_DIAG] Page loaded: list_staged
+
+=========================== short test summary info ===========================
+FAILED tests/e2e/test_diagnostics.py::test_list_staged_diagnostics_overlay[chromium]
+======================== 1 failed, 2 passed in 11.55s =========================
