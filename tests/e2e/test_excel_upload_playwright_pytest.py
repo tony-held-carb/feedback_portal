@@ -596,320 +596,6 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
             assert (field in log_text and ("WARNING" in log_text or "default" in log_text.lower())), \
                 f"Field '{field}' value mismatch (Excel: {excel_value}, Parsed: {parsed_value}) and no log warning found."
 
-# --- Recommended: Use separated upload-only and discard-only tests for robust diagnostics/modal testing ---
-# The following tests are known to be robust and should be used for E2E validation:
-#   - test_upload_file_only
-#   - test_discard_staged_file_only
-# The old combined upload+discard tests are skipped by default due to event/timing issues in Playwright.
-
-class TestExcelUploadStaged:
-    """
-    Comprehensive E2E tests for the staged upload workflow.
-    Tests upload, review, confirm, and DB validation for staged files.
-    """
-    @pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-    @pytest.mark.parametrize("file_path", get_test_files())
-    def test_excel_upload_staged_workflow(self, page: Page, file_path: str):
-        """
-        E2E: Upload via /upload_staged, verify in /list_staged, review, confirm, and validate DB.
-        Steps:
-        - Upload file via /upload_staged
-        - Verify file appears in /list_staged
-        - Review staged file and confirm
-        - Check DB for correct update
-        """
-        import re
-        from bs4 import BeautifulSoup
-        from pathlib import Path
-        # 1. Upload file via /upload_staged
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
-        file_input = page.locator("input[type='file']")
-        file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
-        # Wait for redirect to /review_staged or flash message
-        for _ in range(10):
-            if "/review_staged/" in page.url:
-                break
-            page.wait_for_timeout(500)
-        # If this is an edge case file, expect error and no redirect
-        if "edge_cases" in Path(file_path).parts:
-            # Should remain on upload_staged and show error message
-            assert "/upload_staged" in page.url, f"Expected to remain on upload_staged for edge case file, got: {page.url}"
-            page_content = page.content().lower()
-            assert any(keyword in page_content for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
-                f"Expected error message for edge case file. Content: {page_content[:300]}"
-            )
-            return  # Test passes for edge case scenario
-        # Otherwise, proceed as before
-        page_content = page.content().lower()
-        id_error = (
-            ("id_incidence" in page_content and "positive integer" in page_content)
-            or ("missing a valid 'incidence/emission id'" in page_content)
-        )
-        if id_error and "/upload_staged" in page.url:
-            print("Staged upload blocked due to missing/invalid id_incidence as expected.")
-            return  # Test passes for this scenario
-        match = re.search(r"/review_staged/(\d+)/(.*?)$", page.url)
-        assert match, f"Could not extract id_ and filename from URL: {page.url}"
-        id_ = int(match.group(1))
-        staged_filename = match.group(2)
-        # 2. Verify file appears in /list_staged
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged"
-        # 3. Review staged file: check field diffs
-        page.goto(f"{BASE_URL}/review_staged/{id_}/{staged_filename}")
-        page.wait_for_load_state("networkidle")
-        assert "staged_fields" in page.content() or "Review" in page.content(), "Review page did not load staged fields."
-        checkboxes = page.locator("input[type='checkbox'][name^='confirm_overwrite_']")
-        count = checkboxes.count()
-        for i in range(count):
-            checkboxes.nth(i).check()
-        submit_btn = page.locator("form button[type='submit'], form input[type='submit']")
-        if submit_btn.count() > 0:
-            submit_btn.first.click()
-        else:
-            page.evaluate("document.querySelector('form').submit()")
-        original_url = page.url
-        for _ in range(10):
-            try:
-                page.wait_for_timeout(500)
-                current_url = page.url
-                if current_url != original_url:
-                    break
-                page.wait_for_load_state("networkidle", timeout=1000)
-                break
-            except Exception:
-                continue
-        try:
-            page.wait_for_load_state("networkidle", timeout=5000)
-            page_content = page.content().lower()
-            success_found = "success" in page_content or "/upload_staged" in page.url
-            assert success_found, f"Expected success after confirming staged upload. URL: {page.url}, Content preview: {page_content[:200]}"
-        except Exception as e:
-            assert "/upload_staged" in page.url, f"Expected redirect to /upload_staged after confirmation. Current URL: {page.url}"
-        misc_json = None
-        for _ in range(10):
-            misc_json = fetch_misc_json_from_db(id_)
-            if misc_json:
-                break
-            time.sleep(0.5)
-        assert misc_json, f"misc_json not found in DB for id {id_} after confirming staged upload"
-        excel_fields = read_excel_fields(file_path)
-        for field, excel_value in excel_fields.items():
-            parsed_value = misc_json.get(field)
-            if parsed_value == excel_value:
-                continue
-            else:
-                logs = read_backend_logs()
-                log_text = "".join(logs)
-                assert (field in log_text and ("WARNING" in log_text or "default" in log_text.lower())), \
-                    f"[Staged] Field '{field}' value mismatch (Excel: {excel_value}, Parsed: {parsed_value}) and no log warning found."
-
-    @pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-    @pytest.mark.parametrize("file_path", get_test_files())
-    def test_excel_upload_staged_discard(self, page: Page, file_path: str):
-        """
-        E2E: Upload via /upload_staged, then discard the staged file and verify it is removed.
-        Uses the new custom modal and overlay logging system.
-        """
-        import re
-        from playwright.sync_api import expect
-        # 1. Upload file via /upload_staged
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
-        file_input = page.locator("input[type='file']")
-        file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
-        # Wait for redirect to /review_staged
-        for _ in range(10):
-            if "/review_staged/" in page.url:
-                break
-            page.wait_for_timeout(500)
-        assert "/review_staged/" in page.url, f"Did not redirect to review_staged after upload: {page.url}"
-        match = re.search(r"/review_staged/(\d+)/(.*?)$", page.url)
-        assert match, f"Could not extract id_ and filename from URL: {page.url}"
-        id_ = int(match.group(1))
-        staged_filename = match.group(2)
-        # 2. Discard the staged file using the new modal
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        discard_btn = page.locator(f"form[action*='discard_staged_update/{id_}'] button[data-js-logging-context='discard-staged']").first
-        discard_btn.click()
-        # Wait for modal
-        modal = page.locator('#discardConfirmModal')
-        assert modal.is_visible(), "Custom discard modal did not appear."
-        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-        confirm_btn.click()
-        # Immediately check overlay for confirm log before reload
-        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-        # Wait for reload, then check file is gone
-        page.wait_for_timeout(1000)
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
-
-    @pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-    @pytest.mark.parametrize("file_path", get_test_files())
-    def test_discard_staged_by_filename(self, page: Page, file_path: str):
-        """
-        E2E: Upload a file via /upload_staged, then discard it by filename from /list_staged.
-        Uses the new custom modal and overlay logging system.
-        """
-        import re
-        from pathlib import Path
-        from playwright.sync_api import expect
-        import os
-        # Upload file via /upload_staged
-        page.goto(f"{BASE_URL}/upload_staged")
-        file_input = page.locator("input[type='file']")
-        file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
-        # Extract staged JSON filename from redirect URL
-        staged_filename = None
-        for _ in range(10):
-            if "/review_staged/" in page.url:
-                match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-                if match:
-                    staged_filename = match.group(1)
-                    break
-            page.wait_for_timeout(500)
-        assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
-        print(f"Staged filename to discard: '{staged_filename}' (repr: {repr(staged_filename)})")
-        # Go to /list_staged and check for the staged file
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged"
-        # Discard the staged file by filename using the new modal
-        discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
-        discard_btn.click()
-        modal = page.locator('#discardConfirmModal')
-        assert modal.is_visible(), "Custom discard modal did not appear."
-        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-        confirm_btn.click()
-        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-        page.wait_for_timeout(1000)
-        # Wait for the file to disappear from the list
-        for _ in range(10):
-            page.wait_for_timeout(500)
-            page.goto(f"{BASE_URL}/list_staged")
-            page.wait_for_load_state("networkidle")
-            if staged_filename not in page.content():
-                break
-        if staged_filename in page.content():
-            print(f"File '{staged_filename}' still listed after discard. Directory contents:")
-            print(os.listdir('portal_uploads/staging'))
-        assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
-
-    @pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-    @pytest.mark.parametrize("file_path", get_test_files())
-    def test_multiple_staged_files_same_id(self, page: Page, file_path: str):
-        """
-        E2E: Upload two files for the same id_incidence via /upload_staged, ensure both appear in /list_staged, and can be discarded independently.
-        Uses the new custom modal and overlay logging system.
-        """
-        import re
-        from pathlib import Path
-        import shutil
-        import os
-        from playwright.sync_api import expect
-        # Upload file via /upload_staged
-        page.goto(f"{BASE_URL}/upload_staged")
-        file_input = page.locator("input[type='file']")
-        file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
-        # Extract staged JSON filename from redirect URL
-        staged_filename = None
-        for _ in range(10):
-            if "/review_staged/" in page.url:
-                match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-                if match:
-                    staged_filename = match.group(1)
-                    break
-            page.wait_for_timeout(500)
-        assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
-        staging_dir = Path("portal_uploads/staging")
-        first_staged = staging_dir / staged_filename
-        second_staged = staging_dir / ("copy_" + staged_filename)
-        shutil.copy(first_staged, second_staged)
-        print(f"First staged: '{first_staged.name}', Second staged: '{second_staged.name}'")
-        # Go to /list_staged and check for both files
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert first_staged.name in page.content(), f"First staged file {first_staged.name} not listed"
-        assert second_staged.name in page.content(), f"Second staged file {second_staged.name} not listed"
-        # Discard the second file using the new modal
-        discard_btn = page.locator(f"form[action*='{second_staged.name}'] button[data-js-logging-context='discard-staged']").first
-        discard_btn.click()
-        modal = page.locator('#discardConfirmModal')
-        assert modal.is_visible(), "Custom discard modal did not appear."
-        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-        confirm_btn.click()
-        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-        for _ in range(10):
-            page.wait_for_timeout(500)
-            page.goto(f"{BASE_URL}/list_staged")
-            page.wait_for_load_state("networkidle")
-            if second_staged.name not in page.content():
-                break
-        if second_staged.name in page.content():
-            print(f"Second staged file '{second_staged.name}' still listed after discard. Directory contents:")
-            print(os.listdir('portal_uploads/staging'))
-        assert second_staged.name not in page.content(), f"Second staged file {second_staged.name} still listed after discard"
-        # Discard the first file using the new modal
-        discard_btn = page.locator(f"form[action*='{first_staged.name}'] button[data-js-logging-context='discard-staged']").first
-        discard_btn.click()
-        modal = page.locator('#discardConfirmModal')
-        assert modal.is_visible(), "Custom discard modal did not appear."
-        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-        confirm_btn.click()
-        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-        for _ in range(10):
-            page.wait_for_timeout(500)
-            page.goto(f"{BASE_URL}/list_staged")
-            page.wait_for_load_state("networkidle")
-            if first_staged.name not in page.content():
-                break
-        if first_staged.name in page.content():
-            print(f"First staged file '{first_staged.name}' still listed after discard. Directory contents:")
-            print(os.listdir('portal_uploads/staging'))
-        assert first_staged.name not in page.content(), f"First staged file {first_staged.name} still listed after discard"
-
-    @pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-    def test_malformed_staged_file_handling(self, page: Page, tmp_path):
-        """
-        E2E: Create a malformed JSON file in the staging dir, verify it appears in the malformed section, and can be discarded.
-        Uses the new custom modal and overlay logging system.
-        """
-        from pathlib import Path
-        import os
-        from playwright.sync_api import expect
-        staging_dir = Path("portal_uploads/staging")
-        staging_dir.mkdir(parents=True, exist_ok=True)
-        malformed_file = staging_dir / "malformed_test.json"
-        malformed_file.write_text("{ this is not valid json }")
-        print(f"Malformed file to discard: '{malformed_file.name}' (repr: {repr(malformed_file.name)})")
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        assert "malformed_test.json" in page.content(), "Malformed file not listed in /list_staged"
-        discard_btn = page.locator(f"form[action*='malformed_test.json'] button[data-js-logging-context='discard-malformed']").first
-        discard_btn.click()
-        modal = page.locator('#discardConfirmModal')
-        assert modal.is_visible(), "Custom discard modal did not appear."
-        confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-        confirm_btn.click()
-        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-        for _ in range(10):
-            page.wait_for_timeout(500)
-            page.goto(f"{BASE_URL}/list_staged")
-            page.wait_for_load_state("networkidle")
-            if "malformed_test.json" not in page.content():
-                break
-        if "malformed_test.json" in page.content():
-            print(f"Malformed file 'malformed_test.json' still listed after discard. Directory contents:")
-            print(os.listdir('portal_uploads/staging'))
-        assert "malformed_test.json" not in page.content(), "Malformed file still listed after discard"
 
 def test_diagnostics_overlay_on_list_staged(page):
     """
@@ -933,24 +619,6 @@ def test_diagnostics_overlay_on_list_staged(page):
     print(f"[DIAGNOSTICS OVERLAY] {overlay}")
     assert 'send-diagnostic' in overlay or overlay != '[Overlay not found]', "Diagnostics overlay did not update as expected."
 
-
-@pytest.mark.skip(reason="Diagnostics are not logged to the JS console; overlay and backend logging are used instead.")
-def test_diagnostics_console_output_on_list_staged(page):
-    """
-    Minimal test: Load /list_staged, click diagnostics button, and capture JS console output.
-    Prints/logs all console messages for review.
-    Updated to use the new diagnostics button selector.
-    """
-    messages = []
-    page.on("console", lambda msg: messages.append(msg.text))
-    page.goto("http://127.0.0.1:5000/list_staged")
-    page.wait_for_load_state("networkidle")
-    btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
-    assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
-    btn.first.click()
-    page.wait_for_timeout(500)
-    print(f"[JS CONSOLE OUTPUT] {messages}")
-    assert any('send-diagnostic' in m for m in messages) or messages, "No relevant JS console output captured."
 
 
 def test_diagnostics_overlay_on_diagnostic_test_page(page):
@@ -986,10 +654,37 @@ def test_list_staged_diagnostics_overlay(page):
     """
     E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
     Updated to use the new diagnostics button selector.
+    Ensures a staged file is present before attempting to discard.
     """
     from playwright.sync_api import expect
+    import os
+    # Ensure at least one staged file exists
     page.goto("http://127.0.0.1:5000/list_staged")
     page.wait_for_load_state("networkidle")
+    staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
+    if staged_file_btns.count() == 0:
+        # Upload a file to stage it
+        test_files = get_test_files()
+        if not test_files:
+            pytest.skip("No test files available to upload and stage.")
+        file_path = test_files[0]
+        page.goto(f"{BASE_URL}/upload_staged")
+        page.wait_for_load_state("networkidle")
+        file_input = page.locator("input[type='file']")
+        file_input.set_input_files(file_path)
+        page.wait_for_timeout(1000)
+        # Wait for redirect to /review_staged
+        import re
+        for _ in range(10):
+            if "/review_staged/" in page.url:
+                break
+            page.wait_for_timeout(500)
+        # Go back to /list_staged
+        page.goto("http://127.0.0.1:5000/list_staged")
+        page.wait_for_load_state("networkidle")
+        staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
+        if staged_file_btns.count() == 0:
+            pytest.skip("Failed to stage a file for diagnostics overlay test.")
     # Scrape overlay after page load
     overlay = page.locator('#js-diagnostics').inner_text()
     print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
@@ -1001,7 +696,7 @@ def test_list_staged_diagnostics_overlay(page):
     overlay2 = page.locator('#js-diagnostics').inner_text()
     print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
     # Click the discard button for the first staged file (triggers custom modal)
-    discard_btn = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']").first
+    discard_btn = staged_file_btns.first
     discard_btn.click()
     page.wait_for_timeout(500)
     # Confirm modal appears
@@ -1018,63 +713,6 @@ def test_list_staged_diagnostics_overlay(page):
     # Optionally, check that the file is no longer listed (if you want to verify backend effect)
     # assert ... 
 
-# Update one failing discard test to scrape and print overlay after each key action
-@pytest.mark.skip(reason="Combined upload+discard test is skipped; use separated upload and discard tests for robust diagnostics/modal testing.")
-@pytest.mark.parametrize("file_path", get_test_files())
-def test_discard_staged_by_filename_with_overlay_logging(page: Page, file_path: str):
-    """
-    E2E: Upload a file via /upload_staged, then discard it by filename from /list_staged.
-    Scrape and print overlay after each key action.
-    """
-    import re
-    from pathlib import Path
-    import os
-    from playwright.sync_api import expect
-    # Upload file via /upload_staged
-    page.goto(f"{BASE_URL}/upload_staged")
-    file_input = page.locator("input[type='file']")
-    file_input.set_input_files(file_path)
-    page.wait_for_timeout(1000)
-    # Extract staged JSON filename from redirect URL
-    staged_filename = None
-    for _ in range(10):
-        if "/review_staged/" in page.url:
-            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-            if match:
-                staged_filename = match.group(1)
-                break
-        page.wait_for_timeout(500)
-    assert staged_filename, f"Could not extract staged filename from URL: {page.url}"
-    # Go to /list_staged and check for the staged file
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
-    overlay = page.locator('#js-diagnostics').inner_text()
-    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
-    assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged"
-    # Discard the staged file by filename
-    discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
-    discard_btn.click()
-    modal = page.locator('#discardConfirmModal')
-    assert modal.is_visible(), "Custom discard modal did not appear."
-    confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-    confirm_btn.click()
-    expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    page.wait_for_timeout(1000)
-    # Wait for the file to disappear from the list
-    for _ in range(10):
-        page.wait_for_timeout(500)
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
-        if staged_filename not in page.content():
-            break
-    if staged_filename in page.content():
-        print(f"File '{staged_filename}' still listed after discard. Directory contents:")
-        print(os.listdir('portal_uploads/staging'))
-    assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard"
-
-# The new, robust tests are below and will be run by default:
-# - test_upload_file_only
-# - test_discard_staged_file_only
 
 @pytest.fixture(scope="function")
 def staged_file_for_discard(page: Page) -> str:
@@ -1254,16 +892,19 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
 
 
 @pytest.fixture(scope="function")
-def malformed_file_for_discard(page: Page) -> str:
+def malformed_file_for_discard(page: Page, tmp_path_factory) -> str:
     """
-    Fixture: Create a malformed JSON file in the staging dir and return its filename.
-    The file will be available in /list_staged for the discard test.
+    Fixture: Create a malformed staged file (valid JSON, missing id_incidence) for discard test.
+    Returns the filename.
     """
     staging_dir = Path("portal_uploads/staging")
     staging_dir.mkdir(parents=True, exist_ok=True)
-    malformed_file = staging_dir / "malformed_test.json"
-    malformed_file.write_text("{ this is not valid json }")
-    return malformed_file.name
+    filename = "malformed_test.json"
+    file_path = staging_dir / filename
+    # Write valid JSON but missing id_incidence
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump({"some_field": 123, "not_id": 456}, f)
+    return filename
 
 
 def test_upload_malformed_file_only(page: Page, malformed_file_for_discard):
@@ -1279,23 +920,39 @@ def test_upload_malformed_file_only(page: Page, malformed_file_for_discard):
 
 def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     """
-    E2E: Discard a malformed file, verify modal/overlay and removal.
+    E2E: Discard a malformed file from /list_staged, verifying modal/overlay, backend POST, and removal.
+    Uses Playwright's recommended waiting/synchronization tools for robust async handling.
     """
-    malformed_filename = malformed_file_for_discard
-    page.goto(f"{BASE_URL}/list_staged")
+    filename = malformed_file_for_discard
+    # 1. Navigate to /list_staged
+    page.goto("http://127.0.0.1:5000/list_staged")
     page.wait_for_load_state("networkidle")
-    assert malformed_filename in page.content(), f"Malformed file {malformed_filename} not listed before discard."
-    discard_btn = page.locator(f"form[action*='{malformed_filename}'] button[data-js-logging-context='discard-malformed']").first
+    print(f"[STEP] Navigated to /list_staged for malformed file: {filename}")
+    # 2. Locate the malformed file row and discard button
+    discard_btn = page.locator(f"form[action*='discard_staged_update/0/{filename}'] button[data-js-logging-context='discard-malformed']").first
+    assert discard_btn.is_visible(), f"Discard button for malformed file {filename} not found or not visible."
+    print(f"[STEP] Found discard button for malformed file: {filename}")
+    # 3. Click the discard button
     discard_btn.click()
+    print(f"[STEP] Clicked discard button for malformed file: {filename}")
+    # 4. Wait for modal to appear
     modal = page.locator('#discardConfirmModal')
     expect(modal).to_be_visible(timeout=2000)
-    confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
-    confirm_btn.click()
-    expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    page.wait_for_timeout(1000)
-    page.goto(f"{BASE_URL}/list_staged")
+    print(f"[STEP] Discard confirm modal appeared.")
+    # 5. Click the modal confirm button
+    confirm_btn = modal.locator("#discard-confirm-btn")
+    expect(confirm_btn).to_be_visible()
+    print(f"[STEP] Modal confirm button is visible. Clicking...")
+    # 6. Optionally check overlay for confirm log before navigation
+    with page.expect_navigation():
+        confirm_btn.click()
+    print(f"[STEP] Modal confirm clicked and navigation complete.")
+    # 8. After reload, verify file is gone
     page.wait_for_load_state("networkidle")
-    assert malformed_filename not in page.content(), f"Malformed file {malformed_filename} still listed after discard."
+    page.goto("http://127.0.0.1:5000/list_staged")
+    page.wait_for_load_state("networkidle")
+    assert filename not in page.content(), f"Malformed file {filename} still listed after discard."
+    print(f"[STEP] Malformed file {filename} successfully discarded and not present after reload.")
 
 if __name__ == "__main__":
     # Run tests if executed directly

@@ -1376,7 +1376,7 @@ pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
 
 pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "discard or malformed" | tee pytest_output_04.txt
 
-pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_05.txt
+pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
 
 pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
 pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt

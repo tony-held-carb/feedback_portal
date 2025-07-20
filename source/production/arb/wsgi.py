@@ -121,6 +121,11 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 
 app = create_app()
 
+# Log the effective log level for diagnostics
+root_level = logging.getLogger().getEffectiveLevel()
+logger.info(f"[DIAGNOSTIC] Root logger effective level: {logging.getLevelName(root_level)}")
+logger.info(f"[DIAGNOSTIC] {__name__} logger effective level: {logging.getLevelName(logger.getEffectiveLevel())}")
+
 if __name__ == "__main__":
   logger.debug(f"in wsgi.py main")
   app.run(debug=True)  # <--- (debug=True) is critical for PyCharm-based debug mode

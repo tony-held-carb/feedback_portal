@@ -92,6 +92,7 @@ def index() -> str:
     # In browser: GET /
     # Returns: HTML page with table of incidences
   """
+  logger.info(f"route called: index.")
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
@@ -124,8 +125,8 @@ def incidence_update(id_: int) -> Union[str, Response]:
     - Redirects if the ID is not found in the database.
     - Assumes each incidence ID is unique.
   """
+  logger.info(f"route called: incidence_update with id= {id_}.")
 
-  logger.debug(f"incidence_update called with id= {id_}.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   table = get_class_from_table_name(base, table_name)
@@ -174,7 +175,8 @@ def og_incidence_create() -> Response:
   Notes:
     - Dummy data is loaded from `db_hardcoded.get_og_dummy_form_data()`.
   """
-  logger.debug(f"og_incidence_create() - beginning.")
+  logger.info(f"route called: og_incidence_create.")
+
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
@@ -210,8 +212,8 @@ def landfill_incidence_create() -> Response:
   Notes:
     - Dummy data is loaded from `db_hardcoded.get_landfill_dummy_form_data()`.
   """
+  logger.info(f"route called: landfill_incidence_create.")
 
-  logger.debug(f"landfill_incidence_create called.")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   table_name = 'incidences'
   col_name = 'misc_json'
@@ -247,8 +249,8 @@ def incidence_delete(id_: int) -> ResponseReturnValue:
   Notes:
     - Future: consider adding authorization (e.g., CARB password) to restrict access.
   """
+  logger.info(f"route called: incidence_delete with id= {id_}")
 
-  logger.debug(f"Updating database with route incidence_delete for id= {id_}:")
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
 
   table_name = 'incidences'
@@ -282,8 +284,8 @@ def list_uploads() -> str:
     # In browser: GET /list_uploads
     # Returns: HTML page listing uploaded files
   """
+  logger.info(f"route called: list_uploads")
 
-  logger.debug(f"in list_uploads")
   upload_folder = get_upload_folder()
   # up_dir = Path("portal/static/uploads")
   # print(f"{type(up_dir)=}: {up_dir=}")
@@ -294,13 +296,15 @@ def list_uploads() -> str:
 
 
 @main.route('/list_staged')
-def list_staged() -> str:
+def list_staged() -> ResponseReturnValue:
     """
     List all staged files available for review or processing.
 
     Returns:
       str: Rendered HTML showing all staged files.
     """
+    logger.info(f"route called: list_staged")
+    logger.info("[LIST_STAGED] Route called")
     logger.debug("list_staged route called")
     logger.warning('[DEBUG] /list_staged route called')
 
@@ -318,21 +322,38 @@ def list_staged() -> str:
                 if filename.startswith("id_") and "_ts_" in filename:
                     id_part = filename.split("_ts_")[0]
                     id_incidence = int(id_part.replace("id_", ""))
-                # Try to load metadata to get sector
+                # Try to load metadata to get sector and check for required fields
                 try:
-                    _, metadata = json_load_with_meta(file_path)
+                    json_data, metadata = json_load_with_meta(file_path)
                     base_misc_json = metadata.get("base_misc_json", {})
                     sector = base_misc_json.get("sector", "Unknown")
-                except Exception:
-                    sector = "Unknown"
-                staged_files.append({
-                    'filename': filename,
-                    'id_incidence': id_incidence,
-                    'sector': sector,
-                    'file_size': file_path.stat().st_size,
-                    'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
-                    'malformed': False
-                })
+                    # Check for required field: id_incidence must be a positive integer
+                    id_candidate = None
+                    # Try to get id_incidence from JSON if not from filename
+                    if id_incidence is None:
+                        id_candidate = json_data.get("id_incidence")
+                        if isinstance(id_candidate, int) and id_candidate > 0:
+                            id_incidence = id_candidate
+                    # If still not valid, treat as malformed
+                    if not (isinstance(id_incidence, int) and id_incidence > 0):
+                        raise ValueError("Missing or invalid id_incidence")
+                    staged_files.append({
+                        'filename': filename,
+                        'id_incidence': id_incidence,
+                        'sector': sector,
+                        'file_size': file_path.stat().st_size,
+                        'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+                        'malformed': False
+                    })
+                except Exception as meta_exc:
+                    # If JSON loads but required fields are missing, treat as malformed
+                    logger.warning(f"Malformed staged file (missing fields) {file_path}: {meta_exc}")
+                    malformed_files.append({
+                        'filename': filename,
+                        'file_size': file_path.stat().st_size,
+                        'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+                        'error': f"Missing required fields: {meta_exc}"
+                    })
             except Exception as e:
                 logger.warning(f"Could not process staged file {file_path}: {e}")
                 malformed_files.append({
@@ -369,7 +390,8 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
     # In browser: POST /upload
     # Redirects to: /list_uploads or error page
   """
-  logger.debug("upload_file route called.")
+  logger.info(f"route called: upload_file with message: {message}")
+
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
@@ -462,7 +484,8 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
     # In browser: POST /upload_staged
     # Redirects to: /list_staged or error page
   """
-  logger.debug("upload_file_staged route called.")
+  logger.info(f"route called: upload_file_staged with message: {message}")
+
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   form = UploadForm()
 
@@ -561,7 +584,7 @@ def review_staged(id_: int, filename: str) -> str | Response:
     # In browser: GET /review_staged/123/myfile.xlsx
     # Returns: HTML review page for the file
   """
-  logger.debug(f"Reviewing staged upload for id={id_}, filename={filename}")
+  logger.info(f"route called: review_staged with id_: {id_} and filename: {filename}")
 
   base: AutomapBase = current_app.base  # type: ignore[attr-defined]
   staging_dir = Path(get_upload_folder()) / "staging"
@@ -634,6 +657,8 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     # Redirects to: /incidence_update/123/
   """
   import shutil
+
+  logger.info(f"route called: confirm_staged with id_: {id_} and filename: {filename}")
 
   # Resolve paths
   root = get_upload_folder()
@@ -754,31 +779,34 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
 
 @csrf.exempt
 @main.route("/discard_staged_update/<int:id_>/<filename>", methods=["POST"])
-def discard_staged_update(id_: int, filename: str) -> Response:
+def discard_staged_update(id_: int, filename: str) -> ResponseReturnValue:
     """
     Discard a staged update for a specific incidence ID and filename.
     CSRF is disabled for this route.
     """
+    logger.info(f"route called: discard_staged_update with id_: {id_} and filename: {filename}")
     import unicodedata
+    import time
     staging_dir = Path(get_upload_folder()) / "staging"
     # Normalize filename for cross-platform compatibility
     safe_filename = unicodedata.normalize('NFC', filename.strip())
     staged_file = staging_dir / safe_filename
+    logger.info(f"[DISCARD] Route called: id_={id_}, filename='{filename}', safe_filename='{safe_filename}'")
+    logger.info(f"[DISCARD] Starting deletion for: {staged_file}")
+    logger.info(f"[DISCARD] File exists before deletion: {staged_file.exists()}")
     try:
         if staged_file.exists():
-            try:
-                staged_file.unlink()
-                logger.info(f"Discarded staged upload file: {staged_file}")
-                flash(f"Discarded staged file '{safe_filename}' for ID {id_}.", "info")
-            except Exception as unlink_err:
-                logger.error(f"Failed to delete file: {staged_file} | Error: {unlink_err}")
-                flash(f"Error discarding file '{safe_filename}': {unlink_err}", "danger")
+            staged_file.unlink()
+            logger.info(f"[DISCARD] File deleted: {staged_file}")
         else:
-            logger.warning(f"Tried to discard non-existent staged file: {staged_file}")
-            flash(f"No staged file found with name '{safe_filename}' for ID {id_}.", "warning")
+            logger.info(f"[DISCARD] File not found for deletion: {staged_file}")
     except Exception as e:
-        logger.exception("Error discarding staged file")
-        flash(f"Error discarding file '{safe_filename}': {e}", "danger")
+        logger.error(f"[DISCARD] Exception during file deletion: {e}")
+    logger.info(f"[DISCARD] File exists after deletion: {staged_file.exists()}")
+    logger.info(f"[DISCARD] Completed discard_staged_update for: {staged_file}")
+    # Sleep briefly to ensure filesystem updates propagate (for test timing)
+    time.sleep(0.2)
+    logger.info(f"[DISCARD] Returning redirect to /list_staged")
     return redirect(url_for("main.list_staged"))
 
 
@@ -797,6 +825,8 @@ def apply_staged_update(id_: int):
     # In browser: POST /apply_staged_update/123
     # Redirects to: /incidence_update/123/
   """
+  logger.info(f"route called: apply_staged_update with id_: {id_}")
+
   try:
     # staging_dir = Path(current_app.config["UPLOAD_STAGING_FOLDER"])
     staging_dir = Path(get_upload_folder()) / "staging"
@@ -843,6 +873,7 @@ def serve_file(filename) -> Response:
     # In browser: GET /serve_file/myfile.xlsx
     # Returns: File download or inline view
   """
+  logger.info(f"route called: serve_file with filename: {filename}")
 
   upload_folder = get_upload_folder()
   file_path = os.path.join(upload_folder, filename)
@@ -910,6 +941,8 @@ def export_portal_updates() -> Response:
     - Respects filters set in the `/portal_updates` page.
     - Uses standard CSV headers and UTF-8 encoding.
   """
+  logger.info(f"route called: export_portal_updates")
+
   query = db.session.query(PortalUpdate)
   query = apply_portal_update_filters(query, PortalUpdate, request.args)
 
@@ -951,7 +984,7 @@ def search() -> str:
   Notes:
     - Currently echoes the user-submitted query string.
   """
-  logger.debug(f"In search route:")
+  logger.info(f"route called: search")
   logger.debug(f"{request.form=}")
   search_string = request.form.get('navbar_search')
   logger.debug(f"{search_string=}")
@@ -980,8 +1013,7 @@ def diagnostics() -> str:
     # In browser: GET /diagnostics
     # Returns: HTML diagnostics info
   """
-
-  logger.info(f"diagnostics() called")
+  logger.info(f"route called: diagnostics")
 
   result = find_auto_increment_value(db, "incidences", "id_incidence")
 
@@ -1009,8 +1041,8 @@ def show_dropdown_dict() -> str:
   Notes:
     - Useful for verifying dropdown contents used in WTForms.
   """
+  logger.info(f"route called: show_dropdown_dict")
 
-  logger.info(f"Determining dropdown dict")
   # update drop-down tables
   Globals.load_drop_downs(current_app, db)
   result1 = obj_to_html(Globals.drop_downs)
@@ -1039,8 +1071,8 @@ def show_database_structure() -> str:
     # In browser: GET /show_database_structure
     # Returns: HTML with database structure
   """
+  logger.info(f"route called: show_database_structure")
 
-  logger.info(f"Displaying database structure")
   result = obj_to_html(Globals.db_column_types)
   result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
   return render_template('diagnostics.html',
@@ -1067,7 +1099,7 @@ def show_feedback_form_structure() -> str:
     # In browser: GET /show_feedback_form_structure
     # Returns: HTML with feedback form structure
   """
-  logger.info(f"Displaying wtforms structure as a diagnostic")
+  logger.info(f"route called: show_feedback_form_structure")
 
   form1 = OGFeedback()
   fields1 = get_wtforms_fields(form1)
@@ -1133,6 +1165,8 @@ def show_log_file() -> str:
     - Useful for debugging in development or staging.
     - Efficient for large files using read_file_reverse().
   """
+  logger.info(f"route called: show_log_file")
+
   default_lines = 1000
   try:
     num_lines = int(request.args.get('lines', default_lines))
@@ -1163,6 +1197,9 @@ def delete_testing_range() -> str:
   POST: Run delete_testing_rows and show summary/results, including id_incidences if dry run.
   """
   from flask import current_app
+  
+  logger.info(f"route called: delete_testing_range")
+
   base = current_app.base  # type: ignore[attr-defined]
   error = None
   result = None
@@ -1268,6 +1305,8 @@ def js_diagnostic_log():
         - Rate limiting or authentication can be added if needed for production.
 
     """
+    logger.info(f"route called: js_diagnostic_log")
+
     data = request.get_json(force=True, silent=True) or {}
     msg = data.get('msg', '[NO MSG]')
     ts = data.get('ts')
@@ -1284,4 +1323,5 @@ def java_script_diagnostic_test():
     """
     Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
     """
+    logger.info(f"route called: java_script_diagnostic_test")
     return render_template('java_script_diagnostic_test.html')

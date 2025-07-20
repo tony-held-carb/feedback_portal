@@ -1,180 +1,133 @@
 # E2E Testing with Playwright
 
-This directory contains end-to-end tests for the ARB Feedback Portal using Playwright.
+This directory contains robust, maintainable end-to-end (E2E) tests for the ARB Feedback Portal using Playwright and pytest.
 
-## Migration from Selenium
+## Overview
 
-The E2E tests have been migrated from Selenium WebDriver to Playwright for better reliability, performance, and debugging capabilities.
-
-### Benefits of Playwright Migration
-
-- **Better reliability**: Auto-waiting for elements reduces flaky tests
-- **Enhanced debugging**: Built-in video recording and trace viewer
-- **Modern web support**: Better handling of dynamic content and JavaScript
-- **Performance**: Faster execution and lower resource usage
-- **Cross-browser**: Single API for Chrome, Firefox, and Safari
+- All tests are written using Playwright's sync API and pytest.
+- The suite focuses on **single-purpose, well-synchronized tests** for reliability and maintainability.
+- All legacy/compound/console-output tests have been removed; only robust, maintainable tests remain.
+- Diagnostics overlay and backend logging are tested as part of the core workflows.
 
 ## Test Files
 
-### `test_excel_upload_ui_playwright.py`
-Standalone test suite that can be run independently. Includes:
-- Complete file upload workflow testing
-- Multiple file type validation
-- Success/error message verification
-- Comprehensive test reporting
+### `test_excel_upload_playwright_pytest.py` (suggested: `test_excel_upload_workflows.py`)
+- Main E2E suite for Excel upload, review, discard, error handling, and backend validation.
+- Covers:
+  - File upload (valid, invalid, empty, large)
+  - Deep backend validation (DB vs. spreadsheet)
+  - Staged file discard (single and multiple files)
+  - Malformed file handling
+  - Diagnostics overlay logging
 
-### `test_excel_upload_playwright_pytest.py`
-Pytest-compatible test suite with fixtures and parametrized tests. Includes:
-- Individual test methods for specific scenarios
-- Pytest fixtures for browser setup
-- Parametrized tests for multiple file types
-- Accessibility and page structure testing
+### `test_list_staged_diagnostics.py`
+- Focused E2E suite for verifying the JavaScript diagnostics overlay and diagnostics block on `/list_staged`.
+- Covers:
+  - Overlay presence and logging
+  - Diagnostics block UI and button functionality
+  - Modal confirmation for return home
+  - Text input and custom message logging
+  - UI structure and required elements
 
-### `debug_upload_page_playwright.py`
-Debugging utility for examining page structure and elements.
+### `test_diagnostics.py`
+- Standalone E2E tests for the JavaScript diagnostics overlay and discard modal.
+- Used for isolated verification and regression testing of diagnostics features on both the dedicated diagnostics test page and `/list_staged`.
+- Covers:
+  - Overlay logging on both pages
+  - Diagnostics button and modal interactions
+  - Discard modal and overlay log timing
+
+### `test_playwright_setup.py`
+- Simple async test to verify Playwright installation and environment.
+- Navigates to example.com and checks for expected content.
+- Does **not** require the Flask app to be running.
+- Useful for confirming Playwright is set up correctly before running full E2E tests.
+
+### `debug_upload_page_playwright.py` (suggested: `debug_upload_page.py`)
+- Utility for interactively examining the upload page structure and selectors.
+
+## Test Configuration and Utilities
+
+### `conftest.py`
+- Custom pytest options for E2E test selection.
+- Provides `--only-discard-tests` flag to run only discard-related tests for rapid debugging and development.
+- Filters test collection to speed up iteration on discard modal and file deletion workflows.
+
+### `pytest.ini`
+- Pytest configuration to suppress openpyxl UserWarnings about unsupported Excel features (e.g., Data Validation, Conditional Formatting).
+- Keeps test output clean and focused on actionable issues.
+- See: https://foss.heptapod.net/openpyxl/openpyxl/-/issues/1604
 
 ## Setup
 
-### Prerequisites
 1. Install Playwright:
    ```bash
    pip install playwright
    ```
-
 2. Install browsers:
    ```bash
    playwright install
    ```
-
 3. Ensure Flask app is running:
    ```bash
-   # Start the Flask application
    python -m flask run
    ```
 
 ## Running Tests
 
-### Standalone Test Suite
-```bash
-python tests/e2e/test_excel_upload_ui_playwright.py
-```
-
-### Pytest Tests
-```bash
-# Run all E2E tests
-pytest tests/e2e/test_excel_upload_playwright_pytest.py -v
-
-# Run specific test class
-pytest tests/e2e/test_excel_upload_playwright_pytest.py::TestExcelUpload -v
-
-# Run with browser visible (for debugging)
-pytest tests/e2e/test_excel_upload_playwright_pytest.py --headed -v
-```
-
-### Debug Script
-```bash
-python tests/e2e/debug_upload_page_playwright.py
-```
-
-## Test Configuration
-
-### Environment Variables
-- `BASE_URL`: Flask application URL (default: http://127.0.0.1:5000)
-- `TEST_FILES_DIR`: Directory containing test Excel files
-- `GENERATED_FILES_DIR`: Directory containing generated test files
-
-### Browser Options
-Tests use Chromium by default with the following options:
-- Viewport: 1920x1080
-- Headless mode: False (for debugging), True (for CI/CD)
-- Additional args: --no-sandbox, --disable-dev-shm-usage, --disable-gpu
+- Run all E2E tests:
+  ```bash
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v
+  ```
+- Run a specific test:
+  ```bash
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k 'test_name'
+  ```
+- Run with browser visible (for debugging):
+  ```bash
+  pytest tests/e2e/test_excel_upload_playwright_pytest.py --headed -v
+  ```
+- Debug script:
+  ```bash
+  python tests/e2e/debug_upload_page_playwright.py
+  ```
 
 ## Test Coverage
 
-### File Upload Testing
-- Basic file upload functionality
-- Drag-and-drop file upload
-- File validation and error handling
-- Success/failure message verification
-- Multiple file types (.xlsx, .xls)
-- Large file handling
-- Invalid file rejection
+- **File Upload:** Valid, invalid, empty, and large files
+- **Deep Backend Validation:** DB vs. spreadsheet field-by-field
+- **Staged File Workflows:** Upload, discard, multiple files
+- **Malformed File Handling:** Creation, listing, discard
+- **Diagnostics Overlay:** Logging on test and staged list pages
+- **Accessibility and Page Structure:** Upload page elements, labels, drop zone
 
-### Page Structure Testing
-- Upload page loading
-- Form element presence and functionality
-- File input accessibility
-- Drop zone functionality (if implemented)
-- Navigation and layout
+## Philosophy
 
-### Error Handling
-- Invalid file type uploads
-- Empty file uploads
-- Network timeout handling
-- Form validation errors
-
-## Debugging
-
-### Video Recording
-Playwright automatically records videos of test runs when using the `--video` flag:
-```bash
-pytest tests/e2e/test_excel_upload_playwright_pytest.py --video=on
-```
-
-### Screenshots
-Tests can take screenshots on failure or manually:
-```python
-page.screenshot(path="debug.png", full_page=True)
-```
-
-### Trace Viewer
-Enable trace recording for step-by-step debugging:
-```bash
-pytest tests/e2e/test_excel_upload_playwright_pytest.py --tracing=on
-```
-
-## Migration Notes
-
-### Removed Selenium Dependencies
-- `selenium` package
-- `webdriver-manager` package
-- Chrome WebDriver setup and management
-- Selenium-specific selectors and wait conditions
-
-### Playwright Advantages
-- **Auto-waiting**: No need for explicit `WebDriverWait`
-- **Better selectors**: More reliable element location
-- **Built-in assertions**: `expect()` for cleaner test code
-- **Network handling**: Better handling of AJAX and dynamic content
-- **Mobile testing**: Built-in mobile emulation
-
-### Code Changes
-- `webdriver.Chrome()` → `playwright.chromium.launch()`
-- `driver.find_element()` → `page.locator()`
-- `send_keys()` → `set_input_files()`
-- `WebDriverWait` → `page.wait_for_*()`
-- `assert` → `expect()`
+- **Single-purpose tests:** Each test covers one workflow for clarity and reliability.
+- **Explicit synchronization:** All tests use Playwright's waiting tools (`expect_navigation`, `wait_for_load_state`, etc.) to avoid flakiness.
+- **No legacy/compound/console-output tests:** All such tests have been removed for maintainability.
+- **Easy to extend:** Add new workflows or edge cases by following the current patterns.
 
 ## Troubleshooting
 
-### Common Issues
-
-1. **Browser not found**: Run `playwright install`
-2. **Tests timing out**: Increase timeout values or check Flask app is running
-3. **Element not found**: Use Playwright's auto-waiting or explicit waits
-4. **File upload failures**: Check file paths and permissions
-
-### Debug Tips
-
-1. Run tests with `--headed` flag to see browser
-2. Use `page.pause()` in tests for interactive debugging
-3. Enable video recording for failure analysis
-4. Use trace viewer for step-by-step debugging
+- **Browser not found:** Run `playwright install`
+- **Tests timing out:** Increase timeout values or check Flask app is running
+- **Element not found:** Use Playwright's auto-waiting or explicit waits
+- **File upload failures:** Check file paths and permissions
+- **Debugging:**
+  - Run with `--headed` to see browser
+  - Use `page.pause()` for interactive debugging
+  - Enable video/trace recording for failure analysis
 
 ## Future Enhancements
 
-- Add mobile device testing
+- Add mobile device and cross-browser testing
 - Implement visual regression testing
-- Add performance testing
+- Add performance and concurrency tests
 - Integrate with CI/CD pipeline
-- Add cross-browser testing (Firefox, Safari) 
+
+---
+
+**Note:**
+- All legacy/compound/console-output tests have been removed. The suite now only contains robust, maintainable, single-purpose tests.
+- Consider renaming test files for clarity as the suite evolves (e.g., `test_excel_upload_workflows.py`, `test_diagnostics_overlay.py`). 

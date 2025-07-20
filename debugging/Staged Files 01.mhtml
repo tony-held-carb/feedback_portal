@@ -1,16 +1,16 @@
 From: <Saved by Blink>
 Snapshot-Content-Location: http://127.0.0.1:5000/list_staged
 Subject: Staged Files
-Date: Sat, 19 Jul 2025 22:58:08 -0700
+Date: Sun, 20 Jul 2025 12:29:52 -0700
 MIME-Version: 1.0
 Content-Type: multipart/related;
 	type="text/html";
-	boundary="----MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----"
+	boundary="----MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----"
 
 
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----
 Content-Type: text/html
-Content-ID: <frame-27A924C5BDA9A4B3F235E841DAD1824D@mhtml.blink>
+Content-ID: <frame-1ADEF4A1E4AE4FFD9BCD1A3432F1E8EE@mhtml.blink>
 Content-Transfer-Encoding: quoted-printable
 Content-Location: http://127.0.0.1:5000/list_staged
 
@@ -57,13 +57,12 @@ taTables.bootstrap5.min.css">
 </title>
 </head>
 
-<body data-form-id=3D"" cz-shortcut-listen=3D"true" style=3D"" class=3D"">
+<body data-form-id=3D"" cz-shortcut-listen=3D"true">
 
 <!-- Portal Navigation -->
 
 <div class=3D"container">
-  <nav class=3D"navbar navbar-expand-lg navbar-dark bg-dark fixed-top" styl=
-e=3D"">
+  <nav class=3D"navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class=3D"container-fluid">
       <a class=3D"navbar-brand" href=3D"http://127.0.0.1:5000/">
         <img src=3D"http://127.0.0.1:5000/static/images/carb_logo_01.jpg" a=
@@ -243,9 +242,7 @@ java_script_diagnostic_test">JS Diagnostics Test</a></li>
 <div id=3D"js-diagnostics" style=3D"position:fixed;bottom:0;left:0;z-index:=
 9999;background:#fff;color:#000;padding:4px;font-size:12px;max-width:100vw;=
 overflow:auto;opacity:0.95;box-shadow:0 0 8px #888;pointer-events:auto;">[J=
-S_DIAG] Page loaded: list_staged<br>Button clicked: send-diagnostic: Diagno=
-stic from /list_staged page<br>Button clicked: return-home<br>Button clicke=
-d: modal-cancel<br></div>
+S_DIAG] Page loaded: list_staged<br></div>
 
 <!-- TOAST CONTAINER DISABLED - Reverted to old system
      This container was used for dynamic toast notifications.
@@ -285,8 +282,8 @@ t=3D"send-diagnostic">Send Diagnostic</button>
 n" data-js-logging-context=3D"return-home">Return to Homepage</button>
         <!-- Modal: identical to diagnostics test page -->
         <div class=3D"modal fade js-confirm-return-modal" id=3D"confirmRetu=
-rnModal" tabindex=3D"-1" aria-labelledby=3D"confirmReturnModalLabel" style=
-=3D"display: none;" aria-hidden=3D"true">
+rnModal" tabindex=3D"-1" aria-labelledby=3D"confirmReturnModalLabel" aria-h=
+idden=3D"true">
           <div class=3D"modal-dialog">
             <div class=3D"modal-content">
               <div class=3D"modal-header">
@@ -314,7 +311,7 @@ bs-dismiss=3D"modal">Cancel</button>
 
       <div class=3D"card">
         <div class=3D"card-header bg-primary text-white">
-          <h5 class=3D"mb-0">=F0=9F=94=84 Files Awaiting Review (26)</h5>
+          <h5 class=3D"mb-0">=F0=9F=94=84 Files Awaiting Review (27)</h5>
         </div>
         <div class=3D"card-body">
           <div id=3D"stagedTable_wrapper" class=3D"dataTables_wrapper dt-bo=
@@ -333,20 +330,20 @@ er" aria-describedby=3D"stagedTable_info">
             <thead>
               <tr><th class=3D"sorting" tabindex=3D"0" aria-controls=3D"sta=
 gedTable" rowspan=3D"1" colspan=3D"1" aria-label=3D"ID: activate to sort co=
-lumn ascending" style=3D"width: 67.8153px;">ID</th><th class=3D"sorting" ta=
+lumn ascending" style=3D"width: 63.3092px;">ID</th><th class=3D"sorting" ta=
 bindex=3D"0" aria-controls=3D"stagedTable" rowspan=3D"1" colspan=3D"1" aria=
--label=3D"Sector: activate to sort column ascending" style=3D"width: 150.55=
-1px;">Sector</th><th class=3D"sorting" tabindex=3D"0" aria-controls=3D"stag=
+-label=3D"Sector: activate to sort column ascending" style=3D"width: 151.20=
+7px;">Sector</th><th class=3D"sorting" tabindex=3D"0" aria-controls=3D"stag=
 edTable" rowspan=3D"1" colspan=3D"1" aria-label=3D"Filename: activate to so=
-rt column ascending" style=3D"width: 383.022px;">Filename</th><th class=3D"=
+rt column ascending" style=3D"width: 384.494px;">Filename</th><th class=3D"=
 sorting" tabindex=3D"0" aria-controls=3D"stagedTable" rowspan=3D"1" colspan=
 =3D"1" aria-label=3D"Size: activate to sort column ascending" style=3D"widt=
-h: 70.5566px;">Size</th><th class=3D"sorting sorting_desc" tabindex=3D"0" a=
+h: 70.9263px;">Size</th><th class=3D"sorting sorting_desc" tabindex=3D"0" a=
 ria-controls=3D"stagedTable" rowspan=3D"1" colspan=3D"1" aria-sort=3D"desce=
 nding" aria-label=3D"Staged: activate to sort column ascending" style=3D"wi=
-dth: 199.819px;">Staged</th><th class=3D"sorting" tabindex=3D"0" aria-contr=
+dth: 200.642px;">Staged</th><th class=3D"sorting" tabindex=3D"0" aria-contr=
 ols=3D"stagedTable" rowspan=3D"1" colspan=3D"1" aria-label=3D"Actions: acti=
-vate to sort column ascending" style=3D"width: 300.446px;">Actions</th></tr=
+vate to sort column ascending" style=3D"width: 301.632px;">Actions</th></tr=
 >
             </thead>
             <tbody>
@@ -376,36 +373,110 @@ vate to sort column ascending" style=3D"width: 300.446px;">Actions</th></tr=
                =20
                =20
                =20
+               =20
             <tr class=3D"odd">
                   <td>
-                    <span class=3D"badge bg-primary">2052</span>
+                    <span class=3D"badge bg-primary">2001</span>
                   </td>
                   <td>
-                    <span class=3D"badge bg-secondary">Oil and Gas</span>
+                    <span class=3D"badge bg-secondary">Dairy Digester</span=
+>
                   </td>
                   <td>
-                    <code class=3D"small">id_2052_ts_20250719_225406.json</=
+                    <code class=3D"small">id_2001_ts_20250720_000244.json</=
 code>
                   </td>
                   <td>
-                    <small>4.2 KB</small>
+                    <small>8.0 KB</small>
                   </td>
                   <td class=3D"sorting_1">
-                    <small>2025-07-19 22:54:06</small>
+                    <small>2025-07-20 00:02:44</small>
                   </td>
                   <td>
                     <div class=3D"btn-group btn-group-sm" role=3D"group">
-                        <a href=3D"http://127.0.0.1:5000/review_staged/2052=
-/id_2052_ts_20250719_225406.json" class=3D"btn btn-outline-primary js-log-b=
+                        <a href=3D"http://127.0.0.1:5000/review_staged/2001=
+/id_2001_ts_20250720_000244.json" class=3D"btn btn-outline-primary js-log-b=
 tn" data-js-logging-context=3D"review-staged">
                           =F0=9F=91=81=EF=B8=8F Review
                         </a>
                       <form method=3D"POST" action=3D"http://127.0.0.1:5000=
-/discard_staged_update/2052/id_2052_ts_20250719_225406.json" class=3D"d-inl=
+/discard_staged_update/2001/id_2001_ts_20250720_000244.json" class=3D"d-inl=
 ine">
                         <button type=3D"submit" class=3D"btn btn-outline-da=
 nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
-=3D"id_2052_ts_20250719_225406.json" data-file-id=3D"2052">
+=3D"id_2001_ts_20250720_000244.json" data-file-id=3D"2001">
+                          =F0=9F=97=91=EF=B8=8F Discard
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr><tr class=3D"even">
+                  <td>
+                    <span class=3D"badge bg-primary">2001</span>
+                  </td>
+                  <td>
+                    <span class=3D"badge bg-secondary">Dairy Digester</span=
+>
+                  </td>
+                  <td>
+                    <code class=3D"small">id_2001_ts_20250720_000237.json</=
+code>
+                  </td>
+                  <td>
+                    <small>8.0 KB</small>
+                  </td>
+                  <td class=3D"sorting_1">
+                    <small>2025-07-20 00:02:37</small>
+                  </td>
+                  <td>
+                    <div class=3D"btn-group btn-group-sm" role=3D"group">
+                        <a href=3D"http://127.0.0.1:5000/review_staged/2001=
+/id_2001_ts_20250720_000237.json" class=3D"btn btn-outline-primary js-log-b=
+tn" data-js-logging-context=3D"review-staged">
+                          =F0=9F=91=81=EF=B8=8F Review
+                        </a>
+                      <form method=3D"POST" action=3D"http://127.0.0.1:5000=
+/discard_staged_update/2001/id_2001_ts_20250720_000237.json" class=3D"d-inl=
+ine">
+                        <button type=3D"submit" class=3D"btn btn-outline-da=
+nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
+=3D"id_2001_ts_20250720_000237.json" data-file-id=3D"2001">
+                          =F0=9F=97=91=EF=B8=8F Discard
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr><tr class=3D"odd">
+                  <td>
+                    <span class=3D"badge bg-primary">2001</span>
+                  </td>
+                  <td>
+                    <span class=3D"badge bg-secondary">Dairy Digester</span=
+>
+                  </td>
+                  <td>
+                    <code class=3D"small">id_2001_ts_20250719_230950.json</=
+code>
+                  </td>
+                  <td>
+                    <small>8.0 KB</small>
+                  </td>
+                  <td class=3D"sorting_1">
+                    <small>2025-07-19 23:09:50</small>
+                  </td>
+                  <td>
+                    <div class=3D"btn-group btn-group-sm" role=3D"group">
+                        <a href=3D"http://127.0.0.1:5000/review_staged/2001=
+/id_2001_ts_20250719_230950.json" class=3D"btn btn-outline-primary js-log-b=
+tn" data-js-logging-context=3D"review-staged">
+                          =F0=9F=91=81=EF=B8=8F Review
+                        </a>
+                      <form method=3D"POST" action=3D"http://127.0.0.1:5000=
+/discard_staged_update/2001/id_2001_ts_20250719_230950.json" class=3D"d-inl=
+ine">
+                        <button type=3D"submit" class=3D"btn btn-outline-da=
+nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
+=3D"id_2001_ts_20250719_230950.json" data-file-id=3D"2001">
                           =F0=9F=97=91=EF=B8=8F Discard
                         </button>
                       </form>
@@ -1184,74 +1255,10 @@ nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
                       </form>
                     </div>
                   </td>
-                </tr><tr class=3D"even">
-                  <td>
-                    <span class=3D"badge bg-primary">None</span>
-                  </td>
-                  <td>
-                    <span class=3D"badge bg-secondary">Unknown</span>
-                  </td>
-                  <td>
-                    <code class=3D"small">malformed_test.json</code>
-                  </td>
-                  <td>
-                    <small>0.0 KB</small>
-                  </td>
-                  <td class=3D"sorting_1">
-                    <small>2025-07-19 22:52:22</small>
-                  </td>
-                  <td>
-                    <div class=3D"btn-group btn-group-sm" role=3D"group">
-                      <form method=3D"POST" action=3D"http://127.0.0.1:5000=
-/discard_staged_update/0/malformed_test.json" class=3D"d-inline">
-                        <button type=3D"submit" class=3D"btn btn-outline-da=
-nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
-=3D"malformed_test.json" data-file-id=3D"0">
-                          =F0=9F=97=91=EF=B8=8F Discard
-                        </button>
-                      </form>
-                    </div>
-                  </td>
-                </tr><tr class=3D"odd">
-                  <td>
-                    <span class=3D"badge bg-primary">2001</span>
-                  </td>
-                  <td>
-                    <span class=3D"badge bg-secondary">Dairy Digester</span=
->
-                  </td>
-                  <td>
-                    <code class=3D"small">id_2001_ts_20250719_225220.json</=
-code>
-                  </td>
-                  <td>
-                    <small>8.0 KB</small>
-                  </td>
-                  <td class=3D"sorting_1">
-                    <small>2025-07-19 22:52:20</small>
-                  </td>
-                  <td>
-                    <div class=3D"btn-group btn-group-sm" role=3D"group">
-                        <a href=3D"http://127.0.0.1:5000/review_staged/2001=
-/id_2001_ts_20250719_225220.json" class=3D"btn btn-outline-primary js-log-b=
-tn" data-js-logging-context=3D"review-staged">
-                          =F0=9F=91=81=EF=B8=8F Review
-                        </a>
-                      <form method=3D"POST" action=3D"http://127.0.0.1:5000=
-/discard_staged_update/2001/id_2001_ts_20250719_225220.json" class=3D"d-inl=
-ine">
-                        <button type=3D"submit" class=3D"btn btn-outline-da=
-nger js-log-btn" data-js-logging-context=3D"discard-staged" data-filename=
-=3D"id_2001_ts_20250719_225220.json" data-file-id=3D"2001">
-                          =F0=9F=97=91=EF=B8=8F Discard
-                        </button>
-                      </form>
-                    </div>
-                  </td>
                 </tr></tbody>
           </table></div></div><div class=3D"row"><div class=3D"col-sm-12 co=
 l-md-5"><div class=3D"dataTables_info" id=3D"stagedTable_info" role=3D"stat=
-us" aria-live=3D"polite">Showing 1 to 25 of 26 staged files</div></div><div=
+us" aria-live=3D"polite">Showing 1 to 25 of 27 staged files</div></div><div=
  class=3D"col-sm-12 col-md-7"><div class=3D"dataTables_paginate paging_simp=
 le_numbers" id=3D"stagedTable_paginate"><ul class=3D"pagination"><li class=
 =3D"paginate_button page-item previous disabled" id=3D"stagedTable_previous=
@@ -1270,6 +1277,62 @@ v></div></div></div>
         </div>
       </div>
 
+      <div class=3D"card mt-4 border-danger">
+        <div class=3D"card-header bg-danger text-white">
+          <h5 class=3D"mb-0">=E2=9A=A0=EF=B8=8F Malformed or Corrupt Staged=
+ Files (2)</h5>
+        </div>
+        <div class=3D"card-body">
+          <table class=3D"table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>Staged</th>
+                <th>Error</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td><code class=3D"small">malformed_test.json</code></td>
+                  <td><small>0.0 KB</small></td>
+                  <td><small>2025-07-20 12:26:50</small></td>
+                  <td><span class=3D"text-danger small">Missing required fi=
+elds: Missing or invalid id_incidence</span></td>
+                  <td>
+                    <form method=3D"POST" action=3D"http://127.0.0.1:5000/d=
+iscard_staged_update/0/malformed_test.json" class=3D"d-inline">
+                      <button type=3D"submit" class=3D"btn btn-outline-dang=
+er btn-sm js-log-btn" data-js-logging-context=3D"discard-malformed" data-fi=
+lename=3D"malformed_test.json" data-file-id=3D"0">
+                        =F0=9F=97=91=EF=B8=8F Discard
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <td><code class=3D"small">malformed_test_old.json</code><=
+/td>
+                  <td><small>0.0 KB</small></td>
+                  <td><small>2025-07-20 09:11:55</small></td>
+                  <td><span class=3D"text-danger small">Missing required fi=
+elds: Missing or invalid id_incidence</span></td>
+                  <td>
+                    <form method=3D"POST" action=3D"http://127.0.0.1:5000/d=
+iscard_staged_update/0/malformed_test_old.json" class=3D"d-inline">
+                      <button type=3D"submit" class=3D"btn btn-outline-dang=
+er btn-sm js-log-btn" data-js-logging-context=3D"discard-malformed" data-fi=
+lename=3D"malformed_test_old.json" data-file-id=3D"0">
+                        =F0=9F=97=91=EF=B8=8F Discard
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     <div class=3D"mt-4">
       <a href=3D"http://127.0.0.1:5000/upload_staged" class=3D"btn btn-prim=
@@ -1289,7 +1352,7 @@ dary js-log-btn" data-js-logging-context=3D"view-all-uploads">
  =20
 
 </body></html>
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----
 Content-Type: image/jpeg
 Content-Transfer-Encoding: base64
 Content-Location: http://127.0.0.1:5000/static/images/carb_logo_01.jpg
@@ -2130,7 +2193,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//Z
 
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----
 Content-Type: text/css
 Content-Transfer-Encoding: quoted-printable
 Content-Location: https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css
@@ -2433,7 +2496,7 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=3D"col=
 
 div.table-responsive > div.dataTables_wrapper > div.row > div[class^=3D"col=
 -"]:last-child { padding-right: 0px; }
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----
 Content-Type: text/css
 Content-Transfer-Encoding: quoted-printable
 Content-Location: http://127.0.0.1:5000/static/css/portal_styles_01.css
@@ -2559,7 +2622,7 @@ index: 990; }
 .card-border-thick { border: 2px solid rgb(44, 93, 157); }
 
 .card-accent { border: 1.5px solid rgb(109, 168, 109); }
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC----
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP----
 Content-Type: text/css
 Content-Transfer-Encoding: quoted-printable
 Content-Location: https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css
@@ -8480,4 +8543,4 @@ tant; }
   .d-print-inline-flex { display: inline-flex !important; }
   .d-print-none { display: none !important; }
 }
-------MultipartBoundary--YGaScCdqGySNggE7zFF1xZNjaj7FbpbSpG9YYmYMtC------
+------MultipartBoundary--Fes8eaQnDv9GC02JKswPIs2cioT6vxaz94iOc0S5wP------
