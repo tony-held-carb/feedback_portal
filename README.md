@@ -41,6 +41,40 @@
         --all       Fetches from all remotes (if you have more than origin)
         --prune     Removes stale remote-tracking branches that no longer exist on GitHub
 
+### Playwright Upload Page Diagnostics (tests/e2e/test_single_page.py)
+This script helps both beginners and advanced users inspect and debug the HTML structure of the upload page using Playwright (Python).
+
+**Purpose:**
+- Identify selectors for form elements (buttons, inputs, file uploads, drop zones, etc.)
+- Print detailed information about each element for easy inspection
+- Save a screenshot and output a snippet of the page source
+
+**When to use:**
+- Writing or debugging Playwright end-to-end tests
+- When the upload page changes and you want to see the new structure
+- Onboarding new developers or QA engineers to the project
+
+**Prerequisites:**
+- Python 3.8+
+- Playwright Python package (`pip install playwright`)
+- Playwright browsers installed (`playwright install`)
+
+**Usage:**
+1. Ensure the web app is running (default: http://127.0.0.1:5000/upload)
+2. Run the script:
+
+   ```bash
+   python tests/e2e/test_single_page.py
+   ```
+   (Optionally, edit the `page_url` variable in the script to target a different page.)
+
+3. The script will launch a Chromium browser, print diagnostics to the console, and save a screenshot as `debug_upload_page.png`.
+
+**Output:**
+- Console output listing all buttons, inputs, forms, file inputs, and drop zones with their attributes and visibility
+- The first 2000 characters of the page's HTML source
+- A screenshot of the page for visual debugging
+
 ### Data Contracts:
   * misc_json only contains "Please Select" when it replaces a previously valid value.
 

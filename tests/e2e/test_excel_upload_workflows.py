@@ -621,33 +621,11 @@ def test_diagnostics_overlay_on_list_staged(page):
 
 
 
-def test_diagnostics_overlay_on_diagnostic_test_page(page):
-    """
-    E2E: Load /java_script_diagnostic_test, check overlay for page load diagnostic, click diagnostics button, and check overlay updates.
-    Updated to use the new diagnostics button selector.
-    """
-    page.goto("http://127.0.0.1:5000/java_script_diagnostic_test")
-    page.wait_for_load_state("networkidle")
-    # Scrape overlay after page load
-    overlay = ''
-    try:
-        overlay = page.locator('#js-diagnostics').inner_text()
-    except Exception:
-        overlay = '[Overlay not found]'
-    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
-    assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
-    # Click the diagnostics button (new selector)
-    btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
-    assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
-    btn.first.click()
-    page.wait_for_timeout(500)
-    overlay2 = ''
-    try:
-        overlay2 = page.locator('#js-diagnostics').inner_text()
-    except Exception:
-        overlay2 = '[Overlay not found]'
-    print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
-    assert 'send-diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button."
+# --- Diagnostics Overlay Tests ---
+
+# NOTE: The test for /java_script_diagnostic_test (test_diagnostics_overlay_on_diagnostic_test_page)
+# has been moved to tests/e2e/test_javascript_logging.py for better separation of diagnostics system tests
+# from main E2E workflow tests. See that file for details and documentation.
 
 
 def test_list_staged_diagnostics_overlay(page):

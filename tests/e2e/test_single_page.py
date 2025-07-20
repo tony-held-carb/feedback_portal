@@ -1,13 +1,67 @@
 """
-Debug script to examine the upload page HTML structure using Playwright
-and identify the correct element selectors.
+Playwright Upload Page Diagnostics Script
+========================================
+
+This script is designed to help both beginners and advanced users debug and inspect the HTML structure of a web application's upload page using Playwright (Python).
+
+Purpose:
+--------
+- Quickly identify the correct selectors for form elements (buttons, inputs, file uploads, drop zones, etc.) on a single web page.
+- Print detailed information about each relevant element to the console for easy inspection.
+- Save a screenshot of the page for visual reference.
+- Output the first 2000 characters of the page source for manual review.
+
+Typical Use Cases:
+------------------
+- When writing or debugging Playwright end-to-end tests and you need to determine the best selectors for interacting with page elements.
+- When the upload page changes and you want to quickly see what elements are present and how they are structured.
+- When onboarding new developers or QA engineers to the project, to help them understand the upload page's DOM structure.
+
+Prerequisites:
+--------------
+- Python 3.8+
+- Playwright Python package installed (`pip install playwright`)
+- Playwright browsers installed (`playwright install`)
+
+Usage:
+------
+1. Ensure the target web application is running and accessible (default: http://127.0.0.1:5000/upload).
+2. Run this script directly:
+
+    python tests/e2e/test_single_page.py
+
+   Optionally, modify the `page_url` variable at the bottom of the script to point to a different page.
+
+3. The script will launch a Chromium browser (not headless), navigate to the page, and print detailed diagnostics to the console. A screenshot will be saved as 'debug_upload_page.png' in the current directory.
+
+Output:
+-------
+- Console output listing all buttons, inputs, forms, file inputs, and drop zones with their attributes and visibility.
+- The first 2000 characters of the page's HTML source.
+- A screenshot of the page for visual debugging.
+
 """
 
 import time
 from playwright.sync_api import sync_playwright
 
-def debug_upload_page():
-  """Debug the upload page to find form elements using Playwright."""
+def single_page_diagnostics(page_url: str|None=None):
+  """
+  Launches a Chromium browser using Playwright, navigates to the specified page URL, and prints detailed diagnostics about the page's form-related elements.
+
+  Args:
+      page_url (str): The URL of the page to inspect. If None, the function will not navigate.
+
+  What this function does:
+  - Navigates to the given page URL.
+  - Waits for the page to finish loading (network idle).
+  - Enumerates and prints all <button>, <input>, <form>, and file input elements, including their attributes and visibility.
+  - Searches for likely drop zone elements by id/class substring matching ('drop', 'zone').
+  - Prints the first 2000 characters of the page's HTML source for manual inspection.
+  - Takes a full-page screenshot and saves it as 'debug_upload_page.png'.
+
+  This is intended for manual, interactive use. It is not a test, but a diagnostics and inspection tool.
+  """
   
   with sync_playwright() as p:
     # Launch browser
@@ -16,8 +70,8 @@ def debug_upload_page():
     
     try:
       # Navigate to upload page
-      print("Navigating to upload page...")
-      page.goto("http://127.0.0.1:5000/upload")
+      print(f"Navigating to page: {page_url} ...")
+      page.goto(page_url)
       page.wait_for_load_state("networkidle")
       
       print(f"Page title: {page.title()}")
@@ -95,4 +149,5 @@ def debug_upload_page():
       browser.close()
 
 if __name__ == "__main__":
-  debug_upload_page() 
+  page_url = "http://127.0.0.1:5000/upload"
+  single_page_diagnostics(page_url) 
