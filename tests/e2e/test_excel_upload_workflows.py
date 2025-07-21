@@ -140,9 +140,6 @@ def get_test_files() -> list:
     """
     base_dirs = [
         Path("feedback_forms/testing_versions/standard"),
-        # Path("feedback_forms/testing_versions/edge_cases"),
-        # Path("feedback_forms/testing_versions/generated"),
-        # Path("feedback_forms/testing_versions/old")
     ]
     files = []
     for base_dir in base_dirs:

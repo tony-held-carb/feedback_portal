@@ -1,7 +1,0 @@
-total 584K
--rw-r--r-- 1 tonyh 197610  98K Jul 16 18:50 dairy_digester_operator_feedback_v005_test_01.xlsx
--rw-r--r-- 1 tonyh 197610  85K Jul 16 18:50 energy_operator_feedback_v003_test_01.xlsx
--rw-r--r-- 1 tonyh 197610  85K Jul 16 18:50 generic_operator_feedback_v002_test_01.xlsx
--rw-r--r-- 1 tonyh 197610 106K Jul 16 18:50 landfill_operator_feedback_v070_test_01.xlsx
--rw-r--r-- 1 tonyh 197610 107K Jul 16 18:50 landfill_operator_feedback_v071_test_01.xlsx
--rw-r--r-- 1 tonyh 197610  92K Jul 16 18:50 oil_and_gas_operator_feedback_v070_test_01.xlsx
