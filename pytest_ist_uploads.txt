@@ -1,0 +1,15 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 4 items
+
+tests/e2e/test_list_uploads.py::test_list_uploads_page_loads[chromium] PASSED [ 25%]
+tests/e2e/test_list_uploads.py::test_list_uploads_file_links[chromium] PASSED [ 50%]
+tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium] PASSED [ 75%]
+tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium] SKIPPED [100%]
+
+======================== 3 passed, 1 skipped in 3.71s =========================

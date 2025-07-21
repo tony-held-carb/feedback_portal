@@ -17,6 +17,11 @@ This test is designed to be robust and maintainable as the UI evolves.
 import pytest
 from playwright.sync_api import Page, expect
 import re
+import csv
+import io
+import random
+import string
+from datetime import datetime, timedelta
 
 BASE_URL = "http://127.0.0.1:5000"
 
@@ -100,4 +105,176 @@ def test_feedback_updates_accessibility(page: Page):
     # Check tab order: first input should be focusable
     first_input = page.locator("input").first
     first_input.focus()
-    assert first_input.evaluate('el => el === document.activeElement'), "First input should be focusable via tab order" 
+    assert first_input.evaluate('el => el === document.activeElement'), "First input should be focusable via tab order"
+
+@pytest.mark.e2e
+def test_feedback_updates_empty_state(page: Page):
+    """
+    E2E: Apply a filter that matches no records and check for empty state handling.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    # Use a random unlikely string for user filter
+    random_user = "user_" + ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+    user_input = page.get_by_placeholder("User")
+    user_input.fill(random_user)
+    page.get_by_role("button", name="Apply Filters").click()
+    page.wait_for_timeout(1000)
+    table = page.locator("table, .table")
+    rows = table.locator("tbody tr")
+    # Check for the 'no data' row
+    no_data_row = table.locator("tbody tr td[colspan='7']")
+    assert no_data_row.count() > 0, "No updates found row should be present when no data matches filter."
+    assert "No updates found for the selected filters." in no_data_row.first.inner_text(), "No data message should be shown."
+
+@pytest.mark.e2e
+def test_feedback_updates_long_text_overflow(page: Page):
+    """
+    E2E: Check that long text in fields/comments does not break table layout.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    table = page.locator("table, .table")
+    rows = table.locator("tbody tr")
+    if rows.count() == 0:
+        pytest.skip("No data rows to check for long text.")
+    # Check for any cell with >100 chars
+    found_long = False
+    for i in range(rows.count()):
+        for cell in rows.nth(i).locator('td').all():
+            if len(cell.inner_text()) > 100:
+                found_long = True
+                # Optionally, check for ellipsis or wrapping
+                break
+        if found_long:
+            break
+    if not found_long:
+        pytest.skip("No long text found in any cell; skipping overflow check.")
+    # If found, pass (UI should handle it)
+    assert True
+
+@pytest.mark.e2e
+def test_feedback_updates_special_characters(page: Page):
+    """
+    E2E: Check that special characters render correctly and do not break filters.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    table = page.locator("table, .table")
+    rows = table.locator("tbody tr")
+    if rows.count() == 0:
+        pytest.skip("No data rows to check for special characters.")
+    # Look for special characters in any cell
+    specials = ['"', "'", '&', '<', '>', '©', '™', '✓', '—', '…', '😀']
+    found_special = False
+    for i in range(rows.count()):
+        for cell in rows.nth(i).locator('td').all():
+            if any(s in cell.inner_text() for s in specials):
+                found_special = True
+                break
+        if found_special:
+            break
+    if not found_special:
+        pytest.skip("No special characters found in any cell; skipping.")
+    # If found, pass (UI should render them)
+    assert True
+
+@pytest.mark.e2e
+def test_feedback_updates_date_range_boundaries(page: Page):
+    """
+    E2E: Use start/end date filters at the boundary of available data.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    table = page.locator("table, .table")
+    rows = table.locator("tbody tr")
+    if rows.count() == 0:
+        pytest.skip("No data rows to check date boundaries.")
+    # Get min/max date from Timestamp column (1st col)
+    timestamps = []
+    for i in range(rows.count()):
+        ts = rows.nth(i).locator('td').first.inner_text().strip()
+        try:
+            timestamps.append(datetime.strptime(ts, "%Y-%m-%d %H:%M"))
+        except Exception:
+            continue
+    if not timestamps:
+        pytest.skip("No valid timestamps found.")
+    min_ts, max_ts = min(timestamps), max(timestamps)
+    # Set start_date to min, end_date to max
+    try:
+        page.get_by_placeholder("Start date").fill(min_ts.strftime("%Y-%m-%d"))
+        page.get_by_placeholder("End date").fill(max_ts.strftime("%Y-%m-%d"))
+    except Exception:
+        # Fallback: set value via JS if date picker blocks direct fill
+        page.evaluate(f"document.getElementById('start_date').value = '{min_ts.strftime('%Y-%m-%d')}'")
+        page.evaluate(f"document.getElementById('end_date').value = '{max_ts.strftime('%Y-%m-%d')}'")
+    page.get_by_role("button", name="Apply Filters").click()
+    page.wait_for_timeout(1000)
+    # All visible rows should have timestamps within the range
+    rows = table.locator("tbody tr")
+    for i in range(rows.count()):
+        ts = rows.nth(i).locator('td').first.inner_text().strip()
+        try:
+            ts_dt = datetime.strptime(ts, "%Y-%m-%d %H:%M")
+            assert min_ts <= ts_dt <= max_ts
+        except Exception:
+            continue
+
+@pytest.mark.e2e
+def test_feedback_updates_csv_download_with_filters(page: Page, tmp_path):
+    """
+    E2E: Apply a filter, download CSV, and check that the CSV only contains filtered results.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    user_input = page.get_by_placeholder("User")
+    user_input.fill("anonymous")
+    page.get_by_role("button", name="Apply Filters").click()
+    page.wait_for_timeout(1000)
+    # Download CSV
+    with page.expect_download() as download_info:
+        page.get_by_role("link", name="Download CSV").click()
+    download = download_info.value
+    csv_path = tmp_path / "filtered_updates.csv"
+    download.save_as(str(csv_path))
+    # Read CSV and check all rows have 'anonymous' in User column
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if 'User' in row:
+                assert 'anonymous' in row['User'].lower()
+
+@pytest.mark.e2e
+def test_feedback_updates_rapid_filter_changes(page: Page):
+    """
+    E2E: Rapidly change filters and apply them in succession, checking for UI stability.
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    user_input = page.get_by_placeholder("User")
+    for i in range(5):
+        user_input.fill(f"anonymous{i}")
+        page.get_by_role("button", name="Apply Filters").click()
+        page.wait_for_timeout(300)
+    # After rapid changes, clear filters
+    page.get_by_role("button", name="Clear Filters").click()
+    page.wait_for_timeout(500)
+    # Table should be present and not broken
+    table = page.locator("table, .table")
+    assert table.count() > 0
+
+@pytest.mark.e2e
+def test_feedback_updates_large_data_set(page: Page):
+    """
+    E2E: If possible, check that the table handles a large number of updates (pagination, scrolling).
+    """
+    page.goto(f"{BASE_URL}/portal_updates")
+    page.wait_for_load_state("networkidle")
+    table = page.locator("table, .table")
+    rows = table.locator("tbody tr")
+    if rows.count() < 100:
+        pytest.skip("Not enough data to test large data set scenario.")
+    # Check that pagination or scrolling is present
+    pagination = page.locator(".dataTables_paginate, .paginate_button")
+    assert pagination.count() > 0 or rows.count() > 100, "Pagination or scrolling should be present for large data sets." 

@@ -1,0 +1,19 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 8 items
+
+tests/e2e/test_homepage.py::test_homepage_loads[chromium] PASSED         [ 12%]
+tests/e2e/test_homepage.py::test_homepage_empty_state[chromium] SKIPPED  [ 25%]
+tests/e2e/test_homepage.py::test_homepage_navigation_menu[chromium] PASSED [ 37%]
+tests/e2e/test_homepage.py::test_homepage_accessibility[chromium] PASSED [ 50%]
+tests/e2e/test_homepage.py::test_homepage_card_content_and_links[chromium] PASSED [ 62%]
+tests/e2e/test_homepage.py::test_homepage_card_navigation[chromium] PASSED [ 75%]
+tests/e2e/test_homepage.py::test_homepage_pagination_or_scrolling[chromium] PASSED [ 87%]
+tests/e2e/test_homepage.py::test_homepage_special_characters_and_long_text[chromium] PASSED [100%]
+
+======================== 7 passed, 1 skipped in 7.49s =========================
