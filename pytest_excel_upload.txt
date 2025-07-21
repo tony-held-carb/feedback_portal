@@ -1,0 +1,53 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 42 items
+
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_upload_page_loads[chromium] PASSED [  2%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_input_exists[chromium] PASSED [  4%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_drop_zone_exists[chromium] PASSED [  7%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [  9%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_invalid_file_upload[chromium] PASSED [ 11%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_upload[chromium] PASSED [ 14%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium] PASSED [ 16%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium] PASSED [ 19%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium] PASSED [ 21%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_accessibility_features[chromium] PASSED [ 23%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 26%]
+tests/e2e/test_excel_upload_workflows.py::test_list_staged_diagnostics_overlay[chromium] PASSED [ 28%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_file_only[chromium] PASSED [ 30%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium] PASSED [ 33%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium] PASSED [ 35%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium] PASSED [ 38%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium] PASSED [ 40%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] PASSED [ 42%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] PASSED [ 45%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] PASSED [ 47%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 50%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 52%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 54%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 57%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED [ 59%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED [ 61%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 64%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 66%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED [ 69%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED [ 71%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 73%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 76%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 78%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 80%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 83%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 85%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED [ 88%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED [ 90%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 92%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 95%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 97%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [100%]
+
+======================= 42 passed in 100.17s (0:01:40) ========================
