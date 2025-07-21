@@ -996,6 +996,8 @@ def diagnostics() -> str:
   """
   Display developer diagnostics and runtime information.
 
+  NOTE: This is a developer-only route, not covered by E2E tests by design.
+
   Args:
     None
 
@@ -1140,6 +1142,8 @@ def show_log_file() -> str:
   """
   Display the last N lines of the portal log file.
 
+  NOTE: This is a developer-only route, not covered by E2E tests by design.
+
   Query Parameters:
     lines (int, optional): Number of lines to show from the end of the log file.
                            Defaults to 1000 if not provided or invalid.
@@ -1183,6 +1187,8 @@ def show_log_file() -> str:
 def delete_testing_range() -> str:
   """
   Developer utility: Delete testing rows in a specified id_incidence range.
+
+  NOTE: This is a developer/destructive route, not covered by E2E tests by design.
 
   GET: Show form to specify min_id, max_id, and dry_run.
   POST: Run delete_testing_rows and show summary/results, including id_incidences if dry run.
@@ -1251,6 +1257,8 @@ def js_diagnostic_log():
   """
   JavaScript Diagnostics Logging Endpoint
   =======================================
+  NOTE: This is a developer-only route, not covered by E2E tests by design.
+
   Purpose:
       This route allows frontend JavaScript code to send diagnostic or debug messages directly to the backend server.
       These messages are then written to the backend log file, making it possible to correlate frontend/browser events
@@ -1313,6 +1321,8 @@ def js_diagnostic_log():
 def java_script_diagnostic_test():
   """
   Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
+
+  NOTE: This is a developer-only route, not covered by E2E tests by design.
   """
   logger.info(f"route called: java_script_diagnostic_test")
   return render_template('java_script_diagnostic_test.html')

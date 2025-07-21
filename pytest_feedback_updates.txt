@@ -1,0 +1,33 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_01\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 4 items
+
+tests/e2e/test_feedback_updates.py::test_feedback_updates_page_loads[chromium] PASSED [ 25%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium] PASSED [ 50%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium] PASSED [ 75%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_accessibility[chromium] PASSED [100%]
+
+============================== warnings summary ===============================
+tests\e2e\test_feedback_updates.py:23
+  D:\local\cursor\feedback_portal\tests\e2e\test_feedback_updates.py:23: PytestUnknownMarkWarning: Unknown pytest.mark.e2e - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.e2e
+
+tests\e2e\test_feedback_updates.py:50
+  D:\local\cursor\feedback_portal\tests\e2e\test_feedback_updates.py:50: PytestUnknownMarkWarning: Unknown pytest.mark.e2e - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.e2e
+
+tests\e2e\test_feedback_updates.py:79
+  D:\local\cursor\feedback_portal\tests\e2e\test_feedback_updates.py:79: PytestUnknownMarkWarning: Unknown pytest.mark.e2e - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.e2e
+
+tests\e2e\test_feedback_updates.py:89
+  D:\local\cursor\feedback_portal\tests\e2e\test_feedback_updates.py:89: PytestUnknownMarkWarning: Unknown pytest.mark.e2e - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.e2e
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 4 passed, 4 warnings in 7.80s ========================

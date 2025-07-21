@@ -9,4 +9,4 @@ collecting ... collected 1 item
 
 tests/e2e/test_create_incidence_menu.py::test_developer_utilities_create_incidence_menu_links[chromium] PASSED [100%]
 
-============================== 1 passed in 2.48s ==============================
+============================== 1 passed in 2.63s ==============================
