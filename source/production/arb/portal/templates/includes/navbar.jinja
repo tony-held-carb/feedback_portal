@@ -26,14 +26,15 @@
             </li>
             #}
 
-                      <li class="nav-item dropdown">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false">
               Spreadsheet/Uploads
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback Spreadsheet</a>
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback
+                Spreadsheet</a>
               </li>
               <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
@@ -76,8 +77,10 @@
                 Gas)</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.landfill_incidence_create') }}">Create Incidence
                 (Landfill)</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.delete_testing_range') }}">Delete Testing Range (Dev)</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JavaScript Diagnostics</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.delete_testing_range') }}">Delete Testing Range
+                (Dev)</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JavaScript
+                Diagnostics</a></li>
             </ul>
           </li>
 

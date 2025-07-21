@@ -3,96 +3,101 @@
 {% block title %}My Profile - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>My Profile</h1>
-            <p class="lead">Manage your account information</p>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Account Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Email:</strong> {{ current_user.email }}</p>
-                            <p><strong>Account Status:</strong> 
-                                {% if current_user.is_active %}
-                                    <span class="badge bg-success">Active</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Inactive</span>
-                                {% endif %}
-                            </p>
-                            <p><strong>Email Confirmed:</strong> 
-                                {% if current_user.is_confirmed %}
-                                    <span class="badge bg-success">Confirmed</span>
-                                {% else %}
-                                    <span class="badge bg-warning">Pending</span>
-                                {% endif %}
-                            </p>
-                            <p><strong>Member Since:</strong> {{ current_user.created_timestamp.strftime('%Y-%m-%d') if current_user.created_timestamp else 'N/A' }}</p>
-                            <p><strong>Last Login:</strong> {{ current_user.last_login_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.last_login_timestamp else 'Never' }}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>My Roles</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Current Roles:</strong></p>
-                            {% for role in current_user.get_roles() %}
-                                <span class="badge bg-secondary me-1">{{ role }}</span>
-                            {% endfor %}
-                            
-                            <hr>
-                            
-                            <p><strong>Role Permissions:</strong></p>
-                            <ul>
-                                {% if current_user.has_role('admin') %}
-                                    <li><span class="badge bg-danger">Admin</span> - Full system access</li>
-                                {% endif %}
-                                {% if current_user.has_role('editor') %}
-                                    <li><span class="badge bg-primary">Editor</span> - Can edit content</li>
-                                {% endif %}
-                                {% if current_user.has_role('qaqc') %}
-                                    <li><span class="badge bg-warning">QA/QC</span> - Can perform quality checks</li>
-                                {% endif %}
-                                {% if current_user.has_role('reviewer') %}
-                                    <li><span class="badge bg-info">Reviewer</span> - Can review content</li>
-                                {% endif %}
-                                {% if current_user.has_role('manager') %}
-                                    <li><span class="badge bg-dark">Manager</span> - Can manage workflows</li>
-                                {% endif %}
-                                {% if current_user.has_role('user') %}
-                                    <li><span class="badge bg-secondary">User</span> - Basic access</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+      <div class="col-md-12">
+        <h1>My Profile</h1>
+        <p class="lead">Manage your account information</p>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Account Information</h5>
+              </div>
+              <div class="card-body">
+                <p><strong>Email:</strong> {{ current_user.email }}</p>
+                <p><strong>Account Status:</strong>
+                  {% if current_user.is_active %}
+                    <span class="badge bg-success">Active</span>
+                  {% else %}
+                    <span class="badge bg-danger">Inactive</span>
+                  {% endif %}
+                </p>
+                <p><strong>Email Confirmed:</strong>
+                  {% if current_user.is_confirmed %}
+                    <span class="badge bg-success">Confirmed</span>
+                  {% else %}
+                    <span class="badge bg-warning">Pending</span>
+                  {% endif %}
+                </p>
+                <p><strong>Member
+                  Since:</strong> {{ current_user.created_timestamp.strftime('%Y-%m-%d') if current_user.created_timestamp else 'N/A' }}
+                </p>
+                <p><strong>Last
+                  Login:</strong> {{ current_user.last_login_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.last_login_timestamp else 'Never' }}
+                </p>
+              </div>
             </div>
-            
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Quick Actions</h5>
-                        </div>
-                        <div class="card-body">
-                            <a href="{{ url_for('user_management.edit_profile') }}" class="btn btn-primary me-2">Edit Profile</a>
-                            <a href="{{ url_for('user_management.change_password') }}" class="btn btn-secondary me-2">Change Password</a>
-                            <a href="{{ url_for('user_management.view_roles') }}" class="btn btn-info me-2">View Roles</a>
-                            <a href="{{ url_for('user_management.activity') }}" class="btn btn-warning me-2">Activity Log</a>
-                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">Back to Dashboard</a>
-                        </div>
-                    </div>
-                </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>My Roles</h5>
+              </div>
+              <div class="card-body">
+                <p><strong>Current Roles:</strong></p>
+                {% for role in current_user.get_roles() %}
+                  <span class="badge bg-secondary me-1">{{ role }}</span>
+                {% endfor %}
+
+                <hr>
+
+                <p><strong>Role Permissions:</strong></p>
+                <ul>
+                  {% if current_user.has_role('admin') %}
+                    <li><span class="badge bg-danger">Admin</span> - Full system access</li>
+                  {% endif %}
+                  {% if current_user.has_role('editor') %}
+                    <li><span class="badge bg-primary">Editor</span> - Can edit content</li>
+                  {% endif %}
+                  {% if current_user.has_role('qaqc') %}
+                    <li><span class="badge bg-warning">QA/QC</span> - Can perform quality checks</li>
+                  {% endif %}
+                  {% if current_user.has_role('reviewer') %}
+                    <li><span class="badge bg-info">Reviewer</span> - Can review content</li>
+                  {% endif %}
+                  {% if current_user.has_role('manager') %}
+                    <li><span class="badge bg-dark">Manager</span> - Can manage workflows</li>
+                  {% endif %}
+                  {% if current_user.has_role('user') %}
+                    <li><span class="badge bg-secondary">User</span> - Basic access</li>
+                  {% endif %}
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5>Quick Actions</h5>
+              </div>
+              <div class="card-body">
+                <a href="{{ url_for('user_management.edit_profile') }}" class="btn btn-primary me-2">Edit Profile</a>
+                <a href="{{ url_for('user_management.change_password') }}" class="btn btn-secondary me-2">Change
+                  Password</a>
+                <a href="{{ url_for('user_management.view_roles') }}" class="btn btn-info me-2">View Roles</a>
+                <a href="{{ url_for('user_management.activity') }}" class="btn btn-warning me-2">Activity Log</a>
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">Back to Dashboard</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %} 

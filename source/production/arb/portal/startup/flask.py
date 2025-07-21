@@ -35,7 +35,7 @@ from flask import Flask
 from jinja2 import StrictUndefined
 
 from arb.portal.startup.runtime_info import UPLOAD_PATH
-from arb.utils.date_and_time import iso_str_to_utc_datetime, utc_datetime_to_ca_naive_datetime, utc_iso_str_to_ca_str
+from arb.utils.date_and_time import utc_iso_str_to_ca_str
 from arb.utils.diagnostics import diag_recursive
 from arb.utils.misc import args_to_string
 

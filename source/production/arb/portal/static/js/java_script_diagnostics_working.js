@@ -129,15 +129,15 @@ function log_to_server(msg, extra) {
 }
 
 // Add event listeners for all loggable buttons using the new diagnostics system
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     // Log page load
     const diagnosticsBlock = document.querySelector('.js-diagnostics-block');
     const pageName = diagnosticsBlock?.getAttribute('data-page') || 'unknown-page';
     log_to_client(`[JS_DIAG] Page loaded: ${pageName}`);
-    log_to_server(`Page loaded: ${pageName}`, { context: 'page-load', page: pageName });
-    
-    document.querySelectorAll('.js-log-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(event) {
+    log_to_server(`Page loaded: ${pageName}`, {context: 'page-load', page: pageName});
+
+    document.querySelectorAll('.js-log-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
             const context = btn.getAttribute('data-js-logging-context') || 'unknown-action';
             let message = `Button clicked: ${context}`;
             // If the button is a send-diagnostic, include the diagnostic text if present
@@ -154,16 +154,16 @@ window.addEventListener('DOMContentLoaded', function() {
             if (context.startsWith('discard-')) {
                 event.preventDefault();
                 log_to_client(message);
-                log_to_server(message, { context });
+                log_to_server(message, {context});
                 // Submit the form after a short delay to allow logging
-                setTimeout(function() {
+                setTimeout(function () {
                     const form = btn.closest('form');
                     if (form) form.submit();
                 }, 150); // 150ms delay
                 return;
             }
             log_to_client(message);
-            log_to_server(message, { context });
+            log_to_server(message, {context});
         });
     });
 }); 

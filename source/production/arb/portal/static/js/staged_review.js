@@ -1,22 +1,22 @@
 /**
  * @fileoverview Review staged upload functionality with table filtering and confirmation logic
- * 
+ *
  * This script handles the review interface for staged uploads, including:
  * - Table filtering and visibility controls
  * - Confirmation checkbox management
  * - DataTables integration with fixed headers
  * - Context-aware notifications
- * 
+ *
  * Features:
  * - Hide/show unchanged fields
  * - Search/filter fields by name or value
  * - Select all/none confirmation checkboxes
  * - Responsive table with fixed headers
  * - Automatic notification based on context
- * 
+ *
  * Classes:
  * - ReviewStagedManager - Main class for managing the review interface
- * 
+ *
  * Methods:
  * - constructor(options) - Initializes the manager with configuration
  * - init() - Sets up event listeners and initial state
@@ -25,7 +25,7 @@
  * - updateConfirmAllState() - Manages select-all checkbox state
  * - initializeDataTable() - Sets up DataTable with custom configuration
  * - showContextNotifications() - Shows appropriate notifications based on data
- * 
+ *
  * Requirements:
  * - jQuery and DataTables must be loaded
  * - Template must pass staged_fields data
@@ -39,12 +39,12 @@ class ReviewStagedManager {
             isNewRow: options.isNewRow || false,
             ...options
         };
-        
+
         this.selectAllBox = document.getElementById("selectAllConfirmations");
         this.hideUnchangedCheckbox = document.getElementById("hideUnchangedFields");
         this.fieldSearchInput = document.getElementById("fieldSearch");
         this.reviewTable = document.getElementById("reviewTable");
-        
+
         this.init();
     }
 
@@ -60,14 +60,14 @@ class ReviewStagedManager {
 
         // Set up event listeners
         this.setupEventListeners();
-        
+
         // Initialize DataTable
         this.initializeDataTable();
-        
+
         // Set initial state
         this.updateVisibleRows();
         this.updateConfirmAllState();
-        
+
         // Show context-aware notifications
         this.showContextNotifications();
     }
@@ -156,7 +156,7 @@ class ReviewStagedManager {
             stripeClasses: [],
             searching: false,
             columnDefs: [
-                { orderable: false, targets: 0 }  // Confirm column not sortable
+                {orderable: false, targets: 0}  // Confirm column not sortable
             ]
         });
     }
@@ -167,8 +167,8 @@ class ReviewStagedManager {
      * TODO: Consider implementing Bootstrap alert fallback for better UX
      */
     showContextNotifications() {
-        const { changedCount, confirmCount, isNewRow } = this.options;
-        
+        const {changedCount, confirmCount, isNewRow} = this.options;
+
         // Check if ToastManager is available (disabled in old system)
         if (!window.ToastManager) {
             // Fallback to console logging for debugging
@@ -212,10 +212,10 @@ class ReviewStagedManager {
 }
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Get data from template variables (these will be set by the template)
     const reviewData = window.reviewStagedData || {};
-    
+
     // Initialize the review manager
     new ReviewStagedManager(reviewData);
 }); 

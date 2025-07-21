@@ -32,14 +32,10 @@ Notes:
   - The dropdown transformation logic in get_excel_dropdown_data is imported from arb.utils.web_html.update_selector_dict to ensure consistency with the canonical implementation.
 """
 
+import copy
 import datetime
 import logging
 from pathlib import Path
-from typing import Any
-from datetime import timezone
-import copy
-
-from arb.portal.constants import PLEASE_SELECT
 
 # from arb.utils.web_html import update_selector_dict
 # from arb.utils.date_and_time import utc_datetime_to_iso_str

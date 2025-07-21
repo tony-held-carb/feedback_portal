@@ -19,4 +19,4 @@ To enable Okta, set USE_OKTA = True and provide required Okta configuration belo
 
 USE_OKTA = False
 
-# Future Okta configuration (client ID, endpoints, etc.) can be added here. 
+# Future Okta configuration (client ID, endpoints, etc.) can be added here.

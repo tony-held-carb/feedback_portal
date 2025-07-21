@@ -823,30 +823,30 @@ def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> b
 
 
 def coerce_choices(val):
-    """
-    Convert various dropdown data formats to a list of (str, str) tuples for WTForms SelectField.
+  """
+  Convert various dropdown data formats to a list of (str, str) tuples for WTForms SelectField.
 
-    WTForms SelectField expects choices as a list of (value, label) tuples. This helper ensures
-    compatibility regardless of the input format (dict, list of tuples, or list of strings).
+  WTForms SelectField expects choices as a list of (value, label) tuples. This helper ensures
+  compatibility regardless of the input format (dict, list of tuples, or list of strings).
 
-    Args:
-        val: The dropdown data, which may be a dict, list of tuples, or list of strings.
+  Args:
+      val: The dropdown data, which may be a dict, list of tuples, or list of strings.
 
-    Returns:
-        List[Tuple[str, str]]: A list of (value, label) tuples.
-    """
-    if not val:
-        return []
-    if isinstance(val, dict):
-        return [(str(k), str(v)) for k, v in val.items()]
-    if isinstance(val, list):
-        # If already a list of tuples, convert to (str, str) using only first two elements
-        if all(isinstance(x, tuple) and len(x) >= 2 for x in val):
-            return [(str(x[0]), str(x[1])) for x in val]
-        # If a list of strings, convert to (str, str)
-        if all(isinstance(x, str) for x in val):
-            return [(x, x) for x in val]
+  Returns:
+      List[Tuple[str, str]]: A list of (value, label) tuples.
+  """
+  if not val:
     return []
+  if isinstance(val, dict):
+    return [(str(k), str(v)) for k, v in val.items()]
+  if isinstance(val, list):
+    # If already a list of tuples, convert to (str, str) using only first two elements
+    if all(isinstance(x, tuple) and len(x) >= 2 for x in val):
+      return [(str(x[0]), str(x[1])) for x in val]
+    # If a list of strings, convert to (str, str)
+    if all(isinstance(x, str) for x in val):
+      return [(x, x) for x in val]
+  return []
 
 
 if __name__ == '__main__':

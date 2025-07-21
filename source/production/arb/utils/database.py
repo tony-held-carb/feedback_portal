@@ -16,13 +16,12 @@ Functions:
   - get_reflected_base(): Return a SQLAlchemy automap base
   - cleanse_misc_json(): Strip "Please Select" values from misc_json fields
 """
-import sqlite3
 import logging
+import sqlite3
 from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase, automap_base
-
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)

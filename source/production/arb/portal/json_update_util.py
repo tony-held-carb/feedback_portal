@@ -29,8 +29,8 @@
 import datetime
 import logging
 
-from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy.orm import object_session
+from sqlalchemy.orm.attributes import flag_modified
 
 from arb.portal.extensions import db
 from arb.portal.sqla_models import PortalUpdate
@@ -76,12 +76,12 @@ def apply_json_patch_and_log(model,
     - Commits the session after applying changes and logging.
     - Raises and logs exceptions on commit failure.
   """
-  
+
   # 🆕 DIAGNOSTIC: Log function entry and model state
   logger.info(f"[apply_json_patch_and_log] ENTRY: model={type(model).__name__}, "
               f"model.id_incidence={getattr(model, 'id_incidence', 'N/A')}, "
               f"updates={len(updates)} fields, json_field={json_field}")
-  
+
   # Check if model is in session
   session = object_session(model)
   logger.info(f"[apply_json_patch_and_log] Model session: {session is not None}, "
@@ -94,7 +94,7 @@ def apply_json_patch_and_log(model,
     is_new_row = True
   else:
     is_new_row = False
-    
+
   logger.info(f"[apply_json_patch_and_log] Initial json_data: {json_data}, is_new_row: {is_new_row}")
 
   # Consistency check
@@ -142,22 +142,22 @@ def apply_json_patch_and_log(model,
 
   setattr(model, json_field, json_data)
   flag_modified(model, json_field)
-  
+
   # 🆕 DIAGNOSTIC: Log before commit
   logger.info(f"[apply_json_patch_and_log] Before commit: model.{json_field}={getattr(model, json_field)}")
   logger.info(f"[apply_json_patch_and_log] About to commit {changes_made} changes to database")
-  
+
   try:
     db.session.commit()
     logger.info(f"[apply_json_patch_and_log] ✅ COMMIT SUCCESSFUL: {changes_made} changes committed")
-    
+
     # 🆕 DIAGNOSTIC: Verify model state after commit
     logger.info(f"[apply_json_patch_and_log] After commit: model.{json_field}={getattr(model, json_field)}")
-    
+
     # Check if model is still in session after commit
     session_after = object_session(model)
     logger.info(f"[apply_json_patch_and_log] Model session after commit: {session_after is not None}")
-    
+
   except Exception as e:
     logger.error(f"[apply_json_patch_and_log] ❌ COMMIT FAILED: {e}")
     logger.exception(f"[apply_json_patch_and_log] Full exception details:")

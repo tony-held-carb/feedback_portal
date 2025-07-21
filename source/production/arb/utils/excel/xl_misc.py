@@ -21,6 +21,7 @@ Notes:
 """
 
 import logging
+
 from arb.utils.misc import get_nested_value
 
 logger = logging.getLogger(__name__)

@@ -111,8 +111,8 @@
 import logging
 from pathlib import Path
 
-from arb.portal.app import create_app
 from arb.logging.arb_logging import setup_app_logging
+from arb.portal.app import create_app
 
 setup_app_logging("arb_portal")
 

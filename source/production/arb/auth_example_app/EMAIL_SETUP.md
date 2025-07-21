@@ -2,7 +2,8 @@
 
 ## Overview
 
-The Auth Example App uses Flask-Mail to send email confirmations and password reset emails. This document explains how to configure email settings securely.
+The Auth Example App uses Flask-Mail to send email confirmations and password reset emails. This document explains how
+to configure email settings securely.
 
 ## Security Warning
 
@@ -14,7 +15,8 @@ Always use environment variables for sensitive settings in production.
 
 ### 1. For Development (Recommended)
 
-In development, emails are printed to the console instead of being sent. This is the default behavior and requires no additional setup.
+In development, emails are printed to the console instead of being sent. This is the default behavior and requires no
+additional setup.
 
 ### 2. For Production
 
@@ -26,9 +28,9 @@ To actually send emails, you need to configure SMTP settings using environment v
 
 1. **Enable 2-Factor Authentication** on your Google account
 2. **Generate an App Password**:
-   - Go to Google Account settings
-   - Security → 2-Step Verification → App passwords
-   - Generate a password for "Mail"
+    - Go to Google Account settings
+    - Security → 2-Step Verification → App passwords
+    - Generate a password for "Mail"
 3. **Set environment variables**:
 
 ```bash
@@ -67,16 +69,16 @@ export MAIL_SUPPRESS_SEND=False
 
 ## Environment Variables Reference
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `MAIL_SERVER` | SMTP server hostname | `smtp.gmail.com` | Yes |
-| `MAIL_PORT` | SMTP server port | `587` | Yes |
-| `MAIL_USE_TLS` | Use TLS encryption | `True` | Yes |
-| `MAIL_USE_SSL` | Use SSL encryption | `False` | No |
-| `MAIL_USERNAME` | Email username | `example@carb.ca.gov` | Yes |
-| `MAIL_PASSWORD` | Email password/app password | `your-email-password` | Yes |
-| `MAIL_DEFAULT_SENDER` | Default sender email | `example@carb.ca.gov` | Yes |
-| `MAIL_SUPPRESS_SEND` | Print emails to console instead of sending | `True` | No |
+| Variable              | Description                                | Default               | Required |
+|-----------------------|--------------------------------------------|-----------------------|----------|
+| `MAIL_SERVER`         | SMTP server hostname                       | `smtp.gmail.com`      | Yes      |
+| `MAIL_PORT`           | SMTP server port                           | `587`                 | Yes      |
+| `MAIL_USE_TLS`        | Use TLS encryption                         | `True`                | Yes      |
+| `MAIL_USE_SSL`        | Use SSL encryption                         | `False`               | No       |
+| `MAIL_USERNAME`       | Email username                             | `example@carb.ca.gov` | Yes      |
+| `MAIL_PASSWORD`       | Email password/app password                | `your-email-password` | Yes      |
+| `MAIL_DEFAULT_SENDER` | Default sender email                       | `example@carb.ca.gov` | Yes      |
+| `MAIL_SUPPRESS_SEND`  | Print emails to console instead of sending | `True`                | No       |
 
 ## Configuration Files
 
@@ -90,6 +92,7 @@ cp .env.example .env
 ```
 
 Example `.env` file:
+
 ```env
 MAIL_SERVER=smtp.gmail.com
 MAIL_PORT=587
@@ -130,18 +133,18 @@ set MAIL_SUPPRESS_SEND=False
 ### Common Issues
 
 1. **"Authentication failed"**
-   - Check your username and password
-   - For Gmail, make sure you're using an App Password, not your regular password
-   - Enable "Less secure app access" if using regular password (not recommended)
+    - Check your username and password
+    - For Gmail, make sure you're using an App Password, not your regular password
+    - Enable "Less secure app access" if using regular password (not recommended)
 
 2. **"Connection refused"**
-   - Check the SMTP server and port
-   - Verify your firewall settings
-   - Try a different port (465 for SSL, 587 for TLS)
+    - Check the SMTP server and port
+    - Verify your firewall settings
+    - Try a different port (465 for SSL, 587 for TLS)
 
 3. **"Sender not specified"**
-   - Make sure `MAIL_DEFAULT_SENDER` is set
-   - Check that the email address is valid
+    - Make sure `MAIL_DEFAULT_SENDER` is set
+    - Check that the email address is valid
 
 ### Debug Mode
 
@@ -165,6 +168,7 @@ This will show the full SMTP conversation in the console.
 ## Example Configuration Files
 
 ### .env.example
+
 ```env
 # Copy this file to .env and fill in your actual values
 MAIL_SERVER=smtp.gmail.com
@@ -177,6 +181,7 @@ MAIL_SUPPRESS_SEND=True
 ```
 
 ### Production Docker Environment
+
 ```env
 MAIL_SERVER=smtp.company.com
 MAIL_PORT=587

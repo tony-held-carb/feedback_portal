@@ -25,25 +25,24 @@ Notes:
 
 import csv
 import datetime
-import os
 import logging
+import os
 from io import StringIO
 from pathlib import Path
 from typing import Any, Union
 from urllib.parse import unquote
 
-from flask import Blueprint, Response, abort, current_app, flash, redirect, render_template, request, send_from_directory, \
+from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, send_from_directory, \
   url_for  # to access app context
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.exceptions import abort
-from flask import request, jsonify
 
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.portal.config.accessors import get_upload_folder
 from arb.portal.constants import PLEASE_SELECT
-from arb.portal.extensions import db, csrf
+from arb.portal.extensions import csrf, db
 from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
@@ -52,8 +51,9 @@ from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_se
   xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
-from arb.portal.utils.route_util import incidence_prep
+from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, generate_upload_diagnostics, incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
+from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 from arb.portal.wtf_landfill import LandfillFeedback
 from arb.portal.wtf_oil_and_gas import OGFeedback
 from arb.portal.wtf_upload import UploadForm
@@ -62,13 +62,6 @@ from arb.utils.file_io import read_file_reverse
 from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
-from arb.portal.utils.route_util import generate_upload_diagnostics, format_diagnostic_message, generate_staging_diagnostics
-from flask import current_app, send_file
-from typing import Dict, Any
-import os
-import tempfile
-import datetime
-from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -297,79 +290,79 @@ def list_uploads() -> str:
 
 @main.route('/list_staged')
 def list_staged() -> ResponseReturnValue:
-    """
-    List all staged files available for review or processing.
+  """
+  List all staged files available for review or processing.
 
-    Returns:
-      str: Rendered HTML showing all staged files.
-    """
-    logger.info(f"route called: list_staged")
-    logger.info("[LIST_STAGED] Route called")
-    logger.debug("list_staged route called")
-    logger.warning('[DEBUG] /list_staged route called')
+  Returns:
+    str: Rendered HTML showing all staged files.
+  """
+  logger.info(f"route called: list_staged")
+  logger.info("[LIST_STAGED] Route called")
+  logger.debug("list_staged route called")
+  logger.warning('[DEBUG] /list_staged route called')
 
-    staging_dir = Path(get_upload_folder()) / "staging"
-    staged_files = []
-    malformed_files = []
+  staging_dir = Path(get_upload_folder()) / "staging"
+  staged_files = []
+  malformed_files = []
 
-    if staging_dir.exists():
-        for file_path in staging_dir.glob("*.json"):
-            filename = file_path.name
-            id_incidence = None
-            sector = "Unknown"
-            try:
-                # Try to extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
-                if filename.startswith("id_") and "_ts_" in filename:
-                    id_part = filename.split("_ts_")[0]
-                    id_incidence = int(id_part.replace("id_", ""))
-                # Try to load metadata to get sector and check for required fields
-                try:
-                    json_data, metadata = json_load_with_meta(file_path)
-                    base_misc_json = metadata.get("base_misc_json", {})
-                    sector = base_misc_json.get("sector", "Unknown")
-                    # Check for required field: id_incidence must be a positive integer
-                    id_candidate = None
-                    # Try to get id_incidence from JSON if not from filename
-                    if id_incidence is None:
-                        id_candidate = json_data.get("id_incidence")
-                        if isinstance(id_candidate, int) and id_candidate > 0:
-                            id_incidence = id_candidate
-                    # If still not valid, treat as malformed
-                    if not (isinstance(id_incidence, int) and id_incidence > 0):
-                        raise ValueError("Missing or invalid id_incidence")
-                    staged_files.append({
-                        'filename': filename,
-                        'id_incidence': id_incidence,
-                        'sector': sector,
-                        'file_size': file_path.stat().st_size,
-                        'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
-                        'malformed': False
-                    })
-                except Exception as meta_exc:
-                    # If JSON loads but required fields are missing, treat as malformed
-                    logger.warning(f"Malformed staged file (missing fields) {file_path}: {meta_exc}")
-                    malformed_files.append({
-                        'filename': filename,
-                        'file_size': file_path.stat().st_size,
-                        'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
-                        'error': f"Missing required fields: {meta_exc}"
-                    })
-            except Exception as e:
-                logger.warning(f"Could not process staged file {file_path}: {e}")
-                malformed_files.append({
-                    'filename': filename,
-                    'file_size': file_path.stat().st_size,
-                    'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
-                    'error': str(e)
-                })
+  if staging_dir.exists():
+    for file_path in staging_dir.glob("*.json"):
+      filename = file_path.name
+      id_incidence = None
+      sector = "Unknown"
+      try:
+        # Try to extract ID from filename (format: id_XXXX_ts_YYYYMMDD_HHMMSS.json)
+        if filename.startswith("id_") and "_ts_" in filename:
+          id_part = filename.split("_ts_")[0]
+          id_incidence = int(id_part.replace("id_", ""))
+        # Try to load metadata to get sector and check for required fields
+        try:
+          json_data, metadata = json_load_with_meta(file_path)
+          base_misc_json = metadata.get("base_misc_json", {})
+          sector = base_misc_json.get("sector", "Unknown")
+          # Check for required field: id_incidence must be a positive integer
+          id_candidate = None
+          # Try to get id_incidence from JSON if not from filename
+          if id_incidence is None:
+            id_candidate = json_data.get("id_incidence")
+            if isinstance(id_candidate, int) and id_candidate > 0:
+              id_incidence = id_candidate
+          # If still not valid, treat as malformed
+          if not (isinstance(id_incidence, int) and id_incidence > 0):
+            raise ValueError("Missing or invalid id_incidence")
+          staged_files.append({
+            'filename': filename,
+            'id_incidence': id_incidence,
+            'sector': sector,
+            'file_size': file_path.stat().st_size,
+            'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+            'malformed': False
+          })
+        except Exception as meta_exc:
+          # If JSON loads but required fields are missing, treat as malformed
+          logger.warning(f"Malformed staged file (missing fields) {file_path}: {meta_exc}")
+          malformed_files.append({
+            'filename': filename,
+            'file_size': file_path.stat().st_size,
+            'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+            'error': f"Missing required fields: {meta_exc}"
+          })
+      except Exception as e:
+        logger.warning(f"Could not process staged file {file_path}: {e}")
+        malformed_files.append({
+          'filename': filename,
+          'file_size': file_path.stat().st_size,
+          'modified_time': datetime.datetime.fromtimestamp(file_path.stat().st_mtime),
+          'error': str(e)
+        })
 
-    # Sort by modification time (newest first)
-    staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
-    malformed_files.sort(key=lambda x: x['modified_time'], reverse=True)
+  # Sort by modification time (newest first)
+  staged_files.sort(key=lambda x: x['modified_time'], reverse=True)
+  malformed_files.sort(key=lambda x: x['modified_time'], reverse=True)
 
-    logger.warning(f'[DEBUG] /list_staged rendering {len(staged_files)} staged, {len(malformed_files)} malformed files')
-    # Always pass both variables, even if empty
-    return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
+  logger.warning(f'[DEBUG] /list_staged rendering {len(staged_files)} staged, {len(malformed_files)} malformed files')
+  # Always pass both variables, even if empty
+  return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
 
 
 @main.route('/upload', methods=['GET', 'POST'])
@@ -440,8 +433,8 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
       # Step 2: Handle schema recognition failure with enhanced diagnostics
       logger.warning(f"Upload failed schema recognition: {file_path=}")
       error_details = generate_upload_diagnostics(request_file, file_path)
-      detailed_message = format_diagnostic_message(error_details, 
-                                                  "Uploaded file format not recognized.")
+      detailed_message = format_diagnostic_message(error_details,
+                                                   "Uploaded file format not recognized.")
       return render_template(
         'upload.html',
         form=form,
@@ -450,12 +443,12 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 
     except Exception as e:
       logger.exception("Exception occurred during upload or parsing.")
-      
+
       # Enhanced error handling with diagnostic information
-      error_details = generate_upload_diagnostics(request_file, 
-                                                 file_path if 'file_path' in locals() else None)
+      error_details = generate_upload_diagnostics(request_file,
+                                                  file_path if 'file_path' in locals() else None)
       detailed_message = format_diagnostic_message(error_details)
-      
+
       return render_template(
         'upload.html',
         form=form,
@@ -546,18 +539,18 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
 
     except Exception as e:
       logger.exception("Exception occurred during staged upload.")
-      
+
       # Enhanced error handling with staging-specific diagnostic information
       error_details = generate_staging_diagnostics(
-        request_file, 
+        request_file,
         file_path if 'file_path' in locals() else None,
         staged_filename if 'staged_filename' in locals() else None,
         id_ if 'id_' in locals() else None,
         sector if 'sector' in locals() else None
       )
-      detailed_message = format_diagnostic_message(error_details, 
-                                                  "Staged upload processing failed.")
-      
+      detailed_message = format_diagnostic_message(error_details,
+                                                   "Staged upload processing failed.")
+
       return render_template(
         'upload_staged.html',
         form=form,
@@ -592,26 +585,26 @@ def review_staged(id_: int, filename: str) -> str | Response:
 
   if not staged_json_path.exists():
     logger.warning(f"Staged JSON file not found: {staged_json_path}")
-    return render_template("review_staged.html", 
-                         error=f"No staged data found for ID {id_}.", 
-                         is_new_row=False,
-                         id_incidence=id_,
-                         staged_fields=[],
-                         metadata={},
-                         filename=filename)
+    return render_template("review_staged.html",
+                           error=f"No staged data found for ID {id_}.",
+                           is_new_row=False,
+                           id_incidence=id_,
+                           staged_fields=[],
+                           metadata={},
+                           filename=filename)
 
   try:
     staged_data, metadata = json_load_with_meta(staged_json_path)
     staged_payload = extract_tab_and_sector(staged_data, tab_name="Feedback Form")
   except Exception:
     logger.exception("Error loading staged JSON")
-    return render_template("review_staged.html", 
-                         error="Could not load staged data.", 
-                         is_new_row=False,
-                         id_incidence=id_,
-                         staged_fields=[],
-                         metadata={},
-                         filename=filename)
+    return render_template("review_staged.html",
+                           error="Could not load staged data.",
+                           is_new_row=False,
+                           id_incidence=id_,
+                           staged_fields=[],
+                           metadata={},
+                           filename=filename)
 
   model, _, is_new_row = get_ensured_row(
     db=db,
@@ -780,34 +773,34 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
 @csrf.exempt
 @main.route("/discard_staged_update/<int:id_>/<filename>", methods=["POST"])
 def discard_staged_update(id_: int, filename: str) -> ResponseReturnValue:
-    """
-    Discard a staged update for a specific incidence ID and filename.
-    CSRF is disabled for this route.
-    """
-    logger.info(f"route called: discard_staged_update with id_: {id_} and filename: {filename}")
-    import unicodedata
-    import time
-    staging_dir = Path(get_upload_folder()) / "staging"
-    # Normalize filename for cross-platform compatibility
-    safe_filename = unicodedata.normalize('NFC', filename.strip())
-    staged_file = staging_dir / safe_filename
-    logger.info(f"[DISCARD] Route called: id_={id_}, filename='{filename}', safe_filename='{safe_filename}'")
-    logger.info(f"[DISCARD] Starting deletion for: {staged_file}")
-    logger.info(f"[DISCARD] File exists before deletion: {staged_file.exists()}")
-    try:
-        if staged_file.exists():
-            staged_file.unlink()
-            logger.info(f"[DISCARD] File deleted: {staged_file}")
-        else:
-            logger.info(f"[DISCARD] File not found for deletion: {staged_file}")
-    except Exception as e:
-        logger.error(f"[DISCARD] Exception during file deletion: {e}")
-    logger.info(f"[DISCARD] File exists after deletion: {staged_file.exists()}")
-    logger.info(f"[DISCARD] Completed discard_staged_update for: {staged_file}")
-    # Sleep briefly to ensure filesystem updates propagate (for test timing)
-    time.sleep(0.2)
-    logger.info(f"[DISCARD] Returning redirect to /list_staged")
-    return redirect(url_for("main.list_staged"))
+  """
+  Discard a staged update for a specific incidence ID and filename.
+  CSRF is disabled for this route.
+  """
+  logger.info(f"route called: discard_staged_update with id_: {id_} and filename: {filename}")
+  import unicodedata
+  import time
+  staging_dir = Path(get_upload_folder()) / "staging"
+  # Normalize filename for cross-platform compatibility
+  safe_filename = unicodedata.normalize('NFC', filename.strip())
+  staged_file = staging_dir / safe_filename
+  logger.info(f"[DISCARD] Route called: id_={id_}, filename='{filename}', safe_filename='{safe_filename}'")
+  logger.info(f"[DISCARD] Starting deletion for: {staged_file}")
+  logger.info(f"[DISCARD] File exists before deletion: {staged_file.exists()}")
+  try:
+    if staged_file.exists():
+      staged_file.unlink()
+      logger.info(f"[DISCARD] File deleted: {staged_file}")
+    else:
+      logger.info(f"[DISCARD] File not found for deletion: {staged_file}")
+  except Exception as e:
+    logger.error(f"[DISCARD] Exception during file deletion: {e}")
+  logger.info(f"[DISCARD] File exists after deletion: {staged_file.exists()}")
+  logger.info(f"[DISCARD] Completed discard_staged_update for: {staged_file}")
+  # Sleep briefly to ensure filesystem updates propagate (for test timing)
+  time.sleep(0.2)
+  logger.info(f"[DISCARD] Returning redirect to /list_staged")
+  return redirect(url_for("main.list_staged"))
 
 
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])
@@ -1082,8 +1075,6 @@ def show_database_structure() -> str:
                          )
 
 
-
-
 @main.route('/show_feedback_form_structure')
 def show_feedback_form_structure() -> str:
   """
@@ -1197,7 +1188,7 @@ def delete_testing_range() -> str:
   POST: Run delete_testing_rows and show summary/results, including id_incidences if dry run.
   """
   from flask import current_app
-  
+
   logger.info(f"route called: delete_testing_range")
 
   base = current_app.base  # type: ignore[attr-defined]
@@ -1257,71 +1248,71 @@ def delete_testing_range() -> str:
 
 @main.route('/js_diagnostic_log', methods=['POST'])
 def js_diagnostic_log():
-    """
-    JavaScript Diagnostics Logging Endpoint
-    =======================================
-    Purpose:
-        This route allows frontend JavaScript code to send diagnostic or debug messages directly to the backend server.
-        These messages are then written to the backend log file, making it possible to correlate frontend/browser events
-        with backend activity, errors, or user actions. This is especially useful for debugging issues that are hard to
-        capture with browser console logs alone (e.g., page reloads, E2E tests, or user-reported problems).
+  """
+  JavaScript Diagnostics Logging Endpoint
+  =======================================
+  Purpose:
+      This route allows frontend JavaScript code to send diagnostic or debug messages directly to the backend server.
+      These messages are then written to the backend log file, making it possible to correlate frontend/browser events
+      with backend activity, errors, or user actions. This is especially useful for debugging issues that are hard to
+      capture with browser console logs alone (e.g., page reloads, E2E tests, or user-reported problems).
 
-    How to Use (Frontend JavaScript):
-        Use the provided JS helper function (see below) to send a POST request to this endpoint:
+  How to Use (Frontend JavaScript):
+      Use the provided JS helper function (see below) to send a POST request to this endpoint:
 
-        Example JS function:
-            function sendJsDiagnostic(msg, extra) {
-                fetch('/js_diagnostic_log', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({msg, ts: new Date().toISOString(), ...extra})
-                });
-            }
+      Example JS function:
+          function sendJsDiagnostic(msg, extra) {
+              fetch('/js_diagnostic_log', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({msg, ts: new Date().toISOString(), ...extra})
+              });
+          }
 
-        Example usage:
-            sendJsDiagnostic('User clicked discard', {action: '/discard_staged_update/0/file.json', userId: 123});
+      Example usage:
+          sendJsDiagnostic('User clicked discard', {action: '/discard_staged_update/0/file.json', userId: 123});
 
-    Expected Payload (JSON):
-        {
-            "msg": "A human-readable message (required)",
-            "ts": "ISO timestamp (optional, will be included in log if present)",
-            ... any other key-value pairs (optional, will be logged as 'extra')
-        }
+  Expected Payload (JSON):
+      {
+          "msg": "A human-readable message (required)",
+          "ts": "ISO timestamp (optional, will be included in log if present)",
+          ... any other key-value pairs (optional, will be logged as 'extra')
+      }
 
-    What Happens:
-        - The backend receives the POST request and parses the JSON payload.
-        - It extracts the 'msg' (message), 'ts' (timestamp), and any other fields (as 'extra').
-        - It writes a log entry to the backend log file in the format:
-            [JS_DIAG][timestamp] message | extra: {...}
-        - Returns a simple JSON response: {"status": "ok"}
+  What Happens:
+      - The backend receives the POST request and parses the JSON payload.
+      - It extracts the 'msg' (message), 'ts' (timestamp), and any other fields (as 'extra').
+      - It writes a log entry to the backend log file in the format:
+          [JS_DIAG][timestamp] message | extra: {...}
+      - Returns a simple JSON response: {"status": "ok"}
 
-    Why Use This:
-        - Console logs in the browser are lost on navigation/reload and are not visible to backend developers.
-        - This route allows you to persistently log important frontend events, errors, or user actions for later analysis.
-        - Especially useful for E2E testing, debugging user issues, or tracking hard-to-reproduce bugs.
+  Why Use This:
+      - Console logs in the browser are lost on navigation/reload and are not visible to backend developers.
+      - This route allows you to persistently log important frontend events, errors, or user actions for later analysis.
+      - Especially useful for E2E testing, debugging user issues, or tracking hard-to-reproduce bugs.
 
-    Security Note:
-        - This endpoint is for diagnostics only. Do not send sensitive user data.
-        - Rate limiting or authentication can be added if needed for production.
+  Security Note:
+      - This endpoint is for diagnostics only. Do not send sensitive user data.
+      - Rate limiting or authentication can be added if needed for production.
 
-    """
-    logger.info(f"route called: js_diagnostic_log")
+  """
+  logger.info(f"route called: js_diagnostic_log")
 
-    data = request.get_json(force=True, silent=True) or {}
-    msg = data.get('msg', '[NO MSG]')
-    ts = data.get('ts')
-    extra = {k: v for k, v in data.items() if k not in ('msg', 'ts')}
-    log_line = f"[JS_DIAG]{'['+ts+']' if ts else ''} {msg}"
-    if extra:
-        log_line += f" | extra: {extra}"
-    logger.info(log_line)
-    return jsonify({'status': 'ok'})
+  data = request.get_json(force=True, silent=True) or {}
+  msg = data.get('msg', '[NO MSG]')
+  ts = data.get('ts')
+  extra = {k: v for k, v in data.items() if k not in ('msg', 'ts')}
+  log_line = f"[JS_DIAG]{'[' + ts + ']' if ts else ''} {msg}"
+  if extra:
+    log_line += f" | extra: {extra}"
+  logger.info(log_line)
+  return jsonify({'status': 'ok'})
 
 
 @main.route('/java_script_diagnostic_test')
 def java_script_diagnostic_test():
-    """
-    Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
-    """
-    logger.info(f"route called: java_script_diagnostic_test")
-    return render_template('java_script_diagnostic_test.html')
+  """
+  Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
+  """
+  logger.info(f"route called: java_script_diagnostic_test")
+  return render_template('java_script_diagnostic_test.html')

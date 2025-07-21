@@ -3,71 +3,72 @@
 {% block title %}Public Information - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>Public Information</h1>
-            <p class="lead">Welcome to the Public Information section!</p>
-            
-            <div class="alert alert-info">
-                <strong>Access Level:</strong> This page is accessible to everyone (no login required).
-            </div>
-            
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>About This Application</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>This is a demonstration Flask application that showcases the ARB Auth package with multiple roles support.</p>
-                            
-                            <h6>Key Features:</h6>
-                            <ul>
-                                <li><strong>Multiple Roles:</strong> Users can have multiple roles (e.g., editor + qaqc)</li>
-                                <li><strong>Role-Based Access:</strong> Different pages require different role combinations</li>
-                                <li><strong>Flexible Decorators:</strong> Support for single roles, any roles, or all roles</li>
-                                <li><strong>User Management:</strong> Admin interface for managing users and roles</li>
-                                <li><strong>Template Integration:</strong> Role checking in Jinja2 templates</li>
-                            </ul>
-                            
-                            <h6>Example Role Combinations:</h6>
-                            <ul>
-                                <li><code>editor</code> - Can access editor tools</li>
-                                <li><code>qaqc</code> - Can access QA/QC tools</li>
-                                <li><code>editor, qaqc</code> - Can access both editor AND advanced editing</li>
-                                <li><code>reviewer, manager</code> - Can access review panel</li>
-                                <li><code>admin</code> - Full administrative access</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Getting Started</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>To explore the application:</p>
-                            <ol>
-                                <li>Register a new account or log in</li>
-                                <li>Visit your dashboard to see available features</li>
-                                <li>Try accessing different sections based on your roles</li>
-                                <li>If you're an admin, manage other users' roles</li>
-                            </ol>
-                            
-                            {% if current_user.is_authenticated %}
-                                <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
-                            {% else %}
-                                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
-                                <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Register</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-md-12">
+        <h1>Public Information</h1>
+        <p class="lead">Welcome to the Public Information section!</p>
+
+        <div class="alert alert-info">
+          <strong>Access Level:</strong> This page is accessible to everyone (no login required).
         </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h5>About This Application</h5>
+              </div>
+              <div class="card-body">
+                <p>This is a demonstration Flask application that showcases the ARB Auth package with multiple roles
+                  support.</p>
+
+                <h6>Key Features:</h6>
+                <ul>
+                  <li><strong>Multiple Roles:</strong> Users can have multiple roles (e.g., editor + qaqc)</li>
+                  <li><strong>Role-Based Access:</strong> Different pages require different role combinations</li>
+                  <li><strong>Flexible Decorators:</strong> Support for single roles, any roles, or all roles</li>
+                  <li><strong>User Management:</strong> Admin interface for managing users and roles</li>
+                  <li><strong>Template Integration:</strong> Role checking in Jinja2 templates</li>
+                </ul>
+
+                <h6>Example Role Combinations:</h6>
+                <ul>
+                  <li><code>editor</code> - Can access editor tools</li>
+                  <li><code>qaqc</code> - Can access QA/QC tools</li>
+                  <li><code>editor, qaqc</code> - Can access both editor AND advanced editing</li>
+                  <li><code>reviewer, manager</code> - Can access review panel</li>
+                  <li><code>admin</code> - Full administrative access</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header">
+                <h5>Getting Started</h5>
+              </div>
+              <div class="card-body">
+                <p>To explore the application:</p>
+                <ol>
+                  <li>Register a new account or log in</li>
+                  <li>Visit your dashboard to see available features</li>
+                  <li>Try accessing different sections based on your roles</li>
+                  <li>If you're an admin, manage other users' roles</li>
+                </ol>
+
+                {% if current_user.is_authenticated %}
+                  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                {% else %}
+                  <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+                  <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Register</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %} 

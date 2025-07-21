@@ -23,9 +23,10 @@ from pathlib import Path
 import openpyxl
 
 from arb.portal.constants import PLEASE_SELECT
-from arb.utils.date_and_time import is_datetime_naive, excel_str_to_naive_datetime
+from arb.utils.date_and_time import excel_str_to_naive_datetime, is_datetime_naive
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
+
 logger = logging.getLogger(__name__)
 
 # Spreadsheet formatting constants
@@ -38,13 +39,13 @@ EXCEL_TOP_LEFT_KEY_VALUE_CELL = '$B$15'
 # If a file references an outdated schema,
 # the parser will use the mapped schema and log a warning.
 schema_alias = {
-    "energy_v00_01": "energy_v01_00",
-    "generic_v00_01": "generic_v01_00",
+  "energy_v00_01": "energy_v01_00",
+  "generic_v00_01": "generic_v01_00",
 }
 
 # xl_schema_map based on Excel PROCESSED_VERSIONS files
 xl_schema_file_map = {}  # type: dict[str, Path]
-xl_schema_map = {}       # type: dict[str, dict]
+xl_schema_map = {}  # type: dict[str, dict]
 
 
 def initialize_module() -> None:
@@ -128,7 +129,7 @@ def create_schema_file_map(schema_path: str | Path | None = None,
     dict[str, Path]: Map from schema name to a schema file path.
   """
   logger.debug(f"create_schema_file_map() called with {schema_path=}, {schema_names=}")
-  
+
   if isinstance(schema_path, str):
     schema_path = Path(schema_path)
 
@@ -256,10 +257,11 @@ def extract_tabs(wb: openpyxl.Workbook,
       value = ws[value_address].value  # type: ignore[attr-defined]
       # Strip whitespace for string fields and log if changed
       if value is not None and value_type == str and isinstance(value, str):
-          stripped_value = value.strip()
-          if value != stripped_value:
-              logger.warning(f"Whitespace detected for field '{html_field_name}' at {value_address}: before strip: {repr(value)}, after strip: {repr(stripped_value)}")
-          value = stripped_value
+        stripped_value = value.strip()
+        if value != stripped_value:
+          logger.warning(
+            f"Whitespace detected for field '{html_field_name}' at {value_address}: before strip: {repr(value)}, after strip: {repr(stripped_value)}")
+        value = stripped_value
 
       if skip_please_selects is True:
         if is_drop_down and value == PLEASE_SELECT:
@@ -312,32 +314,33 @@ def extract_tabs(wb: openpyxl.Workbook,
 
   return result
 
+
 def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger) -> str | None:
-    """
-    Resolves a schema version using the schema map and alias mapping.
-    Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.
+  """
+  Resolves a schema version using the schema map and alias mapping.
+  Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.
 
-    Args:
-        formatting_schema (str): The schema version to resolve.
-        schema_map (dict): The mapping of valid schema versions.
-        schema_alias (dict): The mapping of old schema names to new ones.
-        logger: Logger for warnings/errors.
+  Args:
+      formatting_schema (str): The schema version to resolve.
+      schema_map (dict): The mapping of valid schema versions.
+      schema_alias (dict): The mapping of old schema names to new ones.
+      logger: Logger for warnings/errors.
 
-    Returns:
-        str | None: The resolved schema version, or None if not found.
-    """
-    if formatting_schema in schema_map:
-        return formatting_schema
-    if formatting_schema in schema_alias:
-        new_schema_version = schema_alias[formatting_schema]
-        logger.warning(f"Schema '{formatting_schema}' not found. Using alias '{new_schema_version}' instead.")
-        if new_schema_version in schema_map:
-            return new_schema_version
-        else:
-            logger.error(f"Alias '{new_schema_version}' not found in schema_map.")
-            return None
-    logger.error(f"Schema '{formatting_schema}' not found and no alias available.")
-    return None
+  Returns:
+      str | None: The resolved schema version, or None if not found.
+  """
+  if formatting_schema in schema_map:
+    return formatting_schema
+  if formatting_schema in schema_alias:
+    new_schema_version = schema_alias[formatting_schema]
+    logger.warning(f"Schema '{formatting_schema}' not found. Using alias '{new_schema_version}' instead.")
+    if new_schema_version in schema_map:
+      return new_schema_version
+    else:
+      logger.error(f"Alias '{new_schema_version}' not found in schema_map.")
+      return None
+  logger.error(f"Schema '{formatting_schema}' not found and no alias available.")
+  return None
 
 
 def split_compound_keys(dict_: dict) -> None:
@@ -512,7 +515,7 @@ def test_load_xl_schemas() -> None:
   """
   from arb.logging.arb_logging import get_pretty_printer
   _, pp_log = get_pretty_printer()
-  
+
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
   schemas = load_schema_file_map(xl_schema_file_map)
   logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
@@ -549,4 +552,3 @@ initialize_module()
 
 if __name__ == "__main__":
   main()
-

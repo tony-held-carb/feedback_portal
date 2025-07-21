@@ -3,67 +3,67 @@
 {% block title %}Advanced Editing - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>Advanced Editing</h1>
-            <p class="lead">Welcome to the Advanced Editing section!</p>
-            
-            <div class="alert alert-danger">
-                <strong>Access Level:</strong> This page requires BOTH 'editor' AND 'qaqc' roles.
-                <br>
-                <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
-                <br>
-                <strong>Access Granted:</strong> 
-                {% if current_user.has_all_roles('editor', 'qaqc') %}
-                    <span class="badge bg-success">Yes</span>
-                {% else %}
-                    <span class="badge bg-danger">No</span>
-                {% endif %}
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Advanced Content Creation</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Advanced editing features for users with both editor and QA/QC roles:</p>
-                            <ul>
-                                <li>Multi-format content creation</li>
-                                <li>Advanced formatting options</li>
-                                <li>Real-time collaboration</li>
-                                <li>Version control integration</li>
-                            </ul>
-                            <button class="btn btn-primary" disabled>Create Advanced Content</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Quality-Enhanced Editing</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Editing with built-in quality assurance:</p>
-                            <ul>
-                                <li>Real-time quality checks</li>
-                                <li>Automated validation</li>
-                                <li>Quality scoring</li>
-                                <li>Compliance verification</li>
-                            </ul>
-                            <button class="btn btn-success" disabled>Start Quality Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-4">
-                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
-            </div>
+      <div class="col-md-12">
+        <h1>Advanced Editing</h1>
+        <p class="lead">Welcome to the Advanced Editing section!</p>
+
+        <div class="alert alert-danger">
+          <strong>Access Level:</strong> This page requires BOTH 'editor' AND 'qaqc' roles.
+          <br>
+          <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
+          <br>
+          <strong>Access Granted:</strong>
+          {% if current_user.has_all_roles('editor', 'qaqc') %}
+            <span class="badge bg-success">Yes</span>
+          {% else %}
+            <span class="badge bg-danger">No</span>
+          {% endif %}
         </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Advanced Content Creation</h5>
+              </div>
+              <div class="card-body">
+                <p>Advanced editing features for users with both editor and QA/QC roles:</p>
+                <ul>
+                  <li>Multi-format content creation</li>
+                  <li>Advanced formatting options</li>
+                  <li>Real-time collaboration</li>
+                  <li>Version control integration</li>
+                </ul>
+                <button class="btn btn-primary" disabled>Create Advanced Content</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Quality-Enhanced Editing</h5>
+              </div>
+              <div class="card-body">
+                <p>Editing with built-in quality assurance:</p>
+                <ul>
+                  <li>Real-time quality checks</li>
+                  <li>Automated validation</li>
+                  <li>Quality scoring</li>
+                  <li>Compliance verification</li>
+                </ul>
+                <button class="btn btn-success" disabled>Start Quality Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %} 

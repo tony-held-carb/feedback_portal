@@ -50,4 +50,4 @@ AUTH_PASSWORD_RESET_COOLDOWN = 300  # 5 minutes (in seconds) cooldown after too 
 AUTH_MAX_LOGIN_ATTEMPTS = 5  # Maximum failed login attempts before account lockout
 AUTH_ACCOUNT_LOCKOUT_DURATION = 900  # 15 minutes (in seconds) lockout after too many failed logins
 AUTH_SESSION_TIMEOUT = 3600  # 1 hour (in seconds) session expiration for user logins
-AUTH_REMEMBER_ME_DURATION = 2592000  # 30 days (in seconds) for 'remember me' logins 
+AUTH_REMEMBER_ME_DURATION = 2592000  # 30 days (in seconds) for 'remember me' logins

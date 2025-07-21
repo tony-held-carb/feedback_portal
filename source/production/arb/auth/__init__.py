@@ -57,63 +57,68 @@ _app = None
 
 
 def init_auth(app=None, db=None, mail=None, login_manager=None, config=None):
-    """
-    Initialize the ARB Auth package for standalone or pluggable use.
+  """
+  Initialize the ARB Auth package for standalone or pluggable use.
 
-    Args:
-        app (Flask, optional): The Flask app instance. Required for standalone use.
-        db (SQLAlchemy, optional): The SQLAlchemy instance to use for models.
-        mail (Mail, optional): The Flask-Mail instance for email sending.
-        login_manager (LoginManager, optional): The Flask-Login manager for session handling.
-        config (dict, optional): Optional config overrides for auth settings.
+  Args:
+      app (Flask, optional): The Flask app instance. Required for standalone use.
+      db (SQLAlchemy, optional): The SQLAlchemy instance to use for models.
+      mail (Mail, optional): The Flask-Mail instance for email sending.
+      login_manager (LoginManager, optional): The Flask-Login manager for session handling.
+      config (dict, optional): Optional config overrides for auth settings.
 
-    Notes:
-        - If running standalone, provide all extensions and app.
-        - If using as a package, pass in the host app's extensions.
-        - All internal modules should import these via `from arb.auth import get_db`, etc.
-    """
-    global _db, _mail, _login_manager, _app
-    _db = db
-    _mail = mail
-    _login_manager = login_manager
-    _app = app
+  Notes:
+      - If running standalone, provide all extensions and app.
+      - If using as a package, pass in the host app's extensions.
+      - All internal modules should import these via `from arb.auth import get_db`, etc.
+  """
+  global _db, _mail, _login_manager, _app
+  _db = db
+  _mail = mail
+  _login_manager = login_manager
+  _app = app
 
-    # Register the user loader after initialization
-    from .login_manager import register_user_loader
-    register_user_loader()
+  # Register the user loader after initialization
+  from .login_manager import register_user_loader
+  register_user_loader()
 
-    # Optionally register blueprint, models, etc. here if needed
-    # Example: if app is not None: app.register_blueprint(auth_blueprint)
-    # (Blueprint registration can also be left to the host app for flexibility)
+  # Optionally register blueprint, models, etc. here if needed
+  # Example: if app is not None: app.register_blueprint(auth_blueprint)
+  # (Blueprint registration can also be left to the host app for flexibility)
 
-    # Optionally apply config overrides
-    if app is not None and config is not None:
-        app.config.update(config)
+  # Optionally apply config overrides
+  if app is not None and config is not None:
+    app.config.update(config)
 
 
 def get_db():
-    """Return the injected SQLAlchemy db instance. Raises RuntimeError if not initialized."""
-    if _db is None:
-        raise RuntimeError("Auth package not initialized: call init_auth(app, db, ...) before using get_db().")
-    return _db
+  """Return the injected SQLAlchemy db instance. Raises RuntimeError if not initialized."""
+  if _db is None:
+    raise RuntimeError("Auth package not initialized: call init_auth(app, db, ...) before using get_db().")
+  return _db
+
 
 def get_mail():
-    """Return the injected Flask-Mail instance. Raises RuntimeError if not initialized."""
-    if _mail is None:
-        raise RuntimeError("Auth package not initialized: call init_auth(app, ..., mail=mail, ...) before using get_mail().")
-    return _mail
+  """Return the injected Flask-Mail instance. Raises RuntimeError if not initialized."""
+  if _mail is None:
+    raise RuntimeError("Auth package not initialized: call init_auth(app, ..., mail=mail, ...) before using get_mail().")
+  return _mail
+
 
 def get_login_manager():
-    """Return the injected Flask-Login manager instance. Raises RuntimeError if not initialized."""
-    if _login_manager is None:
-        raise RuntimeError("Auth package not initialized: call init_auth(app, ..., login_manager=login_manager, ...) before using get_login_manager().")
-    return _login_manager
+  """Return the injected Flask-Login manager instance. Raises RuntimeError if not initialized."""
+  if _login_manager is None:
+    raise RuntimeError(
+      "Auth package not initialized: call init_auth(app, ..., login_manager=login_manager, ...) before using get_login_manager().")
+  return _login_manager
+
 
 def get_app():
-    """Return the injected Flask app instance (if any). Raises RuntimeError if not initialized."""
-    if _app is None:
-        raise RuntimeError("Auth package not initialized: call init_auth(app, ...) before using get_app().")
-    return _app
+  """Return the injected Flask app instance (if any). Raises RuntimeError if not initialized."""
+  if _app is None:
+    raise RuntimeError("Auth package not initialized: call init_auth(app, ...) before using get_app().")
+  return _app
+
 
 # Make sure this is the last line of the file (see header comments for details)
 # from . import login_manager  # Removed - now handled in init_auth()
@@ -121,11 +126,12 @@ def get_app():
 # Import and expose the auth Blueprint for registration by the host app
 from .routes import auth_blueprint
 
+
 def register_auth_blueprint(app):
-    """
-    Register the auth Blueprint with the given Flask app.
-    Usage:
-        from arb.auth import register_auth_blueprint
-        register_auth_blueprint(app)
-    """
-    app.register_blueprint(auth_blueprint) 
+  """
+  Register the auth Blueprint with the given Flask app.
+  Usage:
+      from arb.auth import register_auth_blueprint
+      register_auth_blueprint(app)
+  """
+  app.register_blueprint(auth_blueprint)

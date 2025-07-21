@@ -50,100 +50,107 @@ See Also:
 #}
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-4">
-  {# 
+  <div class="container mt-4">
+    {#
     Diagnostics Block - Required wrapper for all diagnostics functionality
     data-page: Identifies this page in logs (used for filtering and debugging)
   #}
-  <div class="js-diagnostics-block" data-page="java_script_diagnostic_test">
-    <h2>JavaScript Diagnostics Test Page</h2>
-    <p>This page is for testing frontend and backend JavaScript diagnostics logging.</p>
-    
-    {# 
+    <div class="js-diagnostics-block" data-page="java_script_diagnostic_test">
+      <h2>JavaScript Diagnostics Test Page</h2>
+      <p>This page is for testing frontend and backend JavaScript diagnostics logging.</p>
+
+      {#
       Diagnostic Input Section - Demonstrates send-diagnostic functionality
       js-diagnostic-text: Special class that gets included in send-diagnostic logs
     #}
-    <div class="mb-3">
-      <label class="form-label">Diagnostic Message</label>
-      <input type="text" class="form-control js-diagnostic-text" value="Example diagnostic message from JS test page">
-    </div>
-    
-    {# 
+      <div class="mb-3">
+        <label class="form-label">Diagnostic Message</label>
+        <input type="text" class="form-control js-diagnostic-text" value="Example diagnostic message from JS test page">
+      </div>
+
+      {#
       Loggable Buttons - All buttons with js-log-btn class log automatically
       data-js-logging-context: Provides meaningful context in log messages
     #}
-    <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
-    <button id="return-home-btn" class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to Homepage</button>
-    
-    {# 
+      <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
+      <button id="return-home-btn" class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to
+        Homepage
+      </button>
+
+      {#
       Bootstrap Modal - Demonstrates modal integration with diagnostics
       Modal buttons automatically log when clicked (event delegation)
       data-bs-dismiss="modal": Bootstrap attribute for automatic modal closing
     #}
-    <div class="modal fade js-confirm-return-modal" id="confirmReturnModal" tabindex="-1" aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to return to the homepage?
-          </div>
-          <div class="modal-footer">
-            {# 
+      <div class="modal fade js-confirm-return-modal" id="confirmReturnModal" tabindex="-1"
+           aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to return to the homepage?
+            </div>
+            <div class="modal-footer">
+              {#
               Modal buttons with js-log-btn class log automatically
               Custom JS handles navigation after logging
             #}
-            <button type="button" class="btn btn-primary js-log-btn" id="confirm-return-btn" data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return</button>
-            <button type="button" class="btn btn-secondary js-log-btn" id="cancel-return-btn" data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary js-log-btn" id="confirm-return-btn"
+                      data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return
+              </button>
+              <button type="button" class="btn btn-secondary js-log-btn" id="cancel-return-btn"
+                      data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-{#
+  {#
   Include the diagnostics JavaScript file
   This provides all the logging functionality automatically
 #}
-<script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
 
-{#
+  {#
   Custom JavaScript - Demonstrates business logic integration
   Note: No manual logging code needed - diagnostics JS handles all logging
   This JS only handles modal show/hide and navigation logic
 #}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Get references to elements
-  var returnBtn = document.getElementById('return-home-btn');
-  var confirmBtn = document.getElementById('confirm-return-btn');
-  var modal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          // Get references to elements
+          var returnBtn = document.getElementById('return-home-btn');
+          var confirmBtn = document.getElementById('confirm-return-btn');
+          var modal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
 
-  // Handle "Return to Homepage" button click
-  // Shows confirmation modal (logging handled automatically by diagnostics JS)
-  if (returnBtn) {
-    returnBtn.addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent default button behavior
-      modal.show(); // Show the confirmation modal
-    });
-  }
-  
-  // Handle "Yes, Return" button click in modal
-  // Navigates to homepage (logging handled automatically by diagnostics JS)
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', function() {
-      window.location.href = '/'; // Navigate to homepage
-    });
-  }
-  
-  // Note: "Cancel" button doesn't need custom JS
-  // Bootstrap's data-bs-dismiss="modal" handles modal closing
-  // Diagnostics JS handles logging automatically
-});
-</script>
+          // Handle "Return to Homepage" button click
+          // Shows confirmation modal (logging handled automatically by diagnostics JS)
+          if (returnBtn) {
+              returnBtn.addEventListener('click', function (e) {
+                  e.preventDefault(); // Prevent default button behavior
+                  modal.show(); // Show the confirmation modal
+              });
+          }
+
+          // Handle "Yes, Return" button click in modal
+          // Navigates to homepage (logging handled automatically by diagnostics JS)
+          if (confirmBtn) {
+              confirmBtn.addEventListener('click', function () {
+                  window.location.href = '/'; // Navigate to homepage
+              });
+          }
+
+          // Note: "Cancel" button doesn't need custom JS
+          // Bootstrap's data-bs-dismiss="modal" handles modal closing
+          // Diagnostics JS handles logging automatically
+      });
+  </script>
 {% endblock %}

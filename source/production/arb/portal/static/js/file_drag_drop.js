@@ -1,23 +1,23 @@
 /**
  * @fileoverview Handles drag-and-drop file upload functionality for the portal
- * 
+ *
  * This script provides a complete drag-and-drop interface for file uploads.
  * It allows users to drag files from their computer onto a designated drop zone,
  * automatically triggering the upload process when files are dropped.
- * 
+ *
  * Features:
  * - Visual feedback during drag operations (highlighting drop zone)
  * - Automatic file selection when files are dropped
  * - Automatic form submission after file drop
  * - Fallback to manual file selection via click
  * - Spinner overlay during upload process
- * 
+ *
  * Functions:
  * - highlight(event) - Adds visual feedback when files are dragged over drop zone
  * - unhighlight(event) - Removes visual feedback when files leave drop zone
  * - handleDrop(event) - Processes dropped files and submits form
  * - (Event listeners for drag events) - Prevents default browser behavior
- * 
+ *
  * Requirements:
  * - Drop zone element with ID "drop_zone"
  * - File input element

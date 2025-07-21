@@ -3,61 +3,61 @@
 {% block title %}Editor Tools - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>Editor Tools</h1>
-            <p class="lead">Welcome to the Editor Tools section!</p>
-            
-            <div class="alert alert-info">
-                <strong>Access Level:</strong> This page is accessible to users with 'editor' or 'admin' roles.
-                <br>
-                <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Content Management</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Editor tools for managing content:</p>
-                            <ul>
-                                <li>Create new content</li>
-                                <li>Edit existing content</li>
-                                <li>Review content drafts</li>
-                                <li>Manage content metadata</li>
-                            </ul>
-                            <button class="btn btn-primary" disabled>Create Content</button>
-                            <button class="btn btn-secondary" disabled>Edit Content</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Editor Settings</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Configure your editor preferences:</p>
-                            <ul>
-                                <li>Editor theme</li>
-                                <li>Auto-save settings</li>
-                                <li>Spell check options</li>
-                                <li>Keyboard shortcuts</li>
-                            </ul>
-                            <button class="btn btn-info" disabled>Settings</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-4">
-                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
-            </div>
+      <div class="col-md-12">
+        <h1>Editor Tools</h1>
+        <p class="lead">Welcome to the Editor Tools section!</p>
+
+        <div class="alert alert-info">
+          <strong>Access Level:</strong> This page is accessible to users with 'editor' or 'admin' roles.
+          <br>
+          <strong>Your Roles:</strong> {{ current_user.get_roles() | join(', ') }}
         </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Content Management</h5>
+              </div>
+              <div class="card-body">
+                <p>Editor tools for managing content:</p>
+                <ul>
+                  <li>Create new content</li>
+                  <li>Edit existing content</li>
+                  <li>Review content drafts</li>
+                  <li>Manage content metadata</li>
+                </ul>
+                <button class="btn btn-primary" disabled>Create Content</button>
+                <button class="btn btn-secondary" disabled>Edit Content</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Editor Settings</h5>
+              </div>
+              <div class="card-body">
+                <p>Configure your editor preferences:</p>
+                <ul>
+                  <li>Editor theme</li>
+                  <li>Auto-save settings</li>
+                  <li>Spell check options</li>
+                  <li>Keyboard shortcuts</li>
+                </ul>
+                <button class="btn btn-info" disabled>Settings</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">← Back to Dashboard</a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %} 

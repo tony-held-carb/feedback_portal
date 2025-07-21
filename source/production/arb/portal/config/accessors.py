@@ -32,7 +32,6 @@ from pathlib import Path
 
 from flask import current_app
 
-
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
 

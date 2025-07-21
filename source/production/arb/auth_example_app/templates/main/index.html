@@ -3,111 +3,111 @@
 {% block title %}Home - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="row">
+  <div class="row">
     <div class="col-md-8">
-        <h1>Welcome to the Auth Example App</h1>
-        <p class="lead">This application demonstrates the multiple roles functionality of the ARB Auth package.</p>
-        
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>Features Demonstrated</h5>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled">
-                    <li>✅ User registration and login</li>
-                    <li>✅ Multiple roles per user (comma-separated)</li>
-                    <li>✅ Role-based access control with decorators</li>
-                    <li>✅ Template-level role checking</li>
-                    <li>✅ Admin user management</li>
-                    <li>✅ User self-service functionality</li>
-                </ul>
-            </div>
-        </div>
+      <h1>Welcome to the Auth Example App</h1>
+      <p class="lead">This application demonstrates the multiple roles functionality of the ARB Auth package.</p>
 
-        {% if current_user.is_authenticated %}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Your Account</h5>
-                </div>
-                <div class="card-body">
-                    <p><strong>Email:</strong> {{ current_user.email }}</p>
-                    <p><strong>Roles:</strong> 
-                        {% for role in current_user.get_roles() %}
-                            <span class="badge bg-primary">{{ role }}</span>
-                        {% endfor %}
-                    </p>
-                    <p><strong>Account Status:</strong> 
-                        <span class="badge bg-{{ 'success' if current_user.is_active else 'danger' }}">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Features Demonstrated</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled">
+            <li>✅ User registration and login</li>
+            <li>✅ Multiple roles per user (comma-separated)</li>
+            <li>✅ Role-based access control with decorators</li>
+            <li>✅ Template-level role checking</li>
+            <li>✅ Admin user management</li>
+            <li>✅ User self-service functionality</li>
+          </ul>
+        </div>
+      </div>
+
+      {% if current_user.is_authenticated %}
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>Your Account</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <p><strong>Roles:</strong>
+              {% for role in current_user.get_roles() %}
+                <span class="badge bg-primary">{{ role }}</span>
+              {% endfor %}
+            </p>
+            <p><strong>Account Status:</strong>
+              <span class="badge bg-{{ 'success' if current_user.is_active else 'danger' }}">
                             {{ 'Active' if current_user.is_active else 'Inactive' }}
                         </span>
-                    </p>
-                    <p><strong>Email Confirmed:</strong> 
-                        <span class="badge bg-{{ 'success' if current_user.is_confirmed else 'warning' }}">
+            </p>
+            <p><strong>Email Confirmed:</strong>
+              <span class="badge bg-{{ 'success' if current_user.is_confirmed else 'warning' }}">
                             {{ 'Yes' if current_user.is_confirmed else 'No' }}
                         </span>
-                    </p>
-                </div>
-            </div>
-        {% else %}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Get Started</h5>
-                </div>
-                <div class="card-body">
-                    <p>To explore the features, please log in or register for an account.</p>
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
-                    <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">Register</a>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>Example Users</h5>
-            </div>
-            <div class="card-body">
-                <p class="small text-muted">You can log in with these example accounts:</p>
-                
-                <div class="mb-3">
-                    <strong>Admin:</strong><br>
-                    <code>admin@example.com</code><br>
-                    <code>admin123</code><br>
-                    <span class="badge bg-danger">admin</span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Editor:</strong><br>
-                    <code>editor@example.com</code><br>
-                    <code>editor123</code><br>
-                    <span class="badge bg-primary">editor</span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>QA/QC:</strong><br>
-                    <code>qaqc@example.com</code><br>
-                    <code>qaqc123</code><br>
-                    <span class="badge bg-success">qaqc</span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Editor + QA/QC:</strong><br>
-                    <code>editor_qaqc@example.com</code><br>
-                    <code>editor_qaqc123</code><br>
-                    <span class="badge bg-primary">editor</span>
-                    <span class="badge bg-success">qaqc</span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Manager:</strong><br>
-                    <code>manager@example.com</code><br>
-                    <code>manager123</code><br>
-                    <span class="badge bg-warning">manager</span>
-                    <span class="badge bg-info">reviewer</span>
-                </div>
-            </div>
+            </p>
+          </div>
         </div>
+      {% else %}
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>Get Started</h5>
+          </div>
+          <div class="card-body">
+            <p>To explore the features, please log in or register for an account.</p>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">Register</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
-</div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Example Users</h5>
+        </div>
+        <div class="card-body">
+          <p class="small text-muted">You can log in with these example accounts:</p>
+
+          <div class="mb-3">
+            <strong>Admin:</strong><br>
+            <code>admin@example.com</code><br>
+            <code>admin123</code><br>
+            <span class="badge bg-danger">admin</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>Editor:</strong><br>
+            <code>editor@example.com</code><br>
+            <code>editor123</code><br>
+            <span class="badge bg-primary">editor</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>QA/QC:</strong><br>
+            <code>qaqc@example.com</code><br>
+            <code>qaqc123</code><br>
+            <span class="badge bg-success">qaqc</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>Editor + QA/QC:</strong><br>
+            <code>editor_qaqc@example.com</code><br>
+            <code>editor_qaqc123</code><br>
+            <span class="badge bg-primary">editor</span>
+            <span class="badge bg-success">qaqc</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>Manager:</strong><br>
+            <code>manager@example.com</code><br>
+            <code>manager123</code><br>
+            <span class="badge bg-warning">manager</span>
+            <span class="badge bg-info">reviewer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %} 

@@ -270,22 +270,22 @@ function log_to_server(msg, extra) {
 }
 
 // Initialize diagnostics system when DOM is ready
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     // Log page load
     const diagnosticsBlock = document.querySelector('.js-diagnostics-block');
     const pageName = diagnosticsBlock?.getAttribute('data-page') || 'unknown-page';
     log_to_client(`[JS_DIAG] Page loaded: ${pageName}`);
-    log_to_server(`Page loaded: ${pageName}`, { context: 'page-load', page: pageName });
+    log_to_server(`Page loaded: ${pageName}`, {context: 'page-load', page: pageName});
 });
 
 // Use event delegation to handle all .js-log-btn clicks, including dynamically created elements
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     // Check if the clicked element is a .js-log-btn
     if (event.target.matches('.js-log-btn')) {
         const btn = event.target;
         const context = btn.getAttribute('data-js-logging-context') || 'unknown-action';
         let message = `Button clicked: ${context}`;
-        
+
         // If the button is a send-diagnostic, include the diagnostic text if present
         if (context === 'send-diagnostic') {
             const block = btn.closest('.js-diagnostics-block');
@@ -296,9 +296,9 @@ document.addEventListener('click', function(event) {
             }
             message += `: ${value}`;
         }
-        
+
         // Log the action for all buttons
         log_to_client(message);
-        log_to_server(message, { context });
+        log_to_server(message, {context});
     }
 }); 

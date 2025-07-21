@@ -5,4 +5,4 @@ This package contains all the route blueprints that demonstrate
 different aspects of the auth package functionality.
 """
 
-from . import main, admin, user_management 
+from . import admin, main, user_management

@@ -41,7 +41,8 @@ from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUD
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, ensure_field_choice, get_wtforms_fields, validate_selectors, coerce_choices
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, coerce_choices, ensure_field_choice, get_wtforms_fields, \
+  validate_selectors
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')

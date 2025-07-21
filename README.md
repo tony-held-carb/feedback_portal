@@ -9,7 +9,7 @@
     * cd $portal/shell_scripts
       * stop any running portal flask apps
         * ./stop_with_screen.sh
-      * launch the flask app
+      * launch the flask appcd
         * ./launch_with_screen.sh
   * Logging directories
     * /home/theld/code/git_repos/feedback_portal/logs/

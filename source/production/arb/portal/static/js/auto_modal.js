@@ -1,15 +1,15 @@
 /**
  * @fileoverview Automatically displays and hides Bootstrap modals with content
- * 
+ *
  * This script automatically shows a Bootstrap modal when the page loads if the modal
  * contains content. It's used to display messages, notifications, or other content
  * that should be shown to users immediately upon page load.
- * 
+ *
  * Features:
  * - Automatically shows modal if it contains content
  * - Auto-hides modal after 2 seconds
  * - Uses Bootstrap's modal API for smooth animations
- * 
+ *
  * Requirements:
  * - Bootstrap 5.x must be loaded
  * - Modal element must have ID "routeModal"

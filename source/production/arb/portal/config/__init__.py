@@ -31,9 +31,9 @@
   -----------------------------------------------------------------------------
 """
 
+import logging
 import os
 from pathlib import Path
-import logging
 
 from arb.portal.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 

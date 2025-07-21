@@ -16,9 +16,9 @@ Run this file directly to create all schema and payload artifacts for landfill,
 oil and gas, and energy templates.
 """
 
+import logging
 import shutil
 import zipfile
-import logging
 from functools import partial
 from pathlib import Path
 
@@ -648,7 +648,7 @@ def run_diagnostics() -> None:
 
 if __name__ == "__main__":
   from arb.logging.arb_logging import setup_standalone_logging
-  
+
   setup_standalone_logging("xl_create")
   create_schemas_and_payloads()
   # Uncomment below line to run additional test harness

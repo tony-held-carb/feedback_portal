@@ -27,10 +27,10 @@ from datetime import datetime
 from typing import Any
 
 from sqlalchemy import or_
-from sqlalchemy.orm import Query
-from sqlalchemy.orm import DeclarativeMeta
+from sqlalchemy.orm import DeclarativeMeta, Query
 
 logger = logging.getLogger(__name__)
+
 
 def apply_portal_update_filters(query: Query,
                                 portal_update_model: DeclarativeMeta | type[Any],
@@ -74,10 +74,10 @@ def apply_portal_update_filters(query: Query,
 
   if filter_key:
     # noinspection PyUnresolvedReferences
-    query = query.filter(portal_update_model.key.ilike(f"%{filter_key}%")) # type: ignore
+    query = query.filter(portal_update_model.key.ilike(f"%{filter_key}%"))  # type: ignore
   if filter_user:
     # noinspection PyUnresolvedReferences
-    query = query.filter(portal_update_model.user.ilike(f"%{filter_user}%")) # type: ignore
+    query = query.filter(portal_update_model.user.ilike(f"%{filter_user}%"))  # type: ignore
   if filter_comments:
     # noinspection PyUnresolvedReferences
     query = query.filter(portal_update_model.comments.ilike(f"%{filter_comments}%"))  # type: ignore

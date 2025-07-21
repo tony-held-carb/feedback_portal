@@ -1,10 +1,10 @@
 /**
  * @fileoverview Comprehensive file upload handling with drag-and-drop, validation, and progress feedback
- * 
+ *
  * This script provides a complete file upload experience with multiple interaction methods.
  * It handles both drag-and-drop and click-to-select file uploads, with form validation
  * and visual feedback throughout the process.
- * 
+ *
  * Features:
  * - Drag-and-drop file upload with visual feedback
  * - Click-to-open file browser
@@ -14,12 +14,12 @@
  * - Browser back button handling
  * - Defensive programming with element existence checks
  * - Upload progress notifications via ToastManager
- * 
+ *
  * Functions:
  * - handleValidatedSubmit(event) - Validates form and shows progress before submission
  * - (Event listeners for click, change, drag events)
  * - (Browser back button handling)
- * 
+ *
  * Requirements:
  * - Form must have ID "upload-form"
  * - Drop zone must have ID "drop_zone"

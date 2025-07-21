@@ -3,80 +3,83 @@
 {% block title %}Dashboard - Auth Example App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>User Dashboard</h1>
-            <p class="lead">Welcome, {{ current_user.email }}!</p>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h5>Your Profile</h5>
-                </div>
-                <div class="card-body">
-                    <p><strong>Email:</strong> {{ current_user.email }}</p>
-                    <p><strong>Roles:</strong> {{ current_user.get_roles() | join(', ') }}</p>
-                    <p><strong>Account Status:</strong> 
-                        {% if current_user.is_active %}
-                            <span class="badge bg-success">Active</span>
-                        {% else %}
-                            <span class="badge bg-danger">Inactive</span>
-                        {% endif %}
-                    </p>
-                    <p><strong>Email Confirmed:</strong> 
-                        {% if current_user.is_confirmed %}
-                            <span class="badge bg-success">Confirmed</span>
-                        {% else %}
-                            <span class="badge bg-warning">Pending</span>
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-            
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Quick Actions</h5>
-                        </div>
-                        <div class="card-body">
-                            <a href="{{ url_for('user_management.profile') }}" class="btn btn-primary mb-2 w-100">View Profile</a>
-                            <a href="{{ url_for('user_management.change_password') }}" class="btn btn-secondary mb-2 w-100">Change Password</a>
-                            <a href="{{ url_for('user_management.view_roles') }}" class="btn btn-info mb-2 w-100">View Roles</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Role-Based Access</h5>
-                        </div>
-                        <div class="card-body">
-                            {% if current_user.has_any_role('editor', 'admin') %}
-                                <a href="{{ url_for('main.editor_tools') }}" class="btn btn-success mb-2 w-100">Editor Tools</a>
-                            {% endif %}
-                            
-                            {% if current_user.has_role('qaqc') %}
-                                <a href="{{ url_for('main.qaqc_tools') }}" class="btn btn-warning mb-2 w-100">QA/QC Tools</a>
-                            {% endif %}
-                            
-                            {% if current_user.has_all_roles('editor', 'qaqc') %}
-                                <a href="{{ url_for('main.advanced_editing') }}" class="btn btn-danger mb-2 w-100">Advanced Editing</a>
-                            {% endif %}
-                            
-                            {% if current_user.has_any_role('reviewer', 'manager', 'admin') %}
-                                <a href="{{ url_for('main.review_panel') }}" class="btn btn-dark mb-2 w-100">Review Panel</a>
-                            {% endif %}
-                            
-                            {% if current_user.has_role('admin') %}
-                                <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-primary mb-2 w-100">Admin Dashboard</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-md-12">
+        <h1>User Dashboard</h1>
+        <p class="lead">Welcome, {{ current_user.email }}!</p>
+
+        <div class="card">
+          <div class="card-header">
+            <h5>Your Profile</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <p><strong>Roles:</strong> {{ current_user.get_roles() | join(', ') }}</p>
+            <p><strong>Account Status:</strong>
+              {% if current_user.is_active %}
+                <span class="badge bg-success">Active</span>
+              {% else %}
+                <span class="badge bg-danger">Inactive</span>
+              {% endif %}
+            </p>
+            <p><strong>Email Confirmed:</strong>
+              {% if current_user.is_confirmed %}
+                <span class="badge bg-success">Confirmed</span>
+              {% else %}
+                <span class="badge bg-warning">Pending</span>
+              {% endif %}
+            </p>
+          </div>
         </div>
+
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Quick Actions</h5>
+              </div>
+              <div class="card-body">
+                <a href="{{ url_for('user_management.profile') }}" class="btn btn-primary mb-2 w-100">View Profile</a>
+                <a href="{{ url_for('user_management.change_password') }}" class="btn btn-secondary mb-2 w-100">Change
+                  Password</a>
+                <a href="{{ url_for('user_management.view_roles') }}" class="btn btn-info mb-2 w-100">View Roles</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Role-Based Access</h5>
+              </div>
+              <div class="card-body">
+                {% if current_user.has_any_role('editor', 'admin') %}
+                  <a href="{{ url_for('main.editor_tools') }}" class="btn btn-success mb-2 w-100">Editor Tools</a>
+                {% endif %}
+
+                {% if current_user.has_role('qaqc') %}
+                  <a href="{{ url_for('main.qaqc_tools') }}" class="btn btn-warning mb-2 w-100">QA/QC Tools</a>
+                {% endif %}
+
+                {% if current_user.has_all_roles('editor', 'qaqc') %}
+                  <a href="{{ url_for('main.advanced_editing') }}" class="btn btn-danger mb-2 w-100">Advanced
+                    Editing</a>
+                {% endif %}
+
+                {% if current_user.has_any_role('reviewer', 'manager', 'admin') %}
+                  <a href="{{ url_for('main.review_panel') }}" class="btn btn-dark mb-2 w-100">Review Panel</a>
+                {% endif %}
+
+                {% if current_user.has_role('admin') %}
+                  <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-primary mb-2 w-100">Admin
+                    Dashboard</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %} 

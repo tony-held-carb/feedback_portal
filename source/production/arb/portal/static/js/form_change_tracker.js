@@ -1,22 +1,22 @@
 /**
  * @fileoverview Tracks unsaved changes in forms and warns users before leaving the page
- * 
+ *
  * This script monitors form fields for changes and provides visual feedback to users
  * when they have unsaved data. It prevents accidental data loss by showing a warning
  * when users try to leave the page with unsaved changes.
- * 
+ *
  * Features:
  * - Tracks changes to all form inputs (text, textarea, select)
  * - Shows visual indicator when form has unsaved changes
  * - Warns users before leaving page with unsaved data
  * - Automatically clears dirty state when form is submitted
- * 
+ *
  * Functions:
  * - markDirty() - Marks form as having unsaved changes and shows indicator
  * - (beforeunload event handler) - Warns user before leaving page
  * - (submit event handler) - Clears dirty state on form submission
  * - (change/input event handlers) - Monitor form field changes
- * 
+ *
  * Requirements:
  * - Form must have an ID matching the data-form-id attribute on the body
  * - Page must have an element with ID "unsaved-indicator"
