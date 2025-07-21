@@ -25,17 +25,32 @@
           {#
             </li>
             #}
+
+                      <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Spreadsheet/Uploads
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback Spreadsheet</a>
+              </li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item disabled" href="#">Something else here</a></li>
+            </ul>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false">
-              Facility Feedback
+              Analysis Tools
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('main.og_incidence_create') }}">Create Incidence (Oil &
-                Gas)</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.landfill_incidence_create') }}">Create Incidence
-                (Landfill)</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.view_portal_updates') }}">Portal Updates</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.view_portal_updates') }}">Feedback Updates</a></li>
 
               <li><a class="dropdown-item disabled" href="{{ url_for('main.incidence_update', id_=1) }}">Update
                 Incidence</a></li>
@@ -48,35 +63,21 @@
             </a>
 
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('main.show_dropdown_dict') }}">Show Dropdowns</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file', lines=1000) }}">Show Log File</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.show_database_structure') }}">Show Database
                 Structure</a>
               </li>
+              <li><a class="dropdown-item" href="{{ url_for('main.show_dropdown_dict') }}">Show Dropdowns</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.show_feedback_form_structure') }}">Show Feedback Form
                 Structure</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Show Diagnostics</a></li>
+
+              <li><a class="dropdown-item" href="{{ url_for('main.og_incidence_create') }}">Create Incidence (Oil &
+                Gas)</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.landfill_incidence_create') }}">Create Incidence
+                (Landfill)</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.delete_testing_range') }}">Delete Testing Range (Dev)</a></li>
-              {#              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file') }}">Show Log File</a></li>#}
-              <li><a class="dropdown-item" href="{{ url_for('main.show_log_file', lines=1000) }}">Show Log File</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.diagnostics') }}">Diagnostics</a></li>
-
-            </ul>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false">
-              Spreadsheet
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback Spreadsheet</a>
-              </li>
-              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item disabled" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JavaScript Diagnostics</a></li>
             </ul>
           </li>
 
@@ -131,26 +132,7 @@
             </ul>
           </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="diagnosticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Diagnostics
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="diagnosticsDropdown">
-              <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">Staged Files</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">Uploads</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.java_script_diagnostic_test') }}">JS Diagnostics Test</a></li>
-              <!-- Add more diagnostics links here -->
-            </ul>
-          </li>
 
-          {#          <li class="nav-item">#}
-          {#            <a class="nav-link disabled" aria-disabled="true">Disabled</a>#}
-          {#          </li>#}
-
-
-          {#          <li class="nav-item">#}
-          {#            <a class="nav-link" href="{{ url_for('main.index') }}">Index</a>#}
-          {#          </li>#}
         </ul>
 
         {# Search bar has not been implemented yet, so it is a space hog to have it up and not do anything, consider implementing in the future #}
