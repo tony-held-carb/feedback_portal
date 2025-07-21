@@ -33,11 +33,10 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ url_for('main.upload_file') }}">Upload Feedback Spreadsheet</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Stage Feedback
-                Spreadsheet</a>
+              <li><a class="dropdown-item" href="{{ url_for('main.upload_file_staged') }}">Upload Feedback Spreadsheet (Staged)</a>
               </li>
+              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">View Uploaded Files</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.list_staged') }}">View Staged Files</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('main.list_uploads') }}">List Uploaded Files</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
