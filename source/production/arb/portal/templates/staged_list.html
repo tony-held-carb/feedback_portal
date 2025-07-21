@@ -60,23 +60,6 @@
       */
 
       document.addEventListener('DOMContentLoaded', function () {
-          // ===== DIAGNOSTICS TEST MODAL (Return to Homepage) =====
-          var returnBtn = document.getElementById('return-home-btn');
-          var confirmBtn = document.getElementById('confirm-return-btn');
-          var returnModal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
-
-          if (returnBtn) {
-              returnBtn.addEventListener('click', function (e) {
-                  e.preventDefault();
-                  returnModal.show();
-              });
-          }
-          if (confirmBtn) {
-              confirmBtn.addEventListener('click', function () {
-                  window.location.href = '/';
-              });
-          }
-
           // ===== DISCARD CONFIRMATION MODALS =====
           // Initialize all discard buttons to show custom modals instead of browser confirm
 
@@ -192,45 +175,6 @@
     <div class="alert alert-info mb-4">
       <strong>ℹ️ About Staged Files:</strong> These files have been uploaded and parsed but are awaiting your review and
       confirmation before being applied to the database.
-    </div>
-
-    {# --- Diagnostics Block: matches java_script_diagnostic_test.html for consistency --- #}
-    <div class="container mt-4">
-      <div class="js-diagnostics-block" data-page="list_staged">
-        <h2>JavaScript Diagnostics Test Block (Staged Files Page)</h2>
-        <p>This block is for testing frontend and backend JavaScript diagnostics logging on the staged files page.</p>
-        <div class="mb-3">
-          <label class="form-label">Diagnostic Message</label>
-          <input type="text" class="form-control js-diagnostic-text" value="Diagnostic from /list_staged page">
-        </div>
-        <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
-        <button id="return-home-btn" class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return
-          to Homepage
-        </button>
-        <!-- Modal: identical to diagnostics test page -->
-        <div class="modal fade js-confirm-return-modal" id="confirmReturnModal" tabindex="-1"
-             aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                Are you sure you want to return to the homepage?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary js-log-btn" id="confirm-return-btn"
-                        data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return
-                </button>
-                <button type="button" class="btn btn-secondary js-log-btn" id="cancel-return-btn"
-                        data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     {% if staged_files %}

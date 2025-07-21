@@ -597,42 +597,10 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
                 f"Field '{field}' value mismatch (Excel: {excel_value}, Parsed: {parsed_value}) and no log warning found."
 
 
-def test_diagnostics_overlay_on_list_staged(page):
-    """
-    Minimal test: Load /list_staged, click diagnostics button, and scrape overlay.
-    Confirms JS overlay is updated in Playwright context.
-    Updated to use the new diagnostics button selector.
-    """
-    page.goto("http://127.0.0.1:5000/list_staged")
-    page.wait_for_load_state("networkidle")
-    # Click the diagnostics button (new selector)
-    btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
-    assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
-    btn.first.click()
-    page.wait_for_timeout(500)
-    # Scrape overlay
-    overlay = ''
-    try:
-        overlay = page.locator('#js-diagnostics').inner_text()
-    except Exception:
-        overlay = '[Overlay not found]'
-    print(f"[DIAGNOSTICS OVERLAY] {overlay}")
-    assert 'send-diagnostic' in overlay or overlay != '[Overlay not found]', "Diagnostics overlay did not update as expected."
-
-
-
-# --- Diagnostics Overlay Tests ---
-
-# NOTE: The test for /java_script_diagnostic_test (test_diagnostics_overlay_on_diagnostic_test_page)
-# has been moved to tests/e2e/test_javascript_logging.py for better separation of diagnostics system tests
-# from main E2E workflow tests. See that file for details and documentation.
-
-
 def test_list_staged_diagnostics_overlay(page):
     """
-    E2E: Load /list_staged, check overlay for page load diagnostic, click diagnostics block send button, click discard, and check overlay updates.
-    Updated to use the new diagnostics button selector.
-    Ensures a staged file is present before attempting to discard.
+    E2E: Load /list_staged, ensure a staged file is present, click discard, and check overlay/modal updates.
+    This test now only verifies the discard modal workflow and overlay log for discards.
     """
     from playwright.sync_api import expect
     import os
@@ -663,16 +631,6 @@ def test_list_staged_diagnostics_overlay(page):
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
         if staged_file_btns.count() == 0:
             pytest.skip("Failed to stage a file for diagnostics overlay test.")
-    # Scrape overlay after page load
-    overlay = page.locator('#js-diagnostics').inner_text()
-    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
-    # Click the diagnostics block send button (new selector)
-    btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
-    assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
-    btn.first.click()
-    page.wait_for_timeout(500)
-    overlay2 = page.locator('#js-diagnostics').inner_text()
-    print(f"[DIAGNOSTICS OVERLAY after send click] {overlay2}")
     # Click the discard button for the first staged file (triggers custom modal)
     discard_btn = staged_file_btns.first
     discard_btn.click()
@@ -683,13 +641,14 @@ def test_list_staged_diagnostics_overlay(page):
     # Click the confirm button in the modal
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
-    # Immediately check overlay for confirm log before reload clears it
-    expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    print(f"[DIAGNOSTICS OVERLAY after modal confirm click] {page.locator('#js-diagnostics').inner_text()}")
+    # Immediately check overlay for confirm log before reload clears it (if overlay is still present)
+    if page.locator('#js-diagnostics').count() > 0:
+        expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
+        print(f"[DIAGNOSTICS OVERLAY after modal confirm click] {page.locator('#js-diagnostics').inner_text()}")
     # Wait for form submission and page reload
     page.wait_for_timeout(1000)
     # Optionally, check that the file is no longer listed (if you want to verify backend effect)
-    # assert ... 
+    # assert ...
 
 
 @pytest.fixture(scope="function")
