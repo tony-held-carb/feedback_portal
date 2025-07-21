@@ -303,7 +303,7 @@ def get_og_dummy_form_data() -> dict:
   """
 
   json_data = {
-    "id_incidence": 2050,
+    "id_incidence": 1002050,
     "id_plume": 1001,
     "observation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "lat_carb": 100.05,
@@ -378,7 +378,7 @@ def get_landfill_dummy_form_data() -> dict:
     # "emission_type_fk": PLEASE_SELECT,
     "facility_name": "facility_name",
     "id_arb_swis": "id_arb_swis",
-    "id_incidence": 2030,
+    "id_incidence": 1002030,
     "id_message": "id_message",
     "id_plume": 1002,
     # "included_in_last_lmr": PLEASE_SELECT,

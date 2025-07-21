@@ -32,7 +32,7 @@ def get_expected_dummy_data(sector):
     if sector == "og":
         # From db_hardcoded.get_og_dummy_form_data()
         return {
-            "id_incidence": "2050",
+            "id_incidence": "1002050",
             "id_plume": "1001",
             "facility_name": "facility_name response",
             "contact_name": "contact_name response",
@@ -50,7 +50,7 @@ def get_expected_dummy_data(sector):
     elif sector == "landfill":
         # From db_hardcoded.get_landfill_dummy_form_data()
         return {
-            "id_incidence": "2030",
+            "id_incidence": "1002030",
             "id_plume": "1002",
             "facility_name": "facility_name",
             "contact_name": "contact_name",

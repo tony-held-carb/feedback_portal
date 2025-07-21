@@ -1297,7 +1297,7 @@ EXCEL_TEMPLATES = [
         "version": "v006",
         "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
     },
-         testing id range 2000-2009
+         testing id range 1002000-1002009
 
     {
         "sector": "Energy",
@@ -1306,7 +1306,7 @@ EXCEL_TEMPLATES = [
         "version": "v003",
         "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
     },
-         testing id range 2010-2019
+         testing id range 1002010-1002019
 
     {
         "sector": "Generic",
@@ -1315,7 +1315,7 @@ EXCEL_TEMPLATES = [
         "version": "v002",
         "payload_name": "generic_payload_01",  # reusing oil and gas payload
     },
-        testing id range 2020-2029
+        testing id range 1002020-1002029
 
     {
         "sector": "Landfill",
@@ -1324,8 +1324,8 @@ EXCEL_TEMPLATES = [
         "version": "v070",
         "payload_name": "landfill_payload_01",
     },
-        testing id range 2030-2039
-        landfill dummy gets 2030
+        testing id range 1002030-1002039
+        landfill dummy gets 1002030
 
     {
         "sector": "Landfill",
@@ -1334,7 +1334,7 @@ EXCEL_TEMPLATES = [
         "version": "v071",
         "payload_name": "landfill_payload_01",
     },
-        testing id range 2040-2049
+        testing id range 1002040-1002049
 
     {
         "sector": "Oil and Gas",
@@ -1343,8 +1343,8 @@ EXCEL_TEMPLATES = [
         "version": "v070",
         "payload_name": "oil_and_gas_payload_01",
     },
-        testing id range 2050-2059
-        landfill dummy gets 2050
+        testing id range 1002050-1002059
+        landfill dummy gets 1002050
 ]
 
 running e2e pytests: 

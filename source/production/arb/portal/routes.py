@@ -1200,8 +1200,8 @@ def delete_testing_range() -> str:
   base = current_app.base  # type: ignore[attr-defined]
   error = None
   result = None
-  min_id = 2000
-  max_id = 2999
+  min_id = 1000000
+  max_id = 2000000
   dry_run = True
   submitted = False
   portal_updates_ids = []
@@ -1209,12 +1209,12 @@ def delete_testing_range() -> str:
 
   if request.method == 'POST':
     try:
-      min_id = int(request.form.get('min_id', 2000))
-      max_id = int(request.form.get('max_id', 2999))
+      min_id = int(request.form.get('min_id', 1000000))
+      max_id = int(request.form.get('max_id', 2000000))
       dry_run = bool(request.form.get('dry_run'))
       submitted = True
-      if min_id < 2000 or max_id < 2000:
-        error = "Both min and max id_incidence must be at least 2000."
+      if min_id < 1000000 or max_id < 1000000:
+        error = "Both min and max id_incidence must be at least 1000000."
       elif min_id > max_id:
         error = "min_id cannot be greater than max_id."
       else:
@@ -1230,9 +1230,9 @@ def delete_testing_range() -> str:
   instructions = (
     "<ul>"
     "<li><b>Use this tool to delete test rows from the portal_updates and incidences tables.</b></li>"
-    "<li>Specify a min and max id_incidence (both must be at least 2000).</li>"
+    "<li>Specify a min and max id_incidence (both must be at least 1000000).</li>"
     "<li>Check 'Dry Run' to preview what would be deleted without making changes.</li>"
-    "<li><b>Warning:</b> This cannot delete real data (id_incidence < 2000 is not allowed).</li>"
+    "<li><b>Warning:</b> This cannot delete real data (id_incidence < 1000000 is not allowed).</li>"
     "<li>For safety, always do a dry run first!</li>"
     "</ul>"
   )
