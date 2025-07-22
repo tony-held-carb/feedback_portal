@@ -4,13 +4,7 @@ WTForms-based upload form for the ARB Feedback Portal.
 Defines a minimal form used to upload Excel files via the web interface.
 Typically used in the `/upload` route.
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   UploadForm (type): WTForms form class for file uploads.
   logger (logging.Logger): Logger instance for this module.
 

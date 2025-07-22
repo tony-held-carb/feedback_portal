@@ -10,7 +10,7 @@ import copy
 import datetime
 import logging
 from decimal import Decimal
-from typing import Callable
+from typing import Callable, Any
 
 from flask_wtf import FlaskForm
 from sqlalchemy.ext.automap import AutomapBase
@@ -822,7 +822,7 @@ def validate_no_csrf(form: FlaskForm, extra_validators: dict | None = None) -> b
   return form_valid
 
 
-def coerce_choices(val):
+def coerce_choices(val: Any) -> list[tuple[str, str]]:
   """
   Convert various dropdown data formats to a list of (str, str) tuples for WTForms SelectField.
 

@@ -2,13 +2,19 @@
 
 # todo - Next Steps
 ----------------------------
-created PR 28 to clean up documentation and deploy to ec2
-
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-* home machine now on new branch 28
+created PR 28 to clean up documentation and deploy to ec2
 
-* the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
+updating mini_conda_01.yml to be able to do a fresh install
+run make docs
+mkdocs build --clean > mkdocs_clean_build.txt 2>&1
+
+run server
+run tests
+
+if it can do all that, then we have more confidence mini_conda_01.yml is working
+
 
 * compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
 

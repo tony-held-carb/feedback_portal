@@ -6,12 +6,6 @@ Utility functions for managing uploaded files in the feedback portal.
 This module provides functionality to record uploaded files into the
 `UploadedFile` table for audit tracking and troubleshooting purposes.
 
-Args:
-  None
-
-Returns:
-  None
-
 Attributes:
   add_file_to_upload_table (function): Insert a record into the UploadedFile table.
   logger (logging.Logger): Logger instance for this module.

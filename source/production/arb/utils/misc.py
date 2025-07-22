@@ -26,6 +26,7 @@ Version: 1.0.0
 
 import logging
 import traceback
+from typing import Any
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -184,7 +185,7 @@ def log_error(e: Exception) -> None:
   raise e
 
 
-def safe_cast(value, expected_type: type) -> object:
+def safe_cast(value: Any, expected_type: type) -> Any:
   """
   Cast a value to the expected type only if it's not already of that type.
 
@@ -193,7 +194,7 @@ def safe_cast(value, expected_type: type) -> object:
     expected_type (type): The target Python type to cast to. Must not be None.
 
   Returns:
-    object: The original or casted value.
+    Any: The original or casted value.
 
   Raises:
     ValueError: If the cast fails or is inappropriate for the type, or if `expected_type` is None.

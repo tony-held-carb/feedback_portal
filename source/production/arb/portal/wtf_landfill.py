@@ -6,13 +6,7 @@ HTML form for collecting information on methane emission inspections and respons
 at landfill sites. The form is organized into multiple logical sections and includes
 dynamic dropdown behavior, conditional validation, and cross-field logic.
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   LandfillFeedback (type): WTForms form class for landfill feedback data.
   logger (logging.Logger): Logger instance for this module.
 
@@ -32,6 +26,7 @@ Notes:
 
 import logging
 from pathlib import Path
+from typing import Any
 
 from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, DecimalField, EmailField, IntegerField, SelectField, StringField, TextAreaField
@@ -56,8 +51,8 @@ class LandfillFeedback(FlaskForm):
   inspections, corrective actions, and contact details related to
   landfill facility operations.
 
-  Attributes:
-    (See field definitions in class body for all form fields.)
+  Notes:
+    - All form fields are defined as class attributes below.
 
   Examples:
     form = LandfillFeedback()
@@ -329,7 +324,7 @@ class LandfillFeedback(FlaskForm):
     validators=[],
   )
 
-  def __init__(self, *args, **kwargs):
+  def __init__(self, *args: Any, **kwargs: Any):
     """
     Initialize the LandfillFeedback form and set up contingent selectors.
 
@@ -558,12 +553,6 @@ class LandfillFeedback(FlaskForm):
   def determine_contingent_fields(self):
     """
     Enforce dynamic field-level validation for contingent fields.
-
-    Args:
-      None
-
-    Returns:
-      None
 
     Notes:
       - Adjusts validators for fields that depend on other field values.

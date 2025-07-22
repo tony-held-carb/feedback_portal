@@ -5,12 +5,6 @@
   resolve sector and sector_type for incidences, and map sector names to
   broad classifications (e.g., 'Oil & Gas', 'Landfill').
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     extract_sector_payload (function): Combines worksheet tab and metadata into a payload.
     get_sector_info (function): Resolves sector and sector_type for an incidence ID.

@@ -1,13 +1,7 @@
 """
   ARB Portal package initializer.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     __version__ (str): Semantic version of the portal package.
     logger (logging.Logger): logger instance.
 

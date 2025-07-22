@@ -315,7 +315,7 @@ def extract_tabs(wb: openpyxl.Workbook,
   return result
 
 
-def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger) -> str | None:
+def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger: logging.Logger) -> str | None:
   """
   Resolves a schema version using the schema map and alias mapping.
   Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.

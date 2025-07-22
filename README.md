@@ -131,6 +131,8 @@ This script helps both beginners and advanced users inspect and debug the HTML s
   * conda activate mini_conda_01
 
 ### Pushing documentation site to GitHub
+cd 'D:\local\cursor\feedback_portal\source\production'
+
 * Pushing to GitHub docs
   * mkdocs build
   * mkdocs gh-deploy --clean

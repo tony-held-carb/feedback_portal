@@ -4,12 +4,6 @@
   Defines base and derived configuration classes used by the ARB portal.
   Each config class inherits from `BaseConfig` and may override environment-specific values.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     BaseConfig (class): Base configuration shared across all environments.
     DevelopmentConfig (class): Configuration for local development.
@@ -37,12 +31,6 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 class BaseConfig:
   """
   Base configuration shared across all environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     POSTGRES_DB_URI (str): Default PostgresQL URI if DATABASE_URI is unset.
@@ -106,12 +94,6 @@ class DevelopmentConfig(BaseConfig):
   """
   Configuration for local development.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     DEBUG (bool): Enables debug mode.
     FLASK_ENV (str): Flask environment indicator.
@@ -133,12 +115,6 @@ class DevelopmentConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
   """
   Configuration for deployed production environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     DEBUG (bool): Disables debug features.
@@ -162,12 +138,6 @@ class ProductionConfig(BaseConfig):
 class TestingConfig(BaseConfig):
   """
   Configuration for isolated testing environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     TESTING (bool): Enables Flask test mode.

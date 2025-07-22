@@ -42,6 +42,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.ext.automap import AutomapBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
+from typing import Any
 
 from arb.utils.json import safe_json_loads
 from arb.utils.misc import log_error
@@ -101,7 +102,7 @@ def get_sa_fields(model: AutomapBase) -> list[str]:
   return model_fields
 
 
-def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
+def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict[str, dict]:
   """
   Return a mapping of each column to its SQLAlchemy and Python types for a model.
 
@@ -110,7 +111,7 @@ def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
     is_instance (bool): True if `model` is an instance, False if a class.
 
   Returns:
-    dict: Mapping from column names to a dict with 'sqlalchemy_type' and 'python_type'.
+    dict[str, dict]: Mapping from column names to a dict with 'sqlalchemy_type' and 'python_type'.
 
   Examples:
     Input : user_model
@@ -148,7 +149,7 @@ def get_sa_column_types(model: AutomapBase, is_instance: bool = False) -> dict:
   return columns_info
 
 
-def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict:
+def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict[str, dict]:
   """
   Return column type metadata for all mapped classes in an automap base.
 
@@ -157,7 +158,7 @@ def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict:
     base (AutomapBase): Automap base prepared with reflected metadata. Must not be None.
 
   Returns:
-    dict: Nested mapping: table -> column -> type category.
+    dict[str, dict]: Nested mapping: table -> column -> type category.
     Structure:
       result[table_name][column_name][kind] = type
       where kind can be 'database_type', 'sqlalchemy_type', or 'python_type'.

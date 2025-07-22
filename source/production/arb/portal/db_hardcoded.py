@@ -6,13 +6,7 @@ This module provides:
   - Lookup values for HTML dropdowns (independent and contingent)
   - Shared test values for local debugging or spreadsheet seeding
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   logger (logging.Logger): Logger instance for this module.
   OIL_AND_GAS_SECTORS (list[str]): Oil & Gas sector names for dropdowns.
   LANDFILL_SECTORS (list[str]): Landfill sector names for dropdowns.
@@ -286,9 +280,6 @@ def get_og_dummy_form_data() -> dict:
   """
   Generate dummy Oil & Gas form data as a dictionary.
 
-  Args:
-    None
-
   Returns:
     dict: Pre-filled key/value pairs simulating user input from the HTML form.
 
@@ -344,9 +335,6 @@ def get_og_dummy_form_data() -> dict:
 def get_landfill_dummy_form_data() -> dict:
   """
   Generate dummy Landfill form data as a dictionary.
-
-  Args:
-    None
 
   Returns:
     dict: Pre-filled key/value pairs simulating user input from the HTML form.
