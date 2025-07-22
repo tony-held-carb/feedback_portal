@@ -22,19 +22,18 @@ import time
 import requests
 import re
 
-save_screenshots=False
-
 BASE_URL = "http://127.0.0.1:5000"
-
 TEST_FILE = "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx"
-
-TEST_FILES = [
-    "feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx",
-    "feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx",
-    "feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx",
-    "feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx",
-    "feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx",
-    "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx",
+FIELDS_TO_CONFIRM_STEP1 = [
+    "additional_notes", "component_at_source", "component_other_description", "contact_email",
+    "contact_name", "contact_phone", "equipment_at_source", "equipment_other_description",
+    "facility_name", "final_repair_concentration", "id_arb_eggrt", "id_incidence", "id_message",
+    "id_plume", "initial_leak_concentration"
+]
+FIELDS_TO_CONFIRM_STEP2 = [
+    "initial_mitigation_plan", "lat_carb", "long_carb", "method21_date", "method21_reading",
+    "mitigation_complete_date", "mitigation_plan", "mitigation_status", "plume_date", "plume_time",
+    "plume_type", "repair_date", "repair_status", "source_type", "state"
 ]
 
 @pytest.fixture
@@ -72,8 +71,7 @@ def upload_and_stage_file(page: Page):
             print(f"  - Alert {i}: {text}")
         except Exception as e:
             print(f"  - Alert {i}: error {e}")
-    if save_screenshots:
-        page.screenshot(path="review_staged_after_upload.png")
+    page.screenshot(path="review_staged_after_upload.png")
     return page.url
 
 @pytest.fixture(scope="function")
@@ -213,44 +211,48 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
         checkboxes.nth(i).check()
 
 @pytest.mark.e2e
-@pytest.mark.parametrize("test_file", TEST_FILES)
-def test_incremental_upload(page: Page, clear_test_data, test_file):
+def test_incremental_upload(page: Page, clear_test_data):
     """
-    E2E: Simulate the incremental upload/review/acceptance workflow for all main 'good' test spreadsheets.
+    E2E: Simulate the manual incremental upload/review/acceptance workflow for oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx.
 
-    For each test file:
+    Goal:
+    - Ensure the incremental review workflow works as intended:
       1. Clear all test data in the relevant id_incidence range.
       2. Upload the test spreadsheet.
-      3. Confirm (check) every other field, then save.
+      3. Confirm (check) the first half of the fields, then save.
       4. Re-upload the same spreadsheet, confirm the remaining fields, then save.
-      5. Re-upload again and verify that no confirmable checkboxes remain (all are accepted).
-    This test matches the manual workflow and prints diagnostics for debugging.
-    Set save_screenshots=False to save screenshots at each step.
+      5. Re-upload again and verify that no confirmable fields remain (all are accepted).
+    - This test should match the manual workflow exactly, using robust Playwright navigation and waiting strategies, and print diagnostics for debugging.
     """
-    print(f"Running incremental upload test for: {test_file}")
+    print(f"test_incremental_upload_review_manual_fields called with page: {page}")
+
+    # clear_test_data fixture will run before this test body
+
     # Step 1: Go to the staged upload page
     page.goto(f"{BASE_URL}/upload_staged")
     page.wait_for_load_state("networkidle")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_01_upload_staged_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_01_upload_staged.png")
 
-    # Step 2. Simulate file upload
+
+    # Step 2: Simulate file upload
     file_input = page.locator("input[type='file']")
-    if not Path(test_file).exists():
-        pytest.skip(f"Test file {test_file} not found.")
+    if not Path(TEST_FILE).exists():
+        pytest.skip(f"Test file {TEST_FILE} not found.")
     with page.expect_navigation():
-        file_input.set_input_files(test_file)
+        file_input.set_input_files(TEST_FILE)
     page.wait_for_load_state("networkidle")
 
     # Step 3. Print staged url and screenshot
     print(f"[DEBUG] After upload, page.url = {page.url}")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_02_review_staged_01_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_02_review_staged_01.png")
 
     # Step 4. Find all checkboxes on the page
     all_checkboxes = page.locator("input[type='checkbox']")
+    
     total = all_checkboxes.count()
     print(f"[CHECKBOX DIAGNOSTICS] Found {total} checkboxes on the page:")
+
+    # Diagnostic of all checkboxes and their statuses
     for i in range(total):
         cb = all_checkboxes.nth(i)
         name = cb.get_attribute("name") or cb.get_attribute("id") or f"checkbox_{i}"
@@ -258,8 +260,9 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
         print(f"  - Checkbox {i}: name/id='{name}', checked={checked}")
 
     # Step 5. Set every other unchecked box to checked
-    new_checks = 0
-    select_next_unchecked = True
+    new_checks=0
+    select_next_unchecked=True
+
     for i in range(total):
         cb = all_checkboxes.nth(i)
         name = cb.get_attribute("name") or cb.get_attribute("id") or f"checkbox_{i}"
@@ -271,13 +274,15 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
                     new_checks += 1
                     print(f"checking box named: {name}")
                 select_next_unchecked = not select_next_unchecked
+
     print(f"A total of {new_checks} check boxes were selected.")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_02_review_staged_02_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_02_review_staged_02.png")
 
     # Step 6. Ensure there are enough checkboxes to use this test properly
-    if new_checks < 2:
+    if new_checks<2:
         pytest.skip(f"Test skipped because at least two new checks required for test.")
+
+    # Diagnostic of all checkboxes and their statuses after initial checking
     for i in range(total):
         cb = all_checkboxes.nth(i)
         name = cb.get_attribute("name") or cb.get_attribute("id") or f"checkbox_{i}"
@@ -289,20 +294,18 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
     with page.expect_navigation():
         save_btn.click()
     page.wait_for_load_state("networkidle")
-    print(f"[DEBUG] After first save, navigated to: {page.url}")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_03_after_first_save_{Path(test_file).stem}.png")
+    print("[DEBUG] After first save, navigated to:", page.url)
+    page.screenshot(path="screenshot_03_after_first_save.png")
 
     # Step 8. Re-upload the same file, print diagnostics, and check remaining unchecked checkboxes
     page.goto(f"{BASE_URL}/upload_staged")
     page.wait_for_load_state("networkidle")
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
-        file_input.set_input_files(test_file)
+        file_input.set_input_files(TEST_FILE)
     page.wait_for_load_state("networkidle")
     print(f"[DEBUG] After re-upload, page.url = {page.url}")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_04_review_staged_2nd_upload_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_04_review_staged_2nd_upload.png")
     all_checkboxes = page.locator("input[type='checkbox']")
     total = all_checkboxes.count()
     print(f"[CHECKBOX DIAGNOSTICS] (2nd upload) Found {total} checkboxes on the page:")
@@ -317,28 +320,25 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
             new_checks += 1
             print(f"checking box named: {name}")
     print(f"A total of {new_checks} check boxes were selected on 2nd upload.")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_05_review_staged_2nd_checked_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_05_review_staged_2nd_checked.png")
 
     # Step 9. Click Save Changes again and wait for navigation
     save_btn = page.locator("button.btn-success, button[type='submit']")
     with page.expect_navigation():
         save_btn.click()
     page.wait_for_load_state("networkidle")
-    print(f"[DEBUG] After second save, navigated to: {page.url}")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_06_after_second_save_{Path(test_file).stem}.png")
+    print("[DEBUG] After second save, navigated to:", page.url)
+    page.screenshot(path="screenshot_06_after_second_save.png")
 
     # Step 10. Re-upload the file a third time, print diagnostics, and assert no confirmable checkboxes remain
     page.goto(f"{BASE_URL}/upload_staged")
     page.wait_for_load_state("networkidle")
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
-        file_input.set_input_files(test_file)
+        file_input.set_input_files(TEST_FILE)
     page.wait_for_load_state("networkidle")
     print(f"[DEBUG] After 3rd upload, page.url = {page.url}")
-    if save_screenshots:
-        page.screenshot(path=f"screenshot_07_review_staged_3rd_upload_{Path(test_file).stem}.png")
+    page.screenshot(path="screenshot_07_review_staged_3rd_upload.png")
     all_checkboxes = page.locator("input[type='checkbox']")
     total = all_checkboxes.count()
     print(f"[CHECKBOX DIAGNOSTICS] (3rd upload) Found {total} checkboxes on the page:")

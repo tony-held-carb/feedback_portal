@@ -91,6 +91,8 @@
         </div>
       {% endif %}
     {% endwith %}
+    {% block flash_messages %}{% endblock %}
+
 
     <!-- 📋 Upload Message Display -->
     {% if upload_message %}

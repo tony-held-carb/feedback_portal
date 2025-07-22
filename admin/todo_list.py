@@ -4,10 +4,6 @@
 ----------------------------
 creating PR 27 is to continue e2e testing
 
-* continue e2e testing so that all of these sheets are tested for upload and upload_staged
-* add additional e2e testing for all other routes?
-
-* update notes and scripts to launch from app/wsgi
 
 * check if this was done:
   * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
@@ -22,6 +18,7 @@ creating PR 27 is to continue e2e testing
     I would prefer that you stay on the incidence page and get a modal saying that your changes were saved
     and that there are no known validation errors associated with the incidence
 
+* update notes and scripts to launch from app/wsgi
 
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up

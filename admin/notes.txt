@@ -1382,3 +1382,30 @@ pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnosti
 pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
 
 pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
+
+pytest tests/e2e/test_review_staged.py -v -k test_incremental_upload_review_manual_fields | tee test_review_staged_manual_fields_only.txt
+
+How to See Print Output During Test Runs
+1. Use the -s Flag
+The -s flag disables output capturing, so all print statements are shown in real time.
+Example:
+Apply to test_review_...
+Run
+
+
+pytest -s tests/e2e/test_review_staged.py -v -k test_incremental_upload_review_manual_fields | tee test_review_staged_manual_fields_only.txt
+
+pytest -s tests/e2e/test_review_staged.py -v -k test_incremental_upload | tee test_incremental_upload.txt
+
+
+dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+energy_operator_feedback_v003_test_01_good_data.xlsx
+generic_operator_feedback_v002_test_01_good_data.xlsx
+landfill_operator_feedback_v070_test_01_good_data.xlsx
+landfill_operator_feedback_v071_test_01_good_data.xlsx
+oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+
+pytest tests/e2e -v  | tee pytest_all_02.txt
+pytest tests/arb -v  | tee pytest_all_07.txt
+
+pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt

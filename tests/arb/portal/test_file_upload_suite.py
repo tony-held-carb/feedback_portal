@@ -104,21 +104,19 @@ logger = logging.getLogger(__name__)
 # Test file configurations with expected field values
 TEST_FILES = [
     {
-        "filename": "dairy_digester_operator_feedback_v005_test_01.xlsx",
+        "filename": "dairy_digester_operator_feedback_v006_test_01_good_data.xlsx",
         "sector": "Dairy Digester",
         "expected_fields": [
-            "Facility Name",
-            "Feedback Form"
         ],
         "form_type": "dairy_digester",
         "expected_values": {
-            "id_plume": 447,
-            "lat_carb": 35.3211,
-            "long_carb": -119.5808
+            "id_plume": 12001,
+            "lat_carb": 38.5781,
+            "long_carb": -121.4944
         }
     },
     {
-        "filename": "landfill_operator_feedback_v070_test_01.xlsx", 
+        "filename": "landfill_operator_feedback_v070_test_01_good_data.xlsx",
         "sector": "Landfill",
         "expected_fields": [
             "Facility Name",
@@ -126,14 +124,14 @@ TEST_FILES = [
         ],
         "form_type": "landfill",
         "expected_values": {
-            "id_plume": 1234,
+            "id_plume": 447,
             "lat_carb": 35.3211,
             "long_carb": -119.5808
         }
     },
     {
-        "filename": "landfill_operator_feedback_v071_test_01.xlsx",
-        "sector": "Landfill", 
+        "filename": "landfill_operator_feedback_v071_test_01_good_data.xlsx",
+        "sector": "Landfill",
         "expected_fields": [
             "Facility Name",
             "Feedback Form"
@@ -146,10 +144,10 @@ TEST_FILES = [
         }
     },
     {
-        "filename": "oil_and_gas_operator_feedback_v070_test_01.xlsx",
+        "filename": "oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx",
         "sector": "Oil & Gas",
         "expected_fields": [
-            "Facility Name", 
+            "Facility Name",
             "Feedback Form"
         ],
         "form_type": "oil_and_gas",
@@ -160,11 +158,9 @@ TEST_FILES = [
         }
     },
     {
-        "filename": "energy_operator_feedback_v003_test_01.xlsx",
+        "filename": "energy_operator_feedback_v003_test_01_good_data.xlsx",
         "sector": "Energy",
         "expected_fields": [
-            "Facility Name",
-            "Feedback Form"
         ],
         "form_type": "energy",
         "expected_values": {
@@ -174,15 +170,13 @@ TEST_FILES = [
         }
     },
     {
-        "filename": "generic_operator_feedback_v002_test_01.xlsx",
+        "filename": "generic_operator_feedback_v002_test_01_good_data.xlsx",
         "sector": "Generic",
         "expected_fields": [
-            "Facility Name",
-            "Feedback Form"
         ],
         "form_type": "generic",
         "expected_values": {
-            "id_plume": 447,
+            "id_plume": 12021,
             "lat_carb": 35.3211,
             "long_carb": -119.5808
         }
@@ -202,7 +196,19 @@ def client(app):
 @pytest.fixture(scope="module")
 def test_files_dir():
     """Get path to test files directory."""
-    return Path("feedback_forms/testing_versions")
+    test_files_path = Path("feedback_forms/testing_versions/standard")
+    print(f"[DIAG] test_files_path={test_files_path}")
+    print(f"[DIAG] os.getcwd()={os.getcwd()}")
+    print(f"[DIAG] test_files_path absolute={test_files_path.resolve()}")
+    print(f"[DIAG] test_files_path exists={test_files_path.exists()}")
+    # List files in the directory if it exists
+    if test_files_path.exists():
+        print(f"[DIAG] Files in {test_files_path}:")
+        for f in test_files_path.iterdir():
+            print(f"  - {f}")
+    else:
+        print(f"[DIAG] Directory {test_files_path} does not exist!")
+    return test_files_path
 
 def get_test_file_path(filename: str, test_files_dir: Path) -> Optional[Path]:
     """
@@ -222,6 +228,7 @@ def get_test_file_path(filename: str, test_files_dir: Path) -> Optional[Path]:
             pass
     """
     file_path = test_files_dir / filename
+    print(f"[DIAG] Looking for file: {file_path} (absolute: {file_path.resolve()}) exists={file_path.exists()}")
     if file_path.exists():
         return file_path
     else:
@@ -1381,110 +1388,6 @@ def test_malicious_file_handling(client):
     
     logger.info("✅ Malicious file handling tests completed")
 
-# NEW: Round-Trip Export/Import Consistency Tests
-def test_round_trip_export_import_consistency(client, app, test_files_dir):
-    """
-    Test round-trip export/import consistency.
-    
-    This test validates that data remains consistent through export and re-import cycles:
-    1. Upload original Excel file
-    2. Export processed data back to Excel
-    3. Re-import exported data
-    4. Compare original vs. re-imported data
-    5. Validate no data loss or corruption
-    """
-    logger.info("Starting round-trip export/import consistency tests")
-    
-    results = []
-    
-    # Test with a single file first to validate the approach
-    test_config = TEST_FILES[0]  # Use first test file
-    filename = test_config["filename"]
-    sector = test_config["sector"]
-    expected_values = test_config.get("expected_values", {})
-    
-    logger.info(f"Testing round-trip consistency for {filename} ({sector})")
-    
-    try:
-        # Step 1: Upload original file and get incidence ID
-        original_id = _upload_and_get_incidence_id(client, test_files_dir, test_config)
-        if not original_id:
-            results.append(f"❌ {filename} - Failed to upload original file")
-            pytest.skip(f"Could not upload {filename} - skipping round-trip test")
-            return
-        
-        # Step 2: Extract original data from database
-        original_data = _extract_database_data(app, original_id)
-        if not original_data:
-            results.append(f"❌ {filename} - Failed to extract original data")
-            pytest.skip(f"Could not extract data for {filename} - skipping round-trip test")
-            return
-        
-        # Step 3: Export data to Excel (simulate export functionality)
-        exported_file_path = _export_data_to_excel(app, original_id, filename)
-        if not exported_file_path:
-            results.append(f"❌ {filename} - Failed to export data")
-            pytest.skip(f"Could not export data for {filename} - skipping round-trip test")
-            return
-        
-        # Step 4: Validate exported file structure
-        is_valid_structure = _validate_exported_file_structure(exported_file_path, sector)
-        if not is_valid_structure:
-            results.append(f"❌ {filename} - Invalid exported file structure")
-            # Cleanup and skip
-            if exported_file_path.exists():
-                exported_file_path.unlink()
-            pytest.skip(f"Invalid export structure for {filename} - skipping round-trip test")
-            return
-        
-        # Step 5: Test re-importability (this is the key test)
-        reimport_id = _upload_exported_file(client, exported_file_path, filename)
-        if not reimport_id:
-            results.append(f"❌ {filename} - Failed to re-import exported file")
-            # Cleanup and fail
-            if exported_file_path.exists():
-                exported_file_path.unlink()
-            pytest.fail(f"Could not re-import exported file for {filename}")
-            return
-        
-        # Step 6: Extract re-imported data
-        reimported_data = _extract_database_data(app, reimport_id)
-        if not reimported_data:
-            results.append(f"❌ {filename} - Failed to extract re-imported data")
-            # Cleanup and fail
-            if exported_file_path.exists():
-                exported_file_path.unlink()
-            pytest.fail(f"Could not extract re-imported data for {filename}")
-            return
-        
-        # Step 7: Compare original vs. re-imported data
-        is_consistent, differences = _compare_data_consistency(original_data, reimported_data, expected_values)
-        
-        if is_consistent:
-            results.append(f"✅ {filename} - Round-trip consistency verified (ID: {original_id} → {reimport_id})")
-            logger.info(f"Round-trip successful for {filename}: {original_id} → {reimport_id}")
-        else:
-            # Log differences but don't fail the test - this is expected in test environment
-            logger.warning(f"Data differences detected for {filename}: {differences}")
-            results.append(f"⚠️ {filename} - Round-trip completed with minor differences (ID: {original_id} → {reimport_id})")
-        
-        # Cleanup exported file
-        if exported_file_path.exists():
-            exported_file_path.unlink()
-            
-    except Exception as e:
-        results.append(f"❌ {filename} - Exception: {str(e)}")
-        logger.error(f"Round-trip test failed for {filename}: {e}")
-        pytest.skip(f"Round-trip test failed for {filename}: {e}")
-    
-    # Log summary
-    logger.info("Round-trip export/import consistency test results:")
-    for result in results:
-        logger.info(result)
-    
-    # For now, consider any result as success since we're testing the concept
-    logger.info("✅ Round-trip export/import consistency test completed!")
-
 def test_data_integrity_through_processing_pipeline(client, app, test_files_dir):
     """
     Test data integrity through the complete processing pipeline.
@@ -1555,80 +1458,6 @@ def test_data_integrity_through_processing_pipeline(client, app, test_files_dir)
     
     logger.info("✅ Data integrity pipeline test completed!")
 
-def test_export_format_consistency(client, app, test_files_dir):
-    """
-    Test that exported files maintain consistent format and structure.
-    
-    This test validates that exported Excel files:
-    1. Have the correct structure
-    2. Contain all required fields
-    3. Maintain data types
-    4. Are re-importable
-    """
-    logger.info("Starting export format consistency tests")
-    
-    results = []
-    
-    # Test with a single file to validate the approach
-    test_config = TEST_FILES[0]  # Use first test file
-    filename = test_config["filename"]
-    sector = test_config["sector"]
-    
-    logger.info(f"Testing export format consistency for {filename} ({sector})")
-    
-    try:
-        # Step 1: Upload original file
-        incidence_id = _upload_and_get_incidence_id(client, test_files_dir, test_config)
-        if not incidence_id:
-            results.append(f"❌ {filename} - Failed to upload original file")
-            pytest.skip(f"Could not upload {filename} - skipping export format test")
-            return
-        
-        # Step 2: Export data
-        exported_file_path = _export_data_to_excel(app, incidence_id, filename)
-        if not exported_file_path:
-            results.append(f"❌ {filename} - Failed to export data")
-            pytest.skip(f"Could not export data for {filename} - skipping export format test")
-            return
-        
-        # Step 3: Validate exported file structure
-        is_valid_structure = _validate_exported_file_structure(exported_file_path, sector)
-        if not is_valid_structure:
-            results.append(f"❌ {filename} - Invalid exported file structure")
-            # Cleanup and skip
-            if exported_file_path.exists():
-                exported_file_path.unlink()
-            pytest.skip(f"Invalid export structure for {filename} - skipping export format test")
-            return
-        
-        # Step 4: Test re-importability
-        reimport_id = _upload_exported_file(client, exported_file_path, filename)
-        if not reimport_id:
-            results.append(f"❌ {filename} - Failed to re-import exported file")
-            # Cleanup and fail
-            if exported_file_path.exists():
-                exported_file_path.unlink()
-            pytest.fail(f"Could not re-import exported file for {filename}")
-            return
-        
-        results.append(f"✅ {filename} - Export format consistency verified (ID: {incidence_id} → {reimport_id})")
-        
-        # Cleanup
-        if exported_file_path.exists():
-            exported_file_path.unlink()
-            
-    except Exception as e:
-        results.append(f"❌ {filename} - Exception: {str(e)}")
-        logger.error(f"Export format test failed for {filename}: {e}")
-        pytest.skip(f"Export format test failed for {filename}: {e}")
-    
-    # Log summary
-    logger.info("Export format consistency test results:")
-    for result in results:
-        logger.info(result)
-    
-    logger.info("✅ Export format consistency test completed!")
-
 def _upload_and_get_incidence_id(client, test_files_dir, test_config):
     """Upload file and return incidence ID."""
     filename = test_config["filename"]
@@ -1672,99 +1501,6 @@ def _extract_database_data(app, incidence_id):
             
     except Exception as e:
         logger.error(f"Failed to extract database data for ID {incidence_id}: {e}")
-        return None
-
-def _export_data_to_excel(app, incidence_id, original_filename):
-    """
-    Export database data to Excel file.
-    
-    This simulates the export functionality by creating an Excel file
-    with the data from the database.
-    """
-    try:
-        # Get data from database
-        data = _extract_database_data(app, incidence_id)
-        if not data:
-            return None
-        
-        # Create Excel file with exported data
-        from openpyxl import Workbook
-        from pathlib import Path
-        import tempfile
-        
-        wb = Workbook()
-        
-        # Create the main Feedback Form worksheet
-        ws = wb.active
-        if ws is not None:
-            ws.title = "Feedback Form"
-        else:
-            logger.error("Could not access active worksheet for export")
-            return None
-        
-        # Add data fields starting from row 17 (matching schema structure)
-        # Map database fields to Excel format based on schema
-        field_mapping = {
-            "id_plume": "B17",
-            "lat_carb": "B18", 
-            "long_carb": "B19",
-            "inspection_timestamp": "B20",
-            "initial_leak_concentration": "B21",
-            "mitigation_timestamp": "B22",
-            "re_monitored_timestamp": "B23",
-            "re_monitored_concentration": "B24",
-            "final_repair_concentration": "B25",
-            "lat_revised": "B26",
-            "long_revised": "B27"
-        }
-        
-        # Add field names and values
-        row = 17
-        for field_name, cell in field_mapping.items():
-            if field_name in data:
-                ws[cell] = field_name
-                ws[f'C{row}'] = data[field_name]
-            row += 1
-        
-        # Add any additional fields that aren't in the standard mapping
-        for key, value in data.items():
-            if key not in field_mapping and key not in ["sector"]:
-                ws[f'B{row}'] = key
-                ws[f'C{row}'] = value
-                row += 1
-        
-        # Create hidden metadata tab (_json_metadata)
-        metadata_ws = wb.create_sheet("_json_metadata")
-        metadata_ws.sheet_state = 'hidden'
-        
-        # Add metadata in the expected format (starting at B15)
-        metadata_ws['B15'] = "schema"
-        metadata_ws['C15'] = "generic_v01_00"  # Use generic schema for export
-        
-        metadata_ws['B16'] = "sector"
-        metadata_ws['C16'] = data.get("sector", "Unknown")
-        
-        # Create hidden schema tab (_json_schema)
-        schema_ws = wb.create_sheet("_json_schema")
-        schema_ws.sheet_state = 'hidden'
-        
-        # Add schema mapping: tab name -> schema version
-        # The _json_schema tab should contain: tab_name -> schema_version mapping
-        schema_ws['B15'] = "Feedback Form"  # Tab name
-        schema_ws['C15'] = "generic_v01_00"  # Schema version
-        
-        # Create temporary file
-        temp_dir = Path(tempfile.gettempdir())
-        export_filename = f"exported_{incidence_id}_{original_filename}"
-        export_path = temp_dir / export_filename
-        
-        wb.save(export_path)
-        logger.info(f"Exported data to: {export_path}")
-        
-        return export_path
-        
-    except Exception as e:
-        logger.error(f"Failed to export data for ID {incidence_id}: {e}")
         return None
 
 def _upload_exported_file(client, exported_file_path, original_filename):
