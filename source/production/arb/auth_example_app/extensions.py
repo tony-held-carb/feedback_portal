@@ -14,9 +14,9 @@ Notes:
   - Extensions are initialized in the app factory pattern.
 """
 
-from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
 from flask_login import LoginManager
+from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
 
 # Initialize extension instances
 db = SQLAlchemy()
@@ -26,4 +26,4 @@ mail = Mail()
 """Mail: Flask-Mail extension for email functionality."""
 
 login_manager = LoginManager()
-"""LoginManager: Flask-Login extension for user session management.""" 
+"""LoginManager: Flask-Login extension for user session management."""

@@ -15,53 +15,53 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Elements
-  const dryRunCheckbox = document.getElementById('dry_run');
-  const submitBtn = document.getElementById('delete-preview-btn');
-  const form = document.getElementById('delete-testing-range-form');
-  const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-  const confirmBtn = document.getElementById('modal-confirm-delete');
-  const previewBtn = document.getElementById('modal-preview');
-  const cancelBtn = document.getElementById('modal-cancel');
-  let skipModal = false;
+    // Elements
+    const dryRunCheckbox = document.getElementById('dry_run');
+    const submitBtn = document.getElementById('delete-preview-btn');
+    const form = document.getElementById('delete-testing-range-form');
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    const confirmBtn = document.getElementById('modal-confirm-delete');
+    const previewBtn = document.getElementById('modal-preview');
+    const cancelBtn = document.getElementById('modal-cancel');
+    let skipModal = false;
 
-  // Update the submit button label and style based on dry run checkbox
-  function updateButton() {
-    submitBtn.textContent = dryRunCheckbox.checked ? 'Preview' : 'Delete';
-    submitBtn.classList.toggle('btn-danger', !dryRunCheckbox.checked);
-    submitBtn.classList.toggle('btn-primary', dryRunCheckbox.checked);
-  }
-
-  dryRunCheckbox.addEventListener('change', updateButton);
-  updateButton();
-
-  // Intercept form submission to show modal if not a dry run
-  form.addEventListener('submit', function (e) {
-    if (!dryRunCheckbox.checked && !skipModal) {
-      e.preventDefault();
-      modal.show();
+    // Update the submit button label and style based on dry run checkbox
+    function updateButton() {
+        submitBtn.textContent = dryRunCheckbox.checked ? 'Preview' : 'Delete';
+        submitBtn.classList.toggle('btn-danger', !dryRunCheckbox.checked);
+        submitBtn.classList.toggle('btn-primary', dryRunCheckbox.checked);
     }
-    skipModal = false;
-  });
 
-  // Modal: Confirm Delete
-  confirmBtn.addEventListener('click', function () {
-    skipModal = true;
-    modal.hide();
-    form.submit();
-  });
-
-  // Modal: Preview (switch to dry run and submit)
-  previewBtn.addEventListener('click', function () {
-    dryRunCheckbox.checked = true;
+    dryRunCheckbox.addEventListener('change', updateButton);
     updateButton();
-    skipModal = true;
-    modal.hide();
-    form.submit();
-  });
 
-  // Modal: Cancel
-  cancelBtn.addEventListener('click', function () {
-    modal.hide();
-  });
+    // Intercept form submission to show modal if not a dry run
+    form.addEventListener('submit', function (e) {
+        if (!dryRunCheckbox.checked && !skipModal) {
+            e.preventDefault();
+            modal.show();
+        }
+        skipModal = false;
+    });
+
+    // Modal: Confirm Delete
+    confirmBtn.addEventListener('click', function () {
+        skipModal = true;
+        modal.hide();
+        form.submit();
+    });
+
+    // Modal: Preview (switch to dry run and submit)
+    previewBtn.addEventListener('click', function () {
+        dryRunCheckbox.checked = true;
+        updateButton();
+        skipModal = true;
+        modal.hide();
+        form.submit();
+    });
+
+    // Modal: Cancel
+    cancelBtn.addEventListener('click', function () {
+        modal.hide();
+    });
 }); 

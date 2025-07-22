@@ -353,4 +353,3 @@ if __name__ == "__main__":
     file_b = local_path / "dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx"
     print(f"{file_a}\n{file_b}")
     compare_excel_files(file_a, file_b, formatting_mode="full", log_to_file=True)
-

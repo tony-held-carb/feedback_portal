@@ -39,13 +39,17 @@ auth_example_app/
 ## Key Components
 
 ### Extensions (`extensions.py`)
+
 Centralized Flask extension instances to avoid circular imports:
+
 - `db`: SQLAlchemy database instance
 - `mail`: Flask-Mail for email functionality
 - `login_manager`: Flask-Login for session management
 
 ### Application Factory (`app.py`)
+
 Creates and configures the Flask application:
+
 - Loads configuration
 - Initializes extensions
 - Sets up authentication
@@ -53,13 +57,16 @@ Creates and configures the Flask application:
 - Creates example users
 
 ### Configuration (`config.py`)
+
 Environment-specific settings:
+
 - Database URI
 - Email settings
 - Security settings
 - Development/Production configurations
 
 ### Routes
+
 - **Main Routes**: Public pages and basic functionality
 - **Admin Routes**: Administrative functions (admin role required)
 - **User Management**: User CRUD operations (admin role required)
@@ -90,15 +97,15 @@ Environment-specific settings:
 
 The app creates these example users automatically:
 
-| Email | Password | Roles |
-|-------|----------|-------|
-| admin@example.com | admin123 | admin |
-| editor@example.com | editor123 | editor |
-| qaqc@example.com | qaqc123 | qaqc |
-| editor_qaqc@example.com | editor_qaqc123 | editor, qaqc |
-| reviewer@example.com | reviewer123 | reviewer |
-| manager@example.com | manager123 | manager, reviewer |
-| user@example.com | user123 | user |
+| Email                   | Password       | Roles             |
+|-------------------------|----------------|-------------------|
+| admin@example.com       | admin123       | admin             |
+| editor@example.com      | editor123      | editor            |
+| qaqc@example.com        | qaqc123        | qaqc              |
+| editor_qaqc@example.com | editor_qaqc123 | editor, qaqc      |
+| reviewer@example.com    | reviewer123    | reviewer          |
+| manager@example.com     | manager123     | manager, reviewer |
+| user@example.com        | user123        | user              |
 
 ## Usage Examples
 

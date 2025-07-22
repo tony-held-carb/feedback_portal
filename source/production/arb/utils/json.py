@@ -31,7 +31,7 @@ from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
-from arb.utils.date_and_time import ca_naive_datetime_to_utc_datetime, utc_datetime_to_ca_naive_datetime, iso_str_to_utc_datetime
+from arb.utils.date_and_time import ca_naive_datetime_to_utc_datetime, iso_str_to_utc_datetime, utc_datetime_to_ca_naive_datetime
 from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
@@ -778,7 +778,7 @@ def compute_field_differences(
 
     is_same = norm_old == norm_new
     requires_confirmation = (
-      norm_new not in (None, "", []) and not is_same
+        norm_new not in (None, "", []) and not is_same
     )
 
     differences.append({

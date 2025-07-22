@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <div class="js-diagnostics-block" data-page="java_script_diagnostic_test">
+    <h2>JavaScript Diagnostics Test Page</h2>
+    <p>This page is for testing frontend and backend JavaScript diagnostics logging.</p>
+    <div class="mb-3">
+      <label class="form-label">Diagnostic Message</label>
+      <input type="text" class="form-control js-diagnostic-text" value="Example diagnostic message from JS test page">
+    </div>
+    <button class="btn btn-primary js-send-diagnostic-btn">Send Diagnostic Information</button>
+    <button class="btn btn-warning ms-2 js-return-home-btn">Return to Homepage</button>
+    <!-- Confirmation Modal -->
+    <div class="modal js-confirm-return-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Return</h5>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to return to the homepage?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary js-cancel-return-btn">Cancel</button>
+            <button type="button" class="btn btn-primary js-confirm-return-btn">Yes, Return</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
+{% endblock %} 

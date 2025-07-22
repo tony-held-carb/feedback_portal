@@ -23,21 +23,21 @@
     - Used by upload and staging routes to process Excel/JSON payloads.
     - The logger emits a debug message when this file is loaded.
 """
-import shutil
+import datetime
 import logging
 from pathlib import Path
-import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
 from werkzeug.datastructures import FileStorage
 
 from arb.portal.config.accessors import get_upload_folder
+from arb.portal.startup.runtime_info import LOG_DIR
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
-from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old
-from arb.utils.io_wrappers import copy_file_safe
-from arb.utils.json import extract_id_from_json, json_load_with_meta, json_save_with_meta
+from arb.portal.utils.import_audit import generate_import_audit
+from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, xl_schema_map
+from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
 
 logger = logging.getLogger(__name__)
@@ -68,18 +68,18 @@ def extract_tab_and_sector(xl_dict: dict, tab_name: str = "Feedback Form") -> di
   """
   if "tab_contents" not in xl_dict or tab_name not in xl_dict["tab_contents"]:
     raise ValueError(f"Tab '{tab_name}' not found in xl_dict")
-  
+
   # Extract sector from metadata
   metadata = xl_dict.get("metadata", {})
   sector = metadata.get("sector")
   if not sector:
     logger.warning(f"No sector found in xl_dict metadata: {metadata}")
     sector = "Unknown"  # Fallback to prevent errors
-  
+
   # Get form data and add sector
   form_data = xl_dict["tab_contents"][tab_name].copy()
   form_data["sector"] = sector
-  
+
   logger.debug(f"extract_tab_and_sector: extracted form data with sector '{sector}' from tab '{tab_name}'")
   return form_data
 
@@ -283,6 +283,7 @@ def upload_and_update_db(db: SQLAlchemy,
   Notes:
     - Performs a full ingest: logs the file, parses Excel → JSON, and inserts the data into the database.
     - If the file cannot be parsed or inserted, None values are returned.
+    - Uploads will be blocked if id_incidence is missing or not a valid positive integer.
   """
   logger.debug(f"upload_and_update_db() called with {request_file=}")
   id_ = None
@@ -292,9 +293,24 @@ def upload_and_update_db(db: SQLAlchemy,
   add_file_to_upload_table(db, file_path, status="File Added", description=None)
 
   json_path, sector = convert_excel_to_json_if_valid(file_path)
+  # --- DIAGNOSTIC: Generate import audit ---
+  try:
+    parse_result = parse_xl_file(file_path)
+    audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+    audit_log_path = LOG_DIR / "import_audit.log"
+    audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(audit_log_path, "a", encoding="utf-8") as f:
+      f.write(audit + "\n\n")
+  except Exception as e:
+    logging.getLogger(__name__).warning(f"Failed to generate import audit: {e}")
+  # --- END DIAGNOSTIC ---
   if json_path:
+    json_data, _ = json_load_with_meta(json_path)
+    id_candidate = extract_id_from_json(json_data)
+    if not (isinstance(id_candidate, int) and id_candidate > 0):
+      logger.warning(f"Upload blocked: id_incidence missing or not a valid positive integer in {file_path.name}")
+      return file_path, None, None
     id_, _ = json_file_to_db(db, json_path, base)  # ✅ Perform full ingest
-
   return file_path, id_, sector
 
 
@@ -406,8 +422,14 @@ def upload_and_stage_only(db: SQLAlchemy,
   Returns:
     tuple[Path, int | None, str | None, dict, str]: Saved file path, extracted id_incidence,
     sector name, parsed JSON contents, and the staged filename (not full path).
+
+  Examples:
+    file_path, id_, sector, json_data, staged_filename = upload_and_stage_only(db, upload_dir, request_file, base)
+    # Handles upload, conversion, and staging
+
+  Notes:
+    - Staging will be blocked if id_incidence is missing or not a valid positive integer.
   """
-  from arb.utils.file_io import get_secure_timestamped_file_name
   from arb.utils.json import json_save_with_meta
   from arb.utils.wtf_forms_util import prep_payload_for_json
 
@@ -420,32 +442,37 @@ def upload_and_stage_only(db: SQLAlchemy,
   add_file_to_upload_table(db, file_path, status="File Added", description="Staged only (no DB write)")
 
   json_path, sector = convert_excel_to_json_if_valid(file_path)
+  # --- DIAGNOSTIC: Generate import audit ---
+  try:
+    parse_result = parse_xl_file(file_path)
+    audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_staged")
+    audit_log_path = LOG_DIR / "import_audit.log"
+    audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(audit_log_path, "a", encoding="utf-8") as f:
+      f.write(audit + "\n\n")
+  except Exception as e:
+    logging.getLogger(__name__).warning(f"Failed to generate import audit: {e}")
+  # --- END DIAGNOSTIC ---
   if json_path:
     json_data, _ = json_load_with_meta(json_path)
+    id_candidate = extract_id_from_json(json_data)
+    if not (isinstance(id_candidate, int) and id_candidate > 0):
+      logger.warning(f"Staging blocked: id_incidence missing or not a valid positive integer in {file_path.name}")
+      return file_path, None, None, {}, ""
     id_ = extract_id_from_json(json_data)
-
     # 🆕 Staging logic: write to upload_dir/staging/{id_}_ts_YYYYMMDD_HHMMSS.json
     if id_:
-      # Get current DB misc_json for this id_
       model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
       base_misc_json = getattr(model, "misc_json", {}) or {}
-      
-      # ✅ Ensure JSON data is serializable (datetime → ISO strings, etc.)
-      # This prevents "Object of type datetime is not JSON serializable" errors
       json_data = prep_payload_for_json(json_data)
-      
-      # Generate timestamped filename
       staging_dir = Path(upload_dir) / "staging"
       staging_dir.mkdir(parents=True, exist_ok=True)
       staged_filename = f"id_{id_}_ts_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
       staged_path = staging_dir / staged_filename
-      # Save with metadata
       json_save_with_meta(staged_path, json_data, metadata={"base_misc_json": base_misc_json})
       logger.debug(f"Staged JSON saved to: {staged_path}")
       add_file_to_upload_table(db, staged_path, status="Staged JSON", description="Staged file with base_misc_json")
       return file_path, id_, sector, json_data, staged_filename
     else:
       logger.warning("id_incidence could not be extracted. Staging file was not created.")
-
-  return file_path, id_, sector, json_data, ""
-
+  return file_path, None, None, {}, ""

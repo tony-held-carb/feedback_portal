@@ -2,28 +2,29 @@
 
 # todo - Next Steps
 ----------------------------
-creating PR 26
-PR 26 is to have the logic of staged uploads make more sense
+creating PR 27 is to continue e2e testing
 
-PR 27 (upcoming) is to continue e2e
+7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-* continue e2e testing so that all of these sheets are tested for upload and upload_staged
-* add additional e2e testing for all other routes?
+* the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
 
+* compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
+
+* consider truing up the file structure on the ec2 along with .bashrc files for consistency
+* may want to combine the shell and shell_scripts into a single directory
+* update docs to show what testing was done, consider creating a primer for the rest of the group
+* create a protocol/template for documenting source code consistent with testing approach
+* create a launch new version protocol for automated and manual testing
+* review testing_protocol_and_notes.txt
+* deploy to ec2
 * update notes and scripts to launch from app/wsgi
+* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
-* check if this was done:
-  * if you upload a spreadsheet via upload_file or upload_file_staged, you will want it to
-    1) upload the file always if save/possible
-    2) convert the files to json if possible and save that too
-    3) update the database with json contents if possible
-    4) display the appropriate feedback form if it is an implemented sector (currently only Oil & Gas and Landfill)
-    5) provide diagnostic information as to whether the initial file was uploaded, if it was converted to json, if the database was updated, if show the feedback form if the sector is implemented, otherwise indicate that it is not
 
-* check if this was done:
-  * Currently, if you click save and the incidence update has no errors you are redirected to the index page
-    I would prefer that you stay on the incidence page and get a modal saying that your changes were saved
-    and that there are no known validation errors associated with the incidence
+
+-------------------------------------------------------
+Future Initiatives & Feature Requests Below
+-------------------------------------------------------
 
 
 * ---------   HTML & Forms ----------
@@ -35,8 +36,6 @@ PR 27 (upcoming) is to continue e2e
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
-
-* check that the app/database is working using testing_protocol_and_notes.txt
 
 
 * ---------   Create New Form Capacity for the new sectors ----------
@@ -61,22 +60,10 @@ PR 27 (upcoming) is to continue e2e
 * ---------   future initiatives----------
   * add user log-in
     * Ultimately, need to use the username in the log
-  * unit testing
   * move to s3 bucket
   * use carb ois github deployment (docker, etc)
-
-* ---------   E2E Testing Issues ----------
-* SOURCE CODE ISSUE: discard_staged_update route is not properly deleting staged files
-  * Problem: The discard functionality in /discard_staged_update/<id_> route is not removing staged files from the list
-  * Root cause: Backend logic issue - the route was updated to handle timestamped filenames (id_{id_}_ts_*.json) but files are still not being deleted
-  * Impact: E2E discard tests are failing because staged files remain listed after discard operation
-  * Status: E2E discard tests will be skipped for now to allow continued testing without modifying source code
-  * TODO: Debug backend discard logic - check file paths, permissions, glob pattern matching, and add logging to identify why files are not being deleted
 
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
 
-* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
-
-* not sure if i want to pursue the view staged routes so i disabled them 
 """

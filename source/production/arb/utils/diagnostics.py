@@ -12,10 +12,11 @@ Intended primarily for use in debug environments, template rendering,
 or ad-hoc inspection of application state during development.
 """
 
-import pprint
 import logging
+import pprint
 
 from bs4 import BeautifulSoup
+
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,156 @@
+{#
+===============================================================================
+JavaScript Diagnostics Test Page Template
+===============================================================================
+
+Purpose:
+--------
+This template demonstrates the complete implementation of the JavaScript diagnostics
+system. It serves as a working example and reference for implementing diagnostics
+on other pages in the application.
+
+What This Page Demonstrates:
+----------------------------
+1. **Page Load Logging** - Automatic logging when the page loads
+2. **Button Click Logging** - All buttons log their actions automatically
+3. **Modal Integration** - Modal buttons work seamlessly with diagnostics
+4. **Custom Business Logic** - Shows how to combine diagnostics with custom JS
+5. **Event Delegation** - Dynamically created elements (modals) log automatically
+
+Key Features Demonstrated:
+--------------------------
+- Diagnostics block with page context
+- Diagnostic input with send functionality
+- Modal confirmation workflow
+- Custom JavaScript for business logic
+- Bootstrap modal integration
+- Event delegation for dynamic elements
+
+How to Use This Template:
+-------------------------
+1. **Copy the structure** to your own pages
+2. **Replace content** with your specific functionality
+3. **Keep the diagnostics classes** for automatic logging
+4. **Add custom JS** only for business logic (not logging)
+
+Production Considerations:
+-------------------------
+- This page is for testing/development only
+- In production, consider hiding the overlay
+- Backend logging works regardless of overlay visibility
+- Be aware of frontend/backend log synchronization issues
+
+See Also:
+---------
+- `java_script_diagnostics.js` (for detailed documentation)
+- `base.html` (for overlay div inclusion)
+- `/js_diagnostic_log` backend route
+
+===============================================================================
+#}
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-4">
+    {#
+    Diagnostics Block - Required wrapper for all diagnostics functionality
+    data-page: Identifies this page in logs (used for filtering and debugging)
+  #}
+    <div class="js-diagnostics-block" data-page="java_script_diagnostic_test">
+      <h2>JavaScript Diagnostics Test Page</h2>
+      <p>This page is for testing frontend and backend JavaScript diagnostics logging.</p>
+
+      {#
+      Diagnostic Input Section - Demonstrates send-diagnostic functionality
+      js-diagnostic-text: Special class that gets included in send-diagnostic logs
+    #}
+      <div class="mb-3">
+        <label class="form-label">Diagnostic Message</label>
+        <input type="text" class="form-control js-diagnostic-text" value="Example diagnostic message from JS test page">
+      </div>
+
+      {#
+      Loggable Buttons - All buttons with js-log-btn class log automatically
+      data-js-logging-context: Provides meaningful context in log messages
+    #}
+      <button class="btn btn-primary js-log-btn" data-js-logging-context="send-diagnostic">Send Diagnostic</button>
+      <button id="return-home-btn" class="btn btn-secondary js-log-btn" data-js-logging-context="return-home">Return to
+        Homepage
+      </button>
+
+      {#
+      Bootstrap Modal - Demonstrates modal integration with diagnostics
+      Modal buttons automatically log when clicked (event delegation)
+      data-bs-dismiss="modal": Bootstrap attribute for automatic modal closing
+    #}
+      <div class="modal fade js-confirm-return-modal" id="confirmReturnModal" tabindex="-1"
+           aria-labelledby="confirmReturnModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmReturnModalLabel">Confirm Return</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to return to the homepage?
+            </div>
+            <div class="modal-footer">
+              {#
+              Modal buttons with js-log-btn class log automatically
+              Custom JS handles navigation after logging
+            #}
+              <button type="button" class="btn btn-primary js-log-btn" id="confirm-return-btn"
+                      data-js-logging-context="modal-confirm" data-bs-dismiss="modal">Yes, Return
+              </button>
+              <button type="button" class="btn btn-secondary js-log-btn" id="cancel-return-btn"
+                      data-js-logging-context="modal-cancel" data-bs-dismiss="modal">Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {#
+  Include the diagnostics JavaScript file
+  This provides all the logging functionality automatically
+#}
+  <script src="{{ url_for('static', filename='js/java_script_diagnostics.js') }}"></script>
+
+  {#
+  Custom JavaScript - Demonstrates business logic integration
+  Note: No manual logging code needed - diagnostics JS handles all logging
+  This JS only handles modal show/hide and navigation logic
+#}
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          // Get references to elements
+          var returnBtn = document.getElementById('return-home-btn');
+          var confirmBtn = document.getElementById('confirm-return-btn');
+          var modal = new bootstrap.Modal(document.getElementById('confirmReturnModal'));
+
+          // Handle "Return to Homepage" button click
+          // Shows confirmation modal (logging handled automatically by diagnostics JS)
+          if (returnBtn) {
+              returnBtn.addEventListener('click', function (e) {
+                  e.preventDefault(); // Prevent default button behavior
+                  modal.show(); // Show the confirmation modal
+              });
+          }
+
+          // Handle "Yes, Return" button click in modal
+          // Navigates to homepage (logging handled automatically by diagnostics JS)
+          if (confirmBtn) {
+              confirmBtn.addEventListener('click', function () {
+                  window.location.href = '/'; // Navigate to homepage
+              });
+          }
+
+          // Note: "Cancel" button doesn't need custom JS
+          // Bootstrap's data-bs-dismiss="modal" handles modal closing
+          // Diagnostics JS handles logging automatically
+      });
+  </script>
+{% endblock %}

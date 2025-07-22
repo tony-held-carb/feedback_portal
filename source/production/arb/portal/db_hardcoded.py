@@ -32,14 +32,10 @@ Notes:
   - The dropdown transformation logic in get_excel_dropdown_data is imported from arb.utils.web_html.update_selector_dict to ensure consistency with the canonical implementation.
 """
 
+import copy
 import datetime
 import logging
 from pathlib import Path
-from typing import Any
-from datetime import timezone
-import copy
-
-from arb.portal.constants import PLEASE_SELECT
 
 # from arb.utils.web_html import update_selector_dict
 # from arb.utils.date_and_time import utc_datetime_to_iso_str
@@ -307,7 +303,7 @@ def get_og_dummy_form_data() -> dict:
   """
 
   json_data = {
-    "id_incidence": 2050,
+    "id_incidence": 1002050,
     "id_plume": 1001,
     "observation_timestamp": datetime.datetime.now().replace(second=0, microsecond=0),
     "lat_carb": 100.05,
@@ -382,7 +378,7 @@ def get_landfill_dummy_form_data() -> dict:
     # "emission_type_fk": PLEASE_SELECT,
     "facility_name": "facility_name",
     "id_arb_swis": "id_arb_swis",
-    "id_incidence": 2030,
+    "id_incidence": 1002030,
     "id_message": "id_message",
     "id_plume": 1002,
     # "included_in_last_lmr": PLEASE_SELECT,

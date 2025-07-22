@@ -43,6 +43,14 @@
 
     </form>
 
+    <!-- 🚨 Upload Error Message -->
+    {% if upload_message %}
+      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        {{ upload_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+
     <!-- ✅ Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -56,6 +64,7 @@
         </div>
       {% endif %}
     {% endwith %}
+    {% block flash_messages %}{% endblock %}
 
   </div>
 {% endblock %}

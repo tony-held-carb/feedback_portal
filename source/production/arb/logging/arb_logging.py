@@ -74,16 +74,17 @@
     - This design allows you to filter or format logs by module, but keeps log file management centralized and predictable.
 """
 import logging
-import os
-from pathlib import Path
-from arb.utils.file_io import get_project_root_dir
 import pprint
+from pathlib import Path
 from typing import Callable
+
+from arb.utils.file_io import get_project_root_dir
 
 APP_DIR_STRUCTURE = ['feedback_portal', 'source', 'production', 'arb']
 
 DEFAULT_LOG_FORMAT = "+%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-16s | user:anonymous | %(lineno)-5d | %(filename)-20s | %(message)s"
 DEFAULT_LOG_DATEFMT = "%Y-%m-%d %H:%M:%S"
+
 
 def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Path:
   """
@@ -110,12 +111,12 @@ def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Pa
 
 
 def setup_standalone_logging(
-  log_name: str,
-  log_dir: str | Path = "logs",
-  level: int = logging.DEBUG,
-  app_dir_structure=None,
-  log_format: str = DEFAULT_LOG_FORMAT,
-  log_datefmt: str = DEFAULT_LOG_DATEFMT
+    log_name: str,
+    log_dir: str | Path = "logs",
+    level: int = logging.DEBUG,
+    app_dir_structure=None,
+    log_format: str = DEFAULT_LOG_FORMAT,
+    log_datefmt: str = DEFAULT_LOG_DATEFMT
 ):
   """
   Configure logging for a standalone script. Should be called in the `if __name__ == "__main__"` block.
@@ -143,12 +144,12 @@ def setup_standalone_logging(
 
 
 def setup_app_logging(
-  log_name: str,
-  log_dir: str | Path = "logs",
-  level: int = logging.DEBUG,
-  app_dir_structure=None,
-  log_format: str = DEFAULT_LOG_FORMAT,
-  log_datefmt: str = DEFAULT_LOG_DATEFMT
+    log_name: str,
+    log_dir: str | Path = "logs",
+    level: int = logging.DEBUG,
+    app_dir_structure=None,
+    log_format: str = DEFAULT_LOG_FORMAT,
+    log_datefmt: str = DEFAULT_LOG_DATEFMT
 ):
   """
   Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.
@@ -209,4 +210,4 @@ def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, Callable[[object
   }
   options.update(kwargs)
   pp = pprint.PrettyPrinter(**options)
-  return pp, pp.pformat 
+  return pp, pp.pformat

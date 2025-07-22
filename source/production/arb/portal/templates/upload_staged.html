@@ -23,7 +23,8 @@
             <h5 class="mb-0">🔄 Staged Upload Process</h5>
           </div>
           <div class="card-body">
-            <p class="mb-3">This staged upload process allows you to review changes before they are applied to the database:</p>
+            <p class="mb-3">This staged upload process allows you to review changes before they are applied to the
+              database:</p>
             <ol class="mb-0">
               <li><strong>Upload:</strong> Select your feedback spreadsheet</li>
               <li><strong>Review:</strong> Compare proposed changes with current database values</li>
@@ -32,7 +33,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-md-4">
         <div class="card mb-4">
           <div class="card-header bg-info text-white">
@@ -67,7 +68,7 @@
         <div class="drop-zone-text">📁 Click or Drag & Drop File Here</div>
         <img src="{{ url_for('static', filename='images/upload_icon.png') }}"
              class="drop-zone-icon" alt="Upload Icon">
-        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input" 
+        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input"
                accept=".xlsx,.xls,.json">
         <small class="text-muted d-block mt-2">
           <strong>Supported formats:</strong> Excel (.xlsx, .xls) or JSON files<br>
@@ -90,6 +91,8 @@
         </div>
       {% endif %}
     {% endwith %}
+    {% block flash_messages %}{% endblock %}
+
 
     <!-- 📋 Upload Message Display -->
     {% if upload_message %}

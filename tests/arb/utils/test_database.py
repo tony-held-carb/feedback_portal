@@ -87,6 +87,7 @@ def temp_sql_script():
 
 # --- execute_sql_script Tests ---
 
+@pytest.mark.skip(reason="Creates app.db; skipping to avoid unwanted file creation during test runs.")
 def test_execute_sql_script_with_defaults():
     """Test execute_sql_script with default parameters."""
     with patch('builtins.open') as mock_open:

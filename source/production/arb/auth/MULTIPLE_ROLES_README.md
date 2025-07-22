@@ -4,15 +4,18 @@ This document describes the enhanced role-based access control system that suppo
 
 ## Overview
 
-The auth package has been updated to support multiple roles per user using a comma-separated approach. This allows users to have combinations of roles like `'editor,qaqc'` or `'reviewer,admin'`.
+The auth package has been updated to support multiple roles per user using a comma-separated approach. This allows users
+to have combinations of roles like `'editor,qaqc'` or `'reviewer,admin'`.
 
 ## Key Changes
 
 ### 1. Database Schema
+
 - **Role column size**: Increased from `VARCHAR(32)` to `VARCHAR(255)` to support multiple roles
 - **Storage format**: Roles are stored as comma-separated values (e.g., `'editor,qaqc,reviewer'`)
 
 ### 2. User Model Enhancements
+
 The `User` model now includes these new methods:
 
 ```python
@@ -31,6 +34,7 @@ user.set_roles(['role1', 'role2'])         # Set roles to specific list
 ```
 
 ### 3. New Decorators
+
 Enhanced decorators for flexible access control:
 
 ```python
@@ -60,6 +64,7 @@ def admin_panel():
 ## Migration Process
 
 ### Step 1: Update Database Schema
+
 Run this SQL command in your database:
 
 ```sql
@@ -67,6 +72,7 @@ ALTER TABLE users ALTER COLUMN role TYPE VARCHAR(255);
 ```
 
 ### Step 2: Run Migration Script
+
 Execute the migration script to convert existing single roles to the new format:
 
 ```bash
@@ -75,11 +81,13 @@ python migrate_roles.py
 ```
 
 ### Step 3: Deploy Updated Code
+
 Deploy the updated User model and new decorators.
 
 ## Usage Examples
 
 ### In Routes
+
 ```python
 from arb.auth.role_decorators import roles_required, all_roles_required
 
@@ -97,6 +105,7 @@ def qaqc_edit():
 ```
 
 ### In Templates
+
 ```jinja2
 {% if current_user.is_authenticated %}
     <h1>Welcome, {{ current_user.email }}</h1>
@@ -120,6 +129,7 @@ def qaqc_edit():
 ```
 
 ### Programmatic Role Management
+
 ```python
 # Get a user
 user = User.query.filter_by(email='user@example.com').first()
@@ -151,23 +161,29 @@ print(user.get_roles())  # ['admin', 'reviewer']
 Here are some suggested role combinations for different user types:
 
 ### Editor + QA/QC
+
 ```python
 user.set_roles(['editor', 'qaqc'])
 ```
+
 - Can edit content AND perform quality assurance
 - Access to advanced editing features
 
 ### Reviewer + Manager
+
 ```python
 user.set_roles(['reviewer', 'manager'])
 ```
+
 - Can review submissions AND manage workflows
 - Access to approval processes
 
 ### Admin + Editor
+
 ```python
 user.set_roles(['admin', 'editor'])
 ```
+
 - Full administrative access AND editing capabilities
 - Can manage users AND edit content
 

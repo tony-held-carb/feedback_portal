@@ -28,7 +28,6 @@ from pathlib import Path
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
-from sqlalchemy.ext.declarative import DeclarativeMeta
 
 from arb.utils.sql_alchemy import get_class_from_table_name
 
@@ -87,13 +86,13 @@ def get_ensured_row(db: SQLAlchemy,
   table = get_class_from_table_name(base, table_name)  # type: ignore  # mapped ORM class
   if table is None:
     raise ValueError(f"Table '{table_name}' not found or not mapped in metadata.")
-  
+
   logger.info(f"[get_ensured_row] Table class: {table}, Session: {session is not None}")
 
   if id_ is not None:
     logger.info(f"[get_ensured_row] Attempting to retrieve existing row with {primary_key_name}={id_}")
     model = session.get(table, id_)  # type: ignore
-    
+
     if model is None:
       is_new_row = True
       logger.info(f"[get_ensured_row] No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
@@ -112,7 +111,7 @@ def get_ensured_row(db: SQLAlchemy,
     logger.info(f"[get_ensured_row] Creating new {table_name} row with auto-generated {primary_key_name}")
     model = table(**{primary_key_name: None})  # type: ignore
     session.add(model)
-    
+
     logger.info(f"[get_ensured_row] About to commit new row to database")
     try:
       session.commit()
@@ -121,13 +120,13 @@ def get_ensured_row(db: SQLAlchemy,
       logger.error(f"[get_ensured_row] ❌ Failed to commit new row: {e}")
       logger.exception(f"[get_ensured_row] Full exception details:")
       raise
-    
+
     id_ = getattr(model, primary_key_name)
     logger.info(f"[get_ensured_row] New row created with {primary_key_name}={id_}")
 
   # 🆕 DIAGNOSTIC: Final state check
   logger.info(f"[get_ensured_row] RETURN: model={model}, id_={id_}, is_new_row={is_new_row}")
-  
+
   # Check if model is in session
   from sqlalchemy.orm import object_session
   model_session = object_session(model)

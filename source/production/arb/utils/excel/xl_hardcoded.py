@@ -27,48 +27,48 @@ logger = logging.getLogger(__name__)
 # -------------------------------------------------------------------------------------
 
 EXCEL_TEMPLATES = [
-    {
-        "sector": "Landfill",
-        "schema_version": "landfill_v01_00",
-        "prefix": "landfill_operator_feedback",
-        "version": "v070",
-        "payload_name": "landfill_payload_01",
-    },
-    {
-        "sector": "Landfill",
-        "schema_version": "landfill_v01_01",
-        "prefix": "landfill_operator_feedback",
-        "version": "v071",
-        "payload_name": "landfill_payload_01",
-    },
-    {
-        "sector": "Oil and Gas",
-        "schema_version": "oil_and_gas_v01_00",
-        "prefix": "oil_and_gas_operator_feedback",
-        "version": "v070",
-        "payload_name": "oil_and_gas_payload_01",
-    },
-    {
-        "sector": "Energy",
-        "schema_version": "energy_v01_00",
-        "prefix": "energy_operator_feedback",
-        "version": "v003",
-        "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
-    },
-    {
-        "sector": "Dairy Digester",
-        "schema_version": "dairy_digester_v01_00",
-        "prefix": "dairy_digester_operator_feedback",
-        "version": "v006",
-        "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
-    },
-    {
-        "sector": "Generic",
-        "schema_version": "generic_v01_00",
-        "prefix": "generic_operator_feedback",
-        "version": "v002",
-        "payload_name": "generic_payload_01",  # reusing oil and gas payload
-    },
+  {
+    "sector": "Landfill",
+    "schema_version": "landfill_v01_00",
+    "prefix": "landfill_operator_feedback",
+    "version": "v070",
+    "payload_name": "landfill_payload_01",
+  },
+  {
+    "sector": "Landfill",
+    "schema_version": "landfill_v01_01",
+    "prefix": "landfill_operator_feedback",
+    "version": "v071",
+    "payload_name": "landfill_payload_01",
+  },
+  {
+    "sector": "Oil and Gas",
+    "schema_version": "oil_and_gas_v01_00",
+    "prefix": "oil_and_gas_operator_feedback",
+    "version": "v070",
+    "payload_name": "oil_and_gas_payload_01",
+  },
+  {
+    "sector": "Energy",
+    "schema_version": "energy_v01_00",
+    "prefix": "energy_operator_feedback",
+    "version": "v003",
+    "payload_name": "oil_and_gas_payload_01",  # reusing oil and gas payload
+  },
+  {
+    "sector": "Dairy Digester",
+    "schema_version": "dairy_digester_v01_00",
+    "prefix": "dairy_digester_operator_feedback",
+    "version": "v006",
+    "payload_name": "dairy_digester_payload_01",  # reusing oil and gas payload
+  },
+  {
+    "sector": "Generic",
+    "schema_version": "generic_v01_00",
+    "prefix": "generic_operator_feedback",
+    "version": "v002",
+    "payload_name": "generic_payload_01",  # reusing oil and gas payload
+  },
 ]
 
 # -------------------------------------------------------------------------------------
@@ -395,4 +395,3 @@ if __name__ == "__main__":
   )
   print(f"{in_default_value_types_v01_00_only=}")
   print(f"{in_jinja_names_only=}")
-

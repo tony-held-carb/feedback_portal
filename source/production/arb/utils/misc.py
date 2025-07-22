@@ -24,8 +24,9 @@ Dependencies:
 Version: 1.0.0
 """
 
-import traceback
 import logging
+import traceback
+
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
 

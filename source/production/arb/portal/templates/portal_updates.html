@@ -21,6 +21,8 @@
   <script defer src="{{ url_for('static', filename='js/table_management.js') }}"></script>
 {% endblock %}
 
+{% block title %}Feedback Portal Updates{% endblock %}
+
 {% block content %}
   <div class="container-fluid mb-3 post-nav-buffer">
 
@@ -94,6 +96,11 @@
       </tr>
       </thead>
       <tbody>
+      {% if updates|length == 0 %}
+        <tr>
+          <td colspan="7" class="text-center text-muted">No updates found for the selected filters.</td>
+        </tr>
+      {% else %}
       {% for update in updates %}
         <tr>
           <td>{{ update.timestamp.astimezone(california_tz).strftime('%Y-%m-%d %H:%M') }}</td>
@@ -113,6 +120,7 @@
           </td>
         </tr>
       {% endfor %}
+      {% endif %}
       </tbody>
     </table>
   </div>

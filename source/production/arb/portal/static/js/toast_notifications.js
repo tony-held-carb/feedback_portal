@@ -1,25 +1,25 @@
 /**
  * @fileoverview Toast notification system for the ARB Feedback Portal
- * 
+ *
  * DISABLED IN OLD SYSTEM - This file is currently disabled to revert to the old
  * warning and validation error presentation approach. The code is preserved for
  * future use when switching back to the toast notification system.
- * 
+ *
  * Benefits of re-enabling this system in the future:
  * - Better UX for ephemeral messages (upload progress, success notifications)
  * - Non-intrusive feedback for non-critical warnings
  * - Consistent notification system across the application
  * - Auto-dismiss functionality reduces UI clutter
  * - Modern notification patterns that users expect
- * 
+ *
  * To re-enable:
  * 1. Uncomment the script tag in base.html
  * 2. Uncomment the toast container div in base.html
  * 3. Uncomment the ToastManager calls in staged_review.js and file_upload.js
- * 
+ *
  * This script provides a comprehensive toast notification system that can be used
  * throughout the portal to show success, error, warning, and info messages.
- * 
+ *
  * Features:
  * - Multiple notification types (success, error, warning, info)
  * - Auto-dismiss with configurable delays
@@ -27,10 +27,10 @@
  * - Flash message integration
  * - Upload progress notifications
  * - Responsive design with Bootstrap styling
- * 
+ *
  * Classes:
  * - ToastManager - Main class for managing toast notifications
- * 
+ *
  * Methods:
  * - constructor() - Creates toast container and initializes manager
  * - createContainer() - Creates or finds the toast container element
@@ -46,7 +46,7 @@
  * - getIcon(type) - Gets appropriate icon for notification type
  * - handleFlashMessages() - Converts Bootstrap alerts to toast notifications
  * - showUploadProgress(options) - Shows upload progress notification
- * 
+ *
  * Usage:
  * - ToastManager.show(message, type, options)
  * - ToastManager.success(message, options)
@@ -95,7 +95,7 @@ class ToastManager {
         this.container.appendChild(toast);
 
         // Trigger the toast animation
-        const bsToast = new bootstrap.Toast(toast, { delay: delay });
+        const bsToast = new bootstrap.Toast(toast, {delay: delay});
         bsToast.show();
 
         // Auto-remove from DOM after animation
@@ -159,7 +159,7 @@ class ToastManager {
         toast.setAttribute('aria-atomic', 'true');
 
         const icon = this.getIcon(type);
-        
+
         toast.innerHTML = `
             <div class="d-flex">
                 <div class="toast-body">
@@ -242,15 +242,15 @@ class ToastManager {
      */
     handleFlashMessages() {
         const flashMessages = document.querySelectorAll('.alert');
-        flashMessages.forEach(function(alert) {
+        flashMessages.forEach(function (alert) {
             const message = alert.textContent.trim();
             const category = alert.classList.contains('alert-success') ? 'success' :
-                            alert.classList.contains('alert-danger') ? 'error' :
-                            alert.classList.contains('alert-warning') ? 'warning' : 'info';
-            
+                alert.classList.contains('alert-danger') ? 'error' :
+                    alert.classList.contains('alert-warning') ? 'warning' : 'info';
+
             // Show toast notification
             this.show(message, category);
-            
+
             // Hide the original alert
             alert.style.display = 'none';
         }.bind(this));
@@ -266,7 +266,7 @@ class ToastManager {
             message: 'Processing your file...',
             delay: 3000
         };
-        
+
         return this.info(defaultOptions.message, {
             title: defaultOptions.title,
             delay: defaultOptions.delay,
@@ -279,7 +279,7 @@ class ToastManager {
 window.ToastManager = new ToastManager();
 
 // Auto-process flash messages when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (window.ToastManager) {
         window.ToastManager.handleFlashMessages();
     }
