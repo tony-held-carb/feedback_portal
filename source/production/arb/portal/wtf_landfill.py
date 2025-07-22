@@ -332,9 +332,6 @@ class LandfillFeedback(FlaskForm):
       *args: Positional arguments passed to FlaskForm.
       **kwargs: Keyword arguments passed to FlaskForm.
 
-    Returns:
-      None
-
     Notes:
       - Calls update_contingent_selectors() to initialize dropdowns.
     """

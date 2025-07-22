@@ -299,9 +299,6 @@ class OGFeedback(FlaskForm):
       *args: Positional arguments passed to FlaskForm.
       **kwargs: Keyword arguments passed to FlaskForm.
 
-    Returns:
-      None
-
     Notes:
       - Calls update_contingent_selectors() to initialize dropdowns.
     """
@@ -469,12 +466,6 @@ class OGFeedback(FlaskForm):
     - 95669.1(b)(1) exclusions where OGI inspection is not required.
     - Skipping downstream fields when "No leak was detected" is selected.
     - Making "Other" explanations required only if "Other" is selected.
-
-    Args:
-      None
-
-    Returns:
-      None
 
     Notes:
       - Adjusts validators for fields that depend on other field values.

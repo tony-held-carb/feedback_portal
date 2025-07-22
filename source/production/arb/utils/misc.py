@@ -88,8 +88,8 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
     ValueError: If `sub_key` is None or empty.
 
   Examples:
-    Input : dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}, default_dict = {"c": 99}, sub_key = "x"
-    Output: dict_["c"]["x"] == 99
+    Input : dict_ = {'a': {'x': 1}, 'b': {'x': 2}, 'c': {}}, default_dict = {'c': 99}, sub_key = 'x'
+    Output: dict_['c']['x'] == 99
 
   Notes:
     - If `sub_key` is None or empty, raises ValueError.

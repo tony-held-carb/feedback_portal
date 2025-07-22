@@ -160,7 +160,7 @@ def get_sa_automap_types(engine: Engine, base: AutomapBase) -> dict[str, dict]:
   Returns:
     dict[str, dict]: Nested mapping: table -> column -> type category.
     Structure:
-      result[table_name][column_name][kind] = type
+      result[table_name][column_name][kind] = type  # table_name, column_name, kind are placeholders
       where kind can be 'database_type', 'sqlalchemy_type', or 'python_type'.
 
   Examples:

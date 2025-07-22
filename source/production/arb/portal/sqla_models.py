@@ -135,7 +135,7 @@ class PortalUpdate(db.Model):
   comments = Column(Text, nullable=False, default="")
   id_incidence = Column(Integer, nullable=True)
 
-  def __repr__(self):
+  def __repr__(self) -> str:
     """
     Return a human-readable string representation of the portal update record.
 
