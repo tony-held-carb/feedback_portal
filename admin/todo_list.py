@@ -6,6 +6,8 @@ creating PR 27 is to continue e2e testing
 
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
+* merged in refactor_27, continuing on new branch 28
+
 * the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
 
 * compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
