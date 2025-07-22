@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -90,12 +142,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -116,9 +162,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -152,6 +204,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -208,21 +264,20 @@
         <p>Application factory for the ARB Feedback Portal (Flask app).</p>
 <p>This module defines the <code>create_app()</code> function, which initializes and configures
 the Flask application with required extensions, startup behavior, routing, and globals.</p>
-<h3 id="arb.portal.app--key-responsibilities">Key Responsibilities:</h3>
-<ul>
-<li>Load Flask configuration dynamically using <code>get_config()</code></li>
-<li>Apply global app settings via <code>configure_flask_app()</code></li>
-<li>Initialize SQLAlchemy and optionally CSRF protection</li>
-<li>Reflect and optionally create the application database schema</li>
-<li>Load dropdowns and type mappings into the app context</li>
-<li>Register Flask blueprints (e.g., <code>main</code>)</li>
-</ul>
-<h3 id="arb.portal.app--usage">Usage:</h3>
-<p>Used by WSGI, CLI tools, or testing utilities:</p>
-<pre><code>from arb.portal.app import create_app
-app = create_app()
-</code></pre>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.app import create_app
+app = create_app()</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used by WSGI, CLI tools, or testing utilities to create the Flask app instance.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
+</ul>
+</details>
 
 
 
@@ -284,9 +339,22 @@ route blueprints and global utilities.</p>
   </tbody>
 </table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.app import create_app
+app = create_app()</p>
+
+
             <details class="quote">
               <summary>Source code in <code>arb\portal\app.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
@@ -327,8 +395,7 @@ route blueprints and global utilities.</p>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Flask</span><span class="p">:</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Flask</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Create and configure the ARB Feedback Portal Flask application.</span>
 
@@ -341,11 +408,16 @@ route blueprints and global utilities.</p>
 <span class="sd">      - App context globals (dropdowns, types)</span>
 <span class="sd">      - SQLAlchemy base metadata (`app.base`)</span>
 <span class="sd">      - Registered routes via blueprints</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    from arb.portal.app import create_app</span>
+<span class="sd">    app = create_app()</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">app</span><span class="p">:</span> <span class="n">Flask</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
   <span class="c1"># Load configuration from config/settings.py</span>
   <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">get_config</span><span class="p">())</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;App config SQLALCHEMY_DATABASE_URI: </span><span class="si">{</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
   <span class="c1"># Setup Jinja2, logging, and app-wide config</span>
   <span class="n">configure_flask_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
@@ -357,15 +429,17 @@ route blueprints and global utilities.</p>
 
   <span class="c1"># Database initialization and reflection (within app context)</span>
   <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
-    <span class="n">db_initialize_and_create</span><span class="p">()</span>
-    <span class="n">reflect_database</span><span class="p">()</span>
-
-    <span class="c1"># Load dropdowns, mappings, and other global data</span>
-    <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">get_reflected_base</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>  <span class="c1"># reuse db.metadata without hitting DB again</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span>  <span class="c1"># ✅ Attach automap base to app object</span>
-
-    <span class="n">Globals</span><span class="o">.</span><span class="n">load_type_mapping</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
-    <span class="n">Globals</span><span class="o">.</span><span class="n">load_drop_downs</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">db_initialize_and_create</span><span class="p">()</span>
+      <span class="n">reflect_database</span><span class="p">()</span>
+      <span class="c1"># Load dropdowns, mappings, and other global data</span>
+      <span class="n">base</span><span class="p">:</span> <span class="n">AutomapBase</span> <span class="o">=</span> <span class="n">get_reflected_base</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>  <span class="c1"># reuse db.metadata without hitting DB again</span>
+      <span class="n">app</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span>  <span class="c1"># type: ignore[attr-defined]  # ✅ Attach automap base to app object</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Automap base classes after reflection: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">Globals</span><span class="o">.</span><span class="n">load_type_mapping</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+      <span class="n">Globals</span><span class="o">.</span><span class="n">load_drop_downs</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error during app database setup: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
   <span class="c1"># Register route blueprints</span>
   <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
@@ -388,7 +462,7 @@ route blueprints and global utilities.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../../wsgi/" class="btn btn-neutral float-left" title="arb.wsgi"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../logging/arb_logging/" class="btn btn-neutral float-left" title="arb.logging.arb_logging"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../constants/" class="btn btn-neutral float-right" title="arb.portal.constants">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -412,7 +486,7 @@ route blueprints and global utilities.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../../wsgi/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../logging/arb_logging/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../constants/" style="color: #fcfcfc">Next &raquo;</a></span>

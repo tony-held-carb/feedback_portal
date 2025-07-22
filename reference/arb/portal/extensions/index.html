@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -63,6 +115,8 @@
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.portal.extensions</a>
     <ul class="current">
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.extensions">extensions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.extensions--use-csrf-in-flask-forms">Use csrf in Flask forms</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.extensions.csrf">csrf</a>
     </li>
@@ -92,12 +146,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -118,9 +166,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -154,6 +208,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -212,13 +270,18 @@
 at the top level, without initializing them until <code>app.init_app()</code> is called elsewhere.</p>
 
 
-<details class="extensions-defined" open>
-  <summary>Extensions Defined</summary>
-  <ul>
-<li>db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.</li>
-<li>csrf (CSRFProtect): CSRF protection used for form validation.</li>
-</ul>
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.
+csrf (CSRFProtect): CSRF protection used for form validation.
+logger (logging.Logger): Logger instance for this module.</p>
 </details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.extensions import db, csrf
+db.create_all()</p>
+<h2 id="arb.portal.extensions--use-csrf-in-flask-forms">Use csrf in Flask forms</h2>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -226,6 +289,7 @@ at the top level, without initializing them until <code>app.init_app()</code> is
 <li><code>geoalchemy2.Geometry</code> must be imported for spatial field introspection,
   even if not directly referenced in code.</li>
 <li>Use <code>with app.app_context():</code> when accessing <code>db</code> outside a Flask route.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
 </ul>
 </details>
 
@@ -262,6 +326,19 @@ at the top level, without initializing them until <code>app.init_app()</code> is
 
         <p>CSRFProtect: Flask-WTF extension for CSRF form protection.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.extensions import csrf
+csrf.init_app(app)</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Do not initialize until app.init_app() is called.</li>
+<li>Use within Flask app context.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -284,6 +361,19 @@ at the top level, without initializing them until <code>app.init_app()</code> is
 
         <p>SQLAlchemy: Flask SQLAlchemy instance for managing ORM and schema.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.extensions import db
+db.create_all()</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Do not initialize until app.init_app() is called.</li>
+<li>Use within Flask app context.</li>
+</ul>
+</details>
     </div>
 
 </div>

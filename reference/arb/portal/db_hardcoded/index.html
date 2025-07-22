@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -62,13 +114,13 @@
     <ul class="current">
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded">db_hardcoded</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.add_og_dummy_data">add_og_dummy_data</a>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded--output-oil-gas">Output: 'Oil &amp; Gas'</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.get_excel_dropdown_data">get_excel_dropdown_data</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.get_landfill_dummy_data">get_landfill_dummy_data</a>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.get_landfill_dummy_form_data">get_landfill_dummy_form_data</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.get_og_dummy_data">get_og_dummy_data</a>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.db_hardcoded.get_og_dummy_form_data">get_og_dummy_form_data</a>
     </li>
     </ul>
                 </li>
@@ -96,12 +148,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -122,9 +168,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -158,6 +210,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -223,11 +279,29 @@
 </ul>
 </details>
 
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>logger (logging.Logger): Logger instance for this module.
+OIL_AND_GAS_SECTORS (list[str]): Oil &amp; Gas sector names for dropdowns.
+LANDFILL_SECTORS (list[str]): Landfill sector names for dropdowns.
+_drop_downs (dict): Canonical dropdown data for forms. Do not mutate at runtime.
+_drop_downs_contingent (dict): Canonical contingent dropdown data for forms. Do not mutate at runtime.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.db_hardcoded import get_og_dummy_form_data
+data = get_og_dummy_form_data()
+print(data["sector"])</p>
+<h2 id="arb.portal.db_hardcoded--output-oil-gas">Output: 'Oil &amp; Gas'</h2>
+
+
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
-<li>Intended for use during development and offline diagnostics</li>
-<li>Not suitable for production database seeding</li>
+<li>Intended for use during development and offline diagnostics.</li>
+<li>Not suitable for production database seeding.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
+<li>The dropdown transformation logic in get_excel_dropdown_data is imported from arb.utils.web_html.update_selector_dict to ensure consistency with the canonical implementation.</li>
 </ul>
 </details>
 
@@ -251,191 +325,6 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.db_hardcoded.add_og_dummy_data" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">add_og_dummy_data</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>(Depreciated) Populate the database with synthetic Oil &amp; Gas incidence rows for diagnostics.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>db</code></b>
-                  (<code><span title="SQLAlchemy">SQLAlchemy</span></code>)
-              –
-              <div class="doc-md-description">
-                <p>Active SQLAlchemy session bound to the database.</p>
-              </div>
-            </li>
-            <li>
-              <b><code>base</code></b>
-                  (<code><span title="AutomapBase">AutomapBase</span></code>)
-              –
-              <div class="doc-md-description">
-                <p>SQLAlchemy automap base for resolving table classes.</p>
-              </div>
-            </li>
-            <li>
-              <b><code>table_name</code></b>
-                  (<code><span title="str">str</span></code>)
-              –
-              <div class="doc-md-description">
-                <p>Target table name (e.g., 'incidences').</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>This routine is likely outdated and is kept only as a template.</li>
-<li>It is valid, but not necessary to specify 'Please Select' in dummy data.</li>
-<li>Uses an offset in <code>id_incidence</code> to avoid primary key conflicts.</li>
-<li>Inserts 9 rows with dummy <code>misc_json</code> fields.</li>
-</ul>
-</details>
-
-            <details class="quote">
-              <summary>Source code in <code>arb\portal\db_hardcoded.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_og_dummy_data</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  (Depreciated) Populate the database with synthetic Oil &amp; Gas incidence rows for diagnostics.</span>
-
-<span class="sd">  Args:</span>
-<span class="sd">    db (SQLAlchemy): Active SQLAlchemy session bound to the database.</span>
-<span class="sd">    base (AutomapBase): SQLAlchemy automap base for resolving table classes.</span>
-<span class="sd">    table_name (str): Target table name (e.g., &#39;incidences&#39;).</span>
-
-<span class="sd">  Notes:</span>
-<span class="sd">    - This routine is likely outdated and is kept only as a template.</span>
-<span class="sd">    - It is valid, but not necessary to specify &#39;Please Select&#39; in dummy data.</span>
-<span class="sd">    - Uses an offset in `id_incidence` to avoid primary key conflicts.</span>
-<span class="sd">    - Inserts 9 rows with dummy `misc_json` fields.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-
-  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.sql_alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_class_from_table_name</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding dummy oil and gas data to populate the database&quot;</span><span class="p">)</span>
-  <span class="n">table</span> <span class="o">=</span> <span class="n">get_class_from_table_name</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
-  <span class="n">col_name</span> <span class="o">=</span> <span class="s2">&quot;misc_json&quot;</span>
-
-  <span class="n">offset</span> <span class="o">=</span> <span class="mi">2000000</span>  <span class="c1"># adjust so that you don&#39;t have a unique constraint issue</span>
-
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="n">id_incidence</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">offset</span>
-    <span class="n">id_plume</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span>
-    <span class="n">lat_arb</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mf">50.</span>
-    <span class="n">long_arb</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mf">75.</span>
-    <span class="n">observation_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="n">facility_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;facility_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">contact_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;contact_name_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">contact_phone</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(555) 555-5555x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">contact_email</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;my_email_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">@server.com&quot;</span>
-    <span class="n">sector</span> <span class="o">=</span> <span class="s2">&quot;Oil &amp; Gas&quot;</span>
-    <span class="n">sector_type</span> <span class="o">=</span> <span class="s2">&quot;Oil &amp; Gas&quot;</span>
-
-    <span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id_incidence&quot;</span><span class="p">:</span> <span class="n">id_incidence</span><span class="p">,</span>
-                 <span class="s2">&quot;id_plume&quot;</span><span class="p">:</span> <span class="n">id_plume</span><span class="p">,</span>
-                 <span class="s2">&quot;lat_arb&quot;</span><span class="p">:</span> <span class="n">lat_arb</span><span class="p">,</span>
-                 <span class="s2">&quot;long_arb&quot;</span><span class="p">:</span> <span class="n">long_arb</span><span class="p">,</span>
-                 <span class="c1"># &quot;observation_timestamp&quot;: observation_timestamp.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;),</span>
-                 <span class="s2">&quot;observation_timestamp&quot;</span><span class="p">:</span> <span class="n">observation_timestamp</span><span class="p">,</span>
-                 <span class="s2">&quot;facility_name&quot;</span><span class="p">:</span> <span class="n">facility_name</span><span class="p">,</span>
-                 <span class="s2">&quot;contact_name&quot;</span><span class="p">:</span> <span class="n">contact_name</span><span class="p">,</span>
-                 <span class="s2">&quot;contact_phone&quot;</span><span class="p">:</span> <span class="n">contact_phone</span><span class="p">,</span>
-                 <span class="s2">&quot;contact_email&quot;</span><span class="p">:</span> <span class="n">contact_email</span><span class="p">,</span>
-                 <span class="s2">&quot;sector&quot;</span><span class="p">:</span> <span class="n">sector</span><span class="p">,</span>
-                 <span class="s2">&quot;sector_type&quot;</span><span class="p">:</span> <span class="n">sector_type</span><span class="p">,</span>
-                 <span class="p">}</span>
-
-    <span class="n">model</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dummy data created by add_og_dummy_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">col_name</span><span class="p">:</span> <span class="n">json_data</span><span class="p">})</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding incidence with json dummy data: </span><span class="si">{</span><span class="n">json_data</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-  <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h2 id="arb.portal.db_hardcoded.get_excel_dropdown_data" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">get_excel_dropdown_data</span><span class="p">()</span></code>
 
@@ -444,7 +333,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Return dropdown lookup values used in Excel and HTML form rendering.</p>
+        <p>Return transformed dropdown lookup values for use in HTML form rendering.</p>
 
 
 <table class="field-list">
@@ -458,12 +347,12 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-<b><code>tuple</code></b>(                  <code><span title="tuple">tuple</span>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="list">list</span>[<span title="str">str</span> | <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>] | <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>, <span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]]], <span title="dict">dict</span>[<span title="str">str</span>, <span title="dict">dict</span>[<span title="str">str</span>, <span title="list">list</span>[<span title="str">str</span> | <span title="typing.Any">Any</span>]]]]</code>
+<b><code>tuple</code></b>(                  <code><span title="tuple">tuple</span>[<span title="dict">dict</span>, <span title="dict">dict</span>]</code>
 )              –
               <div class="doc-md-description">
                 <ul>
-<li>dict[str, list[str]]: Independent dropdowns keyed by HTML field name.</li>
-<li>dict[str, dict[str, list[str]]]: Contingent dropdowns dependent on parent field values.</li>
+<li>dict[str, list[tuple[str, str] | tuple[str, str, dict[str, Any]]]]: Independent dropdowns keyed by HTML field name, with each value as a tuple suitable for form rendering.</li>
+<li>dict[str, dict[str, list[str | Any]]]: Contingent dropdowns dependent on parent field values, as deep copies of the module-level canonical data.</li>
 </ul>
               </div>
             </li>
@@ -473,143 +362,142 @@
   </tbody>
 </table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>drop_downs, contingent = get_excel_dropdown_data()
+print(list(drop_downs.keys()))</p>
+<h3 id="arb.portal.db_hardcoded.get_excel_dropdown_data--output-field-names">Output: [ ... field names ... ]</h3>
+
+
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
-<li>Dropdown values mirror those found in Excel templates.</li>
-<li>Each list element is a selectable value; <code>"Please Select"</code> is prepended externally.</li>
-<li>Contingent keys follow the format: <code>field2_contingent_on_field1</code>.</li>
-<li>Each tuple is 2 or 3 items in length with the format:
-  (select value, select text, and an optional dictionary of additional html formatting)</li>
+<li>The module-level variables _drop_downs and _drop_downs_contingent contain the canonical, human-readable dropdown data as found in Excel templates and business logic.</li>
+<li>This function returns a deep copy of _drop_downs, transformed using arb.utils.web_html.update_selector_dict, which applies the canonical (value, label) tuple structure and prepends a disabled 'Please Select' option.</li>
+<li>The contingent dropdowns (_drop_downs_contingent) are returned as a deep copy, unmodified.</li>
+<li>The transformation logic is always imported from the canonical implementation to ensure consistency and maintainability.</li>
+<li>NOT COVERED BY UNIT TESTS: This function is not directly covered by unit tests because the transformation logic is delegated to arb.utils.web_html.update_selector_dict, which is tested elsewhere and imported inside the function. Change with caution. See documentation/docstring_update_for_testing.md for details.</li>
 </ul>
-</details>        <h3 id="arb.portal.db_hardcoded.get_excel_dropdown_data--todo-the-new-drop-downs-are-not-context-dependent-like-they-are-in-excel-and-the">todo - The new drop-downs are not context dependent like they are in excel and the</h3>
-<pre><code>     validate logic needs to be updated.
-</code></pre>
-
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\db_hardcoded.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_excel_dropdown_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Return transformed dropdown lookup values for use in HTML form rendering.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple:</span>
+<span class="sd">      - dict[str, list[tuple[str, str] | tuple[str, str, dict[str, Any]]]]: Independent dropdowns keyed by HTML field name, with each value as a tuple suitable for form rendering.</span>
+<span class="sd">      - dict[str, dict[str, list[str | Any]]]: Contingent dropdowns dependent on parent field values, as deep copies of the module-level canonical data.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    drop_downs, contingent = get_excel_dropdown_data()</span>
+<span class="sd">    print(list(drop_downs.keys()))</span>
+<span class="sd">    # Output: [ ... field names ... ]</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - The module-level variables _drop_downs and _drop_downs_contingent contain the canonical, human-readable dropdown data as found in Excel templates and business logic.</span>
+<span class="sd">    - This function returns a deep copy of _drop_downs, transformed using arb.utils.web_html.update_selector_dict, which applies the canonical (value, label) tuple structure and prepends a disabled &#39;Please Select&#39; option.</span>
+<span class="sd">    - The contingent dropdowns (_drop_downs_contingent) are returned as a deep copy, unmodified.</span>
+<span class="sd">    - The transformation logic is always imported from the canonical implementation to ensure consistency and maintainability.</span>
+<span class="sd">    - NOT COVERED BY UNIT TESTS: This function is not directly covered by unit tests because the transformation logic is delegated to arb.utils.web_html.update_selector_dict, which is tested elsewhere and imported inside the function. Change with caution. See documentation/docstring_update_for_testing.md for details.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">drop_downs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">_drop_downs</span><span class="p">)</span>
+  <span class="n">drop_downs_contingent</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">_drop_downs_contingent</span><span class="p">)</span>
+
+  <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.web_html</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_selector_dict</span>
+
+  <span class="n">drop_downs</span> <span class="o">=</span> <span class="n">update_selector_dict</span><span class="p">(</span><span class="n">drop_downs</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">drop_downs</span><span class="p">,</span> <span class="n">drop_downs_contingent</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.db_hardcoded.get_landfill_dummy_form_data" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_landfill_dummy_form_data</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate dummy Landfill form data as a dictionary.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>dict</code></b>(                  <code><span title="dict">dict</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Pre-filled key/value pairs simulating user input from the HTML form.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>data = get_landfill_dummy_form_data()
+print(data["sector"])</p>
+<h3 id="arb.portal.db_hardcoded.get_landfill_dummy_form_data--output-landfill">Output: 'Landfill'</h3>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Datetime fields are naive (California local), matching what a user would submit.</li>
+<li>This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\db_hardcoded.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">335</span>
 <span class="normal">336</span>
 <span class="normal">337</span>
 <span class="normal">338</span>
@@ -668,413 +556,21 @@
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_excel_dropdown_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
-  <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]],</span>
-  <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Any</span><span class="p">]]]</span>
-<span class="p">]:</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Return dropdown lookup values used in Excel and HTML form rendering.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    tuple:</span>
-<span class="sd">      - dict[str, list[str]]: Independent dropdowns keyed by HTML field name.</span>
-<span class="sd">      - dict[str, dict[str, list[str]]]: Contingent dropdowns dependent on parent field values.</span>
-
-<span class="sd">  Notes:</span>
-<span class="sd">    - Dropdown values mirror those found in Excel templates.</span>
-<span class="sd">    - Each list element is a selectable value; `&quot;Please Select&quot;` is prepended externally.</span>
-<span class="sd">    - Contingent keys follow the format: `field2_contingent_on_field1`.</span>
-<span class="sd">    - Each tuple is 2 or 3 items in length with the format:</span>
-<span class="sd">      (select value, select text, and an optional dictionary of additional html formatting)</span>
-
-<span class="sd">  # todo - The new drop-downs are not context dependent like they are in excel and the</span>
-<span class="sd">           validate logic needs to be updated.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-
-  <span class="c1"># Oil &amp; Gas</span>
-  <span class="n">drop_downs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;venting_exclusion&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;ogi_performed&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;ogi_result&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as OGI was not performed&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No source found&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Unintentional-leak&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Unintentional-non-component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Venting-construction/maintenance&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Venting-routine&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;method21_performed&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;method21_result&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as Method 21 was not performed&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No source found&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Unintentional-below leak threshold&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Unintentional-leak&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Unintentional-non-component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Venting-construction/maintenance&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Venting-routine&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;equipment_at_source&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Centrifugal Natural Gas Compressor&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Continuous High Bleed Natural Gas-actuated Pneumatic Device&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Continuous Low Bleed Natural Gas-actuated Pneumatic Device&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Intermittent Bleed Natural Gas-actuated Pneumatic Device&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Natural Gas-actuated Pneumatic Pump&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Pressure Separator&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Reciprocating Natural Gas Compressor&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Separator&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Tank&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Open Well Casing Vent&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Piping&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Well&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;component_at_source&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Valve&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Connector&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Flange&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Fitting - pressure meter/gauge&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Fitting - not pressure meter/gauge&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Open-ended line&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Plug&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Pressure relief device&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Stuffing box&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-
-    <span class="c1"># Landfill</span>
-    <span class="s2">&quot;emission_identified_flag_fk&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Operator was aware of the leak prior to receiving the CARB plume notification&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No leak was detected&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;emission_type_fk&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as no leak was detected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;An intentional or allowable vent (i.e., the operator was aware of, and/or would not repair)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Due to a temporary activity (i.e., would be resolved without corrective action when the activity is complete)&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;emission_location&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as no leak was detected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Gas Collection System Component (e.g., blower, well, valve, port)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Gas Control Device/Control System Component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Landfill Surface: Daily Cover&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Landfill Surface: Final Cover&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Landfill Surface: Intermediate Cover&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Leachate Management System&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Working Face (area where active filling was being conducted at the time of detection)&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;emission_cause&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as no leak was detected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;emission_cause_secondary&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as no leak was detected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Not applicable as no additional leak cause suspected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;emission_cause_tertiary&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Not applicable as no leak was detected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Not applicable as no additional leak cause suspected&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-
-    <span class="s2">&quot;included_in_last_lmr&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">&quot;planned_for_next_lmr&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-
-  <span class="p">}</span>
-
-  <span class="c1"># keys to the contingent dropdowns follow the patter html_selector2_contingent_on_html_selector1</span>
-  <span class="c1"># for instance, emission_cause_contingent_on_emission_location means that the choices for</span>
-  <span class="c1"># emission_cause are based on a lookup of the emission_location</span>
-
-  <span class="n">drop_downs_contingent</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;emission_cause_contingent_on_emission_location&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">&quot;Gas Collection System Component (e.g., blower, well, valve, port)&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Gas Control Device/Control System Component&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Landfill Surface: Daily Cover&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Landfill Surface: Intermediate Cover&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Landfill Surface: Final Cover&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Collection system downtime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover integrity&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cracked/Broken Seal&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Insufficient vacuum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Leachate Management System&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Damaged component&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;Working Face (area where active filling was being conducted at the time of detection)&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Construction - New Well Installation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Construction - Well Raising or Horizontal Extension&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Offline Gas Collection Well(s)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Uncontrolled Area (no gas collection infrastructure)&quot;</span><span class="p">,</span>
-      <span class="p">],</span>
-    <span class="p">},</span>
-  <span class="p">}</span>
-
-  <span class="c1"># Note, the drop_downs get &quot;Please Select&quot; prepended, but the drop_down_contingent content is not modified</span>
-  <span class="n">drop_downs</span> <span class="o">=</span> <span class="n">update_selector_dict</span><span class="p">(</span><span class="n">drop_downs</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">drop_downs</span><span class="p">,</span> <span class="n">drop_downs_contingent</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="arb.portal.db_hardcoded.get_landfill_dummy_data" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_landfill_dummy_data</span><span class="p">()</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Generate dummy Landfill form data as a dictionary.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-<b><code>dict</code></b>(                  <code><span title="dict">dict</span></code>
-)              –
-              <div class="doc-md-description">
-                <p>Pre-filled key/value pairs used to populate a feedback form.</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Notes:
-- It is valid, but not necessary to specify 'Please Select' in dummy data.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>arb\portal\db_hardcoded.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_landfill_dummy_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_landfill_dummy_form_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Generate dummy Landfill form data as a dictionary.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    dict: Pre-filled key/value pairs used to populate a feedback form.</span>
+<span class="sd">    dict: Pre-filled key/value pairs simulating user input from the HTML form.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    data = get_landfill_dummy_form_data()</span>
+<span class="sd">    print(data[&quot;sector&quot;])</span>
+<span class="sd">    # Output: &#39;Landfill&#39;</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">  - It is valid, but not necessary to specify &#39;Please Select&#39; in dummy data.</span>
+<span class="sd">    - Datetime fields are naive (California local), matching what a user would submit.</span>
+<span class="sd">    - This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;in landfill_dummy_data()&quot;</span><span class="p">)</span>
 
@@ -1094,7 +590,7 @@
     <span class="c1"># &quot;emission_type_fk&quot;: PLEASE_SELECT,</span>
     <span class="s2">&quot;facility_name&quot;</span><span class="p">:</span> <span class="s2">&quot;facility_name&quot;</span><span class="p">,</span>
     <span class="s2">&quot;id_arb_swis&quot;</span><span class="p">:</span> <span class="s2">&quot;id_arb_swis&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;id_incidence&quot;</span><span class="p">:</span> <span class="mi">2002</span><span class="p">,</span>
+    <span class="s2">&quot;id_incidence&quot;</span><span class="p">:</span> <span class="mi">1002030</span><span class="p">,</span>
     <span class="s2">&quot;id_message&quot;</span><span class="p">:</span> <span class="s2">&quot;id_message&quot;</span><span class="p">,</span>
     <span class="s2">&quot;id_plume&quot;</span><span class="p">:</span> <span class="mi">1002</span><span class="p">,</span>
     <span class="c1"># &quot;included_in_last_lmr&quot;: PLEASE_SELECT,</span>
@@ -1129,8 +625,8 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="arb.portal.db_hardcoded.get_og_dummy_data" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_og_dummy_data</span><span class="p">()</span></code>
+<h2 id="arb.portal.db_hardcoded.get_og_dummy_form_data" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_og_dummy_form_data</span><span class="p">()</span></code>
 
 </h2>
 
@@ -1154,79 +650,103 @@
 <b><code>dict</code></b>(                  <code><span title="dict">dict</span></code>
 )              –
               <div class="doc-md-description">
-                <p>Pre-filled key/value pairs used to populate a feedback form.</p>
+                <p>Pre-filled key/value pairs simulating user input from the HTML form.</p>
               </div>
             </li>
         </ul>
       </td>
     </tr>
   </tbody>
-</table>        <p>Notes:
-- It is valid, but not necessary to specify 'Please Select' in dummy data.</p>
+</table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>data = get_og_dummy_form_data()
+print(data["sector"])</p>
+<h3 id="arb.portal.db_hardcoded.get_og_dummy_form_data--output-oil-gas">Output: 'Oil &amp; Gas'</h3>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Datetime fields are naive (California local), matching what a user would submit.</li>
+<li>This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.</li>
+</ul>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\db_hardcoded.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_og_dummy_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_og_dummy_form_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Generate dummy Oil &amp; Gas form data as a dictionary.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    dict: Pre-filled key/value pairs used to populate a feedback form.</span>
+<span class="sd">    dict: Pre-filled key/value pairs simulating user input from the HTML form.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    data = get_og_dummy_form_data()</span>
+<span class="sd">    print(data[&quot;sector&quot;])</span>
+<span class="sd">    # Output: &#39;Oil &amp; Gas&#39;</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">  - It is valid, but not necessary to specify &#39;Please Select&#39; in dummy data.</span>
+<span class="sd">    - Datetime fields are naive (California local), matching what a user would submit.</span>
+<span class="sd">    - This data is NOT contract-compliant for direct DB storage; it must be converted to UTC-aware ISO 8601 strings before being saved to the database.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;id_incidence&quot;</span><span class="p">:</span> <span class="mi">2001</span><span class="p">,</span>
+    <span class="s2">&quot;id_incidence&quot;</span><span class="p">:</span> <span class="mi">1002050</span><span class="p">,</span>
     <span class="s2">&quot;id_plume&quot;</span><span class="p">:</span> <span class="mi">1001</span><span class="p">,</span>
     <span class="s2">&quot;observation_timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
     <span class="s2">&quot;lat_carb&quot;</span><span class="p">:</span> <span class="mf">100.05</span><span class="p">,</span>

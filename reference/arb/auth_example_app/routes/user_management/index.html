@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/auth_example_app/routes/user_management/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.auth_example_app.routes.user_management - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.auth_example_app.routes.user_management";
+        var mkdocs_page_input_path = "reference\\arb\\auth_example_app\\routes\\user_management.md";
+        var mkdocs_page_url = "/reference/arb/auth_example_app/routes/user_management/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Auth example app</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Routes</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Portal</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/db_ingest_util/">arb.portal.utils.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/db_introspection_util/">arb.portal.utils.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/file_upload_util/">arb.portal.utils.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/form_mapper/">arb.portal.utils.form_mapper</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/route_util/">arb.portal.utils.route_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Auth example app</li>
+          <li class="breadcrumb-item">Routes</li>
+      <li class="breadcrumb-item active">arb.auth_example_app.routes.user_management</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbauth_example_approutesuser_management"><code>arb.auth_example_app.routes.user_management</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.auth_example_app.routes.user_management"></a>
+    <div class="doc doc-contents first">
+
+        <p>User management routes for the Auth Example App.</p>
+<p>Demonstrates user self-service functionality and profile management.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth_example_app.routes.user_management.activity" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">activity</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>User activity log - accessible to logged-in users.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth_example_app\routes\user_management.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/activity&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">activity</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;User activity log - accessible to logged-in users.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/activity.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth_example_app.routes.user_management.change_password" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">change_password</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Change password - accessible to logged-in users.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth_example_app\routes\user_management.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/change-password&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">change_password</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Change password - accessible to logged-in users.&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="n">current_password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;current_password&#39;</span><span class="p">)</span>
+    <span class="n">new_password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_password&#39;</span><span class="p">)</span>
+    <span class="n">confirm_password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;confirm_password&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Validate current password</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">current_password</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="n">current_password</span><span class="p">):</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Current password is incorrect&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/change_password.html&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Validate new password</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">new_password</span> <span class="ow">or</span> <span class="n">new_password</span> <span class="o">!=</span> <span class="n">confirm_password</span><span class="p">:</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;New passwords do not match&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/change_password.html&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_password</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;New password must be at least 6 characters&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/change_password.html&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Update password</span>
+    <span class="n">current_user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">new_password</span><span class="p">)</span>
+    <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Password changed successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;user_management.profile&#39;</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/change_password.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth_example_app.routes.user_management.edit_profile" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">edit_profile</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Edit user profile - accessible to logged-in users.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth_example_app\routes\user_management.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/profile/edit&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">edit_profile</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Edit user profile - accessible to logged-in users.&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="c1"># In a real app, you&#39;d validate and update user data</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Profile updated successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;user_management.profile&#39;</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/edit_profile.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth_example_app.routes.user_management.profile" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">profile</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>User profile page - accessible to logged-in users.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth_example_app\routes\user_management.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/profile&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;User profile page - accessible to logged-in users.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/profile.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth_example_app.routes.user_management.view_roles" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">view_roles</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>View user roles - accessible to logged-in users.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth_example_app\routes\user_management.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/roles&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">view_roles</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;View user roles - accessible to logged-in users.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;user_management/roles.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../main/" class="btn btn-neutral float-left" title="arb.auth_example_app.routes.main"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../logging/arb_logging/" class="btn btn-neutral float-right" title="arb.logging.arb_logging">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../main/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../logging/arb_logging/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

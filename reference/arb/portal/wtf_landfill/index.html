@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -90,12 +142,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -116,9 +162,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -152,6 +204,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -210,29 +266,31 @@
 HTML form for collecting information on methane emission inspections and responses
 at landfill sites. The form is organized into multiple logical sections and includes
 dynamic dropdown behavior, conditional validation, and cross-field logic.</p>
-<h3 id="arb.portal.wtf_landfill--key-features">Key Features:</h3>
-<ul>
-<li>Uses <code>FlaskForm</code> as a base and is rendered using Bootstrap-compatible templates.</li>
-<li>Dropdowns support conditional dependencies using <code>Globals.drop_downs_contingent</code>.</li>
-<li>Validators are programmatically adjusted to enforce or relax constraints based on user input.</li>
-<li>Supports optional "Other" fields that are only required when triggered.</li>
-<li>Final validation is managed via a custom <code>validate()</code> override.</li>
-</ul>
-<h3 id="arb.portal.wtf_landfill--example-usage">Example Usage:</h3>
-<p>form = LandfillFeedback()
-  form.process(request.form)</p>
-<p>if form.validate_on_submit():
-    # Process and store form data
-    save_landfill_feedback(form.data)</p>
-<h3 id="arb.portal.wtf_landfill--notes">Notes:</h3>
-<ul>
+
+
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>LandfillFeedback (type): WTForms form class for landfill feedback data.
+logger (logging.Logger): Logger instance for this module.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = LandfillFeedback()
+form.process(request.form)
+if form.validate_on_submit():
+  save_landfill_feedback(form.data)</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
 <li>The <code>update_contingent_selectors()</code> method updates selector/contingent choices.</li>
 <li>The <code>determine_contingent_fields()</code> method enforces dynamic field-level validation.</li>
 <li>Intended for use with the <code>landfill_incidence_update</code> route and similar flows.</li>
-<li>General-purpose WTForms utilities are located in:
-    arb.utils.wtf_forms_util.py</li>
+<li>General-purpose WTForms utilities are located in: arb.utils.wtf_forms_util.py</li>
+<li>The logger emits a debug message when this file is loaded.</li>
 </ul>
-
+</details>
 
 
 
@@ -275,6 +333,20 @@ landfill facility operations.</p>
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
+<li>All form fields are defined as class attributes below.</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = LandfillFeedback()
+form.process(request.form)
+if form.validate_on_submit():
+  save_landfill_feedback(form.data)</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
 <li>Some fields are conditionally validated depending on selections.</li>
 <li>The form dynamically updates contingent dropdowns using
   <code>update_contingent_selectors()</code>.</li>
@@ -289,7 +361,13 @@ landfill facility operations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\wtf_landfill.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 52</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
 <span class="normal"> 53</span>
 <span class="normal"> 54</span>
 <span class="normal"> 55</span>
@@ -818,13 +896,37 @@ landfill facility operations.</p>
 <span class="normal">578</span>
 <span class="normal">579</span>
 <span class="normal">580</span>
-<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LandfillFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LandfillFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  WTForms form class for collecting landfill feedback data.</span>
 
 <span class="sd">  Captures user-submitted information about methane emissions,</span>
 <span class="sd">  inspections, corrective actions, and contact details related to</span>
 <span class="sd">  landfill facility operations.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - All form fields are defined as class attributes below.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    form = LandfillFeedback()</span>
+<span class="sd">    form.process(request.form)</span>
+<span class="sd">    if form.validate_on_submit():</span>
+<span class="sd">      save_landfill_feedback(form.data)</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Some fields are conditionally validated depending on selections.</span>
@@ -913,7 +1015,7 @@ landfill facility operations.</p>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Email</span><span class="p">()])</span>
 
   <span class="c1"># Section 4</span>
-  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q6.  Date of owner/operator’s follow-up ground monitoring.&quot;</span>
+  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q6.  Date of owner/operator&#39;s follow-up ground monitoring.&quot;</span>
   <span class="n">inspection_timestamp</span> <span class="o">=</span> <span class="n">DateTimeLocalField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
@@ -928,7 +1030,7 @@ landfill facility operations.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q8.  Was a leak identified through prior knowledge or by follow-up monitoring after receipt of a CARB plume notice?&quot;</span>
   <span class="n">emission_identified_flag_fk</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_identified_flag_fk&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
@@ -965,14 +1067,14 @@ landfill facility operations.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q13:  Please select from the drop-down menu which option best matches the description of the leak.&quot;</span>
   <span class="n">emission_type_fk</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_type_fk&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q14.  Please select from the drop-down menu which option best describes the location of the leak.&quot;</span>
   <span class="n">emission_location</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_location&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
@@ -986,7 +1088,7 @@ landfill facility operations.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q16.  Please select the most likely cause of the leak.&quot;</span>
   <span class="n">emission_cause</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_cause&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
@@ -994,7 +1096,7 @@ landfill facility operations.</p>
            <span class="sa">f</span><span class="s2">&quot;This should not be the same as your Q16 response.&quot;</span><span class="p">)</span>
   <span class="n">emission_cause_secondary</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_cause_secondary&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -1002,7 +1104,7 @@ landfill facility operations.</p>
            <span class="sa">f</span><span class="s2">&quot;This should not be the same as your Q16 or Q17 responses.&quot;</span><span class="p">)</span>
   <span class="n">emission_cause_tertiary</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;emission_cause_tertiary&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -1043,7 +1145,7 @@ landfill facility operations.</p>
            <span class="sa">f</span><span class="s2">&quot;prior quarterly/annual surface emissions or quarterly component leak monitoring event?&quot;</span><span class="p">)</span>
   <span class="n">included_in_last_lmr</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;included_in_last_lmr&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
@@ -1055,7 +1157,7 @@ landfill facility operations.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q26.  Is this grid/component planned for inclusion in the next quarterly/annual leak monitoring?&quot;</span>
   <span class="n">planned_for_next_lmr</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;planned_for_next_lmr&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
   <span class="p">)</span>
 
@@ -1090,9 +1192,30 @@ landfill facility operations.</p>
     <span class="n">validators</span><span class="o">=</span><span class="p">[],</span>
   <span class="p">)</span>
 
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the LandfillFeedback form and set up contingent selectors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      *args: Positional arguments passed to FlaskForm.</span>
+<span class="sd">      **kwargs: Keyword arguments passed to FlaskForm.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">      - Calls update_contingent_selectors() to initialize dropdowns.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_identified_flag_fk</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_identified_flag_fk&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_type_fk</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_type_fk&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_location</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_location&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause_secondary</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause_secondary&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause_tertiary</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause_tertiary&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">included_in_last_lmr</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;included_in_last_lmr&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">planned_for_next_lmr</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;planned_for_next_lmr&quot;</span><span class="p">))</span>
+
   <span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Update contingent dropdown field choices based on current field selections.</span>
+<span class="sd">    Update contingent dropdown selectors based on current form state.</span>
 
 <span class="sd">    This method looks up selector/contingent relationships defined in</span>
 <span class="sd">    `Globals.drop_downs_contingent` and dynamically modifies the `choices`</span>
@@ -1111,6 +1234,10 @@ landfill facility operations.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      None</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">      - Uses Globals.drop_downs_contingent to update choices.</span>
+<span class="sd">      - Should be called whenever a parent dropdown value changes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># todo - update contingent dropdowns?</span>
 
@@ -1147,21 +1274,17 @@ landfill facility operations.</p>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Override WTForms default validation with custom cross-field logic.</span>
+<span class="sd">    Perform full-form validation, including dynamic and cross-field checks.</span>
 
-<span class="sd">    Ensures required fields are conditionally enforced based on upstream</span>
-<span class="sd">    values, including:</span>
-<span class="sd">      - Facility activity selections imply required contingent selections</span>
-<span class="sd">      - If &quot;Other&quot; is chosen, corresponding text input must be filled</span>
-<span class="sd">      - If leak is confirmed, additional emission details are required</span>
+<span class="sd">    Args:</span>
+<span class="sd">      extra_validators (list | None): Additional validators to apply.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      bool: True if form is valid, False otherwise.</span>
+<span class="sd">      bool: True if the form is valid, False otherwise.</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">      - Calls `determine_contingent_fields()` before validation to</span>
-<span class="sd">        ensure field validators are correct.</span>
-<span class="sd">      - Uses built-in `super().validate()` after adjusting validators.</span>
+<span class="sd">      - Enforces conditional requirements based on user input.</span>
+<span class="sd">      - Calls determine_contingent_fields() for dynamic validation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
@@ -1294,20 +1417,11 @@ landfill facility operations.</p>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add or remove field validators depending on contingent dropdown selections.</span>
-
-<span class="sd">    Some dropdown options imply that no further input is needed (e.g.,</span>
-<span class="sd">    selecting &quot;No leak was detected&quot; disables required validation on</span>
-<span class="sd">    follow-up questions). This function clears or restores validators</span>
-<span class="sd">    accordingly.</span>
-
-<span class="sd">    These fields toggle between required and optional depending on related</span>
-<span class="sd">    field values (e.g., dropdowns that are set to &quot;Other&quot;, or location-dependent fields).</span>
-<span class="sd">    Some validation rules involve mutually exclusive or fallback logic.</span>
+<span class="sd">    Enforce dynamic field-level validation for contingent fields.</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">      - This function should be called before validation to sync requirements.</span>
-<span class="sd">      - May need to re-order exclusions (e.g., venting) for edge cases.</span>
+<span class="sd">      - Adjusts validators for fields that depend on other field values.</span>
+<span class="sd">      - Called during form validation to ensure correct requirements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># If a venting exclusion is claimed, then a venting description is required and many fields become optional</span>
     <span class="n">required_if_emission_identified</span> <span class="o">=</span> <span class="p">[</span>
@@ -1366,6 +1480,110 @@ landfill facility operations.</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="arb.portal.wtf_landfill.LandfillFeedback.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize the LandfillFeedback form and set up contingent selectors.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>*args</code></b>
+                  (<code><span title="typing.Any">Any</span></code>, default:
+                      <code>()</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Positional arguments passed to FlaskForm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>**kwargs</code></b>
+                  (<code><span title="typing.Any">Any</span></code>, default:
+                      <code>{}</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Keyword arguments passed to FlaskForm.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Calls update_contingent_selectors() to initialize dropdowns.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\wtf_landfill.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Initialize the LandfillFeedback form and set up contingent selectors.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    *args: Positional arguments passed to FlaskForm.</span>
+<span class="sd">    **kwargs: Keyword arguments passed to FlaskForm.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Calls update_contingent_selectors() to initialize dropdowns.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_identified_flag_fk</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_identified_flag_fk&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_type_fk</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_type_fk&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_location</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_location&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause_secondary</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause_secondary&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">emission_cause_tertiary</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emission_cause_tertiary&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">included_in_last_lmr</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;included_in_last_lmr&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">planned_for_next_lmr</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;planned_for_next_lmr&quot;</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="arb.portal.wtf_landfill.LandfillFeedback.determine_contingent_fields" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">determine_contingent_fields</span><span class="p">()</span></code>
 
@@ -1374,51 +1592,20 @@ landfill facility operations.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add or remove field validators depending on contingent dropdown selections.</p>
-<p>Some dropdown options imply that no further input is needed (e.g.,
-selecting "No leak was detected" disables required validation on
-follow-up questions). This function clears or restores validators
-accordingly.</p>
-<p>These fields toggle between required and optional depending on related
-field values (e.g., dropdowns that are set to "Other", or location-dependent fields).
-Some validation rules involve mutually exclusive or fallback logic.</p>
+        <p>Enforce dynamic field-level validation for contingent fields.</p>
 
 
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
-<li>This function should be called before validation to sync requirements.</li>
-<li>May need to re-order exclusions (e.g., venting) for edge cases.</li>
+<li>Adjusts validators for fields that depend on other field values.</li>
+<li>Called during form validation to ensure correct requirements.</li>
 </ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_landfill.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">550</span>
 <span class="normal">551</span>
 <span class="normal">552</span>
 <span class="normal">553</span>
@@ -1449,22 +1636,28 @@ Some validation rules involve mutually exclusive or fallback logic.</p>
 <span class="normal">578</span>
 <span class="normal">579</span>
 <span class="normal">580</span>
-<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Add or remove field validators depending on contingent dropdown selections.</span>
-
-<span class="sd">  Some dropdown options imply that no further input is needed (e.g.,</span>
-<span class="sd">  selecting &quot;No leak was detected&quot; disables required validation on</span>
-<span class="sd">  follow-up questions). This function clears or restores validators</span>
-<span class="sd">  accordingly.</span>
-
-<span class="sd">  These fields toggle between required and optional depending on related</span>
-<span class="sd">  field values (e.g., dropdowns that are set to &quot;Other&quot;, or location-dependent fields).</span>
-<span class="sd">  Some validation rules involve mutually exclusive or fallback logic.</span>
+<span class="sd">  Enforce dynamic field-level validation for contingent fields.</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">    - This function should be called before validation to sync requirements.</span>
-<span class="sd">    - May need to re-order exclusions (e.g., venting) for edge cases.</span>
+<span class="sd">    - Adjusts validators for fields that depend on other field values.</span>
+<span class="sd">    - Called during form validation to ensure correct requirements.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="c1"># If a venting exclusion is claimed, then a venting description is required and many fields become optional</span>
   <span class="n">required_if_emission_identified</span> <span class="o">=</span> <span class="p">[</span>
@@ -1522,7 +1715,7 @@ Some validation rules involve mutually exclusive or fallback logic.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Update contingent dropdown field choices based on current field selections.</p>
+        <p>Update contingent dropdown selectors based on current form state.</p>
 <p>This method looks up selector/contingent relationships defined in
 <code>Globals.drop_downs_contingent</code> and dynamically modifies the <code>choices</code>
 for child fields when a selector field has a known dependency.</p>
@@ -1565,33 +1758,17 @@ ensures valid dropdown options and clears invalid selections.</p>
   </tbody>
 </table>
 
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Uses Globals.drop_downs_contingent to update choices.</li>
+<li>Should be called whenever a parent dropdown value changes.</li>
+</ul>
+</details>
+
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_landfill.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span>
@@ -1620,9 +1797,37 @@ ensures valid dropdown options and clears invalid selections.</p>
 <span class="normal">374</span>
 <span class="normal">375</span>
 <span class="normal">376</span>
-<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Update contingent dropdown field choices based on current field selections.</span>
+<span class="sd">  Update contingent dropdown selectors based on current form state.</span>
 
 <span class="sd">  This method looks up selector/contingent relationships defined in</span>
 <span class="sd">  `Globals.drop_downs_contingent` and dynamically modifies the `choices`</span>
@@ -1641,6 +1846,10 @@ ensures valid dropdown options and clears invalid selections.</p>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    None</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Uses Globals.drop_downs_contingent to update choices.</span>
+<span class="sd">    - Should be called whenever a parent dropdown value changes.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="c1"># todo - update contingent dropdowns?</span>
 
@@ -1691,13 +1900,34 @@ ensures valid dropdown options and clears invalid selections.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Override WTForms default validation with custom cross-field logic.</p>
-<p>Ensures required fields are conditionally enforced based on upstream
-values, including:
-  - Facility activity selections imply required contingent selections
-  - If "Other" is chosen, corresponding text input must be filled
-  - If leak is confirmed, additional emission details are required</p>
+        <p>Perform full-form validation, including dynamic and cross-field checks.</p>
 
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extra_validators</code></b>
+                  (<code><span title="list">list</span> | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Additional validators to apply.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <table class="field-list">
   <colgroup>
@@ -1713,7 +1943,7 @@ values, including:
 <b><code>bool</code></b>(                  <code><span title="bool">bool</span></code>
 )              –
               <div class="doc-md-description">
-                <p>True if form is valid, False otherwise.</p>
+                <p>True if the form is valid, False otherwise.</p>
               </div>
             </li>
         </ul>
@@ -1725,43 +1955,14 @@ values, including:
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
-<li>Calls <code>determine_contingent_fields()</code> before validation to
-  ensure field validators are correct.</li>
-<li>Uses built-in <code>super().validate()</code> after adjusting validators.</li>
+<li>Enforces conditional requirements based on user input.</li>
+<li>Calls determine_contingent_fields() for dynamic validation.</li>
 </ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_landfill.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">407</span>
 <span class="normal">408</span>
 <span class="normal">409</span>
 <span class="normal">410</span>
@@ -1878,23 +2079,43 @@ values, including:
 <span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
-<span class="normal">524</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Override WTForms default validation with custom cross-field logic.</span>
+<span class="sd">  Perform full-form validation, including dynamic and cross-field checks.</span>
 
-<span class="sd">  Ensures required fields are conditionally enforced based on upstream</span>
-<span class="sd">  values, including:</span>
-<span class="sd">    - Facility activity selections imply required contingent selections</span>
-<span class="sd">    - If &quot;Other&quot; is chosen, corresponding text input must be filled</span>
-<span class="sd">    - If leak is confirmed, additional emission details are required</span>
+<span class="sd">  Args:</span>
+<span class="sd">    extra_validators (list | None): Additional validators to apply.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">    bool: True if form is valid, False otherwise.</span>
+<span class="sd">    bool: True if the form is valid, False otherwise.</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">    - Calls `determine_contingent_fields()` before validation to</span>
-<span class="sd">      ensure field validators are correct.</span>
-<span class="sd">    - Uses built-in `super().validate()` after adjusting validators.</span>
+<span class="sd">    - Enforces conditional requirements based on user input.</span>
+<span class="sd">    - Calls determine_contingent_fields() for dynamic validation.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>

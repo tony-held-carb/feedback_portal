@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" >Portal</a>
     <ul>
@@ -84,12 +136,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../../portal/forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/db/">arb.portal.startup.db</a>
@@ -110,9 +156,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -142,9 +194,9 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.utils.file_io.get_secure_timestamped_file_name">get_secure_timestamped_file_name</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#arb.utils.file_io.resolve_project_root">resolve_project_root</a>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.utils.file_io.read_file_reverse">read_file_reverse</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#arb.utils.file_io.run_diagnostics">run_diagnostics</a>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.utils.file_io.resolve_project_root">resolve_project_root</a>
     </li>
     </ul>
                 </li>
@@ -164,6 +216,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -217,19 +273,22 @@
 <a id="arb.utils.file_io"></a>
     <div class="doc doc-contents first">
 
-        <p>Utility functions for file and path handling, including directory creation,
-secure file name generation, and project root resolution.</p>
+        <p>File and path utility functions for the ARB Feedback Portal.</p>
+<p>This module provides helpers for directory creation, secure file name generation, project root resolution,
+and efficient file reading. These utilities are designed to support robust file handling and diagnostics
+across ARB portal workflows.</p>
 <p>Features:
 - Ensures parent and target directories exist
 - Generates secure, timestamped file names using UTC
 - Dynamically resolves the project root based on directory structure
-- Includes diagnostics for local testing and validation</p>
+- Efficiently reads the last N lines of large files</p>
 <p>Notes:
 - Uses <code>werkzeug.utils.secure_filename</code> to sanitize input filenames
 - Timestamps are formatted in UTC using the DATETIME_WITH_SECONDS pattern</p>
-<p>Potential Future Upgrades:
-- Add support for Windows-specific path edge cases, if needed.
-- Expand run_diagnostics to perform write/delete tests in a sandbox directory.</p>
+<p>Intended use:
+- Shared helpers for ARB portal and related utilities
+- Promotes DRY principles and robust file handling</p>
+<p>Version: 1.0.0</p>
 
 
 
@@ -275,12 +334,12 @@ and candidate folder sequences.</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProjectRootNotFoundError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProjectRootNotFoundError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Raised when no matching project root can be determined from the provided file path</span>
 <span class="sd">  and candidate folder sequences.</span>
@@ -323,7 +382,7 @@ and candidate folder sequences.</p>
                   (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>Path to the directory.</p>
+                <p>Path to the directory. If None or empty, no action is taken.</p>
               </div>
             </li>
         </ul>
@@ -378,28 +437,25 @@ and candidate folder sequences.</p>
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <p>Input : "logs/output"
-Output: Creates the directory and parents if needed</p>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : "logs/output"
+Output: Creates the directory and parents if needed
+Input : None
+Output: No action
+Input : ""
+Output: No action</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>If <code>dir_path</code> is None or empty, no action is taken.</li>
+</ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
@@ -409,29 +465,56 @@ Output: Creates the directory and parents if needed</p>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ensure_dir_exists</span><span class="p">(</span><span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ensure_dir_exists</span><span class="p">(</span><span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Ensure that the specified directory exists, creating it if necessary.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    dir_path (str | Path): Path to the directory.</span>
+<span class="sd">    dir_path (str | Path): Path to the directory. If None or empty, no action is taken.</span>
 
 <span class="sd">  Raises:</span>
 <span class="sd">    ValueError: If the path exists but is not a directory.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">      None</span>
+<span class="sd">    None</span>
 
-<span class="sd">  Example:</span>
+<span class="sd">  Examples:</span>
 <span class="sd">    Input : &quot;logs/output&quot;</span>
 <span class="sd">    Output: Creates the directory and parents if needed</span>
+<span class="sd">    Input : None</span>
+<span class="sd">    Output: No action</span>
+<span class="sd">    Input : &quot;&quot;</span>
+<span class="sd">    Output: No action</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `dir_path` is None or empty, no action is taken.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ensure_dir_exists() called for: </span><span class="si">{</span><span class="n">dir_path</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">dir_path</span><span class="p">:</span>
+    <span class="k">return</span>
   <span class="n">dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
-
   <span class="k">if</span> <span class="n">dir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dir_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path </span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2"> exists and is not a directory.&quot;</span><span class="p">)</span>
-
   <span class="n">dir_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -468,7 +551,7 @@ Output: Creates the directory and parents if needed</p>
                   (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>The full path to a file. Parent folders will be created if needed.</p>
+                <p>The full path to a file. Parent folders will be created if needed. If None or empty, no action is taken.</p>
               </div>
             </li>
         </ul>
@@ -502,19 +585,25 @@ Output: Creates the directory and parents if needed</p>
 
 <p><span class="doc-section-title">Examples:</span></p>
     <p>Input : "/tmp/some/deep/file.txt"
-Output: Ensures intermediate directories exist</p>
-<p>Input : "local_file.txt"
-Output: No error if directory already exists or is current</p>
+Output: Ensures intermediate directories exist
+Input : "local_file.txt"
+Output: No error if directory already exists or is current
+Input : None
+Output: No action
+Input : ""
+Output: No action</p>
 
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>If <code>file_name</code> is None or empty, no action is taken.</li>
+</ul>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
@@ -528,12 +617,25 @@ Output: No error if directory already exists or is current</p>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ensure_parent_dirs</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ensure_parent_dirs</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Ensure that the parent directories for a given file path exist.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    file_name (str | Path): The full path to a file. Parent folders will be created if needed.</span>
+<span class="sd">    file_name (str | Path): The full path to a file. Parent folders will be created if needed. If None or empty, no action is taken.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    None</span>
@@ -541,11 +643,19 @@ Output: No error if directory already exists or is current</p>
 <span class="sd">  Examples:</span>
 <span class="sd">    Input : &quot;/tmp/some/deep/file.txt&quot;</span>
 <span class="sd">    Output: Ensures intermediate directories exist</span>
-
 <span class="sd">    Input : &quot;local_file.txt&quot;</span>
 <span class="sd">    Output: No error if directory already exists or is current</span>
+<span class="sd">    Input : None</span>
+<span class="sd">    Output: No action</span>
+<span class="sd">    Input : &quot;&quot;</span>
+<span class="sd">    Output: No action</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `file_name` is None or empty, no action is taken.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ensure_parent_dirs() called for: </span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">file_name</span><span class="p">:</span>
+    <span class="k">return</span>
   <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
   <span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -583,7 +693,7 @@ Output: No error if directory already exists or is current</p>
                   (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>The starting file path, typically <code>__file__</code>.</p>
+                <p>The starting file path, typically <code>__file__</code>. If None or empty, raises ValueError.</p>
               </div>
             </li>
             <li>
@@ -591,7 +701,7 @@ Output: No error if directory already exists or is current</p>
                   (<code><span title="list">list</span>[<span title="str">str</span>]</code>)
               –
               <div class="doc-md-description">
-                <p>Folder names expected in the path, ordered from root to leaf.</p>
+                <p>Folder names expected in the path, ordered from root to leaf. If None or empty, raises ValueError.</p>
               </div>
             </li>
         </ul>
@@ -637,7 +747,7 @@ Output: No error if directory already exists or is current</p>
                   <code><span title="ValueError">ValueError</span></code>
               –
               <div class="doc-md-description">
-                <p>If no matching structure is found in the parent hierarchy.</p>
+                <p>If no matching structure is found in the parent hierarchy, or if arguments are None or empty.</p>
               </div>
             </li>
         </ul>
@@ -646,81 +756,82 @@ Output: No error if directory already exists or is current</p>
   </tbody>
 </table>
 
-<details class="passing-example" open>
-  <summary>Passing Example</summary>
-  <p>If <code>file = "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py"</code>
-and <code>match_parts = ["feedback_portal", "source", "production", "arb", "portal"]</code>,
-then:
-  → match found at /Users/tony/dev/<strong>feedback_portal</strong>/source/production/arb/portal
-  → returns: Path("/Users/tony/dev/feedback_portal")</p>
-</details>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py", ["feedback_portal", "source", "production", "arb", "portal"]
+Output: Path("/Users/tony/dev/feedback_portal")
+Input : None, ["feedback_portal", "source", "production", "arb", "portal"]
+Output: ValueError
+Input : "/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py", []
+Output: ValueError</p>
 
-<details class="failing-example" open>
-  <summary>Failing Example</summary>
-  <p>If the file path is unrelated (e.g., "/tmp/random_file.py"),
-the function will raise a ValueError.</p>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>If <code>file</code> or <code>match_parts</code> is None or empty, raises ValueError.</li>
+</ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_project_root_dir</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">match_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_project_root_dir</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">match_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Traverse up the directory tree from a file path to locate the root of a known structure.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">      file (str | Path): The starting file path, typically `__file__`.</span>
-<span class="sd">      match_parts (list[str]): Folder names expected in the path, ordered from root to leaf.</span>
+<span class="sd">    file (str | Path): The starting file path, typically `__file__`. If None or empty, raises ValueError.</span>
+<span class="sd">    match_parts (list[str]): Folder names expected in the path, ordered from root to leaf. If None or empty, raises ValueError.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">      Path: Path to the top of the matched folder chain.</span>
+<span class="sd">    Path: Path to the top of the matched folder chain.</span>
 
 <span class="sd">  Raises:</span>
-<span class="sd">      ValueError: If no matching structure is found in the parent hierarchy.</span>
+<span class="sd">    ValueError: If no matching structure is found in the parent hierarchy, or if arguments are None or empty.</span>
 
-<span class="sd">  Passing Example:</span>
-<span class="sd">    If `file = &quot;/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py&quot;`</span>
-<span class="sd">    and `match_parts = [&quot;feedback_portal&quot;, &quot;source&quot;, &quot;production&quot;, &quot;arb&quot;, &quot;portal&quot;]`,</span>
-<span class="sd">    then:</span>
-<span class="sd">      → match found at /Users/tony/dev/**feedback_portal**/source/production/arb/portal</span>
-<span class="sd">      → returns: Path(&quot;/Users/tony/dev/feedback_portal&quot;)</span>
+<span class="sd">  Examples:</span>
+<span class="sd">    Input : &quot;/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py&quot;, [&quot;feedback_portal&quot;, &quot;source&quot;, &quot;production&quot;, &quot;arb&quot;, &quot;portal&quot;]</span>
+<span class="sd">    Output: Path(&quot;/Users/tony/dev/feedback_portal&quot;)</span>
+<span class="sd">    Input : None, [&quot;feedback_portal&quot;, &quot;source&quot;, &quot;production&quot;, &quot;arb&quot;, &quot;portal&quot;]</span>
+<span class="sd">    Output: ValueError</span>
+<span class="sd">    Input : &quot;/Users/tony/dev/feedback_portal/source/production/arb/portal/config.py&quot;, []</span>
+<span class="sd">    Output: ValueError</span>
 
-<span class="sd">  Failing Example:</span>
-<span class="sd">    If the file path is unrelated (e.g., &quot;/tmp/random_file.py&quot;),</span>
-<span class="sd">    the function will raise a ValueError.</span>
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `file` or `match_parts` is None or empty, raises ValueError.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
   <span class="n">match_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">match_parts</span><span class="p">)</span>
@@ -767,7 +878,7 @@ the function will raise a ValueError.</p>
                   (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>Target directory where the file will be saved.</p>
+                <p>Target directory where the file will be saved. If None or empty, uses the home directory.</p>
               </div>
             </li>
             <li>
@@ -775,7 +886,7 @@ the function will raise a ValueError.</p>
                   (<code><span title="str">str</span></code>)
               –
               <div class="doc-md-description">
-                <p>Proposed name for the file, possibly unsafe.</p>
+                <p>Proposed name for the file, possibly unsafe. If None or empty, raises ValueError.</p>
               </div>
             </li>
         </ul>
@@ -807,57 +918,368 @@ the function will raise a ValueError.</p>
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <p>Input : directory = "/tmp", file_name = "user report.xlsx"
-Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")</p>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : "/tmp", "user report.xlsx"
+Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+Input : None, "user report.xlsx"
+Output: Path("/home/user/user_report_ts_2025-05-05T12-30-00Z.xlsx")
+Input : "/tmp", None
+Output: ValueError
+Input : "/tmp", ""
+Output: ValueError</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="ValueError">ValueError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If <code>file_name</code> is None or empty.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Uses <code>werkzeug.utils.secure_filename</code> to sanitize input filenames.</li>
+<li>If <code>directory</code> is None or empty, uses the home directory.</li>
+</ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_secure_timestamped_file_name</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_secure_timestamped_file_name</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Generate a sanitized file name in the given directory, appending a UTC timestamp.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    directory (str | Path): Target directory where the file will be saved.</span>
-<span class="sd">    file_name (str): Proposed name for the file, possibly unsafe.</span>
+<span class="sd">    directory (str | Path): Target directory where the file will be saved. If None or empty, uses the home directory.</span>
+<span class="sd">    file_name (str): Proposed name for the file, possibly unsafe. If None or empty, raises ValueError.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    Path: The full secure, timestamped file path.</span>
 
-<span class="sd">  Example:</span>
-<span class="sd">    Input : directory = &quot;/tmp&quot;, file_name = &quot;user report.xlsx&quot;</span>
+<span class="sd">  Examples:</span>
+<span class="sd">    Input : &quot;/tmp&quot;, &quot;user report.xlsx&quot;</span>
 <span class="sd">    Output: Path(&quot;/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx&quot;)</span>
+<span class="sd">    Input : None, &quot;user report.xlsx&quot;</span>
+<span class="sd">    Output: Path(&quot;/home/user/user_report_ts_2025-05-05T12-30-00Z.xlsx&quot;)</span>
+<span class="sd">    Input : &quot;/tmp&quot;, None</span>
+<span class="sd">    Output: ValueError</span>
+<span class="sd">    Input : &quot;/tmp&quot;, &quot;&quot;</span>
+<span class="sd">    Output: ValueError</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If `file_name` is None or empty.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Uses `werkzeug.utils.secure_filename` to sanitize input filenames.</span>
+<span class="sd">    - If `directory` is None or empty, uses the home directory.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">file_name</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;file_name must not be None or empty&quot;</span><span class="p">)</span>
   <span class="n">file_name_clean</span> <span class="o">=</span> <span class="n">secure_filename</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
   <span class="n">full_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="n">directory</span> <span class="o">/</span> <span class="n">file_name_clean</span>
-
   <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_WITH_SECONDS</span><span class="p">)</span>
   <span class="n">new_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">full_path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_ts_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}{</span><span class="n">full_path</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-
   <span class="k">return</span> <span class="n">full_path</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.file_io.read_file_reverse" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">read_file_reverse</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Efficiently read the last <code>n</code> lines of a text file in reverse order,
+returning the result in normal top-down order (oldest to newest).</p>
+<p>This function is optimized for large files by avoiding full memory loads.
+It uses streaming reads from the end of the file, making it suitable for
+real-time diagnostics, log viewers, or tail-style interfaces.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>path</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the log or text file. If None or empty, raises ValueError.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>n</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>1000</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of lines to read from the end of the file (default is 1000).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>encoding</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;utf-8&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Text encoding used to decode the file (default is "utf-8").</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="list">list</span>[<span title="str">str</span>]</code>
+              –
+              <div class="doc-md-description">
+                <p>list[str]: A list of up to <code>n</code> lines from the end of the file,
+         returned in chronological (not reverse) order.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the file does not exist.</p>
+              </div>
+            </li>
+            <li>
+                  <code><span title="OSError">OSError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If the file cannot be read due to permission or I/O issues.</p>
+              </div>
+            </li>
+            <li>
+                  <code><span title="ValueError">ValueError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If <code>path</code> is None or empty.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>This method uses the <code>file_read_backwards</code> library, which performs
+  disk-efficient reverse reads by buffering from the end.</li>
+<li>Handles variable-length lines and multi-byte encodings gracefully.</li>
+<li>Does not assume file fits in memory — ideal for large logs.</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : "/var/log/syslog", n=100
+Output: Returns the last 100 lines in chronological order
+Input : None, n=100
+Output: ValueError
+Input : "", n=100
+Output: ValueError</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\file_io.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">read_file_reverse</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                      <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Efficiently read the last `n` lines of a text file in reverse order,</span>
+<span class="sd">  returning the result in normal top-down order (oldest to newest).</span>
+
+<span class="sd">  This function is optimized for large files by avoiding full memory loads.</span>
+<span class="sd">  It uses streaming reads from the end of the file, making it suitable for</span>
+<span class="sd">  real-time diagnostics, log viewers, or tail-style interfaces.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    path (str | Path): Path to the log or text file. If None or empty, raises ValueError.</span>
+<span class="sd">    n (int): Number of lines to read from the end of the file (default is 1000).</span>
+<span class="sd">    encoding (str): Text encoding used to decode the file (default is &quot;utf-8&quot;).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    list[str]: A list of up to `n` lines from the end of the file,</span>
+<span class="sd">               returned in chronological (not reverse) order.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    FileNotFoundError: If the file does not exist.</span>
+<span class="sd">    OSError: If the file cannot be read due to permission or I/O issues.</span>
+<span class="sd">    ValueError: If `path` is None or empty.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - This method uses the `file_read_backwards` library, which performs</span>
+<span class="sd">      disk-efficient reverse reads by buffering from the end.</span>
+<span class="sd">    - Handles variable-length lines and multi-byte encodings gracefully.</span>
+<span class="sd">    - Does not assume file fits in memory — ideal for large logs.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    Input : &quot;/var/log/syslog&quot;, n=100</span>
+<span class="sd">    Output: Returns the last 100 lines in chronological order</span>
+<span class="sd">    Input : None, n=100</span>
+<span class="sd">    Output: ValueError</span>
+<span class="sd">    Input : &quot;&quot;, n=100</span>
+<span class="sd">    Output: ValueError</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">file_read_backwards</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileReadBackwards</span>
+
+  <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+  <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">with</span> <span class="n">FileReadBackwards</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+      <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">break</span>
+
+  <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -893,7 +1315,7 @@ Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")</p>
                   (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
               –
               <div class="doc-md-description">
-                <p>The file path to begin traversal from (typically <code>__file__</code>).</p>
+                <p>The file path to begin traversal from (typically <code>__file__</code>). If None or empty, raises ValueError.</p>
               </div>
             </li>
             <li>
@@ -903,7 +1325,7 @@ Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")</p>
 )
               –
               <div class="doc-md-description">
-                <p>List of folder name sequences to match.</p>
+                <p>List of folder name sequences to match. If None, uses defaults.</p>
               </div>
             </li>
         </ul>
@@ -952,60 +1374,87 @@ Output: Path("/home/user/tmp/user_report_ts_2025-05-05T12-30-00Z.xlsx")</p>
                 <p>If no matching sequence is found.</p>
               </div>
             </li>
+            <li>
+                  <code><span title="ValueError">ValueError</span></code>
+              –
+              <div class="doc-md-description">
+                <p>If <code>file_path</code> is None or empty.</p>
+              </div>
+            </li>
         </ul>
       </td>
     </tr>
   </tbody>
 </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <p>Input : file_path = <strong>file</strong>
-Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedback_portal")</p>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : <strong>file</strong>
+Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedback_portal")
+Input : None
+Output: ValueError
+Input : ""
+Output: ValueError</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>If <code>file_path</code> is None or empty, raises ValueError.</li>
+<li>If <code>candidate_structures</code> is None, uses default structures.</li>
+</ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_project_root</span><span class="p">(</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_project_root</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">candidate_structures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
@@ -1013,18 +1462,27 @@ Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedbac
 <span class="sd">  Attempt to locate the project root directory using known folder sequences.</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    file_path (str | Path): The file path to begin traversal from (typically `__file__`).</span>
-<span class="sd">    candidate_structures (list[list[str]] | None): List of folder name sequences to match.</span>
+<span class="sd">    file_path (str | Path): The file path to begin traversal from (typically `__file__`). If None or empty, raises ValueError.</span>
+<span class="sd">    candidate_structures (list[list[str]] | None): List of folder name sequences to match. If None, uses defaults.</span>
 
 <span class="sd">  Returns:</span>
 <span class="sd">    Path: Path to the root of the matched folder chain.</span>
 
 <span class="sd">  Raises:</span>
 <span class="sd">    ProjectRootNotFoundError: If no matching sequence is found.</span>
+<span class="sd">    ValueError: If `file_path` is None or empty.</span>
 
-<span class="sd">  Example:</span>
-<span class="sd">    Input : file_path = __file__</span>
+<span class="sd">  Examples:</span>
+<span class="sd">    Input : __file__</span>
 <span class="sd">    Output: Path to the resolved project root, such as Path(&quot;/Users/tony/dev/feedback_portal&quot;)</span>
+<span class="sd">    Input : None</span>
+<span class="sd">    Output: ValueError</span>
+<span class="sd">    Input : &quot;&quot;</span>
+<span class="sd">    Output: ValueError</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `file_path` is None or empty, raises ValueError.</span>
+<span class="sd">    - If `candidate_structures` is None, uses default structures.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="n">candidate_structures</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">candidate_structures</span> <span class="o">=</span> <span class="p">[</span>
@@ -1045,123 +1503,6 @@ Output: Path to the resolved project root, such as Path("/Users/tony/dev/feedbac
     <span class="s2">&quot;Unable to determine project root. Tried the following structures:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
   <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="arb.utils.file_io.run_diagnostics" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">run_diagnostics</span><span class="p">()</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Run a series of checks to validate directory creation, secure filename generation,
-and project root resolution logic.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code>None</code>
-              –
-              <div class="doc-md-description">
-                <p>None</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-            <details class="quote">
-              <summary>Source code in <code>arb\utils\file_io.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Run a series of checks to validate directory creation, secure filename generation,</span>
-<span class="sd">  and project root resolution logic.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">      None</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-
-  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running diagnostics...&quot;</span><span class="p">)</span>
-
-  <span class="c1"># Test ensure_dir_exists</span>
-  <span class="n">test_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;arb_test_nested/subdir&quot;</span>
-  <span class="n">ensure_dir_exists</span><span class="p">(</span><span class="n">test_dir</span><span class="p">)</span>
-  <span class="k">assert</span> <span class="n">test_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">test_dir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
-
-  <span class="c1"># Test ensure_parent_dirs</span>
-  <span class="n">test_file</span> <span class="o">=</span> <span class="n">test_dir</span> <span class="o">/</span> <span class="s2">&quot;test_file.txt&quot;</span>
-  <span class="n">ensure_parent_dirs</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span>
-  <span class="k">assert</span> <span class="n">test_file</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-
-  <span class="c1"># Test secure file name generation</span>
-  <span class="n">secured_path</span> <span class="o">=</span> <span class="n">get_secure_timestamped_file_name</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s2">&quot;My Unsafe Report.xlsx&quot;</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated secure file: </span><span class="si">{</span><span class="n">secured_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="k">assert</span> <span class="n">secured_path</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;My_Unsafe_Report_ts_&quot;</span><span class="p">)</span>
-
-  <span class="c1"># Test project root resolution</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="n">project_root</span> <span class="o">=</span> <span class="n">resolve_project_root</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resolved project root: </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">project_root</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-  <span class="k">except</span> <span class="n">ProjectRootNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Could not resolve project root. Skipping root validation.&quot;</span><span class="p">)</span>
-
-  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All diagnostics completed successfully.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

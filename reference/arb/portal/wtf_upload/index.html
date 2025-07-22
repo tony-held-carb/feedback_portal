@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -90,12 +142,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -116,9 +162,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -152,6 +204,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -208,17 +264,29 @@
         <p>WTForms-based upload form for the ARB Feedback Portal.</p>
 <p>Defines a minimal form used to upload Excel files via the web interface.
 Typically used in the <code>/upload</code> route.</p>
-<h3 id="arb.portal.wtf_upload--fields">Fields:</h3>
-<ul>
-<li>file: Accepts <code>.xls</code> or <code>.xlsx</code> files only.</li>
-<li>submit: Triggers form submission.</li>
-</ul>
-<h3 id="arb.portal.wtf_upload--notes">Notes:</h3>
-<ul>
+
+
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>UploadForm (type): WTForms form class for file uploads.
+logger (logging.Logger): Logger instance for this module.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = UploadForm()
+if form.validate_on_submit():
+  # handle file upload
+  pass</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
 <li>Leverages Flask-WTF integration with Bootstrap-compatible rendering.</li>
 <li>Additional validation for file size or filename may be added externally.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
 </ul>
-
+</details>
 
 
 
@@ -255,11 +323,44 @@ Typically used in the <code>/upload</code> route.</p>
         <p>WTForm for uploading Excel or JSON files via the ARB Feedback Portal.</p>
 
 
-<details class="fields" open>
-  <summary>Fields</summary>
-  <p>file (FileField): Upload field for selecting a <code>.xls</code> or <code>.xlsx</code> file.
-submit (SubmitField): Form button to initiate upload.</p>
-</details>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file</code></b>
+                  (<code><span title="wtforms.FileField">FileField</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Upload field for selecting a <code>.xls</code> or <code>.xlsx</code> file.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>submit</code></b>
+                  (<code><span title="wtforms.SubmitField">SubmitField</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Form button to initiate upload.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = UploadForm()
+if form.validate_on_submit():
+  # handle file upload
+  pass</p>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -277,16 +378,7 @@ submit (SubmitField): Form button to initiate upload.</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\wtf_upload.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
@@ -295,13 +387,34 @@ submit (SubmitField): Form button to initiate upload.</p>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
-<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  WTForm for uploading Excel or JSON files via the ARB Feedback Portal.</span>
 
-<span class="sd">  Fields:</span>
+<span class="sd">  Attributes:</span>
 <span class="sd">    file (FileField): Upload field for selecting a `.xls` or `.xlsx` file.</span>
 <span class="sd">    submit (SubmitField): Form button to initiate upload.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    form = UploadForm()</span>
+<span class="sd">    if form.validate_on_submit():</span>
+<span class="sd">      # handle file upload</span>
+<span class="sd">      pass</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Uses Flask-WTF and integrates with Bootstrap templates.</span>

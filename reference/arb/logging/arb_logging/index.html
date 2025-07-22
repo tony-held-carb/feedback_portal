@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/logging/arb_logging/" />
+      <link rel="shortcut icon" href="../../../../img/favicon.ico" />
+    <title>arb.logging.arb_logging - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.logging.arb_logging";
+        var mkdocs_page_input_path = "reference\\arb\\logging\\arb_logging.md";
+        var mkdocs_page_url = "/reference/arb/logging/arb_logging/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Logging</a>
+    <ul class="current">
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.logging.arb_logging</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#arb.logging.arb_logging">arb_logging</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.logging.arb_logging.get_pretty_printer">get_pretty_printer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.logging.arb_logging.setup_app_logging">setup_app_logging</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.logging.arb_logging.setup_standalone_logging">setup_standalone_logging</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Portal</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/db_ingest_util/">arb.portal.utils.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/db_introspection_util/">arb.portal.utils.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/file_upload_util/">arb.portal.utils.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/form_mapper/">arb.portal.utils.form_mapper</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/route_util/">arb.portal.utils.route_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Logging</li>
+      <li class="breadcrumb-item active">arb.logging.arb_logging</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbloggingarb_logging"><code>arb.logging.arb_logging</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.logging.arb_logging"></a>
+    <div class="doc doc-contents first">
+
+        <p>Logging utilities for the ARB Feedback Portal.</p>
+<p>This module provides functions to configure logging for the main application and standalone scripts,
+and a utility for pretty-printing complex objects in logs. It is designed to centralize and standardize
+logging setup and formatting across the project.</p>
+
+
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>APP_DIR_STRUCTURE (list[str]): Default directory structure for resolving the project root.
+DEFAULT_LOG_FORMAT (str): Default log message format string.
+DEFAULT_LOG_DATEFMT (str): Default log date format string.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <ol>
+<li>Web app entry point (e.g., wsgi.py):</li>
+</ol>
+<hr />
+<pre><code>import logging
+from arb_logging import setup_app_logging
+
+setup_app_logging("arb_portal")
+
+logger = logging.getLogger(__name__)
+from arb.portal.app import create_app
+app = create_app()
+</code></pre>
+<ol>
+<li>Scripts (e.g., xl_create.py):</li>
+</ol>
+<hr />
+<pre><code>import logging
+from arb_logging import setup_standalone_logging
+
+if __name__ == "__main__":
+  setup_standalone_logging("xl_create")
+
+logger = logging.getLogger(__name__)
+</code></pre>
+<ol>
+<li>All other files (including <strong>init</strong>.py):</li>
+</ol>
+<hr />
+<pre><code>import logging
+from arb_logging import get_pretty_printer
+
+logger = logging.getLogger(__name__)
+_, pp_log = get_pretty_printer()
+</code></pre>
+<ol>
+<li>Pretty-printing complex objects in logs:</li>
+</ol>
+<hr />
+<p>The <code>get_pretty_printer()</code> function provides a consistent way to format complex data structures in logs:
+    from arb_logging import get_pretty_printer
+    data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+    logger.info(pp_log(data))</p>
+<pre><code># Output in log:
+# {
+#   'foo': [1, 2, 3],
+#   'bar': {'baz': 'qux'}
+# }
+</code></pre>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Only the first call to logging.basicConfig in a process sets up the global logging configuration.</li>
+<li>All loggers propagate messages to the root logger unless handlers are added explicitly.</li>
+<li>Use get_pretty_printer() for consistent formatting of structured log data.</li>
+</ul>
+</details>
+
+<details class="additional-discussion-on-key-logging-concepts" open>
+  <summary>Additional Discussion on Key Logging Concepts</summary>
+  <ul>
+<li><code>logging.getLogger(__name__)</code> returns a logger object for each module, but does NOT create a new log file or handler. All loggers propagate messages to the root logger unless you add handlers to them explicitly.</li>
+<li>Only a call to <code>logging.basicConfig(...)</code> or explicit handler setup creates log files or configures output. The first such call in a process sets up the global logging configuration.</li>
+<li>Log messages emitted before <code>basicConfig</code> (or handler setup) are sent to a default handler (stderr) or are ignored, depending on severity and environment.</li>
+<li>After <code>basicConfig</code>, all loggers (including those created earlier) use the configured handlers (e.g., file, console) for output.</li>
+<li>Multiple calls to <code>getLogger(__name__)</code> in different files give you different logger objects (with different names), but unless you add handlers, all messages go to the same global output.</li>
+<li>This design allows you to filter or format logs by module, but keeps log file management centralized and predictable.</li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.logging.arb_logging.get_pretty_printer" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_pretty_printer</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return a PrettyPrinter instance and a formatting function for structured logging.</p>
+<p>Only import and use this in files where you want to pretty-print complex data structures in your logs.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>**kwargs</code></b>
+                  (<code><span title="typing.Any">Any</span></code>, default:
+                      <code>{}</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Options passed to pprint.PrettyPrinter (indent, sort_dicts, width, etc.)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns:
+  tuple: (PrettyPrinter instance, .pformat method)</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <h3 id="arb.logging.arb_logging.get_pretty_printer--basic-usage">Basic usage:</h3>
+<p>from arb.logging.arb_logging import get_pretty_printer
+_, pp_log = get_pretty_printer()
+data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+logger.info(pp_log(data))</p>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--output-in-log">Output in log:</h3>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--_1">{</h3>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--foo-1-2-3">'foo': [1, 2, 3],</h3>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--bar-baz-qux">'bar': {'baz': 'qux'}</h3>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--_2">}</h3>
+<h3 id="arb.logging.arb_logging.get_pretty_printer--custom-formatting">Custom formatting:</h3>
+<p>_, pp_log = get_pretty_printer(indent=2, width=80)
+logger.info(pp_log(data))</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\logging\arb_logging.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_pretty_printer</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">object</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Return a PrettyPrinter instance and a formatting function for structured logging.</span>
+
+<span class="sd">  Only import and use this in files where you want to pretty-print complex data structures in your logs.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    **kwargs: Options passed to pprint.PrettyPrinter (indent, sort_dicts, width, etc.)</span>
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: (PrettyPrinter instance, .pformat method)</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    # Basic usage:</span>
+<span class="sd">    from arb.logging.arb_logging import get_pretty_printer</span>
+<span class="sd">    _, pp_log = get_pretty_printer()</span>
+<span class="sd">    data = {&quot;foo&quot;: [1, 2, 3], &quot;bar&quot;: {&quot;baz&quot;: &quot;qux&quot;}}</span>
+<span class="sd">    logger.info(pp_log(data))</span>
+<span class="sd">    # Output in log:</span>
+<span class="sd">    # {</span>
+<span class="sd">    #   &#39;foo&#39;: [1, 2, 3],</span>
+<span class="sd">    #   &#39;bar&#39;: {&#39;baz&#39;: &#39;qux&#39;}</span>
+<span class="sd">    # }</span>
+
+<span class="sd">    # Custom formatting:</span>
+<span class="sd">    _, pp_log = get_pretty_printer(indent=2, width=80)</span>
+<span class="sd">    logger.info(pp_log(data))</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;indent&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;sort_dicts&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">120</span>
+  <span class="p">}</span>
+  <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">pp</span><span class="p">,</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.logging.arb_logging.setup_app_logging" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">setup_app_logging</span><span class="p">(</span><span class="n">log_name</span><span class="p">,</span> <span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;logs&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">app_dir_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_format</span><span class="o">=</span><span class="n">DEFAULT_LOG_FORMAT</span><span class="p">,</span> <span class="n">log_datefmt</span><span class="o">=</span><span class="n">DEFAULT_LOG_DATEFMT</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>log_name</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Name of the log file (without extension).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_dir</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>, default:
+                      <code>&#39;logs&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Directory for log files (relative to project root).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>level</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code><span title="logging.DEBUG">DEBUG</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Logging level (default: DEBUG).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>app_dir_structure</code></b>
+                  (<code><span title="list">list</span>[<span title="str">str</span>] | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Directory structure to identify project root.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_format</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code><span title="arb.logging.arb_logging.DEFAULT_LOG_FORMAT">DEFAULT_LOG_FORMAT</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Log message format string. Defaults to ARB portal format.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_datefmt</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code><span title="arb.logging.arb_logging.DEFAULT_LOG_DATEFMT">DEFAULT_LOG_DATEFMT</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Log date format string. Defaults to ARB portal format.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>setup_app_logging("arb_portal")</p>
+<h3 id="arb.logging.arb_logging.setup_app_logging--configures-logging-to-logsarb_portallog-at-debug-level">Configures logging to 'logs/arb_portal.log' at DEBUG level</h3>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\logging\arb_logging.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">setup_app_logging</span><span class="p">(</span>
+    <span class="n">log_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">log_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;logs&quot;</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+    <span class="n">app_dir_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">log_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_FORMAT</span><span class="p">,</span>
+    <span class="n">log_datefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_DATEFMT</span>
+<span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    log_name (str): Name of the log file (without extension).</span>
+<span class="sd">    log_dir (str | Path): Directory for log files (relative to project root).</span>
+<span class="sd">    level (int): Logging level (default: DEBUG).</span>
+<span class="sd">    app_dir_structure (list[str] | None): Directory structure to identify project root.</span>
+<span class="sd">    log_format (str): Log message format string. Defaults to ARB portal format.</span>
+<span class="sd">    log_datefmt (str): Log date format string. Defaults to ARB portal format.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    setup_app_logging(&quot;arb_portal&quot;)</span>
+<span class="sd">    # Configures logging to &#39;logs/arb_portal.log&#39; at DEBUG level</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">resolved_dir</span> <span class="o">=</span> <span class="n">_resolve_log_dir</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">app_dir_structure</span><span class="p">)</span>
+  <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">resolved_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">log_name</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="p">),</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="n">log_format</span><span class="p">,</span>
+    <span class="n">datefmt</span><span class="o">=</span><span class="n">log_datefmt</span>
+  <span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Logging] App logging configured: </span><span class="si">{</span><span class="n">resolved_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">log_name</span><span class="si">}</span><span class="s1">.log&#39;</span><span class="si">}</span><span class="s2"> (level=</span><span class="si">{</span><span class="n">logging</span><span class="o">.</span><span class="n">getLevelName</span><span class="p">(</span><span class="n">level</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.logging.arb_logging.setup_standalone_logging" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">setup_standalone_logging</span><span class="p">(</span><span class="n">log_name</span><span class="p">,</span> <span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;logs&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">app_dir_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_format</span><span class="o">=</span><span class="n">DEFAULT_LOG_FORMAT</span><span class="p">,</span> <span class="n">log_datefmt</span><span class="o">=</span><span class="n">DEFAULT_LOG_DATEFMT</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Configure logging for a standalone script. Should be called in the <code>if __name__ == "__main__"</code> block.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>log_name</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Name of the log file (without extension).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_dir</code></b>
+                  (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>, default:
+                      <code>&#39;logs&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Directory for log files (relative to project root).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>level</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code><span title="logging.DEBUG">DEBUG</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Logging level (default: DEBUG).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>app_dir_structure</code></b>
+                  (<code><span title="list">list</span>[<span title="str">str</span>] | None</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Directory structure to identify project root.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_format</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code><span title="arb.logging.arb_logging.DEFAULT_LOG_FORMAT">DEFAULT_LOG_FORMAT</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Log message format string. Defaults to ARB portal format.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>log_datefmt</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code><span title="arb.logging.arb_logging.DEFAULT_LOG_DATEFMT">DEFAULT_LOG_DATEFMT</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Log date format string. Defaults to ARB portal format.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>setup_standalone_logging("my_script")</p>
+<h3 id="arb.logging.arb_logging.setup_standalone_logging--configures-logging-to-logsmy_scriptlog-at-debug-level">Configures logging to 'logs/my_script.log' at DEBUG level</h3>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\logging\arb_logging.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">setup_standalone_logging</span><span class="p">(</span>
+    <span class="n">log_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">log_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;logs&quot;</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+    <span class="n">app_dir_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">log_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_FORMAT</span><span class="p">,</span>
+    <span class="n">log_datefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LOG_DATEFMT</span>
+<span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Configure logging for a standalone script. Should be called in the `if __name__ == &quot;__main__&quot;` block.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    log_name (str): Name of the log file (without extension).</span>
+<span class="sd">    log_dir (str | Path): Directory for log files (relative to project root).</span>
+<span class="sd">    level (int): Logging level (default: DEBUG).</span>
+<span class="sd">    app_dir_structure (list[str] | None): Directory structure to identify project root.</span>
+<span class="sd">    log_format (str): Log message format string. Defaults to ARB portal format.</span>
+<span class="sd">    log_datefmt (str): Log date format string. Defaults to ARB portal format.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    setup_standalone_logging(&quot;my_script&quot;)</span>
+<span class="sd">    # Configures logging to &#39;logs/my_script.log&#39; at DEBUG level</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">resolved_dir</span> <span class="o">=</span> <span class="n">_resolve_log_dir</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">app_dir_structure</span><span class="p">)</span>
+  <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">resolved_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">log_name</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="p">),</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="n">log_format</span><span class="p">,</span>
+    <span class="n">datefmt</span><span class="o">=</span><span class="n">log_datefmt</span>
+  <span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Logging] Standalone logging configured: </span><span class="si">{</span><span class="n">resolved_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">log_name</span><span class="si">}</span><span class="s1">.log&#39;</span><span class="si">}</span><span class="s2"> (level=</span><span class="si">{</span><span class="n">logging</span><span class="o">.</span><span class="n">getLevelName</span><span class="p">(</span><span class="n">level</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../auth_example_app/routes/user_management/" class="btn btn-neutral float-left" title="arb.auth_example_app.routes.user_management"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../portal/app/" class="btn btn-neutral float-right" title="arb.portal.app">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../auth_example_app/routes/user_management/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../portal/app/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../..";</script>
+    <script src="../../../../js/theme_extra.js"></script>
+    <script src="../../../../js/theme.js"></script>
+      <script src="../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

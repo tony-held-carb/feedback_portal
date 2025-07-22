@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/auth/routes/" />
+      <link rel="shortcut icon" href="../../../../img/favicon.ico" />
+    <title>arb.auth.routes - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.auth.routes";
+        var mkdocs_page_input_path = "reference\\arb\\auth\\routes.md";
+        var mkdocs_page_url = "/reference/arb/auth/routes/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Auth</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.auth.routes</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes">routes</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.activity_log">activity_log</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.admin_dashboard">admin_dashboard</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.admin_required">admin_required</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.advanced_edit">advanced_edit</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.all_roles_required">all_roles_required</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.confirm_email">confirm_email</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.editor_dashboard">editor_dashboard</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.email_preferences">email_preferences</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.login">login</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.logout">logout</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.qaqc_dashboard">qaqc_dashboard</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.register">register</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.resend_confirmation">resend_confirmation</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.review_dashboard">review_dashboard</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.role_required">role_required</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.roles_required">roles_required</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.auth.routes.settings">settings</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Portal</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../portal/wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/db_ingest_util/">arb.portal.utils.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/db_introspection_util/">arb.portal.utils.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/file_upload_util/">arb.portal.utils.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/form_mapper/">arb.portal.utils.form_mapper</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/route_util/">arb.portal.utils.route_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../portal/utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Auth</li>
+      <li class="breadcrumb-item active">arb.auth.routes</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbauthroutes"><code>arb.auth.routes</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.auth.routes"></a>
+    <div class="doc doc-contents first">
+
+        <p>Authentication routes for ARB Feedback Portal.</p>
+<ul>
+<li>The 'auth' Blueprint is defined here and should be registered by the host app (see <strong>init</strong>.py for details).</li>
+<li>This supports both standalone and pluggable usage of the auth package.</li>
+</ul>
+<p>Current Implementation:
+- Handles user login, logout, registration, and account management using a local database and Flask-Login.
+- Provides decorators and routes for access control (e.g., admin-only pages).
+- Supports multiple roles per user with flexible role-based access control.</p>
+<p>Okta Transition Plan:
+- This authentication system is a temporary solution until Okta (OIDC/SAML) is integrated.
+- When Okta is adopted, authentication and session management will be delegated to Okta, and user identity will be managed via Okta tokens.
+- Role and permission checks (e.g., admin_required) will be mapped from Okta claims or groups.
+- Most route logic will remain, but login/logout and user provisioning will be replaced or adapted for Okta.</p>
+<p>Key Features:
+- Modular design to allow easy replacement of authentication backend.
+- All access control decorators and logic are compatible with external identity providers.
+- The USE_OKTA flag below controls which authentication backend is used.
+- Multiple role support with flexible decorators for different access patterns.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.activity_log" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">activity_log</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the user activity log page (placeholder).
+In Okta, activity logs may be available via Okta or remain app-specific.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/activity_log&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">activity_log</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the user activity log page (placeholder).</span>
+<span class="sd">  In Okta, activity logs may be available via Okta or remain app-specific.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Integrate with Okta activity log if available, or display app-specific log.</span>
+    <span class="c1"># Need: Okta activity log API or documentation.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta activity log integration not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/activity_log.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.admin_dashboard" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">admin_dashboard</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the admin-only dashboard page.
+In Okta, access would be restricted based on Okta admin group/claim.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/admin/dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@admin_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">admin_dashboard</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the admin-only dashboard page.</span>
+<span class="sd">  In Okta, access would be restricted based on Okta admin group/claim.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Render admin dashboard for Okta-authenticated admin users.</span>
+    <span class="c1"># Need: Okta session and group/claim context.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta admin dashboard not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/admin_dashboard.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.admin_required" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">admin_required</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Decorator to restrict access to admin users only.
+- If USE_OKTA is True, checks Okta claims/groups for admin access.
+- If USE_OKTA is False, uses local role field.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">admin_required</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Decorator to restrict access to admin users only.</span>
+<span class="sd">  - If USE_OKTA is True, checks Okta claims/groups for admin access.</span>
+<span class="sd">  - If USE_OKTA is False, uses local role field.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+      <span class="c1"># TODO: Check Okta token for &#39;admin&#39; group/claim.</span>
+      <span class="c1"># Need: Okta group/claim mapping for admin users.</span>
+      <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta admin check not implemented yet. Need Okta group/claim mapping.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">():</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">decorated_function</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.advanced_edit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">advanced_edit</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the advanced editing page.
+Only users with BOTH 'editor' AND 'qaqc' roles can access.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/advanced/edit&#39;</span><span class="p">)</span>
+<span class="nd">@all_roles_required</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;qaqc&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">advanced_edit</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the advanced editing page.</span>
+<span class="sd">  Only users with BOTH &#39;editor&#39; AND &#39;qaqc&#39; roles can access.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Render advanced edit page for Okta-authenticated users with all required roles.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta advanced edit not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/advanced_edit.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.all_roles_required" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">all_roles_required</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Decorator to restrict access to users with ALL of the specified roles.
+- If USE_OKTA is True, checks Okta claims/groups for all role access.
+- If USE_OKTA is False, uses local role field.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>*roles</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>()</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Variable number of role names to check for.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>@all_roles_required('editor', 'qaqc')
+def qaqc_edit_page():
+    # Only users with BOTH 'editor' AND 'qaqc' roles can access
+    pass</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">all_roles_required</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Decorator to restrict access to users with ALL of the specified roles.</span>
+<span class="sd">  - If USE_OKTA is True, checks Okta claims/groups for all role access.</span>
+<span class="sd">  - If USE_OKTA is False, uses local role field.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      *roles: Variable number of role names to check for.</span>
+
+<span class="sd">  Example:</span>
+<span class="sd">      @all_roles_required(&#39;editor&#39;, &#39;qaqc&#39;)</span>
+<span class="sd">      def qaqc_edit_page():</span>
+<span class="sd">          # Only users with BOTH &#39;editor&#39; AND &#39;qaqc&#39; roles can access</span>
+<span class="sd">          pass</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+        <span class="c1"># TODO: Check Okta token for all of the specified groups/claims.</span>
+        <span class="c1"># Need: Okta group/claim mapping for role access.</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta all roles check not implemented yet. Need Okta group/claim mapping.&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">has_all_roles</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">):</span>
+          <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decorated_function</span>
+
+  <span class="k">return</span> <span class="n">decorator</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.confirm_email" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">confirm_email</span><span class="p">(</span><span class="n">token</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Email confirmation route.
+Verifies the email confirmation token and confirms the user's account.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/confirm-email/&lt;token&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">confirm_email</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Email confirmation route.</span>
+<span class="sd">  Verifies the email confirmation token and confirms the user&#39;s account.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Email confirmation route accessed with token: </span><span class="si">{</span><span class="n">token</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Implement Okta email confirmation if needed.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta email confirmation not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+
+    <span class="c1"># Find user by email confirmation token</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email_confirmation_token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Email confirmation failed: invalid token&quot;</span><span class="p">)</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid or expired confirmation link.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;auth.login&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Verify the token</span>
+    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">verify_email_confirmation_token</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Email confirmed successfully for user: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Your email has been confirmed successfully! You can now log in.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Email confirmation failed: expired token for user: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;The confirmation link has expired. Please register again or contact support.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;auth.login&#39;</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.editor_dashboard" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">editor_dashboard</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the editor-only dashboard page.
+Only users with 'editor' role can access.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/editor/dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@role_required</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">editor_dashboard</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the editor-only dashboard page.</span>
+<span class="sd">  Only users with &#39;editor&#39; role can access.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Render editor dashboard for Okta-authenticated editor users.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta editor dashboard not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/editor_dashboard.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.email_preferences" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">email_preferences</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the user email preferences page (placeholder).
+In Okta, notification preferences may be managed in Okta or remain app-specific.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/email_preferences&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">email_preferences</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the user email preferences page (placeholder).</span>
+<span class="sd">  In Okta, notification preferences may be managed in Okta or remain app-specific.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Integrate with Okta notification/email preferences if available.</span>
+    <span class="c1"># Need: Okta notification preferences API or documentation.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta email preferences integration not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/email_preferences.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.login" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">login</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>User login route.
+- If USE_OKTA is False, handles local login form and session creation.
+- If USE_OKTA is True, delegates to Okta login (not yet implemented).</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  User login route.</span>
+<span class="sd">  - If USE_OKTA is False, handles local login form and session creation.</span>
+<span class="sd">  - If USE_OKTA is True, delegates to Okta login (not yet implemented).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Login route accessed - Method: </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Implement Okta login redirect/flow.</span>
+    <span class="c1"># Need: Okta OIDC/SAML login integration.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta login not implemented yet. Need Okta OIDC/SAML integration.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing login POST request&quot;</span><span class="p">)</span>
+      <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+      <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Login attempt for email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+      <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+      <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User found: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">, checking password&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Password check successful for user: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+          <span class="c1"># Check if email is confirmed</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_confirmed</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Login failed: email not confirmed for user: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Please confirm your email address before logging in. Check your email for a confirmation link.&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/login.html&#39;</span><span class="p">)</span>
+
+          <span class="n">login_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Logged in successfully.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> logged in successfully&quot;</span><span class="p">)</span>
+          <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;main.index&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Password check failed for user: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid email or password.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No user found for email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid email or password.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Rendering login form&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/login.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.logout" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">logout</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>User logout route.
+- If USE_OKTA is False, logs out the user locally.
+- If USE_OKTA is True, delegates to Okta logout (not yet implemented).</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logout</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  User logout route.</span>
+<span class="sd">  - If USE_OKTA is False, logs out the user locally.</span>
+<span class="sd">  - If USE_OKTA is True, delegates to Okta logout (not yet implemented).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Implement Okta logout redirect/flow.</span>
+    <span class="c1"># Need: Okta logout endpoint/integration.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta logout not implemented yet. Need Okta logout integration.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">logout_user</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;You have been logged out.&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;auth.login&#39;</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.qaqc_dashboard" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">qaqc_dashboard</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the QA/QC-only dashboard page.
+Only users with 'qaqc' role can access.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/qaqc/dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@role_required</span><span class="p">(</span><span class="s1">&#39;qaqc&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">qaqc_dashboard</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the QA/QC-only dashboard page.</span>
+<span class="sd">  Only users with &#39;qaqc&#39; role can access.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Render QA/QC dashboard for Okta-authenticated qaqc users.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta qaqc dashboard not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/qaqc_dashboard.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.register" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">register</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>User registration route.
+- If USE_OKTA is False, handles local registration form and user creation.
+- If USE_OKTA is True, delegates to Okta registration (not yet implemented).</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  User registration route.</span>
+<span class="sd">  - If USE_OKTA is False, handles local registration form and user creation.</span>
+<span class="sd">  - If USE_OKTA is True, delegates to Okta registration (not yet implemented).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Register route accessed - Method: </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Implement Okta registration or link to Okta self-service registration.</span>
+    <span class="c1"># Need: Okta registration endpoint or documentation.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta registration not implemented yet. Need Okta registration integration.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing registration POST request&quot;</span><span class="p">)</span>
+      <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+      <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+      <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Registration attempt for email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Registration failed: missing email or password&quot;</span><span class="p">)</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Email and password are required.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">():</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Registration failed: email </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2"> already exists&quot;</span><span class="p">)</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Email already registered.&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating new user with email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="c1"># Keep user unconfirmed until email is verified</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">is_confirmed_col</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+        <span class="c1"># Generate email confirmation token and send confirmation email</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="kn">from</span><span class="w"> </span><span class="nn">arb.auth.email_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_email_confirmation</span>
+          <span class="n">token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">generate_email_confirmation_token</span><span class="p">()</span>
+          <span class="n">send_email_confirmation</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Email confirmation sent to user: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Registration successful! Please check your email to confirm your account.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to send email confirmation to </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+          <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Traceback: </span><span class="si">{</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+          <span class="c1"># Still create the user, but inform them about the email issue</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Registration successful! However, there was an issue sending the confirmation email. Please contact support.&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;auth.login&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Rendering registration form&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/register.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.resend_confirmation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">resend_confirmation</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Resend email confirmation route.
+Allows users to request a new confirmation email if they didn't receive the first one.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/resend-confirmation&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resend_confirmation</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Resend email confirmation route.</span>
+<span class="sd">  Allows users to request a new confirmation email if they didn&#39;t receive the first one.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resend confirmation route accessed - Method: </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Implement Okta resend confirmation if needed.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta resend confirmation not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+      <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resend confirmation request for email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Please enter your email address.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+          <span class="c1"># Don&#39;t reveal if email exists or not for security</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;If an account with that email exists, a confirmation email has been sent.&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">user</span><span class="o">.</span><span class="n">is_confirmed</span><span class="p">:</span>
+          <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Your email is already confirmed. You can log in.&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="c1"># Generate new confirmation token and send email</span>
+          <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">arb.auth.email_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_email_confirmation</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">generate_email_confirmation_token</span><span class="p">()</span>
+            <span class="n">send_email_confirmation</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Confirmation email resent to user: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;A new confirmation email has been sent. Please check your inbox.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+          <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to resend confirmation email to </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;There was an issue sending the confirmation email. Please try again later.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+
+      <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;auth.login&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/resend_confirmation.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.review_dashboard" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">review_dashboard</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the review dashboard page.
+Users with 'editor', 'reviewer', OR 'qaqc' roles can access.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/review/dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@roles_required</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;reviewer&#39;</span><span class="p">,</span> <span class="s1">&#39;qaqc&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">review_dashboard</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the review dashboard page.</span>
+<span class="sd">  Users with &#39;editor&#39;, &#39;reviewer&#39;, OR &#39;qaqc&#39; roles can access.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Render review dashboard for Okta-authenticated users with appropriate roles.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta review dashboard not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/review_dashboard.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.role_required" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">role_required</span><span class="p">(</span><span class="n">role_name</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Decorator to restrict access to users with the specified role.
+- If USE_OKTA is True, checks Okta claims/groups for role access.
+- If USE_OKTA is False, uses local role field.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>role_name</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The role name to check for.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>@role_required('editor')
+def edit_page():
+    # Only users with 'editor' role can access
+    pass</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">role_required</span><span class="p">(</span><span class="n">role_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Decorator to restrict access to users with the specified role.</span>
+<span class="sd">  - If USE_OKTA is True, checks Okta claims/groups for role access.</span>
+<span class="sd">  - If USE_OKTA is False, uses local role field.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      role_name: The role name to check for.</span>
+
+<span class="sd">  Example:</span>
+<span class="sd">      @role_required(&#39;editor&#39;)</span>
+<span class="sd">      def edit_page():</span>
+<span class="sd">          # Only users with &#39;editor&#39; role can access</span>
+<span class="sd">          pass</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+        <span class="c1"># TODO: Check Okta token for the specified group/claim.</span>
+        <span class="c1"># Need: Okta group/claim mapping for role access.</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta role check not implemented yet. Need Okta group/claim mapping.&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">has_role</span><span class="p">(</span><span class="n">role_name</span><span class="p">):</span>
+          <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decorated_function</span>
+
+  <span class="k">return</span> <span class="n">decorator</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.roles_required" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">roles_required</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Decorator to restrict access to users with any of the specified roles.
+- If USE_OKTA is True, checks Okta claims/groups for role access.
+- If USE_OKTA is False, uses local role field.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>*roles</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>()</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Variable number of role names to check for.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>@roles_required('editor', 'reviewer')
+def edit_page():
+    # Only users with 'editor' OR 'reviewer' role can access
+    pass</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">roles_required</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Decorator to restrict access to users with any of the specified roles.</span>
+<span class="sd">  - If USE_OKTA is True, checks Okta claims/groups for role access.</span>
+<span class="sd">  - If USE_OKTA is False, uses local role field.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      *roles: Variable number of role names to check for.</span>
+
+<span class="sd">  Example:</span>
+<span class="sd">      @roles_required(&#39;editor&#39;, &#39;reviewer&#39;)</span>
+<span class="sd">      def edit_page():</span>
+<span class="sd">          # Only users with &#39;editor&#39; OR &#39;reviewer&#39; role can access</span>
+<span class="sd">          pass</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+        <span class="c1"># TODO: Check Okta token for any of the specified groups/claims.</span>
+        <span class="c1"># Need: Okta group/claim mapping for role access.</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta role check not implemented yet. Need Okta group/claim mapping.&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">has_any_role</span><span class="p">(</span><span class="o">*</span><span class="n">roles</span><span class="p">):</span>
+          <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decorated_function</span>
+
+  <span class="k">return</span> <span class="n">decorator</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.auth.routes.settings" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">settings</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Render the user account settings page (placeholder).
+In Okta, this page may display Okta-managed profile info or link to Okta profile management.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\auth\routes.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@auth</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/settings&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">settings</span><span class="p">():</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Render the user account settings page (placeholder).</span>
+<span class="sd">  In Okta, this page may display Okta-managed profile info or link to Okta profile management.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">USE_OKTA</span><span class="p">:</span>
+    <span class="c1"># TODO: Display Okta profile info or link to Okta profile management.</span>
+    <span class="c1"># Need: Okta user info endpoint and integration.</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Okta settings/profile integration not implemented yet.&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;auth/settings.html&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../role_examples/" class="btn btn-neutral float-left" title="arb.auth.role_examples"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../test_auth/" class="btn btn-neutral float-right" title="arb.auth.test_auth">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../role_examples/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../test_auth/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../..";</script>
+    <script src="../../../../js/theme_extra.js"></script>
+    <script src="../../../../js/theme.js"></script>
+      <script src="../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

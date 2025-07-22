@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/portal/utils/import_audit/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.portal.utils.import_audit - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.portal.utils.import_audit";
+        var mkdocs_page_input_path = "reference\\arb\\portal\\utils\\import_audit.md";
+        var mkdocs_page_url = "/reference/arb/portal/utils/import_audit/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/accessors/">arb.portal.config.accessors</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Utils</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../db_ingest_util/">arb.portal.utils.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../db_introspection_util/">arb.portal.utils.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../file_upload_util/">arb.portal.utils.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../form_mapper/">arb.portal.utils.form_mapper</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.portal.utils.import_audit</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../route_util/">arb.portal.utils.route_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../utils/wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Excel</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../utils/excel/xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Portal</li>
+          <li class="breadcrumb-item">Utils</li>
+      <li class="breadcrumb-item active">arb.portal.utils.import_audit</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbportalutilsimport_audit"><code>arb.portal.utils.import_audit</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.portal.utils.import_audit"></a>
+    <div class="doc doc-contents first">
+
+        <p>import_audit.py</p>
+<p>This module generates a robust, human-readable audit trail for Excel file imports in the feedback portal.</p>
+
+
+<details class="purpose" open>
+  <summary>Purpose</summary>
+  <ul>
+<li>To provide a double-check of the import process by independently reading the Excel file and comparing its contents to the schema and the output of parse_xl_file.</li>
+<li>To help users and developers diagnose issues with field mapping, type conversion, whitespace, and dropdown validation.</li>
+<li>To provide a clear, aligned, per-field diagnostic log for compliance and debugging.</li>
+</ul>
+</details>
+
+<details class="how-it-works" open>
+  <summary>How it works</summary>
+  <ul>
+<li>Takes the output of parse_xl_file(file_path) (parse_result) and the schema map.</li>
+<li>Independently opens the Excel file with openpyxl.</li>
+<li>For each field in the schema for the tab of interest (e.g., 'Feedback Form'), it:<ul>
+<li>Reads the raw value and label from the spreadsheet.</li>
+<li>Compares them to the schema.</li>
+<li>Attempts type conversion and whitespace cleaning, logging any issues.</li>
+<li>Summarizes label and value matches.</li>
+</ul>
+</li>
+</ul>
+</details>
+
+<details class="limitations" open>
+  <summary>Limitations</summary>
+  <ul>
+<li>This audit does NOT use the portal's main logging infrastructure or business logic; it is a static, schema-driven check.</li>
+<li>It may not catch all business logic errors, cross-field dependencies, or dynamic validation rules enforced elsewhere in the portal.</li>
+<li>It is intended as a best-effort, field-level diagnostic and not a full validation of the import pipeline.</li>
+</ul>
+</details>
+
+<details class="usage" open>
+  <summary>Usage</summary>
+  <p>generate_import_audit(file_path, parse_result, schema_map, logs=None, route="")</p>
+</details>
+
+<details class="output" open>
+  <summary>Output</summary>
+  <p>Returns a string suitable for writing to a log file.</p>
+</details>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.field_diagnostics" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">field_diagnostics</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">lookup</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate diagnostics for a single field, including label/value comparison,
+whitespace warnings, type conversion logs, and dropdown validation.
+Args:
+    field: Field name (schema key).
+    lookup: Schema dict for this field.
+    ws: openpyxl worksheet for the tab.
+    logs: List of log messages from the import process.
+Returns:
+    List of lines for this field's diagnostics.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">field_diagnostics</span><span class="p">(</span><span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lookup</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ws</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">logs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Generate diagnostics for a single field, including label/value comparison,</span>
+<span class="sd">  whitespace warnings, type conversion logs, and dropdown validation.</span>
+<span class="sd">  Args:</span>
+<span class="sd">      field: Field name (schema key).</span>
+<span class="sd">      lookup: Schema dict for this field.</span>
+<span class="sd">      ws: openpyxl worksheet for the tab.</span>
+<span class="sd">      logs: List of log messages from the import process.</span>
+<span class="sd">  Returns:</span>
+<span class="sd">      List of lines for this field&#39;s diagnostics.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">pad</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">pad_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">PAD_WIDTH</span><span class="p">)</span>
+  <span class="n">field_lines</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">schema_label</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+  <span class="n">label_address</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label_address&#39;</span><span class="p">)</span>
+  <span class="n">value_address</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value_address&#39;</span><span class="p">)</span>
+  <span class="n">value_type</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value_type&#39;</span><span class="p">)</span>
+  <span class="n">is_drop_down</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_drop_down&#39;</span><span class="p">)</span>
+  <span class="n">spreadsheet_label</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="n">label_address</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">cell</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">label_address</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">spreadsheet_label</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+      <span class="n">spreadsheet_label</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">label_match</span> <span class="o">=</span> <span class="p">(</span><span class="n">spreadsheet_label</span> <span class="o">==</span> <span class="n">schema_label</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">spreadsheet_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">schema_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+  <span class="n">spreadsheet_raw_value</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="n">value_address</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">cell</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="n">value_address</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">spreadsheet_raw_value</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+      <span class="n">spreadsheet_raw_value</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">db_value</span><span class="p">,</span> <span class="n">conversion_logs</span> <span class="o">=</span> <span class="n">try_type_conversion</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">)</span>
+  <span class="n">value_match_line</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="n">db_value</span> <span class="o">==</span> <span class="n">spreadsheet_raw_value</span><span class="p">:</span>
+    <span class="n">value_match_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : True&quot;</span>
+  <span class="k">elif</span> <span class="p">(</span>
+      <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">db_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)))</span>
+      <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">db_value</span><span class="p">)</span>
+  <span class="p">):</span>
+    <span class="n">value_match_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : True (Type Conversion: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">db_value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, Value Preserved)&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">value_match_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : False&quot;</span>
+  <span class="n">display_spreadsheet_raw_value</span> <span class="o">=</span> <span class="n">spreadsheet_raw_value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">spreadsheet_raw_value</span>
+  <span class="n">display_db_value</span> <span class="o">=</span> <span class="n">db_value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">db_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">db_value</span>
+  <span class="n">whitespace_warning</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">spreadsheet_ws_stripped</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">spreadsheet_raw_value</span> <span class="o">!=</span> <span class="n">display_spreadsheet_raw_value</span>
+  <span class="n">db_ws_stripped</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">db_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">db_value</span> <span class="o">!=</span> <span class="n">display_db_value</span>
+  <span class="k">if</span> <span class="n">spreadsheet_ws_stripped</span> <span class="ow">and</span> <span class="n">db_ws_stripped</span><span class="p">:</span>
+    <span class="n">whitespace_warning</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;WARNING: Whitespace was stripped from both spreadsheet and db value (before: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">, after: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">display_db_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+  <span class="k">elif</span> <span class="n">spreadsheet_ws_stripped</span><span class="p">:</span>
+    <span class="n">whitespace_warning</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;WARNING: Whitespace was stripped from spreadsheet value (before: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">spreadsheet_raw_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">, after: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">display_spreadsheet_raw_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+  <span class="k">elif</span> <span class="n">db_ws_stripped</span><span class="p">:</span>
+    <span class="n">whitespace_warning</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;WARNING: Whitespace was stripped from db value (before: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">db_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">, after: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">display_db_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Field</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">field</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Schema Label&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">schema_label</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Spreadsheet Label&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">spreadsheet_label</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Value&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">display_spreadsheet_raw_value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">json_serializer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Data Type&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">value_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">value_type</span><span class="p">))</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">value_type</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">value_match_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">whitespace_warning</span><span class="p">:</span>
+    <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Warning&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">whitespace_warning</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">conversion_logs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="n">conversion_logs</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">log</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;type conversion failed&#39;</span><span class="p">):</span>
+        <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Invalid Input Ignored&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : INVALID INPUT IGNORED: </span><span class="si">{</span><span class="n">log</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pad</span><span class="p">(</span><span class="s1">&#39;Log&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">log</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">field_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">field_lines</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.format_header" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">format_header</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="n">parse_result</span><span class="p">,</span> <span class="n">import_id</span><span class="p">,</span> <span class="n">import_time</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate the audit log header with file, schema, and sector info.
+Args:
+    file_path: Path to the imported file.
+    route: Route or context for the import (for logging).
+    parse_result: Output of parse_xl_file (metadata, schemas, tab_contents).
+Returns:
+    List of header lines for the audit log.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">format_header</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parse_result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">import_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">import_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Generate the audit log header with file, schema, and sector info.</span>
+<span class="sd">  Args:</span>
+<span class="sd">      file_path: Path to the imported file.</span>
+<span class="sd">      route: Route or context for the import (for logging).</span>
+<span class="sd">      parse_result: Output of parse_xl_file (metadata, schemas, tab_contents).</span>
+<span class="sd">  Returns:</span>
+<span class="sd">      List of header lines for the audit log.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sa">f</span><span class="s2">&quot;=== BEGIN AUDIT: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Import ID</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">import_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Import Started</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">13</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">import_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+  <span class="p">]</span>
+  <span class="k">if</span> <span class="n">route</span><span class="p">:</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Route</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--- FILE METADATA ---&quot;</span><span class="p">)</span>
+  <span class="n">meta</span> <span class="o">=</span> <span class="n">parse_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="p">{})</span>
+  <span class="n">schema_tab</span> <span class="o">=</span> <span class="n">parse_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;schemas&#39;</span><span class="p">,</span> <span class="p">{})</span>
+  <span class="n">sector</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sector&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Sector&#39;</span><span class="p">)</span>
+  <span class="n">schema_name</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="n">schema_tab</span><span class="p">:</span>
+    <span class="n">schema_name</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">schema_tab</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sector</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">sector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schema</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PAD_WIDTH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">schema_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">lines</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.generate_import_audit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">generate_import_audit</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">parse_result</span><span class="p">,</span> <span class="n">schema_map</span><span class="p">,</span> <span class="n">logs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate a human-readable audit trail for an Excel import.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Path to the imported file.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>parse_result</code></b>
+                  (<code><span title="typing.Dict">Dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Output of parse_xl_file (metadata, schemas, tab_contents).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>schema_map</code></b>
+                  (<code><span title="typing.Dict">Dict</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Loaded schema map (from xl_parse.py).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>logs</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>List of log messages from the import process.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>route</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Route or context for the import (for logging).</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The audit log as a string.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_import_audit</span><span class="p">(</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">parse_result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">schema_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">logs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">route</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Generate a human-readable audit trail for an Excel import.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">      file_path: Path to the imported file.</span>
+<span class="sd">      parse_result: Output of parse_xl_file (metadata, schemas, tab_contents).</span>
+<span class="sd">      schema_map: Loaded schema map (from xl_parse.py).</span>
+<span class="sd">      logs: List of log messages from the import process.</span>
+<span class="sd">      route: Route or context for the import (for logging).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      The audit log as a string.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">logs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">import_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+  <span class="n">import_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">import_time</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="n">lines</span> <span class="o">=</span> <span class="n">format_header</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="n">parse_result</span><span class="p">,</span> <span class="n">import_id</span><span class="p">,</span> <span class="n">import_time</span><span class="p">)</span>
+  <span class="n">tab_name</span> <span class="o">=</span> <span class="s1">&#39;Feedback Form&#39;</span>
+  <span class="n">tab_schemas</span> <span class="o">=</span> <span class="n">parse_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;schemas&#39;</span><span class="p">,</span> <span class="p">{})</span>
+  <span class="k">if</span> <span class="n">tab_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tab_schemas</span><span class="p">:</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tab: </span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2"> not found in spreadsheet schemas.&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== END AUDIT: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  <span class="n">schema_version</span> <span class="o">=</span> <span class="n">tab_schemas</span><span class="p">[</span><span class="n">tab_name</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">schema_version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema_map</span><span class="p">:</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schema version &#39;</span><span class="si">{</span><span class="n">schema_version</span><span class="si">}</span><span class="s2">&#39; not found in schema_map.&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== END AUDIT: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  <span class="n">schema_dict</span> <span class="o">=</span> <span class="n">schema_map</span><span class="p">[</span><span class="n">schema_version</span><span class="p">][</span><span class="s1">&#39;schema&#39;</span><span class="p">]</span>
+  <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">data_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">tab_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheetnames</span><span class="p">:</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tab: </span><span class="si">{</span><span class="n">tab_name</span><span class="si">}</span><span class="s2"> not found in Excel file.&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== END AUDIT: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  <span class="n">ws</span> <span class="o">=</span> <span class="n">wb</span><span class="p">[</span><span class="n">tab_name</span><span class="p">]</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--- FIELD DIAGNOSTICS ---&quot;</span><span class="p">)</span>
+  <span class="n">label_match_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">label_mismatch_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">value_match_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">value_mismatch_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">warning_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">invalid_input_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">notes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">lookup</span> <span class="ow">in</span> <span class="n">schema_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">field_lines</span> <span class="o">=</span> <span class="n">field_diagnostics</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">lookup</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">field_lines</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Label Match&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">):</span>
+          <span class="n">label_match_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;False&#39;</span><span class="p">):</span>
+          <span class="n">label_mismatch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">):</span>
+          <span class="n">value_match_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;False&#39;</span><span class="p">):</span>
+          <span class="n">value_mismatch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="s1">&#39;WARNING:&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+        <span class="n">warning_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">notes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Some spreadsheet or database values had extra whitespace that was removed during import.&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="s1">&#39;INVALID INPUT IGNORED:&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+        <span class="n">invalid_input_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">notes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Some fields contained invalid data and were ignored. Please check your input for correct types and formats.&#39;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">field_lines</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+    <span class="n">summary_section</span><span class="p">(</span><span class="n">label_match_count</span><span class="p">,</span> <span class="n">label_mismatch_count</span><span class="p">,</span> <span class="n">value_match_count</span><span class="p">,</span> <span class="n">value_mismatch_count</span><span class="p">,</span> <span class="n">warning_count</span><span class="p">,</span> <span class="n">invalid_input_count</span><span class="p">))</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+    <span class="n">machine_readable_summary</span><span class="p">(</span><span class="n">import_id</span><span class="p">,</span> <span class="n">label_match_count</span> <span class="o">+</span> <span class="n">label_mismatch_count</span><span class="p">,</span> <span class="n">warning_count</span><span class="p">,</span> <span class="n">invalid_input_count</span><span class="p">,</span> <span class="n">import_time</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">notes</span><span class="p">:</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--- NOTES / SUGGESTIONS ---&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>
+      <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- </span><span class="si">{</span><span class="n">note</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== END AUDIT: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.normalize_label" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">normalize_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Normalize a label for audit display (strip, replace line breaks).</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">normalize_label</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Normalize a label for audit display (strip, replace line breaks).&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">label</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.pad_label" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pad_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">PAD_WIDTH</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pad a label to a fixed width for aligned output.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pad_label</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">PAD_WIDTH</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Pad a label to a fixed width for aligned output.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">label</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.summary_section" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">summary_section</span><span class="p">(</span><span class="n">label_match_count</span><span class="p">,</span> <span class="n">label_mismatch_count</span><span class="p">,</span> <span class="n">value_match_count</span><span class="p">,</span> <span class="n">value_mismatch_count</span><span class="p">,</span> <span class="n">warning_count</span><span class="p">,</span> <span class="n">invalid_input_count</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate the summary section for the audit log.
+Args:
+    label_match_count: Number of fields with label match True.
+    label_mismatch_count: Number of fields with label match False.
+    value_match_count: Number of fields with value match True.
+    value_mismatch_count: Number of fields with value match False.
+Returns:
+    List of lines for the summary section.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">summary_section</span><span class="p">(</span><span class="n">label_match_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">label_mismatch_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value_match_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value_mismatch_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                    <span class="n">warning_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">invalid_input_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Generate the summary section for the audit log.</span>
+<span class="sd">  Args:</span>
+<span class="sd">      label_match_count: Number of fields with label match True.</span>
+<span class="sd">      label_mismatch_count: Number of fields with label match False.</span>
+<span class="sd">      value_match_count: Number of fields with value match True.</span>
+<span class="sd">      value_mismatch_count: Number of fields with value match False.</span>
+<span class="sd">  Returns:</span>
+<span class="sd">      List of lines for the summary section.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;--- SUMMARY ---&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;Fields Checked&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">label_match_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">label_mismatch_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;Fields With Warnings&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">warning_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;Fields With Invalid Input&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">invalid_input_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;Label Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">label_match_count</span><span class="si">}</span><span class="s2"> pass, </span><span class="si">{</span><span class="n">label_mismatch_count</span><span class="si">}</span><span class="s2"> fail&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad_label</span><span class="p">(</span><span class="s1">&#39;Value Match&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">value_match_count</span><span class="si">}</span><span class="s2"> pass, </span><span class="si">{</span><span class="n">value_mismatch_count</span><span class="si">}</span><span class="s2"> fail&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&quot;</span>
+  <span class="p">]</span>
+  <span class="k">return</span> <span class="n">lines</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.portal.utils.import_audit.try_type_conversion" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">try_type_conversion</span><span class="p">(</span><span class="n">raw_value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Attempt to convert raw_value to value_type. Return (converted_value, logs).
+Logs are human-readable explanations of what happened.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>raw_value</code></b>
+                  (<code><span title="typing.Any">Any</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The value to convert.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>value_type</code></b>
+                  (<code><span title="typing.Any">Any</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The type to convert to.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="tuple">tuple</span>[<span title="typing.Any">Any</span>, <span title="list">list</span>[<span title="str">str</span>]]</code>
+              –
+              <div class="doc-md-description">
+                <p>tuple[Any, list[str]]: The converted value and a list of log messages.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\utils\import_audit.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">try_type_conversion</span><span class="p">(</span><span class="n">raw_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Attempt to convert raw_value to value_type. Return (converted_value, logs).</span>
+<span class="sd">  Logs are human-readable explanations of what happened.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    raw_value (Any): The value to convert.</span>
+<span class="sd">    value_type (Any): The type to convert to.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple[Any, list[str]]: The converted value and a list of log messages.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">logs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">db_value</span> <span class="o">=</span> <span class="n">raw_value</span>
+  <span class="k">if</span> <span class="n">raw_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">value_type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">raw_value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">db_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+          <span class="sa">f</span><span class="s2">&quot;Type conversion failed: empty string for expected type </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">value_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">value_type</span><span class="p">))</span><span class="si">}</span><span class="s2">. Value set to None.&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="k">if</span> <span class="n">value_type</span> <span class="o">==</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">arb.utils.date_and_time</span><span class="w"> </span><span class="kn">import</span> <span class="n">excel_str_to_naive_datetime</span><span class="p">,</span> <span class="n">is_datetime_naive</span>
+            <span class="n">excel_val</span> <span class="o">=</span> <span class="n">raw_value</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">excel_val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+              <span class="n">excel_val</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">excel_val</span><span class="p">)</span>
+            <span class="n">local_datetime</span> <span class="o">=</span> <span class="n">excel_str_to_naive_datetime</span><span class="p">(</span><span class="n">excel_val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">local_datetime</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_datetime_naive</span><span class="p">(</span><span class="n">local_datetime</span><span class="p">):</span>
+              <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion failed: parsed datetime is not naive for value &#39;</span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="s2">&#39;. Value set to None.&quot;</span><span class="p">)</span>
+              <span class="n">db_value</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="n">local_datetime</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+              <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion failed: could not parse &#39;</span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="s2">&#39; as datetime. Value set to None.&quot;</span><span class="p">)</span>
+              <span class="n">db_value</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+              <span class="n">db_value</span> <span class="o">=</span> <span class="n">local_datetime</span>
+              <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion successful: &#39;</span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="s2">&#39; → </span><span class="si">{</span><span class="n">db_value</span><span class="si">}</span><span class="s2"> (datetime)&quot;</span><span class="p">)</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">converted</span> <span class="o">=</span> <span class="n">value_type</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
+            <span class="n">db_value</span> <span class="o">=</span> <span class="n">converted</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type conversion successful: &#39;</span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="s2">&#39; → </span><span class="si">{</span><span class="n">db_value</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">value_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">value_type</span><span class="p">))</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+          <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Type conversion failed: could not convert &#39;</span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="s2">&#39; to </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">value_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">value_type</span><span class="p">))</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Value set to None.&quot;</span><span class="p">)</span>
+          <span class="n">db_value</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="k">return</span> <span class="n">db_value</span><span class="p">,</span> <span class="n">logs</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../github_and_ai/" class="btn btn-neutral float-left" title="arb.portal.utils.github_and_ai"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../route_util/" class="btn btn-neutral float-right" title="arb.portal.utils.route_util">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../github_and_ai/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../route_util/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

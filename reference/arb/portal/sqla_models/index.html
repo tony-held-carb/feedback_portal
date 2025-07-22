@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -71,6 +123,8 @@
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.portal.sqla_models</a>
     <ul class="current">
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.sqla_models">sqla_models</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.sqla_models--file-is-inserted-into-the-uploaded_files-table-with-timestamps-autopopulated">file is inserted into the uploaded_files table with timestamps autopopulated</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.sqla_models.PortalUpdate">PortalUpdate</a>
     </li>
@@ -94,12 +148,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -120,9 +168,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -156,6 +210,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -214,6 +272,20 @@
 including uploaded file metadata and portal JSON update logs.</p>
 
 
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>UploadedFile (type): SQLAlchemy model for uploaded file metadata.
+PortalUpdate (type): SQLAlchemy model for portal update logs.
+logger (logging.Logger): Logger instance for this module.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>file = UploadedFile(path="uploads/report.xlsx", status="pending")
+db.session.add(file)
+db.session.commit()</p>
+<h2 id="arb.portal.sqla_models--file-is-inserted-into-the-uploaded_files-table-with-timestamps-autopopulated">file is inserted into the uploaded_files table with timestamps autopopulated</h2>
+
+
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
@@ -221,15 +293,9 @@ including uploaded file metadata and portal JSON update logs.</p>
 <li>Most schema inspection and data access for <code>incidences</code> is handled dynamically via reflection.</li>
 <li>Timezone-aware UTC timestamps are used on all tracked models.</li>
 <li>All models inherit from <code>db.Model</code>, and can be directly queried with SQLAlchemy syntax.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
 </ul>
 </details>
-
-<p><span class="doc-section-title">Examples:</span></p>
-    <p>Input : file = UploadedFile(path="uploads/report.xlsx", status="pending")
-       db.session.add(file)
-       db.session.commit()
-Output: file is inserted into the uploaded_files table with timestamps autopopulated</p>
-
 
 
 
@@ -264,8 +330,6 @@ Output: file is inserted into the uploaded_files table with timestamps autopopul
 
 
         <p>SQLAlchemy model tracking updates to the misc_json field on incidence records.</p>
-<p>Used for auditing key/value changes made through the portal interface. Each row
-represents a single change to a single field on a specific incidence.</p>
 
 
 <details class="table-name" open>
@@ -273,17 +337,92 @@ represents a single change to a single field on a specific incidence.</p>
   <p>portal_updates</p>
 </details>
 
-<details class="columns" open>
-  <summary>Columns</summary>
-  <p>id (int): Primary key.
-timestamp (datetime): UTC time when the change was logged.
-key (str): JSON key that was modified.
-old_value (str | None): Previous value (nullable).
-new_value (str): New value.
-user (str): Username or identifier of the user making the change.
-comments (str): Optional explanatory comment.
-id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
-</details>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>id</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Primary key.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>timestamp</code></b>
+                  (<code><span title="datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>UTC time when the change was logged.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>JSON key that was modified.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>old_value</code></b>
+                  (<code><span title="str">str</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Previous value (nullable).</p>
+              </div>
+            </li>
+            <li>
+              <b><code>new_value</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>New value.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>user</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Username or identifier of the user making the change.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>comments</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Optional explanatory comment.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>id_incidence</code></b>
+                  (<code><span title="int">int</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Foreign key to the modified incidence (nullable).</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>update = PortalUpdate(key="field1", old_value="A", new_value="B", user="alice", id_incidence=1)
+db.session.add(update)
+db.session.commit()</p>
+<h3 id="arb.portal.sqla_models.PortalUpdate--update-appears-in-the-portal_updates-table">update appears in the portal_updates table</h3>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -300,10 +439,7 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -341,17 +477,31 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PortalUpdate</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PortalUpdate</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  SQLAlchemy model tracking updates to the misc_json field on incidence records.</span>
-
-<span class="sd">  Used for auditing key/value changes made through the portal interface. Each row</span>
-<span class="sd">  represents a single change to a single field on a specific incidence.</span>
 
 <span class="sd">  Table Name:</span>
 <span class="sd">    portal_updates</span>
 
-<span class="sd">  Columns:</span>
+<span class="sd">  Attributes:</span>
 <span class="sd">    id (int): Primary key.</span>
 <span class="sd">    timestamp (datetime): UTC time when the change was logged.</span>
 <span class="sd">    key (str): JSON key that was modified.</span>
@@ -360,6 +510,12 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 <span class="sd">    user (str): Username or identifier of the user making the change.</span>
 <span class="sd">    comments (str): Optional explanatory comment.</span>
 <span class="sd">    id_incidence (int | None): Foreign key to the modified incidence (nullable).</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    update = PortalUpdate(key=&quot;field1&quot;, old_value=&quot;A&quot;, new_value=&quot;B&quot;, user=&quot;alice&quot;, id_incidence=1)</span>
+<span class="sd">    db.session.add(update)</span>
+<span class="sd">    db.session.commit()</span>
+<span class="sd">    # update appears in the portal_updates table</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Automatically populated by `apply_json_patch_and_log()`.</span>
@@ -378,7 +534,18 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
   <span class="n">comments</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Text</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
   <span class="n">id_incidence</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-  <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a human-readable string representation of the portal update record.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      str: Summary string showing the update ID, key, old/new values, user, and timestamp.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">      update = PortalUpdate(id=1, key=&quot;field1&quot;, old_value=&quot;A&quot;, new_value=&quot;B&quot;, user=&quot;alice&quot;)</span>
+<span class="sd">      print(repr(update))</span>
+<span class="sd">      # Output: &#39;&lt;PortalUpdate id=1 key=&#39;field1&#39; old=&#39;A&#39; new=&#39;B&#39; user=&#39;alice&#39; at=...&gt;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="sa">f</span><span class="s2">&quot;&lt;PortalUpdate id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> key=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> old=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">old_value</span><span class="si">!r}</span><span class="s2"> &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;new=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">new_value</span><span class="si">!r}</span><span class="s2"> user=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">!r}</span><span class="s2"> at=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
@@ -397,6 +564,88 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.sqla_models.PortalUpdate.__repr__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__repr__</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return a human-readable string representation of the portal update record.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>str</code></b>(                  <code><span title="str">str</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>Summary string showing the update ID, key, old/new values, user, and timestamp.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>update = PortalUpdate(id=1, key="field1", old_value="A", new_value="B", user="alice")
+print(repr(update))</p>
+<h4 id="arb.portal.sqla_models.PortalUpdate.__repr__--output">Output: '<PortalUpdate id=1 key='field1' old='A' new='B' user='alice' at=...>'</h4>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Return a human-readable string representation of the portal update record.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    str: Summary string showing the update ID, key, old/new values, user, and timestamp.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    update = PortalUpdate(id=1, key=&quot;field1&quot;, old_value=&quot;A&quot;, new_value=&quot;B&quot;, user=&quot;alice&quot;)</span>
+<span class="sd">    print(repr(update))</span>
+<span class="sd">    # Output: &#39;&lt;PortalUpdate id=1 key=&#39;field1&#39; old=&#39;A&#39; new=&#39;B&#39; user=&#39;alice&#39; at=...&gt;&#39;</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&lt;PortalUpdate id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> key=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> old=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">old_value</span><span class="si">!r}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;new=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">new_value</span><span class="si">!r}</span><span class="s2"> user=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">!r}</span><span class="s2"> at=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+  <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -423,9 +672,6 @@ id_incidence (int | None): Foreign key to the modified incidence (nullable).</p>
 
 
         <p>SQLAlchemy model representing a user-uploaded file.</p>
-<p>Stores metadata for files uploaded via the portal interface, including
-the file path, status, and optional description. Automatically tracks
-creation and last modification timestamps.</p>
 
 
 <details class="table-name" open>
@@ -433,21 +679,75 @@ creation and last modification timestamps.</p>
   <p>uploaded_files</p>
 </details>
 
-<details class="columns" open>
-  <summary>Columns</summary>
-  <p>id_ (int): Primary key.
-path (str): Filesystem path to the uploaded file.
-description (str | None): Optional human-friendly explanation.
-status (str | None): Upload status, e.g., 'pending', 'processed', or 'error'.
-created_timestamp (datetime): UTC timestamp of initial creation.
-modified_timestamp (datetime): UTC timestamp of last update.</p>
-</details>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>id_</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Primary key.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>path</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Filesystem path to the uploaded file.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>description</code></b>
+                  (<code><span title="str">str</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Optional human-friendly explanation.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>status</code></b>
+                  (<code><span title="str">str</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Upload status, e.g., 'pending', 'processed', or 'error'.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>created_timestamp</code></b>
+                  (<code><span title="datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>UTC timestamp of initial creation.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>modified_timestamp</code></b>
+                  (<code><span title="datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>UTC timestamp of last update.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <p><span class="doc-section-title">Examples:</span></p>
-    <p>Input : file = UploadedFile(path="uploads/test.xlsx", status="pending")
-       db.session.add(file)
-       db.session.commit()
-Output: file appears in the uploaded_files table with 'pending' status</p>
+    <p>file = UploadedFile(path="uploads/test.xlsx", status="pending")
+db.session.add(file)
+db.session.commit()</p>
+<h3 id="arb.portal.sqla_models.UploadedFile--file-appears-in-the-uploaded_files-table-with-pending-status">file appears in the uploaded_files table with 'pending' status</h3>
 
 
 <details class="notes" open>
@@ -465,13 +765,7 @@ Output: file appears in the uploaded_files table with 'pending' status</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
@@ -524,18 +818,17 @@ Output: file appears in the uploaded_files table with 'pending' status</p>
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadedFile</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UploadedFile</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    SQLAlchemy model representing a user-uploaded file.</span>
-
-<span class="sd">    Stores metadata for files uploaded via the portal interface, including</span>
-<span class="sd">    the file path, status, and optional description. Automatically tracks</span>
-<span class="sd">    creation and last modification timestamps.</span>
 
 <span class="sd">    Table Name:</span>
 <span class="sd">      uploaded_files</span>
 
-<span class="sd">    Columns:</span>
+<span class="sd">    Attributes:</span>
 <span class="sd">      id_ (int): Primary key.</span>
 <span class="sd">      path (str): Filesystem path to the uploaded file.</span>
 <span class="sd">      description (str | None): Optional human-friendly explanation.</span>
@@ -544,15 +837,15 @@ Output: file appears in the uploaded_files table with 'pending' status</p>
 <span class="sd">      modified_timestamp (datetime): UTC timestamp of last update.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">      Input : file = UploadedFile(path=&quot;uploads/test.xlsx&quot;, status=&quot;pending&quot;)</span>
-<span class="sd">             db.session.add(file)</span>
-<span class="sd">             db.session.commit()</span>
-<span class="sd">      Output: file appears in the uploaded_files table with &#39;pending&#39; status</span>
+<span class="sd">      file = UploadedFile(path=&quot;uploads/test.xlsx&quot;, status=&quot;pending&quot;)</span>
+<span class="sd">      db.session.add(file)</span>
+<span class="sd">      db.session.commit()</span>
+<span class="sd">      # file appears in the uploaded_files table with &#39;pending&#39; status</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">      - Timestamps use UTC and are timezone-aware.</span>
 <span class="sd">      - This table is managed by SQLAlchemy directly (not introspected).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;uploaded_files&quot;</span>
 
@@ -574,11 +867,12 @@ Output: file appears in the uploaded_files table with 'pending' status</p>
 <span class="sd">    Return a human-readable string representation of the uploaded file record.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        str: Summary string showing the ID, path, description, and status.</span>
+<span class="sd">      str: Summary string showing the ID, path, description, and status.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">      Input : UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
-<span class="sd">      Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
+<span class="sd">      file = UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
+<span class="sd">      print(repr(file))</span>
+<span class="sd">      # Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="sa">f</span><span class="s1">&#39;&lt;Uploaded File: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s1">, Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">, &#39;</span>
@@ -637,15 +931,14 @@ Output: file appears in the uploaded_files table with 'pending' status</p>
 </table>
 
 <p><span class="doc-section-title">Examples:</span></p>
-    <p>Input : UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
-Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'</p>
+    <p>file = UploadedFile(id_=3, path="uploads/data.csv", description="Data", status="done")
+print(repr(file))</p>
+<h4 id="arb.portal.sqla_models.UploadedFile.__repr__--output">Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done>'</h4>
 
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
@@ -657,16 +950,20 @@ Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: d
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Return a human-readable string representation of the uploaded file record.</span>
 
 <span class="sd">  Returns:</span>
-<span class="sd">      str: Summary string showing the ID, path, description, and status.</span>
+<span class="sd">    str: Summary string showing the ID, path, description, and status.</span>
 
 <span class="sd">  Examples:</span>
-<span class="sd">    Input : UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
-<span class="sd">    Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
+<span class="sd">    file = UploadedFile(id_=3, path=&quot;uploads/data.csv&quot;, description=&quot;Data&quot;, status=&quot;done&quot;)</span>
+<span class="sd">    print(repr(file))</span>
+<span class="sd">    # Output: &#39;&lt;Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: done&gt;&#39;</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">return</span> <span class="p">(</span>
     <span class="sa">f</span><span class="s1">&#39;&lt;Uploaded File: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s1">, Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">, &#39;</span>
@@ -699,32 +996,7 @@ Output: '<Uploaded File: 3, Path: uploads/data.csv, Description: Data, Status: d
     <div class="doc doc-contents ">
 
         <p>Run a test transaction to validate UploadedFile model functionality.</p>
-<p>This utility performs an insert, fetch, and rollback on the UploadedFile
-model to verify that the ORM mapping and database connection are working.</p>
 
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code>None</code>
-              –
-              <div class="doc-md-description">
-                <p>None</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 <table class="field-list">
   <colgroup>
@@ -749,35 +1021,24 @@ model to verify that the ORM mapping and database connection are working.</p>
   </tbody>
 </table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>run_diagnostics()</p>
+<h3 id="arb.portal.sqla_models.run_diagnostics--logs-diagnostic-info-and-rolls-back-the-transaction">Logs diagnostic info and rolls back the transaction</h3>
+
+
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
 <li>Meant for developer use in test environments only.</li>
 <li>This function leaves no data in the database due to rollback.</li>
 <li>Logs diagnostic information using the project logger.</li>
+<li>LIKELY OBSOLETE: This function is not covered by unit tests and is likely obsolete. It requires a real database connection and is not robustly testable with mocks or in CI environments. Change with caution. See documentation/docstring_update_for_testing.md for details.</li>
 </ul>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\sqla_models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
@@ -808,23 +1069,38 @@ model to verify that the ORM mapping and database connection are working.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_diagnostics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Run a test transaction to validate UploadedFile model functionality.</span>
 
-<span class="sd">  This utility performs an insert, fetch, and rollback on the UploadedFile</span>
-<span class="sd">  model to verify that the ORM mapping and database connection are working.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    None</span>
-
 <span class="sd">  Raises:</span>
 <span class="sd">    RuntimeError: If database access or fetch fails.</span>
+
+<span class="sd">  Examples:</span>
+<span class="sd">    run_diagnostics()</span>
+<span class="sd">    # Logs diagnostic info and rolls back the transaction</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Meant for developer use in test environments only.</span>
 <span class="sd">    - This function leaves no data in the database due to rollback.</span>
 <span class="sd">    - Logs diagnostic information using the project logger.</span>
+<span class="sd">    - LIKELY OBSOLETE: This function is not covered by unit tests and is likely obsolete. It requires a real database connection and is not robustly testable with mocks or in CI environments. Change with caution. See documentation/docstring_update_for_testing.md for details.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running UploadedFile diagnostics...&quot;</span><span class="p">)</span>

@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -59,6 +111,8 @@
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">arb.portal.constants</a>
     <ul class="current">
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.constants">constants</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#arb.portal.constants--output-please-select">Output: 'Please Select'</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#arb.portal.constants.CA_TIME_ZONE">CA_TIME_ZONE</a>
     </li>
@@ -112,12 +166,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -138,9 +186,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -174,6 +228,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -229,32 +287,44 @@
 
         <p>Shared application-wide constants for the ARB Methane Feedback Portal.</p>
 <p>These constants are designed to be immutable and centrally maintained.
-They support consistent behavior and validation across:</p>
-<ul>
-<li>Web form defaults and placeholders</li>
-<li>Geospatial input validation</li>
-<li>Spreadsheet cell parsing</li>
-<li>Time zone-aware datetime formatting</li>
-<li>Filename-safe timestamp generation</li>
-</ul>
+They support consistent behavior and validation across:
+  - Web form defaults and placeholders
+  - Geospatial input validation
+  - Spreadsheet cell parsing
+  - Time zone-aware datetime formatting
+  - Filename-safe timestamp generation</p>
 
 
-<details class="structure" open>
-  <summary>Structure</summary>
-  <ul>
-<li>UI Constants</li>
-<li>Geographic Boundaries (California-specific)</li>
-<li>Time Zones and Datetime Formats</li>
-<li>Module Self-Test</li>
-</ul>
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>PLEASE_SELECT (str): Placeholder value for dropdowns where no selection is made.
+MIN_LATITUDE (float): Minimum possible CA latitude.
+MAX_LATITUDE (float): Maximum possible CA latitude.
+MIN_LONGITUDE (float): Minimum possible CA longitude.
+MAX_LONGITUDE (float): Maximum possible CA longitude.
+GPS_RESOLUTION (int): Desired decimal precision for GPS values.
+LATITUDE_VALIDATION (dict): Latitude validation schema for WTForms or other validators.
+LONGITUDE_VALIDATION (dict): Longitude validation schema for WTForms or other validators.
+UTC_TIME_ZONE (ZoneInfo): UTC (Zulu) timezone.
+CA_TIME_ZONE (ZoneInfo): California timezone for datetime conversion and formatting.
+HTML_LOCAL_TIME_FORMAT (str): HTML5-compatible format string for <input type="datetime-local">.
+DATETIME_WITH_SECONDS (str): Filename-safe datetime string format (includes seconds).
+logger (logging.Logger): Logger instance for this module.</p>
 </details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>from arb.portal.constants import PLEASE_SELECT, MIN_LATITUDE
+print(PLEASE_SELECT)</p>
+<h2 id="arb.portal.constants--output-please-select">Output: 'Please Select'</h2>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
   <ul>
 <li>Constants should always be imported from this module instead of redefined.</li>
-<li>Time zone constants use <code>zoneinfo.ZoneInfo</code> and are safe for use with
-  timezone-aware datetime objects.</li>
+<li>Time zone constants use <code>zoneinfo.ZoneInfo</code> and are safe for use with timezone-aware datetime objects.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
+<li>Run this file directly to execute diagnostics on the constants.</li>
 </ul>
 </details>
 
@@ -289,8 +359,21 @@ They support consistent behavior and validation across:</p>
 
     <div class="doc doc-contents ">
 
-        <p>ZoneInfo: Timezone objects used for datetime conversion and formatting.</p>
+        <p>ZoneInfo: California timezone for datetime conversion and formatting.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used to convert UTC datetime to local time.
+Output: Datetime is converted to America/Los_Angeles timezone.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Use with datetime objects for local time handling.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -313,6 +396,19 @@ They support consistent behavior and validation across:</p>
 
         <p>str: Filename-safe datetime string format (includes seconds).</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used to format a datetime for a filename.
+Output: String formatted as 'YYYY_MM_DD_HH_MM_SS'.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Use for filenames and logs.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -335,6 +431,19 @@ They support consistent behavior and validation across:</p>
 
         <p>int: Desired decimal precision for GPS values.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : GPS value is rounded for display or storage.
+Output: Value is rounded to 5 decimal places.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for formatting and validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -357,6 +466,19 @@ They support consistent behavior and validation across:</p>
 
         <p>str: HTML5-compatible format string for <input type="datetime-local">.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used to format a datetime for an HTML input field.
+Output: String formatted as 'YYYY-MM-DDTHH:MM'.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Use for HTML5 datetime-local input fields.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -379,6 +501,19 @@ They support consistent behavior and validation across:</p>
 
         <p>dict: Latitude validation schema for WTForms or other validators.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used in a WTForms validator for latitude fields.
+Output: Ensures latitude is within valid CA range.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for form and API validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -401,6 +536,19 @@ They support consistent behavior and validation across:</p>
 
         <p>dict: Longitude validation schema for WTForms or other validators.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used in a WTForms validator for longitude fields.
+Output: Ensures longitude is within valid CA range.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for form and API validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -423,6 +571,19 @@ They support consistent behavior and validation across:</p>
 
         <p>float: Maximum possible CA latitude.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : User enters a latitude value.
+Output: Value must be &lt;= 42.0 to be valid for California.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for geospatial validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -445,6 +606,19 @@ They support consistent behavior and validation across:</p>
 
         <p>float: Maximum possible CA longitude.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : User enters a longitude value.
+Output: Value must be &lt;= -114.0 to be valid for California.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for geospatial validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -467,6 +641,19 @@ They support consistent behavior and validation across:</p>
 
         <p>float: Minimum possible CA latitude.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : User enters a latitude value.
+Output: Value must be &gt;= 32.0 to be valid for California.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for geospatial validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -489,6 +676,19 @@ They support consistent behavior and validation across:</p>
 
         <p>float: Minimum possible CA longitude.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : User enters a longitude value.
+Output: Value must be &gt;= -125.0 to be valid for California.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Used for geospatial validation.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -511,6 +711,19 @@ They support consistent behavior and validation across:</p>
 
         <p>str: Placeholder value used for dropdowns where no selection is made.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used as the default value in a dropdown menu.
+Output: Dropdown displays 'Please Select' as the initial option.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Should be compared using equality (==), not identity (is).</li>
+<li>Do not modify this value at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>
@@ -533,6 +746,19 @@ They support consistent behavior and validation across:</p>
 
         <p>ZoneInfo: UTC (Zulu) timezone.</p>
 
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>Input : Used to create timezone-aware datetime objects.
+Output: Datetime is set to UTC.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Use with datetime objects for consistent time handling.</li>
+<li>Do not modify at runtime.</li>
+</ul>
+</details>
     </div>
 
 </div>

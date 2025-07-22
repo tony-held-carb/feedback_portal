@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://tony-held-carb.github.io/reference/arb/utils/excel/excel_compare_04/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>arb.utils.excel.excel_compare_04 - CalSMP Operator Feedback Portal</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "arb.utils.excel.excel_compare_04";
+        var mkdocs_page_input_path = "reference\\arb\\utils\\excel\\excel_compare_04.md";
+        var mkdocs_page_url = "/reference/arb/utils/excel/excel_compare_04/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CalSMP Operator Feedback Portal
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../..">Welcome &amp; Instructions</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Portal</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/app/">arb.portal.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/constants/">arb.portal.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/db_hardcoded/">arb.portal.db_hardcoded</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/extensions/">arb.portal.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/globals/">arb.portal.globals</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/json_update_util/">arb.portal.json_update_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/routes/">arb.portal.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/sqla_models/">arb.portal.sqla_models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_landfill/">arb.portal.wtf_landfill</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_oil_and_gas/">arb.portal.wtf_oil_and_gas</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../portal/wtf_upload/">arb.portal.wtf_upload</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Config</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/accessors/">arb.portal.config.accessors</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/config/settings/">arb.portal.config.settings</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Startup</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/db/">arb.portal.startup.db</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/flask/">arb.portal.startup.flask</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/startup/runtime_info/">arb.portal.startup.runtime_info</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Utils</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/db_ingest_util/">arb.portal.utils.db_ingest_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/db_introspection_util/">arb.portal.utils.db_introspection_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/file_upload_util/">arb.portal.utils.file_upload_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/form_mapper/">arb.portal.utils.form_mapper</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/route_util/">arb.portal.utils.route_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../../portal/utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Utils</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../constants/">arb.utils.constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../database/">arb.utils.database</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../date_and_time/">arb.utils.date_and_time</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../diagnostics/">arb.utils.diagnostics</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../file_io/">arb.utils.file_io</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../io_wrappers/">arb.utils.io_wrappers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../json/">arb.utils.json</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../log_util/">arb.utils.log_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../misc/">arb.utils.misc</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sql_alchemy/">arb.utils.sql_alchemy</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../web_html/">arb.utils.web_html</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../wtf_forms_util/">arb.utils.wtf_forms_util</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Excel</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">arb.utils.excel.excel_compare_04</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../xl_create/">arb.utils.excel.xl_create</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../xl_file_structure/">arb.utils.excel.xl_file_structure</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../xl_hardcoded/">arb.utils.excel.xl_hardcoded</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../xl_misc/">arb.utils.excel.xl_misc</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../xl_parse/">arb.utils.excel.xl_parse</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CalSMP Operator Feedback Portal</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Arb</li>
+          <li class="breadcrumb-item">Utils</li>
+          <li class="breadcrumb-item">Excel</li>
+      <li class="breadcrumb-item active">arb.utils.excel.excel_compare_04</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arbutilsexcelexcel_compare_04"><code>arb.utils.excel.excel_compare_04</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="arb.utils.excel.excel_compare_04"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_comments" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_comments</span><span class="p">(</span><span class="n">zipf</span><span class="p">,</span> <span class="n">sheet_file</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse comments for a given sheet if present.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_comments</span><span class="p">(</span><span class="n">zipf</span><span class="p">:</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">,</span> <span class="n">sheet_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse comments for a given sheet if present.&quot;&quot;&quot;</span>
+  <span class="n">comments</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="c1"># Try to find the comments file for this sheet</span>
+  <span class="n">base</span> <span class="o">=</span> <span class="n">sheet_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+  <span class="n">comments_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;xl/comments</span><span class="si">{</span><span class="n">base</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="si">}</span><span class="s1">.xml&#39;</span>  <span class="c1"># e.g., sheet1 -&gt; comments1</span>
+  <span class="k">if</span> <span class="n">comments_file</span> <span class="ow">in</span> <span class="n">zipf</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">zipf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">comments_file</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">comment</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}comment&#39;</span><span class="p">):</span>
+      <span class="n">ref</span> <span class="o">=</span> <span class="n">comment</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;ref&#39;</span><span class="p">]</span>
+      <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">comment</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t&#39;</span><span class="p">)])</span>
+      <span class="n">comments</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+  <span class="k">return</span> <span class="n">comments</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_data_validations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_data_validations</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse data validations (dropdowns) for a sheet.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_data_validations</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse data validations (dropdowns) for a sheet.&quot;&quot;&quot;</span>
+  <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">)</span>
+  <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="s1">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span><span class="p">}</span>
+  <span class="n">validations</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//main:dataValidation&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+    <span class="n">sqref</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sqref&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">formula1</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;main:formula1&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+    <span class="n">formula2</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;main:formula2&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+    <span class="n">val_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;type=</span><span class="si">{</span><span class="n">dv</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, formula1=</span><span class="si">{</span><span class="n">formula1</span><span class="o">.</span><span class="n">text</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">formula1</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">, formula2=</span><span class="si">{</span><span class="n">formula2</span><span class="o">.</span><span class="n">text</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">formula2</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">sqref</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+      <span class="n">validations</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_str</span>
+  <span class="k">return</span> <span class="n">validations</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_hyperlinks" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_hyperlinks</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse hyperlinks for a sheet.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_hyperlinks</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse hyperlinks for a sheet.&quot;&quot;&quot;</span>
+  <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">sheet_xml</span><span class="p">)</span>
+  <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="s1">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span><span class="p">}</span>
+  <span class="n">links</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">hl</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//main:hyperlink&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="n">hl</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="n">hl</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tooltip&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)))</span>
+    <span class="n">links</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
+  <span class="k">return</span> <span class="n">links</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_shared_strings" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_shared_strings</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse sharedStrings.xml and return a list of strings.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_shared_strings</span><span class="p">(</span><span class="n">xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse sharedStrings.xml and return a list of strings.&quot;&quot;&quot;</span>
+  <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+  <span class="n">strings</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">si</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}si&#39;</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">ts</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t&#39;</span><span class="p">)</span>
+      <span class="n">strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">]))</span>
+  <span class="k">return</span> <span class="n">strings</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_sheet" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_sheet</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="n">shared_strings</span><span class="p">,</span> <span class="n">styles</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse a worksheet XML and return a dict: cell address -&gt; {value, formula, style, ...}</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_sheet</span><span class="p">(</span><span class="n">xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shared_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">styles</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse a worksheet XML and return a dict: cell address -&gt; {value, formula, style, ...}&quot;&quot;&quot;</span>
+  <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+  <span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="s1">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span><span class="p">}</span>
+  <span class="n">cells</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//main:c&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+    <span class="n">addr</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;main:v&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;main:f&#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+      <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shared_strings</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shared_strings</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">elif</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">f</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">text</span>
+    <span class="c1"># Only attempt style lookup if s is a string and is a valid integer</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+      <span class="n">s_stripped</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+      <span class="k">if</span> <span class="n">s_stripped</span> <span class="ow">and</span> <span class="n">s_stripped</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">style_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s_stripped</span><span class="p">)</span>
+        <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">styles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style_idx</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell</span>
+  <span class="k">return</span> <span class="n">cells</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="arb.utils.excel.excel_compare_04.parse_styles" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parse_styles</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parse styles.xml and return a dict of style index -&gt; formatting dict.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>arb\utils\excel\excel_compare_04.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_styles</span><span class="p">(</span><span class="n">xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Parse styles.xml and return a dict of style index -&gt; formatting dict.&quot;&quot;&quot;</span>
+  <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+  <span class="n">numFmts</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">numFmt</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}numFmt&#39;</span><span class="p">):</span>
+    <span class="n">numFmts</span><span class="p">[</span><span class="n">numFmt</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;numFmtId&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">numFmt</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;formatCode&#39;</span><span class="p">]</span>
+  <span class="n">fonts</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">font</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}font&#39;</span><span class="p">):</span>
+    <span class="n">font_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+      <span class="n">font_dict</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">fonts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">font_dict</span><span class="p">)</span>
+  <span class="n">fills</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">fill</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}fill&#39;</span><span class="p">):</span>
+    <span class="n">fill_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">fill</span><span class="p">:</span>
+      <span class="n">fill_dict</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">fills</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fill_dict</span><span class="p">)</span>
+  <span class="n">borders</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">border</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}border&#39;</span><span class="p">):</span>
+    <span class="n">border_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">border</span><span class="p">:</span>
+      <span class="n">border_dict</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">borders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">border_dict</span><span class="p">)</span>
+  <span class="n">cellXfs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">xf</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}xf&#39;</span><span class="p">):</span>
+    <span class="n">cellXfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+  <span class="n">styles</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">xf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cellXfs</span><span class="p">):</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s1">&#39;numFmtId&#39;</span> <span class="ow">in</span> <span class="n">xf</span><span class="p">:</span>
+      <span class="n">style</span><span class="p">[</span><span class="s1">&#39;numFmt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numFmts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="s1">&#39;numFmtId&#39;</span><span class="p">],</span> <span class="n">xf</span><span class="p">[</span><span class="s1">&#39;numFmtId&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s1">&#39;fontId&#39;</span> <span class="ow">in</span> <span class="n">xf</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;font&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fonts</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="s1">&#39;fontId&#39;</span><span class="p">])]</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;font&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s1">&#39;fillId&#39;</span> <span class="ow">in</span> <span class="n">xf</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;fill&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fills</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="s1">&#39;fillId&#39;</span><span class="p">])]</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;fill&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s1">&#39;borderId&#39;</span> <span class="ow">in</span> <span class="n">xf</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">borders</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="s1">&#39;borderId&#39;</span><span class="p">])]</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">style</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">style</span><span class="p">[</span><span class="s1">&#39;xf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xf</span>
+    <span class="n">styles</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">style</span>
+  <span class="k">return</span> <span class="n">styles</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../excel_compare/" class="btn btn-neutral float-left" title="arb.utils.excel.excel_compare"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../xl_create/" class="btn btn-neutral float-right" title="arb.utils.excel.xl_create">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../excel_compare/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../xl_create/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

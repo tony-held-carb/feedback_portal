@@ -48,9 +48,61 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" >Arb</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../../__get_logger/">arb.__get_logger</a>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../wsgi/">arb.wsgi</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/default_settings/">arb.auth.default_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/email_util/">arb.auth.email_util</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/forms/">arb.auth.forms</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/login_manager/">arb.auth.login_manager</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/migrate_roles/">arb.auth.migrate_roles</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/models/">arb.auth.models</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/okta_settings/">arb.auth.okta_settings</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_decorators/">arb.auth.role_decorators</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/role_examples/">arb.auth.role_examples</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/routes/">arb.auth.routes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth/test_auth/">arb.auth.test_auth</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Auth example app</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/app/">arb.auth_example_app.app</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/config/">arb.auth_example_app.config</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/extensions/">arb.auth_example_app.extensions</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../auth_example_app/wsgi/">arb.auth_example_app.wsgi</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Routes</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/admin/">arb.auth_example_app.routes.admin</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/main/">arb.auth_example_app.routes.main</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../auth_example_app/routes/user_management/">arb.auth_example_app.routes.user_management</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../logging/arb_logging/">arb.logging.arb_logging</a>
+                </li>
+    </ul>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" >Portal</a>
     <ul class="current">
@@ -90,12 +142,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" >Forms</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../forms/sector_form_loader/">arb.portal.forms.sector_form_loader</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >Startup</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="../startup/db/">arb.portal.startup.db</a>
@@ -116,9 +162,15 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/form_mapper/">arb.portal.utils.form_mapper</a>
                 </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/github_and_ai/">arb.portal.utils.github_and_ai</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/import_audit/">arb.portal.utils.import_audit</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/route_util/">arb.portal.utils.route_util</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../utils/sector_util/">arb.portal.utils.sector_util</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../utils/test_cleanup_util/">arb.portal.utils.test_cleanup_util</a>
                 </li>
     </ul>
                 </li>
@@ -152,6 +204,10 @@
                 </li>
                 <li class="toctree-l3"><a class="reference internal" >Excel</a>
     <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare/">arb.utils.excel.excel_compare</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/excel_compare_04/">arb.utils.excel.excel_compare_04</a>
+                </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_create/">arb.utils.excel.xl_create</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../../utils/excel/xl_file_structure/">arb.utils.excel.xl_file_structure</a>
@@ -210,25 +266,31 @@
 about methane emission incidents in the oil and gas sector. The form logic mirrors the official
 O&amp;G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
 timestamp-based consistency checks.</p>
-<h3 id="arb.portal.wtf_oil_and_gas--key-features">Key Features:</h3>
-<ul>
+
+
+<details class="module_attributes" open>
+  <summary>Module_Attributes</summary>
+  <p>OGFeedback (type): WTForms form class for oil &amp; gas feedback data.
+logger (logging.Logger): Logger instance for this module.</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = OGFeedback()
+form.process(request.form)
+if form.validate_on_submit():
+  process_feedback_data(form.data)</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
 <li>Enforces the correct response flows based on regulatory logic (e.g., 95669.1(b)(1) exclusions).</li>
-<li>Includes geospatial validation and timestamp sequencing checks.</li>
-<li>Cross-field validation logic implemented in <code>validate()</code>.</li>
-<li>Supports conditional validation with custom helpers like <code>change_validators_on_test()</code>.</li>
-</ul>
-<h3 id="arb.portal.wtf_oil_and_gas--usage">Usage:</h3>
-<p>form = OGFeedback()
-  form.process(request.form)</p>
-<p>if form.validate_on_submit():
-    process_feedback_data(form.data)</p>
-<h3 id="arb.portal.wtf_oil_and_gas--notes">Notes:</h3>
-<ul>
 <li>Fields such as <code>id_incidence</code> are read-only and display-only.</li>
 <li>Contingent dropdowns are updated via <code>update_contingent_selectors()</code>.</li>
 <li>Cross-dependencies (e.g., OGI required if no venting exclusion) are enforced dynamically.</li>
+<li>The logger emits a debug message when this file is loaded.</li>
 </ul>
-
+</details>
 
 
 
@@ -269,23 +331,19 @@ Sections include metadata, inspection information, emissions details,
 mitigation actions, and contact data.</p>
 
 
-<details class="core-features" open>
-  <summary>Core Features</summary>
+<details class="notes" open>
+  <summary>Notes</summary>
   <ul>
-<li>Uses standard WTForms field types, with conditionally required fields.</li>
-<li>Dropdowns update dynamically based on user selections.</li>
-<li>Includes geospatial coordinates and timestamp logic.</li>
-<li>Implements cross-field validation for inspection results and mitigation status.</li>
+<li>All form fields are defined as class attributes below.</li>
 </ul>
 </details>
 
-<details class="used-by" open>
-  <summary>Used by</summary>
-  <ul>
-<li>The web-based feedback form in the ARB Feedback Portal.</li>
-<li>Routes such as <code>og_incidence_create</code> and <code>incidence_update</code>.</li>
-</ul>
-</details>
+<p><span class="doc-section-title">Examples:</span></p>
+    <p>form = OGFeedback()
+form.process(request.form)
+if form.validate_on_submit():
+  process_feedback_data(form.data)</p>
+
 
 <details class="notes" open>
   <summary>Notes</summary>
@@ -302,7 +360,10 @@ mitigation actions, and contact data.</p>
 
               <details class="quote">
                 <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 47</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
 <span class="normal"> 48</span>
 <span class="normal"> 49</span>
 <span class="normal"> 50</span>
@@ -801,7 +862,10 @@ mitigation actions, and contact data.</p>
 <span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
-<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OGFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OGFeedback</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  WTForms class for collecting feedback on Oil &amp; Gas methane emissions.</span>
 
@@ -810,15 +874,14 @@ mitigation actions, and contact data.</p>
 <span class="sd">  Sections include metadata, inspection information, emissions details,</span>
 <span class="sd">  mitigation actions, and contact data.</span>
 
-<span class="sd">  Core Features:</span>
-<span class="sd">    - Uses standard WTForms field types, with conditionally required fields.</span>
-<span class="sd">    - Dropdowns update dynamically based on user selections.</span>
-<span class="sd">    - Includes geospatial coordinates and timestamp logic.</span>
-<span class="sd">    - Implements cross-field validation for inspection results and mitigation status.</span>
+<span class="sd">  Notes:</span>
+<span class="sd">    - All form fields are defined as class attributes below.</span>
 
-<span class="sd">  Used by:</span>
-<span class="sd">    - The web-based feedback form in the ARB Feedback Portal.</span>
-<span class="sd">    - Routes such as `og_incidence_create` and `incidence_update`.</span>
+<span class="sd">  Examples:</span>
+<span class="sd">    form = OGFeedback()</span>
+<span class="sd">    form.process(request.form)</span>
+<span class="sd">    if form.validate_on_submit():</span>
+<span class="sd">      process_feedback_data(form.data)</span>
 
 <span class="sd">  Notes:</span>
 <span class="sd">    - Sector-specific contingent dropdowns are handled via Globals.</span>
@@ -918,7 +981,7 @@ mitigation actions, and contact data.</p>
            <span class="sa">f</span><span class="s2">&quot;per section 95669.1(b)(1) of the Oil and Gas Methane Regulation?&quot;</span><span class="p">)</span>
   <span class="n">venting_exclusion</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;venting_exclusion&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -935,7 +998,7 @@ mitigation actions, and contact data.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q8. Was an OGI inspection performed?&quot;</span>
   <span class="n">ogi_performed</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;ogi_performed&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -949,14 +1012,14 @@ mitigation actions, and contact data.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q10. If you answered &#39;Yes&#39; to Q8, what type of source was found using OGI?&quot;</span>
   <span class="n">ogi_result</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;ogi_result&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q11.  Was a Method 21 inspection performed?&quot;</span>
   <span class="n">method21_performed</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;method21_performed&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -970,7 +1033,7 @@ mitigation actions, and contact data.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q13. If you answered &#39;Yes&#39; to Q11, what type of source was found using Method 21?&quot;</span>
   <span class="n">method21_result</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;method21_result&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
@@ -998,8 +1061,8 @@ mitigation actions, and contact data.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Q17.  What type of equipment is at the source of the emissions?&quot;</span>
   <span class="n">equipment_at_source</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;equipment_at_source&quot;</span><span class="p">],</span>
-    <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">()],</span>
   <span class="p">)</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Q18.  If you answered &#39;Other&#39; for Q17, please provide an additional description of the equipment.&quot;</span>
@@ -1011,7 +1074,7 @@ mitigation actions, and contact data.</p>
   <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Q19.  If your source is a component, what type of component is at the source of the emissions?&quot;</span>
   <span class="n">component_at_source</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="p">[</span><span class="s2">&quot;component_at_source&quot;</span><span class="p">],</span>
+    <span class="n">choices</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">validators</span><span class="o">=</span><span class="p">[],</span>
   <span class="p">)</span>
 
@@ -1052,42 +1115,51 @@ mitigation actions, and contact data.</p>
     <span class="n">validators</span><span class="o">=</span><span class="p">[],</span>
   <span class="p">)</span>
 
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the OGFeedback form and set up contingent selectors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      *args: Positional arguments passed to FlaskForm.</span>
+<span class="sd">      **kwargs: Keyword arguments passed to FlaskForm.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">      - Calls update_contingent_selectors() to initialize dropdowns.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;venting_exclusion&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ogi_performed&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ogi_result&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method21_performed&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method21_result&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">equipment_at_source</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;equipment_at_source&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">component_at_source</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;component_at_source&quot;</span><span class="p">))</span>
+
   <span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Update dropdown field options based on dependent selector fields.</span>
+<span class="sd">    Update contingent dropdown choices based on parent field values.</span>
 
-<span class="sd">    Dynamically replaces `.choices` for contingent fields depending on</span>
-<span class="sd">    parent selections. Uses the `Globals.drop_downs_contingent` structure</span>
-<span class="sd">    for Oil &amp; Gas to determine appropriate mappings.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">      - not implemented yet</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">      None</span>
+<span class="sd">    Notes:</span>
+<span class="sd">      - Uses Globals.drop_downs_contingent to update choices.</span>
+<span class="sd">      - Should be called whenever a parent dropdown value changes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
   <span class="k">pass</span>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">      Override the default WTForms validation logic with cross-field rules</span>
-<span class="sd">      specific to Oil &amp; Gas reporting.</span>
+<span class="sd">    Perform full-form validation, including dynamic and cross-field checks.</span>
 
-<span class="sd">      Invokes:</span>
-<span class="sd">        - `determine_contingent_fields()` to update validators before validation.</span>
-<span class="sd">        - `super().validate()` to apply all field and form-level validations.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      extra_validators (list | None): Additional validators to apply.</span>
 
-<span class="sd">      Custom checks include:</span>
-<span class="sd">        - Required fields based on mitigation status or inspection outcomes.</span>
-<span class="sd">        - Logical enforcement of conditional relationships between fields.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      bool: True if the form is valid, False otherwise.</span>
 
-<span class="sd">      Args:</span>
-<span class="sd">        extra_validators (dict, optional): Additional validators provided at runtime.</span>
-
-<span class="sd">      Returns:</span>
-<span class="sd">        bool: True if form passes all validation rules, otherwise False.</span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">    Notes:</span>
+<span class="sd">      - Enforces conditional requirements based on user input.</span>
+<span class="sd">      - Calls determine_contingent_fields() for dynamic validation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
     <span class="n">form_fields</span> <span class="o">=</span> <span class="n">get_wtforms_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
@@ -1212,20 +1284,18 @@ mitigation actions, and contact data.</p>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adjust validators based on user selections that imply exclusions or</span>
-<span class="sd">    optional behavior.</span>
+<span class="sd">    Enforce dynamic field-level validation for contingent fields.</span>
 
 <span class="sd">    Affects validation logic such as:</span>
-<span class="sd">      - 95669.1(b)(1) exclusions where OGI inspection is not required.</span>
-<span class="sd">      - Skipping downstream fields when &quot;No leak was detected&quot; is selected.</span>
-<span class="sd">      - Making &quot;Other&quot; explanations required only if &quot;Other&quot; is selected.</span>
+<span class="sd">    - 95669.1(b)(1) exclusions where OGI inspection is not required.</span>
+<span class="sd">    - Skipping downstream fields when &quot;No leak was detected&quot; is selected.</span>
+<span class="sd">    - Making &quot;Other&quot; explanations required only if &quot;Other&quot; is selected.</span>
 
 <span class="sd">    Notes:</span>
+<span class="sd">      - Adjusts validators for fields that depend on other field values.</span>
+<span class="sd">      - Called during form validation to ensure correct requirements.</span>
 <span class="sd">      - Should be called before validation to sync rules with input state.</span>
 <span class="sd">      - Venting-related exclusions may need careful ordering to preserve business logic.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">      None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># logger.debug(f&quot;In determine_contingent_fields()&quot;)</span>
@@ -1319,34 +1389,16 @@ mitigation actions, and contact data.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="arb.portal.wtf_oil_and_gas.OGFeedback.determine_contingent_fields" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">determine_contingent_fields</span><span class="p">()</span></code>
+<h3 id="arb.portal.wtf_oil_and_gas.OGFeedback.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 </h3>
 
 
     <div class="doc doc-contents ">
 
-        <p>Adjust validators based on user selections that imply exclusions or
-optional behavior.</p>
+        <p>Initialize the OGFeedback form and set up contingent selectors.</p>
 
-
-<details class="affects-validation-logic-such-as" open>
-  <summary>Affects validation logic such as</summary>
-  <ul>
-<li>95669.1(b)(1) exclusions where OGI inspection is not required.</li>
-<li>Skipping downstream fields when "No leak was detected" is selected.</li>
-<li>Making "Other" explanations required only if "Other" is selected.</li>
-</ul>
-</details>
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>Should be called before validation to sync rules with input state.</li>
-<li>Venting-related exclusions may need careful ordering to preserve business logic.</li>
-</ul>
-</details>
 
 <table class="field-list">
   <colgroup>
@@ -1355,14 +1407,27 @@ optional behavior.</p>
   </colgroup>
   <tbody valign="top">
     <tr class="field">
-      <th class="field-name">Returns:</th>
+      <th class="field-name">Parameters:</th>
       <td class="field-body">
         <ul class="first simple">
             <li>
-                  <code>None</code>
+              <b><code>*args</code></b>
+                  (<code><span title="typing.Any">Any</span></code>, default:
+                      <code>()</code>
+)
               –
               <div class="doc-md-description">
-                <p>None.</p>
+                <p>Positional arguments passed to FlaskForm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>**kwargs</code></b>
+                  (<code><span title="typing.Any">Any</span></code>, default:
+                      <code>{}</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Keyword arguments passed to FlaskForm.</p>
               </div>
             </li>
         </ul>
@@ -1371,14 +1436,89 @@ optional behavior.</p>
   </tbody>
 </table>
 
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Calls update_contingent_selectors() to initialize dropdowns.</li>
+</ul>
+</details>
+
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Initialize the OGFeedback form and set up contingent selectors.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    *args: Positional arguments passed to FlaskForm.</span>
+<span class="sd">    **kwargs: Keyword arguments passed to FlaskForm.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Calls update_contingent_selectors() to initialize dropdowns.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">venting_exclusion</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;venting_exclusion&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">ogi_performed</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ogi_performed&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">ogi_result</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ogi_result&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">method21_performed</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method21_performed&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">method21_result</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method21_result&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">equipment_at_source</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;equipment_at_source&quot;</span><span class="p">))</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">component_at_source</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">coerce_choices</span><span class="p">(</span><span class="n">Globals</span><span class="o">.</span><span class="n">drop_downs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;component_at_source&quot;</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="arb.portal.wtf_oil_and_gas.OGFeedback.determine_contingent_fields" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">determine_contingent_fields</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enforce dynamic field-level validation for contingent fields.</p>
+<p>Affects validation logic such as:
+- 95669.1(b)(1) exclusions where OGI inspection is not required.
+- Skipping downstream fields when "No leak was detected" is selected.
+- Making "Other" explanations required only if "Other" is selected.</p>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Adjusts validators for fields that depend on other field values.</li>
+<li>Called during form validation to ensure correct requirements.</li>
+<li>Should be called before validation to sync rules with input state.</li>
+<li>Venting-related exclusions may need careful ordering to preserve business logic.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -1463,22 +1603,23 @@ optional behavior.</p>
 <span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
-<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">determine_contingent_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Adjust validators based on user selections that imply exclusions or</span>
-<span class="sd">  optional behavior.</span>
+<span class="sd">  Enforce dynamic field-level validation for contingent fields.</span>
 
 <span class="sd">  Affects validation logic such as:</span>
-<span class="sd">    - 95669.1(b)(1) exclusions where OGI inspection is not required.</span>
-<span class="sd">    - Skipping downstream fields when &quot;No leak was detected&quot; is selected.</span>
-<span class="sd">    - Making &quot;Other&quot; explanations required only if &quot;Other&quot; is selected.</span>
+<span class="sd">  - 95669.1(b)(1) exclusions where OGI inspection is not required.</span>
+<span class="sd">  - Skipping downstream fields when &quot;No leak was detected&quot; is selected.</span>
+<span class="sd">  - Making &quot;Other&quot; explanations required only if &quot;Other&quot; is selected.</span>
 
 <span class="sd">  Notes:</span>
+<span class="sd">    - Adjusts validators for fields that depend on other field values.</span>
+<span class="sd">    - Called during form validation to ensure correct requirements.</span>
 <span class="sd">    - Should be called before validation to sync rules with input state.</span>
 <span class="sd">    - Venting-related exclusions may need careful ordering to preserve business logic.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    None.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c1"># logger.debug(f&quot;In determine_contingent_fields()&quot;)</span>
@@ -1571,69 +1712,33 @@ optional behavior.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Update dropdown field options based on dependent selector fields.</p>
-<p>Dynamically replaces <code>.choices</code> for contingent fields depending on
-parent selections. Uses the <code>Globals.drop_downs_contingent</code> structure
-for Oil &amp; Gas to determine appropriate mappings.</p>
+        <p>Update contingent dropdown choices based on parent field values.</p>
 
 
-<p><span class="doc-section-title">Examples:</span></p>
-    <ul>
-<li>not implemented yet</li>
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Uses Globals.drop_downs_contingent to update choices.</li>
+<li>Should be called whenever a parent dropdown value changes.</li>
 </ul>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code>None</code>
-              –
-              <div class="doc-md-description">
-                <p>None</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_contingent_selectors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Update dropdown field options based on dependent selector fields.</span>
+<span class="sd">  Update contingent dropdown choices based on parent field values.</span>
 
-<span class="sd">  Dynamically replaces `.choices` for contingent fields depending on</span>
-<span class="sd">  parent selections. Uses the `Globals.drop_downs_contingent` structure</span>
-<span class="sd">  for Oil &amp; Gas to determine appropriate mappings.</span>
-
-<span class="sd">  Examples:</span>
-<span class="sd">    - not implemented yet</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    None</span>
+<span class="sd">  Notes:</span>
+<span class="sd">    - Uses Globals.drop_downs_contingent to update choices.</span>
+<span class="sd">    - Should be called whenever a parent dropdown value changes.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1652,25 +1757,8 @@ for Oil &amp; Gas to determine appropriate mappings.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Override the default WTForms validation logic with cross-field rules
-specific to Oil &amp; Gas reporting.</p>
+        <p>Perform full-form validation, including dynamic and cross-field checks.</p>
 
-
-<details class="invokes" open>
-  <summary>Invokes</summary>
-  <ul>
-<li><code>determine_contingent_fields()</code> to update validators before validation.</li>
-<li><code>super().validate()</code> to apply all field and form-level validations.</li>
-</ul>
-</details>
-
-<details class="custom-checks-include" open>
-  <summary>Custom checks include</summary>
-  <ul>
-<li>Required fields based on mitigation status or inspection outcomes.</li>
-<li>Logical enforcement of conditional relationships between fields.</li>
-</ul>
-</details>
 
 <table class="field-list">
   <colgroup>
@@ -1684,12 +1772,12 @@ specific to Oil &amp; Gas reporting.</p>
         <ul class="first simple">
             <li>
               <b><code>extra_validators</code></b>
-                  (<code><span title="dict">dict</span></code>, default:
+                  (<code><span title="list">list</span> | None</code>, default:
                       <code>None</code>
 )
               –
               <div class="doc-md-description">
-                <p>Additional validators provided at runtime.</p>
+                <p>Additional validators to apply.</p>
               </div>
             </li>
         </ul>
@@ -1712,7 +1800,7 @@ specific to Oil &amp; Gas reporting.</p>
 <b><code>bool</code></b>(                  <code><span title="bool">bool</span></code>
 )              –
               <div class="doc-md-description">
-                <p>True if form passes all validation rules, otherwise False.</p>
+                <p>True if the form is valid, False otherwise.</p>
               </div>
             </li>
         </ul>
@@ -1721,19 +1809,17 @@ specific to Oil &amp; Gas reporting.</p>
   </tbody>
 </table>
 
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Enforces conditional requirements based on user input.</li>
+<li>Calls determine_contingent_fields() for dynamic validation.</li>
+</ul>
+</details>
+
             <details class="quote">
               <summary>Source code in <code>arb\portal\wtf_oil_and_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
 <span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
@@ -1862,25 +1948,25 @@ specific to Oil &amp; Gas reporting.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_validators</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Override the default WTForms validation logic with cross-field rules</span>
-<span class="sd">    specific to Oil &amp; Gas reporting.</span>
+<span class="sd">  Perform full-form validation, including dynamic and cross-field checks.</span>
 
-<span class="sd">    Invokes:</span>
-<span class="sd">      - `determine_contingent_fields()` to update validators before validation.</span>
-<span class="sd">      - `super().validate()` to apply all field and form-level validations.</span>
+<span class="sd">  Args:</span>
+<span class="sd">    extra_validators (list | None): Additional validators to apply.</span>
 
-<span class="sd">    Custom checks include:</span>
-<span class="sd">      - Required fields based on mitigation status or inspection outcomes.</span>
-<span class="sd">      - Logical enforcement of conditional relationships between fields.</span>
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the form is valid, False otherwise.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">      extra_validators (dict, optional): Additional validators provided at runtime.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">      bool: True if form passes all validation rules, otherwise False.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">  Notes:</span>
+<span class="sd">    - Enforces conditional requirements based on user input.</span>
+<span class="sd">    - Calls determine_contingent_fields() for dynamic validation.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validate() called.&quot;</span><span class="p">)</span>
   <span class="n">form_fields</span> <span class="o">=</span> <span class="n">get_wtforms_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
