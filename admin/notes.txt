@@ -1394,6 +1394,6 @@ Running pytests
     pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
     pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
     pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
-    pytest tests/e2e -v  | tee pytest_all_02.txt
+    pytest tests/e2e -v  | tee pytest_e2e_10.txt
     pytest tests/arb -v  | tee pytest_all_07.txt
     pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt

@@ -7,8 +7,7 @@
 created PR 28 to clean up documentation and deploy to ec2
 
 updating mini_conda_01.yml to be able to do a fresh install
-run make docs
-mkdocs build --clean > mkdocs_clean_build.txt 2>&1
+
 
 run server
 run tests
