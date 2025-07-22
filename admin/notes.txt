@@ -1347,55 +1347,6 @@ EXCEL_TEMPLATES = [
         landfill dummy gets 1002050
 ]
 
-running e2e pytests: 
-pytest tests/e2e/test_excel_upload_playwright_pytest.py -v > pytest_output_02.txt
-
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v | tee pytest_output_04.txt
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 | tee pytest_output_04.txt
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v | tee pytest_output_04.txt
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed"
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed" | tee pytest_output_04.txt
-
-
-  the test for the  http://127.0.0.1:5000/java_script_diagnostic_test is test_diagnostics_overlay_on_diagnostic_test_page
-  
-  pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_output_04.txt
-  
-pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_diag_01.txt
-
-pytest tests/e2e/test_diagnostics.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_diag_02.txt
-
-pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
-
-/list_staged
- staged_list.html
- table_management.js
-
-
-pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "discard or malformed" | tee pytest_output_04.txt
-
-pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
-
-pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
-pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
-
-pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
-
-pytest tests/e2e/test_review_staged.py -v -k test_incremental_upload_review_manual_fields | tee test_review_staged_manual_fields_only.txt
-
-How to See Print Output During Test Runs
-1. Use the -s Flag
-The -s flag disables output capturing, so all print statements are shown in real time.
-Example:
-Apply to test_review_...
-Run
-
-
-pytest -s tests/e2e/test_review_staged.py -v -k test_incremental_upload_review_manual_fields | tee test_review_staged_manual_fields_only.txt
-
-pytest -s tests/e2e/test_review_staged.py -v -k test_incremental_upload | tee test_incremental_upload.txt
 
 
 dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
@@ -1405,7 +1356,46 @@ landfill_operator_feedback_v070_test_01_good_data.xlsx
 landfill_operator_feedback_v071_test_01_good_data.xlsx
 oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
 
-pytest tests/e2e -v  | tee pytest_all_02.txt
-pytest tests/arb -v  | tee pytest_all_07.txt
 
-pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt
+
+
+Running pytests
+
+1. Ensure you are in the root folder to run tests
+      cd /d/local/cursor/feedback_portal
+2. General pytest run
+      pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  | tee output_file_01.txt
+      pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  > output_file_01.txt 2>&1
+
+3. Flag meanings:
+      --maxfail=num         Exit after first num failures or errors
+      -v, --verbose         Increase verbosity
+      -s                    Don't suppress print statements that are in test files
+      -k EXPRESSION         Only run tests which match the given substring expression. An expression is a Python evaluable     
+                            expression where all names are substring-matched against test names and their parent classes.      
+                            Example: -k 'test_method or test_other' matches all test functions and classes whose name contains 
+                            'test_method' or 'test_other', while -k 'not test_method' matches those that don't contain
+                            'test_method' in their names. -k 'not test_method and not test_other' will eliminate the matches.  
+                            Additionally keywords are matched to classes and functions containing extra names in their
+                            'extra_keyword_matches' set, as well as functions which have names assigned directly to them. The  
+                            matching is case-insensitive.
+
+4. tee versus redirection
+    | tee <filename>        you get terminal feedback of the tests while simultaneously sending to log file
+    > <filename> 2>&1       captures standard output and error and may be more reliable in some situations
+
+5. example runs:
+
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v | tee pytest_output_04.txt
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 | tee pytest_output_04.txt
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v | tee pytest_output_04.txt
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed" | tee pytest_output_04.txt
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_output_04.txt
+    pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
+    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "discard or malformed" | tee pytest_output_04.txt
+    pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
+    pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
+    pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
+    pytest tests/e2e -v  | tee pytest_all_02.txt
+    pytest tests/arb -v  | tee pytest_all_07.txt
+    pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt
