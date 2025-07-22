@@ -138,16 +138,21 @@ This script helps both beginners and advanced users inspect and debug the HTML s
   * mkdocs serve
 
 ### Updating home repo after PR on my work machine
-update                            git checkout refactor_27
-so that it is one greater than    git branch -d refactor_26
+old branch: refactor_27
+new branch: refactor_28
+
+update                            git checkout refactor_28
+so that it is one greater than    git branch -d refactor_27
 
 git status
 git fetch --all --prune
 git branch -a
-git checkout refactor_27
+git checkout refactor_28
 git status
-git branch -d refactor_26
+git branch -d refactor_27
 git remote prune origin
+git branch -a
+git status
 
 ### Excluded Developer-Only/Destructive Routes from E2E Testing
 

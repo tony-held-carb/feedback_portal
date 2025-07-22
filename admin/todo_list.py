@@ -2,11 +2,11 @@
 
 # todo - Next Steps
 ----------------------------
-creating PR 27 is to continue e2e testing
+created PR 28 to clean up documentation and deploy to ec2
 
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-* merged in refactor_27, continuing on new branch 28
+* home machine now on new branch 28
 
 * the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
 
