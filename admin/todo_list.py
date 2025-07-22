@@ -6,16 +6,17 @@
 
 created PR 28 to clean up documentation and deploy to ec2
 
+probably safest to have mini_conda_01.yml be the original, 
+and then have mini_conda_02.yml be the one created automatically by cursor inspection
+and mini_conda_03.yml be based on finding which packages are missing from mini_conda_01
+
+
 updating mini_conda_01.yml to be able to do a fresh install
 
 
-run server
-run tests
-
-if it can do all that, then we have more confidence mini_conda_01.yml is working
 
 
-* compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
+
 
 * consider truing up the file structure on the ec2 along with .bashrc files for consistency
 * may want to combine the shell and shell_scripts into a single directory
@@ -32,8 +33,6 @@ if it can do all that, then we have more confidence mini_conda_01.yml is working
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
-
-
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
   and stay on the current page
