@@ -4,7 +4,26 @@
 ----------------------------
 creating PR 27 is to continue e2e testing
 
+7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
+
+* the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
+
+* compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
+
+* update docs to show what testing was done, consider creating a primer for the rest of the group
+* create a protocol/template for documenting source code consistent with testing approach
+* create a launch new version protocol for automated and manual testing
+* review testing_protocol_and_notes.txt
+* deploy to ec2
 * update notes and scripts to launch from app/wsgi
+* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
+
+
+
+-------------------------------------------------------
+Future Initiatives & Feature Requests Below
+-------------------------------------------------------
+
 
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
@@ -16,7 +35,6 @@ creating PR 27 is to continue e2e testing
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
 
-* check that the app/database is working using testing_protocol_and_notes.txt
 
 * ---------   Create New Form Capacity for the new sectors ----------
 * refactor forms as they are currently duplicative
@@ -40,13 +58,10 @@ creating PR 27 is to continue e2e testing
 * ---------   future initiatives----------
   * add user log-in
     * Ultimately, need to use the username in the log
-  * unit testing
   * move to s3 bucket
   * use carb ois github deployment (docker, etc)
 
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
-
-* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 """

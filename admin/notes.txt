@@ -1357,8 +1357,6 @@ landfill_operator_feedback_v071_test_01_good_data.xlsx
 oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
 
 
-
-
 Running pytests
 
 1. Ensure you are in the root folder to run tests
