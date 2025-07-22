@@ -10,6 +10,8 @@ creating PR 27 is to continue e2e testing
 
 * compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
 
+* consider truing up the file structure on the ec2 along with .bashrc files for consistency
+* may want to combine the shell and shell_scripts into a single directory
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
 * create a launch new version protocol for automated and manual testing
