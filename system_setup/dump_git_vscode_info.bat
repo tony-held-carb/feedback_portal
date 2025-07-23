@@ -2,7 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: Output file
-set "OUT=git_vscode_work_config_dump.txt"
+@REM set "OUT=dump_git_vscode_info_work.txt"
+set "OUT=dump_git_vscode_info_home.txt"
 echo Collecting Git and VS Code diagnostics... > "%OUT%"
 echo. >> "%OUT%"
 

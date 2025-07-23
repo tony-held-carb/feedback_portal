@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Output destination
-OUTPUT_FILE=gitbash_work_profile_dump.txt
+#OUTPUT_FILE=dump_gitbash_profile_work.txt
+OUTPUT_FILE=dump_gitbash_profile_home.txt
 HOME_DIR="$HOME"
 
 # Start fresh

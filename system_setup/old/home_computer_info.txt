@@ -1,0 +1,191 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+PS C:\Users\tonyh> Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion | Sort-Object DisplayName
+
+DisplayName                                                                   DisplayVersion
+-----------                                                                   --------------
+
+
+
+
+
+
+
+
+                                                                              1.3.195.61
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Adobe Creative Cloud                                                          6.7.0.278
+Adobe Photoshop 2024                                                          25.12.3.1067
+Adobe Photoshop 2025                                                          26.8.1.8
+Adobe Refresh Manager                                                         1.8.0
+APP Center                                                                    3.24.1105.1
+APP Center                                                                    3.24.1105.1
+ClickOnce Bootstrapper Package for Microsoft .NET Framework                   4.8.09037
+ENE_AIC_Marvell_HAL                                                           1.0.7.0
+ENE_DRAM_RGB_AIO                                                              1.0.4.16
+ENE_EHD_M2_HAL                                                                1.0.10.1
+ENE_External_Device_HAL                                                       1.0.10.4
+ENE_MousePad_HAL                                                              1.0.1.8
+ENE_X_AIC_HAL                                                                 1.0.4.0
+Foxit PDF Reader                                                              12.1.2.15332
+FURY CTRL version 2.0.25.0                                                    2.0.25.0
+Google Chrome                                                                 138.0.7204.168
+Graphviz                                                                      8.0.5
+icecap_collection_neutral                                                     17.5.33312
+icecap_collectionresources                                                    17.5.33312
+icecap_collectionresourcesx64                                                 17.5.33306
+Intel(R) Chipset Device Software                                              10.1.19199.8340
+Intel(R) HID Event Filter                                                     2.2.1.386
+IntelliTraceProfilerProxy                                                     15.0.21225.01
+Kits Configuration Installer                                                  10.1.22000.832
+Microsoft .NET Framework 4.7.2 Targeting Pack                                 4.7.03062
+Microsoft .NET Framework 4.7.2 Targeting Pack (ENU)                           4.7.03062
+Microsoft .NET Framework 4.8 SDK                                              4.8.03928
+Microsoft .NET Framework Cumulative Intellisense Pack for Visual Studio (ENU) 4.8.09037
+Microsoft .NET Host - 7.0.5 (x86)                                             56.23.58437
+Microsoft .NET Host FX Resolver - 7.0.5 (x86)                                 56.23.58437
+Microsoft .NET Runtime - 6.0.16 (x86)                                         48.67.58427
+Microsoft .NET Runtime - 7.0.5 (x86)                                          56.23.58437
+Microsoft .NET Targeting Pack - 6.0.16 (x86)                                  48.67.58427
+Microsoft .NET Targeting Pack - 7.0.5 (x86)                                   56.23.58437
+Microsoft ASP.NET Core 6.0.16 Shared Framework (x86)                          6.0.16.23174
+Microsoft ASP.NET Core 6.0.16 Targeting Pack (x86)                            6.0.16.23174
+Microsoft ASP.NET Core 7.0.5 Shared Framework (x86)                           7.0.5.23174
+Microsoft ASP.NET Core 7.0.5 Targeting Pack (x86)                             7.0.5.23174
+Microsoft ASP.NET Diagnostic Pack for Visual Studio                           17.5.320.55692
+Microsoft Edge                                                                138.0.3351.95
+Microsoft Edge WebView2 Runtime                                               138.0.3351.95
+Microsoft TestPlatform SDK Local Feed                                         17.0.0.5175695
+Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.17                  9.0.30729
+Microsoft Visual C++ 2010  x86 Redistributable - 10.0.40219                   10.0.40219
+Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030                  11.0.61030.0
+Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030                  11.0.61030.0
+Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.61030                 11.0.61030
+Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.61030                    11.0.61030
+Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40664                  12.0.40664.0
+Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40664                  12.0.40664.0
+Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40664                 12.0.40664
+Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40664                    12.0.40664
+Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.30.30708            14.30.30708.0
+Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.40.33810            14.40.33810.0
+Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.40.33810            14.40.33810.0
+Microsoft Visual C++ 2022 X86 Additional Runtime - 14.40.33810                14.40.33810
+Microsoft Visual C++ 2022 X86 Debug Runtime - 14.34.31938                     14.34.31938
+Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.40.33810                   14.40.33810
+Microsoft Visual Studio Setup Configuration                                   3.5.2150.18781
+Microsoft Visual Studio Setup WMI Provider                                    3.5.2150.18781
+Microsoft Windows Desktop Runtime - 6.0.16 (x86)                              48.67.58484
+Microsoft Windows Desktop Runtime - 7.0.5 (x86)                               56.23.58485
+Microsoft Windows Desktop Targeting Pack - 6.0.16 (x86)                       48.67.58484
+Microsoft Windows Desktop Targeting Pack - 7.0.5 (x86)                        56.23.58485
+MSI Development Tools                                                         10.1.22000.832
+Patriot Viper M2 SSD RGB                                                      1.1.0.1
+PyCharm 2025.1.1.1                                                            251.25410.159
+Python Launcher                                                               3.11.4150.0
+Realtek High Definition Audio Driver                                          6.0.8988.1
+RGB Fusion                                                                    3.22.1221.1
+SDK ARM Additions                                                             10.1.22000.832
+SDK ARM Redistributables                                                      10.1.22000.832
+Sonos Controller                                                              57.22.59130
+Universal CRT Extension SDK                                                   10.1.22000.832
+Universal CRT Headers Libraries and Sources                                   10.1.22000.832
+Universal CRT Redistributable                                                 10.1.22000.832
+Universal CRT Tools x86                                                       10.1.22000.832
+Universal General MIDI DLS Extension SDK                                      10.1.22000.832
+UXP WebView Support                                                           1.3.0
+vcpp_crt.redist.clickonce                                                     14.34.31938
+Visual Studio Community 2022                                                  17.5.5
+VLC media player                                                              3.0.18
+VS Immersive Activate Helper                                                  17.0.118.0
+vs_clickoncebootstrappermsi                                                   17.5.33312
+vs_clickoncebootstrappermsires                                                17.5.33306
+vs_clickoncesigntoolmsi                                                       17.5.33306
+vs_communitymsires                                                            17.5.33312
+vs_communitysharedmsi                                                         17.5.33312
+vs_CoreEditorFonts                                                            17.5.33306
+vs_devenvsharedmsi                                                            17.5.33306
+vs_filehandler_amd64                                                          17.5.33310
+vs_filehandler_x86                                                            17.5.33310
+vs_FileTracker_Singleton                                                      17.5.33306
+vs_Graphics_Singletonx86                                                      17.5.33312
+vs_minshellinteropsharedmsi                                                   17.5.33306
+vs_minshellmsires                                                             17.5.33306
+vs_minshellsharedmsi                                                          17.5.33310
+vs_SQLClickOnceBootstrappermsi                                                17.5.33306
+vs_tipsmsi                                                                    17.5.33306
+vs_vswebprotocolselectormsi                                                   17.5.33306
+WD P40 Game Drive                                                             1.0.2.18
+WinAppDeploy                                                                  10.1.22000.832
+Windows App Certification Kit SupportedApiList x86                            10.1.22000.832
+Windows App Certification Kit x64                                             10.1.22000.832
+Windows Desktop Extension SDK                                                 10.1.22000.832
+Windows Desktop Extension SDK Contracts                                       10.1.22000.832
+Windows IoT Extension SDK                                                     10.1.22000.832
+Windows IoT Extension SDK Contracts                                           10.1.22000.832
+Windows Mobile Extension SDK                                                  10.1.22000.832
+Windows Mobile Extension SDK Contracts                                        10.1.22000.832
+Windows SDK                                                                   10.1.22000.832
+Windows SDK AddOn                                                             10.1.0.0
+Windows SDK ARM Desktop Tools                                                 10.1.22000.832
+Windows SDK Desktop Headers arm                                               10.1.22000.832
+Windows SDK Desktop Headers arm64                                             10.1.22000.832
+Windows SDK Desktop Headers x64                                               10.1.22000.832
+Windows SDK Desktop Headers x86                                               10.1.22000.832
+Windows SDK Desktop Libs arm                                                  10.1.22000.832
+Windows SDK Desktop Libs arm64                                                10.1.22000.832
+Windows SDK Desktop Libs x64                                                  10.1.22000.832
+Windows SDK Desktop Libs x86                                                  10.1.22000.832
+Windows SDK Desktop Tools arm64                                               10.1.22000.832
+Windows SDK Desktop Tools x64                                                 10.1.22000.832
+Windows SDK Desktop Tools x86                                                 10.1.22000.832
+Windows SDK DirectX x86 Remote                                                10.1.22000.832
+Windows SDK EULA                                                              10.1.22000.832
+Windows SDK Facade Windows WinMD Versioned                                    10.1.22000.832
+Windows SDK for Windows Store Apps                                            10.1.22000.832
+Windows SDK for Windows Store Apps Contracts                                  10.1.22000.832
+Windows SDK for Windows Store Apps DirectX x86 Remote                         10.1.22000.832
+Windows SDK for Windows Store Apps Headers                                    10.1.22000.832
+Windows SDK for Windows Store Apps Libs                                       10.1.22000.832
+Windows SDK for Windows Store Apps Metadata                                   10.1.22000.832
+Windows SDK for Windows Store Apps Tools                                      10.1.22000.832
+Windows SDK for Windows Store Managed Apps Libs                               10.1.22000.832
+Windows SDK Modern Non-Versioned Developer Tools                              10.1.22000.832
+Windows SDK Modern Versioned Developer Tools                                  10.1.22000.832
+Windows SDK Redistributables                                                  10.1.22000.832
+Windows SDK Signing Tools                                                     10.1.22000.832
+Windows Software Development Kit - Windows 10.0.22000.832                     10.1.22000.832
+Windows Team Extension SDK                                                    10.1.22000.832
+Windows Team Extension SDK Contracts                                          10.1.22000.832
+WinMerge 2.16.32.0                                                            2.16.32.0
+WinRT Intellisense Desktop - en-us                                            10.1.22000.832
+WinRT Intellisense Desktop - Other Languages                                  10.1.22000.832
+WinRT Intellisense IoT - en-us                                                10.1.22000.832
+WinRT Intellisense IoT - Other Languages                                      10.1.22000.832
+WinRT Intellisense Mobile - en-us                                             10.1.22000.832
+WinRT Intellisense PPI - en-us                                                10.1.22000.832
+WinRT Intellisense PPI - Other Languages                                      10.1.22000.832
+WinRT Intellisense UAP - en-us                                                10.1.22000.832
+WinRT Intellisense UAP - Other Languages                                      10.1.22000.832
+
+
+Git bash diagnostics

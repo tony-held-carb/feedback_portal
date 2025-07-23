@@ -2,7 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: Output file
-set "OUT=conda_work_config_dump.txt"
+@REM set "OUT=conda_config_dump_work.txt"
+set "OUT=dump_conda_config_home.txt"
 echo Collecting Conda/Miniconda diagnostics... > "%OUT%"
 echo. >> "%OUT%"
 
