@@ -1,6 +1,12 @@
-# mini_conda_01.yml
+# This file was created on 7/22/25 based on the mini_conda_01 that has been on the ec2 since real sat data was coming in with
+#  (base) [admin]$ cat mini_conda_01.yml
+# (base) [admin]$ ls -la mini_conda_01.yml
+# -rw-rw-r-- 1 theld theld 2882 Jun  8 22:03 mini_conda_01.yml
 
-# mini_conda_01.yml as it was on my home computer on 7/22/25
+# the original file contents below ...
+# -------------------------------------
+
+# mini_conda_01.yml
 
 # need to update for:
   # pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints

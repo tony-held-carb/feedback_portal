@@ -10,20 +10,18 @@
 # Creating the virtual environment:
 # ---------------------------------
 #   - Shell commands to create conda virtual environment named "mini_conda_02"
-#     based on this requirements file located at:
-#          "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
 #
-#     conda update conda
-#     conda env list
-#     conda remove --name mini_conda_02 --all
-#     conda deactivate
+#       conda update conda
+#       conda env list
+#       conda remove --name mini_conda_02 --all
+#       conda deactivate
 #
 #     on home computer:
 #         conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
 #     on work laptop:
-#         conda env create -f ***TBD***
+#         conda env create -f "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
 #     on ec2:
-#         conda env create -f ***TBD***
+#         conda env create -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
 #
 # Updating the conda environment:
 # ------------------------------
@@ -34,9 +32,9 @@
 #     on home computer:
 #         conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml" --prune
 #     on work laptop:
-#         conda env update --file ***TBD***
+#         conda env update --file "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
 #     on ec2:
-#         conda env update --file ***TBD***
+#         conda env update --file "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
 
 # Notes:
 # ------
