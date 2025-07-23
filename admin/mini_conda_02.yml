@@ -40,6 +40,10 @@
 
 # Notes:
 # ------
+#   - After creating or updating this environment, you MUST run:
+#         playwright install
+#     This downloads the required browser binaries for Playwright-based tests.
+#     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
 #   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
 #
