@@ -1,6 +1,7 @@
-# mini_conda_01.yml
+# mini_conda_02.yml
 
-# based off original mini_conda_01.yml
+# mini_conda_02 was created from mini_conda_01.yml by cursor inspection
+# it is potentially not a complete env, but seems to work in testing
 
 # IMPORTANT: KNOWN ISSUES
 # -----------------------
@@ -20,43 +21,51 @@
 #
 # Creating the virtual environment:
 # ---------------------------------
-#   - Shell commands to create conda virtual environment named "mini_conda_01"
+#   - Shell commands to create conda virtual environment named "mini_conda_02"
 #     based on this requirements file located at:
-#          "C:\one_drive\code\requirements\mini_conda_01.yml"
-#          "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
+#          "C:\one_drive\code\requirements\mini_conda_02.yml"
+#          "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_02.yml"
+#          "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"          
 #
 #     conda update conda
 #     conda env list
-#     conda remove --name mini_conda_01 --all
+#     conda remove --name mini_conda_02 --all
 #     conda deactivate
-#     conda env create -f "C:\one_drive\code\requirements\mini_conda_01.yml"
+#     conda env create -f "C:\one_drive\code\requirements\mini_conda_02.yml"
 #        or
-#     conda env create -f "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
+#     conda env create -f "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_02.yml"
 #        or 
-#     conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml"
+#     conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
+#        or 
+#     conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
 #
 # Updating the conda environment:
 # ------------------------------
-#   - Shell commands to update the conda virtual environment named "mini_conda_01"
+#   - Shell commands to update the conda virtual environment named "mini_conda_02"
 #
-#     conda activate mini_conda_01  (Warning! Make sure you don't skip this activation step)
+#     conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
 #
-#     conda env update --file "C:\one_drive\code\requirements\mini_conda_01.yml" --prune
+#     conda env update --file "C:\one_drive\code\requirements\mini_conda_02.yml" --prune
 #        or
-#     conda env update --file "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml" --prune
+#     conda env update --file "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_02.yml" --prune
 #        or
-#     conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml" --prune
+#     conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml" --prune
 
 
 # Notes:
 # ------
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
-#   - Make sure the name field below "name: mini_conda_01" matches the file name to avoid namespace issues
+#   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
 #
+#   - After creating or updating this environment, you MUST run:
+#     - playwright install
+#     - This downloads the required browser binaries for Playwright-based tests.
+#     - If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
+
 # -------------------------------------------------------------------------------------------------
 
 # change the name of your environment with the variable below
-name: mini_conda_01
+name: mini_conda_02
 channels:
   - defaults
   # Include any other channels here if your package is not in defaults
@@ -91,18 +100,26 @@ dependencies:
   - pip
   # If a package is not available through conda, include it in the pip sub-list below
   - pip:
-      - flask-mail
+      - file-read-backwards
       - Flask-Migrate
+      - flask-mail
       - geoalchemy2
       - mkdocs
+      - mkdocs-gen-files
+      - mkdocs-git-committers-plugin
+      - mkdocs-git-revision-date-localized-plugin
+      - mkdocs-literate-nav
       - mkdocs-material
       - mkdocstrings[python]
-      - mkdocs-gen-files
-      - mkdocs-literate-nav
-      - mkdocs-git-revision-date-localized-plugin
-      - mkdocs-git-committers-plugin
       - pdoc
+      - pytest-asyncio
       - wget
       - WTForms-Alchemy
-      - file-read-backwards
-      - pytest-asyncio
+      # Added for reproducibility based on environment diff
+      - email_validator
+      - playwright
+      - pytest
+      - pytest-playwright
+      - selenium
+      - webdriver-manager
+
