@@ -1,0 +1,217 @@
+(mini_conda_02) C:\Users\theld>cd %APPDATA%\JetBrains\PyCharm2025.1
+
+(mini_conda_02) C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1>cd /d "C:\tony_local\pycharm\feedback_portal\system_setup\"
+
+(mini_conda_02) C:\tony_local\pycharm\feedback_portal\system_setup>pycharm_settings.bat
+^ : The term '^' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:49
++ Add-Type -A 'System.IO.Compression.FileSystem'; ^
++                                                 ~
+    + CategoryInfo          : ObjectNotFound: (^:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+'$zipfile' is not recognized as an internal or external command,
+operable program or batch file.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+Done! Archive created at: C:\Users\theld\Desktop\pycharm_config_work_extract.zip
+Press any key to continue . . .
+
+(mini_conda_02) C:\tony_local\pycharm\feedback_portal\system_setup>type pycharm_settings.bat
+
+@echo off
+set "SOURCE=%APPDATA%\Roaming\JetBrains\PyCharm2025.1"
+set "DEST=%USERPROFILE%\Desktop\pycharm_config_work_extract.zip"
+
+:: Clean up old zip
+if exist "%DEST%" del "%DEST%"
+
+:: Create a zip with only key settings
+powershell -nologo -noprofile -command ^
+  "Add-Type -A 'System.IO.Compression.FileSystem'; ^
+   $zipfile = '%DEST%'; ^
+   $files = @(
+     '%SOURCE%\options\ide.general.xml',
+     '%SOURCE%\options\editor.xml',
+     '%SOURCE%\options\project.default.xml',
+     '%SOURCE%\options\other.xml',
+     '%SOURCE%\codestyles'
+   ); ^
+   [System.IO.Compression.ZipFile]::CreateFromDirectory($files[4], $zipfile); ^
+   foreach ($f in $files[0..3]) { ^
+     if (Test-Path $f) { ^
+       [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile( ^
+         [System.IO.Compression.ZipFile]::Open($zipfile, 'Update'), $f, ^
+         ('options/' + [System.IO.Path]::GetFileName($f)) ^
+       ) ^
+     } ^
+   }"
+
+echo Done! Archive created at: %DEST%
+pause
+
+(mini_conda_02) C:\tony_local\pycharm\feedback_portal\system_setup>
+
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\theld> $zipfile="$env:USERPROFILE\Desktop\pycharm_config_work_extract.zip"; Remove-Item $zipfile -ErrorAction SilentlyContinue; Add-Type -A 'System.IO.Compression.FileSystem'; $files = @("$env:APPDATA\JetBrains\PyCharm2025.1\options\ide.general.xml", "$env:APPDATA\JetBrains\PyCharm2025.1\options\editor.xml", "$env:APPDATA\JetBrains\PyCharm2025.1\options\project.default.xml", "$env:APPDATA\JetBrains\PyCharm2025.1\options\other.xml"); [System.IO.Compression.ZipFile]::CreateFromDirectory("$env:APPDATA\JetBrains\PyCharm2025.1\codestyles", $zipfile); foreach ($f in $files) { if (Test-Path $f) { [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile([System.IO.Compression.ZipFile]::Open($zipfile, 'Update'), $f, "options/" + [System.IO.Path]::GetFileName($f)) } }
+
+
+Archive            : System.IO.Compression.ZipArchive
+CompressedLength   :
+ExternalAttributes : 0
+FullName           : options/ide.general.xml
+LastWriteTime      : 6/3/2025 2:22:11 PM -07:00
+Length             :
+Name               : ide.general.xml
+
+Exception calling "Open" with "2" argument(s): "The process cannot access the file
+'C:\Users\theld\Desktop\pycharm_config_work_extract.zip' because it is being used by another process."
+At line:1 char:591
++ ... -Path $f) { [System.IO.Compression.ZipFileExtensions]::CreateEntryFro ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+
+Exception calling "Open" with "2" argument(s): "The process cannot access the file
+'C:\Users\theld\Desktop\pycharm_config_work_extract.zip' because it is being used by another process."
+At line:1 char:591
++ ... -Path $f) { [System.IO.Compression.ZipFileExtensions]::CreateEntryFro ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+
+Exception calling "Open" with "2" argument(s): "The process cannot access the file
+'C:\Users\theld\Desktop\pycharm_config_work_extract.zip' because it is being used by another process."
+At line:1 char:591
++ ... -Path $f) { [System.IO.Compression.ZipFileExtensions]::CreateEntryFro ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+
+Microsoft Windows [Version 10.0.22631.5472]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\theld>cd "C:\tony_local\pycharm\feedback_portal\system_setup"
+
+C:\tony_local\pycharm\feedback_portal\system_setup>pycharm_settings.bat
+^ : The term '^' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:49
++ Add-Type -A 'System.IO.Compression.FileSystem'; ^
++                                                 ~
+    + CategoryInfo          : ObjectNotFound: (^:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+'$zipfile' is not recognized as an internal or external command,
+operable program or batch file.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+The filename, directory name, or volume label syntax is incorrect.
+Done! Archive created at: C:\Users\theld\Desktop\pycharm_config_work_extract.zip
+Press any key to continue . . .
+
+C:\tony_local\pycharm\feedback_portal\system_setup>
+
+
+PS C:\Users\theld> cd \d "C:\tony_local\pycharm\feedback_portal\system_setup"
+Set-Location : A positional parameter cannot be found that accepts argument
+'C:\tony_local\pycharm\feedback_portal\system_setup'.
+At line:1 char:1
++ cd \d "C:\tony_local\pycharm\feedback_portal\system_setup"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Set-Location], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.SetLocationCommand
+
+PS C:\Users\theld> cd /d "C:\tony_local\pycharm\feedback_portal\system_setup"
+Set-Location : A positional parameter cannot be found that accepts argument
+'C:\tony_local\pycharm\feedback_portal\system_setup'.
+At line:1 char:1
++ cd /d "C:\tony_local\pycharm\feedback_portal\system_setup"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Set-Location], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.SetLocationCommand
+
+PS C:\Users\theld> cd "C:\tony_local\pycharm\feedback_portal\system_setup"
+PS C:\tony_local\pycharm\feedback_portal\system_setup>
+PS C:\tony_local\pycharm\feedback_portal\system_setup> ls
+
+
+    Directory: C:\tony_local\pycharm\feedback_portal\system_setup
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         7/23/2025   9:56 AM           2369 ai_prompts.txt
+-a----         7/23/2025   9:46 AM           1002 pycharm_settings.bat
+-a----         7/23/2025   9:55 AM           1027 pycharm_settings.ps1
+-a----         7/23/2025   9:34 AM          15713 work_pycharm_install_output.txt
+-a----         7/23/2025   9:53 AM           6531 work_pycharm_settings_output.txt
+-a----         7/23/2025   9:22 AM         137832 work_sys_output.txt
+
+
+PS C:\tony_local\pycharm\feedback_portal\system_setup> .\pycharm_settings.ps1
+.\pycharm_settings.ps1 : File C:\tony_local\pycharm\feedback_portal\system_setup\pycharm_settings.ps1 cannot be loaded
+because running scripts is disabled on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .\pycharm_settings.ps1
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\tony_local\pycharm\feedback_portal\system_setup> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose
+you to the security risks described in the about_Execution_Policies help topic at
+https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): y
+PS C:\tony_local\pycharm\feedback_portal\system_setup> .\pycharm_settings.ps1
+
+
+Archive            : System.IO.Compression.ZipArchive
+CompressedLength   :
+ExternalAttributes : 0
+FullName           : options/ide.general.xml
+LastWriteTime      : 6/3/2025 2:22:11 PM -07:00
+Length             :
+Name               : ide.general.xml
+
+Archive            : System.IO.Compression.ZipArchive
+CompressedLength   :
+ExternalAttributes : 0
+FullName           : options/editor.xml
+LastWriteTime      : 6/9/2025 3:01:39 PM -07:00
+Length             :
+Name               : editor.xml
+
+Archive            : System.IO.Compression.ZipArchive
+CompressedLength   :
+ExternalAttributes : 0
+FullName           : options/project.default.xml
+LastWriteTime      : 5/7/2025 12:49:36 PM -07:00
+Length             :
+Name               : project.default.xml
+
+Archive            : System.IO.Compression.ZipArchive
+CompressedLength   :
+ExternalAttributes : 0
+FullName           : options/other.xml
+LastWriteTime      : 7/19/2025 11:18:11 AM -07:00
+Length             :
+Name               : other.xml
+
+âœ… Archive created at: C:\Users\theld\Desktop\pycharm_config_work_extract.zip
+
+
+PS C:\tony_local\pycharm\feedback_portal\system_setup>

@@ -1,0 +1,132 @@
+github prompt:
+
+I develop on multiple machines and ides and it gets a little confusing with all the settings and configuration options between setups.
+
+here are my computers.
+
+home machine: windows with admin
+work machine: windows no admin
+ec2: linux no admin
+
+ides
+pycharm
+cursor
+VS code
+
+additional related apps setups
+miniconda
+git bash
+
+bash setup files
+.bashrc
+.bash_profile
+
+my development env is mini_conda_02
+
+I would like to create a file called system_setups.md that is a reference for how my various computers and related software are configured, so i can try and have them somewhat consistent.
+
+I am now on my work computer.  some diagnostic information about that computer is below.  Lets use that as a starting point for creating the system_setups.md file.  what other diagnostics would you like me to run so we can characterize this machine.  after we finish that we will explore how pycharm is set up and the location of any configuration files and settings related to that app.
+
+commands that gpt requested for the mini anaconda shell:
+conda info
+conda list
+conda env list
+
+run the following from base and your dev env (mini_conda_02)
+where python
+python --version
+
+my development env is mini_conda_02
+
+where git
+git --version
+git config --list
+
+set
+
+commands that gpt requested for the power shell:
+Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |
+  Select-Object DisplayName, DisplayVersion | Sort-Object DisplayName
+
+commands for git bash
+set
+cat ~/.bashrc
+cat ~/.bash_profile
+ls -la ~
+cd ~
+pwd
+
+commands associated with the ide's and setup
+
+note that cursor is installed, but won't run on my work machine because of work firewall/authorization issues.
+
+Pycharm install related:
+from the pycharm ide gui find out what version you are running
+
+from the anaconda prompt:
+where pycharm
+type (the .bat file associated with the last response)
+cd %APPDATA%\JetBrains
+dir
+cd PyCharm2025.1
+dir
+C:\Users\theld\
+dir
+type %USERPROFILE%\.condarc
+
+from the git bash run
+ls -la ~/bash_completion.d
+
+zip and send the entire %APPDATA%\JetBrains\PyCharm2025.1 this was too big
+.bat file did not work
+cd /d "C:\tony_local\pycharm\feedback_portal\system_setup\"
+pycharm_settings.bat
+
+from powershell
+cd \d "C:\tony_local\pycharm\feedback_portal\system_setup"
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\pycharm_settings.ps1
+
+PyCharm Configuration – Key Files (Work Machine)
+These files are stored under your Roaming AppData folder:
+
+Key pycharm files on work machine
+
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\
+🔧 Editor & UI Settings (options/)
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\options\ide.general.xml
+
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\options\editor.xml
+
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\options\project.default.xml
+
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\options\other.xml
+
+🎨 Code Style Profiles
+C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1\codestyles\Default.xml
+
+Cursor IDE
+from anaconda
+where cursor
+cd %APPDATA%\Code\User\
+dir snippets
+type *.json
+where cursor
+
+VS CODE IDE
+send a screenshot of the about gui for version
+cd %APPDATA%
+dir "Code - Insiders\User"
+dir "Code\User"
+dir "Code\User\snippets"
+type Code\User\*.json
+
+Git bash setupt
+cd /c/tony_local/pycharm/feedback_portal/system_setup
+./dump_gitbash_profiles.sh
+
+Conda info:
+from miniconda shell
+dump_conda_info.bat
+
+
