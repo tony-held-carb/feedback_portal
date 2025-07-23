@@ -19,7 +19,6 @@ created PR 28 to clean up documentation and deploy to ec2
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 
-
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
