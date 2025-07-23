@@ -57,10 +57,11 @@ class BaseConfig:
     'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
     '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   )
+  # "prj-sandbox-smdms-postgresql-serverless.cluster-cjqb8tty130x.us-west-2.rds.amazonaws.com"
 
   SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {
-    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
 
