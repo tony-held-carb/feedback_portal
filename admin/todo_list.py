@@ -8,6 +8,9 @@ created PR 28 to clean up documentation and deploy to ec2
 
 adding comment from home pycharm
 
+Direct Portable download (64-bit):
+https://github.com/git-for-windows/git/releases/download/v2.50.1.windows.1/PortableGit-2.50.1-64-bit.7z.exe
+install notes: https://chatgpt.com/share/688078d5-04c4-800b-b9da-881a73f5397a
 
 * consider truing up the file structure on the ec2 along with .bashrc files for consistency
 * may want to combine the shell and shell_scripts into a single directory
