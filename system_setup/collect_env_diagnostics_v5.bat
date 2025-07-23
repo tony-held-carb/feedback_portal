@@ -15,7 +15,7 @@ set "work_code_path=C:\Users\theld\AppData\Local\Programs\Microsoft VS Code\Code
 :: ========================
 :: Set output file
 :: ========================
-set "OUTPUT=collect_env_diagnostics_v5_home.txt"
+set "OUTPUT=collect_env_diagnostics_v5_work.txt"
 echo Collecting home environment diagnostics... > %OUTPUT%
 echo ------------------------------------------- >> %OUTPUT%
 
