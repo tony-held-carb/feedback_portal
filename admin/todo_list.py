@@ -6,6 +6,7 @@
 
 created PR 28 to clean up documentation and deploy to ec2
 
+adding comment from home pycharm
 
 
 * consider truing up the file structure on the ec2 along with .bashrc files for consistency
