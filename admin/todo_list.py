@@ -6,19 +6,12 @@
 
 created PR 28 to clean up documentation and deploy to ec2
 
-probably safest to have mini_conda_01.yml be the original, 
-and then have mini_conda_02.yml be the one created automatically by cursor inspection
-and mini_conda_03.yml be based on finding which packages are missing from mini_conda_01
+mini_conda_01.yml original production environment interpreter
+mini_conda_02.yml updated to include playwright and other requirements
 
 7/22/25 5:37PM ec2 installed from  ~/mini_conda_02.yml
 7/22/25 PM work computer from  "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
-7/22/25 PM home computer from  "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
-
-
-updating mini_conda_01.yml to be able to do a fresh install
-
-
-
+7/22/25 5:40PM home computer from  "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
 
 
 
