@@ -1408,5 +1408,9 @@ Running pytests
     pytest tests/arb -v  > pytest_laptop_all_11.txt 2>&1
     pytest tests/e2e -v  > pytest_laptop_e2e_11.txt 2>&1
 
-    need to set the python path
-setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
+home project root:
+work project root: C:\tony_local\pycharm\feedback_portal
+
+need to set the python path
+    setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
+
