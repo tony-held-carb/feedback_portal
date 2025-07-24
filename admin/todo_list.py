@@ -70,4 +70,6 @@ likely want to reinstall git bash so that it uses a path that does not have a sp
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
 
+add pytest-cov and then try get a good coverage report
+
 """

@@ -132,7 +132,8 @@ def setup_standalone_logging(
     filename=str(resolved_dir / f"{log_name}.log"),
     level=level,
     format=log_format,
-    datefmt=log_datefmt
+    datefmt=log_datefmt,
+    encoding="utf-8"
   )
   print(f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
 
@@ -165,7 +166,8 @@ def setup_app_logging(
     filename=str(resolved_dir / f"{log_name}.log"),
     level=level,
     format=log_format,
-    datefmt=log_datefmt
+    datefmt=log_datefmt,
+    encoding="utf-8"
   )
   print(f"[Logging] App logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
 
