@@ -1,0 +1,1022 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: C:\tony_local\pycharm\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 85 items
+
+tests/e2e/test_delete_testing_data.py::test_delete_testing_range_page_loads[chromium] PASSED [  1%]
+tests/e2e/test_delete_testing_data.py::test_min_max_id_inputs[chromium] PASSED [  2%]
+tests/e2e/test_delete_testing_data.py::test_dry_run_checkbox_and_preview[chromium] PASSED [  3%]
+tests/e2e/test_delete_testing_data.py::test_delete_button_and_real_delete[chromium] PASSED [  4%]
+tests/e2e/test_delete_testing_data.py::test_diagnostics_messaging[chromium] PASSED [  5%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_upload_page_loads[chromium] PASSED [  7%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_input_exists[chromium] PASSED [  8%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_drop_zone_exists[chromium] PASSED [  9%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 10%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_invalid_file_upload[chromium] PASSED [ 11%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_upload[chromium] PASSED [ 12%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium] PASSED [ 14%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium] PASSED [ 15%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium] PASSED [ 16%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_accessibility_features[chromium] PASSED [ 17%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] FAILED [ 18%]
+tests/e2e/test_excel_upload_workflows.py::test_list_staged_diagnostics_overlay[chromium] PASSED [ 20%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_file_only[chromium] PASSED [ 21%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium] PASSED [ 22%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium] PASSED [ 23%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium] PASSED [ 24%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium] PASSED [ 25%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] PASSED [ 27%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_page_loads[chromium] PASSED [ 28%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium] PASSED [ 29%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium] PASSED [ 30%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_accessibility[chromium] PASSED [ 31%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_empty_state[chromium] PASSED [ 32%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_long_text_overflow[chromium] PASSED [ 34%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_special_characters[chromium] SKIPPED [ 35%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_date_range_boundaries[chromium] PASSED [ 36%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium] PASSED [ 37%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_rapid_filter_changes[chromium] PASSED [ 38%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_large_data_set[chromium] SKIPPED [ 40%]
+tests/e2e/test_homepage.py::test_homepage_loads[chromium] PASSED         [ 41%]
+tests/e2e/test_homepage.py::test_homepage_empty_state[chromium] SKIPPED  [ 42%]
+tests/e2e/test_homepage.py::test_homepage_navigation_menu[chromium] PASSED [ 43%]
+tests/e2e/test_homepage.py::test_homepage_accessibility[chromium] PASSED [ 44%]
+tests/e2e/test_homepage.py::test_homepage_card_content_and_links[chromium] PASSED [ 45%]
+tests/e2e/test_homepage.py::test_homepage_card_navigation[chromium] PASSED [ 47%]
+tests/e2e/test_homepage.py::test_homepage_pagination_or_scrolling[chromium] PASSED [ 48%]
+tests/e2e/test_homepage.py::test_homepage_special_characters_and_long_text[chromium] PASSED [ 49%]
+tests/e2e/test_javascript_logging.py::test_diagnostics_overlay_on_diagnostic_test_page[chromium] PASSED [ 50%]
+tests/e2e/test_list_uploads.py::test_list_uploads_page_loads[chromium] PASSED [ 51%]
+tests/e2e/test_list_uploads.py::test_list_uploads_file_links[chromium] PASSED [ 52%]
+tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium] PASSED [ 54%]
+tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium] SKIPPED [ 55%]
+tests/e2e/test_menu_calsmp_help.py::test_calsmp_help_menu_links[chromium] PASSED [ 56%]
+tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium] PASSED [ 57%]
+tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] SKIPPED [ 58%]
+tests/e2e/test_review_staged.py::test_field_search_filter[chromium] PASSED [ 60%]
+tests/e2e/test_review_staged.py::test_change_summary_card[chromium] PASSED [ 61%]
+tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] PASSED [ 62%]
+tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] PASSED [ 63%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 64%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] PASSED [ 65%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] FAILED [ 67%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 68%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 69%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 70%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 71%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 72%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] FAILED [ 74%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 75%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED [ 76%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] FAILED [ 77%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 78%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 80%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] FAILED [ 81%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 82%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED [ 83%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] FAILED [ 84%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 85%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] FAILED [ 87%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 88%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] FAILED [ 89%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 90%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] FAILED [ 91%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED [ 92%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] FAILED [ 94%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 95%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] FAILED [ 96%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 97%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] FAILED [ 98%]
+tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...) [100%]
+
+================================== FAILURES ===================================
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002001/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002001 after uploading feedback_forms\testing_versions\standard\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002002/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002002 after uploading feedback_forms\testing_versions\standard\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002011/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002011 after uploading feedback_forms\testing_versions\standard\energy_operator_feedback_v003_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002012/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002012 after uploading feedback_forms\testing_versions\standard\energy_operator_feedback_v003_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002021/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002021 after uploading feedback_forms\testing_versions\standard\generic_operator_feedback_v002_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002022/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002022 after uploading feedback_forms\testing_versions\standard\generic_operator_feedback_v002_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002031/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002031 after uploading feedback_forms\testing_versions\standard\landfill_operator_feedback_v070_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002032/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002032 after uploading feedback_forms\testing_versions\standard\landfill_operator_feedback_v070_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002041/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002041 after uploading feedback_forms\testing_versions\standard\landfill_operator_feedback_v071_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002051/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002051 after uploading feedback_forms\testing_versions\standard\landfill_operator_feedback_v071_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002051/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002051 after uploading feedback_forms\testing_versions\standard\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+_ test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] _
+
+upload_page = <Page url='http://127.0.0.1:5000/incidence_update/1002052/'>
+file_path = 'feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx'
+
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_excel_upload_deep_backend_validation(upload_page, file_path):
+        """
+        Deep backend validation test: After uploading a file, check that the database (misc_json column)
+        matches the spreadsheet contents for every field.
+        - Uploads the file via the UI
+        - Extracts id_incidence from the redirect URL
+        - Fetches the misc_json dict from the DB
+        - Reads the original Excel fields
+        - Compares each field in the Excel file to the value in the DB
+        - If there is a mismatch, checks the backend logs for a warning or default value message
+        - If there is a mismatch and no log warning, the test fails
+        This is your main guarantee that the database is being updated with the correct spreadsheet contents.
+        """
+        # Navigate to the upload page
+        upload_page.goto("http://127.0.0.1:5000/upload")
+        upload_page.wait_for_load_state("networkidle")
+        # Upload file via UI
+        file_input = upload_page.locator("input[type='file']")
+        upload_page.set_input_files("input[type='file']", file_path)
+        upload_page.wait_for_timeout(1000)
+        # Wait for redirect or success
+        for _ in range(10):
+            if "/incidence_update/" in upload_page.url:
+                break
+            upload_page.wait_for_timeout(500)
+        # Log the URL and page content for debugging
+        # If this is an edge case file, expect error and no redirect
+        if "edge_cases" in Path(file_path).parts:
+            # Should remain on upload page and show error message
+            assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
+            assert any(keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+                f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
+            )
+            return  # Test passes for edge case scenario
+        # After upload, check for id_incidence error message
+        page_content = upload_page.content().lower()
+        id_error = (
+            ("id_incidence" in page_content and "positive integer" in page_content)
+            or ("missing a valid 'incidence/emission id'" in page_content)
+        )
+        if id_error and "/upload" in upload_page.url:
+            print("Upload blocked due to missing/invalid id_incidence as expected.")
+            return  # Test passes for this scenario
+        # Otherwise, proceed as before
+        match = re.search(r"/incidence_update/(\d+)", upload_page.url)
+        id_ = match.group(1) if match else None
+        if not id_:
+            # Try to find error messages in the page content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(page_content, "html.parser")
+            error_msgs = []
+            for alert in soup.find_all(class_=["alert", "alert-danger", "invalid-feedback", "form-error"]):
+                error_msgs.append(alert.get_text(strip=True))
+            print(f"Error messages found on page: {error_msgs}")
+            upload_dir = Path("portal_uploads")
+            uploaded_files = list(upload_dir.glob("*" + Path(file_path).name))
+            print(f"Uploaded file(s) found in upload dir: {uploaded_files}")
+        assert id_ is not None, f"Could not extract id_incidence from redirect after uploading {file_path}. See debug output above."
+        # Wait for backend to process and commit to DB (retry for up to 5 seconds)
+        misc_json = None
+        for _ in range(10):
+            misc_json = fetch_misc_json_from_db(id_)
+            if misc_json:
+                break
+            time.sleep(0.5)
+>       assert misc_json, f"misc_json not found in DB for id {id_} after uploading {file_path}"
+E       AssertionError: misc_json not found in DB for id 1002052 after uploading feedback_forms\testing_versions\standard\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx
+E       assert {}
+
+tests\e2e\test_excel_upload_workflows.py:595: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+============ 12 failed, 67 passed, 6 skipped in 1251.62s (0:20:51) ============
