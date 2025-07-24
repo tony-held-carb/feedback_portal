@@ -1346,8 +1346,23 @@ EXCEL_TEMPLATES = [
         testing id range 1002050-1002059
         landfill dummy gets 1002050
 ]
-
-
+ID         ID         Filename
+---------  --------   ------------------------------------------------------------
+1,002,001  1002001    dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+1,002,002  1002002    dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx
+1,002,003  1002003    dairy_digester_operator_feedback_v006_test_03_blank.xlsx
+1,002,011  1002011    energy_operator_feedback_v003_test_01_good_data.xlsx
+1,002,012  1002012    energy_operator_feedback_v003_test_02_bad_data.xlsx
+1,002,021  1002021    generic_operator_feedback_v002_test_01_good_data.xlsx
+1,002,022  1002022    generic_operator_feedback_v002_test_02_bad_data.xlsx
+1,002,030  1002030    landfill dummy data
+1,002,031  1002031    landfill_operator_feedback_v070_test_01_good_data.xlsx
+1,002,032  1002032    landfill_operator_feedback_v070_test_02_bad_data.xlsx
+1,002,041  1002041    landfill_operator_feedback_v071_test_01_good_data.xlsx
+1,002,042  1002042    landfill_operator_feedback_v071_test_02_bad_data.xlsx
+1,002,050  1002050    oil and gas dummy data
+1,002,051  1002051    oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+1,002,052  1002052    oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx
 
 dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
 energy_operator_feedback_v003_test_01_good_data.xlsx
