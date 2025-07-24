@@ -469,11 +469,22 @@ def extract_machine_summary(audit_block):
 
 # --- DB Access Helpers ---
 DB_PATH = "source/production/app.db"
+
+# Try to get database URI from environment variables, then fall back to settings
 DB_URI = (
     os.environ.get("POSTGRES_DB_URI") or
     os.environ.get("DATABASE_URI") or
     os.environ.get("SQLALCHEMY_DATABASE_URI")
 )
+
+# If no environment variable is set, try to get it from settings
+if not DB_URI:
+    try:
+        from arb.portal.config.settings import BaseConfig
+        DB_URI = BaseConfig.SQLALCHEMY_DATABASE_URI
+    except ImportError:
+        DB_URI = None
+
 print(f"[DEBUG] Using DB URI: {DB_URI}")
 
 def fetch_misc_json_from_db(id_):
