@@ -61,8 +61,8 @@ class BaseConfig:
   # "prj-sandbox-smdms-postgresql-serverless.cluster-cjqb8tty130x.us-west-2.rds.amazonaws.com"
 
   POSTGRES_ENGINE_OPTIONS = {'connect_args': {
-    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
 

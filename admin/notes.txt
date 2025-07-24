@@ -1420,8 +1420,8 @@ Running pytests
     7/22/25 5:43PM work computer from  "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
     7/22/25 5:40PM home computer from  "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
 
-    pytest tests/arb -v  > pytest_laptop_all_12.txt 2>&1
-    pytest tests/e2e -v  > pytest_laptop_e2e_12.txt 2>&1
+    pytest tests/arb -v  > pytest_laptop_all_16.txt 2>&1
+    pytest tests/e2e -v  > pytest_laptop_e2e_16.txt 2>&1
 
 home project root:
 work project root: C:\tony_local\pycharm\feedback_portal
@@ -1429,3 +1429,55 @@ work project root: C:\tony_local\pycharm\feedback_portal
 need to set the python path
     setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
 
+----------------------------------
+Creating Environmental Variables
+----------------------------------
+Create an environmental variable in all systems named, MACHINE_NAME that can be "TONY_HOME", "TONY_WORK", or "TONY_EC2"
+
+*** Windows ***
+
+Single Variable
+setx MACHINE_NAME "TONY_WORK"           (CMD or Git Bash)
+setx MACHINE_NAME "TONY_HOME"           (CMD or Git Bash)
+
+To prepend/append use the format
+setx PATH "%PATH%;C:\your\new\path"     (CMD)
+setx PATH "C:\your\new\path;%PATH%"     (CMD)
+
+setx PATH "$PATH;/c/your/new/path"      (Git Bash)
+setx PATH "$PATH;C:\your\new\path"      (Git Bash)
+
+To check if it worked
+echo %MACHINE_NAME%     (CMD)
+echo "$MACHINE_NAME"    (Git Bash)
+
+
+*** Linux EC2 ***
+edit ~/.bashrc to include
+export MACHINE_NAME="TONY_EC2"
+export PATH="$PATH:/your/new/path"
+export PATH="/your/new/path:$PATH"
+source ~/.bashrc
+
+To check if it worked
+echo "$MACHINE_NAME"
+
+Notes:
+1. If you run the following and PATH is not already defined
+        export PATH="$PATH:/your/new/path"
+        PATH=":/your/new/path"
+2. In linux a leading colon resolves  "include the current directory (.)"
+3. If you only want to include the variable if it already exists
+    export PATH="${PATH:+$PATH:}/your/new/path"
+    ${PATH:+$PATH:} means:
+        If PATH is defined → include $PATH:
+        If PATH is undefined → insert nothing (no colon)
+4. The PATH example is a little confusing because the colon is doing double duty, the more generalized syntax is:
+        ${var:+value} is a parameter expansion operator
+            If var is set and not null → return value
+            If var is unset or null → return nothing
+        export my_long_list="${my_long_list:+$my_long_list, }list item #10, list item #11"
+            If my_long_list is already populated, you insert its current value plus a comma and space
+            Then add new items at the end
+
+You can use the linux style export on windows git bash, but it won't be persistent
