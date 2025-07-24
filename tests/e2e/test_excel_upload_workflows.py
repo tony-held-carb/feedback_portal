@@ -500,8 +500,23 @@ def fetch_misc_json_from_db(id_):
         conn = psycopg2.connect(pg_uri)
         try:
             cur = conn.cursor()
+            
+            # Determine the correct schema from settings
+            schema_name = "satellite_tracker_new"  # default
+            try:
+                from arb.portal.config.settings import BaseConfig
+                engine_options = BaseConfig.SQLALCHEMY_ENGINE_OPTIONS
+                if 'connect_args' in engine_options and 'options' in engine_options['connect_args']:
+                    options = engine_options['connect_args']['options']
+                    # Extract schema from search_path option
+                    if 'search_path=' in options:
+                        search_path = options.split('search_path=')[1].split(',')[0]
+                        schema_name = search_path
+            except ImportError:
+                pass  # Use default if settings import fails
+            
             # Use schema-qualified table name
-            cur.execute("SELECT misc_json FROM satellite_tracker_new.incidences WHERE id_incidence = %s", (id_,))
+            cur.execute(f"SELECT misc_json FROM {schema_name}.incidences WHERE id_incidence = %s", (id_,))
             row = cur.fetchone()
             if not row or not row[0]:
                 return {}
