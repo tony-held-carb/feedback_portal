@@ -1481,3 +1481,15 @@ Notes:
             Then add new items at the end
 
 You can use the linux style export on windows git bash, but it won't be persistent
+
+
+Set Git Bash as the Terminal in PyCharm (Windows)
+File → Settings
+Tools → Tools
+Update Shell Path
+Change the Shell path to point to Git Bash.
+Enter (use quotes if path has spaces):
+Make sure to include the --login -i flags so .bash_profile, .bashrc, etc. are loaded
+"C:\tony_apps\git\bin\bash.exe" --login -i
+
+note on work my old path was: cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH%"
