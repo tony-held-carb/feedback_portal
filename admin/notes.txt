@@ -1453,6 +1453,8 @@ echo "$MACHINE_NAME"    (Git Bash)
 
 
 *** Linux EC2 ***
+note that linux uses : not like windows ;
+
 edit ~/.bashrc to include
 export MACHINE_NAME="TONY_EC2"
 export PATH="$PATH:/your/new/path"
@@ -1493,3 +1495,24 @@ Make sure to include the --login -i flags so .bash_profile, .bashrc, etc. are lo
 "C:\tony_apps\git\bin\bash.exe" --login -i
 
 note on work my old path was: cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH%"
+
+
+Work machine setup
+------------------
+(base) C:\Users\theld>where conda
+C:\Users\theld\AppData\Local\miniconda3\Library\bin\conda.bat
+C:\Users\theld\AppData\Local\miniconda3\Scripts\conda.exe
+C:\Users\theld\AppData\Local\miniconda3\condabin\conda.bat
+
+setting up .bashrc on work machine
+---------
+at first there was no .bashrc
+
+/c/Users/theld/AppData/Local/miniconda3/Scripts/
+
+eval "$('c/Users/theld/AppData/Local/miniconda3/Scripts/conda.exe' 'shell.bash' 'hook')"
+
+work anaconda launcher:
+%windir%\System32\cmd.exe "/K" C:\Users\theld\AppData\Local\miniconda3\Scripts\activate.bat C:\Users\theld\AppData\Local\miniconda3
+from my work anaconda shell, the following are in the path:
+PATH=/c/Users/theld/AppData/Local/miniconda3:/c/Users/theld/AppData/Local/miniconda3/Library/mingw-w64/bin:/c/Users/theld/AppData/Local/miniconda3/Library/usr/bin:/c/Users/theld/AppData/Local/miniconda3/Library/bin:/c/Users/theld/AppData/Local/miniconda3/Scripts:/c/Users/theld/AppData/Local/miniconda3/bin:/c/Users/theld/AppData/Local/miniconda3/condabin:
