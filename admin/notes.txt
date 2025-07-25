@@ -1429,6 +1429,13 @@ work project root: C:\tony_local\pycharm\feedback_portal
 need to set the python path
     setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
 
+listing environmental variables on git bash
+printenv | sort
+
+To list only environment variables containing the word "root"
+printenv | sort | grep root         (case-sensitive)
+printenv | sort | grep -i root      (case-insensitive)
+
 ----------------------------------
 Creating Environmental Variables
 ----------------------------------
