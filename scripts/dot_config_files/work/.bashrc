@@ -70,7 +70,7 @@ echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload'
 # Custom Functions
 
 # -------------------------------------------------------------------
-# wpath() — Convert a Windows-style path to a Git Bash–compatible path
+# wpath() — Convert a Windows-style path to a Git Bash Linux compatible path
 #
 # This function takes a single Windows-style path as an argument and
 # prints both the original Windows path and its equivalent Unix-style
