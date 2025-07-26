@@ -1544,3 +1544,23 @@ paste in:
   },
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.shellIntegration.enabled": true
+
+Step-by-Step: Use Git Bash as Terminal in Cursor (Windows)
+1. 🛠 Open Cursor Settings (JSON)
+Press: Ctrl+Shift+P
+
+Type: Preferences: Open Settings (JSON)
+
+Press Enter
+
+ensure:
+    // 🐚 Define Git Bash terminal profile
+    "terminal.integrated.profiles.windows": {
+      "Git Bash": {
+        "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+        "args": ["--login", "-i"]
+      }
+    },
+
+    // 🖥️ Set Git Bash as the default integrated terminal
+    "terminal.integrated.defaultProfile.windows": "Git Bash"

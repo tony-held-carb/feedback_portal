@@ -1,0 +1,79 @@
+{
+
+    // 🐚 Define Git Bash terminal profile
+    "terminal.integrated.profiles.windows": {
+      "Git Bash": {
+        "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+        "args": ["--login", "-i"]
+      }
+    },
+  
+    // 🖥️ Set Git Bash as the default integrated terminal
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
+
+  // 🎛️ Enable the Command Center UI in Cursor
+  "window.commandCenter": true,
+
+
+  // 🎨 Theme preferences
+  "workbench.colorTheme": "Daynight Darcula",
+
+  // 🔁 Git settings for streamlined commits
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  // 🐧 Optional Linux profiles (harmless on Windows, useful for cross-platform projects)
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh"
+    },
+    "fish": {
+      "path": "fish"
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
+
+  // 🛡️ Conda injection fix
+  // These settings prevent Cursor/VS Code from injecting malformed activation commands
+  // such as:
+  //     <pts/activate C:\Users\tonyh\miniconda3\envs\mini_conda_01
+  // which result in:
+  //     EnvironmentNameNotFound: C:Userstonyhminiconda3envsmini_conda_01
+  //
+  // ✅ `inheritEnv: false` stops inherited shell variables from contaminating new terminals
+  // ✅ `python.terminal.activateEnvironment: false` disables Python extension's auto-conda activation
+  // ✅ `python.terminal.launchArgs: []` removes any lingering injected launch commands
+  "terminal.integrated.inheritEnv": false,
+  "python.terminal.activateEnvironment": false,
+  "python.terminal.launchArgs": [],
+
+  // ⚙️ Terminal stability improvements
+  // These help avoid hanging behavior after running or exiting commands in Cursor
+
+  // ✅ Prevent Cursor from persisting previous terminal sessions that may contain corrupted state
+  "terminal.integrated.enablePersistentSessions": false,
+
+  // ✅ Turn off automatic locale detection which may cause startup delays or encoding issues
+  "terminal.integrated.detectLocale": "off",
+
+  // ✅ Disable shell integration features that can conflict with non-standard shells like Git Bash
+  "terminal.integrated.shellIntegration.enabled": false,
+
+  // ✅ Set scrollback buffer to a reasonable size for large logs and smooth rendering
+  "terminal.integrated.scrollback": 10000,
+
+  // ✅ (Experimental) Disable Windows conpty support which can break Git Bash input/output (especially Ctrl+C/input())
+  // Note: May not be supported in all versions of Cursor. Safe to include.
+  "terminal.integrated.windowsEnableConpty": false
+}

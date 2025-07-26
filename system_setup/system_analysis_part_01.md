@@ -62,6 +62,7 @@ Diagnostics were extracted from batch script outputs, VS Code settings, PyCharm 
 
 ### 3.1 Key Config/Settings Files
 - Reuses VS Code settings in `%APPDATA%\Code\User\`
+- `%APPDATA%\Roaming\Cursor\User\settings.json`
 
 ### 3.2 Application Executable Paths
 - Example: `Cursor.exe`
