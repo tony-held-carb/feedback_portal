@@ -3,6 +3,9 @@ echo ">>> .bashrc loaded at $(date) <<<"
 # Custom prompt
 PS1='$(basename "$PWD")\$ '
 
+# Environment variables common to all environments
+export PATH=$PATH:$HOME/bin
+
 # Use the machine name to customize different environments
 echo "MACHINE_NAME=$MACHINE_NAME"
 
@@ -19,10 +22,9 @@ case "$MACHINE_NAME" in
     export GIT_PAGER=cat
     export PAGER=cat
     export LESS=F
+#    export TERM=dumb
     export GIT_TERMINAL_PROMPT=0
-    #    export TERM=dumb
     # --- END: Optional settings to try and reduce Cursor hanging ---
-
     ;;
   "TONY_EC2")
     echo "EC2 not set up yet"
@@ -31,9 +33,6 @@ case "$MACHINE_NAME" in
     echo "⚠️  Unknown MACHINE_NAME='$MACHINE_NAME'."
     ;;
 esac
-
-# Environment variables common to all environments
-export PATH=$PATH:$HOME/bin
 
 # Derived Environmental Variables
 export prod="$portal/source/production"
@@ -67,10 +66,52 @@ echo -e "\nportal=$portal (your pwd)"
 echo "prod=$prod"
 echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload'
 
+
 # Custom Functions
 
 # -------------------------------------------------------------------
-# wpath() — Convert a Windows-style path to a Git Bash Linux compatible path
+# copy_to_clipboard() — Cross-platform clipboard copy utility
+#
+# This function attempts to copy piped input to the system clipboard
+# across various platforms. It silently does nothing if no supported
+# clipboard tool is found.
+#
+# SUPPORTED ENGINES (in order of priority):
+#   - Windows:   clip
+#   - macOS:     pbcopy
+#   - Linux:     xclip (must be installed)
+#   - WSL:       clip.exe
+#
+# USAGE:
+#   echo "text" | copy_to_clipboard
+#   some_command_output | copy_to_clipboard
+#
+# RETURNS:
+#   0 if copy was attempted, 1 if silently skipped (no tool found)
+#
+# NOTES:
+# - If xclip is used, it requires X11 to be running.
+# - This function is silent by design (no warnings on failure).
+# -------------------------------------------------------------------
+
+copy_to_clipboard() {
+
+  if command -v clip &>/dev/null; then
+    tr -d '\n' | clip
+  elif command -v pbcopy &>/dev/null; then
+    tr -d '\n' | pbcopy
+  elif command -v xclip &>/dev/null; then
+    tr -d '\n' | xclip -selection clipboard
+  elif command -v clip.exe &>/dev/null; then
+    tr -d '\n' | clip.exe
+  else
+    return 1  # Fail silently
+  fi
+}
+
+
+# -------------------------------------------------------------------
+# wpath() — Convert a Windows-style path to a Git Bash–compatible path
 #
 # This function takes a single Windows-style path as an argument and
 # prints both the original Windows path and its equivalent Unix-style
@@ -110,6 +151,7 @@ wpath() {
 
   echo "windows path: '$win_path'"
   echo "linux path:   '$unix_path'"
+  echo "$unix_path" | copy_to_clipboard
 }
 
 # -------------------------------------------------------------------
@@ -151,28 +193,28 @@ lpath() {
 
   echo "linux path:   '$unix_path'"
   echo "windows path: '$win_path'"
+  echo "$win_path" | copy_to_clipboard
 }
 
 # -------------------------------------------------------------------
-# path() — Convert a path between Windows and Git Bash styles
+# path() — Route to wpath or lpath depending on slash type
 #
-# This smart helper detects the input format:
-# - If it looks like a Windows path (e.g., C:\...), convert to Linux style.
-# - If it looks like a Unix path (e.g., /c/...), convert to Windows style.
-#
-# Internally uses `cygpath` with -u or -w depending on direction.
+# Behavior:
+# - If the argument contains a backslash (\), treat it as a Windows path
+#   and call wpath().
+# - Else if it contains a forward slash (/), treat it as a Linux-style
+#   path and call lpath().
+# - Else (no slashes), assume the path is the same in both styles.
+#   Print both and copy to clipboard.
 #
 # USAGE:
-#   path 'C:\Users\tonyh\Desktop\test.txt'
-#   path '/c/Users/tonyh/Desktop/test.txt'
+#   path 'C:\Users\tonyh\Desktop\file.txt'     → calls wpath
+#   path '/c/Users/tonyh/Desktop/file.txt'     → calls lpath
+#   path 'myfile'                              → same in both styles
 #
 # OUTPUT:
-#   Converts to the opposite style and prints both.
-#
-# LIMITATIONS:
-# - Requires Git Bash (with `cygpath` available).
-# - Only one argument is accepted.
-# - Does not validate if the path exists.
+#   Prints both Windows and Linux interpretations.
+#   Always copies the converted (or original) path to clipboard.
 # -------------------------------------------------------------------
 
 path() {
@@ -182,28 +224,14 @@ path() {
   fi
 
   local input="$1"
-  local output=""
-  local direction=""
 
-  if [[ "$input" =~ ^[A-Za-z]:\\ ]]; then
-    # Windows path (e.g., C:\...)
-    output=$(cygpath -u "$input" 2>/dev/null)
-    direction="Windows → Linux"
-  elif [[ "$input" =~ ^/[a-zA-Z]/ ]]; then
-    # Git Bash path (e.g., /c/...)
-    output=$(cygpath -w "$input" 2>/dev/null)
-    direction="Linux → Windows"
+  if [[ "$input" == *\\* ]]; then
+    wpath "$input"
+  elif [[ "$input" == */* ]]; then
+    lpath "$input"
   else
-    echo "⚠️  Could not determine path style for: $input"
-    return 1
+    echo "windows path: '$input'"
+    echo "linux path:   '$input'"
+    echo "$input" | copy_to_clipboard
   fi
-
-  if [ -z "$output" ]; then
-    echo "❌ Error converting path: '$input'"
-    return 1
-  fi
-
-  echo "$direction"
-  echo "input:  '$input'"
-  echo "output: '$output'"
 }
