@@ -1526,3 +1526,21 @@ PATH=/c/Users/theld/AppData/Local/miniconda3:/c/Users/theld/AppData/Local/minico
 
 getting vs code to use git bash on work
 
+Step-by-Step: Set Git Bash as Terminal in VS Code
+1. Open VS Code Settings (JSON)
+Press Ctrl+Shift+P
+
+Type: Preferences: Open Settings (JSON) → press Enter
+
+Or go to:
+File → Preferences → Settings → Click {} icon in top right for JSON view
+paste in:
+
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+      "args": ["--login", "-i"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.shellIntegration.enabled": true
