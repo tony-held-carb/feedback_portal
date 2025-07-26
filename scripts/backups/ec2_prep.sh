@@ -1,7 +1,6 @@
 #!/bin/bash
+
 # ----------------------------------------------------------------------
-# ec2_prep.sh
-#
 # prep system for flask run
 #
 # Usage:
@@ -9,18 +8,13 @@
 # or just ec2_prep if it is aliased with: alias ec2_prep='source ~/code/git_repos/feedback_portal/shell_scripts/ec2_prep.sh'
 # ----------------------------------------------------------------------
 
-repo="$HOME/code/git_repos"
-
 echo "Prepping system for flask run"
-echo "git repo location: $repo"
-
 set -x  # Start command tracing
 
-cd "$repo/feedback_portal"
-rm "$repo/feedback_portal/logs"/*.log
-rm "$repo/feedback_portal/portal_uploads"/*.json
-rm "$repo/feedback_portal/portal_uploads"/*.xlsx
-
+cd /home/theld/code/git_repos/feedback_portal
+rm /home/theld/code/git_repos/feedback_portal/logs/*.log
+rm /home/theld/code/git_repos/feedback_portal/portal_uploads/*.json
+rm /home/theld/code/git_repos/feedback_portal/portal_uploads/*.xlsx
 git branch -a
 git fetch --all --prune
 git branch -a
