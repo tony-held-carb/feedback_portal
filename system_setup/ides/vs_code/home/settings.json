@@ -1,11 +1,15 @@
 {
-"terminal.integrated.defaultProfile.windows": "Git Bash",
-"terminal.integrated.profiles.windows": {
-  "Git Bash": {
-    "path": "C:\\Program Files\\Git\\bin\\bash.exe",
-    "args": ["--login", "-i"]
-  }
-},
-"terminal.integrated.fontSize": 13,
-"terminal.integrated.tabs.location": "left"
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+      "args": [
+        "--login",
+        "-i"
+      ]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.tabs.location": "left"
 }
