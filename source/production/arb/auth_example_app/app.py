@@ -15,7 +15,7 @@ from arb.auth_example_app.extensions import db, login_manager, mail
 from arb.auth_example_app.routes import admin, main, user_management
 
 
-def create_app(config_name='default'):
+def create_app(config_name: str = 'default') -> Flask:
   """
   Application factory for the Auth Example App.
 

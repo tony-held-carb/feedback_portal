@@ -130,24 +130,32 @@ This script helps both beginners and advanced users inspect and debug the HTML s
   * conda deactivate
   * conda activate mini_conda_01
 
-### Pushing documentation site to GitHub
+### Creating & Pushing documentation site to GitHub
+
+* making the docs
+  * cd 'D:\local\cursor\feedback_portal\source\production'
+  * mkdocs build --clean > mkdocs_clean_build.txt 2>&1
 * Pushing to GitHub docs
-  * mkdocs build
   * mkdocs gh-deploy --clean
 * run local server
   * mkdocs serve
 
 ### Updating home repo after PR on my work machine
-update                            git checkout refactor_27
-so that it is one greater than    git branch -d refactor_26
+old branch: refactor_27
+new branch: refactor_28
+
+update                            git checkout refactor_28
+so that it is one greater than    git branch -d refactor_27
 
 git status
 git fetch --all --prune
 git branch -a
-git checkout refactor_27
+git checkout refactor_28
 git status
-git branch -d refactor_26
+git branch -d refactor_27
 git remote prune origin
+git branch -a
+git status
 
 ### Excluded Developer-Only/Destructive Routes from E2E Testing
 

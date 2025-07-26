@@ -7,13 +7,7 @@
     - Logs only meaningful changes to a structured audit table
     - Excludes no-op or default placeholders (e.g., None, "")
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     logger (logging.Logger): Logger instance for this module.
 
   Examples:

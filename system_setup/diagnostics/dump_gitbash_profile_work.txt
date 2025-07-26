@@ -1,0 +1,96 @@
+Git Bash Profile Dump - Wed Jul 23 10:34:29 PDT 2025
+Home Directory: /c/Users/theld
+==========================================
+
+📁 Files in ~/
+total 106290
+drwxr-xr-x 1 theld 1049089        0 Jul 23 09:01 .
+drwxr-xr-x 1 theld 1049089        0 May  9 21:49 ..
+-rw-r--r-- 1 theld 1049089       30 Jul 14 12:39 .bash_history
+drwxr-xr-x 1 theld 1049089        0 Oct  9  2023 .cisco
+drwxr-xr-x 1 theld 1049089        0 Oct 13  2023 .conda
+drwxr-xr-x 1 theld 1049089        0 Jun 21 13:36 .cursor
+drwxr-xr-x 1 theld 1049089        0 Oct 19  2023 .eclipse
+-rw-r--r-- 1 theld 1049089       75 Jul 22 17:39 .git-credentials
+-rw-r--r-- 1 theld 1049089      304 Jul 14 12:36 .gitconfig
+drwxr-xr-x 1 theld 1049089        0 Jul 16 21:28 .gnupg
+drwxr-xr-x 1 theld 1049089        0 Nov 13  2023 .ipython
+drwxr-xr-x 1 theld 1049089        0 Apr 12  2024 .jupyter
+drwxr-xr-x 1 theld 1049089        0 Apr 12  2024 .keras
+-rw-r--r-- 1 theld 1049089       20 Jul 23 09:01 .lesshst
+drwxr-xr-x 1 theld 1049089        0 Mar 18  2024 .matplotlib
+drwxr-xr-x 1 theld 1049089        0 Oct 11  2023 .ms-ad
+drwxr-xr-x 1 theld 1049089        0 Oct 21  2023 .ssh
+-rw-r--r-- 1 theld 1049089     1327 Mar 26  2024 .viminfo
+drwxr-xr-x 1 theld 1049089        0 Oct 13  2023 .vscode
+drwxr-xr-x 1 theld 1049089        0 Oct  9  2023 3D Objects
+drwxr-xr-x 1 theld 1049089        0 May  9 21:49 AppData
+lrwxrwxrwx 1 theld 1049089       30 May  9 21:49 Application Data -> /c/Users/theld/AppData/Roaming
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Contacts
+lrwxrwxrwx 1 theld 1049089       58 May  9 21:49 Cookies -> /c/Users/theld/AppData/Local/Microsoft/Windows/INetCookies
+drwxr-xr-x 1 theld 1049089        0 Jul 23 09:59 Desktop
+drwxr-xr-x 1 theld 1049089        0 Jul  9 18:32 Documents
+drwxr-xr-x 1 theld 1049089        0 Jul 17 20:44 Downloads
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Favorites
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Links
+lrwxrwxrwx 1 theld 1049089       28 May  9 21:49 Local Settings -> /c/Users/theld/AppData/Local
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Music
+lrwxrwxrwx 1 theld 1049089       24 May  9 21:49 My Documents -> /c/Users/theld/Documents
+-rw-r--r-- 1 theld 1049089 18874368 Jul 15 13:24 NTUSER.DAT
+-rw-r--r-- 1 theld 1049089    65536 May  9 21:49 NTUSER.DAT{5640f1da-2d62-11f0-965b-ebdfafb5175c}.TM.blf
+-rw-r--r-- 1 theld 1049089   524288 May  9 21:49 NTUSER.DAT{5640f1da-2d62-11f0-965b-ebdfafb5175c}.TMContainer00000000000000000001.regtrans-ms
+-rw-r--r-- 1 theld 1049089   524288 May  9 21:49 NTUSER.DAT{5640f1da-2d62-11f0-965b-ebdfafb5175c}.TMContainer00000000000000000002.regtrans-ms
+lrwxrwxrwx 1 theld 1049089       66 May  9 21:49 NetHood -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/Network Shortcuts
+drwxr-xr-x 1 theld 1049089        0 Jul 22 18:04 OneDrive - California Air Resources Board
+drwxr-xr-x 1 theld 1049089        0 Jul 19 19:38 OneDriveCloudTemp
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Pictures
+lrwxrwxrwx 1 theld 1049089       66 May  9 21:49 PrintHood -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/Printer Shortcuts
+lrwxrwxrwx 1 theld 1049089       55 May  9 21:49 Recent -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/Recent
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Saved Games
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Searches
+lrwxrwxrwx 1 theld 1049089       55 May  9 21:49 SendTo -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/SendTo
+lrwxrwxrwx 1 theld 1049089       59 May  9 21:49 Start Menu -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/Start Menu
+lrwxrwxrwx 1 theld 1049089       58 May  9 21:49 Templates -> /c/Users/theld/AppData/Roaming/Microsoft/Windows/Templates
+drwxr-xr-x 1 theld 1049089        0 May  9 21:58 Videos
+-rw-r--r-- 1 theld 1049089       96 Jun  3 10:53 desktop.ini
+-rw-r--r-- 1 theld 1049089 29052614 Apr 21 11:52 dump-plumetracker-202504211152.sql
+-rw-r--r-- 1 theld 1049089 54271829 Jul  9 14:44 dump-plumetracker-202507091443.sql
+-rw-r--r-- 1 theld 1049089   101128 Sep 27  2024 incidences_202409271146.sql
+-rw-r--r-- 1 theld 1049089    93263 Apr 21 11:55 incidences_202504211155.json
+-rw-r--r-- 1 theld 1049089    61366 Apr 21 11:56 incidences_202504211156.sql
+-rw-r--r-- 1 theld 1049089     8939 May 14 15:41 incidences_202505141541.sql
+-rw-r--r-- 1 theld 1049089        0 May 13 08:11 jcef_11216.log
+-rw-r--r-- 1 theld 1049089        0 May 11 15:15 jcef_14140.log
+-rw-r--r-- 1 theld 1049089        0 May 12 16:19 jcef_14240.log
+-rw-r--r-- 1 theld 1049089        0 May 13 12:53 jcef_14308.log
+-rw-r--r-- 1 theld 1049089        0 May  6 11:48 jcef_17108.log
+-rw-r--r-- 1 theld 1049089        0 May  9 08:13 jcef_17352.log
+-rw-r--r-- 1 theld 1049089        0 May 12 09:45 jcef_17556.log
+-rw-r--r-- 1 theld 1049089        0 May 12 23:32 jcef_1924.log
+-rw-r--r-- 1 theld 1049089        0 May  7 12:13 jcef_20616.log
+-rw-r--r-- 1 theld 1049089        0 May 12 23:24 jcef_23052.log
+-rw-r--r-- 1 theld 1049089   557056 May  9 21:49 ntuser.dat.LOG1
+-rw-r--r-- 1 theld 1049089  4587520 May  9 21:49 ntuser.dat.LOG2
+-rw-r--r-- 1 theld 1049089       20 May  9 21:58 ntuser.ini
+-rw-r--r-- 1 theld 1049089    13685 Jul  9 19:38 pg_extension_202507091938.csv
+
+
+⛔ .bashrc not found
+
+
+⛔ .bash_profile not found
+
+
+⛔ .profile not found
+
+
+⛔ .inputrc not found
+
+
+⛔ .git-prompt.sh not found
+
+
+⛔ .bash_aliases not found
+
+
+⛔ .condarc not found

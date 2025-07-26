@@ -7,12 +7,6 @@
     - Platform-level info useful for conditional behavior
     - Diagnostic tools for runtime environment inspection
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     PROJECT_ROOT (Path): Path to the project root directory.
     UPLOAD_PATH (Path): Path to the uploads directory.
@@ -59,12 +53,6 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 def print_runtime_diagnostics() -> None:
   """
   Print and log detected runtime paths and platform flags for debugging.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Examples:
     print_runtime_diagnostics()

@@ -78,15 +78,15 @@ def json_serializer(obj: object) -> dict:
   raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 
-def json_deserializer(obj: dict) -> object:
+def json_deserializer(obj: dict[str, Any]) -> Any:
   """
   Custom JSON deserializer for class/type representations created by `json_serializer`.
 
   Args:
-    obj (dict): Dictionary object from JSON with special tags for known types. If None, returns None.
+    obj (dict[str, Any]): Dictionary object from JSON with special tags for known types. If None, returns None.
 
   Returns:
-    object: Reconstructed Python object (datetime, decimal, or class/type), or original dict if no tags found.
+    Any: Reconstructed Python object (datetime, decimal, or class/type), or original dict if no tags found.
 
   Raises:
     TypeError: If the type tag is unknown or unsupported.
@@ -396,7 +396,7 @@ def cast_model_value(
     value: str,
     value_type: type,
     convert_time_to_ca: bool = False
-) -> object:
+) -> Any:
   """
   Cast a stringified JSON value into a Python object of the expected type.
 
@@ -406,7 +406,7 @@ def cast_model_value(
     convert_time_to_ca (bool): If True, convert UTC to California naive datetime.
 
   Returns:
-    object: Value converted to the target Python type.
+    Any: Value converted to the target Python type.
 
   Raises:
     ValueError: If the value cannot be cast to the given type, type is unsupported, or value_type is None.
@@ -699,7 +699,7 @@ def extract_tab_payload(json_data: dict,
     return {}
 
 
-def normalize_value(val):
+def normalize_value(val: Any) -> str:
   """
   Normalize a value for string-based diffing or comparison.
 

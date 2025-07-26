@@ -11,7 +11,7 @@ Notes:
       {"schema": schema_dict, "metadata": metadata_dict}
 
 Example:
-  Input : xl_schema_map["oil_and_gas_v03"]["schema"]
+  Input : xl_schema_map['oil_and_gas_v03']['schema']
   Output: Dictionary representing the oil and gas schema
 """
 
@@ -26,6 +26,7 @@ from arb.portal.constants import PLEASE_SELECT
 from arb.utils.date_and_time import excel_str_to_naive_datetime, is_datetime_naive
 from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
+from arb.utils.misc import sanitize_for_utf8
 
 logger = logging.getLogger(__name__)
 
@@ -257,6 +258,8 @@ def extract_tabs(wb: openpyxl.Workbook,
       value = ws[value_address].value  # type: ignore[attr-defined]
       # Strip whitespace for string fields and log if changed
       if value is not None and value_type == str and isinstance(value, str):
+        # todo - use sanitize_for_logging here?
+        value = sanitize_for_utf8(value)
         stripped_value = value.strip()
         if value != stripped_value:
           logger.warning(
@@ -315,7 +318,7 @@ def extract_tabs(wb: openpyxl.Workbook,
   return result
 
 
-def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger) -> str | None:
+def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger: logging.Logger) -> str | None:
   """
   Resolves a schema version using the schema map and alias mapping.
   Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.

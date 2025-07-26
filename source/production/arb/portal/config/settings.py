@@ -4,12 +4,6 @@
   Defines base and derived configuration classes used by the ARB portal.
   Each config class inherits from `BaseConfig` and may override environment-specific values.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     BaseConfig (class): Base configuration shared across all environments.
     DevelopmentConfig (class): Configuration for local development.
@@ -29,6 +23,7 @@
 import logging
 import os
 from pathlib import Path
+import json
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -37,12 +32,6 @@ logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__
 class BaseConfig:
   """
   Base configuration shared across all environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     POSTGRES_DB_URI (str): Default PostgresQL URI if DATABASE_URI is unset.
@@ -69,15 +58,27 @@ class BaseConfig:
     'postgresql+psycopg2://methane:methaneCH4@prj-bus-methane-aurora-postgresql-instance-1'
     '.cdae8kkz3fpi.us-west-2.rds.amazonaws.com/plumetracker'
   )
+  # "prj-sandbox-smdms-postgresql-serverless.cluster-cjqb8tty130x.us-west-2.rds.amazonaws.com"
 
-  SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {
-    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+  POSTGRES_ENGINE_OPTIONS = {'connect_args': {
+    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
+
 
   SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key-goes-here'
   SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or POSTGRES_DB_URI
+  # Parse SQLALCHEMY_ENGINE_OPTIONS from environment if set, otherwise use default
+  _engine_options_env = os.environ.get('DATABASE_ENGINE_OPTIONS')
+  if _engine_options_env:
+      try:
+          SQLALCHEMY_ENGINE_OPTIONS = json.loads(_engine_options_env)
+      except Exception as e:
+          print(f"[ERROR] Could not parse DATABASE_ENGINE_OPTIONS env var as JSON: {e}")
+          SQLALCHEMY_ENGINE_OPTIONS = POSTGRES_ENGINE_OPTIONS
+  else:
+      SQLALCHEMY_ENGINE_OPTIONS = POSTGRES_ENGINE_OPTIONS
   SQLALCHEMY_TRACK_MODIFICATIONS = False
   # When enabled, Flask will log detailed information about templating files
   # consider setting to True if you're getting TemplateNotFound errors.
@@ -106,12 +107,6 @@ class DevelopmentConfig(BaseConfig):
   """
   Configuration for local development.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     DEBUG (bool): Enables debug mode.
     FLASK_ENV (str): Flask environment indicator.
@@ -133,12 +128,6 @@ class DevelopmentConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
   """
   Configuration for deployed production environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     DEBUG (bool): Disables debug features.
@@ -162,12 +151,6 @@ class ProductionConfig(BaseConfig):
 class TestingConfig(BaseConfig):
   """
   Configuration for isolated testing environments.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Attributes:
     TESTING (bool): Enables Flask test mode.

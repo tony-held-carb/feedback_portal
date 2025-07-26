@@ -4,15 +4,6 @@
   This module defines the `create_app()` function, which initializes and configures
   the Flask application with required extensions, startup behavior, routing, and globals.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
-    None
-
   Examples:
     from arb.portal.app import create_app
     app = create_app()
@@ -48,9 +39,6 @@ def create_app() -> Flask:
   Follows the Flask application factory pattern. This function loads configuration,
   initializes extensions, binds SQLAlchemy to the app, and registers the
   route blueprints and global utilities.
-
-  Args:
-    None
 
   Returns:
     Flask: A fully initialized Flask application instance with:

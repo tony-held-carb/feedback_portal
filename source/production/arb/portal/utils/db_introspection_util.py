@@ -4,12 +4,6 @@
   This module allows runtime access to models and retrieval or creation of rows
   using flexible table and column identifiers.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     get_ensured_row (function): Retrieve or create a row in a table by primary key.
     logger (logging.Logger): Logger instance for this module.
@@ -25,6 +19,7 @@
 
 import logging
 from pathlib import Path
+from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
@@ -39,8 +34,8 @@ def get_ensured_row(db: SQLAlchemy,
                     base: AutomapBase,
                     table_name: str = "incidences",
                     primary_key_name: str = "id_incidence",
-                    id_=None,
-                    add_to_session: bool = False) -> tuple:
+                    id_: int | None = None,
+                    add_to_session: bool = False) -> tuple[Any, bool]:
   """
   Retrieve or create a row in the specified table using a primary key.
 
@@ -55,9 +50,8 @@ def get_ensured_row(db: SQLAlchemy,
                           Set to True for staged uploads that need session tracking.
 
   Returns:
-    tuple: (model, id_, is_new_row)
+    tuple[Any, bool]: (model, is_new_row)
       - model: SQLAlchemy ORM instance
-      - id_: Primary key value
       - is_new_row: Whether a new row was created (True/False)
 
   Raises:

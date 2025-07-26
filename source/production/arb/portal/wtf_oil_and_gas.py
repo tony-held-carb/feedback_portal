@@ -6,13 +6,7 @@ about methane emission incidents in the oil and gas sector. The form logic mirro
 O&G spreadsheet and includes conditional field validation, dynamic dropdown dependencies, and
 timestamp-based consistency checks.
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   OGFeedback (type): WTForms form class for oil & gas feedback data.
   logger (logging.Logger): Logger instance for this module.
 
@@ -32,6 +26,7 @@ Notes:
 
 import logging
 from pathlib import Path
+from typing import Any
 
 from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField
@@ -55,8 +50,8 @@ class OGFeedback(FlaskForm):
   Sections include metadata, inspection information, emissions details,
   mitigation actions, and contact data.
 
-  Attributes:
-    (See field definitions in class body for all form fields.)
+  Notes:
+    - All form fields are defined as class attributes below.
 
   Examples:
     form = OGFeedback()
@@ -296,16 +291,13 @@ class OGFeedback(FlaskForm):
     validators=[],
   )
 
-  def __init__(self, *args, **kwargs):
+  def __init__(self, *args: Any, **kwargs: Any):
     """
     Initialize the OGFeedback form and set up contingent selectors.
 
     Args:
       *args: Positional arguments passed to FlaskForm.
       **kwargs: Keyword arguments passed to FlaskForm.
-
-    Returns:
-      None
 
     Notes:
       - Calls update_contingent_selectors() to initialize dropdowns.
@@ -321,13 +313,7 @@ class OGFeedback(FlaskForm):
 
   def update_contingent_selectors(self) -> None:
     """
-    Update contingent dropdown selectors based on current form state.
-
-    Args:
-      None
-
-    Returns:
-      None
+    Update contingent dropdown choices based on parent field values.
 
     Notes:
       - Uses Globals.drop_downs_contingent to update choices.
@@ -480,12 +466,6 @@ class OGFeedback(FlaskForm):
     - 95669.1(b)(1) exclusions where OGI inspection is not required.
     - Skipping downstream fields when "No leak was detected" is selected.
     - Making "Other" explanations required only if "Other" is selected.
-
-    Args:
-      None
-
-    Returns:
-      None
 
     Notes:
       - Adjusts validators for fields that depend on other field values.

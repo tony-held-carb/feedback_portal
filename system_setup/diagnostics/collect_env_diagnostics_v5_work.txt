@@ -1,0 +1,677 @@
+Collecting home environment diagnostics... 
+------------------------------------------- 
+==== set ==== 
+home_code_path=C:\Users\tonyh\AppData\Local\Programs\Microsoft VS Code\Code.exe
+home_cursor_path=C:\Users\tonyh\AppData\Local\Programs\cursor\Cursor.exe
+home_pycharm_path=C:\tony_apps\PyCharm_2025\bin\pycharm64.exe
+OUTPUT=collect_env_diagnostics_v5_work.txt
+TERM_SESSION_ID=ec3f4e49-30bf-489a-83e3-ef1cc189b2eb
+UATDATA=C:\WINDOWS\CCM\UATData\D9F8C395-CAB8-491d-B8AC-179A1FE1BE77
+work_code_path=C:\Users\theld\AppData\Local\Programs\Microsoft VS Code\Code.exe
+work_cursor_path=C:\Users\theld\AppData\Local\Programs\cursor\Cursor.exe
+work_pycharm_path=C:\Program Files\JetBrains\PyCharm 2025.1\bin\pycharm64.exe
+ZES_ENABLE_SYSMAN=1
+ProgramW6432=C:\Program Files
+EFC_7172=1
+PyCharm=C:\tony_apps\pycharm_2025\bin;
+CommonProgramW6432=C:\Program Files\Common Files
+CONDA_DEFAULT_ENV=mini_conda_02
+CONDA_SHLVL=1
+USERNAME=theld
+ALLUSERSPROFILE=C:\ProgramData
+USERPROFILE=C:\Users\theld
+portal=C:\one_drive\code\pycharm\feedback_portal
+PROCESSOR_REVISION=9a04
+FLASK_DEBUG=1
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PUBLIC=C:\Users\Public
+Path=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\Library\mingw-w64\bin;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\Library\usr\bin;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\Library\bin;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\Scripts;C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\bin;C:\Users\theld\AppData\Local\miniconda3\condabin;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Python311\Scripts;C:\Program Files\Python311;C:\Program Files (x86)\Python311-32\Scripts;C:\Program Files (x86)\Python311-32;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\PuTTY;C:\Program Files\Docker\Docker\resources\bin;C:\Users\theld\AppData\Local\Microsoft\WindowsApps;C:\IDE\PyCharm\bin;.;C:\tony_apps\pycharm_2025\bin;.;C:\Users\theld\AppData\Local\GitHubDesktop\bin;C:\Users\theld\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\theld\AppData\Local\Programs\Git\cmd
+DriverData=C:\Windows\System32\Drivers\DriverData
+HOMEDRIVE=C:
+SESSIONNAME=Console
+LOGONSERVER=\\HQDC2
+TERMINAL_EMULATOR=JetBrains-JediTerm
+CONDA_PREFIX=C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02
+HOMEPATH=\Users\theld
+SystemRoot=C:\WINDOWS
+FLASK_APP=app.py
+LOCALAPPDATA=C:\Users\theld\AppData\Local
+APPDATA=C:\Users\theld\AppData\Roaming
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 154 Stepping 4, GenuineIntel
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+QIP7172=0
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+ProgramFiles(x86)=C:\Program Files (x86)
+CONDA_PROMPT_MODIFIER=(mini_conda_02) 
+PROMPT=(mini_conda_02) $P$G
+OS=Windows_NT
+USERDNSDOMAIN=AD.ARB.CA.GOV
+PROCESSOR_ARCHITECTURE=AMD64
+NUMBER_OF_PROCESSORS=12
+ComSpec=C:\WINDOWS\system32\cmd.exe
+PROCESSOR_LEVEL=6
+PyCharm Community Edition=C:\IDE\PyCharm\bin;
+USERDOMAIN_ROAMINGPROFILE=CARB
+windir=C:\WINDOWS
+ProgramFiles=C:\Program Files
+TEMP=C:\Users\theld\AppData\Local\Temp
+TMP=temp_diag.txt
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+OneDrive=C:\Users\theld\OneDrive - California Air Resources Board
+USERDOMAIN=CARB
+SystemDrive=C:
+OneDriveCommercial=C:\Users\theld\OneDrive - California Air Resources Board
+COMPUTERNAME=5CG3251H1W
+ProgramData=C:\ProgramData
+FPS_BROWSER_USER_PROFILE_STRING=Default
+CommonProgramFiles=C:\Program Files\Common Files
+ 
+==== systeminfo ==== 
+
+Host Name:                 5CG3251H1W
+OS Name:                   Microsoft Windows 11 Enterprise
+OS Version:                10.0.22631 N/A Build 22631
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Member Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          CARB
+Registered Organization:   CARB
+Product ID:                00329-00000-00003-AA617
+Original Install Date:     5/9/2025, 9:57:22 PM
+System Boot Time:          7/15/2025, 10:38:36 AM
+System Manufacturer:       HP
+System Model:              HP EliteBook 840 14 inch G9 Notebook PC
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 154 Stepping 4 GenuineIntel ~1800 Mhz
+BIOS Version:              HP U71 Ver. 01.08.01, 7/18/2023
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     16,016 MB
+Available Physical Memory: 849 MB
+Virtual Memory: Max Size:  29,805 MB
+Virtual Memory: Available: 4,059 MB
+Virtual Memory: In Use:    25,746 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    ad.arb.ca.gov
+Logon Server:              \\HQDC2
+Hotfix(s):                 4 Hotfix(s) Installed.
+                           [01]: KB5054980
+                           [02]: KB5027397
+                           [03]: KB5060999
+                           [04]: KB5058546
+Network Card(s):           4 NIC(s) Installed.
+                           [01]: Cisco AnyConnect Virtual Miniport Adapter for Windows x64
+                                 Connection Name: Ethernet 2
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 10.94.20.202
+                           [02]: Realtek USB GbE Family Controller
+                                 Connection Name: Ethernet
+                                 Status:          Media disconnected
+                           [03]: Intel(R) Wi-Fi 6E AX211 160MHz
+                                 Connection Name: Wi-Fi
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     192.168.1.254
+                                 IP address(es)
+                                 [01]: 192.168.1.167
+                           [04]: Bluetooth Device (Personal Area Network)
+                                 Connection Name: Bluetooth Network Connection
+                                 Status:          Media disconnected
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+ 
+==== conda info ==== 
+
+     active environment : mini_conda_02
+    active env location : C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02
+            shell level : 1
+       user config file : C:\Users\theld\.condarc
+ populated config files : 
+          conda version : 23.11.0
+    conda-build version : not installed
+         python version : 3.11.4.final.0
+                 solver : libmamba (default)
+       virtual packages : __archspec=1=x86_64
+                          __conda=23.11.0=0
+                          __win=0=0
+       base environment : C:\Users\theld\AppData\Local\miniconda3  (writable)
+      conda av data dir : C:\Users\theld\AppData\Local\miniconda3\etc\conda
+  conda av metadata url : None
+           channel URLs : https://repo.anaconda.com/pkgs/main/win-64
+                          https://repo.anaconda.com/pkgs/main/noarch
+                          https://repo.anaconda.com/pkgs/r/win-64
+                          https://repo.anaconda.com/pkgs/r/noarch
+                          https://repo.anaconda.com/pkgs/msys2/win-64
+                          https://repo.anaconda.com/pkgs/msys2/noarch
+          package cache : C:\Users\theld\AppData\Local\miniconda3\pkgs
+                          C:\Users\theld\.conda\pkgs
+                          C:\Users\theld\AppData\Local\conda\conda\pkgs
+       envs directories : C:\Users\theld\AppData\Local\miniconda3\envs
+                          C:\Users\theld\.conda\envs
+                          C:\Users\theld\AppData\Local\conda\conda\envs
+               platform : win-64
+             user-agent : conda/23.11.0 requests/2.31.0 CPython/3.11.4 Windows/10 Windows/10.0.22631 solver/libmamba conda-libmamba-solver/23.11.1 libmambapy/1.5.3
+          administrator : False
+             netrc file : None
+           offline mode : False
+
+
+ 
+==== conda list ==== 
+# packages in environment at C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02:
+#
+# Name                    Version                   Build  Channel
+alembic                   1.16.4                   pypi_0    pypi
+anyio                     4.7.0           py311haa95532_0  
+aom                       3.6.0                hd77b12b_0  
+argon2-cffi               21.3.0             pyhd3eb1b0_0  
+argon2-cffi-bindings      21.2.0          py311h827c3e9_1  
+arrow                     1.3.0           py311haa95532_0  
+asttokens                 3.0.0           py311haa95532_0  
+async-lru                 2.0.4           py311haa95532_0  
+attrs                     24.3.0          py311haa95532_0  
+babel                     2.16.0          py311haa95532_0  
+backrefs                  5.9                      pypi_0    pypi
+bcrypt                    4.3.0           py311h636fa0f_0  
+beautifulsoup4            4.13.4          py311haa95532_0  
+blas                      1.0                         mkl  
+bleach                    6.2.0           py311haa95532_0  
+blinker                   1.9.0           py311haa95532_0  
+bottleneck                1.4.2           py311h57dcf0c_0  
+brotli-python             1.0.9           py311h5da7b33_9  
+brotlicffi                1.0.9.2         py311h5da7b33_1  
+bzip2                     1.0.8                h2bbff1b_6  
+ca-certificates           2025.2.25            haa95532_0  
+cairo                     1.16.0               h85cdd14_6  
+certifi                   2025.7.14       py311haa95532_0  
+cffi                      1.17.1          py311h827c3e9_1  
+charset-normalizer        3.3.2              pyhd3eb1b0_0  
+click                     8.1.8           py311haa95532_0  
+colorama                  0.4.6           py311haa95532_0  
+colour                    0.1.5           py311haa95532_0  
+comm                      0.2.1           py311haa95532_0  
+contourpy                 1.3.1           py311h214f63a_0  
+cryptography              45.0.5          py311hcaec639_0  
+cycler                    0.11.0             pyhd3eb1b0_0  
+dav1d                     1.2.1                h2bbff1b_0  
+debugpy                   1.8.11          py311h5da7b33_0  
+decorator                 5.1.1              pyhd3eb1b0_0  
+defusedxml                0.7.1              pyhd3eb1b0_0  
+deprecated                1.2.18                   pypi_0    pypi
+dnspython                 2.4.2           py311haa95532_0  
+email-validator           2.2.0                    pypi_0    pypi
+et_xmlfile                1.1.0           py311haa95532_0  
+executing                 0.8.3              pyhd3eb1b0_0  
+expat                     2.7.1                h8ddb27b_0  
+file-read-backwards       3.2.0                    pypi_0    pypi
+flask                     3.1.0           py311haa95532_0  
+flask-login               0.6.3           py311haa95532_0  
+flask-mail                0.10.0                   pypi_0    pypi
+flask-migrate             4.1.0                    pypi_0    pypi
+flask-sqlalchemy          3.1.1           py311haa95532_0  
+flask-wtf                 1.2.1           py311haa95532_0  
+fontconfig                2.14.1               hb33846d_3  
+fonttools                 4.55.3          py311h827c3e9_0  
+freeglut                  3.4.0                h8a1e904_1  
+freetype                  2.13.3               h0620614_0  
+fribidi                   1.0.10               h62dcd97_0  
+furl                      2.1.2              pyhd3eb1b0_0  
+geoalchemy2               0.18.0                   pypi_0    pypi
+ghp-import                2.1.0                    pypi_0    pypi
+gitdb                     4.0.12                   pypi_0    pypi
+gitpython                 3.1.44                   pypi_0    pypi
+graphite2                 1.3.14               hd77b12b_1  
+greenlet                  3.1.1           py311h5da7b33_0  
+griffe                    1.8.0                    pypi_0    pypi
+h11                       0.16.0          py311haa95532_0  
+harfbuzz                  10.2.0               he2f9f60_1  
+httpcore                  1.0.9           py311haa95532_0  
+httpx                     0.28.1          py311haa95532_0  
+icc_rt                    2022.1.0             h6049295_2  
+icu                       73.1                 h6c2663c_0  
+idna                      3.7             py311haa95532_0  
+infinity                  1.5             py311haa95532_0  
+iniconfig                 2.1.0                    pypi_0    pypi
+intel-openmp              2023.1.0         h59b6b97_46320  
+intervals                 0.9.2           py311haa95532_0  
+ipykernel                 6.29.5          py311haa95532_1  
+ipython                   9.1.0           py311haa95532_0  
+ipython_pygments_lexers   1.1.1           py311haa95532_0  
+ipywidgets                8.1.5           py311haa95532_0  
+itsdangerous              2.2.0           py311haa95532_0  
+jedi                      0.19.2          py311haa95532_0  
+jinja2                    3.1.6           py311haa95532_0  
+joblib                    1.4.2           py311haa95532_0  
+jpeg                      9e                   h827c3e9_3  
+json5                     0.9.25          py311haa95532_0  
+jsonschema                4.23.0          py311haa95532_0  
+jsonschema-specifications 2023.7.1        py311haa95532_0  
+jupyter                   1.1.1           py311haa95532_0  
+jupyter-lsp               2.2.5           py311haa95532_0  
+jupyter_client            8.6.3           py311haa95532_0  
+jupyter_console           6.6.3           py311haa95532_0  
+jupyter_core              5.8.1           py311haa95532_0  
+jupyter_events            0.12.0          py311haa95532_0  
+jupyter_server            2.16.0          py311haa95532_0  
+jupyter_server_terminals  0.5.3           py311haa95532_0  
+jupyterlab                4.4.4           py311haa95532_0  
+jupyterlab_pygments       0.3.0           py311haa95532_0  
+jupyterlab_server         2.27.3          py311haa95532_0  
+jupyterlab_widgets        3.0.15          py311haa95532_0  
+kiwisolver                1.4.8           py311h5da7b33_0  
+krb5                      1.21.3               he4457a5_1  
+lcms2                     2.16                 h62be587_1  
+lerc                      4.0.0                h5da7b33_0  
+libavif                   1.1.1                h827c3e9_0  
+libdeflate                1.22                 h5bf469e_0  
+libffi                    3.4.4                hd77b12b_1  
+libglib                   2.84.2               h405b238_0  
+libiconv                  1.16                 h2bbff1b_3  
+libpng                    1.6.39               h8cc25b3_0  
+libpq                     17.4                 h4a159e6_1  
+libsodium                 1.0.18               h62dcd97_0  
+libtiff                   4.7.0                h404307b_0  
+libwebp-base              1.3.2                h3d04722_1  
+libxml2                   2.13.8               h866ff63_0  
+lz4-c                     1.9.4                h2bbff1b_1  
+mako                      1.3.10                   pypi_0    pypi
+markdown                  3.8.2                    pypi_0    pypi
+markupsafe                3.0.2           py311h827c3e9_0  
+matplotlib                3.10.0          py311haa95532_0  
+matplotlib-base           3.10.0          py311he19b0ae_0  
+matplotlib-inline         0.1.6           py311haa95532_0  
+mergedeep                 1.3.4                    pypi_0    pypi
+mistune                   3.1.2           py311haa95532_0  
+mkdocs                    1.6.1                    pypi_0    pypi
+mkdocs-autorefs           1.4.2                    pypi_0    pypi
+mkdocs-gen-files          0.5.0                    pypi_0    pypi
+mkdocs-get-deps           0.2.0                    pypi_0    pypi
+mkdocs-git-committers-plugin 0.2.3                    pypi_0    pypi
+mkdocs-git-revision-date-localized-plugin 1.4.7                    pypi_0    pypi
+mkdocs-literate-nav       0.6.2                    pypi_0    pypi
+mkdocs-material           9.6.15                   pypi_0    pypi
+mkdocs-material-extensions 1.3.1                    pypi_0    pypi
+mkdocstrings              0.30.0                   pypi_0    pypi
+mkdocstrings-python       1.16.12                  pypi_0    pypi
+mkl                       2023.1.0         h6b88ed4_46358  
+mkl-service               2.4.0           py311h827c3e9_2  
+mkl_fft                   1.3.11          py311h827c3e9_0  
+mkl_random                1.2.8           py311hea22821_0  
+more-itertools            10.3.0          py311haa95532_0  
+narwhals                  1.31.0          py311haa95532_1  
+nbclient                  0.10.2          py311haa95532_0  
+nbconvert                 7.16.6          py311haa95532_0  
+nbconvert-core            7.16.6          py311haa95532_0  
+nbconvert-pandoc          7.16.6          py311haa95532_0  
+nbformat                  5.10.4          py311haa95532_0  
+nest-asyncio              1.6.0           py311haa95532_0  
+notebook                  7.4.4           py311haa95532_0  
+notebook-shim             0.2.4           py311haa95532_0  
+numexpr                   2.11.0          py311hdb065b2_0  
+numpy                     2.3.1           py311h5f75535_0  
+numpy-base                2.3.1           py311h23d94f8_0  
+openjpeg                  2.5.2                h9b5d1b5_1  
+openpyxl                  3.1.5           py311h827c3e9_1  
+openssl                   3.0.17               h35632f6_0  
+orderedmultidict          1.0.1           py311haa95532_0  
+outcome                   1.3.0.post0              pypi_0    pypi
+overrides                 7.4.0           py311haa95532_0  
+packaging                 24.2            py311haa95532_0  
+paginate                  0.5.7                    pypi_0    pypi
+pandas                    2.3.1           py311h885b0b7_0  
+pandoc                    2.12                 haa95532_3  
+pandocfilters             1.5.0              pyhd3eb1b0_0  
+parso                     0.8.4           py311haa95532_0  
+passlib                   1.7.4              pyhd3eb1b0_0  
+pathspec                  0.12.1                   pypi_0    pypi
+pcre2                     10.42                h0ff8eda_1  
+pdoc                      15.0.4                   pypi_0    pypi
+pendulum                  3.1.0           py311h636fa0f_0  
+phonenumbers              8.13.49         py311haa95532_0  
+pillow                    11.3.0          py311hb328d1f_0  
+pip                       25.1               pyhc872135_2  
+pixman                    0.40.0               h2bbff1b_1  
+platformdirs              4.3.7           py311haa95532_0  
+playwright                1.54.0                   pypi_0    pypi
+plotly                    6.0.1           py311hbc747e5_0  
+pluggy                    1.6.0                    pypi_0    pypi
+prometheus_client         0.21.1          py311haa95532_0  
+prompt-toolkit            3.0.43          py311haa95532_0  
+prompt_toolkit            3.0.43               hd3eb1b0_0  
+psutil                    5.9.0           py311h827c3e9_1  
+psycopg2                  2.9.10          py311h827c3e9_0  
+pure_eval                 0.2.2              pyhd3eb1b0_0  
+pycparser                 2.21               pyhd3eb1b0_0  
+pyee                      13.0.0                   pypi_0    pypi
+pygithub                  2.6.1                    pypi_0    pypi
+pygments                  2.19.1          py311haa95532_0  
+pyjwt                     2.10.1                   pypi_0    pypi
+pymdown-extensions        10.16                    pypi_0    pypi
+pynacl                    1.5.0                    pypi_0    pypi
+pyparsing                 3.2.0           py311haa95532_0  
+pyqt                      6.7.1           py311h5da7b33_1  
+pyqt6-sip                 13.9.1          py311h827c3e9_1  
+pysocks                   1.7.1           py311haa95532_0  
+pytest                    8.4.1                    pypi_0    pypi
+pytest-asyncio            1.1.0                    pypi_0    pypi
+pytest-base-url           2.1.0                    pypi_0    pypi
+pytest-playwright         0.7.0                    pypi_0    pypi
+python                    3.11.13              h981015d_0  
+python-dateutil           2.9.0post0      py311haa95532_2  
+python-dotenv             1.1.0           py311haa95532_0  
+python-fastjsonschema     2.20.0          py311haa95532_0  
+python-json-logger        3.2.1           py311haa95532_0  
+python-slugify            8.0.4                    pypi_0    pypi
+python-tzdata             2025.2             pyhd3eb1b0_0  
+pytz                      2025.2          py311haa95532_0  
+pywin32                   308             py311h5da7b33_0  
+pywinpty                  2.0.15          py311h72d21ff_0  
+pyyaml                    6.0.2           py311h827c3e9_0  
+pyyaml-env-tag            1.1                      pypi_0    pypi
+pyzmq                     26.2.0          py311h5da7b33_0  
+qtbase                    6.7.3                hd088775_3  
+qtconsole                 5.6.1           py311haa95532_1  
+qtdeclarative             6.7.3                h885b0b7_1  
+qtpy                      2.4.1           py311haa95532_0  
+qtsvg                     6.7.3                h9d4b640_1  
+qttools                   6.7.3                hcb596f7_1  
+qtwebchannel              6.7.3                h885b0b7_1  
+qtwebsockets              6.7.3                h885b0b7_1  
+referencing               0.30.2          py311haa95532_0  
+requests                  2.32.4          py311haa95532_0  
+rfc3339-validator         0.1.4           py311haa95532_0  
+rfc3986-validator         0.1.1           py311haa95532_0  
+rpds-py                   0.22.3          py311h636fa0f_0  
+scikit-learn              1.6.1           py311h585ebfc_0  
+scipy                     1.15.3          py311h180bac5_0  
+seaborn                   0.13.2          py311haa95532_3  
+selenium                  4.34.2                   pypi_0    pypi
+send2trash                1.8.2           py311haa95532_1  
+setuptools                72.1.0          py311haa95532_0  
+sip                       6.10.0          py311h5da7b33_0  
+six                       1.17.0          py311haa95532_0  
+smmap                     5.0.2                    pypi_0    pypi
+sniffio                   1.3.0           py311haa95532_0  
+sortedcontainers          2.4.0                    pypi_0    pypi
+soupsieve                 2.5             py311haa95532_0  
+sqlalchemy                2.0.41          py311h54f65d0_0  
+sqlalchemy-utils          0.41.2          py311haa95532_2  
+sqlite                    3.50.2               hda9a48d_1  
+stack_data                0.2.0              pyhd3eb1b0_0  
+tbb                       2021.8.0             h59b6b97_0  
+terminado                 0.17.1          py311haa95532_0  
+text-unidecode            1.3                      pypi_0    pypi
+threadpoolctl             3.5.0           py311h746a85d_0  
+tinycss2                  1.4.0           py311haa95532_0  
+tk                        8.6.14               h5e9d12e_1  
+tornado                   6.5.1           py311h827c3e9_0  
+traitlets                 5.14.3          py311haa95532_0  
+trio                      0.30.0                   pypi_0    pypi
+trio-websocket            0.12.2                   pypi_0    pypi
+typing-extensions         4.14.1                   pypi_0    pypi
+tzdata                    2025b                h04d1e81_0  
+ucrt                      10.0.22621.0         haa95532_0  
+unicodedata2              15.1.0          py311h827c3e9_1  
+urllib3                   2.5.0           py311haa95532_0  
+validators                0.35.0                   pypi_0    pypi
+vc                        14.42                haa95532_5  
+vc14_runtime              14.44.35208         h4927774_10  
+vs2015_runtime            14.44.35208         ha6b5a95_10  
+watchdog                  6.0.0                    pypi_0    pypi
+wcwidth                   0.2.13          py311haa95532_0  
+webdriver-manager         4.0.2                    pypi_0    pypi
+webencodings              0.5.1           py311haa95532_1  
+websocket-client          1.8.0           py311haa95532_0  
+werkzeug                  3.1.3           py311haa95532_0  
+wget                      3.2                      pypi_0    pypi
+wheel                     0.45.1          py311haa95532_0  
+widgetsnbextension        4.0.13          py311haa95532_0  
+win_inet_pton             1.1.0           py311haa95532_0  
+winpty                    0.4.3                         4  
+wrapt                     1.17.2                   pypi_0    pypi
+wsproto                   1.2.0                    pypi_0    pypi
+wtforms                   3.1.2              pyhd8ed1ab_0    conda-forge
+wtforms-alchemy           0.19.0                   pypi_0    pypi
+wtforms-components        0.11.0                   pypi_0    pypi
+xlwings                   0.32.1          py311haa95532_1  
+xz                        5.6.4                h4754444_1  
+yaml                      0.2.5                he774522_0  
+zeromq                    4.3.5                hd77b12b_0  
+zlib                      1.2.13               h8cc25b3_1  
+zstd                      1.5.6                h8880b57_0  
+ 
+==== conda env list ==== 
+# conda environments:
+#
+base                     C:\Users\theld\AppData\Local\miniconda3
+mini_conda_01            C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_01
+mini_conda_02         *  C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02
+
+ 
+==== where python ==== 
+C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\python.exe
+C:\Program Files\Python311\python.exe
+C:\Program Files (x86)\Python311-32\python.exe
+C:\Users\theld\AppData\Local\Microsoft\WindowsApps\python.exe
+ 
+==== python --version ==== 
+Python 3.11.13
+ 
+==== where git ==== 
+C:\Users\theld\AppData\Local\Programs\Git\cmd\git.exe
+ 
+==== git --version ==== 
+git version 2.50.1.windows.1
+ 
+==== git config --list ==== 
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Users/theld/AppData/Local/Programs/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=main
+user.name=Tony Held
+user.email=tony.held@arb.ca.gov
+init.defaultbranch=main
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+credential.helper=store
+core.editor="C:\tony_apps\Sublime\sublime_text.exe" -w
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+submodule.active=.
+remote.origin.url=https://github.com/tony-held-carb/feedback_portal
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+branch.refactor_28.remote=origin
+branch.refactor_28.merge=refs/heads/refactor_28
+ 
+==== .condarc ==== 
+(no .condarc file found
+==== where pycharm ==== 
+C:\tony_apps\pycharm_2025\bin\pycharm.bat
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\JetBrains"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\JetBrains
+
+07/23/2025  09:40 AM    <DIR>          .
+06/25/2025  05:38 PM    <DIR>          ..
+10/22/2023  02:05 PM             2,492 bl
+10/13/2023  10:40 AM    <DIR>          consentOptions
+10/22/2023  02:05 PM             3,841 crl
+04/04/2024  03:53 PM    <DIR>          IntelliJ
+07/23/2025  09:44 AM                43 PermanentDeviceId
+10/13/2023  10:40 AM                36 PermanentUserId
+05/06/2025  11:06 AM    <DIR>          PrivacyPolicy
+04/04/2024  03:53 PM    <DIR>          PyCharm2023.3
+08/20/2024  11:21 AM    <DIR>          PyCharm2024.1
+12/10/2024  01:05 PM    <DIR>          PyCharm2024.2
+07/23/2025  09:44 AM    <DIR>          PyCharm2025.1
+10/22/2023  01:24 PM    <DIR>          PyCharmCE2023.2
+               4 File(s)          6,412 bytes
+              10 Dir(s)  306,459,090,944 bytes free
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\JetBrains\PyCharm2025.1
+
+07/23/2025  09:44 AM    <DIR>          .
+07/23/2025  09:40 AM    <DIR>          ..
+07/23/2025  09:44 AM                 4 .lock
+07/23/2025  09:38 AM         1,482,752 app-internal-state.db
+07/15/2025  11:53 AM             4,136 bundled_plugins.txt
+01/30/2025  04:37 PM             1,562 c.kdbx
+10/13/2023  01:25 PM             1,219 c.pwd
+05/06/2025  11:04 AM    <DIR>          codestyles
+05/06/2025  11:04 AM    <DIR>          consoles
+06/13/2024  01:28 PM               151 disabled_plugins.txt
+07/15/2025  11:44 AM                 0 disabled_update.txt
+07/23/2025  09:45 AM               114 early-access-registry.txt
+05/06/2025  11:04 AM    <DIR>          event-log-metadata
+05/06/2025  11:04 AM    <DIR>          extensions
+05/06/2025  11:04 AM    <DIR>          inspection
+05/06/2025  11:04 AM    <DIR>          javascript
+05/06/2025  11:04 AM    <DIR>          jdbc-drivers
+05/06/2025  11:04 AM    <DIR>          light-edit
+05/06/2025  11:04 AM                64 migration_installed_plugins.txt
+07/23/2025  01:46 PM    <DIR>          options
+07/15/2025  11:51 AM    <DIR>          plugins
+06/11/2025  10:42 AM            17,568 plugin_PCWMP.license
+06/11/2025  01:21 PM            17,568 pycharm.key
+10/22/2023  02:00 PM                 0 pycharm64.exe.vmoptions
+06/21/2025  01:21 PM    <DIR>          scratches
+05/06/2025  11:04 AM    <DIR>          ssl
+05/06/2025  11:04 AM    <DIR>          tasks
+07/22/2025  05:47 PM           214,224 updatedBrokenPlugins.db
+07/23/2025  01:46 PM    <DIR>          workspace
+              13 File(s)      1,739,362 bytes
+              16 Dir(s)  306,459,082,752 bytes free
+ 
+==== where cursor ==== 
+C:\Users\theld\AppData\Local\Programs\cursor\resources\app\bin\cursor
+C:\Users\theld\AppData\Local\Programs\cursor\resources\app\bin\cursor.cmd
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\Cursor"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Cursor
+
+07/01/2025  01:10 PM    <DIR>          .
+06/25/2025  05:38 PM    <DIR>          ..
+06/21/2025  01:36 PM    <DIR>          Backups
+07/01/2025  01:08 PM    <DIR>          blob_storage
+06/25/2025  05:39 PM    <DIR>          Cache
+06/25/2025  09:39 PM    <DIR>          CachedData
+07/01/2025  01:09 PM    <DIR>          CachedExtensionVSIXs
+06/21/2025  01:36 PM    <DIR>          CachedProfilesData
+06/25/2025  05:39 PM    <DIR>          Code Cache
+07/01/2025  01:08 PM    <DIR>          Crashpad
+06/21/2025  01:36 PM    <DIR>          DawnGraphiteCache
+06/21/2025  01:36 PM    <DIR>          DawnWebGPUCache
+06/21/2025  01:36 PM    <DIR>          GPUCache
+07/01/2025  01:08 PM                 2 languagepacks.json
+06/21/2025  01:36 PM               322 Local State
+06/25/2025  05:39 PM    <DIR>          Local Storage
+07/01/2025  01:08 PM    <DIR>          logs
+06/21/2025  01:36 PM                36 machineid
+07/01/2025  01:08 PM    <DIR>          Network
+07/01/2025  01:08 PM                57 Preferences
+07/01/2025  01:10 PM    <DIR>          sentry
+07/01/2025  01:10 PM    <DIR>          Session Storage
+06/21/2025  01:36 PM    <DIR>          Shared Dictionary
+06/21/2025  01:38 PM             4,096 SharedStorage
+06/21/2025  01:36 PM    <DIR>          User
+               5 File(s)          4,513 bytes
+              20 Dir(s)  306,459,082,752 bytes free
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\Code\User"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Code\User
+
+10/13/2023  10:45 AM    <DIR>          .
+07/23/2025  10:21 AM    <DIR>          ..
+07/23/2025  01:46 PM    <DIR>          globalStorage
+05/02/2025  09:41 AM    <DIR>          History
+10/13/2023  10:45 AM                55 settings.json
+10/13/2023  10:45 AM    <DIR>          snippets
+07/16/2025  02:04 PM    <DIR>          workspaceStorage
+               1 File(s)             55 bytes
+               6 Dir(s)  306,459,078,656 bytes free
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\Code\User\snippets"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Code\User\snippets
+
+10/13/2023  10:45 AM    <DIR>          .
+10/13/2023  10:45 AM    <DIR>          ..
+               0 File(s)              0 bytes
+               2 Dir(s)  306,459,082,752 bytes free
+ 
+==== type ""C:\Users\theld\AppData\Roaming\Code\User\settings.json"" ==== 
+{
+    "workbench.colorTheme": "Default Dark Modern"
+} 
+==== dir ""C:\Users\theld\AppData\Roaming\Code - Insiders\User"" ==== 
+The system cannot find the file specified.
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\Code\User"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Code\User
+
+10/13/2023  10:45 AM    <DIR>          .
+07/23/2025  10:21 AM    <DIR>          ..
+07/23/2025  01:46 PM    <DIR>          globalStorage
+05/02/2025  09:41 AM    <DIR>          History
+10/13/2023  10:45 AM                55 settings.json
+10/13/2023  10:45 AM    <DIR>          snippets
+07/16/2025  02:04 PM    <DIR>          workspaceStorage
+               1 File(s)             55 bytes
+               6 Dir(s)  306,459,082,752 bytes free
+ 
+==== dir ""C:\Users\theld\AppData\Roaming\Code\User\snippets"" ==== 
+ Volume in drive C is Windows
+ Volume Serial Number is A484-28CD
+
+ Directory of C:\Users\theld\AppData\Roaming\Code\User\snippets
+
+10/13/2023  10:45 AM    <DIR>          .
+10/13/2023  10:45 AM    <DIR>          ..
+               0 File(s)              0 bytes
+               2 Dir(s)  306,459,078,656 bytes free
+ 
+==== type ""C:\Users\theld\AppData\Roaming\Code\User\settings.json"" ==== 
+{
+    "workbench.colorTheme": "Default Dark Modern"
+} 
+------------------------------------------- 

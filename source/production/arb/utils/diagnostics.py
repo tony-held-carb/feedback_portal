@@ -16,12 +16,13 @@ import logging
 import pprint
 
 from bs4 import BeautifulSoup
+from typing import Any
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
 
 
-def obj_diagnostics(obj: object,
+def obj_diagnostics(obj: Any,
                     include_hidden: bool = False,
                     include_functions: bool = False,
                     message: str | None = None) -> None:
@@ -29,7 +30,7 @@ def obj_diagnostics(obj: object,
   Log detailed diagnostics about an object's attributes and values.
 
   Args:
-    obj (object): The object to inspect. If None, logs 'None' and returns.
+    obj (Any): The object to inspect. If None, logs 'None' and returns.
     include_hidden (bool): Whether to include private attributes (starting with `_`).
     include_functions (bool): Whether to include methods or callable attributes.
     message (str | None): Optional prefix message to label the diagnostic output.

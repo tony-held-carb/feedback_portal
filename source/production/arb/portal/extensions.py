@@ -4,13 +4,7 @@
   This module avoids circular imports by creating extension objects (e.g., `db`, `csrf`)
   at the top level, without initializing them until `app.init_app()` is called elsewhere.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     db (SQLAlchemy): SQLAlchemy instance shared across all models and routes.
     csrf (CSRFProtect): CSRF protection used for form validation.
     logger (logging.Logger): Logger instance for this module.

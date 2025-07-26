@@ -1,0 +1,47 @@
+#!/bin/bash
+# run_all: Run a batch of commands using run, with progress and error handling.
+#
+# Usage:
+#   1. Edit 'run_all_commands.txt' in the same directory as this script to specify your commands (one per line).
+#   2. Run this script from anywhere: run_all
+#
+# The commands file is not tracked by git (see .gitignore), so you can customize your batch commands freely.
+
+COMMANDS_FILE="$(dirname "$0")/run_all_commands.txt"
+
+if [ ! -f "$COMMANDS_FILE" ]; then
+  echo "Commands file not found: $COMMANDS_FILE"
+  echo "Create this file and add one command per line."
+  exit 1
+fi
+
+# Read commands from the file, ignoring empty lines and comments
+mapfile -t COMMANDS < <(grep -vE '^\s*#|^\s*$' "$COMMANDS_FILE")
+
+NUM_COMMANDS=${#COMMANDS[@]}
+OUTPUT_FILES=()
+EXIT_STATUSES=()
+
+for ((i=0; i<NUM_COMMANDS; i++)); do
+  CMD="${COMMANDS[$i]}"
+  echo "Executing command $((i+1)) of $NUM_COMMANDS: $CMD"
+
+  # Call run and capture its output
+  WRAPPER_OUTPUT=$(bash "$(dirname "$0")/run" ${CMD})
+  STATUS=$?
+
+  # Extract output file name from wrapper output
+  OUTPUT_FILE=$(echo "$WRAPPER_OUTPUT" | grep '^OUTPUT_FILE=' | cut -d'=' -f2-)
+  OUTPUT_FILES+=("$OUTPUT_FILE")
+  EXIT_STATUSES+=("$STATUS")
+
+  # Print wrapper output
+  echo "$WRAPPER_OUTPUT"
+
+  if [ $STATUS -ne 0 ]; then
+    echo "ERROR: Command '$CMD' failed with exit status $STATUS. See $OUTPUT_FILE for details."
+  fi
+
+done
+
+echo "BATCH_COMMANDS_DONE" 

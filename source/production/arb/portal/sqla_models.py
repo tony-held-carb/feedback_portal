@@ -4,10 +4,7 @@ SQLAlchemy model definitions for the ARB Feedback Portal.
 This module defines ORM classes that map to key tables in the database,
 including uploaded file metadata and portal JSON update logs.
 
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   UploadedFile (type): SQLAlchemy model for uploaded file metadata.
   PortalUpdate (type): SQLAlchemy model for portal update logs.
   logger (logging.Logger): Logger instance for this module.
@@ -84,9 +81,6 @@ class UploadedFile(db.Model):
     """
     Return a human-readable string representation of the uploaded file record.
 
-    Args:
-      None
-
     Returns:
       str: Summary string showing the ID, path, description, and status.
 
@@ -141,12 +135,9 @@ class PortalUpdate(db.Model):
   comments = Column(Text, nullable=False, default="")
   id_incidence = Column(Integer, nullable=True)
 
-  def __repr__(self):
+  def __repr__(self) -> str:
     """
     Return a human-readable string representation of the portal update record.
-
-    Args:
-      None
 
     Returns:
       str: Summary string showing the update ID, key, old/new values, user, and timestamp.
@@ -165,9 +156,6 @@ class PortalUpdate(db.Model):
 def run_diagnostics() -> None:
   """
   Run a test transaction to validate UploadedFile model functionality.
-
-  Returns:
-    None
 
   Raises:
     RuntimeError: If database access or fetch fails.

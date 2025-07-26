@@ -26,9 +26,39 @@ Version: 1.0.0
 
 import logging
 import traceback
+from typing import Any
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
+
+
+def sanitize_for_utf8(s: str, context: str = "") -> str:
+    """
+    Ensures a value is safe for UTF-8 logging by replacing any invalid characters with the Unicode replacement character ().
+
+    - If the input is not a string, a warning is logged and None is returned.
+    - If the string contains any bytes that cannot be encoded as UTF-8, those bytes are replaced with the Unicode replacement character () to ensure the result is valid UTF-8.
+    - If sanitization occurs (i.e., the output differs from the input), a warning is logged with the sanitized (UTF-8 safe) result, but the original (potentially corrupting) value is never logged.
+    - If passed a string, function always returns a string that is safe to log to a UTF-8 encoded file.
+
+    Args:
+        s (str): The value to sanitize. If not a string, a warning is logged and None is returned.
+        context (str, optional): Additional context for the log message (e.g., field name, cell address).
+
+    Returns:
+        str: A UTF-8 safe string, or None if input was not a string.
+    """
+    if not isinstance(s, str):
+        logger.warning(f"sanitize_for_utf8() called with non-string value: {s!r}{f' ({context})' if context else ''}")
+        return None
+    encoded = s.encode("utf-8", errors="replace")
+    decoded = encoded.decode("utf-8", errors="replace")
+    if decoded != s:
+        logger.warning(
+            f"[sanitize_for_utf8] Invalid UTF-8 detected in string{f' ({context})' if context else ''}. "
+            f"String was sanitized for logging and is now: {repr(decoded)}"
+        )
+    return decoded
 
 
 def get_nested_value(nested_dict: dict, keys: list | tuple | str) -> object:
@@ -87,8 +117,8 @@ def ensure_key_value_pair(dict_: dict[str, dict], default_dict: dict, sub_key: s
     ValueError: If `sub_key` is None or empty.
 
   Examples:
-    Input : dict_ = {"a": {"x": 1}, "b": {"x": 2}, "c": {}}, default_dict = {"c": 99}, sub_key = "x"
-    Output: dict_["c"]["x"] == 99
+    Input : dict_ = {'a': {'x': 1}, 'b': {'x': 2}, 'c': {}}, default_dict = {'c': 99}, sub_key = 'x'
+    Output: dict_['c']['x'] == 99
 
   Notes:
     - If `sub_key` is None or empty, raises ValueError.
@@ -184,7 +214,7 @@ def log_error(e: Exception) -> None:
   raise e
 
 
-def safe_cast(value, expected_type: type) -> object:
+def safe_cast(value: Any, expected_type: type) -> Any:
   """
   Cast a value to the expected type only if it's not already of that type.
 
@@ -193,7 +223,7 @@ def safe_cast(value, expected_type: type) -> object:
     expected_type (type): The target Python type to cast to. Must not be None.
 
   Returns:
-    object: The original or casted value.
+    Any: The original or casted value.
 
   Raises:
     ValueError: If the cast fails or is inappropriate for the type, or if `expected_type` is None.

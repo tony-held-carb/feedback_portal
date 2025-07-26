@@ -5,13 +5,7 @@
   and a utility for pretty-printing complex objects in logs. It is designed to centralize and standardize
   logging setup and formatting across the project.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     APP_DIR_STRUCTURE (list[str]): Default directory structure for resolving the project root.
     DEFAULT_LOG_FORMAT (str): Default log message format string.
     DEFAULT_LOG_DATEFMT (str): Default log date format string.
@@ -76,7 +70,7 @@
 import logging
 import pprint
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Any
 
 from arb.utils.file_io import get_project_root_dir
 
@@ -138,7 +132,8 @@ def setup_standalone_logging(
     filename=str(resolved_dir / f"{log_name}.log"),
     level=level,
     format=log_format,
-    datefmt=log_datefmt
+    datefmt=log_datefmt,
+    encoding="utf-8"
   )
   print(f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
 
@@ -171,12 +166,13 @@ def setup_app_logging(
     filename=str(resolved_dir / f"{log_name}.log"),
     level=level,
     format=log_format,
-    datefmt=log_datefmt
+    datefmt=log_datefmt,
+    encoding="utf-8"
   )
   print(f"[Logging] App logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
 
 
-def get_pretty_printer(**kwargs) -> tuple[pprint.PrettyPrinter, Callable[[object], str]]:
+def get_pretty_printer(**kwargs: Any) -> tuple[pprint.PrettyPrinter, Callable[[object], str]]:
   """
   Return a PrettyPrinter instance and a formatting function for structured logging.
 

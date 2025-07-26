@@ -4,13 +4,7 @@ Blueprint-based route definitions for the ARB Feedback Portal.
 This module defines all Flask routes originally found in `app.py`,
 now organized under the `main` Blueprint for modularity.
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   main (Blueprint): Flask Blueprint for all portal routes.
   logger (logging.Logger): Logger instance for this module.
 
@@ -74,9 +68,6 @@ main = Blueprint("main", __name__)
 def index() -> str:
   """
   Display the homepage with a list of all existing incidence records.
-
-  Args:
-    None
 
   Returns:
     str: Rendered HTML for the homepage with incidence records.
@@ -155,9 +146,6 @@ def og_incidence_create() -> Response:
   """
   Create a new dummy Oil & Gas incidence and redirect to its edit form.
 
-  Args:
-    None
-
   Returns:
     Response: Redirect to the `incidence_update` page for the newly created ID.
 
@@ -191,9 +179,6 @@ def og_incidence_create() -> Response:
 def landfill_incidence_create() -> Response:
   """
   Create a new dummy Landfill incidence and redirect to its edit form.
-
-  Args:
-    None
 
   Returns:
     Response: Redirect to the `incidence_update` page for the newly created ID.
@@ -266,9 +251,6 @@ def incidence_delete(id_: int) -> ResponseReturnValue:
 def list_uploads() -> str:
   """
   List all files in the upload directory.
-
-  Args:
-    None
 
   Returns:
     str: Rendered HTML showing all uploaded Excel files available on disk.
@@ -804,7 +786,7 @@ def discard_staged_update(id_: int, filename: str) -> ResponseReturnValue:
 
 
 @main.route('/apply_staged_update/<int:id_>', methods=['POST'])
-def apply_staged_update(id_: int):
+def apply_staged_update(id_: int) -> Response:
   """
   Apply a staged update to the database for a specific incidence ID.
 
@@ -882,9 +864,6 @@ def view_portal_updates() -> str:
   """
   Display a table of all portal update log entries.
 
-  Args:
-    None
-
   Returns:
     str: Rendered HTML table of portal update logs.
 
@@ -923,9 +902,6 @@ def view_portal_updates() -> str:
 def export_portal_updates() -> Response:
   """
   Export all portal update log entries as a CSV file.
-
-  Args:
-    None
 
   Returns:
     Response: CSV file download of portal update logs.
@@ -968,9 +944,6 @@ def search() -> str:
   """
   Search for incidences or updates in the portal database.
 
-  Args:
-    None
-
   Returns:
     str: Rendered HTML search results page.
 
@@ -998,9 +971,6 @@ def diagnostics() -> str:
 
   NOTE: This is a developer-only route, not covered by E2E tests by design.
 
-  Args:
-    None
-
   Returns:
     str: Rendered HTML diagnostics page.
 
@@ -1026,9 +996,6 @@ def diagnostics() -> str:
 def show_dropdown_dict() -> str:
   """
   Show the current dropdown dictionary used in forms.
-
-  Args:
-    None
 
   Returns:
     str: Rendered HTML of dropdown dictionary.
@@ -1056,9 +1023,6 @@ def show_database_structure() -> str:
   """
   Show the structure of the portal database (tables, columns, types).
 
-  Args:
-    None
-
   Returns:
     str: Rendered HTML of database structure.
 
@@ -1081,9 +1045,6 @@ def show_database_structure() -> str:
 def show_feedback_form_structure() -> str:
   """
   Show the structure of the feedback form (fields, types, validators).
-
-  Args:
-    None
 
   Returns:
     str: Rendered HTML of feedback form structure.

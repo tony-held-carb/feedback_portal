@@ -4,12 +4,6 @@
   This module provides functions to parse and apply filters from request arguments,
   including ID ranges, substrings, and date filters, to SQLAlchemy queries.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     apply_portal_update_filters (function): Applies user-defined filters to a portal_updates query.
     logger (logging.Logger): Logger instance for this module.
@@ -34,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 def apply_portal_update_filters(query: Query,
                                 portal_update_model: DeclarativeMeta | type[Any],
-                                args: dict):
+                                args: dict) -> Query:
   """
   Apply user-defined filters to a `PortalUpdate` SQLAlchemy query.
 

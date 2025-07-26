@@ -7,13 +7,7 @@
   It provides detailed notes for various execution contexts, Flask CLI behavior,
   debugging strategies, and developer workflows including PyCharm integration.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     app (Flask): The Flask application instance created by create_app().
     logger (logging.Logger): Logger instance for this module.
 

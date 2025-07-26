@@ -1,0 +1,16 @@
+[user]
+	name = Tony Held
+	email = tony.held@arb.ca.gov
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[credential]
+	helper = store
+[core]
+	editor = \"C:\\tony_apps\\Sublime\\sublime_text.exe\" -w
+[credential "helperselector"]
+	selected = manager

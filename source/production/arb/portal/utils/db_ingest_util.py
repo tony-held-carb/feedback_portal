@@ -6,12 +6,6 @@
     - Generic row ingestion from any dict using SQLAlchemy reflection
     - Excel-specific wrapper for sector-based data (xl_dict_to_database)
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     logger (logging.Logger): Logger instance for this module.
 

@@ -2,13 +2,15 @@
 
 # todo - Next Steps
 ----------------------------
-creating PR 27 is to continue e2e testing
-
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-* the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
+created PR 28 to clean up documentation and deploy to ec2
 
-* compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
+adding comment from home pycharm
+
+Direct Portable download (64-bit):
+https://github.com/git-for-windows/git/releases/download/v2.50.1.windows.1/PortableGit-2.50.1-64-bit.7z.exe
+install notes: https://chatgpt.com/share/688078d5-04c4-800b-b9da-881a73f5397a
 
 * consider truing up the file structure on the ec2 along with .bashrc files for consistency
 * may want to combine the shell and shell_scripts into a single directory
@@ -21,10 +23,12 @@ creating PR 27 is to continue e2e testing
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 
-
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
+
+likely want to reinstall git bash so that it uses a path that does not have a space in it
+
 
 
 * ---------   HTML & Forms ----------
@@ -65,5 +69,7 @@ Future Initiatives & Feature Requests Below
 
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
+
+add pytest-cov and then try get a good coverage report
 
 """

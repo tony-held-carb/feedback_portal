@@ -93,10 +93,17 @@ def format_header(file_path: Path, route: str, parse_result: Dict, import_id: st
 # =========================
 # Type Conversion & Cleaning
 # =========================
-def try_type_conversion(raw_value: Any, value_type: Any) -> Tuple[Any, List[str]]:
+def try_type_conversion(raw_value: Any, value_type: Any) -> tuple[Any, list[str]]:
   """
   Attempt to convert raw_value to value_type. Return (converted_value, logs).
   Logs are human-readable explanations of what happened.
+
+  Args:
+    raw_value (Any): The value to convert.
+    value_type (Any): The type to convert to.
+
+  Returns:
+    tuple[Any, list[str]]: The converted value and a list of log messages.
   """
   logs = []
   db_value = raw_value
