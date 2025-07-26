@@ -1564,3 +1564,13 @@ ensure:
 
     // 🖥️ Set Git Bash as the default integrated terminal
     "terminal.integrated.defaultProfile.windows": "Git Bash"
+
+how to connect to ec2 using pycharm
+my ssh directory is C:\one_drive\code\ssh_and_pem
+putty uses: C:\one_drive\code\ssh_and_pem\th.ppk
+the host is: 10.93.112.44
+my user name is: theld
+port is 22
+
+In pycharm:
+File → Settings → Tools → SSH Configurations
