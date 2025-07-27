@@ -86,7 +86,10 @@ if [[ ! -d "$TARGET_HOME" ]]; then
 fi
 
 # Create backup directory with timestamp
-BACKUP_DIR="$TARGET_HOME/dot_configs_backup_$(date +%Y%m%d_%H%M%S)"
+BACKUP_DIR_ROOT="$TARGET_HOME/.dot_configs_backups"
+mkdir -p "$BACKUP_DIR_ROOT"
+
+BACKUP_DIR="$BACKUP_DIR_ROOT/backup_$(date +%Y%m%d_%H%M%S)"
 print_status "Creating backup directory: $BACKUP_DIR"
 mkdir -p "$BACKUP_DIR"
 
