@@ -8,6 +8,7 @@ Comprehensive tests for arb/utils/wtf_forms_util.py
 - No production code was refactored for testability; all testing is done through the existing interfaces.
 - This represents the most comprehensive testing possible without changing production code architecture.
 - STATUS: All 10 tests pass, including comprehensive integration testing with real PostgreSQL database.
+- TEST DATA STRATEGY: Uses ID range 1000000+ to avoid conflicts with existing production data.
 """
 import pytest
 import types
@@ -55,35 +56,31 @@ def base(app):
 
 @pytest.fixture(scope="module")
 def TestModel(app, base):
-    """Get a test model class for testing."""
+    """Get a real model class from the automap base for testing."""
     with app.app_context():
-        # Create a test-specific table to avoid conflicts with real data
-        class TestModel(db.Model):
-            __tablename__ = "test_wtf_forms_util_model"
-            id_incidence = db.Column(db.Integer, primary_key=True, autoincrement=True)
-            description = db.Column(db.String(255))
-            misc_json = db.Column(db.JSON)
-        
-        # Create the table if it doesn't exist
-        db.create_all()
-        
-        # Yield the model class
-        yield TestModel
-        
-        # Cleanup: drop the test table after all tests
-        db.session.remove()
-        db.drop_all()
+        # Use the real incidences table
+        if hasattr(base.classes, 'incidences'):
+            return base.classes.incidences
+        else:
+            # Fallback: create a test table if needed
+            class TestModel(db.Model):
+                __tablename__ = "test_model"
+                id_incidence = db.Column(db.Integer, primary_key=True)
+                description = db.Column(db.String(255))
+                misc_json = db.Column(db.JSON)
+            db.create_all()
+            return TestModel
 
 @pytest.fixture(autouse=True)
-def cleanup_test_table(app, TestModel):
+def cleanup_test_data(app, db_session, TestModel):
     """Clean up test data after each test."""
     yield
     with app.app_context():
-        # Delete all test data after each test
-        db.session.query(TestModel).delete()
-        db.session.commit()
+        # Delete test data with IDs in the test range (1000000+)
+        db_session.query(TestModel).filter(TestModel.id_incidence >= 1000000).delete()
+        db_session.commit()
 
-class TestForm(FlaskForm):
+class SampleForm(FlaskForm):
     id_incidence = IntegerField()
     description = StringField()
     extra = StringField()  # This will map to misc_json['extra']
@@ -158,12 +155,13 @@ def test_model_to_wtform_and_wtform_to_model(app, db_session, TestModel):
     """Comprehensive integration test for model_to_wtform and wtform_to_model using real database."""
     with app.app_context():
         # Create a model instance with form data in misc_json (not direct attributes)
-        model = TestModel(misc_json={"description": "Test incidence", "extra": "bar"})
+        # Use high ID range to avoid conflicts with existing data
+        model = TestModel(id_incidence=1000001, misc_json={"description": "Test incidence", "extra": "bar"})
         db_session.add(model)
         db_session.commit()
         
         with app.test_request_context():
-            form = TestForm()
+            form = SampleForm()
             
             # Test model_to_wtform: populate form from model's misc_json
             wtf_forms_util.model_to_wtform(model, form)
@@ -188,7 +186,7 @@ def test_model_to_wtform_and_wtform_to_model(app, db_session, TestModel):
             # Test edge case: malformed misc_json
             model.misc_json = "not_a_dict"
             db_session.commit()
-            form2 = TestForm()
+            form2 = SampleForm()
             wtf_forms_util.model_to_wtform(model, form2)
             # Should not raise, should handle gracefully
             
@@ -201,7 +199,8 @@ def test_update_model_with_payload_and_get_payloads(app, db_session, TestModel):
     """Comprehensive integration test for update_model_with_payload and get_payloads using real database."""
     with app.app_context():
         # Create initial model with form data in misc_json
-        model = TestModel(misc_json={"description": "Initial incidence", "extra": "init"})
+        # Use high ID range to avoid conflicts with existing data
+        model = TestModel(id_incidence=1000002, misc_json={"description": "Initial incidence", "extra": "init"})
         db_session.add(model)
         db_session.commit()
         
@@ -216,7 +215,7 @@ def test_update_model_with_payload_and_get_payloads(app, db_session, TestModel):
             assert model.misc_json["extra"] == "newextra"
             
             # Test get_payloads - extracts from form and compares with model's misc_json
-            form = TestForm()
+            form = SampleForm()
             # Populate form with the updated values
             form.description.data = "Updated incidence"
             form.extra.data = "newextra"
