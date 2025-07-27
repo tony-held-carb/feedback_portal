@@ -42,7 +42,9 @@ Example:
 import pytest
 from playwright.sync_api import Page
 
-BASE_URL = "http://127.0.0.1:5000"
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     """

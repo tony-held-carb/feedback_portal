@@ -62,8 +62,9 @@ import pytest
 import functools
 
 # Test configuration
-BASE_URL = "http://127.0.0.1:5000"
-TEST_FILES_DIR = Path("feedback_forms/testing_versions")
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 # =============================================================================
 # E2E Test Suite for Excel Upload Portal

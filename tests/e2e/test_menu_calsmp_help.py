@@ -16,7 +16,9 @@ This test is intentionally isolated from other E2E suites to focus on menu navig
 import pytest
 from playwright.sync_api import Page, expect
 
-BASE_URL = "http://127.0.0.1:5000/"
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 def test_calsmp_help_menu_links(page: Page):
     """

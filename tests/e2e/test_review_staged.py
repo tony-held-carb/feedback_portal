@@ -22,9 +22,10 @@ import time
 import requests
 import re
 
-save_screenshots=False
+from .conftest import TEST_BASE_URL
 
-BASE_URL = "http://127.0.0.1:5000"
+BASE_URL = TEST_BASE_URL
+save_screenshots=False
 
 TEST_FILE = "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx"
 

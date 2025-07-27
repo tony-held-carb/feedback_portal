@@ -17,7 +17,9 @@ import pytest
 from playwright.sync_api import Page, expect
 import re
 
-BASE_URL = "http://127.0.0.1:5000/"
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 ALL_MENU_ITEMS = [
     ("Show Log File", None),

@@ -45,6 +45,13 @@ Output:
 import time
 from playwright.sync_api import sync_playwright
 
+# Test configuration
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
+
+
+
 def single_page_diagnostics(page_url: str|None=None):
   """
   Launches a Chromium browser using Playwright, navigates to the specified page URL, and prints detailed diagnostics about the page's form-related elements.
@@ -149,5 +156,5 @@ def single_page_diagnostics(page_url: str|None=None):
       browser.close()
 
 if __name__ == "__main__":
-  page_url = "http://127.0.0.1:5000/upload"
+  page_url = f"{BASE_URL}/upload"
   single_page_diagnostics(page_url) 

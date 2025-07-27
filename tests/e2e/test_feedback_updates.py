@@ -23,7 +23,9 @@ import random
 import string
 from datetime import datetime, timedelta
 
-BASE_URL = "http://127.0.0.1:5000"
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 @pytest.mark.e2e
 def test_feedback_updates_page_loads(page: Page):

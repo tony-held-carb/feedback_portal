@@ -15,7 +15,9 @@ Skips gracefully if no files are present.
 import pytest
 from playwright.sync_api import Page, expect
 
-BASE_URL = "http://127.0.0.1:5000"
+from .conftest import TEST_BASE_URL
+
+BASE_URL = TEST_BASE_URL
 
 @pytest.mark.e2e
 def test_list_uploads_page_loads(page: Page):
