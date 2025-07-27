@@ -38,7 +38,7 @@ DEBUG="${4:-true}"
 
 # Config
 SESSION_NAME="feedback_portal"
-CONDA_ENV="mini_conda_01"
+CONDA_ENV="mini_conda_02"
 REPOT_ROOT="$HOME/code/git_repos"
 PROJECT_ROOT="$REPOT_ROOT/feedback_portal"
 WSGI_DIR="$PROJECT_ROOT/source/production/arb"

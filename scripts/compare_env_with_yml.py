@@ -6,8 +6,39 @@ from collections import defaultdict
 
 YML_PATH = os.path.join(os.path.dirname(__file__), '..', 'admin', 'mini_conda_01.yml')
 
-# Path to conda executable (Windows/Miniconda)
-CONDA_EXE = r"C:\\Users\\tonyh\\miniconda3\\condabin\\conda.bat"
+# Detect conda executable path based on platform
+def get_conda_exe():
+    """Detect conda executable path based on platform and common locations."""
+    if sys.platform.startswith('win'):
+        # Windows paths
+        possible_paths = [
+            r"C:\Users\tonyh\miniconda3\condabin\conda.bat",
+            r"C:\Users\theld\AppData\Local\miniconda3\condabin\conda.bat",
+            r"C:\ProgramData\miniconda3\condabin\conda.bat",
+        ]
+    else:
+        # Linux/Unix paths
+        possible_paths = [
+            "/home/theld/miniconda3/bin/conda",
+            "/home/tonyh/miniconda3/bin/conda",
+            "/opt/conda/bin/conda",
+        ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    
+    # Fallback: try to find conda in PATH
+    try:
+        result = subprocess.run(['which', 'conda'], capture_output=True, text=True)
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except FileNotFoundError:
+        pass
+    
+    return None
+
+CONDA_EXE = get_conda_exe()
 
 def get_pip_freeze():
     result = subprocess.run([sys.executable, '-m', 'pip', 'freeze'], capture_output=True, text=True)
@@ -20,6 +51,10 @@ def get_pip_freeze():
     return pkgs
 
 def get_conda_list():
+    if not CONDA_EXE:
+        print("ERROR: Could not find conda executable. Please check your conda installation.")
+        return set()
+    
     try:
         result = subprocess.run([CONDA_EXE, 'list', '--export'], capture_output=True, text=True, check=True)
     except FileNotFoundError:

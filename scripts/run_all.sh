@@ -6,7 +6,7 @@
 # run.sh script to log output and capture diagnostics for each command.
 #
 # Each command's stdout/stderr is saved to a timestamped log file under:
-#   diagnostics/cursor/
+#   debugging/
 # The wrapper script (run.sh) also prints completion markers, including:
 #   - OUTPUT_FILE
 #   - EXIT_STATUS
@@ -43,7 +43,7 @@
 #
 # DEPENDENCIES:
 #   - run.sh must be located in the same directory as this script
-#   - diagnostics/cursor/ must be writable or creatable from the current user
+#   - debugging/ must be writable or creatable from the current user
 #
 # END MARKER:
 #   - Upon successful completion of the loop, the script prints:

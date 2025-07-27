@@ -45,8 +45,8 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-# Always write output to diagnostics/cursor (sibling to scripts directory)
-OUTPUT_DIR="$(dirname "$0")/../diagnostics/cursor"
+# Always write output to debugging directory (sibling to scripts directory)
+OUTPUT_DIR="$(dirname "$0")/../debugging"
 mkdir -p "$OUTPUT_DIR"
 
 # Try to get milliseconds; fallback to PID if not supported
