@@ -47,3 +47,4 @@ source/production/site/
 # Ignore the run_all_commands.txt file so users can customize their batch commands
 scripts/run_all_commands.txt
 
+/database_snapshots
