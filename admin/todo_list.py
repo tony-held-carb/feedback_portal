@@ -6,6 +6,9 @@
 
 created PR 28 to clean up documentation and deploy to ec2
 
+not sure if i understand/like the fix for test_wtf_forms_util.py
+
+
 adding comment from home pycharm
 
 Direct Portable download (64-bit):

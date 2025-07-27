@@ -55,33 +55,20 @@ def base(app):
 
 @pytest.fixture(scope="module")
 def TestModel(app, base):
-    """Get a test model class for testing."""
+    """Get a real model class from the automap base for testing."""
     with app.app_context():
-        # Create a test-specific table to avoid conflicts with real data
-        class TestModel(db.Model):
-            __tablename__ = "test_wtf_forms_util_model"
-            id_incidence = db.Column(db.Integer, primary_key=True, autoincrement=True)
-            description = db.Column(db.String(255))
-            misc_json = db.Column(db.JSON)
-        
-        # Create the table if it doesn't exist
-        db.create_all()
-        
-        # Yield the model class
-        yield TestModel
-        
-        # Cleanup: drop the test table after all tests
-        db.session.remove()
-        db.drop_all()
-
-@pytest.fixture(autouse=True)
-def cleanup_test_table(app, TestModel):
-    """Clean up test data after each test."""
-    yield
-    with app.app_context():
-        # Delete all test data after each test
-        db.session.query(TestModel).delete()
-        db.session.commit()
+        # Use the real incidences table
+        if hasattr(base.classes, 'incidences'):
+            return base.classes.incidences
+        else:
+            # Fallback: create a test table if needed
+            class TestModel(db.Model):
+                __tablename__ = "test_model"
+                id_incidence = db.Column(db.Integer, primary_key=True)
+                description = db.Column(db.String(255))
+                misc_json = db.Column(db.JSON)
+            db.create_all()
+            return TestModel
 
 class TestForm(FlaskForm):
     id_incidence = IntegerField()
