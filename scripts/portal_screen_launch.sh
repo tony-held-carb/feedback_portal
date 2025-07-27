@@ -3,27 +3,31 @@
 # ----------------------------------------------------------------------
 # portal_screen_launch.sh
 #
-# This launches a Flask or Gunicorn server in a detached screen session
+# Launch a Flask or Gunicorn server in a detached screen session
 # using the conda environment and logs all output to LOG_DIR="$PROJECT_ROOT/logs"
 #
-# USAGE:
+# Usage:
 #   cd ~/code/git_repos/feedback_portal/scripts
 #   ./portal_screen_launch.sh                        # defaults to flask, 0.0.0.0:2113, debug=true
 #   ./portal_screen_launch.sh gunicorn               # gunicorn with defaults
 #   ./portal_screen_launch.sh flask 0.0.0.0 5000 true
 #   ./portal_screen_launch.sh gunicorn 127.0.0.1 8000 false
 #
-# ARGS:
+# Arguments:
 #   $1 = MODE      (flask | gunicorn)       [default: flask]
 #   $2 = HOST      (IP or hostname)         [default: 0.0.0.0]
 #   $3 = PORT      (port number)            [default: 2113]
 #   $4 = DEBUG     (true | false)           [default: true — flask only]
 #
-# NOTES:
+# Dependencies:
+#   - Requires conda environment 'mini_conda_01'
+#   - Requires screen utility
+#   - Requires Flask or Gunicorn installed in conda environment
+#
+# Notes:
 #   - may need to run chmod +x on this file to make it executable
 #   - if you wanted to run directly from the command line without shell closing issues:
 #     - flask --app wsgi run --host=0.0.0.0 -p 2113 --debug &    # & runs in the background
-
 # ----------------------------------------------------------------------
 
 # Args with defaults

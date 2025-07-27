@@ -23,8 +23,8 @@
 #   $1 - Optional: Repository base path (defaults to $HOME/code/git_repos)
 #
 # Dependencies:
-#   - Requires shell_scripts/stop_with_screen.sh
-#   - Requires shell_scripts/launch_with_screen.sh
+#   - Requires portal_screen_stop.sh
+#   - Requires portal_screen_launch.sh
 # ----------------------------------------------------------------------
 
 # Set repo_path from argument or use default

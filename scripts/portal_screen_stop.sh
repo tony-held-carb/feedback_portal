@@ -1,21 +1,25 @@
 #!/bin/bash
 
 # ----------------------------------------------------------------------
-# portal_screen_stop.sh — Stops a running screen session for the feedback portal.
+# portal_screen_stop.sh
 #
-# USAGE:
+# Stop a running screen session for the feedback portal.
+#
+# Usage:
 #   cd ~/code/git_repos/feedback_portal/scripts
 #   ./portal_screen_stop.sh                      # stops 'feedback_portal'
 #   ./portal_screen_stop.sh custom_session_name  # stops custom session
 #
-# ARGS:
+# Arguments:
 #   $1 - Optional: Screen session name (defaults to 'feedback_portal')
 #
-# NOTES:
+# Dependencies:
+#   - Requires screen utility
+#
+# Notes:
 #   - You can verify it's stopped using:
 #       screen -ls
 #   - You may need to run chmod +x on this file to make it executable
-
 # ----------------------------------------------------------------------
 
 SESSION_NAME="${1:-feedback_portal}"
