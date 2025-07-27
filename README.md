@@ -4,30 +4,50 @@
   * https://github.com/tony-held-carb/feedback_portal
 
 ### Running the Portal Flask App
+* Laptop (Windows): http://127.0.0.1:<port_number>
+    * cd $prod
+    * flask --app arb/wsgi run --debug --no-reload          -> http://127.0.0.1:5000/
+    * flask --app arb/wsgi run --debug --no-reload -p 2113  -> http://127.0.0.1:2113/  
 * EC2 Linux: http://10.93.112.44:2113
   * Run the flask app as a process that will not close after the ssh terminates
-    * cd $portal/shell_scripts
-      * stop any running portal flask apps
-        * ./stop_with_screen.sh
-      * launch the flask appcd
-        * ./launch_with_screen.sh
+    * stop any running portal flask apps
+        * portal_screen_stop.sh
+      * launch the flask app
+        * portal_screen_launch.sh
   * Logging directories
-    * /home/theld/code/git_repos/feedback_portal/logs/
+    * $HOME/code/git_repos/feedback_portal/logs/
     * removing existing log files:
-      * rm /home/theld/code/git_repos/feedback_portal/logs/*.log
-    * show contents of the log file:
-* Laptop (Windows): http://127.0.0.1:2113/
-    * cd %portal%\source\production\arb
-      * flask --app wsgi run --debug --no-reload -p 2113
-  * cursor says if you run from arb, Python treats arb as the current directory, not as a package, which can break relative imports and Flask’s app discovery. it recommends:
-    * cd %portal%\source\production
-    * cd /d D:\local\cursor\feedback_portal\source\production
-      * flask --app arb/wsgi run --debug --no-reload -p 2113
+      * rm $HOME/code/git_repos/feedback_portal/logs/*.log
+
+### Cloning Portal
+* Navigate to the root path of repos
+  * cd $portal/..
+* Removing the old git repo (if necessary)
+  * rm -rf feedback_portal
+* Clone the latest portal repo
+  * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
+
+### Creating & Pushing documentation site to GitHub
+* making the docs
+  * cd $prod
+  * mkdocs build --clean > mkdocs_clean_build.txt 2>&1
+* Pushing to GitHub docs
+  * mkdocs gh-deploy --clean
+* run local server
+  * mkdocs serve
+
+### Make shell scripts executable
+  * chmod +x $portal/scripts/*.sh
+
+### Environmental Variables
+  * portal, prod
+  * Usage: 
+    * prepend variables with $.  
+    * For example: cd $portal
 
 ### Common Git Commands
   * cd to project directory:
-    * (linux): cd $portal
-    * (windows): cd %portal%
+    * $portal
   * list all branches:
     * git branch -a
   * delete a local branch
@@ -36,85 +56,27 @@
   * git pull
   * git push
   * git fetch --all --prune 
-    * updates all branches and removes dead local branches
+  * updates all branches and removes dead local branches
         git fetch   Downloads objects and refs from remote (no merge or rebase)
         --all       Fetches from all remotes (if you have more than origin)
         --prune     Removes stale remote-tracking branches that no longer exist on GitHub
 
-### Playwright Upload Page Diagnostics (tests/e2e/test_single_page.py)
-This script helps both beginners and advanced users inspect and debug the HTML structure of the upload page using Playwright (Python).
+### Updating home repo after PR on my work machine
+old branch: refactor_old
+new branch: refactor_new
 
-**Purpose:**
-- Identify selectors for form elements (buttons, inputs, file uploads, drop zones, etc.)
-- Print detailed information about each element for easy inspection
-- Save a screenshot and output a snippet of the page source
+update                            git checkout refactor_new
+so that it is one greater than    git branch -d refactor_old
 
-**When to use:**
-- Writing or debugging Playwright end-to-end tests
-- When the upload page changes and you want to see the new structure
-- Onboarding new developers or QA engineers to the project
-
-**Prerequisites:**
-- Python 3.8+
-- Playwright Python package (`pip install playwright`)
-- Playwright browsers installed (`playwright install`)
-
-**Usage:**
-1. Ensure the web app is running (default: http://127.0.0.1:5000/upload)
-2. Run the script:
-
-   ```bash
-   python tests/e2e/test_single_page.py
-   ```
-   (Optionally, edit the `page_url` variable in the script to target a different page.)
-
-3. The script will launch a Chromium browser, print diagnostics to the console, and save a screenshot as `debug_upload_page.png`.
-
-**Output:**
-- Console output listing all buttons, inputs, forms, file inputs, and drop zones with their attributes and visibility
-- The first 2000 characters of the page's HTML source
-- A screenshot of the page for visual debugging
-
-### Data Contracts:
-  * misc_json only contains "Please Select" when it replaces a previously valid value.
-
-### Cloning Portal
-* Navigate to the root path of repos
-  * windows: "C:\one_drive\code\pycharm\"
-  * ec2: cd "/home/theld/code/git_repos"
-* Removing the old git repo (if necessary)
-  * rm -rf feedback_portal
-* Clone the latest portal repo
-  * ssh to ec2: user theld
-  * cd code/git_repos/
-  * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
-
-### Environmental Variables
-* Linux
-  * portal = "/home/theld/code/git_repos/feedback_portal"
-  * Usage: 
-    * prepend variables with $.  
-    * For example: cd $portal
-  * Creation:
-    * add to .bashrc
-      * export <variable_name>="<variable_value>"
-      * export portal="/home/theld/code/git_repos/feedback_portal"
-
-* Windows
-  * portal = "C:\one_drive\code\pycharm\feedback_portal"
-  * Usage: 
-    * enclose with % 
-    * For example: cd %portal%
-  * Creation:
-    * Open PowerShell (not Command Prompt):
-      Press Win + S, type "PowerShell", and open it.
-      [System.Environment]::SetEnvironmentVariable("<variable_name>", "<variable_value>", "User")
-      [System.Environment]::SetEnvironmentVariable("portal", "C:\one_drive\code\pycharm\feedback_portal", "User")
-
-### Make shell scripts executable (linux only)
-  * chmod +x /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
-  * remove the old scripts if you are having git pull issues
-    * rm /home/theld/code/git_repos/feedback_portal/shell_scripts/*.sh
+git status
+git fetch --all --prune
+git branch -a
+git checkout refactor_new
+git status
+git branch -d refactor_old
+git remote prune origin
+git branch -a
+git status
 
 ### Installing mini conda
   * [mini conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)
@@ -124,50 +86,8 @@ This script helps both beginners and advanced users inspect and debug the HTML s
     * bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
     * rm ~/miniconda3/miniconda.sh
 
-### Creating mini_conda_01 virtual environment
-  * For details see: [mini_conda_01.yml](admin/mini_conda_01.yml) 
+### Creating mini_conda_02 virtual environment
+  * For details see: [mini_conda_02.yml](admin/mini_conda_02.yml) 
 * Activate mini_conda environment
   * conda deactivate
-  * conda activate mini_conda_01
-
-### Creating & Pushing documentation site to GitHub
-
-* making the docs
-  * cd 'D:\local\cursor\feedback_portal\source\production'
-  * mkdocs build --clean > mkdocs_clean_build.txt 2>&1
-* Pushing to GitHub docs
-  * mkdocs gh-deploy --clean
-* run local server
-  * mkdocs serve
-
-### Updating home repo after PR on my work machine
-old branch: refactor_27
-new branch: refactor_28
-
-update                            git checkout refactor_28
-so that it is one greater than    git branch -d refactor_27
-
-git status
-git fetch --all --prune
-git branch -a
-git checkout refactor_28
-git status
-git branch -d refactor_27
-git remote prune origin
-git branch -a
-git status
-
-### Excluded Developer-Only/Destructive Routes from E2E Testing
-
-The following routes are **not covered by E2E tests** because they are intended exclusively for development, debugging, or administrative use. They are not part of any user workflow and may be destructive or expose sensitive internals.
-
-| Route                        | Description                                      | Reason for Exclusion         |
-|------------------------------|--------------------------------------------------|-----------------------------|
-| `/delete_testing_range`      | Deletes test data from the database              | Dev-only, destructive       |
-| `/js_diagnostic_log`         | Accepts JS diagnostics from frontend             | Dev-only, not user-facing   |
-| `/diagnostics`               | Shows backend diagnostics and runtime info       | Dev-only, not user-facing   |
-| `/show_log_file`             | Displays backend log file                        | Dev-only, not user-facing   |
-| `/java_script_diagnostic_test` | JS diagnostics test page                       | Dev-only, not user-facing   |
-| ...                          | ...                                              | ...                         |
-
-These endpoints may be tested manually or with isolated unit/integration tests in a disposable environment. They are not part of the production user workflow and are excluded from automated E2E coverage by design.
+  * conda activate mini_conda_02
