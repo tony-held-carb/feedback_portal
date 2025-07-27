@@ -176,4 +176,9 @@ path() {
     echo "linux path:   '$input'"
     echo "$input" | copy_to_clipboard
   fi
-} 
+}
+
+cleanup_old_backups() {
+    # Remove backups older than 30 days
+    find ~/.dot_configs_backups -name "backup_*" -type d -mtime +30 -exec rm -rf {} \;
+}
