@@ -25,6 +25,8 @@
   * pytest tests/e2e -v  > pytest_home_e2e_21.txt 2>&1
   * pytest tests/arb -v  > pytest_laptop_all_21.txt 2>&1
   * pytest tests/e2e -v  > pytest_laptop_e2e_21.txt 2>&1
+  * tail -f pytest_laptop_all_21.txt 2>&1
+  * tail -f pytest_laptop_e2e_21.txt 2>&1
   * 
 ### Cloning Portal
 * Navigate to the root path of repos
