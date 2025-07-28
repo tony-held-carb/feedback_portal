@@ -7,6 +7,17 @@ PS1='$(basename "$PWD")\$ '
 export PATH=$PATH:$HOME/bin
 
 # Use the machine name to customize different environments
+# on windows/linux you can use
+# export MACHINE_NAME="TONY_EC2"
+# setx MACHINE_NAME "TONY_HOME"           (CMD or Git Bash)
+
+# if you ssh you need to check the ip because export variables won't persist
+# Set MACHINE_NAME if private IP is 10.93.112.44
+LOCAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+echo "Detected IP: $LOCAL_IP"
+if [[ "$LOCAL_IP" == "10.93.112.44" ]]; then
+  export MACHINE_NAME="TONY_EC2"
+fi
 echo "MACHINE_NAME=$MACHINE_NAME"
 
 case "$MACHINE_NAME" in
