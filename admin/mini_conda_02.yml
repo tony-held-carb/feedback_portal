@@ -22,6 +22,8 @@
 #         conda env create -f "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
 #     on ec2:
 #         conda env create -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
+#
+#         conda remove --name mini_conda_02 --all
 #         conda env create --yes -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
 #
 # Updating the conda environment:
@@ -142,5 +144,5 @@ dependencies:
       - selenium
       - webdriver-manager
       - requests
-      - greenlet>=2.0.0  # Pre-compiled wheels available
+      - greenlet==1.1.2
 
