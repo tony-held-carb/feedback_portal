@@ -1,0 +1,57 @@
+Collecting Git and VS Code diagnostics... 
+ 
+================ git config --list --show-origin ================ 
+file:C:/Program Files/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Program Files/Git/etc/gitconfig	http.sslbackend=openssl
+file:C:/Program Files/Git/etc/gitconfig	http.sslcainfo=C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+file:C:/Program Files/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Program Files/Git/etc/gitconfig	core.fscache=true
+file:C:/Program Files/Git/etc/gitconfig	core.symlinks=false
+file:C:/Program Files/Git/etc/gitconfig	core.editor="C:\\Program Files\\Sublime Text\\subl.exe" -w
+file:C:/Program Files/Git/etc/gitconfig	pull.rebase=false
+file:C:/Program Files/Git/etc/gitconfig	credential.helper=manager
+file:C:/Program Files/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Program Files/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/tonyh/.gitconfig	user.name=Tony Held
+file:C:/Users/tonyh/.gitconfig	user.email=tony.held@gmail.com
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://github.com/tony-held-carb/feedback_portal
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:.git/config	branch.main.remote=origin
+file:.git/config	branch.main.merge=refs/heads/main
+file:.git/config	branch.main.vscode-merge-base=origin/main
+file:.git/config	branch.refactor_28.remote=origin
+file:.git/config	branch.refactor_28.vscode-merge-base=origin/refactor_28
+file:.git/config	branch.refactor_28.merge=refs/heads/refactor_28
+file:.git/config	user.name=tony-held-carb
+file:.git/config	user.email=tony.held@arb.ca.gov
+ 
+======================= git --version ========================== 
+git version 2.50.1.windows.1
+ 
+===================== VS Code Extensions ======================== 
+achil.vscode-javascript-repl@0.7.5
+formulahendry.code-runner@0.12.2
+lostfields.nodejs-repl@0.5.15
+ms-azuretools.vscode-containers@2.1.0
+ms-azuretools.vscode-docker@2.0.0
+ms-python.debugpy@2025.10.0
+ms-python.python@2025.10.1
+ms-python.vscode-pylance@2025.6.2
+ms-python.vscode-python-envs@1.0.0
+ms-vscode-remote.remote-containers@0.422.1
+ms-vscode-remote.remote-ssh@0.120.0
+ms-vscode-remote.remote-ssh-edit@0.87.0
+ms-vscode-remote.remote-wsl@0.99.0
+ms-vscode-remote.vscode-remote-extensionpack@0.26.0
+ms-vscode.remote-explorer@0.5.0
+ms-vscode.remote-server@1.5.2

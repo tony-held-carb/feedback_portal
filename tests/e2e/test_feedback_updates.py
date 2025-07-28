@@ -22,8 +22,11 @@ import io
 import random
 import string
 from datetime import datetime, timedelta
+import os
+import conftest
 
-BASE_URL = "http://127.0.0.1:5000"
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
 @pytest.mark.e2e
 def test_feedback_updates_page_loads(page: Page):

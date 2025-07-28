@@ -4,13 +4,7 @@ Global variables and dropdown selector loading for Flask/SQLAlchemy applications
 This module provides the `Globals` class for holding runtime-initialized
 data structures such as dropdown selectors and database column type mappings.
 
-Args:
-  None
-
-Returns:
-  None
-
-Attributes:
+Module_Attributes:
   logger (logging.Logger): Logger instance for this module.
   Globals (type): Class for holding runtime-global mappings.
 

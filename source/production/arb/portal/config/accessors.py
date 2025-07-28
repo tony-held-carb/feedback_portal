@@ -5,12 +5,6 @@ This module provides centralized access to Flask `current_app.config` settings
 using typed functions. Centralizing config usage improves maintainability,
 enables easier testing, and reduces repetition across modules.
 
-Args:
-  None
-
-Returns:
-  None
-
 Attributes:
   get_processed_versions_dir (function): Returns the processed versions directory.
   get_upload_folder (function): Returns the upload folder path.
@@ -40,9 +34,6 @@ def get_processed_versions_dir() -> Path:
   """
   Returns the root directory where processed Excel versions are stored.
 
-  Args:
-    None
-
   Returns:
     Path: Absolute path to the directory.
 
@@ -59,9 +50,6 @@ def get_processed_versions_dir() -> Path:
 def get_upload_folder() -> Path:
   """
   Returns the folder where uploaded files are saved.
-
-  Args:
-    None
 
   Returns:
     Path: Absolute path to the upload directory.
@@ -80,9 +68,6 @@ def get_payload_save_dir() -> Path:
   """
   Returns the default path for saving intermediate JSON payloads.
 
-  Args:
-    None
-
   Returns:
     Path: Directory path where payloads are saved.
 
@@ -100,9 +85,6 @@ def get_app_mode() -> str:
   """
   Returns the mode the app is running in (e.g., 'dev', 'prod').
 
-  Args:
-    None
-
   Returns:
     str: Configured application mode. Defaults to 'dev' if not explicitly set.
 
@@ -116,9 +98,6 @@ def get_app_mode() -> str:
 def get_database_uri() -> str:
   """
   Returns the SQLAlchemy database URI from the Flask app configuration.
-
-  Args:
-    None
 
   Returns:
     str: The configured SQLAlchemy database URI.

@@ -1,12 +1,6 @@
 # mini_conda_01.yml
 
-# IMPORTANT: KNOWN ISSUES
-# -----------------------
-# The conda env update process may get interrupted during pip dependency installation.
-# If flask-mail is not available after running conda env update, install it manually:
-#     pip install flask-mail
-# This appears to be a timing/interruption issue with the conda update process.
-# The YAML file is correct, but the installation process may not complete fully.
+# mini_conda_01.yml as it was on my home computer on 7/22/25
 
 # need to update for:
   # pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
@@ -30,8 +24,6 @@
 #     conda env create -f "C:\one_drive\code\requirements\mini_conda_01.yml"
 #        or
 #     conda env create -f "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml"
-#        or 
-#     conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml"
 #
 # Updating the conda environment:
 # ------------------------------
@@ -42,9 +34,6 @@
 #     conda env update --file "C:\one_drive\code\requirements\mini_conda_01.yml" --prune
 #        or
 #     conda env update --file "C:\one_drive\code\pycharm\feedback_portal\admin\mini_conda_01.yml" --prune
-#        or
-#     conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_01.yml" --prune
-
 
 # Notes:
 # ------
@@ -62,9 +51,8 @@ channels:
 dependencies:
   - python=3.11.*
   - flask
-  - flask-sqlalchemy
   - flask-login
-  - flask-wtf
+  - flask-sqlalchemy
   - pandas
   - numpy
   - scipy
@@ -79,17 +67,14 @@ dependencies:
   - sqlalchemy-utils
   - more-itertools
   - conda-forge::wtforms=3.1
+  - Flask-WTF
   - psycopg2
-  - werkzeug
-  - itsdangerous
-  - email-validator
-  - python-dotenv
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results
   - pip
   # If a package is not available through conda, include it in the pip sub-list below
   - pip:
-      - flask-mail
+      - email_validator
       - Flask-Migrate
       - geoalchemy2
       - mkdocs
@@ -102,5 +87,3 @@ dependencies:
       - pdoc
       - wget
       - WTForms-Alchemy
-      - file-read-backwards
-      - pytest-asyncio

@@ -5,12 +5,6 @@
   (from `create_app()`) to configure SQLAlchemy metadata, initialize models,
   and create missing tables.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     logger (logging.Logger): Logger instance for this module.
 
@@ -40,12 +34,6 @@ def reflect_database() -> None:
   """
   Reflect the existing database into SQLAlchemy metadata.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Examples:
     reflect_database()
     # Reflects all tables into SQLAlchemy metadata
@@ -68,12 +56,6 @@ def db_initialize() -> None:
   """
   Import and register SQLAlchemy ORM models.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Examples:
     db_initialize()
     # Registers all models for table creation
@@ -91,12 +73,6 @@ def db_initialize() -> None:
 def db_create() -> None:
   """
   Create all tables defined in SQLAlchemy metadata if they don’t exist.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Examples:
     db_create()
@@ -118,12 +94,6 @@ def db_create() -> None:
 def db_initialize_and_create() -> None:
   """
   Register models and create missing tables in one call.
-
-  Args:
-    None
-
-  Returns:
-    None
 
   Examples:
     db_initialize_and_create()

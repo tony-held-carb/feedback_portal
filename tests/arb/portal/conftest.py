@@ -13,7 +13,21 @@ def create_test_app():
     """Create a test Flask app with PostgreSQL database."""
     app = Flask(__name__)
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+    
+    # Use DATABASE_URI if set, otherwise fall back to settings configuration
+    database_uri = os.environ.get('DATABASE_URI')
+    if database_uri:
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+    else:
+        # Import and use the database configuration from settings
+        try:
+            from arb.portal.config.settings import BaseConfig
+            app.config['SQLALCHEMY_DATABASE_URI'] = BaseConfig.SQLALCHEMY_DATABASE_URI
+            app.config['SQLALCHEMY_ENGINE_OPTIONS'] = BaseConfig.SQLALCHEMY_ENGINE_OPTIONS
+        except ImportError:
+            # Fallback to SQLite if settings import fails
+            app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     from arb.portal.extensions import db
     db.init_app(app)

@@ -1346,8 +1346,23 @@ EXCEL_TEMPLATES = [
         testing id range 1002050-1002059
         landfill dummy gets 1002050
 ]
-
-
+ID         ID         Filename
+---------  --------   ------------------------------------------------------------
+1,002,001  1002001    dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+1,002,002  1002002    dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx
+1,002,003             dairy_digester_operator_feedback_v006_test_03_blank.xlsx
+1,002,011  1002011    energy_operator_feedback_v003_test_01_good_data.xlsx
+1,002,012  1002012    energy_operator_feedback_v003_test_02_bad_data.xlsx
+1,002,021  1002021    generic_operator_feedback_v002_test_01_good_data.xlsx
+1,002,022  1002022    generic_operator_feedback_v002_test_02_bad_data.xlsx
+1,002,030  1002030    landfill dummy data
+1,002,031  1002031    landfill_operator_feedback_v070_test_01_good_data.xlsx
+1,002,032  1002032    landfill_operator_feedback_v070_test_02_bad_data.xlsx
+1,002,041  1002041    landfill_operator_feedback_v071_test_01_good_data.xlsx
+1,002,042  1002042    landfill_operator_feedback_v071_test_02_bad_data.xlsx
+1,002,050  1002050    oil and gas dummy data
+1,002,051  1002051    oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+1,002,052  1002052    oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx
 
 dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
 energy_operator_feedback_v003_test_01_good_data.xlsx
@@ -1394,6 +1409,195 @@ Running pytests
     pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
     pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
     pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
-    pytest tests/e2e -v  | tee pytest_all_02.txt
+    pytest tests/e2e -v  | tee pytest_e2e_10.txt
     pytest tests/arb -v  | tee pytest_all_07.txt
     pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt
+
+    mini_conda_01.yml original production environment interpreter
+    mini_conda_02.yml updated to include playwright and other requirements
+
+    7/22/25 5:37PM ec2 installed from  ~/mini_conda_02.yml
+    7/22/25 5:43PM work computer from  "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
+    7/22/25 5:40PM home computer from  "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
+
+    pytest tests/arb -v  > pytest_laptop_all_16.txt 2>&1
+    pytest tests/e2e -v  > pytest_laptop_e2e_16.txt 2>&1
+
+home project root:
+work project root: C:\tony_local\pycharm\feedback_portal
+
+need to set the python path
+    setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
+
+listing environmental variables on git bash
+printenv | sort
+
+To list only environment variables containing the word "root"
+printenv | sort | grep root         (case-sensitive)
+printenv | sort | grep -i root      (case-insensitive)
+
+----------------------------------
+Creating Environmental Variables
+----------------------------------
+Create an environmental variable in all systems named, MACHINE_NAME that can be "TONY_HOME", "TONY_WORK", or "TONY_EC2"
+
+*** Windows ***
+
+Single Variable
+setx MACHINE_NAME "TONY_WORK"           (CMD or Git Bash)
+setx MACHINE_NAME "TONY_HOME"           (CMD or Git Bash)
+
+To prepend/append use the format
+setx PATH "%PATH%;C:\your\new\path"     (CMD)
+setx PATH "C:\your\new\path;%PATH%"     (CMD)
+
+setx PATH "$PATH;/c/your/new/path"      (Git Bash)
+setx PATH "$PATH;C:\your\new\path"      (Git Bash)
+
+To check if it worked
+echo %MACHINE_NAME%     (CMD)
+echo "$MACHINE_NAME"    (Git Bash)
+
+
+*** Linux EC2 ***
+note that linux uses : not like windows ;
+
+edit ~/.bashrc to include
+export MACHINE_NAME="TONY_EC2"
+export PATH="$PATH:/your/new/path"
+export PATH="/your/new/path:$PATH"
+source ~/.bashrc
+
+To check if it worked
+echo "$MACHINE_NAME"
+
+Notes:
+1. If you run the following and PATH is not already defined
+        export PATH="$PATH:/your/new/path"
+        PATH=":/your/new/path"
+2. In linux a leading colon resolves  "include the current directory (.)"
+3. If you only want to include the variable if it already exists
+    export PATH="${PATH:+$PATH:}/your/new/path"
+    ${PATH:+$PATH:} means:
+        If PATH is defined → include $PATH:
+        If PATH is undefined → insert nothing (no colon)
+4. The PATH example is a little confusing because the colon is doing double duty, the more generalized syntax is:
+        ${var:+value} is a parameter expansion operator
+            If var is set and not null → return value
+            If var is unset or null → return nothing
+        export my_long_list="${my_long_list:+$my_long_list, }list item #10, list item #11"
+            If my_long_list is already populated, you insert its current value plus a comma and space
+            Then add new items at the end
+
+You can use the linux style export on windows git bash, but it won't be persistent
+
+
+Set Git Bash as the Terminal in PyCharm (Windows)
+File → Settings
+Tools → Tools
+Update Shell Path
+Change the Shell path to point to Git Bash.
+Enter (use quotes if path has spaces):
+Make sure to include the --login -i flags so .bash_profile, .bashrc, etc. are loaded
+"C:\tony_apps\git\bin\bash.exe" --login -i
+
+note on work my old path was: cmd.exe /k "set PATH=C:\tony_apps\terraform;C:\tony_apps\AWS_CLI_V2;%PATH%"
+
+
+Work machine setup
+------------------
+(base) C:\Users\theld>where conda
+C:\Users\theld\AppData\Local\miniconda3\Library\bin\conda.bat
+C:\Users\theld\AppData\Local\miniconda3\Scripts\conda.exe
+C:\Users\theld\AppData\Local\miniconda3\condabin\conda.bat
+
+setting up .bashrc on work machine
+---------
+at first there was no .bashrc
+
+/c/Users/theld/AppData/Local/miniconda3/Scripts/
+
+eval "$('c/Users/theld/AppData/Local/miniconda3/Scripts/conda.exe' 'shell.bash' 'hook')"
+
+work anaconda launcher:
+%windir%\System32\cmd.exe "/K" C:\Users\theld\AppData\Local\miniconda3\Scripts\activate.bat C:\Users\theld\AppData\Local\miniconda3
+from my work anaconda shell, the following are in the path:
+PATH=/c/Users/theld/AppData/Local/miniconda3:/c/Users/theld/AppData/Local/miniconda3/Library/mingw-w64/bin:/c/Users/theld/AppData/Local/miniconda3/Library/usr/bin:/c/Users/theld/AppData/Local/miniconda3/Library/bin:/c/Users/theld/AppData/Local/miniconda3/Scripts:/c/Users/theld/AppData/Local/miniconda3/bin:/c/Users/theld/AppData/Local/miniconda3/condabin:
+
+getting vs code to use git bash on work
+
+Step-by-Step: Set Git Bash as Terminal in VS Code
+1. Open VS Code Settings (JSON)
+Press Ctrl+Shift+P
+
+Type: Preferences: Open Settings (JSON) → press Enter
+
+Or go to:
+File → Preferences → Settings → Click {} icon in top right for JSON view
+paste in:
+
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+      "args": ["--login", "-i"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.shellIntegration.enabled": true
+
+Step-by-Step: Use Git Bash as Terminal in Cursor (Windows)
+1. 🛠 Open Cursor Settings (JSON)
+Press: Ctrl+Shift+P
+
+Type: Preferences: Open Settings (JSON)
+
+Press Enter
+
+ensure:
+    // 🐚 Define Git Bash terminal profile
+    "terminal.integrated.profiles.windows": {
+      "Git Bash": {
+        "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+        "args": ["--login", "-i"]
+      }
+    },
+
+    // 🖥️ Set Git Bash as the default integrated terminal
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
+
+how to connect to ec2 using pycharm
+my ssh directory is C:\one_drive\code\ssh_and_pem
+putty uses: C:\one_drive\code\ssh_and_pem\th.ppk
+the host is: 10.93.112.44
+my user name is: theld
+port is 22
+
+In pycharm:
+File → Settings → Tools → SSH Configurations
+
+To create a compressed .tar.gz archive containing two directories (dir_1 and dir_2) on a Linux EC2 machine, use the following command:
+    tar -czvf archive_name.tar.gz dir_1 dir_2
+Explanation:
+    tar — archive utility
+    -c — create a new archive
+    -z — compress the archive using gzip
+    -v — verbose output (optional, shows progress)
+    -f — specify the filename of the archive
+    archive_name.tar.gz — name of the resulting archive
+    dir_1 dir_2 — the directories to include in the archive
+Examples:
+    tar -czvf my_backup.tar.gz /home/ec2-user/dir_1 /home/ec2-user/dir_2
+    tar -czvf ec2_portal_logs_and_uploads_archive_2025_07_28.tar.gz logs portal_uploads
+
+To display file sizes in megabytes (MB) using ls, use the --block-size option like this:
+    ls -lh --block-size=MB
+Explanation:
+    -l — long listing format
+    -h — human-readable (required for MB to show as unit)
+    --block-size=MB — forces sizes to display in megabytes (rounded up)
+Example:
+    ls -lh
+
+Direct git Portable download (64-bit):
+https://github.com/git-for-windows/git/releases/download/v2.50.1.windows.1/PortableGit-2.50.1-64-bit.7z.exe
+install notes: https://chatgpt.com/share/688078d5-04c4-800b-b9da-881a73f5397a

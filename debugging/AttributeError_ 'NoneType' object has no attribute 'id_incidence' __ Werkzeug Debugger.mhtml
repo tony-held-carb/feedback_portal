@@ -1,0 +1,790 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: http://127.0.0.1:5000/
+Subject: AttributeError: 'NoneType' object has no attribute 'id_incidence' // Werkzeug Debugger
+Date: Thu, 24 Jul 2025 09:11:11 -0700
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--7gzHjuYPYO4QlrPdantlW2rYGfZfSsvzH8GPrPtQeY----"
+
+
+------MultipartBoundary--7gzHjuYPYO4QlrPdantlW2rYGfZfSsvzH8GPrPtQeY----
+Content-Type: text/html
+Content-ID: <frame-6E1DE9F68D3B960ADF978E7D3C16D3E2@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://127.0.0.1:5000/
+
+<!DOCTYPE html><html lang=3D"en" suppresshydrationwarning=3D"true" data-lt-=
+installed=3D"true"><head><meta http-equiv=3D"Content-Type" content=3D"text/=
+html; charset=3DUTF-8">
+    <title>AttributeError: 'NoneType' object has no attribute 'id_incidence=
+'
+ // Werkzeug Debugger</title>
+    <link rel=3D"stylesheet" href=3D"http://127.0.0.1:5000/?__debugger__=3D=
+yes&amp;cmd=3Dresource&amp;f=3Dstyle.css">
+    <link rel=3D"shortcut icon" href=3D"http://127.0.0.1:5000/?__debugger__=
+=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png">
+   =20
+   =20
+  </head>
+  <body style=3D"background-color: #fff" cz-shortcut-listen=3D"true">
+    <div class=3D"debugger">
+<h1>AttributeError</h1>
+<div class=3D"detail">
+  <p class=3D"errormsg">AttributeError: 'NoneType' object has no attribute =
+'id_incidence'
+</p>
+</div>
+<h2 class=3D"traceback" style=3D"cursor: pointer;">Traceback <em>(most rece=
+nt call last)</em></h2>
+<div class=3D"traceback">
+  <h3></h3>
+  <ul><li><div class=3D"frame" id=3D"frame-2871065991568">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">1536</em>,
+      in <code class=3D"function">__call__</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s">    </span>) -&gt; cabc.Iterable[bytes]:<img src=3D"http://127.0.0.1:500=
+0/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFb=
+dZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"></=
+pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>"""The WSGI se=
+rver calls the Flask application object as the<img src=3D"http://127.0.0.1:=
+5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFD=
+fFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"=
+></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>WSGI applicati=
+on. This calls :meth:`wsgi_app`, which can be<img src=3D"http://127.0.0.1:5=
+000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDf=
+FbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame">=
+</pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>wrapped to app=
+ly middleware.<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=
+=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open=
+ an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>"""<img src=3D=
+"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconso=
+le.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python sh=
+ell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">        </span>return self.w=
+sgi_app(environ, start_response)
+<span class=3D"ws">        </span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresourc=
+e&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an intera=
+ctive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996176">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">1514</em>,
+      in <code class=3D"function">wsgi_app</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s">            </span>try:<img src=3D"http://127.0.0.1:5000/?__debugger__=
+=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl"=
+ title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">                </span>ctx.pu=
+sh()<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresourc=
+e&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an intera=
+ctive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">                </span>respon=
+se =3D self.full_dispatch_request()<img src=3D"http://127.0.0.1:5000/?__deb=
+ugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3=
+ilbEpl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>except Exc=
+eption as e:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=
+=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open=
+ an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">                </span>error =
+=3D e<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresour=
+ce&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an inter=
+active python shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">                </span>respo=
+nse =3D self.handle_exception(e)
+<span class=3D"ws">                </span>           ^^^^^^^^^^^^^^^^^^^^^^=
+^^<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&=
+amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interact=
+ive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">            </span>except:  # =
+noqa: B001<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dr=
+esource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an =
+interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">                </span>error =
+=3D sys.exc_info()[1]<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&=
+amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=
+=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">                </span>raise<i=
+mg src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;=
+f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive =
+python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">            </span>return resp=
+onse(environ, start_response)<img src=3D"http://127.0.0.1:5000/?__debugger_=
+_=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl=
+" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>finally:<img sr=
+c=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dc=
+onsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive pytho=
+n shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996320">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">1511</em>,
+      in <code class=3D"function">wsgi_app</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s">        </span>ctx =3D self.request_context(environ)<img src=3D"http://1=
+27.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&am=
+p;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in th=
+is frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>error: BaseExc=
+eption | None =3D None<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes=
+&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=
+=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>try:<img src=
+=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dco=
+nsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python=
+ shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>try:<img s=
+rc=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3D=
+console.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive pyth=
+on shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">                </span>ctx.pu=
+sh()<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresourc=
+e&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an intera=
+ctive python shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">                </span>respo=
+nse =3D self.full_dispatch_request()
+<span class=3D"ws">                </span>           ^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresou=
+rce&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an inte=
+ractive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">            </span>except Exce=
+ption as e:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3D=
+resource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an=
+ interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">                </span>error =
+=3D e<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresour=
+ce&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an inter=
+active python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">                </span>respons=
+e =3D self.handle_exception(e)<img src=3D"http://127.0.0.1:5000/?__debugger=
+__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEp=
+l" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">            </span>except:  # =
+noqa: B001<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dr=
+esource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an =
+interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">                </span>error =
+=3D sys.exc_info()[1]<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&=
+amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=
+=3D"Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996464">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">919</em>,
+      in <code class=3D"function">full_dispatch_request</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s">            </span>request_started.send(self, _async_wrapper=3Dself.ensu=
+re_sync)<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dres=
+ource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an in=
+teractive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>rv =3D sel=
+f.preprocess_request()<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes=
+&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=
+=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>if rv is N=
+one:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresourc=
+e&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an intera=
+ctive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">                </span>rv =3D=
+ self.dispatch_request()<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dy=
+es&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" tit=
+le=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>except Excepti=
+on as e:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dres=
+ource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an in=
+teractive python shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">            </span>rv =3D se=
+lf.handle_user_exception(e)
+<span class=3D"ws">            </span>     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<im=
+g src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=
+=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive p=
+ython shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>return self.fin=
+alize_request(rv)<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;=
+cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"O=
+pen an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">    </span>def finalize_reques=
+t(<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&=
+amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interact=
+ive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>self,<img src=
+=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dco=
+nsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python=
+ shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>rv: ft.Response=
+ReturnValue | HTTPException,<img src=3D"http://127.0.0.1:5000/?__debugger__=
+=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl"=
+ title=3D"Open an interactive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996608">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">917</em>,
+      in <code class=3D"function">full_dispatch_request</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s"></span> <img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3D=
+resource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an=
+ interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>try:<img src=
+=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dco=
+nsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python=
+ shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>request_st=
+arted.send(self, _async_wrapper=3Dself.ensure_sync)<img src=3D"http://127.0=
+.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=
+=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this =
+frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>rv =3D sel=
+f.preprocess_request()<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes=
+&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=
+=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>if rv is N=
+one:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresourc=
+e&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an intera=
+ctive python shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">                </span>rv =
+=3D self.dispatch_request()
+<span class=3D"ws">                </span>     ^^^^^^^^^^^^^^^^^^^^^^^<img =
+src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=
+=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive p=
+ython shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>except Exceptio=
+n as e:<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dreso=
+urce&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an int=
+eractive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">            </span>rv =3D self=
+.handle_user_exception(e)<img src=3D"http://127.0.0.1:5000/?__debugger__=3D=
+yes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" ti=
+tle=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>return self.fin=
+alize_request(rv)<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;=
+cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"O=
+pen an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">    </span>def finalize_reques=
+t(<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&=
+amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interact=
+ive python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996752">
+  <h4>File <cite class=3D"filename">"C:\Users\tonyh\miniconda3\envs\mini_co=
+nda_02\Lib\site-packages\flask\app.py"</cite>,
+      line <em class=3D"line">902</em>,
+      in <code class=3D"function">dispatch_request</code></h4>
+  <div class=3D"source library"><pre class=3D"line before"><span class=3D"w=
+s">            </span>and req.method =3D=3D "OPTIONS"<img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>):<img src=3D"=
+http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsol=
+e.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python she=
+ll in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">            </span>return sel=
+f.make_default_options_response()<img src=3D"http://127.0.0.1:5000/?__debug=
+ger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3il=
+bEpl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span># otherwise di=
+spatch to the handler for that endpoint<img src=3D"http://127.0.0.1:5000/?_=
+_debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUp=
+woU3ilbEpl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">        </span>view_args: dic=
+t[str, t.Any] =3D req.view_args  # type: ignore[assignment]<img src=3D"http=
+://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.pn=
+g&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell i=
+n this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">        </span>return self.e=
+nsure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore=
+[no-any-return]
+<span class=3D"ws">        </span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<img src=3D"http://127.0.0.1:5000/?__debugge=
+r__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbE=
+pl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">    </span>def full_dispatch_r=
+equest(self) -&gt; Response:<img src=3D"http://127.0.0.1:5000/?__debugger__=
+=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl"=
+ title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>"""Dispatches t=
+he request and on top of that performs request<img src=3D"http://127.0.0.1:=
+5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFD=
+fFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"=
+></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>pre and postpro=
+cessing as well as HTTP exception catching and<img src=3D"http://127.0.0.1:=
+5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFD=
+fFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"=
+></pre>
+<pre class=3D"line after"><span class=3D"ws">        </span>error handling.=
+<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&am=
+p;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactiv=
+e python shell in this frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871065996896">
+  <h4>File <cite class=3D"filename">"D:\local\cursor\feedback_portal\source=
+\production\arb\portal\routes.py"</cite>,
+      line <em class=3D"line">84</em>,
+      in <code class=3D"function">index</code></h4>
+  <div class=3D"source "><pre class=3D"line before"><span class=3D"ws">  </=
+span>logger.info(f"route called: index.")<img src=3D"http://127.0.0.1:5000/=
+?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZ=
+UpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"></pr=
+e>
+<pre class=3D"line before"><span class=3D"ws"></span> <img src=3D"http://12=
+7.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp=
+;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in thi=
+s frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>base: AutomapBase =
+=3D current_app.base  # type: ignore[attr-defined]<img src=3D"http://127.0.=
+0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=
+=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this =
+frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>table_name =3D 'inci=
+dences'<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dreso=
+urce&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an int=
+eractive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>colum_name_pk =3D 'i=
+d_incidence'<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=
+=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open=
+ an interactive python shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">  </span>rows =3D get_rows_b=
+y_table_name(db, base, table_name, colum_name_pk, ascending=3DFalse)
+<span class=3D"ws">  </span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<img src=3D"http://127.0.0.1:5000/?__de=
+bugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU=
+3ilbEpl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">  </span>return render_templat=
+e('index.html', model_rows=3Drows)<img src=3D"http://127.0.0.1:5000/?__debu=
+gger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3i=
+lbEpl" title=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws"></span>@main.route('/incidence=
+_update/&lt;int:id_&gt;/', methods=3D('GET', 'POST'))<img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre></div>
+</div>
+
+</li><li><div class=3D"frame" id=3D"frame-2871066629824">
+  <h4>File <cite class=3D"filename">"D:\local\cursor\feedback_portal\source=
+\production\arb\utils\sql_alchemy.py"</cite>,
+      line <em class=3D"line">401</em>,
+      in <code class=3D"function">get_rows_by_table_name</code></h4>
+  <div class=3D"source "><pre class=3D"line before"><span class=3D"ws">  </=
+span>table =3D get_class_from_table_name(base, table_name)<img src=3D"http:=
+//127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png=
+&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in=
+ this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>logger.info(f"{type(=
+table)=3D}")<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=
+=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open=
+ an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws"></span> <img src=3D"http://12=
+7.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp=
+;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in thi=
+s frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>query =3D db.session=
+.query(table)<img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=
+=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open=
+ an interactive python shell in this frame"></pre>
+<pre class=3D"line before"><span class=3D"ws">  </span>if colum_name_pk:<im=
+g src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=
+=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive p=
+ython shell in this frame"></pre>
+<pre class=3D"line current"><span class=3D"ws">    </span>column =3D getatt=
+r(table, colum_name_pk)
+<span class=3D"ws">    </span>         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<img sr=
+c=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dc=
+onsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive pytho=
+n shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">    </span>query =3D query.ord=
+er_by(column if ascending else desc(column))<img src=3D"http://127.0.0.1:50=
+00/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfF=
+bdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this frame"><=
+/pre>
+<pre class=3D"line after"><span class=3D"ws"></span> <img src=3D"http://127=
+.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;=
+s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python shell in this=
+ frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">  </span>rows =3D query.all()<=
+img src=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp=
+;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive=
+ python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">  </span>logger.debug(f"Query =
+result: {type(rows)=3D}")<img src=3D"http://127.0.0.1:5000/?__debugger__=3D=
+yes&amp;cmd=3Dresource&amp;f=3Dconsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" ti=
+tle=3D"Open an interactive python shell in this frame"></pre>
+<pre class=3D"line after"><span class=3D"ws">  </span>return rows<img src=
+=3D"http://127.0.0.1:5000/?__debugger__=3Dyes&amp;cmd=3Dresource&amp;f=3Dco=
+nsole.png&amp;s=3DsFDfFbdZUpwoU3ilbEpl" title=3D"Open an interactive python=
+ shell in this frame"></pre></div>
+</div>
+</li></ul>
+  <blockquote>AttributeError: 'NoneType' object has no attribute 'id_incide=
+nce'
+</blockquote>
+</div>
+
+<div class=3D"plain hidden">
+    <p>
+      This is the Copy/Paste friendly version of the traceback.
+    </p>
+    <pre>Traceback (most recent call last):
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1514, in wsgi_app
+    response =3D self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1511, in wsgi_app
+    response =3D self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 919, in full_dispatch_request
+    rv =3D self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 917, in full_dispatch_request
+    rv =3D self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args=
+)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\local\cursor\feedback_portal\source\production\arb\portal\routes=
+.py", line 84, in index
+    rows =3D get_rows_by_table_name(db, base, table_name, colum_name_pk, as=
+cending=3DFalse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^
+  File "D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alc=
+hemy.py", line 401, in get_rows_by_table_name
+    column =3D getattr(table, colum_name_pk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id_incidence'
+</pre>
+</div>
+<div class=3D"explanation">
+  The debugger caught an exception in your WSGI application.  You can now
+  look at the traceback which led to the error.  <span class=3D""><p>To swi=
+tch between the interactive traceback and the plaintext one, you can click =
+on the "Traceback" headline. From the text traceback you can also create a =
+paste of it. For code execution mouse-over the frame you want to debug and =
+click on the console icon on the right side.</p><p>You can execute arbitrar=
+y Python code in the stack frames and there are some extra helpers availabl=
+e for introspection:</p><ul><li><code>dump()</code> shows all variables in =
+the frame</li><li><code>dump(obj)</code> dumps all that's known about the o=
+bject</li></ul></span>
+</div>
+      <div class=3D"footer">
+        Brought to you by <strong class=3D"arthur">DON'T PANIC</strong>, yo=
+ur
+        friendly Werkzeug powered traceback interpreter.
+      </div>
+    </div>
+
+    <div class=3D"pin-prompt">
+      <div class=3D"inner">
+        <h3>Console Locked</h3>
+        <p>
+          The console is locked and needs to be unlocked by entering the PI=
+N.
+          You can find the PIN printed out on the standard output of your
+          shell that runs the server.
+        </p><form>
+          <p>PIN:
+            <input type=3D"text" name=3D"pin" size=3D"14">
+            <input type=3D"submit" name=3D"btn" value=3D"Confirm Pin">
+        </p></form>
+      </div>
+    </div>
+ =20
+
+
+
+</body></html><!--
+
+Traceback (most recent call last):
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1514, in wsgi_app
+    response =3D self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 1511, in wsgi_app
+    response =3D self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 919, in full_dispatch_request
+    rv =3D self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 917, in full_dispatch_request
+    rv =3D self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flas=
+k\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args=
+)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\local\cursor\feedback_portal\source\production\arb\portal\routes=
+.py", line 84, in index
+    rows =3D get_rows_by_table_name(db, base, table_name, colum_name_pk, as=
+cending=3DFalse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^
+  File "D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alc=
+hemy.py", line 401, in get_rows_by_table_name
+    column =3D getattr(table, colum_name_pk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id_incidence'
+
+
+-->
+------MultipartBoundary--7gzHjuYPYO4QlrPdantlW2rYGfZfSsvzH8GPrPtQeY----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://127.0.0.1:5000/?__debugger__=yes&cmd=resource&f=console.png&s=sFDfFbdZUpwoU3ilbEpl
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGNSURBVDjLpVM9SwNBEJ297J1FQBtzjQj2
+dgppYiP4A1KZRoiFrYWt9rHyH6QUPBDTCimtLNSAnSB26YKg4EdMdsd5611cjwsIWRhmZ3f2zZuP
+VcxMsyx9fPF0NRfS2vM7lx2WtcQiJHvDRvZMluXMGNHstJH7+Wj09jHkOy1+tc3VxeC+P6TXT1sY
+ZX2hT7cvS6lepv3zHUp2T8vXNw81dXT2yGwEGeERSbSVCC5qysYa+3vm9sJGmLFojceXJ9uklCqU
+IAic5G3IytahAAhqqVSiwWDwx6nogW9XKhWphaGAvC50Oh1qtVr/7oAdCwBQwjB00mg0qFqtUr1e
+d3YURZM7X7TWTqM2Gm3CASRJEur1etTtdp1DnrafFtJGMbVNGSBas9l0DrAzR6x8DdwASUB0RqNN
+GS2/gH7EInvCwMhkZTnlnX0GsP09tJER0BgMoAEAa1rETDIQvBkjBZeHMIjjuNB5Ggg0/oZWPGrH
+Gwd7Fp9F2CAlgHKqf0aYXb6Y2mzE8d/IfrXVrN/5G81p6oa2mIEUAAAAAElFTkSuQmCC
+
+------MultipartBoundary--7gzHjuYPYO4QlrPdantlW2rYGfZfSsvzH8GPrPtQeY----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://127.0.0.1:5000/?__debugger__=yes&cmd=resource&f=style.css
+
+@charset "utf-8";
+
+body, input { font-family: sans-serif; color: rgb(0, 0, 0); text-align: cen=
+ter; margin: 1em; padding: 0px; font-size: 15px; }
+
+h1, h2, h3 { font-weight: normal; }
+
+input { background-color: rgb(255, 255, 255); margin: 0px; text-align: left=
+; outline: none !important; }
+
+input[type=3D"submit"] { padding: 3px 6px; }
+
+a { color: rgb(17, 85, 124); }
+
+a:hover { color: rgb(23, 113, 153); }
+
+pre, code, textarea { font-family: monospace; font-size: 14px; }
+
+div.debugger { text-align: left; padding: 12px; margin: auto; background-co=
+lor: white; }
+
+h1 { font-size: 36px; margin: 0px 0px 0.3em; }
+
+div.detail { cursor: pointer; }
+
+div.detail p { margin: 0px 0px 8px 13px; font-size: 14px; white-space: pre-=
+wrap; font-family: monospace; }
+
+div.explanation { margin: 20px 13px; font-size: 15px; color: rgb(85, 85, 85=
+); }
+
+div.footer { font-size: 13px; text-align: right; margin: 30px 0px; color: r=
+gb(134, 152, 155); }
+
+h2 { font-size: 16px; margin: 1.3em 0px 0px; padding: 9px; background-color=
+: rgb(17, 85, 124); color: white; }
+
+h2 em, h3 em { font-style: normal; color: rgb(165, 214, 217); font-weight: =
+normal; }
+
+div.traceback, div.plain { border: 1px solid rgb(221, 221, 221); margin: 0p=
+x 0px 1em; padding: 10px; }
+
+div.plain p { margin: 0px; }
+
+div.plain textarea, div.plain pre { margin: 10px 0px 0px; padding: 4px; bac=
+kground-color: rgb(232, 239, 240); border: 1px solid rgb(211, 231, 233); }
+
+div.plain textarea { width: 99%; height: 300px; }
+
+div.traceback h3 { font-size: 1em; margin: 0px 0px 0.8em; }
+
+div.traceback ul { list-style: none; margin: 0px; padding: 0px 0px 0px 1em;=
+ }
+
+div.traceback h4 { font-size: 13px; font-weight: normal; margin: 0.7em 0px =
+0.1em; }
+
+div.traceback pre { margin: 0px; padding: 5px 0px 3px 15px; background-colo=
+r: rgb(232, 239, 240); border: 1px solid rgb(211, 231, 233); }
+
+div.traceback .library .current { background: white; color: rgb(85, 85, 85)=
+; }
+
+div.traceback .expanded .current { background: rgb(232, 239, 240); color: b=
+lack; }
+
+div.traceback pre:hover { background-color: rgb(221, 236, 238); color: blac=
+k; cursor: pointer; }
+
+div.traceback div.source.expanded pre + pre { border-top: none; }
+
+div.traceback span.ws { display: none; }
+
+div.traceback pre.before, div.traceback pre.after { display: none; backgrou=
+nd: white; }
+
+div.traceback div.source.expanded pre.before, div.traceback div.source.expa=
+nded pre.after { display: block; }
+
+div.traceback div.source.expanded span.ws { display: inline; }
+
+div.traceback blockquote { margin: 1em 0px 0px; padding: 0px; white-space: =
+pre-line; }
+
+div.traceback img { float: right; padding: 2px; margin: -3px 2px 0px 0px; d=
+isplay: none; }
+
+div.traceback img:hover { background-color: rgb(221, 221, 221); cursor: poi=
+nter; border-color: rgb(191, 221, 224); }
+
+div.traceback pre:hover img { display: block; }
+
+div.traceback cite.filename { font-style: normal; color: rgb(59, 102, 107);=
+ }
+
+pre.console { border: 1px solid rgb(204, 204, 204); color: black; max-heigh=
+t: 400px; overflow: auto; background: white !important; padding: 5px !impor=
+tant; margin: 3px 0px 0px !important; cursor: default !important; }
+
+pre.console form { color: rgb(85, 85, 85); }
+
+pre.console input { background-color: transparent; color: rgb(85, 85, 85); =
+width: 90%; font-family: monospace; font-size: 14px; border: none !importan=
+t; }
+
+span.string { color: rgb(48, 121, 155); }
+
+span.number { color: rgb(156, 26, 28); }
+
+span.help { color: rgb(58, 119, 52); }
+
+span.object { color: rgb(72, 95, 110); }
+
+span.extended { opacity: 0.5; }
+
+span.extended:hover { opacity: 1; }
+
+a.toggle { text-decoration: none; background-repeat: no-repeat; background-=
+position: center center; background-image: url("?__debugger__=3Dyes&cmd=3Dr=
+esource&f=3Dmore.png"); }
+
+a.toggle:hover { background-color: rgb(68, 68, 68); }
+
+a.open { background-image: url("?__debugger__=3Dyes&cmd=3Dresource&f=3Dless=
+.png"); }
+
+pre.console div.traceback, pre.console div.box { margin: 5px 10px; white-sp=
+ace: normal; border: 1px solid rgb(17, 85, 124); padding: 10px; font-family=
+: sans-serif; }
+
+pre.console div.box h3, pre.console div.traceback h3 { margin: -10px -10px =
+10px; padding: 5px; background: rgb(17, 85, 124); color: white; }
+
+pre.console div.traceback pre:hover { cursor: default; background: rgb(232,=
+ 239, 240); }
+
+pre.console div.traceback pre.syntaxerror { border-right: none; border-bott=
+om: none; border-left: none; border-image: initial; margin: 20px -10px -10p=
+x; padding: 10px; border-top: 1px solid rgb(191, 221, 224); background: rgb=
+(232, 239, 240); }
+
+pre.console div.noframe-traceback pre.syntaxerror { margin-top: -10px; bord=
+er: none; }
+
+pre.console div.box pre.repr { padding: 0px; margin: 0px; background-color:=
+ white; border: none; }
+
+pre.console div.box table { margin-top: 6px; }
+
+pre.console div.box pre { border: none; }
+
+pre.console div.box pre.help { background-color: white; }
+
+pre.console div.box pre.help:hover { cursor: default; }
+
+pre.console table tr { vertical-align: top; }
+
+div.console { border: 1px solid rgb(204, 204, 204); padding: 4px; backgroun=
+d-color: rgb(250, 250, 250); }
+
+div.traceback pre, div.console pre { white-space: pre-wrap; overflow-wrap: =
+break-word; }
+
+div.pin-prompt { position: absolute; display: none; inset: 0px; background:=
+ rgba(255, 255, 255, 0.8); }
+
+div.pin-prompt .inner { background: rgb(238, 238, 238); padding: 10px 50px;=
+ width: 350px; margin: 10% auto 0px; border: 1px solid rgb(204, 204, 204); =
+border-radius: 2px; }
+
+div.exc-divider { margin: 0.7em 0px 0px -1em; padding: 0.5em; background: r=
+gb(17, 85, 124); color: rgb(221, 221, 221); border: 1px solid rgb(221, 221,=
+ 221); }
+
+.console.active { max-height: 0px !important; display: none; }
+
+.hidden { display: none; }
+------MultipartBoundary--7gzHjuYPYO4QlrPdantlW2rYGfZfSsvzH8GPrPtQeY------

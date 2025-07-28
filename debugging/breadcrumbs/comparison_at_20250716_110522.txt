@@ -1,0 +1,172 @@
+Comparing Excel files in:
+  A: C:\tony_local\pycharm\feedback_portal\feedback_forms\current_versions
+  B: C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\RD Satellite Project - Operator Notification Materials for Review\spreadsheets\xl_workbooks
+
+Files only in A (0):
+
+Files only in B (10):
+  energy_operator_feedback_v003_populated_01.xlsx
+  energy_operator_feedback_v003_populated_02.xlsx
+  generic_operator_feedback_v002_populated_01.xlsx
+  generic_operator_feedback_v002_populated_02.xlsx
+  landfill_operator_feedback_v070_populated_01.xlsx
+  landfill_operator_feedback_v070_populated_02.xlsx
+  landfill_operator_feedback_v071_populated_01.xlsx
+  landfill_operator_feedback_v071_populated_02.xlsx
+  oil_and_gas_operator_feedback_v070_populated_01.xlsx
+  oil_and_gas_operator_feedback_v070_populated_02.xlsx
+
+Files in both (12):
+
+=== Comparing dairy_digester_operator_feedback_v006.xlsx ===
+Comparing:
+  A: dairy_digester_operator_feedback_v006.xlsx
+  B: dairy_digester_operator_feedback_v006.xlsx
+
+SHA-256 Hashes:
+  A: 06ed605b4c70d69240c9675a533707bf6357b11fd9fe3dd6c2d0f8d1f973b0d8
+  B: 06ed605b4c70d69240c9675a533707bf6357b11fd9fe3dd6c2d0f8d1f973b0d8
+✔ Files are identical at the binary level.
+
+
+=== Comparing dairy_digester_operator_feedback_v006_for_review.xlsx ===
+Comparing:
+  A: dairy_digester_operator_feedback_v006_for_review.xlsx
+  B: dairy_digester_operator_feedback_v006_for_review.xlsx
+
+SHA-256 Hashes:
+  A: 0c696b60fe60d829ec3ccc2146bdee400d05067c2d9245a45ad4de4714683dd2
+  B: 5cc4588b9e74f2607bc87df8b2d759e13e36efe7ebe5c33ea1e67a7ce9b2df10
+→ Hashes differ; comparing content...
+
+
+=== Sheet: Feedback Form ===
+
+=== Sheet: _carb_only ===
+
+=== Sheet: _issue_tracking ===
+
+=== Sheet: _json_metadata ===
+
+=== Sheet: _json_schema ===
+
+=== Sheet: _named_ranges ===
+
+=== Sheet: _versioning ===
+
+📄 Sheet: Feedback Form
+Cell	Differences
+A1	Differences in fill, border, alignment, and protection
+F1	Differences in font, fill, border, alignment, protection
+A2, B2, C2, D2	Differences in font, fill, border, alignment, protection
+B2	Also has a patternType='solid' fill with different theme tint
+
+=== Comparing energy_operator_feedback_v003.xlsx ===
+Comparing:
+  A: energy_operator_feedback_v003.xlsx
+  B: energy_operator_feedback_v003.xlsx
+
+SHA-256 Hashes:
+  A: 3829c3f08e6fee007249ff67df1cca0c377fc0e270e2c294f606d6ca2bb59a55
+  B: 3829c3f08e6fee007249ff67df1cca0c377fc0e270e2c294f606d6ca2bb59a55
+✔ Files are identical at the binary level.
+
+
+=== Comparing energy_operator_feedback_v003_jinja_.xlsx ===
+Comparing:
+  A: energy_operator_feedback_v003_jinja_.xlsx
+  B: energy_operator_feedback_v003_jinja_.xlsx
+
+SHA-256 Hashes:
+  A: 65cf0d4c9388a874ea25447558c02cc9cce3040353e3bc177149360b19d841e6
+  B: 65cf0d4c9388a874ea25447558c02cc9cce3040353e3bc177149360b19d841e6
+✔ Files are identical at the binary level.
+
+
+=== Comparing generic_operator_feedback_v002.xlsx ===
+Comparing:
+  A: generic_operator_feedback_v002.xlsx
+  B: generic_operator_feedback_v002.xlsx
+
+SHA-256 Hashes:
+  A: 08c69c8b40f14ead8bcd5b1b9a41d569cbe7ab26aa47d8a599babf46af8bea30
+  B: 08c69c8b40f14ead8bcd5b1b9a41d569cbe7ab26aa47d8a599babf46af8bea30
+✔ Files are identical at the binary level.
+
+
+=== Comparing generic_operator_feedback_v002_jinja_.xlsx ===
+Comparing:
+  A: generic_operator_feedback_v002_jinja_.xlsx
+  B: generic_operator_feedback_v002_jinja_.xlsx
+
+SHA-256 Hashes:
+  A: c944fc6efd5fb88c3059e3968591b2bbe0b576ad2b8ed0bcecfce8a2b5e450cc
+  B: c944fc6efd5fb88c3059e3968591b2bbe0b576ad2b8ed0bcecfce8a2b5e450cc
+✔ Files are identical at the binary level.
+
+
+=== Comparing landfill_operator_feedback_v070.xlsx ===
+Comparing:
+  A: landfill_operator_feedback_v070.xlsx
+  B: landfill_operator_feedback_v070.xlsx
+
+SHA-256 Hashes:
+  A: ea7c71f75d8c059072b38bccd2bd718e1f94c3c9e83fded333516437ce5cd0b0
+  B: ea7c71f75d8c059072b38bccd2bd718e1f94c3c9e83fded333516437ce5cd0b0
+✔ Files are identical at the binary level.
+
+
+=== Comparing landfill_operator_feedback_v070_jinja_.xlsx ===
+Comparing:
+  A: landfill_operator_feedback_v070_jinja_.xlsx
+  B: landfill_operator_feedback_v070_jinja_.xlsx
+
+SHA-256 Hashes:
+  A: 1dab95c69c0bda2af35da5a638704e12a6a2647a3ef8424125f60d140402a11a
+  B: 1dab95c69c0bda2af35da5a638704e12a6a2647a3ef8424125f60d140402a11a
+✔ Files are identical at the binary level.
+
+
+=== Comparing landfill_operator_feedback_v071.xlsx ===
+Comparing:
+  A: landfill_operator_feedback_v071.xlsx
+  B: landfill_operator_feedback_v071.xlsx
+
+SHA-256 Hashes:
+  A: 3dbf11c0fd99cee3a13dfeaaf414a9f0376a968890aff3b05f24fb3ab598dbc9
+  B: 3dbf11c0fd99cee3a13dfeaaf414a9f0376a968890aff3b05f24fb3ab598dbc9
+✔ Files are identical at the binary level.
+
+
+=== Comparing landfill_operator_feedback_v071_jinja_.xlsx ===
+Comparing:
+  A: landfill_operator_feedback_v071_jinja_.xlsx
+  B: landfill_operator_feedback_v071_jinja_.xlsx
+
+SHA-256 Hashes:
+  A: 7bd050c6a5372baa5c657d3672c04bd71f6152281f0449a10f5870447df0029e
+  B: 7bd050c6a5372baa5c657d3672c04bd71f6152281f0449a10f5870447df0029e
+✔ Files are identical at the binary level.
+
+
+=== Comparing oil_and_gas_operator_feedback_v070.xlsx ===
+Comparing:
+  A: oil_and_gas_operator_feedback_v070.xlsx
+  B: oil_and_gas_operator_feedback_v070.xlsx
+
+SHA-256 Hashes:
+  A: 1ede59f8904dc8acc8bf85ec274e80242957a7fe4fff8e27ef5a09d14b232ffb
+  B: 1ede59f8904dc8acc8bf85ec274e80242957a7fe4fff8e27ef5a09d14b232ffb
+✔ Files are identical at the binary level.
+
+
+=== Comparing oil_and_gas_operator_feedback_v070_jinja_.xlsx ===
+Comparing:
+  A: oil_and_gas_operator_feedback_v070_jinja_.xlsx
+  B: oil_and_gas_operator_feedback_v070_jinja_.xlsx
+
+SHA-256 Hashes:
+  A: bd84b11193ea0081b1359b41707b8535b89dce3b5a779a93389f7ea2b598b1b1
+  B: bd84b11193ea0081b1359b41707b8535b89dce3b5a779a93389f7ea2b598b1b1
+✔ Files are identical at the binary level.
+

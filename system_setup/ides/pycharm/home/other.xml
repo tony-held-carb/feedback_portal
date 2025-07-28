@@ -1,0 +1,152 @@
+<application>
+  <component name="FileEditorProviderManager">{}</component>
+  <component name="LangManager">
+    <option name="languageName" value="Python" />
+  </component>
+  <component name="NotRoamableUiSettings">
+    <option name="fontSize" value="18.0" />
+    <option name="presentationModeIdeScale" value="1.75" />
+    <option name="overrideLafFonts" value="true" />
+    <option name="overrideLafFontsWasMigrated" value="true" />
+  </component>
+  <component name="PropertyService">{
+  &quot;keyToString&quot;: {
+    &quot;CWM_LOGGING_VERSION&quot;: &quot;1&quot;,
+    &quot;Endpoints.split&quot;: &quot;0.65&quot;,
+    &quot;FindSplitterProportion&quot;: &quot;0.33020908&quot;,
+    &quot;Grazie.Professional.Advertisement.Invoked&quot;: &quot;3&quot;,
+    &quot;InstalledPluginsSearchHistory&quot;: &quot;git user\ngit us\ngit\nindexing&quot;,
+    &quot;LAST_CALCULATED_COLOR_INDEX_KEY&quot;: &quot;2&quot;,
+    &quot;LAST_EXTRACTOR_SCRIPTS_CLEANUP_VERSION/data/aggregators&quot;: &quot;PY-241.14494.241&quot;,
+    &quot;LAST_EXTRACTOR_SCRIPTS_CLEANUP_VERSION/data/extractors&quot;: &quot;PY-232.10072.31&quot;,
+    &quot;LayoutCode.optimizeImports&quot;: &quot;false&quot;,
+    &quot;LayoutCode.processChangedText&quot;: &quot;false&quot;,
+    &quot;LayoutCode.rearrangeEntriesJinja2&quot;: &quot;false&quot;,
+    &quot;LayoutCode.rearrangeEntriesJupyter&quot;: &quot;false&quot;,
+    &quot;NextRunPlatformUpdateBuild&quot;: &quot;PY-251.26927.90&quot;,
+    &quot;NextRunPlatformUpdateSelfBuild&quot;: &quot;PY-251.25410.159&quot;,
+    &quot;NextRunPlatformUpdateVersion&quot;: &quot;2025.1.3.1&quot;,
+    &quot;NonModalCommitCustomization.IsApplied&quot;: &quot;true&quot;,
+    &quot;PACKAGE_FILTER&quot;: &quot;flask-sqlalchemy\nflask-sqlalch\nflask-al&quot;,
+    &quot;PYCHARM_CONDA_FULL_LOCAL_PATH&quot;: &quot;C:\\Users\\tonyh\\miniconda3\\Library\\bin\\conda.bat&quot;,
+    &quot;PluginConfigurable.selectionTab&quot;: &quot;1&quot;,
+    &quot;ProjectStructure.SecondLevelElements&quot;: &quot;0.56852794&quot;,
+    &quot;PyCharm.InitialConfiguration&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V2&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V3&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V4&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V5&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V6&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V7&quot;: &quot;true&quot;,
+    &quot;PyCharm.InitialConfiguration.V8&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.Run Grazie Token Refresher&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalLocalOptions.migration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalOptionsProvider.migration.2025.1.1&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.VFSInitializationConditionsToFusReporter&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.modal.commit.deprecation.notification&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.modal.commit.toggle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.llm.onboarding.window.launcher.v7&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.se.text.search&quot;: &quot;true&quot;,
+    &quot;SettingsSearchHistory&quot;: &quot;color\ntab\nfile types\ndocstring\nindexing&quot;,
+    &quot;ai.assistant.toolwindow.shown.at.start&quot;: &quot;true&quot;,
+    &quot;appcds.runOnSecondStart&quot;: &quot;PY-232.10227.11-931a1be27b45880151392f3ffeb5f53ebc41b9ccd1ef060e8a7c8ce5ddcbb0fa&quot;,
+    &quot;ask.about.ctrl.y.shortcut.v2&quot;: &quot;true&quot;,
+    &quot;bundled.plugins.list.saved.version&quot;: &quot;PY-233.15026.15&quot;,
+    &quot;enter_selection_count&quot;: &quot;1&quot;,
+    &quot;evlsprt3.231&quot;: &quot;22&quot;,
+    &quot;evlsprt3.232&quot;: &quot;3&quot;,
+    &quot;evlsprt3.233&quot;: &quot;3&quot;,
+    &quot;evlsprt3.241&quot;: &quot;5&quot;,
+    &quot;evlsprt3.242&quot;: &quot;4&quot;,
+    &quot;evlsprt3.251&quot;: &quot;3&quot;,
+    &quot;experimental.ui.first.promotion.localdate&quot;: &quot;2023-09-19&quot;,
+    &quot;experimental.ui.on.first.startup&quot;: &quot;false&quot;,
+    &quot;experimental.ui.onboarding.proposed.version&quot;: &quot;232.10072.31&quot;,
+    &quot;experimental.ui.used.version&quot;: &quot;251.25410.159&quot;,
+    &quot;experimentalFeature.terminal.shell.command.handling&quot;: &quot;false&quot;,
+    &quot;file.gist.reindex.count&quot;: &quot;189&quot;,
+    &quot;fileTypeChangedCounter&quot;: &quot;2&quot;,
+    &quot;fontSizeToResetConsole&quot;: &quot;18.0&quot;,
+    &quot;fontSizeToResetEditor&quot;: &quot;18.0&quot;,
+    &quot;got.it.tooltip.Plugins Auto-Update&quot;: &quot;1&quot;,
+    &quot;got.it.tooltip.builtin.web.server.reload.on.save&quot;: &quot;1&quot;,
+    &quot;got.it.tooltip.js.debugger.terminal.start.debugger.from.url&quot;: &quot;1&quot;,
+    &quot;got.it.tooltip.reader.mode.got.it&quot;: &quot;1&quot;,
+    &quot;got.it.tooltip.web.preview.reload.on.save&quot;: &quot;1&quot;,
+    &quot;gotit.previous.run&quot;: &quot;PY-251.25410.159&quot;,
+    &quot;ide.memory.adjusted&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/g_drive/google docs/code/python/projects/misc&quot;,
+    &quot;llm.installer.last.toolwindow.state&quot;: &quot;AI_ASSISTANT&quot;,
+    &quot;migrated.non.roamable.values.from.general.settings&quot;: &quot;true&quot;,
+    &quot;previousColorScheme&quot;: &quot;_@user_Dark&quot;,
+    &quot;python.move.module.members.dialog.show.table&quot;: &quot;true&quot;,
+    &quot;python.new.interpreter.fav.manager&quot;: &quot;CONDA&quot;,
+    &quot;python.new.interpreter.fav.method&quot;: &quot;SELECT_EXISTING&quot;,
+    &quot;python.new.interpreter.fav.mode&quot;: &quot;CUSTOM&quot;,
+    &quot;registry.to.advanced.settings.migration.build&quot;: &quot;PY-251.25410.159&quot;,
+    &quot;selected.color.option.type&quot;: &quot;METHOD_SEPARATORS_COLOR&quot;,
+    &quot;settings.code.style.selected.tab.HTML&quot;: &quot;Other&quot;,
+    &quot;settings.code.style.selected.tab.Python&quot;: &quot;Tabs and Indents&quot;,
+    &quot;tab_selection_count&quot;: &quot;4&quot;,
+    &quot;tasks.pass.word.conversion.enforced&quot;: &quot;true&quot;,
+    &quot;terminal.gen.one.option.visible&quot;: &quot;false&quot;,
+    &quot;trial.state.last.state&quot;: &quot;ACTIVE&quot;,
+    &quot;ts.lib.d.ts.version&quot;: &quot;5.6.3&quot;,
+    &quot;vcs.branch.view.splitter.proportion&quot;: &quot;0.15817223&quot;,
+    &quot;whats.new.last.shown.version&quot;: &quot;2025-1.1.1-25410-021af14a652f32a159ff6212bf59642c6108e23f&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;file.chooser.recent.files&quot;: [
+      &quot;D:/g_drive/google docs/code/python/projects/misc&quot;,
+      &quot;D:/local&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/github_webserver&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/utilities_and_templates&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/flask_arb/templates&quot;,
+      &quot;C:/Users/tonyh/v_env/flask_01/Scripts/python.exe&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/obj_detection/tf/tf_pre_trained/object_detection_utils.py&quot;,
+      &quot;D:/local/ml_local/obj_detection/images_videos&quot;,
+      &quot;C:/Users/tonyh/v_env/torch_01/Scripts/python.exe&quot;,
+      &quot;C:/Users/tonyh/v_env/cuda_01/Scripts/python.exe&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/obj_detection&quot;,
+      &quot;C:/Users/tonyh/v_env/py_01/Scripts/python.exe&quot;,
+      &quot;D:/g_drive/google docs/code/python/projects/ml&quot;
+    ],
+    &quot;fileTypeDetectors&quot;: [
+      &quot;com.intellij.ide.scratch.ScratchFileServiceImpl$Detector&quot;,
+      &quot;com.intellij.docker.dockerFile.DockerFileTypeDetector&quot;,
+      &quot;com.intellij.javascript.debugger.sourcemap.SourceMapFileType$MyFileTypeDetector&quot;,
+      &quot;com.intellij.database.vfs.DbStorageFileType$Detector&quot;,
+      &quot;com.jetbrains.nodejs.util.NodeFileTypeDetector$JavaScriptFileTypeDetector&quot;,
+      &quot;com.jetbrains.nodejs.util.NodeFileTypeDetector$TypeScriptFileTypeDetector&quot;,
+      &quot;org.jetbrains.plugins.textmate.TextMateFileType$TextMateFileDetector&quot;
+    ]
+  }
+}</component>
+  <component name="ShownTips"><![CDATA[{
+  "shownTips": {
+    "SpeedSearch": 1753225762256,
+    "CtrlW": 1753293267964,
+    "MoveUpDown": 1707150194223,
+    "ParameterInfo": 1702335879318,
+    "SearchEverywhere": 1718052702125,
+    "GoToDeclaration": 1695222992049,
+    "FindReplaceToggle": 1695313195550,
+    "SurroundWith": 1695757150664,
+    "ShowUsages": 1753386637951,
+    "FileStructurePopup": 1695688682717,
+    "PostfixCompletion": 1714496637798,
+    "OverrideImplementMethods": 1695931341411
+  },
+  "proposedTips": {
+    "SpeedSearch": 1753225761939,
+    "CtrlW": 1753293267919,
+    "MoveUpDown": 1707150194144,
+    "ParameterInfo": 1702335878198,
+    "SearchEverywhere": 1718052701988,
+    "ShowUsages": 1753386637775,
+    "PostfixCompletion": 1714496637727
+  },
+  "tipsOrderSeed": 1697553160430
+}]]></component>
+</application>

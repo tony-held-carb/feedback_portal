@@ -56,7 +56,7 @@ def admin_required(f):
   return decorated_function
 
 
-def roles_required(*roles):
+def roles_required(*roles: str):
   """
   Decorator to restrict access to users with any of the specified roles.
   - If USE_OKTA is True, checks Okta claims/groups for role access.
@@ -89,7 +89,7 @@ def roles_required(*roles):
   return decorator
 
 
-def all_roles_required(*roles):
+def all_roles_required(*roles: str):
   """
   Decorator to restrict access to users with ALL of the specified roles.
   - If USE_OKTA is True, checks Okta claims/groups for all role access.
@@ -122,7 +122,7 @@ def all_roles_required(*roles):
   return decorator
 
 
-def role_required(role_name):
+def role_required(role_name: str):
   """
   Decorator to restrict access to users with the specified role.
   - If USE_OKTA is True, checks Okta claims/groups for role access.

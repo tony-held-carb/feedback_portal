@@ -2,16 +2,11 @@
 
 # todo - Next Steps
 ----------------------------
-creating PR 27 is to continue e2e testing
-
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-* the testing seems to be working, so going to check in the PR and create a new branch for doc/buttoning up
+created PR 28 to clean up documentation and deploy to ec2
+about to pull PR 28 into main, comment and tag, then release to the ec2
 
-* compile all the next todo's into feature requests that will be done in the future, and that which has to be done for the new launch
-
-* consider truing up the file structure on the ec2 along with .bashrc files for consistency
-* may want to combine the shell and shell_scripts into a single directory
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
 * create a launch new version protocol for automated and manual testing
@@ -21,10 +16,12 @@ creating PR 27 is to continue e2e testing
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 
-
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
+
+likely want to reinstall git bash so that it uses a path that does not have a space in it
+
 
 
 * ---------   HTML & Forms ----------
@@ -65,5 +62,7 @@ Future Initiatives & Feature Requests Below
 
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
+
+add pytest-cov and then try get a good coverage report
 
 """

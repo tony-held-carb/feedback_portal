@@ -9,13 +9,7 @@
     - Time zone-aware datetime formatting
     - Filename-safe timestamp generation
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     PLEASE_SELECT (str): Placeholder value for dropdowns where no selection is made.
     MIN_LATITUDE (float): Minimum possible CA latitude.
     MAX_LATITUDE (float): Maximum possible CA latitude.

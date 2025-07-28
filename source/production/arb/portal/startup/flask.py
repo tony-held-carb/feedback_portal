@@ -7,12 +7,6 @@
     - Flask logger settings
     - Custom template filters and globals
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     configure_flask_app (function): Applies global configuration to a Flask app instance.
     logger (logging.Logger): Logger instance for this module.

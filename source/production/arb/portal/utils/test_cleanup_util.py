@@ -4,12 +4,6 @@
   This module provides functions to safely delete testing data from the portal_updates
   and incidences tables based on id_incidence ranges.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     logger (logging.Logger): Logger instance for this module.
 

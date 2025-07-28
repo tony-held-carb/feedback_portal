@@ -4,13 +4,7 @@
   This package implements the web-based feedback portal for ARB operations.
   It defines the package version.
 
-  Args:
-    None
-
-  Returns:
-    None
-
-  Attributes:
+  Module_Attributes:
     __version__ (str): Semantic version of the portal package.
     logger (logging.Logger): Logger instance.
 

@@ -60,10 +60,10 @@ import warnings
 import shutil
 import pytest
 import functools
+import conftest
 
-# Test configuration
-BASE_URL = "http://127.0.0.1:5000"
-TEST_FILES_DIR = Path("feedback_forms/testing_versions")
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
 # =============================================================================
 # E2E Test Suite for Excel Upload Portal
@@ -469,11 +469,22 @@ def extract_machine_summary(audit_block):
 
 # --- DB Access Helpers ---
 DB_PATH = "source/production/app.db"
+
+# Try to get database URI from environment variables, then fall back to settings
 DB_URI = (
     os.environ.get("POSTGRES_DB_URI") or
     os.environ.get("DATABASE_URI") or
     os.environ.get("SQLALCHEMY_DATABASE_URI")
 )
+
+# If no environment variable is set, try to get it from settings
+if not DB_URI:
+    try:
+        from arb.portal.config.settings import BaseConfig
+        DB_URI = BaseConfig.SQLALCHEMY_DATABASE_URI
+    except ImportError:
+        DB_URI = None
+
 print(f"[DEBUG] Using DB URI: {DB_URI}")
 
 def fetch_misc_json_from_db(id_):
@@ -489,8 +500,23 @@ def fetch_misc_json_from_db(id_):
         conn = psycopg2.connect(pg_uri)
         try:
             cur = conn.cursor()
+            
+            # Determine the correct schema from settings
+            schema_name = "satellite_tracker_new"  # default
+            try:
+                from arb.portal.config.settings import BaseConfig
+                engine_options = BaseConfig.SQLALCHEMY_ENGINE_OPTIONS
+                if 'connect_args' in engine_options and 'options' in engine_options['connect_args']:
+                    options = engine_options['connect_args']['options']
+                    # Extract schema from search_path option
+                    if 'search_path=' in options:
+                        search_path = options.split('search_path=')[1].split(',')[0]
+                        schema_name = search_path
+            except ImportError:
+                pass  # Use default if settings import fails
+            
             # Use schema-qualified table name
-            cur.execute("SELECT misc_json FROM satellite_tracker_new.incidences WHERE id_incidence = %s", (id_,))
+            cur.execute(f"SELECT misc_json FROM {schema_name}.incidences WHERE id_incidence = %s", (id_,))
             row = cur.fetchone()
             if not row or not row[0]:
                 return {}

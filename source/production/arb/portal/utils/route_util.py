@@ -5,12 +5,6 @@
   integrating SQLAlchemy model rows with WTForms-based forms, enforcing dropdown resets,
   and applying conditional rendering logic based on sector type and CRUD mode.
 
-  Args:
-    None
-
-  Returns:
-    None
-
   Attributes:
     incidence_prep (function): Prepares and renders feedback form pages.
     render_readonly_sector_view (function): Renders read-only sector views.
@@ -34,6 +28,7 @@ from typing import List, Optional
 
 from flask import Response, flash, render_template, request
 from sqlalchemy.ext.automap import AutomapBase
+from werkzeug.datastructures import FileStorage
 
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
@@ -212,7 +207,7 @@ def render_readonly_sector_view(model_row: AutomapBase, sector_type: str, crud_t
                          misc_json=misc_json)
 
 
-def generate_upload_diagnostics(request_file, file_path: Optional[Path] = None,
+def generate_upload_diagnostics(request_file: FileStorage, file_path: Optional[Path] = None,
                                 include_id_extraction: bool = False) -> List[str]:
   """
   Generate diagnostic information for upload failures.
@@ -281,7 +276,7 @@ def generate_upload_diagnostics(request_file, file_path: Optional[Path] = None,
   return error_details
 
 
-def generate_staging_diagnostics(request_file, file_path: Optional[Path] = None,
+def generate_staging_diagnostics(request_file: FileStorage, file_path: Optional[Path] = None,
                                  staged_filename: Optional[str] = None,
                                  id_: Optional[int] = None,
                                  sector: Optional[str] = None) -> List[str]:

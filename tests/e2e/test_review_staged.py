@@ -21,10 +21,12 @@ from pathlib import Path
 import time
 import requests
 import re
+import os
+import conftest
 
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 save_screenshots=False
-
-BASE_URL = "http://127.0.0.1:5000"
 
 TEST_FILE = "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx"
 

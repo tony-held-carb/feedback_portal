@@ -44,6 +44,13 @@ Output:
 
 import time
 from playwright.sync_api import sync_playwright
+import conftest
+import os
+
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
+
+
 
 def single_page_diagnostics(page_url: str|None=None):
   """
@@ -149,5 +156,5 @@ def single_page_diagnostics(page_url: str|None=None):
       browser.close()
 
 if __name__ == "__main__":
-  page_url = "http://127.0.0.1:5000/upload"
+  page_url = f"{BASE_URL}/upload"
   single_page_diagnostics(page_url) 
