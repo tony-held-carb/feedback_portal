@@ -21,3 +21,20 @@ BROWSER_VIEWPORT = {
 PAGE_LOAD_TIMEOUT = 30000  # 30 seconds
 ELEMENT_WAIT_TIMEOUT = 10000  # 10 seconds
 
+# EC2-specific browser launch options to work around dependency issues
+EC2_BROWSER_LAUNCH_OPTIONS = {
+    "headless": True,
+    "args": [
+        "--no-sandbox",
+        "--disable-dev-shm-usage", 
+        "--disable-gpu",
+        "--disable-extensions",
+        "--disable-plugins",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-renderer-backgrounding",
+        "--disable-features=TranslateUI",
+        "--disable-ipc-flooding-protection"
+    ]
+}
+
