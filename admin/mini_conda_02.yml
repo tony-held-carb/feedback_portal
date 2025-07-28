@@ -32,7 +32,7 @@
 #     on home computer:
 #         conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml" --prune
 #     on work laptop:
-#         conda env update --file "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
+#         conda env update --file "C:\tony_local\pycharm/feedback_portal\admin\mini_conda_02.yml"
 #     on ec2:
 #         conda env update --file "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
 
@@ -130,9 +130,9 @@ dependencies:
       - WTForms-Alchemy
       - email_validator
       # Below were not in the original mini_conda_01
-      - playwright
+      - playwright==1.40.0    # Older version for EC2 compatibility
       - pytest
-      - pytest-playwright
+      - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.0
       - selenium
       - webdriver-manager
       - requests
