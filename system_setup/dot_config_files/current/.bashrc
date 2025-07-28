@@ -16,7 +16,7 @@ export PATH=$PATH:$HOME/bin
 LOCAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 echo "Detected IP: $LOCAL_IP"
 if [[ "$LOCAL_IP" == "10.93.112.44" ]]; then
-  export MACHINE_NAME="ec2"
+  export MACHINE_NAME="TONY_EC2"
 fi
 echo "MACHINE_NAME=$MACHINE_NAME"
 
