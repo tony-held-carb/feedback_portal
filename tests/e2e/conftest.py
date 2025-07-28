@@ -8,7 +8,7 @@ import pytest
 from pathlib import Path
 
 # Test configuration - can be overridden by environment variables
-TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://127.0.0.1:5000")
+TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://127.0.0.1:2113")
 TEST_FILES_DIR = Path("feedback_forms/testing_versions")
 
 # Browser configuration
