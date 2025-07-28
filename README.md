@@ -9,6 +9,7 @@
     * flask --app arb/wsgi run --debug --no-reload          -> http://127.0.0.1:5000/
     * flask --app arb/wsgi run --debug --no-reload -p 2113  -> http://127.0.0.1:2113/  
 * EC2 Linux: http://10.93.112.44:2113
+  * flask --app arb/wsgi run --debug --no-reload -p 2113 --host=0.0.0.0     -> http://10.93.112.44:2113/
   * Run the flask app as a process that will not close after the ssh terminates
     * stop any running portal flask apps
         * portal_screen_stop.sh
@@ -27,6 +28,8 @@
   * pytest tests/e2e -v  > pytest_home_e2e_21.txt 2>&1
   * pytest tests/arb -v  > pytest_laptop_all_21.txt 2>&1
   * pytest tests/e2e -v  > pytest_laptop_e2e_21.txt 2>&1
+  * pytest tests/arb -v  > pytest_EC2_all_21.txt 2>&1
+  * pytest tests/e2e -v  > pytest_EC2_e2e_21.txt 2>&1
   * tail -f pytest_laptop_all_21.txt 2>&1
   * tail -f pytest_laptop_e2e_21.txt 2>&1
   * 
