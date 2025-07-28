@@ -42,11 +42,34 @@
 #
 # Playwright Install Notes:
 # ------
-#   - After creating or updating this environment, you MUST run:
+#   - After creating or updating this environment, on work/home machines run:
 #         playwright install
+#   - on EC2, run:
+#         playwright install --with-deps
 #     This downloads the required browser binaries for Playwright-based tests.
 #     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
-#   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
+#
+# EC2 Playwright Installation Options (try in order):
+# --------------------------------------------------
+# Option 1: Force Playwright to use conda's Node.js
+#   export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
+#   playwright install --with-deps
+#
+# Option 2: Install only Firefox (more compatible with older systems)
+#   playwright install firefox
+#
+# Option 3: Reinstall Playwright with system dependencies
+#   pip uninstall playwright
+#   pip install playwright[system-deps]
+#   playwright install --with-deps
+#
+# Option 4: Use older Playwright version (more compatible)
+#   pip uninstall playwright
+#   pip install playwright==1.40.0
+#   playwright install --with-deps
+#
+# If all options fail, the environment will still work for all other functionality.
+# Only E2E tests will be affected - unit and integration tests will work normally.
 # -------------------------------------------------------------------------------------------------
 
 # change the name of your environment with the variable below
