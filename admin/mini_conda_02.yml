@@ -62,7 +62,12 @@
 #   pip install playwright==1.40.0
 #   playwright install
 #
-# Option 5: Try installing browsers individually
+# Option 5: Use much older Playwright version (most compatible)
+#   pip uninstall playwright
+#   pip install playwright==1.30.0
+#   playwright install
+#
+# Option 6: Try installing browsers individually
 #   playwright install chromium
 #   playwright install firefox
 #   playwright install webkit
@@ -130,9 +135,9 @@ dependencies:
       - WTForms-Alchemy
       - email_validator
       # Below were not in the original mini_conda_01
-      - playwright==1.40.0    # Older version for EC2 compatibility
+      - playwright==1.10.0    # Compatible with GLIBC 2.26 (EC2)
       - pytest
-      - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.0
+      - pytest-playwright==0.1.0  # Compatible version with playwright 1.10.x
       - selenium
       - webdriver-manager
       - requests
