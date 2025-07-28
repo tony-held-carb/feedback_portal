@@ -71,6 +71,9 @@
 #   playwright install firefox
 #   playwright install webkit
 #
+# Note: Even if Playwright shows dependency warnings, it may still work.
+# Test with: python -c "from playwright.sync_api import sync_playwright; p=sync_playwright().start(); p.stop()"
+#
 # If all options fail, the environment will still work for all other functionality.
 # Only E2E tests will be affected - unit and integration tests will work normally.
 # -------------------------------------------------------------------------------------------------
