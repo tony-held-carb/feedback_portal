@@ -38,29 +38,23 @@
 
 # Notes:
 # ------
+#   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
+#
+# Playwright Install Notes:
+# ------
 #   - After creating or updating this environment, you MUST run:
 #         playwright install
-#   - If playwright install fails, try:
-#         playwright install --with-deps
-#   - If playwright install --with-deps fails, try:
-#         playwright install firefox
 #     This downloads the required browser binaries for Playwright-based tests.
 #     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
-#   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
-#   - For EC2 with older GLIBC versions, try these options in order:
-#       1. playwright install --with-deps
-#       2. playwright install firefox (more compatible with older systems)
-#       3. Use Selenium fallback: python tests/e2e/test_excel_upload_selenium_fallback.py
-#
 # -------------------------------------------------------------------------------------------------
 
 # change the name of your environment with the variable below
 name: mini_conda_02
 channels:
   - defaults
-  - conda-forge
   # Include any other channels here if your package is not in defaults
+  # - conda-forge
 dependencies:
   - python=3.11.*
   - flask
@@ -82,13 +76,10 @@ dependencies:
   - more-itertools
   - conda-forge::wtforms=3.1
   - psycopg2
-  - werkzeug          # not in the original mini_conda_01
-  - itsdangerous      # not in the original mini_conda_01
-  - email-validator   # not in the original mini_conda_01
-  - python-dotenv     # not in the original mini_conda_01
-  # System dependencies for Playwright on older Linux distributions
-  - libstdcxx-ng      # Provides newer C++ standard library
-  - gcc_linux-64      # Provides newer GCC runtime libraries
+  - werkzeug
+  - itsdangerous
+  - email-validator
+  - python-dotenv
   - nodejs            # Node.js for Playwright compatibility
 
   # Make sure you include pip as a dependency (so don't delete the next line)
@@ -98,7 +89,7 @@ dependencies:
   - pip:
       - file-read-backwards
       - Flask-Migrate
-      - flask-mail    # not in the original mini_conda_01
+      - flask-mail
       - geoalchemy2
       - mkdocs
       - mkdocs-gen-files
