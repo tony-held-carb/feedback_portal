@@ -49,24 +49,27 @@
 #     This downloads the required browser binaries for Playwright-based tests.
 #     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #
-# EC2 Playwright Installation Options (try in order):
-# --------------------------------------------------
-# Option 1: Force Playwright to use conda's Node.js
+# EC2 Playwright Installation Options (try in order, no admin required):
+# --------------------------------------------------------------------
+# Option 1: Force Playwright to use conda's Node.js (no admin required)
 #   export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
-#   playwright install --with-deps
+#   playwright install
 #
 # Option 2: Install only Firefox (more compatible with older systems)
 #   playwright install firefox
 #
-# Option 3: Reinstall Playwright with system dependencies
-#   pip uninstall playwright
-#   pip install playwright[system-deps]
-#   playwright install --with-deps
+# Option 3: Install only WebKit (Safari engine, often more compatible)
+#   playwright install webkit
 #
 # Option 4: Use older Playwright version (more compatible)
 #   pip uninstall playwright
 #   pip install playwright==1.40.0
-#   playwright install --with-deps
+#   playwright install
+#
+# Option 5: Try installing browsers individually
+#   playwright install chromium
+#   playwright install firefox
+#   playwright install webkit
 #
 # If all options fail, the environment will still work for all other functionality.
 # Only E2E tests will be affected - unit and integration tests will work normally.
