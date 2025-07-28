@@ -1,0 +1,571 @@
+/home/theld/miniconda3/lib/python3.12/argparse.py:2005: FutureWarning: `remote_definition` is deprecated and will be removed in 25.9. Use `conda env create --file=URL` instead.
+  action(self, namespace, argument_values, option_string)
+/home/theld/miniconda3/lib/python3.12/site-packages/conda/base/context.py:198: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+/home/theld/miniconda3/lib/python3.12/site-packages/conda/base/context.py:198: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Channels:
+ - defaults
+ - conda-forge
+Platform: linux-64
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... done
+
+Downloading and Extracting Packages: ...working... done
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+Installing pip dependencies: ...working... Ran pip subprocess with arguments:
+['/home/theld/miniconda3/envs/mini_conda_02/bin/python', '-m', 'pip', 'install', '-U', '-r', '/home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt', '--exists-action=b']
+Pip subprocess output:
+Collecting file-read-backwards (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 1))
+  Using cached file_read_backwards-3.2.0-py2.py3-none-any.whl.metadata (4.3 kB)
+Collecting Flask-Migrate (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2))
+  Using cached Flask_Migrate-4.1.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting flask-mail (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 3))
+  Using cached flask_mail-0.10.0-py3-none-any.whl.metadata (2.1 kB)
+Collecting geoalchemy2 (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 4))
+  Using cached geoalchemy2-0.18.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting mkdocs (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached mkdocs-1.6.1-py3-none-any.whl.metadata (6.0 kB)
+Collecting mkdocs-gen-files (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 6))
+  Using cached mkdocs_gen_files-0.5.0-py3-none-any.whl.metadata (2.9 kB)
+Collecting mkdocs-git-committers-plugin (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached mkdocs_git_committers_plugin-0.2.3-py3-none-any.whl.metadata (1.0 kB)
+Collecting mkdocs-git-revision-date-localized-plugin (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8))
+  Using cached mkdocs_git_revision_date_localized_plugin-1.4.7-py3-none-any.whl.metadata (5.8 kB)
+Collecting mkdocs-literate-nav (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 9))
+  Using cached mkdocs_literate_nav-0.6.2-py3-none-any.whl.metadata (15 kB)
+Collecting mkdocs-material (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached mkdocs_material-9.6.16-py3-none-any.whl.metadata (19 kB)
+Collecting pdoc (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 12))
+  Using cached pdoc-15.0.4-py3-none-any.whl.metadata (6.8 kB)
+Collecting pytest-asyncio (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 13))
+  Using cached pytest_asyncio-1.1.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting wget (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 14))
+  Using cached wget-3.2-py3-none-any.whl
+Collecting WTForms-Alchemy (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15))
+  Using cached WTForms_Alchemy-0.19.0-py3-none-any.whl.metadata (2.6 kB)
+Requirement already satisfied: email_validator in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 16)) (1.2.1)
+Collecting email_validator (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 16))
+  Using cached email_validator-2.2.0-py3-none-any.whl.metadata (25 kB)
+Collecting playwright==1.10.0 (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 17))
+  Using cached playwright-1.10.0-py3-none-manylinux1_x86_64.whl.metadata (10 kB)
+Collecting pytest (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 18))
+  Using cached pytest-8.4.1-py3-none-any.whl.metadata (7.7 kB)
+Collecting pytest-playwright==0.1.0 (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 19))
+  Using cached pytest_playwright-0.1.0-py3-none-any.whl.metadata (7.0 kB)
+Collecting selenium (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached selenium-4.34.2-py3-none-any.whl.metadata (7.5 kB)
+Collecting webdriver-manager (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 21))
+  Using cached webdriver_manager-4.0.2-py2.py3-none-any.whl.metadata (12 kB)
+Requirement already satisfied: requests in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 22)) (2.32.4)
+Collecting mkdocstrings[python] (from -r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 11))
+  Using cached mkdocstrings-0.30.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting greenlet==1.0.0 (from playwright==1.10.0->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 17))
+  Using cached greenlet-1.0.0.tar.gz (84 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting pyee>=8.0.1 (from playwright==1.10.0->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 17))
+  Using cached pyee-13.0.0-py3-none-any.whl.metadata (2.9 kB)
+Collecting pytest-base-url (from pytest-playwright==0.1.0->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 19))
+  Using cached pytest_base_url-2.1.0-py3-none-any.whl.metadata (6.6 kB)
+Requirement already satisfied: Flask>=0.9 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2)) (3.1.0)
+Requirement already satisfied: Flask-SQLAlchemy>=1.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2)) (3.1.1)
+Collecting alembic>=1.9.0 (from Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2))
+  Using cached alembic-1.16.4-py3-none-any.whl.metadata (7.3 kB)
+Requirement already satisfied: blinker in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from flask-mail->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 3)) (1.9.0)
+Requirement already satisfied: SQLAlchemy>=1.4 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from geoalchemy2->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 4)) (2.0.41)
+Requirement already satisfied: packaging in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from geoalchemy2->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 4)) (24.2)
+Requirement already satisfied: click>=7.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (8.1.8)
+Collecting ghp-import>=1.0 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached ghp_import-2.1.0-py3-none-any.whl.metadata (7.2 kB)
+Requirement already satisfied: jinja2>=2.11.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (3.1.6)
+Collecting markdown>=3.3.6 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached markdown-3.8.2-py3-none-any.whl.metadata (5.1 kB)
+Requirement already satisfied: markupsafe>=2.0.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (3.0.2)
+Collecting mergedeep>=1.3.4 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached mergedeep-1.3.4-py3-none-any.whl.metadata (4.3 kB)
+Collecting mkdocs-get-deps>=0.2.0 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached mkdocs_get_deps-0.2.0-py3-none-any.whl.metadata (4.0 kB)
+Collecting pathspec>=0.11.1 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached pathspec-0.12.1-py3-none-any.whl.metadata (21 kB)
+Collecting pyyaml-env-tag>=0.1 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached pyyaml_env_tag-1.1-py3-none-any.whl.metadata (5.5 kB)
+Requirement already satisfied: pyyaml>=5.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (6.0.2)
+Collecting watchdog>=2.0 (from mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5))
+  Using cached watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+Collecting PyGithub>=1.43 (from mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached PyGithub-2.6.1-py3-none-any.whl.metadata (3.9 kB)
+Requirement already satisfied: babel>=2.7.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs-git-revision-date-localized-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8)) (2.16.0)
+Collecting gitpython>=3.1.44 (from mkdocs-git-revision-date-localized-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8))
+  Using cached gitpython-3.1.45-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: pytz>=2025.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs-git-revision-date-localized-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8)) (2025.2)
+Collecting backrefs~=5.7.post1 (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached backrefs-5.9-py311-none-any.whl.metadata (3.2 kB)
+Collecting colorama~=0.4 (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting mkdocs-material-extensions~=1.3 (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached mkdocs_material_extensions-1.3.1-py3-none-any.whl.metadata (6.9 kB)
+Collecting paginate~=0.5 (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached paginate-0.5.7-py2.py3-none-any.whl.metadata (11 kB)
+Requirement already satisfied: pygments~=2.16 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10)) (2.19.1)
+Collecting pymdown-extensions~=10.2 (from mkdocs-material->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 10))
+  Using cached pymdown_extensions-10.16.1-py3-none-any.whl.metadata (3.1 kB)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from requests->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 22)) (3.3.2)
+Requirement already satisfied: idna<4,>=2.5 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from requests->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 22)) (3.7)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from requests->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 22)) (2.5.0)
+Requirement already satisfied: certifi>=2017.4.17 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from requests->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 22)) (2025.7.14)
+Collecting mkdocs-autorefs>=1.4 (from mkdocstrings[python]->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 11))
+  Using cached mkdocs_autorefs-1.4.2-py3-none-any.whl.metadata (13 kB)
+Collecting mkdocstrings-python>=1.16.2 (from mkdocstrings[python]->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 11))
+  Using cached mkdocstrings_python-1.16.12-py3-none-any.whl.metadata (5.6 kB)
+Collecting iniconfig>=1 (from pytest->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 18))
+  Using cached iniconfig-2.1.0-py3-none-any.whl.metadata (2.7 kB)
+Collecting pluggy<2,>=1.5 (from pytest->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 18))
+  Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Requirement already satisfied: WTForms>=3.1.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15)) (3.1.2)
+Collecting WTForms-Components>=0.11.0 (from WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15))
+  Using cached WTForms_Components-0.11.0-py2.py3-none-any.whl.metadata (1.8 kB)
+Requirement already satisfied: SQLAlchemy-Utils>=0.40.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15)) (0.41.2)
+Requirement already satisfied: dnspython>=2.0.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from email_validator->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 16)) (2.4.2)
+Collecting trio~=0.30.0 (from selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached trio-0.30.0-py3-none-any.whl.metadata (8.5 kB)
+Collecting trio-websocket~=0.12.2 (from selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached trio_websocket-0.12.2-py3-none-any.whl.metadata (5.1 kB)
+Collecting typing_extensions~=4.14.0 (from selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached typing_extensions-4.14.1-py3-none-any.whl.metadata (3.0 kB)
+Requirement already satisfied: websocket-client~=1.8.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20)) (1.8.0)
+Requirement already satisfied: attrs>=23.2.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from trio~=0.30.0->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20)) (24.3.0)
+Collecting sortedcontainers (from trio~=0.30.0->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+Collecting outcome (from trio~=0.30.0->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached outcome-1.3.0.post0-py2.py3-none-any.whl.metadata (2.6 kB)
+Requirement already satisfied: sniffio>=1.3.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from trio~=0.30.0->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20)) (1.3.0)
+Collecting wsproto>=0.14 (from trio-websocket~=0.12.2->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20))
+  Using cached wsproto-1.2.0-py3-none-any.whl.metadata (5.6 kB)
+Requirement already satisfied: pysocks!=1.5.7,<2.0,>=1.5.6 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from urllib3[socks]~=2.5.0->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20)) (1.7.1)
+Requirement already satisfied: python-dotenv in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from webdriver-manager->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 21)) (1.1.0)
+Collecting Mako (from alembic>=1.9.0->Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2))
+  Using cached mako-1.3.10-py3-none-any.whl.metadata (2.9 kB)
+Requirement already satisfied: Werkzeug>=3.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from Flask>=0.9->Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2)) (3.1.3)
+Requirement already satisfied: itsdangerous>=2.2 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from Flask>=0.9->Flask-Migrate->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 2)) (2.2.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from ghp-import>=1.0->mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (2.9.0.post0)
+Collecting gitdb<5,>=4.0.1 (from gitpython>=3.1.44->mkdocs-git-revision-date-localized-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8))
+  Using cached gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython>=3.1.44->mkdocs-git-revision-date-localized-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 8))
+  Using cached smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Requirement already satisfied: platformdirs>=2.2.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from mkdocs-get-deps>=0.2.0->mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (4.3.7)
+Collecting griffe>=1.6.2 (from mkdocstrings-python>=1.16.2->mkdocstrings[python]->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 11))
+  Using cached griffe-1.9.0-py3-none-any.whl.metadata (5.0 kB)
+Collecting pynacl>=1.4.0 (from PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached PyNaCl-1.5.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl.metadata (8.6 kB)
+Collecting pyjwt>=2.4.0 (from pyjwt[crypto]>=2.4.0->PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached PyJWT-2.10.1-py3-none-any.whl.metadata (4.0 kB)
+Collecting Deprecated (from PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached Deprecated-1.2.18-py2.py3-none-any.whl.metadata (5.7 kB)
+Requirement already satisfied: cryptography>=3.4.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from pyjwt[crypto]>=2.4.0->PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7)) (45.0.5)
+Requirement already satisfied: cffi>=1.14 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from cryptography>=3.4.0->pyjwt[crypto]>=2.4.0->PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7)) (1.17.1)
+Requirement already satisfied: pycparser in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from cffi>=1.14->cryptography>=3.4.0->pyjwt[crypto]>=2.4.0->PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7)) (2.21)
+Requirement already satisfied: six>=1.5 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from python-dateutil>=2.8.1->ghp-import>=1.0->mkdocs->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 5)) (1.17.0)
+Requirement already satisfied: h11<1,>=0.9.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from wsproto>=0.14->trio-websocket~=0.12.2->selenium->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 20)) (0.16.0)
+Collecting validators>=0.21 (from WTForms-Components>=0.11.0->WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15))
+  Using cached validators-0.35.0-py3-none-any.whl.metadata (3.9 kB)
+Requirement already satisfied: intervals>=0.6.0 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from WTForms-Components>=0.11.0->WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15)) (0.9.2)
+Requirement already satisfied: infinity>=0.1.3 in /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages (from intervals>=0.6.0->WTForms-Components>=0.11.0->WTForms-Alchemy->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 15)) (1.5)
+Collecting wrapt<2,>=1.10 (from Deprecated->PyGithub>=1.43->mkdocs-git-committers-plugin->-r /home/theld/code/git_repos/feedback_portal/admin/condaenv.e44zi49i.requirements.txt (line 7))
+  Using cached wrapt-1.17.2-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.4 kB)
+Using cached playwright-1.10.0-py3-none-manylinux1_x86_64.whl (20.1 MB)
+Using cached pytest_playwright-0.1.0-py3-none-any.whl (10 kB)
+Using cached file_read_backwards-3.2.0-py2.py3-none-any.whl (7.9 kB)
+Using cached Flask_Migrate-4.1.0-py3-none-any.whl (21 kB)
+Using cached flask_mail-0.10.0-py3-none-any.whl (8.5 kB)
+Using cached geoalchemy2-0.18.0-py3-none-any.whl (81 kB)
+Using cached mkdocs-1.6.1-py3-none-any.whl (3.9 MB)
+Using cached mkdocs_gen_files-0.5.0-py3-none-any.whl (8.4 kB)
+Using cached mkdocs_git_committers_plugin-0.2.3-py3-none-any.whl (4.3 kB)
+Using cached mkdocs_git_revision_date_localized_plugin-1.4.7-py3-none-any.whl (25 kB)
+Using cached mkdocs_literate_nav-0.6.2-py3-none-any.whl (13 kB)
+Using cached mkdocs_material-9.6.16-py3-none-any.whl (9.2 MB)
+Using cached backrefs-5.9-py311-none-any.whl (392 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Using cached markdown-3.8.2-py3-none-any.whl (106 kB)
+Using cached mkdocs_material_extensions-1.3.1-py3-none-any.whl (8.7 kB)
+Using cached paginate-0.5.7-py2.py3-none-any.whl (13 kB)
+Using cached pymdown_extensions-10.16.1-py3-none-any.whl (266 kB)
+Using cached mkdocstrings-0.30.0-py3-none-any.whl (36 kB)
+Using cached pdoc-15.0.4-py3-none-any.whl (145 kB)
+Using cached pytest_asyncio-1.1.0-py3-none-any.whl (15 kB)
+Using cached pytest-8.4.1-py3-none-any.whl (365 kB)
+Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Using cached WTForms_Alchemy-0.19.0-py3-none-any.whl (18 kB)
+Using cached email_validator-2.2.0-py3-none-any.whl (33 kB)
+Using cached selenium-4.34.2-py3-none-any.whl (9.4 MB)
+Using cached trio-0.30.0-py3-none-any.whl (499 kB)
+Using cached trio_websocket-0.12.2-py3-none-any.whl (21 kB)
+Using cached typing_extensions-4.14.1-py3-none-any.whl (43 kB)
+Using cached webdriver_manager-4.0.2-py2.py3-none-any.whl (27 kB)
+Using cached alembic-1.16.4-py3-none-any.whl (247 kB)
+Using cached ghp_import-2.1.0-py3-none-any.whl (11 kB)
+Using cached gitpython-3.1.45-py3-none-any.whl (208 kB)
+Using cached gitdb-4.0.12-py3-none-any.whl (62 kB)
+Using cached smmap-5.0.2-py3-none-any.whl (24 kB)
+Using cached iniconfig-2.1.0-py3-none-any.whl (6.0 kB)
+Using cached mergedeep-1.3.4-py3-none-any.whl (6.4 kB)
+Using cached mkdocs_autorefs-1.4.2-py3-none-any.whl (24 kB)
+Using cached mkdocs_get_deps-0.2.0-py3-none-any.whl (9.5 kB)
+Using cached mkdocstrings_python-1.16.12-py3-none-any.whl (124 kB)
+Using cached griffe-1.9.0-py3-none-any.whl (137 kB)
+Using cached outcome-1.3.0.post0-py2.py3-none-any.whl (10 kB)
+Using cached pathspec-0.12.1-py3-none-any.whl (31 kB)
+Using cached pyee-13.0.0-py3-none-any.whl (15 kB)
+Using cached PyGithub-2.6.1-py3-none-any.whl (410 kB)
+Using cached PyJWT-2.10.1-py3-none-any.whl (22 kB)
+Using cached PyNaCl-1.5.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl (856 kB)
+Using cached pyyaml_env_tag-1.1-py3-none-any.whl (4.7 kB)
+Using cached watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+Using cached wsproto-1.2.0-py3-none-any.whl (24 kB)
+Using cached WTForms_Components-0.11.0-py2.py3-none-any.whl (14 kB)
+Using cached validators-0.35.0-py3-none-any.whl (44 kB)
+Using cached Deprecated-1.2.18-py2.py3-none-any.whl (10.0 kB)
+Using cached wrapt-1.17.2-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (83 kB)
+Using cached mako-1.3.10-py3-none-any.whl (78 kB)
+Using cached pytest_base_url-2.1.0-py3-none-any.whl (5.3 kB)
+Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+Building wheels for collected packages: greenlet
+  Building wheel for greenlet (setup.py): started
+  Building wheel for greenlet (setup.py): finished with status 'error'
+  Running setup.py clean for greenlet
+Failed to build greenlet
+Pip subprocess error:
+  DEPRECATION: Building 'greenlet' using the legacy setup.py bdist_wheel mechanism, which will be removed in a future version. pip 25.3 will enforce this behaviour change. A possible replacement is to use the standardized build interface by setting the `--use-pep517` option, (possibly combined with `--no-build-isolation`), or adding a `pyproject.toml` file to the source tree of 'greenlet'. Discussion can be found at https://github.com/pypa/pip/issues/6334
+  error: subprocess-exited-with-error
+  
+  × python setup.py bdist_wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [300 lines of output]
+      running bdist_wheel
+      running build
+      running build_py
+      creating build
+      creating build/lib.linux-x86_64-cpython-311
+      creating build/lib.linux-x86_64-cpython-311/greenlet
+      copying src/greenlet/__init__.py -> build/lib.linux-x86_64-cpython-311/greenlet
+      creating build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/__init__.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_contextvars.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_cpp.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_extension_interface.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_gc.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_generator.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_generator_nested.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_greenlet.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_leaks.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_stack_saved.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_throw.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_tracing.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_version.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/test_weakref.py -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      running egg_info
+      writing src/greenlet.egg-info/PKG-INFO
+      writing dependency_links to src/greenlet.egg-info/dependency_links.txt
+      writing requirements to src/greenlet.egg-info/requires.txt
+      writing top-level names to src/greenlet.egg-info/top_level.txt
+      reading manifest file 'src/greenlet.egg-info/SOURCES.txt'
+      reading manifest template 'MANIFEST.in'
+      no previously-included directories found matching 'docs/_build'
+      warning: no files found matching '*.py' under directory 'appveyor'
+      warning: no previously-included files matching '*.pyc' found anywhere in distribution
+      warning: no previously-included files matching '*.pyd' found anywhere in distribution
+      warning: no previously-included files matching '*.so' found anywhere in distribution
+      warning: no previously-included files matching '.coverage' found anywhere in distribution
+      adding license file 'LICENSE'
+      adding license file 'LICENSE.PSF'
+      adding license file 'AUTHORS'
+      writing manifest file 'src/greenlet.egg-info/SOURCES.txt'
+      /home/theld/miniconda3/envs/mini_conda_02/lib/python3.11/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'greenlet.platform' is absent from the `packages` configuration.
+      !!
+      
+              ********************************************************************************
+              ############################
+              # Package would be ignored #
+              ############################
+              Python recognizes 'greenlet.platform' as an importable package[^1],
+              but it is absent from setuptools' `packages` configuration.
+      
+              This leads to an ambiguous overall configuration. If you want to distribute this
+              package, please make sure that 'greenlet.platform' is explicitly added
+              to the `packages` configuration field.
+      
+              Alternatively, you can also rely on setuptools' discovery methods
+              (for example by using `find_namespace_packages(...)`/`find_namespace:`
+              instead of `find_packages(...)`/`find:`).
+      
+              You can read more about "package discovery" on setuptools documentation page:
+      
+              - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+      
+              If you don't want 'greenlet.platform' to be distributed and are
+              already explicitly excluding 'greenlet.platform' via
+              `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+              you can try to use `exclude_package_data`, or `include-package-data=False` in
+              combination with a more fine grained `package-data` configuration.
+      
+              You can read more about "package data files" on setuptools documentation page:
+      
+              - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+      
+      
+              [^1]: For Python, any directory (with suitable naming) can be imported,
+                    even if it does not contain any `.py` files.
+                    On the other hand, currently there is no concept of package data
+                    directory, all directories are treated like packages.
+              ********************************************************************************
+      
+      !!
+        check.warn(importable)
+      copying src/greenlet/greenlet.c -> build/lib.linux-x86_64-cpython-311/greenlet
+      copying src/greenlet/greenlet.h -> build/lib.linux-x86_64-cpython-311/greenlet
+      copying src/greenlet/slp_platformselect.h -> build/lib.linux-x86_64-cpython-311/greenlet
+      creating build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/setup_switch_x64_masm.cmd -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_aarch64_gcc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_alpha_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_amd64_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_arm32_gcc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_arm32_ios.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_csky_gcc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_m68k_gcc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_mips_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc64_aix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc64_linux.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc_aix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc_linux.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc_macosx.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_ppc_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_riscv_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_s390_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_sparc_sun_gcc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x32_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x64_masm.asm -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x64_masm.obj -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x64_msvc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x86_msvc.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/platform/switch_x86_unix.h -> build/lib.linux-x86_64-cpython-311/greenlet/platform
+      copying src/greenlet/tests/_test_extension.c -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      copying src/greenlet/tests/_test_extension_cpp.cpp -> build/lib.linux-x86_64-cpython-311/greenlet/tests
+      running build_ext
+      building 'greenlet._greenlet' extension
+      creating build/temp.linux-x86_64-cpython-311
+      creating build/temp.linux-x86_64-cpython-311/src
+      creating build/temp.linux-x86_64-cpython-311/src/greenlet
+      gcc -pthread -B /home/theld/miniconda3/envs/mini_conda_02/compiler_compat -DNDEBUG -fwrapv -O2 -Wall -fPIC -O2 -isystem /home/theld/miniconda3/envs/mini_conda_02/include -fPIC -O2 -isystem /home/theld/miniconda3/envs/mini_conda_02/include -fPIC -I/home/theld/miniconda3/envs/mini_conda_02/include/python3.11 -c src/greenlet/greenlet.c -o build/temp.linux-x86_64-cpython-311/src/greenlet/greenlet.o
+      src/greenlet/greenlet.c: In function ‘green_clear_exc’:
+      src/greenlet/greenlet.c:155:18: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           g->exc_state.exc_type = NULL;
+                        ^~~~~~~~
+                        exc_value
+      src/greenlet/greenlet.c:157:17: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           g->exc_state.exc_traceback = NULL;
+                       ^
+      src/greenlet/greenlet.c: In function ‘g_switchstack’:
+      src/greenlet/greenlet.c:495:44: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘recursion_depth’; did you mean ‘recursion_limit’?
+               current->recursion_depth = tstate->recursion_depth;
+                                                  ^~~~~~~~~~~~~~~
+                                                  recursion_limit
+      src/greenlet/greenlet.c:496:38: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘frame’; did you mean ‘cframe’?
+               current->top_frame = tstate->frame;
+                                            ^~~~~
+                                            cframe
+      src/greenlet/greenlet.c:528:17: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘recursion_depth’; did you mean ‘recursion_limit’?
+               tstate->recursion_depth = target->recursion_depth;
+                       ^~~~~~~~~~~~~~~
+                       recursion_limit
+      src/greenlet/greenlet.c:529:17: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘frame’; did you mean ‘cframe’?
+               tstate->frame = target->top_frame;
+                       ^~~~~
+                       cframe
+      src/greenlet/greenlet.c: In function ‘g_calltrace’:
+      src/greenlet/greenlet.c:570:13: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘use_tracing’; did you mean ‘tracing’?
+           tstate->use_tracing = 0;
+                   ^~~~~~~~~~~
+                   tracing
+      src/greenlet/greenlet.c:573:13: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘use_tracing’; did you mean ‘tracing’?
+           tstate->use_tracing =
+                   ^~~~~~~~~~~
+                   tracing
+      src/greenlet/greenlet.c: In function ‘g_initialstub’:
+      src/greenlet/greenlet.c:801:50: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘recursion_depth’; did you mean ‘recursion_limit’?
+           self->recursion_depth = PyThreadState_GET()->recursion_depth;
+                                                        ^~~~~~~~~~~~~~~
+                                                        recursion_limit
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:45:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c: In function ‘green_traverse’:
+      src/greenlet/greenlet.c:998:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_VISIT(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/objimpl.h:199:13: note: in definition of macro ‘Py_VISIT’
+               if (op) {                                                       \
+                   ^~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:38:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:998:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_VISIT(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/objimpl.h:200:30: note: in expansion of macro ‘_PyObject_CAST’
+                   int vret = visit(_PyObject_CAST(op), arg);                  \
+                                    ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:998:5: note: in expansion of macro ‘Py_VISIT’
+           Py_VISIT(self->exc_state.exc_type);
+           ^~~~~~~~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:45:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1000:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_VISIT(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/objimpl.h:199:13: note: in definition of macro ‘Py_VISIT’
+               if (op) {                                                       \
+                   ^~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:38:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1000:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_VISIT(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/objimpl.h:200:30: note: in expansion of macro ‘_PyObject_CAST’
+                   int vret = visit(_PyObject_CAST(op), arg);                  \
+                                    ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:1000:5: note: in expansion of macro ‘Py_VISIT’
+           Py_VISIT(self->exc_state.exc_traceback);
+           ^~~~~~~~
+      src/greenlet/greenlet.c: In function ‘green_clear’:
+      src/greenlet/greenlet.c:1036:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_CLEAR(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:581:29: note: in expansion of macro ‘_PyObject_CAST’
+               PyObject *_py_tmp = _PyObject_CAST(op); \
+                                   ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:1036:5: note: in expansion of macro ‘Py_CLEAR’
+           Py_CLEAR(self->exc_state.exc_type);
+           ^~~~~~~~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:44:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1036:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_CLEAR(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:583:14: note: in definition of macro ‘Py_CLEAR’
+                   (op) = NULL;                        \
+                    ^~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:38:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1038:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_CLEAR(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:581:29: note: in expansion of macro ‘_PyObject_CAST’
+               PyObject *_py_tmp = _PyObject_CAST(op); \
+                                   ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:1038:5: note: in expansion of macro ‘Py_CLEAR’
+           Py_CLEAR(self->exc_state.exc_traceback);
+           ^~~~~~~~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:44:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1038:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_CLEAR(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:583:14: note: in definition of macro ‘Py_CLEAR’
+                   (op) = NULL;                        \
+                    ^~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:38:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c: In function ‘green_dealloc’:
+      src/greenlet/greenlet.c:1116:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_CLEAR(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:581:29: note: in expansion of macro ‘_PyObject_CAST’
+               PyObject *_py_tmp = _PyObject_CAST(op); \
+                                   ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:1116:5: note: in expansion of macro ‘Py_CLEAR’
+           Py_CLEAR(self->exc_state.exc_type);
+           ^~~~~~~~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:44:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1116:30: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_type’; did you mean ‘exc_value’?
+           Py_CLEAR(self->exc_state.exc_type);
+                                    ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:583:14: note: in definition of macro ‘Py_CLEAR’
+                   (op) = NULL;                        \
+                    ^~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:38:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1118:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_CLEAR(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/pyport.h:24:38: note: in definition of macro ‘_Py_CAST’
+       #define _Py_CAST(type, expr) ((type)(expr))
+                                            ^~~~
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:581:29: note: in expansion of macro ‘_PyObject_CAST’
+               PyObject *_py_tmp = _PyObject_CAST(op); \
+                                   ^~~~~~~~~~~~~~
+      src/greenlet/greenlet.c:1118:5: note: in expansion of macro ‘Py_CLEAR’
+           Py_CLEAR(self->exc_state.exc_traceback);
+           ^~~~~~~~
+      In file included from /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/Python.h:44:0,
+                       from src/greenlet/greenlet.h:8,
+                       from src/greenlet/greenlet.c:11:
+      src/greenlet/greenlet.c:1118:29: error: ‘_PyErr_StackItem {aka struct _err_stackitem}’ has no member named ‘exc_traceback’
+           Py_CLEAR(self->exc_state.exc_traceback);
+                                   ^
+      /home/theld/miniconda3/envs/mini_conda_02/include/python3.11/object.h:583:14: note: in definition of macro ‘Py_CLEAR’
+                   (op) = NULL;                        \
+                    ^~
+      error: command '/usr/bin/gcc' failed with exit code 1
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for greenlet
+ERROR: Failed to build installable wheels for some pyproject.toml based projects (greenlet)
+
+
+failed
+
+CondaEnvException: Pip failed
+
