@@ -44,6 +44,7 @@
 #     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
 #   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
+#   - For EC2 with older GLIBC versions, use: playwright install --with-deps
 #
 # -------------------------------------------------------------------------------------------------
 
@@ -51,8 +52,8 @@
 name: mini_conda_02
 channels:
   - defaults
+  - conda-forge
   # Include any other channels here if your package is not in defaults
-  # - conda-forge
 dependencies:
   - python=3.11.*
   - flask
@@ -78,6 +79,10 @@ dependencies:
   - itsdangerous      # not in the original mini_conda_01
   - email-validator   # not in the original mini_conda_01
   - python-dotenv     # not in the original mini_conda_01
+  # System dependencies for Playwright on older Linux distributions
+  - libstdcxx-ng      # Provides newer C++ standard library
+  - gcc_linux-64      # Provides newer GCC runtime libraries
+  - glibc             # Provides newer GLIBC if available
 
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results

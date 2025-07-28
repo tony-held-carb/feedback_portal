@@ -64,6 +64,22 @@ This directory contains utility scripts for the feedback portal project. All scr
 - **Dependencies**: `sqlalchemy`, `DATABASE_URI` environment variable
 - **Cross-platform**: ✅ Yes
 
+### Git Utility Scripts
+
+#### `git_push.sh`
+- **Purpose**: Add files to git, commit with custom message, and push to remote
+- **Usage**: `./git_push.sh [--commit_message "message"] file1 file2...`
+- **Short options**: `./git_push.sh [-m "message"] file1 file2...`
+- **Default message**: "Auto commit"
+- **Dependencies**: Git must be installed and configured
+- **Cross-platform**: ✅ Yes
+- **Examples**:
+  ```bash
+  ./git_push.sh admin/mini_conda_02.yml
+  ./git_push.sh -m "Update conda environment" admin/mini_conda_02.yml
+  ./git_push.sh --commit_message "Fix E2E test issues" tests/e2e/test_*.py
+  ```
+
 ## Configuration Files
 
 #### `run_all_commands.txt`
