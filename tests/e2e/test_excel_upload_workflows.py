@@ -556,7 +556,7 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     This is your main guarantee that the database is being updated with the correct spreadsheet contents.
     """
     # Navigate to the upload page
-    upload_page.goto(f"{BASE_URL}")
+    upload_page.goto(f"{BASE_URL}/upload")
     upload_page.wait_for_load_state("networkidle")
     # Upload file via UI
     file_input = upload_page.locator("input[type='file']")
