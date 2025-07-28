@@ -60,11 +60,10 @@ import warnings
 import shutil
 import pytest
 import functools
+import conftest
 
-# Test configuration
-from .conftest import TEST_BASE_URL
-
-BASE_URL = TEST_BASE_URL
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
 # =============================================================================
 # E2E Test Suite for Excel Upload Portal

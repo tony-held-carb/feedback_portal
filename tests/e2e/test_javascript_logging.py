@@ -41,10 +41,12 @@ Example:
 
 import pytest
 from playwright.sync_api import Page
+import os
+import os
+import conftest
 
-from .conftest import TEST_BASE_URL
-
-BASE_URL = TEST_BASE_URL
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
 def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     """

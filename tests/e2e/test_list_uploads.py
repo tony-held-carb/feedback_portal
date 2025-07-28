@@ -14,10 +14,11 @@ Skips gracefully if no files are present.
 
 import pytest
 from playwright.sync_api import Page, expect
+import os
+import conftest
 
-from .conftest import TEST_BASE_URL
-
-BASE_URL = TEST_BASE_URL
+# Test configuration - can be overridden by environment variables
+BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
 @pytest.mark.e2e
 def test_list_uploads_page_loads(page: Page):

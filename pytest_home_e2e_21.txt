@@ -95,4 +95,4 @@ tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_work
 tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 98%]
 tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...) [100%]
 
-================== 82 passed, 5 skipped in 435.08s (0:07:15) ==================
+================== 82 passed, 5 skipped in 438.48s (0:07:18) ==================

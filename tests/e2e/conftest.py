@@ -4,6 +4,7 @@ Provides shared constants and configuration for all E2E test modules.
 """
 
 import os
+import pytest
 from pathlib import Path
 
 # Test configuration - can be overridden by environment variables
@@ -18,4 +19,5 @@ BROWSER_VIEWPORT = {
 
 # Timeout settings
 PAGE_LOAD_TIMEOUT = 30000  # 30 seconds
-ELEMENT_WAIT_TIMEOUT = 10000  # 10 seconds 
+ELEMENT_WAIT_TIMEOUT = 10000  # 10 seconds
+

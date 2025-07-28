@@ -21,6 +21,8 @@
 
 ### Running testing.
   * cd $portal
+  * if you don't want to run on http://127.0.0.1:5000
+    * create TEST_BASE_URL environmental variable
   * pytest tests/arb -v  > pytest_home_all_21.txt 2>&1
   * pytest tests/e2e -v  > pytest_home_e2e_21.txt 2>&1
   * pytest tests/arb -v  > pytest_laptop_all_21.txt 2>&1
