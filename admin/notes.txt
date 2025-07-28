@@ -1574,3 +1574,26 @@ port is 22
 
 In pycharm:
 File → Settings → Tools → SSH Configurations
+
+To create a compressed .tar.gz archive containing two directories (dir_1 and dir_2) on a Linux EC2 machine, use the following command:
+    tar -czvf archive_name.tar.gz dir_1 dir_2
+Explanation:
+    tar — archive utility
+    -c — create a new archive
+    -z — compress the archive using gzip
+    -v — verbose output (optional, shows progress)
+    -f — specify the filename of the archive
+    archive_name.tar.gz — name of the resulting archive
+    dir_1 dir_2 — the directories to include in the archive
+Examples:
+    tar -czvf my_backup.tar.gz /home/ec2-user/dir_1 /home/ec2-user/dir_2
+    tar -czvf ec2_portal_logs_and_uploads_archive_2025_07_28.tar.gz logs portal_uploads
+
+To display file sizes in megabytes (MB) using ls, use the --block-size option like this:
+    ls -lh --block-size=MB
+Explanation:
+    -l — long listing format
+    -h — human-readable (required for MB to show as unit)
+    --block-size=MB — forces sizes to display in megabytes (rounded up)
+Example:
+    ls -lh
