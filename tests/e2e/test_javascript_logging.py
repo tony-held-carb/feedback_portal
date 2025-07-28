@@ -31,7 +31,7 @@ Playwright Best Practices for Diagnostics Overlay:
 - If testing backend logging, use Playwright's network interception or polling for POST requests if needed.
 
 Example:
-    page.goto("http://127.0.0.1:5000/java_script_diagnostic_test")
+    page.goto(f"{BASE_URL}/java_script_diagnostic_test")
     page.wait_for_load_state("networkidle")
     # ... interact with page ...
     from playwright.sync_api import expect

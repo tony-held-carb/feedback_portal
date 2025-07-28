@@ -62,13 +62,16 @@ SOURCE_DIR="system_setup/dot_config_files/current"
 # Determine target home directory based on MACHINE_NAME
 case "$MACHINE_NAME" in
     "TONY_WORK")
-        TARGET_HOME="/c/Users/theld"
+#        TARGET_HOME="/c/Users/theld"
+        TARGET_HOME="$HOME"
         ;;
     "TONY_HOME")
-        TARGET_HOME="/c/Users/tonyh"
+#        TARGET_HOME="/c/Users/tonyh"
+        TARGET_HOME="$HOME"
         ;;
     "TONY_EC2")
-        TARGET_HOME="/home/theld"
+#        TARGET_HOME="/home/theld"
+        TARGET_HOME="$HOME"
         ;;
     *)
         print_error "Unknown MACHINE_NAME: $MACHINE_NAME"

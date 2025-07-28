@@ -25,7 +25,7 @@ Prerequisites:
 
 Usage:
 ------
-1. Ensure the target web application is running and accessible (default: http://127.0.0.1:5000/upload).
+1. Ensure the target web application is running and accessible (default: BASE_URL).
 2. Run this script directly:
 
     python tests/e2e/test_single_page.py

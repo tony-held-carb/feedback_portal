@@ -29,7 +29,7 @@ Limitations
 - The deep backend validation only checks the misc_json column; if your app stores data elsewhere, you may need to extend the tests.
 
 Requirements:
-- Flask app running at http://127.0.0.1:5000
+- Flask app running at BASE_URL
 - Playwright installed and browsers downloaded
 - pytest-playwright plugin (optional but recommended)
 
@@ -556,7 +556,7 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     This is your main guarantee that the database is being updated with the correct spreadsheet contents.
     """
     # Navigate to the upload page
-    upload_page.goto("http://127.0.0.1:5000/upload")
+    upload_page.goto(f"{BASE_URL}")
     upload_page.wait_for_load_state("networkidle")
     # Upload file via UI
     file_input = upload_page.locator("input[type='file']")
@@ -628,7 +628,7 @@ def test_list_staged_diagnostics_overlay(page):
     from playwright.sync_api import expect
     import os
     # Ensure at least one staged file exists
-    page.goto("http://127.0.0.1:5000/list_staged")
+    page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
     staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
     if staged_file_btns.count() == 0:
@@ -649,7 +649,7 @@ def test_list_staged_diagnostics_overlay(page):
                 break
             page.wait_for_timeout(500)
         # Go back to /list_staged
-        page.goto("http://127.0.0.1:5000/list_staged")
+        page.goto(f"{BASE_URL}/list_staged")
         page.wait_for_load_state("networkidle")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
         if staged_file_btns.count() == 0:
@@ -885,7 +885,7 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     """
     filename = malformed_file_for_discard
     # 1. Navigate to /list_staged
-    page.goto("http://127.0.0.1:5000/list_staged")
+    page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
     print(f"[STEP] Navigated to /list_staged for malformed file: {filename}")
     # 2. Locate the malformed file row and discard button
@@ -909,7 +909,7 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     print(f"[STEP] Modal confirm clicked and navigation complete.")
     # 8. After reload, verify file is gone
     page.wait_for_load_state("networkidle")
-    page.goto("http://127.0.0.1:5000/list_staged")
+    page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
     assert filename not in page.content(), f"Malformed file {filename} still listed after discard."
     print(f"[STEP] Malformed file {filename} successfully discarded and not present after reload.")
