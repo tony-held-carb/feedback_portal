@@ -44,7 +44,10 @@
 #     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #   - On windows, make sure you use the miniconda prompt, not the standard cmd or powershell
 #   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
-#   - For EC2 with older GLIBC versions, use: playwright install --with-deps
+#   - For EC2 with older GLIBC versions, try these options in order:
+#       1. playwright install --with-deps
+#       2. playwright install firefox (more compatible with older systems)
+#       3. Use Selenium fallback: python tests/e2e/test_excel_upload_selenium_fallback.py
 #
 # -------------------------------------------------------------------------------------------------
 
@@ -82,7 +85,6 @@ dependencies:
   # System dependencies for Playwright on older Linux distributions
   - libstdcxx-ng      # Provides newer C++ standard library
   - gcc_linux-64      # Provides newer GCC runtime libraries
-  - glibc             # Provides newer GLIBC if available
 
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results
