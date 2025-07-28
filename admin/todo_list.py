@@ -4,17 +4,15 @@
 ----------------------------
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-created PR 28 to clean up documentation and deploy to ec2
-about to pull PR 28 into main, comment and tag, then release to the ec2
+created PR 29 to clean up documentation and deploy to ec2
+* deploy to ec2
 
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
 * create a launch new version protocol for automated and manual testing
 * review testing_protocol_and_notes.txt
-* deploy to ec2
 * update notes and scripts to launch from app/wsgi
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
-
 
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
