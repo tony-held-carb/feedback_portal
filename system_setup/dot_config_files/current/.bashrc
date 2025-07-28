@@ -13,7 +13,9 @@ export PATH=$PATH:$HOME/bin
 
 # if you ssh you need to check the ip because export variables won't persist
 # Set MACHINE_NAME if private IP is 10.93.112.44
-if [[ "$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)" == "10.93.112.44" ]]; then
+LOCAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+echo "Detected IP: $LOCAL_IP"
+if [[ "$LOCAL_IP" == "10.93.112.44" ]]; then
   export MACHINE_NAME="ec2"
 fi
 echo "MACHINE_NAME=$MACHINE_NAME"
