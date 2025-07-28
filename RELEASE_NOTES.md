@@ -2,7 +2,13 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
-## [Unreleased]
+## v2.0.0 - 2025-07-28
+- Major renovation of the website to include
+  - staged uploads
+  - ability to upload digester, generic, energy feedback forms
+  - extensive testing
+
+## v1.8.0 - 2025-06-29
 - Refactored staged upload system:
   - going to run v1.7.0 on the ec2 for a while longer until this version is more robust and tested
   - making this an interim release because it has been weeks since i did a pull to main
@@ -61,6 +67,7 @@ Below are the tag names, dates, and overview of the Portal versions
   - Easy to find later
   - Common practice (PyPI, GitHub, etc.)
 - Creating a tag
+  - git tag -a v2.0.0 -m "New Staging Portal Ready for ec2 testing/deployment"
   - git tag -a v1.0.0 -m "Stable release v1.0.0 - ready for archive"
   - git tag -a v1.3.0 -m "Version 1.3.0. New portal changes page, more robust json storage." 
 - View tags
