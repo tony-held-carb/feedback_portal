@@ -89,6 +89,7 @@ dependencies:
   # System dependencies for Playwright on older Linux distributions
   - libstdcxx-ng      # Provides newer C++ standard library
   - gcc_linux-64      # Provides newer GCC runtime libraries
+  - nodejs            # Node.js for Playwright compatibility
 
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results
@@ -117,4 +118,5 @@ dependencies:
       - pytest-playwright
       - selenium
       - webdriver-manager
+      - requests
 
