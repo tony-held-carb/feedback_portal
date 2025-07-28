@@ -136,10 +136,11 @@ dependencies:
       - WTForms-Alchemy
       - email_validator
       # Below were not in the original mini_conda_01
-      - playwright==1.10.0    # Compatible with GLIBC 2.26 (EC2)
+      - playwright==1.20.0    # Compatible with GLIBC 2.26 (EC2)
       - pytest
-      - pytest-playwright==0.1.0  # Compatible version with playwright 1.10.x
+      - pytest-playwright==0.1.0  # Compatible version with playwright 1.20.x
       - selenium
       - webdriver-manager
       - requests
+      - greenlet>=2.0.0  # Pre-compiled wheels available
 
