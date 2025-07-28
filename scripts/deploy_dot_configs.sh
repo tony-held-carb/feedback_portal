@@ -6,7 +6,9 @@
 # This script copies the current .bashrc and .bash_profile files to the
 # appropriate home directory based on the MACHINE_NAME environment variable.
 #
-# Usage: ./deploy_dot_configs.sh
+# chmod +x scripts/*.sh
+#
+# Usage: deploy_dot_configs.sh  (from feedback_portal directory)
 #
 # Prerequisites:
 # - MACHINE_NAME environment variable must be set

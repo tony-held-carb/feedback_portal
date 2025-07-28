@@ -44,16 +44,12 @@
 # ------
 #   - After creating or updating this environment, on work/home machines run:
 #         playwright install
-#   - on EC2, run:
-#         playwright install --with-deps
-#     This downloads the required browser binaries for Playwright-based tests.
-#     If you skip this step, all Playwright/pytest-playwright tests will fail with browser not found errors.
 #
 # EC2 Playwright Installation Options (try in order, no admin required):
 # --------------------------------------------------------------------
 # Option 1: Force Playwright to use conda's Node.js (no admin required)
 #   export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
-#   playwright install
+#   playwright install (this seems to work on EC2)
 #
 # Option 2: Install only Firefox (more compatible with older systems)
 #   playwright install firefox
