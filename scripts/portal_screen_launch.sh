@@ -88,7 +88,7 @@ echo "✅ Command: $LAUNCH_CMD"
 
 # Step 5: Launch screen session with direct commands
 echo "Step 5: Launching screen session..."
-SCREEN_CMD="cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD >> $LOG_FILE 2>&1"
+SCREEN_CMD="cd $PRODUCTION_DIR && source ~/miniconda3/etc/profile.d/conda.sh && conda activate $CONDA_ENV && $LAUNCH_CMD >> $LOG_FILE 2>&1"
 echo "SCREEN_CMD: $SCREEN_CMD"
 
 echo "🔍 Full screen command that will be executed:"
@@ -126,5 +126,5 @@ else
   echo "3. Check screen sessions:"
   echo "   screen -ls"
   echo "4. Test command manually:"
-  echo "   cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD"
+  echo "   cd $PRODUCTION_DIR && source ~/miniconda3/etc/profile.d/conda.sh && conda activate $CONDA_ENV && $LAUNCH_CMD"
 fi 
