@@ -40,7 +40,7 @@ case "$MACHINE_NAME" in
   "TONY_EC2")
     CONDA_HOME="/home/theld/miniconda3"
     export portal="/home/theld/code/git_repos/feedback_portal"
-    export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
+#    export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
     ;;
   *)
     echo "⚠️  Unknown MACHINE_NAME='$MACHINE_NAME'."
@@ -50,7 +50,7 @@ esac
 # Derived Environmental Variables
 export prod="$portal/source/production"
 export PATH="$PATH:$portal/scripts"
-export PYTHONPATH="$PYTHONPATH:$prod"
+export PYTHONPATH="$prod"
 
 # Additional Settings
 export TERM=xterm-256color
