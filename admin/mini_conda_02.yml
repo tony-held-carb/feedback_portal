@@ -1,8 +1,5 @@
 # mini_conda_02.yml
-
-# based off original mini_conda_01.yml that was last modified 2025-06-09.
-
-# -------------------------------------------------------------------------------------------------
+#
 # Purpose:
 # --------
 #   - Requirements file for the creation of the conda environment suitable for flask web development
@@ -13,42 +10,26 @@
 #
 #       conda update conda
 #       conda env list
-#       conda remove --name mini_conda_02 --all
+#       conda remove --yes --name mini_conda_02 --all
 #       conda deactivate
-#
-#     on home computer:
-#         conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
-#     on work laptop:
-#         conda env create -f "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
-#     on ec2:
-#         conda remove --yes --name mini_conda_02 --all
-#         conda env create --yes -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
-#
-#     then:
-#         conda activate mini_conda_02
+#       conda env create --yes -f "$portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
+#       conda activate mini_conda_02
 #
 # Updating the conda environment:
 # ------------------------------
 #   - Shell commands to update the conda virtual environment named "mini_conda_02"
 #
-#     conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
+#       conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
+#       conda env update --file "$portal/admin/mini_conda_02.yml"
 #
-#     on home computer:
-#         conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml" --prune
-#     on work laptop:
-#         conda env update --file "C:\tony_local\pycharm/feedback_portal\admin\mini_conda_02.yml"
-#     on ec2:
-#         conda env update --file "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
-
 # Notes:
 # ------
 #   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
-#
-# Playwright Install Notes:
-# ------
-#   - After creating or updating this environment, on work/home machines run:
+#   - Based off original mini_conda_01.yml that was last modified 2025-06-09.
+#   - Playwright Install Notes:
+#     - After creating or updating this environment, on work/home machines run:
 #         playwright install
-#   - Can't get playwright to work on the ec2
+#     - Can't get playwright to work on the ec2
 # -------------------------------------------------------------------------------------------------
 
 # change the name of your environment with the variable below
