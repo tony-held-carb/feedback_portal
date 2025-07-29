@@ -144,5 +144,4 @@ dependencies:
       - selenium
       - webdriver-manager
       - requests
-      - greenlet==3.0.0           # Pre-compiled wheels for Python 3.11
 
