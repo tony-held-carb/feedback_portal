@@ -27,7 +27,7 @@ echo "Trying Playwright versions in order of compatibility..."
 
 # Try different Playwright versions (older versions are more compatible with GLIBC 2.26)
 #PLAYWRIGHT_VERSIONS=("1.25.0" "1.30.0" "1.35.0" "1.40.0" "1.45.0")
-PLAYWRIGHT_VERSIONS=("1.25.0" "1.45.0")
+PLAYWRIGHT_VERSIONS=("1.24.0" "1.45.0")
 
 for version in "${PLAYWRIGHT_VERSIONS[@]}"; do
     echo "Trying Playwright version $version..."
@@ -41,7 +41,8 @@ for version in "${PLAYWRIGHT_VERSIONS[@]}"; do
         echo "✅ Successfully installed Playwright $version"
         
         echo "Installing pytest-playwright..."
-        if pip install "pytest-playwright==0.2.0"; then
+#        if pip install "pytest-playwright==0.2.0"; then
+        if pip install "pytest-playwright"; then
             echo "✅ Successfully installed pytest-playwright"
             
             # Try to install browsers
