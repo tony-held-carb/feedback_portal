@@ -26,7 +26,8 @@ echo "Installing Playwright packages..."
 echo "Trying Playwright versions in order of compatibility..."
 
 # Try different Playwright versions (older versions are more compatible with GLIBC 2.26)
-PLAYWRIGHT_VERSIONS=("1.25.4" "1.30.0" "1.35.0" "1.40.0" "1.45.0")
+#PLAYWRIGHT_VERSIONS=("1.25.0" "1.30.0" "1.35.0" "1.40.0" "1.45.0")
+PLAYWRIGHT_VERSIONS=("1.25.0" "1.45.0")
 
 for version in "${PLAYWRIGHT_VERSIONS[@]}"; do
     echo "Trying Playwright version $version..."
@@ -65,7 +66,7 @@ done
 # Test browser compatibility
 echo ""
 echo "Testing browser compatibility..."
-if python tests/e2e/test_browser_compatibility.py; then
+if python $portal/tests/e2e/test_browser_compatibility.py; then
     echo "✅ Browser compatibility test passed!"
 else
     echo "⚠️  Browser compatibility test failed, but environment is ready for other tests."
