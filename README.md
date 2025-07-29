@@ -24,14 +24,13 @@
   * cd $portal
   * if you don't want to run on http://127.0.0.1:5000
     * create TEST_BASE_URL environmental variable
-  * pytest tests/arb -v  > pytest_home_all_21.txt 2>&1
-  * pytest tests/e2e -v  > pytest_home_e2e_21.txt 2>&1
-  * pytest tests/arb -v  > pytest_laptop_all_21.txt 2>&1
-  * pytest tests/e2e -v  > pytest_laptop_e2e_21.txt 2>&1
-  * pytest tests/arb -v  > pytest_EC2_all_21.txt 2>&1
-  * pytest -s tests/e2e -v  > pytest_EC2_e2e_21.txt 2>&1
-  * tail -f pytest_laptop_all_21.txt 
-  * tail -f pytest_laptop_e2e_21.txt 
+  * pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1
+  * pytest tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1
+  * optional -s for more diagnostics
+    * pytest -s tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1
+    * pytest -s tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1
+  * tail -f "pytest_${MACHINE_NAME}_all_21.txt"
+  * tail -f "pytest_${MACHINE_NAME}_e2e_21.txt"
   * 
 ### Cloning Portal
 * Navigate to the root path of repos
@@ -40,6 +39,11 @@
   * rm -rf feedback_portal
 * Clone the latest portal repo
   * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal  --origin github
+  * cd feedback_portal
+  * git branch -a
+  * git checkout <current branch>
+    * git checkout refactor_29
+  * git status
 
 ### Creating & Pushing documentation site to GitHub
 * making the docs
