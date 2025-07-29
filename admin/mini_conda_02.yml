@@ -23,7 +23,7 @@
 #     on ec2:
 #         conda env create -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
 #
-#         conda remove --name mini_conda_02 --all
+#         conda remove --yes --name mini_conda_02 --all
 #         conda env create --yes -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
 #
 # Updating the conda environment:
