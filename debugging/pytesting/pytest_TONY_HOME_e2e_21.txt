@@ -1070,4 +1070,214 @@ tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_work
         
 PASSED
 tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED
-tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] 
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
+[DEBUG] Test data cleared via UI at /delete_testing_range
+Running incremental upload test for: feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250729_101919.json
+[CHECKBOX DIAGNOSTICS] Found 33 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 3: name/id='confirm_overwrite_component_at_source', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_component_other_description', checked=False
+  - Checkbox 5: name/id='confirm_overwrite_contact_email', checked=False
+  - Checkbox 6: name/id='confirm_overwrite_contact_name', checked=False
+  - Checkbox 7: name/id='confirm_overwrite_contact_phone', checked=False
+  - Checkbox 8: name/id='confirm_overwrite_equipment_at_source', checked=False
+  - Checkbox 9: name/id='confirm_overwrite_equipment_other_description', checked=False
+  - Checkbox 10: name/id='confirm_overwrite_facility_name', checked=False
+  - Checkbox 11: name/id='confirm_overwrite_final_repair_concentration', checked=False
+  - Checkbox 12: name/id='confirm_overwrite_id_arb_eggrt', checked=False
+  - Checkbox 13: name/id='confirm_overwrite_id_incidence', checked=False
+  - Checkbox 14: name/id='confirm_overwrite_id_message', checked=False
+  - Checkbox 15: name/id='confirm_overwrite_id_plume', checked=False
+  - Checkbox 16: name/id='confirm_overwrite_initial_leak_concentration', checked=False
+  - Checkbox 17: name/id='confirm_overwrite_initial_mitigation_plan', checked=False
+  - Checkbox 18: name/id='confirm_overwrite_lat_carb', checked=False
+  - Checkbox 19: name/id='confirm_overwrite_long_carb', checked=False
+  - Checkbox 20: name/id='confirm_overwrite_method21_date', checked=False
+  - Checkbox 21: name/id='confirm_overwrite_method21_performed', checked=False
+  - Checkbox 22: name/id='confirm_overwrite_method21_result', checked=False
+  - Checkbox 23: name/id='confirm_overwrite_observation_timestamp', checked=False
+  - Checkbox 24: name/id='confirm_overwrite_ogi_date', checked=False
+  - Checkbox 25: name/id='confirm_overwrite_ogi_performed', checked=False
+  - Checkbox 26: name/id='confirm_overwrite_ogi_result', checked=False
+  - Checkbox 27: name/id='confirm_overwrite_repair_description', checked=False
+  - Checkbox 28: name/id='confirm_overwrite_repair_timestamp', checked=False
+  - Checkbox 29: name/id='confirm_overwrite_sector', checked=False
+  - Checkbox 30: name/id='confirm_overwrite_venting_description_1', checked=False
+  - Checkbox 31: name/id='confirm_overwrite_venting_description_2', checked=False
+  - Checkbox 32: name/id='confirm_overwrite_venting_exclusion', checked=False
+checking box named: confirm_overwrite_additional_notes
+checking box named: confirm_overwrite_component_other_description
+checking box named: confirm_overwrite_contact_name
+checking box named: confirm_overwrite_equipment_at_source
+checking box named: confirm_overwrite_facility_name
+checking box named: confirm_overwrite_id_arb_eggrt
+checking box named: confirm_overwrite_id_message
+checking box named: confirm_overwrite_initial_leak_concentration
+checking box named: confirm_overwrite_lat_carb
+checking box named: confirm_overwrite_method21_date
+checking box named: confirm_overwrite_method21_result
+checking box named: confirm_overwrite_ogi_date
+checking box named: confirm_overwrite_ogi_result
+checking box named: confirm_overwrite_repair_timestamp
+checking box named: confirm_overwrite_venting_description_1
+checking box named: confirm_overwrite_venting_exclusion
+A total of 16 check boxes were selected.
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='checkbox_1', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=True
+  - Checkbox 3: name/id='confirm_overwrite_component_at_source', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_component_other_description', checked=True
+  - Checkbox 5: name/id='confirm_overwrite_contact_email', checked=False
+  - Checkbox 6: name/id='confirm_overwrite_contact_name', checked=True
+  - Checkbox 7: name/id='confirm_overwrite_contact_phone', checked=False
+  - Checkbox 8: name/id='confirm_overwrite_equipment_at_source', checked=True
+  - Checkbox 9: name/id='confirm_overwrite_equipment_other_description', checked=False
+  - Checkbox 10: name/id='confirm_overwrite_facility_name', checked=True
+  - Checkbox 11: name/id='confirm_overwrite_final_repair_concentration', checked=False
+  - Checkbox 12: name/id='confirm_overwrite_id_arb_eggrt', checked=True
+  - Checkbox 13: name/id='confirm_overwrite_id_incidence', checked=False
+  - Checkbox 14: name/id='confirm_overwrite_id_message', checked=True
+  - Checkbox 15: name/id='confirm_overwrite_id_plume', checked=False
+  - Checkbox 16: name/id='confirm_overwrite_initial_leak_concentration', checked=True
+  - Checkbox 17: name/id='confirm_overwrite_initial_mitigation_plan', checked=False
+  - Checkbox 18: name/id='confirm_overwrite_lat_carb', checked=True
+  - Checkbox 19: name/id='confirm_overwrite_long_carb', checked=False
+  - Checkbox 20: name/id='confirm_overwrite_method21_date', checked=True
+  - Checkbox 21: name/id='confirm_overwrite_method21_performed', checked=False
+  - Checkbox 22: name/id='confirm_overwrite_method21_result', checked=True
+  - Checkbox 23: name/id='confirm_overwrite_observation_timestamp', checked=False
+  - Checkbox 24: name/id='confirm_overwrite_ogi_date', checked=True
+  - Checkbox 25: name/id='confirm_overwrite_ogi_performed', checked=False
+  - Checkbox 26: name/id='confirm_overwrite_ogi_result', checked=True
+  - Checkbox 27: name/id='confirm_overwrite_repair_description', checked=False
+  - Checkbox 28: name/id='confirm_overwrite_repair_timestamp', checked=True
+  - Checkbox 29: name/id='confirm_overwrite_sector', checked=False
+  - Checkbox 30: name/id='confirm_overwrite_venting_description_1', checked=True
+  - Checkbox 31: name/id='confirm_overwrite_venting_description_2', checked=False
+  - Checkbox 32: name/id='confirm_overwrite_venting_exclusion', checked=True
+[DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250729_101928.json
+[CHECKBOX DIAGNOSTICS] (2nd upload) Found 17 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_component_at_source', checked=False
+checking box named: confirm_overwrite_component_at_source
+  - Checkbox 3: name/id='confirm_overwrite_contact_email', checked=False
+checking box named: confirm_overwrite_contact_email
+  - Checkbox 4: name/id='confirm_overwrite_contact_phone', checked=False
+checking box named: confirm_overwrite_contact_phone
+  - Checkbox 5: name/id='confirm_overwrite_equipment_other_description', checked=False
+checking box named: confirm_overwrite_equipment_other_description
+  - Checkbox 6: name/id='confirm_overwrite_final_repair_concentration', checked=False
+checking box named: confirm_overwrite_final_repair_concentration
+  - Checkbox 7: name/id='confirm_overwrite_id_incidence', checked=False
+checking box named: confirm_overwrite_id_incidence
+  - Checkbox 8: name/id='confirm_overwrite_id_plume', checked=False
+checking box named: confirm_overwrite_id_plume
+  - Checkbox 9: name/id='confirm_overwrite_initial_mitigation_plan', checked=False
+checking box named: confirm_overwrite_initial_mitigation_plan
+  - Checkbox 10: name/id='confirm_overwrite_long_carb', checked=False
+checking box named: confirm_overwrite_long_carb
+  - Checkbox 11: name/id='confirm_overwrite_method21_performed', checked=False
+checking box named: confirm_overwrite_method21_performed
+  - Checkbox 12: name/id='confirm_overwrite_observation_timestamp', checked=False
+checking box named: confirm_overwrite_observation_timestamp
+  - Checkbox 13: name/id='confirm_overwrite_ogi_performed', checked=False
+checking box named: confirm_overwrite_ogi_performed
+  - Checkbox 14: name/id='confirm_overwrite_repair_description', checked=False
+checking box named: confirm_overwrite_repair_description
+  - Checkbox 15: name/id='confirm_overwrite_sector', checked=False
+checking box named: confirm_overwrite_sector
+  - Checkbox 16: name/id='confirm_overwrite_venting_description_2', checked=False
+checking box named: confirm_overwrite_venting_description_2
+A total of 15 check boxes were selected on 2nd upload.
+[DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250729_101938.json
+[CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Generic) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Generic) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] Upload successful: 
+          ✅ All changes have been saved successfully! No validation warnings or errors found.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] Upload failed: 
+
+       18 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] Upload failed: 
+
+       1 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] Upload failed: 
+
+       20 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] Upload failed: 
+
+       1 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] Upload failed: 
+
+       9 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED
+tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...)
+
+============================== warnings summary ===============================
+tests/e2e/test_browser_compatibility.py::test_browser[chromium]
+  C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\_pytest\python.py:161: PytestReturnNotNoneWarning: Test functions should return None, but tests/e2e/test_browser_compatibility.py::test_browser[chromium] returned <class 'bool'>.
+  Did you mean to use `assert` instead of `return`?
+  See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============ 83 passed, 5 skipped, 1 warning in 488.34s (0:08:08) =============
