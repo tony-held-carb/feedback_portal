@@ -1648,3 +1648,40 @@ the results are in the folder debugging/pytesting
 please analyze the pytest output and lets fix whatever fails we are getting
 
 
+adding ssh authorization to ec2 for tony-held-carb
+1. Check if you have an SSH key on EC2:
+    ls ~/.ssh/
+2. Generate one:
+    ssh-keygen -t ed25519 -C "theld@ec2"
+3. Add the public key to GitHub:
+    cat id_ed25519.pub
+
+How to Add Your EC2 SSH Key to GitHub
+Sign in to GitHub
+    Go to: https://github.com
+    Log into your account (tony-held-carb)
+Open SSH Key Settings
+    Click your profile picture (top right corner)
+    Choose “Settings”
+Go to SSH Keys Section
+    In the left sidebar, click:
+    Access → SSH and GPG keys
+    or https://github.com/settings/keys
+Click “New SSH key” (or “Add SSH key”)
+    Click the green New SSH key button
+    Fill out the form:
+        Title: EC2 TONY (or any label you want)
+        Key type: Authentication Key
+        Paste in the contents of (cat id_ed25519.pub)
+
+have git use ssh
+git remote set-url github git@github.com:tony-held-carb/feedback_portal.git
+
+test it:
+ssh -T git@github.com
+
+Rename github → origin
+(For compatibility with scripts like git_push.sh that assume origin):
+
+
+
