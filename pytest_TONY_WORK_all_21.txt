@@ -328,4 +328,4 @@ ERROR tests/arb/portal/test_wtf_oil_and_gas.py
 ERROR tests/arb/portal/test_wtf_upload.py
 ERROR tests/arb/utils/test_arb_logging.py
 !!!!!!!!!!!!!!!!!! Interrupted: 28 errors during collection !!!!!!!!!!!!!!!!!!!
-============================= 28 errors in 1.92s ==============================
+============================= 28 errors in 1.84s ==============================
