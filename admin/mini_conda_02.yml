@@ -81,7 +81,8 @@ channels:
   # Include any other channels here if your package is not in defaults
   # - conda-forge
 dependencies:
-  - python=3.11.*
+#  - python=3.11.*
+  - python=3.10
   - flask
   - flask-sqlalchemy
   - flask-login
@@ -128,11 +129,13 @@ dependencies:
       - wget
       - WTForms-Alchemy
       - email_validator
+      - pytest
+      - requests
+      - playwright==1.18.0
+      - pytest-playwright=0.2.1
       # Below were not in the original mini_conda_01
       # - playwright==1.40.0    # Compatible with Python 3.11 and has modern greenlet
-      - pytest
       # - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.x
       # - selenium              # Only needed for Selenium-based testing (not used)
       # - webdriver-manager     # Only needed for Selenium-based testing (not used)
-      - requests
 
