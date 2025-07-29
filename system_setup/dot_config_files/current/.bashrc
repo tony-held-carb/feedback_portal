@@ -50,7 +50,7 @@ esac
 # Derived Environmental Variables
 export prod="$portal/source/production"
 export PATH="$PATH:$portal/scripts"
-export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$prod"
+export PYTHONPATH="$prod"
 
 # Additional Settings
 export TERM=xterm-256color
