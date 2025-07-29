@@ -1669,5 +1669,25 @@ ssh -T git@github.com
 Rename github → origin
 (For compatibility with scripts like git_push.sh that assume origin):
 
+(mini_conda_02) scripts$ ./portal_screen_launch.sh
+🔍 Launching flask in screen session 'feedback_portal'
+📁 WSGI directory:  /home/theld/code/git_repos/feedback_portal/source/production
+🐍 Conda env:       mini_conda_02
+🌐 Host:Port        0.0.0.0:2113
+🐞 Debug mode:      true
+📄 Log file:        /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log
+
+🛠️ Final command:
+bash -l -c "cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && PYTHONPATH=/home/theld/code/git_repos/feedback_portal/source/production flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log 2>&1"
+
+❌ Screen session failed to launch. Check the log:
+📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log
+
+To reattach:  screen -r feedback_portal
+To list all:  screen -ls
+To stop:      screen -S feedback_portal -X quit
+(mini_conda_02) scripts$ cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log
+cat: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log: No such file or directory
+(mini_conda_02) scripts$
 
 
