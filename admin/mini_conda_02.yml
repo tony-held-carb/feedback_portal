@@ -8,19 +8,19 @@
 # ---------------------------------
 #   - Shell commands to create conda virtual environment named "mini_conda_02"
 #
-#       conda update conda
-#       conda env list
-#       conda remove --yes --name mini_conda_02 --all
-#       conda deactivate
-#       conda env create --yes -f "$portal/admin/mini_conda_02.yml" > "conda_install_$MACHINE_NAME.log" 2>&1
-#       conda activate mini_conda_02
+#     conda update conda
+#     conda env list
+#     conda remove --yes --name mini_conda_02 --all
+#     conda deactivate
+#     conda env create --yes -f "$portal/admin/mini_conda_02.yml" > "conda_install_$MACHINE_NAME.log" 2>&1
+#     conda activate mini_conda_02
 #
 # Updating the conda environment:
 # ------------------------------
 #   - Shell commands to update the conda virtual environment named "mini_conda_02"
 #
-#       conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
-#       conda env update --file "$portal/admin/mini_conda_02.yml"
+#     conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
+#     conda env update --file "$portal/admin/mini_conda_02.yml"
 #
 # Notes:
 # ------
