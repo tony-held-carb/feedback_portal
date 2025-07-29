@@ -31,7 +31,8 @@
     * pytest -s tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1
   * tail -f "pytest_${MACHINE_NAME}_all_21.txt"
   * tail -f "pytest_${MACHINE_NAME}_e2e_21.txt"
-  * 
+  * pytest tests/e2e -v  > "pytest_flask_on_ec2_testing_on_work_e2e_21.txt" 2>&1
+
 ### Cloning Portal
 * Navigate to the root path of repos
   * cd $portal/..
