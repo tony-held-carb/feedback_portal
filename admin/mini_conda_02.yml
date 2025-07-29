@@ -82,7 +82,7 @@ channels:
   # - conda-forge
 dependencies:
 #  - python=3.11.*
-  - python=3.11
+  - python=3.10
   - flask
   - flask-sqlalchemy
   - flask-login
@@ -131,6 +131,7 @@ dependencies:
       - email_validator
       - pytest
       - requests
+      - pyee==8.1.0
       - playwright==1.18.0
       - pytest-playwright==0.2.1
       # Below were not in the original mini_conda_01
