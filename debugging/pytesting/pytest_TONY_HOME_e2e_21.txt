@@ -907,4 +907,167 @@ tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_work
         
 PASSED
 tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data_update.xlsx] PASSED
-tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] 
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
+[DEBUG] Test data cleared via UI at /delete_testing_range
+Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250729_101837.json
+[CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=False
+  - Checkbox 3: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=False
+  - Checkbox 5: name/id='confirm_overwrite_contact_name', checked=False
+  - Checkbox 6: name/id='confirm_overwrite_contact_phone', checked=False
+  - Checkbox 7: name/id='confirm_overwrite_emission_cause', checked=False
+  - Checkbox 8: name/id='confirm_overwrite_emission_cause_notes', checked=False
+  - Checkbox 9: name/id='confirm_overwrite_emission_cause_secondary', checked=False
+  - Checkbox 10: name/id='confirm_overwrite_emission_cause_tertiary', checked=False
+  - Checkbox 11: name/id='confirm_overwrite_emission_identified_flag_fk', checked=False
+  - Checkbox 12: name/id='confirm_overwrite_emission_location', checked=False
+  - Checkbox 13: name/id='confirm_overwrite_emission_location_notes', checked=False
+  - Checkbox 14: name/id='confirm_overwrite_emission_type_fk', checked=False
+  - Checkbox 15: name/id='confirm_overwrite_facility_name', checked=False
+  - Checkbox 16: name/id='confirm_overwrite_id_arb_swis', checked=False
+  - Checkbox 17: name/id='confirm_overwrite_id_incidence', checked=False
+  - Checkbox 18: name/id='confirm_overwrite_id_message', checked=False
+  - Checkbox 19: name/id='confirm_overwrite_id_plume', checked=False
+  - Checkbox 20: name/id='confirm_overwrite_included_in_last_lmr', checked=False
+  - Checkbox 21: name/id='confirm_overwrite_included_in_last_lmr_description', checked=False
+  - Checkbox 22: name/id='confirm_overwrite_initial_leak_concentration', checked=False
+  - Checkbox 23: name/id='confirm_overwrite_inspection_timestamp', checked=False
+  - Checkbox 24: name/id='confirm_overwrite_instrument', checked=False
+  - Checkbox 25: name/id='confirm_overwrite_last_component_leak_monitoring_timestamp', checked=False
+  - Checkbox 26: name/id='confirm_overwrite_last_surface_monitoring_timestamp', checked=False
+  - Checkbox 27: name/id='confirm_overwrite_lat_carb', checked=False
+  - Checkbox 28: name/id='confirm_overwrite_lat_revised', checked=False
+  - Checkbox 29: name/id='confirm_overwrite_long_carb', checked=False
+  - Checkbox 30: name/id='confirm_overwrite_long_revised', checked=False
+  - Checkbox 31: name/id='confirm_overwrite_mitigation_actions', checked=False
+  - Checkbox 32: name/id='confirm_overwrite_mitigation_timestamp', checked=False
+  - Checkbox 33: name/id='confirm_overwrite_observation_timestamp', checked=False
+  - Checkbox 34: name/id='confirm_overwrite_planned_for_next_lmr', checked=False
+  - Checkbox 35: name/id='confirm_overwrite_planned_for_next_lmr_description', checked=False
+  - Checkbox 36: name/id='confirm_overwrite_re_monitored_concentration', checked=False
+  - Checkbox 37: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
+  - Checkbox 38: name/id='confirm_overwrite_sector', checked=False
+checking box named: confirm_overwrite_additional_activities
+checking box named: confirm_overwrite_contact_email
+checking box named: confirm_overwrite_contact_phone
+checking box named: confirm_overwrite_emission_cause_notes
+checking box named: confirm_overwrite_emission_cause_tertiary
+checking box named: confirm_overwrite_emission_location
+checking box named: confirm_overwrite_emission_type_fk
+checking box named: confirm_overwrite_id_arb_swis
+checking box named: confirm_overwrite_id_message
+checking box named: confirm_overwrite_included_in_last_lmr
+checking box named: confirm_overwrite_initial_leak_concentration
+checking box named: confirm_overwrite_instrument
+checking box named: confirm_overwrite_last_surface_monitoring_timestamp
+checking box named: confirm_overwrite_lat_revised
+checking box named: confirm_overwrite_long_revised
+checking box named: confirm_overwrite_mitigation_timestamp
+checking box named: confirm_overwrite_planned_for_next_lmr
+checking box named: confirm_overwrite_re_monitored_concentration
+checking box named: confirm_overwrite_sector
+A total of 19 check boxes were selected.
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='checkbox_1', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=True
+  - Checkbox 3: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=True
+  - Checkbox 5: name/id='confirm_overwrite_contact_name', checked=False
+  - Checkbox 6: name/id='confirm_overwrite_contact_phone', checked=True
+  - Checkbox 7: name/id='confirm_overwrite_emission_cause', checked=False
+  - Checkbox 8: name/id='confirm_overwrite_emission_cause_notes', checked=True
+  - Checkbox 9: name/id='confirm_overwrite_emission_cause_secondary', checked=False
+  - Checkbox 10: name/id='confirm_overwrite_emission_cause_tertiary', checked=True
+  - Checkbox 11: name/id='confirm_overwrite_emission_identified_flag_fk', checked=False
+  - Checkbox 12: name/id='confirm_overwrite_emission_location', checked=True
+  - Checkbox 13: name/id='confirm_overwrite_emission_location_notes', checked=False
+  - Checkbox 14: name/id='confirm_overwrite_emission_type_fk', checked=True
+  - Checkbox 15: name/id='confirm_overwrite_facility_name', checked=False
+  - Checkbox 16: name/id='confirm_overwrite_id_arb_swis', checked=True
+  - Checkbox 17: name/id='confirm_overwrite_id_incidence', checked=False
+  - Checkbox 18: name/id='confirm_overwrite_id_message', checked=True
+  - Checkbox 19: name/id='confirm_overwrite_id_plume', checked=False
+  - Checkbox 20: name/id='confirm_overwrite_included_in_last_lmr', checked=True
+  - Checkbox 21: name/id='confirm_overwrite_included_in_last_lmr_description', checked=False
+  - Checkbox 22: name/id='confirm_overwrite_initial_leak_concentration', checked=True
+  - Checkbox 23: name/id='confirm_overwrite_inspection_timestamp', checked=False
+  - Checkbox 24: name/id='confirm_overwrite_instrument', checked=True
+  - Checkbox 25: name/id='confirm_overwrite_last_component_leak_monitoring_timestamp', checked=False
+  - Checkbox 26: name/id='confirm_overwrite_last_surface_monitoring_timestamp', checked=True
+  - Checkbox 27: name/id='confirm_overwrite_lat_carb', checked=False
+  - Checkbox 28: name/id='confirm_overwrite_lat_revised', checked=True
+  - Checkbox 29: name/id='confirm_overwrite_long_carb', checked=False
+  - Checkbox 30: name/id='confirm_overwrite_long_revised', checked=True
+  - Checkbox 31: name/id='confirm_overwrite_mitigation_actions', checked=False
+  - Checkbox 32: name/id='confirm_overwrite_mitigation_timestamp', checked=True
+  - Checkbox 33: name/id='confirm_overwrite_observation_timestamp', checked=False
+  - Checkbox 34: name/id='confirm_overwrite_planned_for_next_lmr', checked=True
+  - Checkbox 35: name/id='confirm_overwrite_planned_for_next_lmr_description', checked=False
+  - Checkbox 36: name/id='confirm_overwrite_re_monitored_concentration', checked=True
+  - Checkbox 37: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
+  - Checkbox 38: name/id='confirm_overwrite_sector', checked=True
+[DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250729_101856.json
+[CHECKBOX DIAGNOSTICS] (2nd upload) Found 20 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=False
+checking box named: confirm_overwrite_additional_notes
+  - Checkbox 3: name/id='confirm_overwrite_contact_name', checked=False
+checking box named: confirm_overwrite_contact_name
+  - Checkbox 4: name/id='confirm_overwrite_emission_cause', checked=False
+checking box named: confirm_overwrite_emission_cause
+  - Checkbox 5: name/id='confirm_overwrite_emission_cause_secondary', checked=False
+checking box named: confirm_overwrite_emission_cause_secondary
+  - Checkbox 6: name/id='confirm_overwrite_emission_identified_flag_fk', checked=False
+checking box named: confirm_overwrite_emission_identified_flag_fk
+  - Checkbox 7: name/id='confirm_overwrite_emission_location_notes', checked=False
+checking box named: confirm_overwrite_emission_location_notes
+  - Checkbox 8: name/id='confirm_overwrite_facility_name', checked=False
+checking box named: confirm_overwrite_facility_name
+  - Checkbox 9: name/id='confirm_overwrite_id_incidence', checked=False
+checking box named: confirm_overwrite_id_incidence
+  - Checkbox 10: name/id='confirm_overwrite_id_plume', checked=False
+checking box named: confirm_overwrite_id_plume
+  - Checkbox 11: name/id='confirm_overwrite_included_in_last_lmr_description', checked=False
+checking box named: confirm_overwrite_included_in_last_lmr_description
+  - Checkbox 12: name/id='confirm_overwrite_inspection_timestamp', checked=False
+checking box named: confirm_overwrite_inspection_timestamp
+  - Checkbox 13: name/id='confirm_overwrite_last_component_leak_monitoring_timestamp', checked=False
+checking box named: confirm_overwrite_last_component_leak_monitoring_timestamp
+  - Checkbox 14: name/id='confirm_overwrite_lat_carb', checked=False
+checking box named: confirm_overwrite_lat_carb
+  - Checkbox 15: name/id='confirm_overwrite_long_carb', checked=False
+checking box named: confirm_overwrite_long_carb
+  - Checkbox 16: name/id='confirm_overwrite_mitigation_actions', checked=False
+checking box named: confirm_overwrite_mitigation_actions
+  - Checkbox 17: name/id='confirm_overwrite_observation_timestamp', checked=False
+checking box named: confirm_overwrite_observation_timestamp
+  - Checkbox 18: name/id='confirm_overwrite_planned_for_next_lmr_description', checked=False
+checking box named: confirm_overwrite_planned_for_next_lmr_description
+  - Checkbox 19: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
+checking box named: confirm_overwrite_re_monitored_timestamp
+A total of 18 check boxes were selected on 2nd upload.
+[DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250729_101911.json
+[CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Energy) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] 
