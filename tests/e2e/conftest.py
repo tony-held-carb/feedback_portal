@@ -8,7 +8,10 @@ import pytest
 from pathlib import Path
 
 # Test configuration - can be overridden by environment variables
-TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://127.0.0.1:2113")
+# TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://127.0.0.1:2113")
+TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://10.93.112.44:2113/")
+# pytest tests/e2e -v  > "pytest_flask_on_ec2_testing_on_work_e2e_21.txt" 2>&1
+
 TEST_FILES_DIR = Path("feedback_forms/testing_versions")
 
 # Browser configuration
