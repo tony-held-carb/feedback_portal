@@ -58,7 +58,7 @@ echo "📄 Log file:        $LOG_FILE"
 
 # Build command
 if [[ "$MODE" == "flask" ]]; then
-  CMD="cd $WSGI_DIR && conda activate $CONDA_ENV && PYTHONPATH=$PYTHON_ROOT flask --app wsgi run --host=$HOST --port=$PORT"
+  CMD="cd $WSGI_DIR && conda activate $CONDA_ENV && PYTHONPATH=$PYTHON_ROOT flask --app arb/wsgi run --host=$HOST --port=$PORT"
   [[ "$DEBUG" == "true" ]] && CMD="$CMD --debug"
 elif [[ "$MODE" == "gunicorn" ]]; then
   CMD="cd $WSGI_DIR && conda activate $CONDA_ENV && PYTHONPATH=$PYTHON_ROOT gunicorn --bind $HOST:$PORT wsgi:app"
