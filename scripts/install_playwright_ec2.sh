@@ -23,29 +23,44 @@ echo "✅ Using Node.js: $PLAYWRIGHT_NODEJS_PATH"
 
 # Install Playwright with specific versions
 echo "Installing Playwright packages..."
-pip install playwright==1.40.0 pytest-playwright==0.4.0
+echo "Trying Playwright versions in order of compatibility..."
 
-# Try to install browsers
-echo "Installing Playwright browsers..."
-echo "Note: This may show dependency warnings but should still work."
+# Try different Playwright versions (older versions are more compatible with GLIBC 2.26)
+PLAYWRIGHT_VERSIONS=("1.25.4" "1.30.0" "1.35.0" "1.40.0" "1.45.0")
 
-# Try different installation approaches
-echo "Attempting playwright install..."
-if playwright install; then
-    echo "✅ Playwright browsers installed successfully!"
-else
-    echo "⚠️  Standard install failed, trying individual browsers..."
+for version in "${PLAYWRIGHT_VERSIONS[@]}"; do
+    echo "Trying Playwright version $version..."
     
-    # Try installing browsers individually
-    for browser in firefox webkit chromium; do
-        echo "Installing $browser..."
-        if playwright install $browser; then
-            echo "✅ $browser installed successfully!"
+    # Uninstall any existing playwright
+    pip uninstall -y playwright pytest-playwright 2>/dev/null || true
+    
+    # Install specific version
+    echo "Installing Playwright $version..."
+    if pip install "playwright==$version"; then
+        echo "✅ Successfully installed Playwright $version"
+        
+        echo "Installing pytest-playwright..."
+        if pip install "pytest-playwright==0.2.0"; then
+            echo "✅ Successfully installed pytest-playwright"
+            
+            # Try to install browsers
+            echo "Installing Playwright browsers for version $version..."
+            if playwright install; then
+                echo "✅ Playwright browsers installed successfully!"
+                break
+            else
+                echo "⚠️  Browser installation failed for version $version, trying next..."
+                continue
+            fi
         else
-            echo "⚠️  $browser installation failed, continuing..."
+            echo "❌ Failed to install pytest-playwright, trying next..."
+            continue
         fi
-    done
-fi
+    else
+        echo "❌ Failed to install Playwright $version, trying next..."
+        continue
+    fi
+done
 
 # Test browser compatibility
 echo ""

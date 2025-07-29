@@ -50,30 +50,21 @@
 #
 # EC2 Playwright Installation Options (try in order, no admin required):
 # --------------------------------------------------------------------
-# Option 1: Force Playwright to use conda's Node.js (no admin required)
-#   export PLAYWRIGHT_NODEJS_PATH=~/miniconda3/envs/mini_conda_02/bin/node
-#   playwright install (this seems to work on EC2)
+# Option 1: Use the automated script (recommended)
+#   bash scripts/install_playwright_ec2.sh
 #
-# Option 2: Install only Firefox (more compatible with older systems)
+# Option 2: Manual installation with specific versions
+#   pip install playwright==1.25.4 pytest-playwright==0.2.0
+#   playwright install
+#
+# Option 3: Try older Playwright version (more compatible)
+#   pip install playwright==1.30.0 pytest-playwright==0.2.0
+#   playwright install
+#
+# Option 4: Try individual browsers
 #   playwright install firefox
-#
-# Option 3: Install only WebKit (Safari engine, often more compatible)
 #   playwright install webkit
-#
-# Option 4: Use older Playwright version (more compatible)
-#   pip uninstall playwright
-#   pip install playwright==1.40.0
-#   playwright install
-#
-# Option 5: Use much older Playwright version (most compatible)
-#   pip uninstall playwright
-#   pip install playwright==1.30.0
-#   playwright install
-#
-# Option 6: Try installing browsers individually
 #   playwright install chromium
-#   playwright install firefox
-#   playwright install webkit
 #
 # Note: Even if Playwright shows dependency warnings, it may still work.
 # Test browser compatibility with: python tests/e2e/test_browser_compatibility.py
