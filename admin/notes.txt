@@ -1690,4 +1690,52 @@ To stop:      screen -S feedback_portal -X quit
 cat: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_46_27.log: No such file or directory
 (mini_conda_02) scripts$
 
+---
+
+(mini_conda_02) scripts$ source portal_screen_launch.sh
+🔍 Launching flask in screen session 'feedback_portal'
+📁 WSGI directory:  /home/theld/code/git_repos/feedback_portal/source/production
+🐍 Conda env:       mini_conda_02
+🌐 Host:Port        0.0.0.0:2113
+🐞 Debug mode:      true
+📄 Log file:        /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log
+
+🛠️ Final command:
+bash -l -c "cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && PYTHONPATH=/home/theld/code/git_repos/feedback_portal/source/production flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log 2>&1"
+
+❌ Screen session failed to launch.
+📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log
+
+🔍 Debugging steps:
+1. Check if the log file was created:
+   ls -la /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log
+2. If log file exists, check its contents:
+   cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log
+3. Test the command manually:
+   cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && PYTHONPATH=/home/theld/code/git_repos/feedback_portal/source/production flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
+4. Check if conda environment exists:
+   conda env list | grep mini_conda_02
+5. Check if Flask is installed:
+   conda activate mini_conda_02 && python -c 'import flask; print(flask.__version__)'
+(mini_conda_02) scripts$ ls -la /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log
+ls: cannot access /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_18_58_45.log: No such file or directory
+(mini_conda_02) scripts$ conda env list | grep mini_conda_02
+/home/theld/miniconda3/lib/python3.12/site-packages/conda/base/context.py:198: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3.
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+mini_conda_02         *  /home/theld/miniconda3/envs/mini_conda_02
+(mini_conda_02) scripts$ cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && PYTHONPATH=/home/theld/code/git_repos/feedback_portal/source/production flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
+[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
+ * Serving Flask app 'arb/wsgi'
+ * Debug mode: on
+[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
+^C(mini_conda_02) production$
+
+
 
