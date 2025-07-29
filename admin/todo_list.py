@@ -7,6 +7,16 @@
 created PR 29 to clean up documentation and deploy to ec2
 * deploy to ec2
 
+looks like there are errors on ec2:
+
+(mini_conda_02) feedback_portal$ pwd
+/home/theld/code/git_repos/feedback_portal
+pytest_TONY_EC2_all_21.txt
+=========== 2 failed, 576 passed, 18 skipped, 165 warnings in 19.33s ===========
+
+
+
+
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
 * create a launch new version protocol for automated and manual testing
