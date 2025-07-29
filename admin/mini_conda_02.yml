@@ -21,10 +21,11 @@
 #     on work laptop:
 #         conda env create -f "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
 #     on ec2:
-#         conda env create -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
-#
 #         conda remove --yes --name mini_conda_02 --all
 #         conda env create --yes -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
+#
+#     then:
+#         conda activate mini_conda_02
 #
 # Updating the conda environment:
 # ------------------------------
@@ -47,31 +48,7 @@
 # ------
 #   - After creating or updating this environment, on work/home machines run:
 #         playwright install
-#
-# EC2 Playwright Installation Options (try in order, no admin required):
-# --------------------------------------------------------------------
-# Option 1: Use the automated script (recommended)
-#   bash scripts/install_playwright_ec2.sh
-#
-# Option 2: Manual installation with specific versions
-#   pip install playwright==1.25.4 pytest-playwright==0.2.0
-#   playwright install
-#
-# Option 3: Try older Playwright version (more compatible)
-#   pip install playwright==1.30.0 pytest-playwright==0.2.0
-#   playwright install
-#
-# Option 4: Try individual browsers
-#   playwright install firefox
-#   playwright install webkit
-#   playwright install chromium
-#
-# Note: Even if Playwright shows dependency warnings, it may still work.
-# Test browser compatibility with: python tests/e2e/test_browser_compatibility.py
-# If no browsers work, E2E tests will fail but unit/integration tests will work fine.
-#
-# If all options fail, the environment will still work for all other functionality.
-# Only E2E tests will be affected - unit and integration tests will work normally.
+#   - Can't get playwright to work on the ec2
 # -------------------------------------------------------------------------------------------------
 
 # change the name of your environment with the variable below
@@ -81,8 +58,7 @@ channels:
   # Include any other channels here if your package is not in defaults
   # - conda-forge
 dependencies:
-#  - python=3.11.*
-  - python=3.10
+  - python=3.11.*
   - flask
   - flask-sqlalchemy
   - flask-login
@@ -106,7 +82,7 @@ dependencies:
   - itsdangerous
   - email-validator
   - python-dotenv
-  - nodejs            # Node.js for Playwright compatibility
+  - nodejs
 
   # Make sure you include pip as a dependency (so don't delete the next line)
   # if you don't have the next line, you can get unstable/unpredictable results
@@ -125,18 +101,12 @@ dependencies:
       - mkdocs-material
       - mkdocstrings[python]
       - pdoc
-      - pytest-asyncio        # not in the original mini_conda_01
+      - pytest
+      - pytest-asyncio
       - wget
       - WTForms-Alchemy
       - email_validator
-      - pytest
       - requests
-      - pyee==8.1.0
-      - playwright==1.18.0
-      - pytest-playwright==0.2.1
-      # Below were not in the original mini_conda_01
-      # - playwright==1.40.0    # Compatible with Python 3.11 and has modern greenlet
-      # - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.x
-      # - selenium              # Only needed for Selenium-based testing (not used)
-      # - webdriver-manager     # Only needed for Selenium-based testing (not used)
+      - playwright
+      - pytest-playwright
 

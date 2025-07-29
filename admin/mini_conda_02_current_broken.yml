@@ -1,0 +1,143 @@
+# mini_conda_02.yml
+
+# based off original mini_conda_01.yml that was last modified 2025-06-09.
+
+# -------------------------------------------------------------------------------------------------
+# Purpose:
+# --------
+#   - Requirements file for the creation of the conda environment suitable for flask web development
+#
+# Creating the virtual environment:
+# ---------------------------------
+#   - Shell commands to create conda virtual environment named "mini_conda_02"
+#
+#       conda update conda
+#       conda env list
+#       conda remove --name mini_conda_02 --all
+#       conda deactivate
+#
+#     on home computer:
+#         conda env create -f "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
+#     on work laptop:
+#         conda env create -f "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
+#     on ec2:
+#         conda env create -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
+#
+#         conda remove --yes --name mini_conda_02 --all
+#         conda env create --yes -f "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
+#         conda activate mini_conda_02
+#
+# Updating the conda environment:
+# ------------------------------
+#   - Shell commands to update the conda virtual environment named "mini_conda_02"
+#
+#     conda activate mini_conda_02  (Warning! Make sure you don't skip this activation step)
+#
+#     on home computer:
+#         conda env update --file "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml" --prune
+#     on work laptop:
+#         conda env update --file "C:\tony_local\pycharm/feedback_portal\admin\mini_conda_02.yml"
+#     on ec2:
+#         conda env update --file "/home/theld/code/git_repos/feedback_portal/admin/mini_conda_02.yml"
+
+# Notes:
+# ------
+#   - Make sure the name field below "name: mini_conda_02" matches the file name to avoid namespace issues
+#
+# Playwright Install Notes:
+# ------
+#   - After creating or updating this environment, on work/home machines run:
+#         playwright install
+#
+# EC2 Playwright Installation Options (try in order, no admin required):
+# --------------------------------------------------------------------
+# Option 1: Use the automated script (recommended)
+#   bash scripts/install_playwright_ec2.sh
+#
+# Option 2: Manual installation with specific versions
+#   pip install playwright==1.25.4 pytest-playwright==0.2.0
+#   playwright install
+#
+# Option 3: Try older Playwright version (more compatible)
+#   pip install playwright==1.30.0 pytest-playwright==0.2.0
+#   playwright install
+#
+# Option 4: Try individual browsers
+#   playwright install firefox
+#   playwright install webkit
+#   playwright install chromium
+#
+# Note: Even if Playwright shows dependency warnings, it may still work.
+# Test browser compatibility with: python tests/e2e/test_browser_compatibility.py
+# If no browsers work, E2E tests will fail but unit/integration tests will work fine.
+#
+# If all options fail, the environment will still work for all other functionality.
+# Only E2E tests will be affected - unit and integration tests will work normally.
+# -------------------------------------------------------------------------------------------------
+
+# change the name of your environment with the variable below
+name: mini_conda_02
+channels:
+  - defaults
+  # Include any other channels here if your package is not in defaults
+  # - conda-forge
+dependencies:
+#  - python=3.11.*
+  - python=3.10
+  - flask
+  - flask-sqlalchemy
+  - flask-login
+  - flask-wtf
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib
+  - seaborn
+  - plotly
+  - jupyter
+  - notebook
+  - scikit-learn
+  - openpyxl
+  - xlwings
+  - sqlalchemy-utils
+  - more-itertools
+  - conda-forge::wtforms=3.1
+  - psycopg2
+  - werkzeug
+  - itsdangerous
+  - email-validator
+  - python-dotenv
+  - nodejs            # Node.js for Playwright compatibility
+
+  # Make sure you include pip as a dependency (so don't delete the next line)
+  # if you don't have the next line, you can get unstable/unpredictable results
+  - pip
+  # If a package is not available through conda, include it in the pip sub-list below
+  - pip:
+      - file-read-backwards
+      - Flask-Migrate
+      - flask-mail
+      - geoalchemy2
+      - mkdocs
+      - mkdocs-gen-files
+      - mkdocs-git-committers-plugin
+      - mkdocs-git-revision-date-localized-plugin
+      - mkdocs-literate-nav
+      - mkdocs-material
+      - mkdocstrings[python]
+      - pdoc
+      - pytest-asyncio        # not in the original mini_conda_01
+      - wget
+      - WTForms-Alchemy
+      - email_validator
+      - pytest
+      - requests
+      - pyee==8.1.0
+      - playwright==1.18.0
+      - pytest-playwright==0.2.1
+      # Below were not in the original mini_conda_01
+      # - playwright==1.40.0    # Compatible with Python 3.11 and has modern greenlet
+      # - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.x
+      # - selenium              # Only needed for Selenium-based testing (not used)
+      # - webdriver-manager     # Only needed for Selenium-based testing (not used)
+
