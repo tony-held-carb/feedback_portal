@@ -1,3 +1,9 @@
+# Exit early if not an interactive shell (e.g., SFTP, SCP)
+case "$-" in
+  *i*) ;;  # interactive, continue as normal
+  *) return ;;  # non-interactive: exit early to prevent SFTP issues
+esac
+
 echo ">>> .bashrc loaded at $(date) <<<"
 
 # Custom prompt

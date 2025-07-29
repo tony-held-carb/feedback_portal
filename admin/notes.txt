@@ -1565,7 +1565,12 @@ ensure:
     // 🖥️ Set Git Bash as the default integrated terminal
     "terminal.integrated.defaultProfile.windows": "Git Bash"
 
-how to connect to ec2 using pycharm
+Configure PyCharm Deployment via SSH
+  *  Note: PyCharm (and OpenSSH) prefers .pem format
+  *  Open PyCharm
+  *  Go to Settings (Ctrl+Alt+S) → Build, Execution, Deployment → Deployment
+  *  Click + → Choose "SFTP"
+
 my ssh directory is C:\one_drive\code\ssh_and_pem
 putty uses: C:\one_drive\code\ssh_and_pem\th.ppk
 the host is: 10.93.112.44
