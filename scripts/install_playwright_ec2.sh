@@ -27,7 +27,7 @@ echo "Trying Playwright versions in order of compatibility..."
 
 # Try different Playwright versions (older versions are more compatible with GLIBC 2.26)
 #PLAYWRIGHT_VERSIONS=("1.25.0" "1.30.0" "1.35.0" "1.40.0" "1.45.0")
-PLAYWRIGHT_VERSIONS=("1.24.0" "1.45.0")
+PLAYWRIGHT_VERSIONS=("1.18.0")
 
 for version in "${PLAYWRIGHT_VERSIONS[@]}"; do
     echo "Trying Playwright version $version..."
