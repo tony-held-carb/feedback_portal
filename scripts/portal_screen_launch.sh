@@ -83,12 +83,17 @@ else
   echo "❌ Unknown mode: $MODE"
   exit 1
 fi
+
 echo "✅ Command: $LAUNCH_CMD"
 
 # Step 5: Launch screen session with direct commands
 echo "Step 5: Launching screen session..."
 SCREEN_CMD="cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD >> $LOG_FILE 2>&1"
 echo "SCREEN_CMD: $SCREEN_CMD"
+
+echo "🔍 Full screen command that will be executed:"
+echo "screen -S \"$SESSION_NAME\" -dm bash -c \"$SCREEN_CMD\""
+echo
 
 screen -S "$SESSION_NAME" -dm bash -c "$SCREEN_CMD"
 SCREEN_EXIT_CODE=$?
