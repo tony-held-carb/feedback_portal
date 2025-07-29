@@ -12,7 +12,7 @@
 #       conda env list
 #       conda remove --yes --name mini_conda_02 --all
 #       conda deactivate
-#       conda env create --yes -f "$portal/admin/mini_conda_02.yml" > conda_install.log 2>&1
+#       conda env create --yes -f "$portal/admin/mini_conda_02.yml" > "conda_install_$MACHINE_NAME.log" 2>&1
 #       conda activate mini_conda_02
 #
 # Updating the conda environment:
