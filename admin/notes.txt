@@ -1565,20 +1565,41 @@ ensure:
     // 🖥️ Set Git Bash as the default integrated terminal
     "terminal.integrated.defaultProfile.windows": "Git Bash"
 
+Create SSH Shell and Remote Directory (Deployment) in pycharm
+  * Note: PyCharm (and OpenSSH) prefers .pem format
+  * laptop setup
+      my ssh directory is C:\one_drive\code\ssh_and_pem
+      putty uses: C:\one_drive\code\ssh_and_pem\th.ppk
+      the host is: 10.93.112.44
+      my user name is: theld
+      port is 22
+
+Use SSH Terminal in PyCharm
+  File → Settings → Tools → SSH Configurations
+  Click + to add a new SSH config:
+    Host: ec2
+    Hostname: 10.93.112.44
+    User name: theld
+    Port: 22
+    Authentication type: Key pair
+    Private key file: C:\one_drive\code\ssh_and_pem\th.pem
+
 Configure PyCharm Deployment via SSH
-  *  Note: PyCharm (and OpenSSH) prefers .pem format
   *  Open PyCharm
   *  Go to Settings (Ctrl+Alt+S) → Build, Execution, Deployment → Deployment
   *  Click + → Choose "SFTP"
+  *  SSH Connection: use the ssh shell key for theld@10.93.112.44
+  *  root path: /home/theld
 
-my ssh directory is C:\one_drive\code\ssh_and_pem
-putty uses: C:\one_drive\code\ssh_and_pem\th.ppk
-the host is: 10.93.112.44
-my user name is: theld
-port is 22
+if the connection does not work, it is possible that it is because your .bashrc and .bash_profiles have echo statements.
+You can avoid echo statements by putting this at the top of the file:
+# Exit early if not an interactive shell (e.g., SFTP, SCP)
+case "$-" in
+  *i*) ;;  # interactive, continue as normal
+  *) return ;;  # non-interactive: exit early to prevent SFTP issues
+esac
 
-In pycharm:
-File → Settings → Tools → SSH Configurations
+
 
 To create a compressed .tar.gz archive containing two directories (dir_1 and dir_2) on a Linux EC2 machine, use the following command:
     tar -czvf archive_name.tar.gz dir_1 dir_2
