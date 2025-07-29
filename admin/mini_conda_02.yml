@@ -132,7 +132,7 @@ dependencies:
       - pytest
       - requests
       - playwright==1.18.0
-      - pytest-playwright=0.2.1
+      - pytest-playwright==0.2.1
       # Below were not in the original mini_conda_01
       # - playwright==1.40.0    # Compatible with Python 3.11 and has modern greenlet
       # - pytest-playwright==0.4.0  # Compatible version with playwright 1.40.x
