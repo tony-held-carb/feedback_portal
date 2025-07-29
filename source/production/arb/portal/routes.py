@@ -1133,10 +1133,22 @@ def show_log_file() -> str:
 
   logger.info(f"Displaying the last {num_lines} lines of the log file as a diagnostic")
 
-  lines = read_file_reverse(LOG_FILE, n=num_lines)
-  file_content = '\n'.join(lines)
+  # Check if log file exists before trying to read it
+  if not LOG_FILE.exists():
+    result = f"<p><strong>Log file not found:</strong></p><p><pre>Log file does not exist: {LOG_FILE}</pre></p>"
+    return render_template(
+      'diagnostics.html',
+      header="Log File Contents",
+      html_content=result,
+    )
 
-  result = f"<p><strong>Last {num_lines} lines of logger file:</strong></p><p><pre>{file_content}</pre></p>"
+  try:
+    lines = read_file_reverse(LOG_FILE, n=num_lines)
+    file_content = '\n'.join(lines)
+    result = f"<p><strong>Last {num_lines} lines of logger file:</strong></p><p><pre>{file_content}</pre></p>"
+  except Exception as e:
+    result = f"<p><strong>Error reading log file:</strong></p><p><pre>{str(e)}</pre></p>"
+
   return render_template(
     'diagnostics.html',
     header="Log File Contents",

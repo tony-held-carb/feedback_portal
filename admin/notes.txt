@@ -1632,20 +1632,6 @@ To list all Git tags along with their creation dates, you can use the following 
 git for-each-ref --sort=creatordate --format="%(refname:short)  %(creatordate:iso8601)" refs/tags
 
 
-I have three computer environments each with an environmental variable MACHINE_NAME
-MACHINE_NAME="TONY_HOME" -> windows with admin
-MACHINE_NAME="TONY_WORK" -> laptop windows no admin
-MACHINE_NAME="TONY_EC2" -> linux no admin
-
-the TONY_EC2 can't run e2e testing because it can't install playwright.
-
-I ran the following on each machine (except no e2e for the TONY_EC2)
-pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1
-pytest -s tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1
-
-the results are in the folder debugging/pytesting
-
-please analyze the pytest output and lets fix whatever fails we are getting
 
 
 adding ssh authorization to ec2 for tony-held-carb

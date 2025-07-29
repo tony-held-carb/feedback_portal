@@ -323,8 +323,20 @@ class TestExcelUpload:
         file_path = test_files[0]
         file_size = os.path.getsize(file_path)
         print(f"Testing upload with file size: {file_size} bytes")
+        
+        # Wait for any existing navigation to complete
+        upload_page.wait_for_load_state("networkidle")
+        
         upload_page.set_input_files("input[type='file']", file_path)
         upload_page.wait_for_timeout(2000)  # Longer timeout for large files
+        
+        # Wait for navigation to complete before getting content
+        try:
+            upload_page.wait_for_load_state("networkidle", timeout=10000)
+        except Exception:
+            # If navigation doesn't complete, wait a bit more and continue
+            upload_page.wait_for_timeout(3000)
+        
         page_content = upload_page.content().lower()
         if any(keyword in page_content for keyword in ["success", "uploaded", "processed"]):
             print("Large file upload successful")

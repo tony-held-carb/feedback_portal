@@ -12,7 +12,7 @@ Usage:
 import sys
 from playwright.sync_api import sync_playwright
 
-def test_browser(browser_name, launch_options=None):
+def check_browser_compatibility(browser_name, launch_options=None):
     """Test if a specific browser can be launched and navigate to a page."""
     try:
         with sync_playwright() as p:
@@ -25,7 +25,7 @@ def test_browser(browser_name, launch_options=None):
                 browser_type = p.webkit
             else:
                 print(f"❌ Unknown browser: {browser_name}")
-                return False
+                assert False, f"Unknown browser: {browser_name}"
             
             # Launch browser with options
             if launch_options:
@@ -43,11 +43,11 @@ def test_browser(browser_name, launch_options=None):
             
             print(f"✅ {browser_name.upper()} is working!")
             print(f"   Page title: {title}")
-            return True
+            assert True, f"{browser_name} is working"
             
     except Exception as e:
         print(f"❌ {browser_name.upper()} failed: {str(e)[:100]}...")
-        return False
+        assert False, f"{browser_name} failed: {str(e)[:100]}"
 
 def main():
     """Test all browsers with different configurations."""
@@ -75,7 +75,7 @@ def main():
         
         print(f"\nTesting {config_name}...")
         
-        if test_browser(browser_name, launch_options):
+        if check_browser_compatibility(browser_name, launch_options):
             working_configs.append((browser_name, launch_options))
     
     # Summary
