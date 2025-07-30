@@ -1,0 +1,148 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\theld\AppData\Local\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: C:\tony_local\pycharm\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 87 items
+
+tests/e2e/test_delete_testing_data.py::test_delete_testing_range_page_loads[chromium] PASSED [  1%]
+tests/e2e/test_delete_testing_data.py::test_min_max_id_inputs[chromium] PASSED [  2%]
+tests/e2e/test_delete_testing_data.py::test_dry_run_checkbox_and_preview[chromium] PASSED [  3%]
+tests/e2e/test_delete_testing_data.py::test_delete_button_and_real_delete[chromium] PASSED [  4%]
+tests/e2e/test_delete_testing_data.py::test_diagnostics_messaging[chromium] PASSED [  5%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_upload_page_loads[chromium] PASSED [  6%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_input_exists[chromium] PASSED [  8%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_drop_zone_exists[chromium] PASSED [  9%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 10%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_invalid_file_upload[chromium] PASSED [ 11%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_upload[chromium] PASSED [ 12%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium] PASSED [ 13%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium] PASSED [ 14%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium] PASSED [ 16%]
+tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_accessibility_features[chromium] PASSED [ 17%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 18%]
+tests/e2e/test_excel_upload_workflows.py::test_list_staged_diagnostics_overlay[chromium] PASSED [ 19%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_file_only[chromium] PASSED [ 20%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium] PASSED [ 21%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium] PASSED [ 22%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium] PASSED [ 24%]
+tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium] FAILED [ 25%]
+tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] FAILED [ 26%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_page_loads[chromium] PASSED [ 27%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium] PASSED [ 28%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium] PASSED [ 29%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_accessibility[chromium] PASSED [ 31%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_empty_state[chromium] PASSED [ 32%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_long_text_overflow[chromium] PASSED [ 33%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_special_characters[chromium] SKIPPED [ 34%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_date_range_boundaries[chromium] PASSED [ 35%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium] PASSED [ 36%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_rapid_filter_changes[chromium] PASSED [ 37%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_large_data_set[chromium] SKIPPED [ 39%]
+tests/e2e/test_homepage.py::test_homepage_loads[chromium] PASSED         [ 40%]
+tests/e2e/test_homepage.py::test_homepage_empty_state[chromium] SKIPPED  [ 41%]
+tests/e2e/test_homepage.py::test_homepage_navigation_menu[chromium] PASSED [ 42%]
+tests/e2e/test_homepage.py::test_homepage_accessibility[chromium] PASSED [ 43%]
+tests/e2e/test_homepage.py::test_homepage_card_content_and_links[chromium] PASSED [ 44%]
+tests/e2e/test_homepage.py::test_homepage_card_navigation[chromium] PASSED [ 45%]
+tests/e2e/test_homepage.py::test_homepage_pagination_or_scrolling[chromium] PASSED [ 47%]
+tests/e2e/test_homepage.py::test_homepage_special_characters_and_long_text[chromium] PASSED [ 48%]
+tests/e2e/test_javascript_logging.py::test_diagnostics_overlay_on_diagnostic_test_page[chromium] PASSED [ 49%]
+tests/e2e/test_list_uploads.py::test_list_uploads_page_loads[chromium] PASSED [ 50%]
+tests/e2e/test_list_uploads.py::test_list_uploads_file_links[chromium] PASSED [ 51%]
+tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium] PASSED [ 52%]
+tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium] SKIPPED [ 54%]
+tests/e2e/test_menu_calsmp_help.py::test_calsmp_help_menu_links[chromium] PASSED [ 55%]
+tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium] PASSED [ 56%]
+tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] SKIPPED [ 57%]
+tests/e2e/test_review_staged.py::test_field_search_filter[chromium] PASSED [ 58%]
+tests/e2e/test_review_staged.py::test_change_summary_card[chromium] PASSED [ 59%]
+tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] PASSED [ 60%]
+tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] PASSED [ 62%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [ 63%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] PASSED [ 64%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] PASSED [ 65%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 66%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 67%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\dairy_digester_operator_feedback_v006_test_03_blank.xlsx] PASSED [ 68%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 70%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 71%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data.xlsx] PASSED [ 72%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 73%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data_update.xlsx] PASSED [ 74%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_01_good_data_update.xlsx] PASSED [ 75%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 77%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED [ 78%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\energy_operator_feedback_v003_test_02_bad_data.xlsx] PASSED [ 79%]
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 80%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 81%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_01_good_data.xlsx] PASSED [ 82%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED [ 83%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\generic_operator_feedback_v002_test_02_bad_data.xlsx] PASSED [ 85%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 86%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 87%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 88%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 89%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 90%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_01_good_data.xlsx] PASSED [ 91%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED [ 93%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\landfill_operator_feedback_v071_test_02_bad_data.xlsx] PASSED [ 94%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 95%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] PASSED [ 96%]
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 97%]
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms\\testing_versions\\standard\\oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] PASSED [ 98%]
+tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...) [100%]
+
+================================== FAILURES ===================================
+__________________ test_upload_malformed_file_only[chromium] __________________
+
+page = <Page url='http://10.93.112.44:2113//list_staged'>
+malformed_file_for_discard = 'malformed_test.json'
+
+    def test_upload_malformed_file_only(page: Page, malformed_file_for_discard):
+        """
+        E2E: Create a malformed file, verify it appears in /list_staged.
+        Does NOT discard the file. Isolates malformed file handling.
+        """
+        malformed_filename = malformed_file_for_discard
+        page.goto(f"{BASE_URL}/list_staged")
+        page.wait_for_load_state("networkidle")
+>       assert malformed_filename in page.content(), f"Malformed file {malformed_filename} not listed in /list_staged after creation."
+E       AssertionError: Malformed file malformed_test.json not listed in /list_staged after creation.
+E       assert 'malformed_test.json' in '<!DOCTYPE html><html lang="en"><head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer="" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer="" src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutter\n  -->\n  <!-- <script defer ...n\n              if (filenameSpan) filenameSpan.textContent = filename;\n              if (fileIdSpan) fileIdSpan.textContent = fileId;\n\n              // Set up the confirm button to submit the form\n              const confirmBtn = modal.querySelector(\'#discard-confirm-btn\');\n              if (confirmBtn && form) {\n                  // Remove any existing event listeners\n                  const newConfirmBtn = confirmBtn.cloneNode(true);\n                  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);\n\n                  // Add new event listener\n                  newConfirmBtn.addEventListener(\'click\', function () {\n                      // Hide the modal\n                      const modalInstance = bootstrap.Modal.getInstance(modal);\n                      if (modalInstance) {\n                          modalInstance.hide();\n                      }\n\n                      // Submit the form after a brief delay to allow modal to close\n                      setTimeout(function () {\n                          form.submit();\n                      }, 100);\n                  });\n              }\n          }\n      });\n  </script>\n\n</body></html>'
+E        +  where '<!DOCTYPE html><html lang="en"><head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer="" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer="" src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutter\n  -->\n  <!-- <script defer ...n\n              if (filenameSpan) filenameSpan.textContent = filename;\n              if (fileIdSpan) fileIdSpan.textContent = fileId;\n\n              // Set up the confirm button to submit the form\n              const confirmBtn = modal.querySelector(\'#discard-confirm-btn\');\n              if (confirmBtn && form) {\n                  // Remove any existing event listeners\n                  const newConfirmBtn = confirmBtn.cloneNode(true);\n                  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);\n\n                  // Add new event listener\n                  newConfirmBtn.addEventListener(\'click\', function () {\n                      // Hide the modal\n                      const modalInstance = bootstrap.Modal.getInstance(modal);\n                      if (modalInstance) {\n                          modalInstance.hide();\n                      }\n\n                      // Submit the form after a brief delay to allow modal to close\n                      setTimeout(function () {\n                          form.submit();\n                      }, 100);\n                  });\n              }\n          }\n      });\n  </script>\n\n</body></html>' = content()
+E        +    where content = <Page url='http://10.93.112.44:2113//list_staged'>.content
+
+tests\e2e\test_excel_upload_workflows.py:890: AssertionError
+_________________ test_discard_malformed_file_only[chromium] __________________
+
+page = <Page url='http://10.93.112.44:2113//list_staged'>
+malformed_file_for_discard = 'malformed_test.json'
+
+    def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
+        """
+        E2E: Discard a malformed file from /list_staged, verifying modal/overlay, backend POST, and removal.
+        Uses Playwright's recommended waiting/synchronization tools for robust async handling.
+        """
+        filename = malformed_file_for_discard
+        # 1. Navigate to /list_staged
+        page.goto(f"{BASE_URL}/list_staged")
+        page.wait_for_load_state("networkidle")
+        print(f"[STEP] Navigated to /list_staged for malformed file: {filename}")
+        # 2. Locate the malformed file row and discard button
+        discard_btn = page.locator(f"form[action*='discard_staged_update/0/{filename}'] button[data-js-logging-context='discard-malformed']").first
+>       assert discard_btn.is_visible(), f"Discard button for malformed file {filename} not found or not visible."
+E       AssertionError: Discard button for malformed file malformed_test.json not found or not visible.
+E       assert False
+E        +  where False = is_visible()
+E        +    where is_visible = <Locator frame=<Frame name= url='http://10.93.112.44:2113//list_staged'> selector="form[action*='discard_staged_update/0/malformed_test.json'] button[data-js-logging-context='discard-malformed'] >> nth=0">.is_visible
+
+tests\e2e\test_excel_upload_workflows.py:905: AssertionError
+---------------------------- Captured stdout call -----------------------------
+[STEP] Navigated to /list_staged for malformed file: malformed_test.json
+=========================== short test summary info ===========================
+FAILED tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium]
+FAILED tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium]
+============= 2 failed, 79 passed, 6 skipped in 640.55s (0:10:40) =============
