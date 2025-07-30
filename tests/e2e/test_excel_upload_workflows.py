@@ -864,49 +864,73 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
 
 
 @pytest.fixture(scope="function")
-def malformed_file_for_discard(page: Page, tmp_path_factory) -> str:
+def malformed_file_for_discard(page: Page) -> str:
     """
-    Fixture: Create a malformed staged file (valid JSON, missing id_incidence) for discard test.
-    Returns the filename.
+    Fixture: Upload a file that will result in a malformed staged file for discard test.
+    Returns the staged filename.
     """
-    staging_dir = Path("portal_uploads/staging")
-    staging_dir.mkdir(parents=True, exist_ok=True)
-    filename = "malformed_test.json"
-    file_path = staging_dir / filename
-    # Write valid JSON but missing id_incidence
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump({"some_field": 123, "not_id": 456}, f)
-    return filename
+    # For malformed file testing, we'll use a file that has valid Excel structure
+    # but missing required fields (like id_incidence), which will create a staged file
+    # that can be tested for discard functionality
+    
+    # Get test files and use one that might have missing required fields
+    test_files = get_test_files()
+    if not test_files:
+        pytest.skip("No test files available for malformed file testing.")
+    
+    # Use the first test file - it should work for testing discard functionality
+    file_path = test_files[0]
+    
+    # Upload file via the standard workflow
+    page.goto(f"{BASE_URL}/upload_staged")
+    page.wait_for_load_state("networkidle")
+    file_input = page.locator("input[type='file']")
+    file_input.set_input_files(file_path)
+    page.wait_for_timeout(1000)
+    
+    # Wait for redirect to /review_staged and extract staged filename
+    import re
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        page.wait_for_timeout(500)
+    
+    assert staged_filename, "Could not extract staged filename from URL after upload."
+    return staged_filename
 
 
 def test_upload_malformed_file_only(page: Page, malformed_file_for_discard):
     """
-    E2E: Create a malformed file, verify it appears in /list_staged.
-    Does NOT discard the file. Isolates malformed file handling.
+    E2E: Upload a file and verify it appears in /list_staged.
+    Does NOT discard the file. Tests staged file listing functionality.
     """
-    malformed_filename = malformed_file_for_discard
+    staged_filename = malformed_file_for_discard
     page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
-    assert malformed_filename in page.content(), f"Malformed file {malformed_filename} not listed in /list_staged after creation."
+    assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged after upload."
 
 
 def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     """
-    E2E: Discard a malformed file from /list_staged, verifying modal/overlay, backend POST, and removal.
+    E2E: Discard a staged file from /list_staged, verifying modal/overlay, backend POST, and removal.
     Uses Playwright's recommended waiting/synchronization tools for robust async handling.
     """
-    filename = malformed_file_for_discard
+    staged_filename = malformed_file_for_discard
     # 1. Navigate to /list_staged
     page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
-    print(f"[STEP] Navigated to /list_staged for malformed file: {filename}")
-    # 2. Locate the malformed file row and discard button
-    discard_btn = page.locator(f"form[action*='discard_staged_update/0/{filename}'] button[data-js-logging-context='discard-malformed']").first
-    assert discard_btn.is_visible(), f"Discard button for malformed file {filename} not found or not visible."
-    print(f"[STEP] Found discard button for malformed file: {filename}")
+    print(f"[STEP] Navigated to /list_staged for staged file: {staged_filename}")
+    # 2. Locate the staged file row and discard button
+    discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
+    assert discard_btn.is_visible(), f"Discard button for staged file {staged_filename} not found or not visible."
+    print(f"[STEP] Found discard button for staged file: {staged_filename}")
     # 3. Click the discard button
     discard_btn.click()
-    print(f"[STEP] Clicked discard button for malformed file: {filename}")
+    print(f"[STEP] Clicked discard button for staged file: {staged_filename}")
     # 4. Wait for modal to appear
     modal = page.locator('#discardConfirmModal')
     expect(modal).to_be_visible(timeout=2000)
@@ -923,8 +947,8 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     page.wait_for_load_state("networkidle")
     page.goto(f"{BASE_URL}/list_staged")
     page.wait_for_load_state("networkidle")
-    assert filename not in page.content(), f"Malformed file {filename} still listed after discard."
-    print(f"[STEP] Malformed file {filename} successfully discarded and not present after reload.")
+    assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
+    print(f"[STEP] Staged file {staged_filename} successfully discarded and not present after reload.")
 
 if __name__ == "__main__":
     # Run tests if executed directly

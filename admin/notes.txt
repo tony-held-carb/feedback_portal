@@ -2030,3 +2030,9 @@ TEST_BASE_URL = os.environ.get('TEST_BASE_URL', "http://10.93.112.44:2113/")
 
 and then from my work machine, i ran the e2e tests on the ec2 server (since i can run e2e on the ec2 directly)
 pytest tests/e2e -v  > "pytest_flask_on_ec2_testing_on_work_e2e_21.txt" 2>&1
+
+Please analyze and lets fix the testing if necessary.
+
+The results are located here:
+
+
