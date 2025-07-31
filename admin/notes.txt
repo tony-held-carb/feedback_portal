@@ -2041,6 +2041,8 @@ Please analyze and lets fix the testing if necessary.
 
 The results are located here:
 
+running on the ec2 create 3 logs.  two are from the portal because it gets a new name on restart
+the other is the screen log
 
 
 

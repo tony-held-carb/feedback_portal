@@ -7,11 +7,6 @@
 created PR 29 to clean up documentation and deploy to ec2
 * deploy to ec2
 
-* looks like portal_launch_screen.sh creates 3 log files ... not sure what is going on there
-
-
-
-
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
 * create a launch new version protocol for automated and manual testing
