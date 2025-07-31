@@ -241,14 +241,26 @@ class TestExcelUpload:
             if upload_page.locator(indicator).count() > 0:
                 success_text = upload_page.locator(indicator).first.text_content()
                 assert success_text is not None
-                print(f"Upload successful: {success_text}")
+                # Handle Unicode characters safely for Windows console
+                try:
+                    print(f"Upload successful: {success_text}")
+                except UnicodeEncodeError:
+                    # Fallback for Windows console encoding issues
+                    safe_text = success_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Upload successful: {safe_text}")
                 return
         # Check for errors
         for indicator in error_indicators:
             if upload_page.locator(indicator).count() > 0:
                 error_text = upload_page.locator(indicator).first.text_content()
                 assert error_text is not None
-                print(f"Upload failed: {error_text}")
+                # Handle Unicode characters safely for Windows console
+                try:
+                    print(f"Upload failed: {error_text}")
+                except UnicodeEncodeError:
+                    # Fallback for Windows console encoding issues
+                    safe_text = error_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Upload failed: {safe_text}")
                 # Don't fail the test for expected errors (like validation errors)
                 return
         # Check page content for success/error keywords
@@ -283,7 +295,13 @@ class TestExcelUpload:
                 if upload_page.locator(indicator).count() > 0:
                     error_text = upload_page.locator(indicator).first.text_content()
                     assert error_text is not None
-                    print(f"Invalid file rejected: {error_text}")
+                    # Handle Unicode characters safely for Windows console
+                    try:
+                        print(f"Invalid file rejected: {error_text}")
+                    except UnicodeEncodeError:
+                        # Fallback for Windows console encoding issues
+                        safe_text = error_text.encode('ascii', 'replace').decode('ascii')
+                        print(f"Invalid file rejected: {safe_text}")
                     return
             page_content = upload_page.content().lower()
             if any(keyword in page_content for keyword in ["error", "invalid", "failed", "not allowed"]):
