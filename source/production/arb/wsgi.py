@@ -67,14 +67,28 @@ Notes:
               - e.g., FLASK_ENV, FLASK_DEBUG, FLASK_RUN_PORT
 """
 
+import os
 import logging
 from pathlib import Path
+from datetime import datetime
 
 from arb.logging.arb_logging import setup_app_logging
 from arb.portal.app import create_app
 
 # Setup application logging
-setup_app_logging("arb_portal")
+machine_name = os.environ.get('MACHINE_NAME', None)
+app_name = "arb_portal"
+
+# Create timestamp for log filename
+timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+
+# Create a more descriptive log filename with timestamp
+if machine_name is None:
+    log_filename = f"{app_name}_created_{timestamp}"
+else:
+    log_filename = f"{app_name}_{machine_name}_created_{timestamp}"
+
+setup_app_logging(log_filename)
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
