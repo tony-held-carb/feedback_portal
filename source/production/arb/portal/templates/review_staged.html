@@ -51,6 +51,12 @@
 
       .fixed-bottom-button-bar {
           z-index: 1030;
+          pointer-events: none;
+      }
+
+      /* Ensure buttons inside the fixed bar can still be clicked */
+      .fixed-bottom-button-bar .btn {
+          pointer-events: auto;
       }
 
       /* Ensure DataTable has enough bottom space for fixed button bar */

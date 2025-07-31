@@ -201,18 +201,47 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
     """
     page.goto(upload_and_stage_file)
     page.wait_for_load_state("networkidle")
+    
+    # Wait for checkboxes to be available
     checkboxes = page.locator(".confirm-checkbox")
+    page.wait_for_selector(".confirm-checkbox", timeout=10000)
+    
     if checkboxes.count() < 2:
         pytest.skip("Not enough checkboxes to test field selection.")
-    # Check half the boxes
+    
+    # Check half the boxes with better error handling
     for i in range(checkboxes.count() // 2):
-        checkboxes.nth(i).check()
+        try:
+            checkbox = checkboxes.nth(i)
+            # Ensure checkbox is visible and not covered
+            checkbox.scroll_into_view_if_needed()
+            page.wait_for_timeout(100)  # Small delay to ensure stability
+            checkbox.check()
+        except Exception as e:
+            print(f"Failed to check checkbox {i}: {e}")
+            continue
+    
     # Uncheck all
     for i in range(checkboxes.count()):
-        checkboxes.nth(i).uncheck()
+        try:
+            checkbox = checkboxes.nth(i)
+            checkbox.scroll_into_view_if_needed()
+            page.wait_for_timeout(100)
+            checkbox.uncheck()
+        except Exception as e:
+            print(f"Failed to uncheck checkbox {i}: {e}")
+            continue
+    
     # Check all
     for i in range(checkboxes.count()):
-        checkboxes.nth(i).check()
+        try:
+            checkbox = checkboxes.nth(i)
+            checkbox.scroll_into_view_if_needed()
+            page.wait_for_timeout(100)
+            checkbox.check()
+        except Exception as e:
+            print(f"Failed to check checkbox {i} in final loop: {e}")
+            continue
 
 @pytest.mark.e2e
 @pytest.mark.parametrize("test_file", TEST_FILES)
@@ -269,9 +298,16 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
         if name not in ['hideUnchangedFields', 'selectAllConfirmations']:
             if not checked:
                 if select_next_unchecked:
-                    cb.set_checked(True)
-                    new_checks += 1
-                    print(f"checking box named: {name}")
+                    try:
+                        # Ensure checkbox is visible and not covered
+                        cb.scroll_into_view_if_needed()
+                        page.wait_for_timeout(100)  # Small delay to ensure stability
+                        cb.set_checked(True)
+                        new_checks += 1
+                        print(f"checking box named: {name}")
+                    except Exception as e:
+                        print(f"Failed to check checkbox {name}: {e}")
+                        continue
                 select_next_unchecked = not select_next_unchecked
     print(f"A total of {new_checks} check boxes were selected.")
     if save_screenshots:

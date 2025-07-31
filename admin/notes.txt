@@ -2011,6 +2011,12 @@ No Sockets found in /var/run/screen/S-theld.
 
 (mini_conda_02) production$
 
+1. Tell Git to ignore permission differences locally
+This prevents Git from treating chmod +x changes as meaningful diffs.
+On both Windows and Linux, run:
+git config --local core.fileMode false
+
+
 
 on my home machine i ran
 pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1
@@ -2036,9 +2042,5 @@ Please analyze and lets fix the testing if necessary.
 The results are located here:
 
 
-1. Tell Git to ignore permission differences locally
-This prevents Git from treating chmod +x changes as meaningful diffs.
-On both Windows and Linux, run:
-git config --local core.fileMode false
 
 
