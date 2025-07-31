@@ -35,6 +35,7 @@ from werkzeug.exceptions import abort
 import arb.portal.db_hardcoded
 import arb.utils.sql_alchemy
 from arb.portal.config.accessors import get_upload_folder
+from arb.portal.config.settings import BaseConfig
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import csrf, db
 from arb.portal.globals import Globals
@@ -1032,11 +1033,23 @@ def show_database_structure() -> str:
   """
   logger.info(f"route called: show_database_structure")
 
-  result = obj_to_html(Globals.db_column_types)
-  result = f"<p><strong>Postgres Database Structure=</strong></p> <p>{result}</p>"
+  # Get database configuration variables
+  db_config = {
+    'POSTGRES_DB_URI': BaseConfig.POSTGRES_DB_URI,
+    'POSTGRES_ENGINE_OPTIONS': BaseConfig.POSTGRES_ENGINE_OPTIONS,
+    'SQLALCHEMY_DATABASE_URI': BaseConfig.SQLALCHEMY_DATABASE_URI,
+    'SQLALCHEMY_ENGINE_OPTIONS': BaseConfig.SQLALCHEMY_ENGINE_OPTIONS,
+  }
+  
+  db_config_html = obj_to_html(db_config)
+  db_structure_html = obj_to_html(Globals.db_column_types)
+  
+  result = (f"<p><strong>Database Configuration Variables:</strong></p> <p>{db_config_html}</p>"
+            f"<p><strong>Postgres Database Structure:</strong></p> <p>{db_structure_html}</p>")
+  
   return render_template('diagnostics.html',
                          header="Database Structure Overview",
-                         subheader="Reflecting SQLAlchemy model metadata.",
+                         subheader="Reflecting SQLAlchemy model metadata and database configuration.",
                          html_content=result,
                          )
 
