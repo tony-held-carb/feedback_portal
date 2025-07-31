@@ -2036,3 +2036,9 @@ Please analyze and lets fix the testing if necessary.
 The results are located here:
 
 
+1. Tell Git to ignore permission differences locally
+This prevents Git from treating chmod +x changes as meaningful diffs.
+On both Windows and Linux, run:
+git config --local core.fileMode false
+
+
