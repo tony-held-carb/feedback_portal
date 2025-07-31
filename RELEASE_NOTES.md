@@ -2,6 +2,10 @@
 
 Below are the tag names, dates, and overview of the Portal versions
 
+## v2.1.0 - 2025-07-31
+- Automatic testing complete
+  - core functionality tested/confirmed
+
 ## v2.0.0 - 2025-07-28
 - Major renovation of the website to include
   - staged uploads

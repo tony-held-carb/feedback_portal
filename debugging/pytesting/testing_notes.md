@@ -35,4 +35,6 @@ Thu, Jul 31, 2025  6:56:29 AM
 Thu, Jul 31, 2025  8:21:30 AM
 tests_03 are running on real portal database
 
-
+Thu, Jul 31, 2025  9:05:57 AM
+all pytesting passed on home, work, and ec
+next i will check this into main and tag it
