@@ -1,0 +1,93 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_success_case_equivalence FAILED [100%]
+
+================================== FAILURES ===================================
+_____________ TestRouteEquivalence.test_success_case_equivalence ______________
+
+self = <test_route_equivalence.TestRouteEquivalence object at 0x000001FAA032F010>
+mock_stage_refactored = <MagicMock name='stage_uploaded_file_for_review' id='2175947712720'>
+mock_upload_and_stage = <MagicMock name='upload_and_stage_only' id='2175945448016'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.utils.db_ingest_util.upload_and_stage_only')
+    @patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review')
+    def test_success_case_equivalence(self, mock_stage_refactored, mock_upload_and_stage, client):
+        """Test that both routes handle successful uploads identically."""
+        # Mock successful staging result for original route
+        mock_original_result = ("test.xlsx", 123, "Dairy Digester", {"id_incidence": 123}, "staged_123.json")
+        mock_upload_and_stage.return_value = mock_original_result
+    
+        # Mock successful staging result for refactored route
+        mock_refactored_result = StagingResult(
+            file_path=Path("test.xlsx"),
+            id_=123,
+            sector="Dairy Digester",
+            json_data={"id_incidence": 123},
+            staged_filename="staged_123.json",
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+        mock_stage_refactored.return_value = mock_refactored_result
+    
+        # Create a mock Excel file
+        excel_content = b'PK\x03\x04'  # Minimal Excel file signature
+    
+        # Test original route
+        original_data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+        original_response = client.post(
+            "/upload_staged",
+            data=original_data,
+            content_type='multipart/form-data'
+        )
+    
+        # Test refactored route
+        refactored_data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+        refactored_response = client.post(
+            "/upload_staged_refactored",
+            data=refactored_data,
+            content_type='multipart/form-data'
+        )
+    
+        # Both should redirect to review page
+        assert original_response.status_code in [200, 302]
+        assert refactored_response.status_code in [200, 302]
+    
+        # Both should call their respective staging functions
+>       assert mock_upload_and_stage.call_count == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = <MagicMock name='upload_and_stage_only' id='2175945448016'>.call_count
+
+tests\arb\portal\test_route_equivalence.py:183: AssertionError
+----------------------------- Captured log setup ------------------------------
+DEBUG    arb.portal.startup.flask:flask.py:109 Flask Jinja2 globals and logging initialized.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:215 geometry is of type: Geometry that is not implemented in python.  Setting python type to None.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:216 
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:215 origin is of type: Geometry that is not implemented in python.  Setting python type to None.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:216 
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:215 extent is of type: Geometry that is not implemented in python.  Setting python type to None.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:216 
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:215 footprint is of type: Geometry that is not implemented in python.  Setting python type to None.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:216 
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:215 coordinates is of type: Geometry that is not implemented in python.  Setting python type to None.
+WARNING  arb.utils.sql_alchemy:sql_alchemy.py:216
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_24_46.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_24_46.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:633 Failed to generate import audit: File is not a zip file
+WARNING  arb.portal.routes:routes.py:504 Staging blocked: missing or invalid id_incidence in test_ts_2025_08_01_17_24_46.xlsx
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_24_46.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_24_46.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:789 File conversion failed: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_24_46.xlsx
+WARNING  arb.portal.routes:routes.py:1401 Staging blocked: file conversion failed for test_ts_2025_08_01_17_24_46.xlsx
+=========================== short test summary info ===========================
+FAILED tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_success_case_equivalence
+============================== 1 failed in 1.02s ==============================

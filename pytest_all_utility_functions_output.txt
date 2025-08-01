@@ -1,0 +1,21 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 62 items / 52 deselected / 10 selected
+
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_function_signature PASSED [ 10%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_uses_smaller_functions PASSED [ 20%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_equivalent_to_original PASSED [ 30%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_with_dry_run PASSED [ 40%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_success PASSED [ 50%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_file_error PASSED [ 60%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_conversion_failed PASSED [ 70%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_missing_id PASSED [ 80%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_database_error PASSED [ 90%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_equivalent_to_original PASSED [100%]
+
+====================== 10 passed, 52 deselected in 0.65s ======================
