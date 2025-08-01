@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 11 items
+
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_route_function_signature PASSED [  9%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request PASSED [ 18%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_success PASSED [ 27%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_missing_id_error PASSED [ 36%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_conversion_error PASSED [ 45%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_file_error PASSED [ 54%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_database_error PASSED [ 63%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_unknown_error PASSED [ 72%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_no_file_selected PASSED [ 81%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_with_message_parameter PASSED [ 90%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_exception_handling PASSED [100%]
+
+============================= 11 passed in 1.30s ==============================

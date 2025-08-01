@@ -1,0 +1,3 @@
+          <Function test_staging_result_named_tuple>
+          <Function test_staging_result_error_case>
+          <Function test_staging_result_function_signature>

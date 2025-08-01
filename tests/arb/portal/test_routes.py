@@ -10,8 +10,9 @@ import pytest
 from pathlib import Path
 from unittest.mock import patch
 
-from arb.portal.utils.db_ingest_util import StagingResult
+from arb.portal.utils.result_types import StagingResult
 from arb.portal.app import create_app
+from arb.portal.utils.result_types import UploadResult
 
 
 @pytest.fixture(scope="module")
@@ -223,3 +224,180 @@ def test_upload_file_staged_refactored_exception_handling(client):
         assert response.status_code == 200
         html = response.get_data(as_text=True)
         assert "error" in html.lower() or "failed" in html.lower() 
+
+
+def test_upload_file_refactored_route_function_signature():
+    """upload_file_refactored route has correct function signature."""
+    from arb.portal.routes import upload_file_refactored
+    import inspect
+    
+    sig = inspect.signature(upload_file_refactored)
+    params = list(sig.parameters.keys())
+    
+    assert 'message' in params
+    assert sig.parameters['message'].default is None
+    # Check for Union type annotation (can be string or actual type)
+    return_annotation = str(sig.return_annotation)
+    assert 'Union' in return_annotation and 'str' in return_annotation and 'Response' in return_annotation
+
+
+def test_upload_file_refactored_get_request(client):
+    """upload_file_refactored handles GET request correctly."""
+    response = client.get('/upload_refactored')
+    assert response.status_code == 200
+    html = response.get_data(as_text=True)
+    assert "Upload Feedback Spreadsheet" in html
+
+
+def test_upload_file_refactored_success(client):
+    """upload_file_refactored handles successful upload."""
+    # Mock the upload function to return success
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=123,
+            sector="Dairy Digester",
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+        
+        # Create a mock file upload
+        data = {'file': (io.BytesIO(b'test file content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        # Should redirect to incidence_update page
+        assert response.status_code == 302
+        assert b'incidence_update' in response.data
+
+
+def test_upload_file_refactored_missing_id_error(client):
+    """upload_file_refactored handles missing ID error."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=None,
+            sector="Dairy Digester",
+            success=False,
+            error_message="No valid id_incidence found in spreadsheet",
+            error_type="missing_id"
+        )
+        
+        data = {'file': (io.BytesIO(b'test file content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        # The error message is HTML-encoded, so check for the encoded version
+        assert "missing a valid &#39;Incidence/Emission ID&#39;" in html or "missing a valid 'Incidence/Emission ID'" in html
+
+
+def test_upload_file_refactored_conversion_error(client):
+    """upload_file_refactored handles file conversion error."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("uploads/test.txt"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message="File could not be converted to JSON format",
+            error_type="conversion_failed"
+        )
+        
+        data = {'file': (io.BytesIO(b'invalid content'), 'test.txt')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        assert "Uploaded file format not recognized" in html
+
+
+def test_upload_file_refactored_file_error(client):
+    """upload_file_refactored handles file processing error."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message="File upload failed",
+            error_type="file_error"
+        )
+        
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        assert "Error processing uploaded file" in html
+
+
+def test_upload_file_refactored_database_error(client):
+    """upload_file_refactored handles database error."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=None,
+            sector="Dairy Digester",
+            success=False,
+            error_message="Database connection failed",
+            error_type="database_error"
+        )
+        
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        assert "Database error occurred" in html
+
+
+def test_upload_file_refactored_unknown_error(client):
+    """upload_file_refactored handles unknown error types."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message="Unexpected error occurred",
+            error_type="unknown_error"
+        )
+        
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        assert "An unexpected error occurred" in html
+
+
+def test_upload_file_refactored_no_file_selected(client):
+    """upload_file_refactored handles no file selected."""
+    response = client.post('/upload_refactored')
+    assert response.status_code == 200
+    html = response.get_data(as_text=True)
+    assert "No file selected" in html
+
+
+def test_upload_file_refactored_with_message_parameter(client):
+    """upload_file_refactored handles message parameter correctly."""
+    test_message = "Test%20refactored%20message"
+    response = client.get(f'/upload_refactored/{test_message}')
+    assert response.status_code == 200
+    html = response.get_data(as_text=True)
+    assert "Test refactored message" in html
+
+
+def test_upload_file_refactored_exception_handling(client):
+    """upload_file_refactored handles exceptions gracefully."""
+    with patch('arb.portal.routes.upload_and_process_file') as mock_upload:
+        mock_upload.side_effect = Exception("Unexpected exception")
+        
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+        
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        # Should show some form of error message
+        assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower() 

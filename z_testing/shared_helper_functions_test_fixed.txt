@@ -1,0 +1,25 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 65 items / 51 deselected / 14 selected
+
+tests/arb/portal/test_utils_db_ingest_util.py::test_upload_and_update_db_function_signature PASSED [  7%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_upload_and_stage_only_function_signature PASSED [ 14%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_named_tuple PASSED [ 21%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_error_case PASSED [ 28%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_function_signature PASSED [ 35%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_function_signature PASSED [ 42%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_success PASSED [ 50%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_failure PASSED [ 57%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_success PASSED [ 64%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_file_error PASSED [ 71%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_conversion_failed PASSED [ 78%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_missing_id PASSED [ 85%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_database_error PASSED [ 92%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_equivalent_to_original PASSED [100%]
+
+====================== 14 passed, 51 deselected in 0.51s ======================

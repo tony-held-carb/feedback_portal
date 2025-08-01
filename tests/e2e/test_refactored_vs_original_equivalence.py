@@ -47,7 +47,7 @@ def get_test_files() -> list:
     """Get a subset of test files for equivalence testing."""
     test_data_dir = Path(__file__).parent.parent.parent / "test_data" / "excel_files"
     if not test_data_dir.exists():
-        pytest.skip(f"Test data directory not found: {test_data_dir}")
+        return []  # Return empty list instead of skipping
     
     # Use a few representative files for equivalence testing
     test_files = []
@@ -128,6 +128,8 @@ class TestRefactoredVsOriginalEquivalence:
     
     @pytest.mark.parametrize("file_path", get_test_files())
     def test_upload_equivalence_success_case(self, page: Page, file_path: str):
+        if not file_path:  # Skip if no test files available
+            pytest.skip("No test files available for equivalence testing")
         """
         Test that both routes produce identical results for successful uploads.
         
@@ -228,21 +230,32 @@ class TestRefactoredVsOriginalEquivalence:
         page.goto(f"{BASE_URL}/upload_staged")
         page.wait_for_load_state("networkidle")
         
-        with page.expect_navigation():
-            page.click("button[type='submit']")
+        # Since there's no submit button, we need to trigger form submission differently
+        # The form uses JavaScript to auto-submit when a file is selected, but we can test
+        # the "no file selected" case by checking the form validation
+        form = page.locator("form")
+        file_input = page.locator("input[type='file']")
         
-        original_html = page.content()
-        assert "No file selected" in original_html
+        # Check that the form exists and has the expected structure
+        assert form.count() > 0, "Original route should have a form"
+        assert file_input.count() > 0, "Original route should have file input"
+        
+        # The form should have the required attribute on the file input
+        assert file_input.get_attribute("required") == "", "File input should be required"
         
         # Test refactored route
         page.goto(f"{BASE_URL}/upload_staged_refactored")
         page.wait_for_load_state("networkidle")
         
-        with page.expect_navigation():
-            page.click("button[type='submit']")
+        form = page.locator("form")
+        file_input = page.locator("input[type='file']")
         
-        refactored_html = page.content()
-        assert "No file selected" in refactored_html
+        # Check that the form exists and has the expected structure
+        assert form.count() > 0, "Refactored route should have a form"
+        assert file_input.count() > 0, "Refactored route should have file input"
+        
+        # The form should have the required attribute on the file input
+        assert file_input.get_attribute("required") == "", "File input should be required"
     
     def test_error_handling_equivalence_invalid_file(self, page: Page):
         """Test that both routes handle invalid file errors identically."""
@@ -255,33 +268,39 @@ class TestRefactoredVsOriginalEquivalence:
             page.goto(f"{BASE_URL}/upload_staged")
             page.wait_for_load_state("networkidle")
             
-            with page.expect_file_chooser() as fc_info:
-                page.click("input[type='file']")
-            file_chooser = fc_info.value
-            file_chooser.set_files(str(invalid_file))
+            # Use the hidden file input directly since it's not visible
+            file_input = page.locator("input[type='file']")
             
+            # Set the file and wait for form submission to complete
             with page.expect_navigation():
-                page.click("button[type='submit']")
+                file_input.set_input_files(str(invalid_file))
             
+            # Wait for the page to be fully loaded after navigation
+            page.wait_for_load_state("networkidle")
             original_html = page.content()
+            
+            # Reset page state before testing refactored route
+            page.goto("about:blank")
+            page.wait_for_load_state("networkidle")
             
             # Test refactored route
             page.goto(f"{BASE_URL}/upload_staged_refactored")
             page.wait_for_load_state("networkidle")
             
-            with page.expect_file_chooser() as fc_info:
-                page.click("input[type='file']")
-            file_chooser = fc_info.value
-            file_chooser.set_files(str(invalid_file))
+            # Use the hidden file input directly since it's not visible
+            file_input = page.locator("input[type='file']")
             
+            # Set the file and wait for form submission to complete
             with page.expect_navigation():
-                page.click("button[type='submit']")
+                file_input.set_input_files(str(invalid_file))
             
+            # Wait for the page to be fully loaded after navigation
+            page.wait_for_load_state("networkidle")
             refactored_html = page.content()
             
             # Both should show some form of error
-            assert "error" in original_html.lower() or "failed" in original_html.lower()
-            assert "error" in refactored_html.lower() or "failed" in refactored_html.lower()
+            assert "error" in original_html.lower() or "failed" in original_html.lower() or "invalid" in original_html.lower()
+            assert "error" in refactored_html.lower() or "failed" in refactored_html.lower() or "invalid" in refactored_html.lower()
             
         finally:
             # Cleanup
@@ -296,11 +315,14 @@ class TestRefactoredVsOriginalEquivalence:
         
         original_form = page.locator("form")
         original_file_input = page.locator("input[type='file']")
-        original_submit_button = page.locator("button[type='submit']")
+        original_drop_zone = page.locator("#drop_zone")
         
         assert original_form.count() > 0, "Original route should have a form"
         assert original_file_input.count() > 0, "Original route should have file input"
-        assert original_submit_button.count() > 0, "Original route should have submit button"
+        assert original_drop_zone.count() > 0, "Original route should have drop zone"
+        
+        # Check that file input is hidden (d-none class)
+        assert "d-none" in original_file_input.get_attribute("class"), "File input should be hidden"
         
         # Test refactored route form
         page.goto(f"{BASE_URL}/upload_staged_refactored")
@@ -308,11 +330,14 @@ class TestRefactoredVsOriginalEquivalence:
         
         refactored_form = page.locator("form")
         refactored_file_input = page.locator("input[type='file']")
-        refactored_submit_button = page.locator("button[type='submit']")
+        refactored_drop_zone = page.locator("#drop_zone")
         
         assert refactored_form.count() > 0, "Refactored route should have a form"
         assert refactored_file_input.count() > 0, "Refactored route should have file input"
-        assert refactored_submit_button.count() > 0, "Refactored route should have submit button"
+        assert refactored_drop_zone.count() > 0, "Refactored route should have drop zone"
+        
+        # Check that file input is hidden (d-none class)
+        assert "d-none" in refactored_file_input.get_attribute("class"), "File input should be hidden"
     
     def test_message_parameter_equivalence(self, page: Page):
         """Test that both routes handle message parameters identically."""

@@ -20,7 +20,7 @@
 import datetime
 import logging
 from pathlib import Path
-from typing import Any, NamedTuple
+from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import AutomapBase
@@ -31,6 +31,7 @@ from arb.portal.startup.runtime_info import LOG_DIR
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.portal.utils.import_audit import generate_import_audit
+from arb.portal.utils.result_types import StagingResult, UploadResult
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, xl_schema_map
 from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
@@ -435,6 +436,109 @@ def upload_and_update_db_old(db: SQLAlchemy,
   return file_name, id_, sector
 
 
+
+
+
+def upload_and_process_file(db: SQLAlchemy,
+                           upload_dir: str | Path,
+                           request_file: FileStorage,
+                           base: AutomapBase) -> UploadResult:
+    """
+    Process uploaded Excel file and insert parsed contents directly into the database.
+    
+    This function provides a modular, refactored approach to file upload and database
+    insertion with improved error handling and clear separation of concerns.
+    
+    Args:
+        db (SQLAlchemy): SQLAlchemy database instance.
+        upload_dir (str | Path): Directory where the uploaded file should be saved.
+        request_file (FileStorage): File uploaded via the Flask request.
+        base (AutomapBase): SQLAlchemy base object from automap reflection.
+    
+    Returns:
+        UploadResult: Named tuple containing the result of the upload process with
+                     detailed error information and success indicators.
+    
+    Examples:
+        result = upload_and_process_file(db, upload_dir, request_file, base)
+        if result.success:
+            # Redirect to incidence update page
+            return redirect(url_for('main.incidence_update', id_=result.id_))
+        else:
+            # Handle specific error types
+            if result.error_type == "missing_id":
+                return render_template('upload.html', upload_message=result.error_message)
+            elif result.error_type == "conversion_failed":
+                return render_template('upload.html', upload_message=result.error_message)
+    
+    Notes:
+        - Performs a full ingest: logs the file, parses Excel → JSON, and inserts the data into the database.
+        - Returns detailed error information for better user experience and debugging.
+        - Maintains the same functionality as upload_and_update_db but with improved structure.
+        - Uses shared helper functions for consistency with stage_uploaded_file_for_review.
+    """
+    logger.debug(f"upload_and_process_file() called with {request_file=}")
+    
+    # Step 1: Save uploaded file
+    try:
+        file_path = _save_uploaded_file(upload_dir, request_file, db, description="Direct upload to database")
+    except ValueError as e:
+        return UploadResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message=str(e),
+            error_type="file_error"
+        )
+    
+    # Step 2: Convert file to JSON and extract data
+    json_path, sector, json_data, error = _convert_file_to_json(file_path)
+    if error:
+        return UploadResult(
+            file_path=file_path,
+            id_=None,
+            sector=sector,
+            success=False,
+            error_message=error,
+            error_type="conversion_failed"
+        )
+    
+    # Step 3: Validate ID from JSON data
+    id_, error = _validate_id_from_json(json_data)
+    if error:
+        return UploadResult(
+            file_path=file_path,
+            id_=None,
+            sector=sector,
+            success=False,
+            error_message=error,
+            error_type="missing_id"
+        )
+    
+    # Step 4: Insert data into database
+    id_, error = _insert_json_into_database(json_path, base, db)
+    if error:
+        return UploadResult(
+            file_path=file_path,
+            id_=None,
+            sector=sector,
+            success=False,
+            error_message=error,
+            error_type="database_error"
+        )
+    
+    # Success case
+    return UploadResult(
+        file_path=file_path,
+        id_=id_,
+        sector=sector,
+        success=True,
+        error_message=None,
+        error_type=None
+    )
+
+
 def upload_and_update_db(db: SQLAlchemy,
                          upload_dir: str | Path,
                          request_file: FileStorage,
@@ -661,78 +765,13 @@ def upload_and_stage_only(db: SQLAlchemy,
 # =============================================================================
 
 
-class StagingResult(NamedTuple):
-    """
-    Result of staging an uploaded file for review.
-    
-    This named tuple provides a consistent, type-safe way to return staging results
-    with rich error information and clear success/failure indicators.
-    
-    Attributes:
-        file_path (Path): Path to the uploaded file (always present, even on failure)
-        id_ (int | None): Extracted incidence ID (None if missing/invalid)
-        sector (str | None): Extracted sector name (None if conversion failed)
-        json_data (dict): Parsed JSON data (empty dict if conversion failed)
-        staged_filename (str | None): Name of staged file (None if staging failed)
-        success (bool): True if staging completed successfully
-        error_message (str | None): Human-readable error message (None on success)
-        error_type (str | None): Type of error for programmatic handling (None on success)
-    
-    Examples:
-        # Success case
-        result = StagingResult(
-            file_path=Path("upload.xlsx"),
-            id_=123,
-            sector="Dairy Digester",
-            json_data={"id_incidence": 123, "sector": "Dairy Digester"},
-            staged_filename="id_123_ts_20250101_120000.json",
-            success=True,
-            error_message=None,
-            error_type=None
-        )
-        
-        # Missing ID case
-        result = StagingResult(
-            file_path=Path("upload.xlsx"),
-            id_=None,
-            sector="Dairy Digester",
-            json_data={"sector": "Dairy Digester"},  # No id_incidence
-            staged_filename=None,
-            success=False,
-            error_message="No valid id_incidence found in spreadsheet",
-            error_type="missing_id"
-        )
-        
-        # File format error case
-        result = StagingResult(
-            file_path=Path("upload.txt"),
-            id_=None,
-            sector=None,
-            json_data={},
-            staged_filename=None,
-            success=False,
-            error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
-            error_type="conversion_failed"
-        )
-    
-    Error Types:
-        - "missing_id": No valid id_incidence found in the file
-        - "conversion_failed": File could not be converted to JSON
-        - "file_error": Error uploading or saving the file
-        - "validation_failed": Other validation errors
-        - "database_error": Error accessing database for base_misc_json
-    """
-    file_path: Path
-    id_: int | None
-    sector: str | None
-    json_data: dict
-    staged_filename: str | None
-    success: bool
-    error_message: str | None
-    error_type: str | None
 
 
-def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy) -> Path:
+
+
+
+
+def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy, description: str | None = None) -> Path:
     """
     Save an uploaded file to the upload directory.
 
@@ -740,6 +779,7 @@ def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: S
         upload_dir (str | Path): Directory to save the file in
         request_file (FileStorage): File uploaded via Flask request
         db (SQLAlchemy): Database instance for logging upload
+        description (str | None): Optional description for the upload table entry
 
     Returns:
         Path: Path to the saved file
@@ -753,7 +793,7 @@ def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: S
     """
     try:
         file_path = upload_single_file(upload_dir, request_file)
-        add_file_to_upload_table(db, file_path, status="File Added", description="Staged only (no DB write)")
+        add_file_to_upload_table(db, file_path, status="File Added", description=description)
         logger.debug(f"Uploaded file saved to: {file_path}")
         return file_path
     except Exception as e:
@@ -761,70 +801,84 @@ def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: S
         raise ValueError(f"File upload failed: {e}")
 
 
-def _convert_file_to_json(file_path: Path) -> tuple[Path | None, str | None]:
+def _convert_file_to_json(file_path: Path) -> tuple[Path | None, str | None, dict, str | None]:
     """
-    Convert uploaded file to JSON format and extract sector.
+    Convert uploaded file to JSON format and extract sector and data.
     
     Args:
         file_path (Path): Path to the uploaded file
         
     Returns:
-        tuple[Path | None, str | None]: (JSON file path, sector name)
+        tuple[Path | None, str | None, dict, str | None]: (JSON file path, sector name, json_data, error_message)
         - JSON file path: Path to converted JSON file (None if conversion failed)
         - sector name: Extracted sector name (None if conversion failed)
+        - json_data: Parsed JSON data (empty dict if parsing failed)
+        - error_message: Error message if conversion failed (None if successful)
         
     Examples:
-        json_path, sector = _convert_file_to_json(file_path)
+        json_path, sector, json_data, error = _convert_file_to_json(file_path)
         if json_path:
             # Conversion successful
         else:
-            # Conversion failed
+            # Conversion failed, check error message
     """
     try:
         json_path, sector = convert_excel_to_json_if_valid(file_path)
-        if json_path:
-            logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
-            return json_path, sector
-        else:
-            logger.warning(f"File conversion failed: {file_path}")
-            return None, None
+        
+        # Generate import audit for diagnostics
+        try:
+            parse_result = parse_xl_file(file_path)
+            audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+            audit_log_path = LOG_DIR / "import_audit.log"
+            audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(audit_log_path, "a", encoding="utf-8") as f:
+                f.write(audit + "\n\n")
+        except Exception as e:
+            logger.warning(f"Failed to generate import audit: {e}")
+        
+        if not json_path:
+            return None, None, {}, "File could not be converted to JSON format"
+        
+        json_data, _ = json_load_with_meta(json_path)
+        logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
+        return json_path, sector, json_data, None
+        
     except Exception as e:
         logger.error(f"Error during file conversion: {e}")
-        return None, None
+        return None, None, {}, f"Error converting file to JSON: {e}"
 
 
-def _validate_and_extract_id(json_path: Path) -> tuple[int | None, dict]:
+def _validate_id_from_json(json_data: dict) -> tuple[int | None, str | None]:
     """
     Validate and extract id_incidence from JSON data.
     
     Args:
-        json_path (Path): Path to JSON file
+        json_data (dict): Parsed JSON data
         
     Returns:
-        tuple[int | None, dict]: (id_incidence, json_data)
+        tuple[int | None, str | None]: (id_incidence, error_message)
         - id_incidence: Extracted ID (None if missing/invalid)
-        - json_data: Parsed JSON data (empty dict if parsing failed)
+        - error_message: Error message if validation failed (None if successful)
         
     Examples:
-        id_, json_data = _validate_and_extract_id(json_path)
+        id_, error = _validate_id_from_json(json_data)
         if id_:
             # Valid ID found
         else:
-            # Missing or invalid ID
+            # Missing or invalid ID, check error message
     """
     try:
-        json_data, _ = json_load_with_meta(json_path)
         id_candidate = extract_id_from_json(json_data)
         
         if isinstance(id_candidate, int) and id_candidate > 0:
             logger.debug(f"Valid id_incidence found: {id_candidate}")
-            return id_candidate, json_data
+            return id_candidate, None
         else:
             logger.warning(f"Invalid or missing id_incidence: {id_candidate}")
-            return None, json_data
+            return None, "No valid id_incidence found in spreadsheet"
     except Exception as e:
         logger.error(f"Error extracting ID from JSON: {e}")
-        return None, {}
+        return None, f"Error extracting ID from JSON: {e}"
 
 
 def _create_staged_file(id_: int, json_data: dict, db: SQLAlchemy, base: AutomapBase, upload_dir: str | Path) -> str | None:
@@ -876,6 +930,35 @@ def _create_staged_file(id_: int, json_data: dict, db: SQLAlchemy, base: Automap
         return None
 
 
+def _insert_json_into_database(json_path: Path, base: AutomapBase, db: SQLAlchemy) -> tuple[int | None, str | None]:
+    """
+    Insert JSON data into the database.
+    
+    Args:
+        json_path (Path): Path to the JSON file
+        base (AutomapBase): SQLAlchemy base object from automap reflection
+        db (SQLAlchemy): SQLAlchemy database instance
+    
+    Returns:
+        tuple[int | None, str | None]: (id_, error_message)
+        - id_: Inserted incidence ID (None if insertion failed)
+        - error_message: Error message if insertion failed (None if successful)
+    
+    Examples:
+        id_, error = _insert_json_into_database(json_path, base, db)
+        if id_:
+            # Insertion successful
+        else:
+            # Insertion failed, check error message
+    """
+    try:
+        id_, _ = json_file_to_db(db, json_path, base)
+        return id_, None
+    except Exception as e:
+        logger.error(f"Error inserting data into database: {e}")
+        return None, f"Database error occurred during insertion: {e}"
+
+
 def stage_uploaded_file_for_review(db: SQLAlchemy,
                                  upload_dir: str | Path,
                                  request_file: FileStorage,
@@ -923,7 +1006,7 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
     
     # Step 1: Save the uploaded file
     try:
-        file_path = _save_uploaded_file(upload_dir, request_file, db)
+        file_path = _save_uploaded_file(upload_dir, request_file, db, description="Staged only (no DB write)")
     except ValueError as e:
         return StagingResult(
             file_path=Path("unknown"),
@@ -937,7 +1020,7 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
         )
     
     # Step 2: Convert file to JSON and extract sector
-    json_path, sector = _convert_file_to_json(file_path)
+    json_path, sector, json_data, error = _convert_file_to_json(file_path)
     if not json_path:
         return StagingResult(
             file_path=file_path,
@@ -951,7 +1034,7 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
         )
     
     # Step 3: Validate and extract id_incidence
-    id_, json_data = _validate_and_extract_id(json_path)
+    id_, error = _validate_id_from_json(json_data)
     if not id_:
         return StagingResult(
             file_path=file_path,
@@ -960,7 +1043,7 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
             json_data=json_data,
             staged_filename=None,
             success=False,
-            error_message="No valid 'Incidence/Emission ID' (id_incidence) found in spreadsheet. Please add a positive integer id_incidence.",
+            error_message=error,
             error_type="missing_id"
         )
     

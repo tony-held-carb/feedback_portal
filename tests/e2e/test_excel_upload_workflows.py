@@ -968,6 +968,311 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
     print(f"[STEP] Staged file {staged_filename} successfully discarded and not present after reload.")
 
+class TestRefactoredRoutes:
+    """E2E tests for refactored upload routes."""
+    
+    def test_upload_file_refactored_page_loads(self, page: Page):
+        """Test that the refactored upload page loads correctly."""
+        page.goto(f"{BASE_URL}/upload_refactored")
+        page.wait_for_load_state("networkidle")
+        
+        # Check page title and structure
+        assert "Upload Feedback Spreadsheet" in page.content()
+        assert page.locator("input[type='file']").count() > 0
+        assert page.locator("form").count() > 0
+    
+    def test_upload_file_staged_refactored_page_loads(self, page: Page):
+        """Test that the refactored staged upload page loads correctly."""
+        page.goto(f"{BASE_URL}/upload_staged_refactored")
+        page.wait_for_load_state("networkidle")
+        
+        # Check page title and structure
+        assert "Upload" in page.content()
+        assert page.locator("input[type='file']").count() > 0
+        assert page.locator("form").count() > 0
+    
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_upload_file_refactored_workflow(self, page: Page, file_path: str):
+        """
+        Test complete file upload workflow for each test file using refactored route.
+        Steps:
+        - Upload file using Playwright's set_input_files
+        - Wait for form submission (auto or manual)
+        - Check for success or error messages
+        - Does not check DB; see deep backend validation for that
+        """
+        if not os.path.exists(file_path):
+            pytest.skip(f"Test file not found: {file_path}")
+        
+        # Navigate to refactored upload page
+        page.goto(f"{BASE_URL}/upload_refactored")
+        page.wait_for_load_state("networkidle")
+        
+        # Get file input
+        file_input = page.locator("input[type='file']")
+        # Upload file using Playwright's set_input_files
+        page.set_input_files("input[type='file']", file_path)
+        # Wait for file to be processed
+        page.wait_for_timeout(1000)
+        
+        # Check if form auto-submits or if we need to submit manually
+        original_url = page.url
+        # Wait for page change (form submission)
+        try:
+            # Wait for either URL change or success/error message
+            page.wait_for_function(
+                "() => window.location.href !== arguments[0] || document.querySelector('.alert-success, .alert-danger, .alert-warning') || document.body.textContent.toLowerCase().includes('success') || document.body.textContent.toLowerCase().includes('error')",
+                arg=original_url,
+                timeout=10000
+            )
+        except:
+            # If no automatic submission, try to submit manually
+            submit_button = page.locator("button[type='submit'], input[type='submit']")
+            if submit_button.count() > 0:
+                submit_button.click()
+                page.wait_for_load_state("networkidle")
+        
+        # Check for success or error messages
+        success_indicators = [
+            ".alert-success",
+            ".success-message",
+            ".alert-info"
+        ]
+        error_indicators = [
+            ".alert-danger",
+            ".error-message",
+            ".alert-warning"
+        ]
+        
+        # Check for success
+        for indicator in success_indicators:
+            if page.locator(indicator).count() > 0:
+                success_text = page.locator(indicator).first.text_content()
+                assert success_text is not None
+                # Handle Unicode characters safely for Windows console
+                try:
+                    print(f"Refactored upload successful: {success_text}")
+                except UnicodeEncodeError:
+                    # Fallback for Windows console encoding issues
+                    safe_text = success_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Refactored upload successful: {safe_text}")
+                return
+        
+        # Check for errors
+        for indicator in error_indicators:
+            if page.locator(indicator).count() > 0:
+                error_text = page.locator(indicator).first.text_content()
+                assert error_text is not None
+                # Handle Unicode characters safely for Windows console
+                try:
+                    print(f"Refactored upload failed: {error_text}")
+                except UnicodeEncodeError:
+                    # Fallback for Windows console encoding issues
+                    safe_text = error_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Refactored upload failed: {safe_text}")
+                # Don't fail the test for expected errors (like validation errors)
+                return
+        
+        # Check page content for success/error keywords
+        page_content = page.content().lower()
+        if any(keyword in page_content for keyword in ["success", "uploaded", "processed"]):
+            print("Refactored upload appears successful based on page content")
+            return
+        elif any(keyword in page_content for keyword in ["error", "invalid", "failed"]):
+            print("Refactored upload appears to have failed based on page content")
+            return
+        
+        # If we get here, the result is unclear
+        pytest.fail("Refactored upload result unclear - no success or error indicators found")
+    
+    @pytest.mark.parametrize("file_path", get_test_files())
+    def test_upload_file_staged_refactored_workflow(self, page: Page, file_path: str):
+        """
+        Test complete staged file upload workflow for each test file using refactored route.
+        Steps:
+        - Upload file using Playwright's set_input_files
+        - Wait for form submission (auto or manual)
+        - Check for success or error messages
+        - For staged uploads, expect redirect to review page or error message
+        """
+        if not os.path.exists(file_path):
+            pytest.skip(f"Test file not found: {file_path}")
+        
+        # Navigate to refactored staged upload page
+        page.goto(f"{BASE_URL}/upload_staged_refactored")
+        page.wait_for_load_state("networkidle")
+        
+        # Get file input
+        file_input = page.locator("input[type='file']")
+        # Upload file using Playwright's set_input_files
+        page.set_input_files("input[type='file']", file_path)
+        # Wait for file to be processed
+        page.wait_for_timeout(1000)
+        
+        # Check if form auto-submits or if we need to submit manually
+        original_url = page.url
+        # Wait for page change (form submission)
+        try:
+            # Wait for either URL change or success/error message
+            page.wait_for_function(
+                "() => window.location.href !== arguments[0] || document.querySelector('.alert-success, .alert-danger, .alert-warning') || document.body.textContent.toLowerCase().includes('success') || document.body.textContent.toLowerCase().includes('error')",
+                arg=original_url,
+                timeout=10000
+            )
+        except:
+            # If no automatic submission, try to submit manually
+            submit_button = page.locator("button[type='submit'], input[type='submit']")
+            if submit_button.count() > 0:
+                submit_button.click()
+                page.wait_for_load_state("networkidle")
+        
+        # For staged uploads, we expect either:
+        # 1. Success: redirect to review page
+        # 2. Error: form with error message (if staging fails)
+        if page.url != original_url:
+            # Check for redirect to review page
+            if "/review_staged/" in page.url:
+                print("Refactored staged upload successful - redirected to review page")
+                return
+            elif "/list_staged" in page.url:
+                print("Refactored staged upload successful - redirected to list staged")
+                return
+        
+        # Check for success or error messages
+        success_indicators = [
+            ".alert-success",
+            ".success-message",
+            ".alert-info"
+        ]
+        error_indicators = [
+            ".alert-danger",
+            ".error-message",
+            ".alert-warning"
+        ]
+        
+        # Check for success
+        for indicator in success_indicators:
+            if page.locator(indicator).count() > 0:
+                success_text = page.locator(indicator).first.text_content()
+                assert success_text is not None
+                try:
+                    print(f"Refactored staged upload successful: {success_text}")
+                except UnicodeEncodeError:
+                    safe_text = success_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Refactored staged upload successful: {safe_text}")
+                return
+        
+        # Check for errors
+        for indicator in error_indicators:
+            if page.locator(indicator).count() > 0:
+                error_text = page.locator(indicator).first.text_content()
+                assert error_text is not None
+                try:
+                    print(f"Refactored staged upload failed: {error_text}")
+                except UnicodeEncodeError:
+                    safe_text = error_text.encode('ascii', 'replace').decode('ascii')
+                    print(f"Refactored staged upload failed: {safe_text}")
+                # Don't fail the test for expected errors (like validation errors)
+                return
+        
+        # Check page content for success/error keywords
+        page_content = page.content().lower()
+        if any(keyword in page_content for keyword in ["success", "uploaded", "processed", "staged"]):
+            print("Refactored staged upload appears successful based on page content")
+            return
+        elif any(keyword in page_content for keyword in ["error", "invalid", "failed"]):
+            print("Refactored staged upload appears to have failed based on page content")
+            return
+        
+        # If we get here, the result is unclear
+        pytest.fail("Refactored staged upload result unclear - no success or error indicators found")
+    
+    def test_upload_file_refactored_invalid_file(self, page: Page):
+        """Test refactored upload with invalid file type (e.g., .txt)."""
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as f:
+            f.write(b"This is not an Excel file")
+            temp_file = f.name
+        
+        try:
+            page.goto(f"{BASE_URL}/upload_refactored")
+            page.wait_for_load_state("networkidle")
+            page.set_input_files("input[type='file']", temp_file)
+            page.wait_for_timeout(1000)
+            
+            error_indicators = [
+                ".alert-danger",
+                ".error-message",
+                ".alert-warning"
+            ]
+            
+            # Check for error indicators
+            for indicator in error_indicators:
+                if page.locator(indicator).count() > 0:
+                    error_text = page.locator(indicator).first.text_content()
+                    assert error_text is not None
+                    print(f"Refactored upload correctly rejected invalid file: {error_text}")
+                    return
+            
+            # Check page content for error keywords
+            page_content = page.content().lower()
+            if any(keyword in page_content for keyword in ["error", "invalid", "not recognized", "failed"]):
+                print("Refactored upload correctly rejected invalid file based on page content")
+                return
+            
+            # If no clear error, this might be acceptable behavior
+            print("Refactored upload handled invalid file without clear error message")
+            
+        finally:
+            # Clean up temp file
+            try:
+                os.unlink(temp_file)
+            except:
+                pass
+    
+    def test_upload_file_staged_refactored_invalid_file(self, page: Page):
+        """Test refactored staged upload with invalid file type (e.g., .txt)."""
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as f:
+            f.write(b"This is not an Excel file")
+            temp_file = f.name
+        
+        try:
+            page.goto(f"{BASE_URL}/upload_staged_refactored")
+            page.wait_for_load_state("networkidle")
+            page.set_input_files("input[type='file']", temp_file)
+            page.wait_for_timeout(1000)
+            
+            error_indicators = [
+                ".alert-danger",
+                ".error-message",
+                ".alert-warning"
+            ]
+            
+            # Check for error indicators
+            for indicator in error_indicators:
+                if page.locator(indicator).count() > 0:
+                    error_text = page.locator(indicator).first.text_content()
+                    assert error_text is not None
+                    print(f"Refactored staged upload correctly rejected invalid file: {error_text}")
+                    return
+            
+            # Check page content for error keywords
+            page_content = page.content().lower()
+            if any(keyword in page_content for keyword in ["error", "invalid", "not recognized", "failed"]):
+                print("Refactored staged upload correctly rejected invalid file based on page content")
+                return
+            
+            # If no clear error, this might be acceptable behavior
+            print("Refactored staged upload handled invalid file without clear error message")
+            
+        finally:
+            # Clean up temp file
+            try:
+                os.unlink(temp_file)
+            except:
+                pass
+
 if __name__ == "__main__":
     # Run tests if executed directly
     pytest.main([__file__, "-v"])

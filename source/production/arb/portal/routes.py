@@ -42,7 +42,7 @@ from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
-from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, upload_and_stage_only, upload_and_update_db, \
+from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, upload_and_stage_only, upload_and_update_db, upload_and_process_file, \
   xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
@@ -430,6 +430,123 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
       # Enhanced error handling with diagnostic information
       error_details = generate_upload_diagnostics(request_file,
                                                   file_path if 'file_path' in locals() else None)
+      detailed_message = format_diagnostic_message(error_details)
+
+      return render_template(
+        'upload.html',
+        form=form,
+        upload_message=detailed_message
+      )
+
+  # GET request: display form
+  return render_template('upload.html', form=form, upload_message=message)
+
+
+@main.route('/upload_refactored', methods=['GET', 'POST'])
+@main.route('/upload_refactored/<message>', methods=['GET', 'POST'])
+def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
+  """
+  Refactored version of upload_file route with improved error handling and structure.
+  
+  This route provides the same functionality as upload_file but uses a more modular
+  approach with better error handling and clearer separation of concerns.
+
+  Args:
+    message (str | None): Optional message to display on the upload page.
+
+  Returns:
+    str|Response: Rendered HTML for the upload form, or redirect after upload.
+
+  Examples:
+    # In browser: GET /upload_refactored
+    # Returns: HTML upload form
+    # In browser: POST /upload_refactored
+    # Redirects to: /incidence_update or error page
+  """
+  logger.info(f"route called: upload_file_refactored with message: {message}")
+
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+  form = UploadForm()
+
+  # Decode redirect message, if present
+  if message:
+    message = unquote(message)
+    logger.debug(f"Received redirect message: {message}")
+
+  upload_folder = get_upload_folder()
+  logger.debug(f"Files received: {list(request.files.keys())}, upload_folder={upload_folder}")
+
+  if request.method == 'POST':
+    try:
+      request_file = request.files.get('file')
+
+      if not request_file or not request_file.filename:
+        logger.warning("POST received with no file selected.")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message="No file selected. Please choose a file."
+        )
+
+      logger.debug(f"Received uploaded file: {request_file.filename}")
+
+      # Process uploaded file using refactored function
+      result = upload_and_process_file(db, upload_folder, request_file, base)
+
+      if result.success:
+        logger.debug(f"Upload successful: id={result.id_}, sector={result.sector}. Redirecting to update page.")
+        return redirect(url_for('main.incidence_update', id_=result.id_))
+
+      # Handle specific error types with detailed messages
+      if result.error_type == "missing_id":
+        logger.warning(f"Upload blocked: missing or invalid id_incidence in {result.file_path.name}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=(
+            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+            "Please add a positive integer id_incidence to your spreadsheet before uploading."
+          )
+        )
+      elif result.error_type == "conversion_failed":
+        logger.warning(f"Upload failed file conversion: {result.file_path=}")
+        error_details = generate_upload_diagnostics(request_file, result.file_path)
+        detailed_message = format_diagnostic_message(error_details,
+                                                     "Uploaded file format not recognized.")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=detailed_message
+        )
+      elif result.error_type == "file_error":
+        logger.error(f"File processing error: {result.error_message}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=f"Error processing uploaded file: {result.error_message}"
+        )
+      elif result.error_type == "database_error":
+        logger.error(f"Database error: {result.error_message}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=f"Database error occurred: {result.error_message}"
+        )
+      else:
+        # Handle unknown error types
+        logger.error(f"Unknown error during upload: {result.error_message}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=f"An unexpected error occurred: {result.error_message}"
+        )
+
+    except Exception as e:
+      logger.exception("Exception occurred during upload or parsing.")
+
+      # Enhanced error handling with diagnostic information
+      error_details = generate_upload_diagnostics(request_file,
+                                                  result.file_path if 'result' in locals() else None)
       detailed_message = format_diagnostic_message(error_details)
 
       return render_template(

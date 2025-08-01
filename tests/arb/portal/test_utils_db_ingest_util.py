@@ -8,7 +8,7 @@ import pytest
 import tempfile
 import json
 from pathlib import Path
-from unittest.mock import patch, MagicMock, mock_open
+from unittest.mock import patch, MagicMock, mock_open, PropertyMock
 from werkzeug.datastructures import FileStorage
 
 from arb.portal.utils import db_ingest_util
@@ -17,7 +17,7 @@ from arb.portal.utils.db_ingest_util import (
     json_file_to_db, upload_and_update_db, upload_and_stage_only,
     convert_excel_to_json_if_valid, extract_sector_from_json, store_staged_payload
 )
-from arb.portal.utils.db_ingest_util import StagingResult
+from arb.portal.utils.result_types import StagingResult
 
 @pytest.fixture
 def sample_xl_dict():
@@ -403,7 +403,7 @@ def test_update_model_with_payload_and_commit_with_dry_run(mock_db):
     mock_model = MagicMock()
     data_dict = {"id_incidence": 123, "sector": "test"}
     
-    with patch('arb.portal.utils.db_ingest_util.update_model_with_payload') as mock_update:
+    with patch('arb.utils.wtf_forms_util.update_model_with_payload') as mock_update:
         db_ingest_util.update_model_with_payload_and_commit(
             mock_db, mock_model, data_dict, dry_run=True
         )
@@ -418,7 +418,7 @@ def test_update_model_with_payload_and_commit_without_dry_run(mock_db):
     mock_model = MagicMock()
     data_dict = {"id_incidence": 123, "sector": "test"}
     
-    with patch('arb.portal.utils.db_ingest_util.update_model_with_payload') as mock_update:
+    with patch('arb.utils.wtf_forms_util.update_model_with_payload') as mock_update:
         db_ingest_util.update_model_with_payload_and_commit(
             mock_db, mock_model, data_dict, dry_run=False
         )
@@ -446,7 +446,8 @@ def test_extract_primary_key_from_model_success():
 def test_extract_primary_key_from_model_missing_attribute():
     """extract_primary_key_from_model raises AttributeError for missing attribute."""
     mock_model = MagicMock()
-    # Don't set id_incidence attribute
+    # Configure the mock to raise AttributeError when accessing id_incidence
+    del mock_model.id_incidence  # Remove the attribute
     
     with pytest.raises(AttributeError):
         db_ingest_util.extract_primary_key_from_model(mock_model, "id_incidence")
@@ -635,13 +636,17 @@ def test_convert_file_to_json_success():
     file_path = Path("test.xlsx")
     
     with patch('arb.portal.utils.db_ingest_util.convert_excel_to_json_if_valid') as mock_convert:
-        mock_convert.return_value = (Path("test.json"), "Dairy Digester")
-        
-        json_path, sector = db_ingest_util._convert_file_to_json(file_path)
-        
-        assert json_path == Path("test.json")
-        assert sector == "Dairy Digester"
-        mock_convert.assert_called_once_with(file_path)
+        with patch('arb.portal.utils.db_ingest_util.json_load_with_meta') as mock_load:
+            mock_convert.return_value = (Path("test.json"), "Dairy Digester")
+            mock_load.return_value = ({"id_incidence": 123}, {})
+            
+            json_path, sector, json_data, error = db_ingest_util._convert_file_to_json(file_path)
+            
+            assert json_path == Path("test.json")
+            assert sector == "Dairy Digester"
+            assert json_data == {"id_incidence": 123}
+            assert error is None
+            mock_convert.assert_called_once_with(file_path)
 
 
 def test_convert_file_to_json_failure():
@@ -651,64 +656,196 @@ def test_convert_file_to_json_failure():
     with patch('arb.portal.utils.db_ingest_util.convert_excel_to_json_if_valid') as mock_convert:
         mock_convert.return_value = (None, None)
         
-        json_path, sector = db_ingest_util._convert_file_to_json(file_path)
+        json_path, sector, json_data, error = db_ingest_util._convert_file_to_json(file_path)
         
         assert json_path is None
         assert sector is None
+        assert json_data == {}
+        assert "File could not be converted to JSON format" in error
 
 
-def test_validate_and_extract_id_function_signature():
-    """_validate_and_extract_id function has correct signature."""
-    assert hasattr(db_ingest_util, '_validate_and_extract_id')
-    assert callable(db_ingest_util._validate_and_extract_id)
+def test_validate_id_from_json_function_signature():
+    """_validate_id_from_json function has correct signature."""
+    assert hasattr(db_ingest_util, '_validate_id_from_json')
+    assert callable(db_ingest_util._validate_id_from_json)
 
 
-def test_validate_and_extract_id_success():
-    """_validate_and_extract_id successfully extracts valid ID."""
-    json_path = Path("test.json")
+def test_validate_id_from_json_success():
+    """_validate_id_from_json successfully extracts valid ID."""
     json_data = {"id_incidence": 123, "sector": "Dairy Digester"}
     
-    with patch('arb.portal.utils.db_ingest_util.json_load_with_meta') as mock_load:
-        with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
-            mock_load.return_value = (json_data, {})
-            mock_extract.return_value = 123
-            
-            id_, data = db_ingest_util._validate_and_extract_id(json_path)
-            
-            assert id_ == 123
-            assert data == json_data
+    with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
+        mock_extract.return_value = 123
+        
+        id_, error = db_ingest_util._validate_id_from_json(json_data)
+        
+        assert id_ == 123
+        assert error is None
+        mock_extract.assert_called_once_with(json_data)
 
 
-def test_validate_and_extract_id_missing():
-    """_validate_and_extract_id returns None for missing ID."""
-    json_path = Path("test.json")
+def test_validate_id_from_json_missing():
+    """_validate_id_from_json returns None and error for missing ID."""
     json_data = {"sector": "Dairy Digester"}  # No id_incidence
     
-    with patch('arb.portal.utils.db_ingest_util.json_load_with_meta') as mock_load:
-        with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
-            mock_load.return_value = (json_data, {})
-            mock_extract.return_value = None
-            
-            id_, data = db_ingest_util._validate_and_extract_id(json_path)
-            
-            assert id_ is None
-            assert data == json_data
+    with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
+        mock_extract.return_value = None
+        
+        id_, error = db_ingest_util._validate_id_from_json(json_data)
+        
+        assert id_ is None
+        assert "No valid id_incidence found in spreadsheet" in error
+        mock_extract.assert_called_once_with(json_data)
 
 
-def test_validate_and_extract_id_invalid():
-    """_validate_and_extract_id returns None for invalid ID."""
-    json_path = Path("test.json")
+def test_validate_id_from_json_invalid():
+    """_validate_id_from_json returns None and error for invalid ID."""
     json_data = {"id_incidence": -1, "sector": "Dairy Digester"}
     
-    with patch('arb.portal.utils.db_ingest_util.json_load_with_meta') as mock_load:
-        with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
-            mock_load.return_value = (json_data, {})
-            mock_extract.return_value = -1
+    with patch('arb.portal.utils.db_ingest_util.extract_id_from_json') as mock_extract:
+        mock_extract.return_value = -1
+        
+        id_, error = db_ingest_util._validate_id_from_json(json_data)
+        
+        assert id_ is None
+        assert "No valid id_incidence found in spreadsheet" in error
+        mock_extract.assert_called_once_with(json_data)
+
+
+def test_insert_json_into_database_function_signature():
+    """_insert_json_into_database function has correct signature."""
+    assert hasattr(db_ingest_util, '_insert_json_into_database')
+    assert callable(db_ingest_util._insert_json_into_database)
+
+
+def test_insert_json_into_database_success(mock_db, mock_base):
+    """_insert_json_into_database successfully inserts data."""
+    json_path = Path("test.json")
+    
+    with patch('arb.portal.utils.db_ingest_util.json_file_to_db') as mock_insert:
+        mock_insert.return_value = (123, "Dairy Digester")
+        
+        id_, error = db_ingest_util._insert_json_into_database(json_path, mock_base, mock_db)
+        
+        assert id_ == 123
+        assert error is None
+        mock_insert.assert_called_once_with(mock_db, json_path, mock_base)
+
+
+def test_insert_json_into_database_failure(mock_db, mock_base):
+    """_insert_json_into_database returns error on failure."""
+    json_path = Path("test.json")
+    
+    with patch('arb.portal.utils.db_ingest_util.json_file_to_db') as mock_insert:
+        mock_insert.side_effect = Exception("Database error")
+        
+        id_, error = db_ingest_util._insert_json_into_database(json_path, mock_base, mock_db)
+        
+        assert id_ is None
+        assert "Database error occurred during insertion" in error
+
+
+def test_upload_and_process_file_function_signature():
+    """upload_and_process_file has correct function signature."""
+    assert hasattr(db_ingest_util, 'upload_and_process_file')
+    assert callable(db_ingest_util.upload_and_process_file)
+
+
+def test_upload_and_process_file_success(mock_db, mock_base):
+    """upload_and_process_file returns success result for valid file."""
+    mock_request_file = MagicMock()
+    mock_request_file.filename = "test.xlsx"
+    
+    with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
+        with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
+                with patch('arb.portal.utils.db_ingest_util._insert_json_into_database') as mock_insert:
+                    mock_save.return_value = Path("uploads/test.xlsx")
+                    mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"id_incidence": 123}, None)
+                    mock_validate.return_value = (123, None)
+                    mock_insert.return_value = (123, None)
+                    
+                    result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+                    
+                    assert result.success is True
+                    assert result.id_ == 123
+                    assert result.sector == "Dairy Digester"
+                    assert result.error_message is None
+                    assert result.error_type is None
+
+
+def test_upload_and_process_file_file_error(mock_db, mock_base):
+    """upload_and_process_file returns file_error result on upload failure."""
+    mock_request_file = MagicMock()
+    mock_request_file.filename = "test.xlsx"
+    
+    with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
+        mock_save.side_effect = ValueError("File upload failed")
+        
+        result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+        
+        assert result.success is False
+        assert result.error_type == "file_error"
+        assert "File upload failed" in result.error_message
+
+
+def test_upload_and_process_file_conversion_failed(mock_db, mock_base):
+    """upload_and_process_file returns conversion_failed result."""
+    mock_request_file = MagicMock()
+    mock_request_file.filename = "test.txt"
+    
+    with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
+        with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
+            mock_save.return_value = Path("uploads/test.txt")
+            mock_convert.return_value = (None, None, {}, "File could not be converted to JSON format")
             
-            id_, data = db_ingest_util._validate_and_extract_id(json_path)
+            result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
             
-            assert id_ is None
-            assert data == json_data
+            assert result.success is False
+            assert result.error_type == "conversion_failed"
+            assert "File could not be converted to JSON format" in result.error_message
+
+
+def test_upload_and_process_file_missing_id(mock_db, mock_base):
+    """upload_and_process_file returns missing_id result."""
+    mock_request_file = MagicMock()
+    mock_request_file.filename = "test.xlsx"
+    
+    with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
+        with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
+                mock_save.return_value = Path("uploads/test.xlsx")
+                mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"sector": "Dairy Digester"}, None)
+                mock_validate.return_value = (None, "No valid id_incidence found in spreadsheet")
+                
+                result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+                
+                assert result.success is False
+                assert result.error_type == "missing_id"
+                assert "No valid id_incidence found in spreadsheet" in result.error_message
+                assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
+
+
+def test_upload_and_process_file_database_error(mock_db, mock_base):
+    """upload_and_process_file returns database_error result."""
+    mock_request_file = MagicMock()
+    mock_request_file.filename = "test.xlsx"
+    
+    with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
+        with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
+                with patch('arb.portal.utils.db_ingest_util._insert_json_into_database') as mock_insert:
+                    mock_save.return_value = Path("uploads/test.xlsx")
+                    mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"id_incidence": 123}, None)
+                    mock_validate.return_value = (123, None)
+                    mock_insert.return_value = (None, "Database error occurred during insertion")
+                    
+                    result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+                    
+                    assert result.success is False
+                    assert result.error_type == "database_error"
+                    assert "Database error occurred during insertion" in result.error_message
+                    assert result.sector == "Dairy Digester"  # Should preserve sector even on DB failure
 
 
 def test_create_staged_file_function_signature():
@@ -723,9 +860,9 @@ def test_create_staged_file_success(mock_db, mock_base, mock_table_class):
     mock_model.misc_json = {"existing": "data"}
     
     with patch('arb.portal.utils.db_ingest_util.get_ensured_row') as mock_get_row:
-        with patch('arb.portal.utils.db_ingest_util.json_save_with_meta') as mock_save:
+        with patch('arb.utils.json.json_save_with_meta') as mock_save:
             with patch('arb.portal.utils.db_ingest_util.add_file_to_upload_table') as mock_add:
-                with patch('arb.portal.utils.db_ingest_util.prep_payload_for_json') as mock_prep:
+                with patch('arb.utils.wtf_forms_util.prep_payload_for_json') as mock_prep:
                     mock_get_row.return_value = (mock_model, 123, False)
                     mock_prep.return_value = {"id_incidence": 123, "sector": "Dairy Digester"}
                     
@@ -757,11 +894,11 @@ def test_stage_uploaded_file_for_review_success(mock_db, mock_base, mock_table_c
     
     with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
         with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
-            with patch('arb.portal.utils.db_ingest_util._validate_and_extract_id') as mock_validate:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
                 with patch('arb.portal.utils.db_ingest_util._create_staged_file') as mock_create:
                     mock_save.return_value = Path("uploads/test.xlsx")
-                    mock_convert.return_value = (Path("test.json"), "Dairy Digester")
-                    mock_validate.return_value = (123, {"id_incidence": 123})
+                    mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"id_incidence": 123}, None)
+                    mock_validate.return_value = (123, None)
                     mock_create.return_value = "id_123_ts_20250101_120000.json"
                     
                     result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
@@ -797,7 +934,7 @@ def test_stage_uploaded_file_for_review_conversion_failed(mock_db, mock_base, mo
     with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
         with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
             mock_save.return_value = Path("uploads/test.txt")
-            mock_convert.return_value = (None, None)
+            mock_convert.return_value = (None, None, {}, "File could not be converted to JSON format")
             
             result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
             
@@ -813,16 +950,16 @@ def test_stage_uploaded_file_for_review_missing_id(mock_db, mock_base, mock_tabl
     
     with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
         with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
-            with patch('arb.portal.utils.db_ingest_util._validate_and_extract_id') as mock_validate:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
                 mock_save.return_value = Path("uploads/test.xlsx")
-                mock_convert.return_value = (Path("test.json"), "Dairy Digester")
-                mock_validate.return_value = (None, {"sector": "Dairy Digester"})
+                mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"sector": "Dairy Digester"}, None)
+                mock_validate.return_value = (None, "No valid id_incidence found in spreadsheet")
                 
                 result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
                 
                 assert result.success is False
                 assert result.error_type == "missing_id"
-                assert "No valid 'Incidence/Emission ID'" in result.error_message
+                assert "No valid id_incidence found in spreadsheet" in result.error_message
                 assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
 
 
@@ -833,11 +970,11 @@ def test_stage_uploaded_file_for_review_database_error(mock_db, mock_base, mock_
     
     with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
         with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
-            with patch('arb.portal.utils.db_ingest_util._validate_and_extract_id') as mock_validate:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
                 with patch('arb.portal.utils.db_ingest_util._create_staged_file') as mock_create:
                     mock_save.return_value = Path("uploads/test.xlsx")
-                    mock_convert.return_value = (Path("test.json"), "Dairy Digester")
-                    mock_validate.return_value = (123, {"id_incidence": 123})
+                    mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"id_incidence": 123}, None)
+                    mock_validate.return_value = (123, None)
                     mock_create.return_value = None  # Staging failed
                     
                     result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
@@ -858,11 +995,11 @@ def test_stage_uploaded_file_for_review_equivalent_to_original(mock_db, mock_bas
     # Test with successful staging
     with patch('arb.portal.utils.db_ingest_util._save_uploaded_file') as mock_save:
         with patch('arb.portal.utils.db_ingest_util._convert_file_to_json') as mock_convert:
-            with patch('arb.portal.utils.db_ingest_util._validate_and_extract_id') as mock_validate:
+            with patch('arb.portal.utils.db_ingest_util._validate_id_from_json') as mock_validate:
                 with patch('arb.portal.utils.db_ingest_util._create_staged_file') as mock_create:
                     mock_save.return_value = Path("uploads/test.xlsx")
-                    mock_convert.return_value = (Path("test.json"), "Dairy Digester")
-                    mock_validate.return_value = (123, {"id_incidence": 123})
+                    mock_convert.return_value = (Path("test.json"), "Dairy Digester", {"id_incidence": 123}, None)
+                    mock_validate.return_value = (123, None)
                     mock_create.return_value = "id_123_ts_20250101_120000.json"
                     
                     result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
