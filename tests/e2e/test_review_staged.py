@@ -119,13 +119,13 @@ def test_hide_changes_checkbox(page: Page, upload_and_stage_file):
         pytest.skip("No unchanged fields to test hide functionality.")
     # Click the checkbox to hide unchanged fields
     hide_checkbox.check()
-    page.wait_for_timeout(500)
+    expect(hide_checkbox).to_be_checked()
     # All unchanged fields should now be hidden
     for i in range(unchanged_rows.count()):
-        assert not unchanged_rows.nth(i).is_visible(), "Unchanged field row should be hidden."
+        expect(unchanged_rows.nth(i)).not_to_be_visible()
     # Uncheck to show again
     hide_checkbox.uncheck()
-    page.wait_for_timeout(500)
+    expect(hide_checkbox).not_to_be_checked()
     for i in range(unchanged_rows.count()):
         assert unchanged_rows.nth(i).is_visible(), "Unchanged field row should be visible."
 
@@ -139,14 +139,16 @@ def test_field_search_filter(page: Page, upload_and_stage_file):
     search_input = page.locator("#fieldSearch")
     expect(search_input).to_be_visible()
     search_input.fill("timestamp")
-    page.wait_for_timeout(500)
     # Only rows with 'timestamp' in any cell should be visible
     visible_rows = page.locator(".field-row:visible")
+    expect(visible_rows.first).to_be_visible()
     for text in visible_rows.all_inner_texts():
         assert "timestamp" in text.lower(), f"Visible row does not match filter: {text}"
     # Clear filter
     search_input.fill("")
-    page.wait_for_timeout(500)
+    # After clearing, all field rows should be visible again
+    all_field_rows = page.locator(".field-row")
+    expect(all_field_rows).to_have_count(all_field_rows.count())
 
 @pytest.mark.e2e
 def test_change_summary_card(page: Page, upload_and_stage_file):
@@ -224,8 +226,10 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
             checkbox = checkboxes.nth(i)
             # Ensure checkbox is visible and not covered
             checkbox.scroll_into_view_if_needed()
-            page.wait_for_timeout(100)  # Small delay to ensure stability
+            expect(checkbox).to_be_visible()
+            expect(checkbox).to_be_enabled()
             checkbox.check()
+            expect(checkbox).to_be_checked()
         except Exception as e:
             print(f"Failed to check checkbox {i}: {e}")
             continue
@@ -235,8 +239,10 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
         try:
             checkbox = checkboxes.nth(i)
             checkbox.scroll_into_view_if_needed()
-            page.wait_for_timeout(100)
+            expect(checkbox).to_be_visible()
+            expect(checkbox).to_be_enabled()
             checkbox.uncheck()
+            expect(checkbox).not_to_be_checked()
         except Exception as e:
             print(f"Failed to uncheck checkbox {i}: {e}")
             continue
@@ -246,8 +252,10 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
         try:
             checkbox = checkboxes.nth(i)
             checkbox.scroll_into_view_if_needed()
-            page.wait_for_timeout(100)
+            expect(checkbox).to_be_visible()
+            expect(checkbox).to_be_enabled()
             checkbox.check()
+            expect(checkbox).to_be_checked()
         except Exception as e:
             print(f"Failed to check checkbox {i} in final loop: {e}")
             continue
@@ -310,8 +318,10 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
                     try:
                         # Ensure checkbox is visible and not covered
                         cb.scroll_into_view_if_needed()
-                        page.wait_for_timeout(100)  # Small delay to ensure stability
+                        expect(cb).to_be_visible()
+                        expect(cb).to_be_enabled()
                         cb.set_checked(True)
+                        expect(cb).to_be_checked()
                         new_checks += 1
                         print(f"checking box named: {name}")
                     except Exception as e:

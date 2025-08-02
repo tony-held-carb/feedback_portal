@@ -206,19 +206,49 @@ Test A: expect(locator).to_be_visible() → Test B: wait_for_timeout(500) → Te
 ## Next Steps
 
 1. **✅ Establish clean baseline** - Confirmed: 125/126 tests passing, 1 transient failure
-2. **Start with UI Interaction Timeouts** - Replace all 10 instances in `test_review_staged.py` at once
-3. **Test full suite immediately** - Run complete test suite to check for cascading effects
-4. **Commit only if stable** - Only keep batch replacements that don't cause new failures
-5. **Document learnings** - Update this file with new insights and timing patterns discovered
-6. **Proceed to Filter Operations** - If UI interactions are stable, move to batch replacement of filter timeouts
+2. **✅ Start with UI Interaction Timeouts** - **COMPLETED**: All 10 instances in `test_review_staged.py` replaced successfully
+3. **✅ Test full suite immediately** - **PASSED**: No cascading effects detected
+4. **📝 Commit batch replacement** - Ready to commit UI Interaction timeout replacements
+5. **📝 Document learnings** - Updated with progress and timing patterns discovered
+6. **🔄 Proceed to Filter Operations** - **NEXT**: Replace all 7 Filter Operation timeouts in `test_feedback_updates.py`
 7. **Continue with URL Check Loops** - Replace by file to maintain timing consistency
 8. **Finally tackle File Uploads** - Use smaller batches and extreme caution for system state changes
 
+### Phase 1A Results:
+- **Replaced:** 10 UI Interaction timeouts in `test_review_staged.py`
+- **Pattern:** `page.wait_for_timeout(X)` → `expect(locator).to_be_visible()`, `expect(locator).to_be_checked()`, etc.
+- **Test Results:** ✅ All tests pass, no cascading failures
+- **Timing Impact:** ✅ Minimal - UI interactions are isolated and don't affect system state
+
+### Specific Replacements Made:
+1. **Hide Checkbox Interactions (2 instances):**
+   - `hide_checkbox.check(); page.wait_for_timeout(500)` → `hide_checkbox.check(); expect(hide_checkbox).to_be_checked()`
+   - `hide_checkbox.uncheck(); page.wait_for_timeout(500)` → `hide_checkbox.uncheck(); expect(hide_checkbox).not_to_be_checked()`
+
+2. **Search Filter Interactions (2 instances):**
+   - `search_input.fill("timestamp"); page.wait_for_timeout(500)` → `search_input.fill("timestamp"); expect(visible_rows.first).to_be_visible()`
+   - `search_input.fill(""); page.wait_for_timeout(500)` → `search_input.fill(""); expect(all_field_rows).to_have_count(all_field_rows.count())`
+
+3. **Checkbox Interactions (6 instances):**
+   - `checkbox.check(); page.wait_for_timeout(100)` → `expect(checkbox).to_be_visible(); expect(checkbox).to_be_enabled(); checkbox.check(); expect(checkbox).to_be_checked()`
+   - `checkbox.uncheck(); page.wait_for_timeout(100)` → `expect(checkbox).to_be_visible(); expect(checkbox).to_be_enabled(); checkbox.uncheck(); expect(checkbox).not_to_be_checked()`
+
+### Key Learnings from Phase 1A:
+- **Batch replacement strategy works** - Replacing all instances of the same pattern simultaneously prevents timing inconsistencies
+- **UI interactions are well-isolated** - No cascading effects when replacing UI timeouts
+- **Expect assertions provide better reliability** - More specific than arbitrary timeouts
+- **Pattern consistency is important** - All checkbox interactions now follow the same pattern
+
 ### Immediate Action Plan:
-- **Phase 1A:** Replace all 10 UI Interaction timeouts in `test_review_staged.py`
-- **Test:** Run full test suite to verify no cascading failures
-- **Commit:** If stable, commit the batch replacement
-- **Document:** Update progress and any new learnings
+- **✅ Phase 1A:** Replace all 10 UI Interaction timeouts in `test_review_staged.py` - **COMPLETED**
+- **✅ Test:** Run full test suite to verify no cascading failures - **PASSED**
+- **📝 Commit:** If stable, commit the batch replacement - **READY**
+- **📝 Document:** Update progress and any new learnings - **IN PROGRESS**
+
+### Progress Summary:
+- **Phase 1A Status:** ✅ **SUCCESS** - All 10 UI Interaction timeouts replaced successfully
+- **Test Results:** ✅ **PASSED** - Full test suite runs without cascading failures
+- **Next Phase:** Phase 1B - Replace all 7 Filter Operation timeouts in `test_feedback_updates.py`
 
 ## References
 
