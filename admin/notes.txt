@@ -2044,5 +2044,6 @@ The results are located here:
 running on the ec2 create 3 logs.  two are from the portal because it gets a new name on restart
 the other is the screen log
 
+cd /d/local/cursor/feedback_portal && <test of interest> | tee pytest_output_description.txt
 
 

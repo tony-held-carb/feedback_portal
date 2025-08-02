@@ -1,0 +1,127 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 24 items / 13 deselected / 11 selected
+
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_get_request_equivalence PASSED [  9%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_get_request_with_message_equivalence PASSED [ 18%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_post_no_file_equivalence PASSED [ 27%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_post_empty_file_equivalence PASSED [ 36%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_post_invalid_file_equivalence PASSED [ 45%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_success_case_equivalence FAILED [ 54%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRefactoredRouteImprovements::test_refactored_route_uses_upload_result FAILED [ 63%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRefactoredRouteImprovements::test_refactored_route_specific_error_types FAILED [ 72%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRefactoredRouteImprovements::test_refactored_route_exception_handling PASSED [ 81%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteNavigation::test_refactored_upload_route_accessible PASSED [ 90%]
+tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteNavigation::test_refactored_upload_route_in_navigation PASSED [100%]
+
+================================== FAILURES ===================================
+________ TestUploadFileRouteEquivalence.test_success_case_equivalence _________
+
+self = <test_route_equivalence.TestUploadFileRouteEquivalence object at 0x0000022E1D859350>
+mock_upload_refactored = <MagicMock name='upload_and_process_file' id='2397092137104'>
+mock_upload_original = <MagicMock name='upload_and_update_db' id='2397093369488'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.routes.upload_and_update_db')
+    @patch('arb.portal.routes.upload_and_process_file')
+    def test_success_case_equivalence(self, mock_upload_refactored, mock_upload_original, client):
+        """Test that both routes handle successful uploads identically."""
+        # Mock both functions to return success
+        mock_upload_original.return_value = (123, "Dairy Digester")
+        mock_upload_refactored.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=123,
+            sector="Dairy Digester",
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    
+        # Test original route
+        original_data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        original_response = client.post(
+            "/upload",
+            data=original_data,
+            content_type='multipart/form-data'
+        )
+>       assert original_response.status_code == 302
+E       assert 200 == 302
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+tests\arb\portal\test_route_equivalence.py:458: AssertionError
+------------------------------ Captured log call ------------------------------
+ERROR    arb.portal.routes:routes.py:428 Exception occurred during upload or parsing.
+Traceback (most recent call last):
+  File "D:\local\cursor\feedback_portal\source\production\arb\portal\routes.py", line 397, in upload_file
+    file_path, id_, sector = upload_and_update_db(db, upload_folder, request_file, base)
+    ^^^^^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 2)
+_ TestUploadFileRefactoredRouteImprovements.test_refactored_route_uses_upload_result _
+
+self = <test_route_equivalence.TestUploadFileRefactoredRouteImprovements object at 0x0000022E1D859B10>
+mock_upload_refactored = <MagicMock name='upload_and_process_file' id='2397093379408'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.routes.upload_and_process_file')
+    def test_refactored_route_uses_upload_result(self, mock_upload_refactored, client):
+        """Test that refactored route uses UploadResult for better error handling."""
+        mock_upload_refactored.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=None,
+            sector="Dairy Digester",
+            success=False,
+            error_message="Test error message",
+            error_type="missing_id"
+        )
+    
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+    
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+>       assert "missing a valid 'Incidence/Emission ID'" in html
+E       assert "missing a valid 'Incidence/Emission ID'" in '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"\n        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"\n          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"\n          crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutte...="drop-zone-text">Click or Drag & Drop File Here</div>\n        <img src="/static/images/upload_icon.png"\n             class="drop-zone-icon" alt="Upload Icon">\n        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input">\n        <small class="text-muted d-block mt-2">File will upload automatically after selection or drop</small>\n      </div>\n\n    </form>\n\n    <!-- 🚨 Upload Error Message -->\n      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">\n        This file is missing a valid &#39;Incidence/Emission ID&#39; (id_incidence). Please add a positive integer id_incidence to your spreadsheet before uploading.\n        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n      </div>\n\n    <!-- ✅ Flash Messages -->\n\n  </div>\n  <!-- Spinner Overlay -->\n  <div id="spinner-overlay" class="spinner-overlay d-none">\n    <div class="spinner-container">\n      <div class="spinner-border text-primary" role="status"></div>\n      <div class="mt-3 text-white fw-bold">Uploading... Please wait.</div>\n    </div>\n  </div>\n\n<!-- Footer Scripts -->\n</body>\n</html>'
+
+tests\arb\portal\test_route_equivalence.py:492: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.portal.routes:routes.py:502 Upload blocked: missing or invalid id_incidence in test.xlsx
+_ TestUploadFileRefactoredRouteImprovements.test_refactored_route_specific_error_types _
+
+self = <test_route_equivalence.TestUploadFileRefactoredRouteImprovements object at 0x0000022E1D85A190>
+mock_upload_refactored = <MagicMock name='upload_and_process_file' id='2397076066320'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.routes.upload_and_process_file')
+    def test_refactored_route_specific_error_types(self, mock_upload_refactored, client):
+        """Test that refactored route provides specific error messages based on error_type."""
+        # Test missing_id error
+        mock_upload_refactored.return_value = UploadResult(
+            file_path=Path("uploads/test.xlsx"),
+            id_=None,
+            sector="Dairy Digester",
+            success=False,
+            error_message="No valid id_incidence found",
+            error_type="missing_id"
+        )
+    
+        data = {'file': (io.BytesIO(b'test content'), 'test.xlsx')}
+        response = client.post('/upload_refactored', data=data, content_type='multipart/form-data')
+    
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+>       assert "missing a valid 'Incidence/Emission ID'" in html
+E       assert "missing a valid 'Incidence/Emission ID'" in '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"\n        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"\n          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"\n          crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutte...="drop-zone-text">Click or Drag & Drop File Here</div>\n        <img src="/static/images/upload_icon.png"\n             class="drop-zone-icon" alt="Upload Icon">\n        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input">\n        <small class="text-muted d-block mt-2">File will upload automatically after selection or drop</small>\n      </div>\n\n    </form>\n\n    <!-- 🚨 Upload Error Message -->\n      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">\n        This file is missing a valid &#39;Incidence/Emission ID&#39; (id_incidence). Please add a positive integer id_incidence to your spreadsheet before uploading.\n        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n      </div>\n\n    <!-- ✅ Flash Messages -->\n\n  </div>\n  <!-- Spinner Overlay -->\n  <div id="spinner-overlay" class="spinner-overlay d-none">\n    <div class="spinner-container">\n      <div class="spinner-border text-primary" role="status"></div>\n      <div class="mt-3 text-white fw-bold">Uploading... Please wait.</div>\n    </div>\n  </div>\n\n<!-- Footer Scripts -->\n</body>\n</html>'
+
+tests\arb\portal\test_route_equivalence.py:512: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.portal.routes:routes.py:502 Upload blocked: missing or invalid id_incidence in test.xlsx
+=========================== short test summary info ===========================
+FAILED tests/arb/portal/test_route_equivalence.py::TestUploadFileRouteEquivalence::test_success_case_equivalence
+FAILED tests/arb/portal/test_route_equivalence.py::TestUploadFileRefactoredRouteImprovements::test_refactored_route_uses_upload_result
+FAILED tests/arb/portal/test_route_equivalence.py::TestUploadFileRefactoredRouteImprovements::test_refactored_route_specific_error_types
+================= 3 failed, 8 passed, 13 deselected in 0.99s ==================

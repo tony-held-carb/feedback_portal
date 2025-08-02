@@ -4,8 +4,7 @@
 ----------------------------
 7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-created PR 29 to clean up documentation and deploy to ec2
-* deploy to ec2
+created refactor 30 to hand test new deployment to ec2
 
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach

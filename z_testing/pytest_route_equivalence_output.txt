@@ -1,0 +1,569 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 13 items
+
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_get_request_equivalence PASSED [  7%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_get_request_with_message_equivalence PASSED [ 15%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_post_no_file_equivalence PASSED [ 23%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_post_empty_file_equivalence FAILED [ 30%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_post_invalid_file_equivalence FAILED [ 38%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_success_case_equivalence FAILED [ 46%]
+tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_refactored_route_specific_error_handling FAILED [ 53%]
+tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_uses_staging_result FAILED [ 61%]
+tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_specific_error_types FAILED [ 69%]
+tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_exception_handling PASSED [ 76%]
+tests/arb/portal/test_route_equivalence.py::TestRouteNavigation::test_refactored_route_accessible PASSED [ 84%]
+tests/arb/portal/test_route_equivalence.py::TestRouteNavigation::test_refactored_route_in_navigation PASSED [ 92%]
+tests/arb/portal/test_route_equivalence.py::test_route_function_signatures PASSED [100%]
+
+================================== FAILURES ===================================
+____________ TestRouteEquivalence.test_post_empty_file_equivalence ____________
+
+self = <test_route_equivalence.TestRouteEquivalence object at 0x000002C4500BD090>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    def test_post_empty_file_equivalence(self, client):
+        """Test that both routes handle empty files identically."""
+        data = {'file': (io.BytesIO(b''), '')}
+    
+        # Test original route
+        original_response = client.post(
+            "/upload_staged",
+            data=data,
+            content_type='multipart/form-data'
+        )
+        assert original_response.status_code == 200
+        original_html = original_response.get_data(as_text=True)
+        assert "No file selected" in original_html
+    
+        # Test refactored route
+>       refactored_response = client.post(
+            "/upload_staged_refactored",
+            data=data,
+            content_type='multipart/form-data'
+        )
+
+tests\arb\portal\test_route_equivalence.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:227: in open
+    request = self._request_from_builder_args(args, kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:199: in _request_from_builder_args
+    return builder.get_request()
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:764: in get_request
+    return cls(self.get_environ())
+               ^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:688: in get_environ
+    input_stream, content_length, boundary = stream_encode_multipart(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = CombinedMultiDict([MultiDict([]), FileMultiDict([('file', <FileStorage: '' ('application/octet-stream')>)])])
+use_tempfile = True, threshold = 512000
+boundary = '---------------WerkzeugFormPart_1754068949.11222930.5963702791642448'
+
+    def stream_encode_multipart(
+        data: t.Mapping[str, t.Any],
+        use_tempfile: bool = True,
+        threshold: int = 1024 * 500,
+        boundary: str | None = None,
+    ) -> tuple[t.IO[bytes], int, str]:
+        """Encode a dict of values (either strings or file descriptors or
+        :class:`FileStorage` objects.) into a multipart encoded string stored
+        in a file descriptor.
+    
+        .. versionchanged:: 3.0
+            The ``charset`` parameter was removed.
+        """
+        if boundary is None:
+            boundary = f"---------------WerkzeugFormPart_{time()}{random()}"
+    
+        stream: t.IO[bytes] = BytesIO()
+        total_length = 0
+        on_disk = False
+        write_binary: t.Callable[[bytes], int]
+    
+        if use_tempfile:
+    
+            def write_binary(s: bytes) -> int:
+                nonlocal stream, total_length, on_disk
+    
+                if on_disk:
+                    return stream.write(s)
+                else:
+                    length = len(s)
+    
+                    if length + total_length <= threshold:
+                        stream.write(s)
+                    else:
+                        new_stream = t.cast(t.IO[bytes], TemporaryFile("wb+"))
+                        new_stream.write(stream.getvalue())  # type: ignore
+                        new_stream.write(s)
+                        stream = new_stream
+                        on_disk = True
+    
+                    total_length += length
+                    return length
+    
+        else:
+            write_binary = stream.write
+    
+        encoder = MultipartEncoder(boundary.encode())
+        write_binary(encoder.send_event(Preamble(data=b"")))
+        for key, value in _iter_data(data):
+            reader = getattr(value, "read", None)
+            if reader is not None:
+                filename = getattr(value, "filename", getattr(value, "name", None))
+                content_type = getattr(value, "content_type", None)
+                if content_type is None:
+                    content_type = (
+                        filename
+                        and mimetypes.guess_type(filename)[0]
+                        or "application/octet-stream"
+                    )
+                headers = value.headers
+                headers.update([("Content-Type", content_type)])
+                if filename is None:
+                    write_binary(encoder.send_event(Field(name=key, headers=headers)))
+                else:
+                    write_binary(
+                        encoder.send_event(
+                            File(name=key, filename=filename, headers=headers)
+                        )
+                    )
+                while True:
+>                   chunk = reader(16384)
+                            ^^^^^^^^^^^^^
+E                   ValueError: I/O operation on closed file.
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:124: ValueError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.portal.routes:routes.py:481 POST received with no file selected.
+___________ TestRouteEquivalence.test_post_invalid_file_equivalence ___________
+
+self = <test_route_equivalence.TestRouteEquivalence object at 0x000002C4500BD7D0>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    def test_post_invalid_file_equivalence(self, client):
+        """Test that both routes handle invalid files identically."""
+        data = {'file': (io.BytesIO(b'invalid content'), 'test.txt')}
+    
+        # Test original route
+        original_response = client.post(
+            "/upload_staged",
+            data=data,
+            content_type='multipart/form-data'
+        )
+        assert original_response.status_code == 200
+        original_html = original_response.get_data(as_text=True)
+    
+        # Test refactored route
+>       refactored_response = client.post(
+            "/upload_staged_refactored",
+            data=data,
+            content_type='multipart/form-data'
+        )
+
+tests\arb\portal\test_route_equivalence.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:227: in open
+    request = self._request_from_builder_args(args, kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:199: in _request_from_builder_args
+    return builder.get_request()
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:764: in get_request
+    return cls(self.get_environ())
+               ^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:688: in get_environ
+    input_stream, content_length, boundary = stream_encode_multipart(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = CombinedMultiDict([MultiDict([]), FileMultiDict([('file', <FileStorage: 'test.txt' ('text/plain')>)])])
+use_tempfile = True, threshold = 512000
+boundary = '---------------WerkzeugFormPart_1754068949.24658270.9367928795835389'
+
+    def stream_encode_multipart(
+        data: t.Mapping[str, t.Any],
+        use_tempfile: bool = True,
+        threshold: int = 1024 * 500,
+        boundary: str | None = None,
+    ) -> tuple[t.IO[bytes], int, str]:
+        """Encode a dict of values (either strings or file descriptors or
+        :class:`FileStorage` objects.) into a multipart encoded string stored
+        in a file descriptor.
+    
+        .. versionchanged:: 3.0
+            The ``charset`` parameter was removed.
+        """
+        if boundary is None:
+            boundary = f"---------------WerkzeugFormPart_{time()}{random()}"
+    
+        stream: t.IO[bytes] = BytesIO()
+        total_length = 0
+        on_disk = False
+        write_binary: t.Callable[[bytes], int]
+    
+        if use_tempfile:
+    
+            def write_binary(s: bytes) -> int:
+                nonlocal stream, total_length, on_disk
+    
+                if on_disk:
+                    return stream.write(s)
+                else:
+                    length = len(s)
+    
+                    if length + total_length <= threshold:
+                        stream.write(s)
+                    else:
+                        new_stream = t.cast(t.IO[bytes], TemporaryFile("wb+"))
+                        new_stream.write(stream.getvalue())  # type: ignore
+                        new_stream.write(s)
+                        stream = new_stream
+                        on_disk = True
+    
+                    total_length += length
+                    return length
+    
+        else:
+            write_binary = stream.write
+    
+        encoder = MultipartEncoder(boundary.encode())
+        write_binary(encoder.send_event(Preamble(data=b"")))
+        for key, value in _iter_data(data):
+            reader = getattr(value, "read", None)
+            if reader is not None:
+                filename = getattr(value, "filename", getattr(value, "name", None))
+                content_type = getattr(value, "content_type", None)
+                if content_type is None:
+                    content_type = (
+                        filename
+                        and mimetypes.guess_type(filename)[0]
+                        or "application/octet-stream"
+                    )
+                headers = value.headers
+                headers.update([("Content-Type", content_type)])
+                if filename is None:
+                    write_binary(encoder.send_event(Field(name=key, headers=headers)))
+                else:
+                    write_binary(
+                        encoder.send_event(
+                            File(name=key, filename=filename, headers=headers)
+                        )
+                    )
+                while True:
+>                   chunk = reader(16384)
+                            ^^^^^^^^^^^^^
+E                   ValueError: I/O operation on closed file.
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:124: ValueError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:500 Unsupported file type: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.txt
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.txt
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:633 Failed to generate import audit: openpyxl does not support .txt file format, please check you can open it with Excel first. Supported formats are: .xlsx,.xlsm,.xltx,.xltm
+WARNING  arb.portal.routes:routes.py:504 Staging blocked: missing or invalid id_incidence in test_ts_2025_08_01_17_22_29.txt
+_____________ TestRouteEquivalence.test_success_case_equivalence ______________
+
+self = <test_route_equivalence.TestRouteEquivalence object at 0x000002C4500BDE90>
+mock_upload_and_stage = <MagicMock name='upload_and_stage_only' id='3042131264656'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.utils.db_ingest_util.upload_and_stage_only')
+    def test_success_case_equivalence(self, mock_upload_and_stage, client):
+        """Test that both routes handle successful uploads identically."""
+        # Mock successful staging result
+        mock_result = ("test.xlsx", 123, "Dairy Digester", {"id_incidence": 123}, "staged_123.json")
+        mock_upload_and_stage.return_value = mock_result
+    
+        # Create a mock Excel file
+        excel_content = b'PK\x03\x04'  # Minimal Excel file signature
+        data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+    
+        # Test original route
+        original_response = client.post(
+            "/upload_staged",
+            data=data,
+            content_type='multipart/form-data'
+        )
+    
+        # Test refactored route
+>       refactored_response = client.post(
+            "/upload_staged_refactored",
+            data=data,
+            content_type='multipart/form-data'
+        )
+
+tests\arb\portal\test_route_equivalence.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:227: in open
+    request = self._request_from_builder_args(args, kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\flask\testing.py:199: in _request_from_builder_args
+    return builder.get_request()
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:764: in get_request
+    return cls(self.get_environ())
+               ^^^^^^^^^^^^^^^^^^
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:688: in get_environ
+    input_stream, content_length, boundary = stream_encode_multipart(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = CombinedMultiDict([MultiDict([]), FileMultiDict([('file', <FileStorage: 'test.xlsx' ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')>)])])
+use_tempfile = True, threshold = 512000
+boundary = '---------------WerkzeugFormPart_1754068949.30148630.764064526910779'
+
+    def stream_encode_multipart(
+        data: t.Mapping[str, t.Any],
+        use_tempfile: bool = True,
+        threshold: int = 1024 * 500,
+        boundary: str | None = None,
+    ) -> tuple[t.IO[bytes], int, str]:
+        """Encode a dict of values (either strings or file descriptors or
+        :class:`FileStorage` objects.) into a multipart encoded string stored
+        in a file descriptor.
+    
+        .. versionchanged:: 3.0
+            The ``charset`` parameter was removed.
+        """
+        if boundary is None:
+            boundary = f"---------------WerkzeugFormPart_{time()}{random()}"
+    
+        stream: t.IO[bytes] = BytesIO()
+        total_length = 0
+        on_disk = False
+        write_binary: t.Callable[[bytes], int]
+    
+        if use_tempfile:
+    
+            def write_binary(s: bytes) -> int:
+                nonlocal stream, total_length, on_disk
+    
+                if on_disk:
+                    return stream.write(s)
+                else:
+                    length = len(s)
+    
+                    if length + total_length <= threshold:
+                        stream.write(s)
+                    else:
+                        new_stream = t.cast(t.IO[bytes], TemporaryFile("wb+"))
+                        new_stream.write(stream.getvalue())  # type: ignore
+                        new_stream.write(s)
+                        stream = new_stream
+                        on_disk = True
+    
+                    total_length += length
+                    return length
+    
+        else:
+            write_binary = stream.write
+    
+        encoder = MultipartEncoder(boundary.encode())
+        write_binary(encoder.send_event(Preamble(data=b"")))
+        for key, value in _iter_data(data):
+            reader = getattr(value, "read", None)
+            if reader is not None:
+                filename = getattr(value, "filename", getattr(value, "name", None))
+                content_type = getattr(value, "content_type", None)
+                if content_type is None:
+                    content_type = (
+                        filename
+                        and mimetypes.guess_type(filename)[0]
+                        or "application/octet-stream"
+                    )
+                headers = value.headers
+                headers.update([("Content-Type", content_type)])
+                if filename is None:
+                    write_binary(encoder.send_event(Field(name=key, headers=headers)))
+                else:
+                    write_binary(
+                        encoder.send_event(
+                            File(name=key, filename=filename, headers=headers)
+                        )
+                    )
+                while True:
+>                   chunk = reader(16384)
+                            ^^^^^^^^^^^^^
+E                   ValueError: I/O operation on closed file.
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\site-packages\werkzeug\test.py:124: ValueError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:633 Failed to generate import audit: File is not a zip file
+WARNING  arb.portal.routes:routes.py:504 Staging blocked: missing or invalid id_incidence in test_ts_2025_08_01_17_22_29.xlsx
+_____ TestRouteEquivalence.test_refactored_route_specific_error_handling ______
+
+self = <test_route_equivalence.TestRouteEquivalence object at 0x000002C4500BE550>
+mock_stage_refactored = <MagicMock name='stage_uploaded_file_for_review' id='3042186714384'>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    @patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review')
+    def test_refactored_route_specific_error_handling(self, mock_stage_refactored, client):
+        """Test that refactored route provides specific error messages."""
+        # Mock different error scenarios
+        error_scenarios = [
+            ("missing_id", "No valid id_incidence found in the uploaded file"),
+            ("conversion_failed", "Failed to convert file to JSON format"),
+            ("file_error", "Error processing uploaded file"),
+            ("database_error", "Database error occurred during staging"),
+        ]
+    
+        excel_content = b'PK\x03\x04'  # Minimal Excel file signature
+        data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+    
+        for error_type, expected_message in error_scenarios:
+            # Mock error result
+            mock_error_result = StagingResult(
+                file_path=Path("test.xlsx"),
+                id_=None,
+                sector=None,
+                json_data={},
+                staged_filename=None,
+                success=False,
+                error_message=expected_message,
+                error_type=error_type
+            )
+            mock_stage_refactored.return_value = mock_error_result
+    
+            # Test refactored route
+            response = client.post(
+                "/upload_staged_refactored",
+                data=data,
+                content_type='multipart/form-data'
+            )
+    
+            assert response.status_code == 200
+            html = response.get_data(as_text=True)
+>           assert expected_message in html
+E           assert 'No valid id_incidence found in the uploaded file' in '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"\n        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"\n          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"\n          crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutte...lass="drop-zone-icon" alt="Upload Icon">\n        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input"\n               accept=".xlsx,.xls,.json">\n        <small class="text-muted d-block mt-2">\n          <strong>Supported formats:</strong> Excel (.xlsx, .xls) or JSON files<br>\n          File will be staged for review after upload\n        </small>\n      </div>\n\n    </form>\n\n    <!-- ✅ Flash Messages -->\n\n\n    <!-- 📋 Upload Message Display -->\n      <div class="mt-3">\n        <div class="alert alert-info alert-dismissible fade show" role="alert">\n          <strong>Status:</strong> Unsupported file format. Please upload Excel (.xlsx) file.\n          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n        </div>\n      </div>\n\n  </div>\n  <!-- Spinner Overlay -->\n  <div id="spinner-overlay" class="spinner-overlay d-none">\n    <div class="spinner-container">\n      <div class="spinner-border text-primary" role="status"></div>\n      <div class="mt-3 text-white fw-bold">📤 Uploading & Staging... Please wait.</div>\n    </div>\n  </div>\n\n<!-- Footer Scripts -->\n</body>\n</html>'
+
+tests\arb\portal\test_route_equivalence.py:207: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:789 File conversion failed: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.routes:routes.py:1401 Staging blocked: file conversion failed for test_ts_2025_08_01_17_22_29.xlsx
+__ TestRefactoredRouteImprovements.test_refactored_route_uses_staging_result __
+
+self = <test_route_equivalence.TestRefactoredRouteImprovements object at 0x000002C4500BEE10>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    def test_refactored_route_uses_staging_result(self, client):
+        """Test that refactored route uses StagingResult for better error handling."""
+        # This test verifies that the refactored route uses the new StagingResult
+        # named tuple instead of the old tuple return format
+    
+        with patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review') as mock_stage:
+            # Mock a StagingResult (not a tuple)
+            mock_result = StagingResult(
+                file_path=Path("test.xlsx"),
+                id_=123,
+                sector="Dairy Digester",
+                json_data={"id_incidence": 123},
+                staged_filename="staged_123.json",
+                success=True,
+                error_message=None,
+                error_type=None
+            )
+            mock_stage.return_value = mock_result
+    
+            excel_content = b'PK\x03\x04'
+            data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+    
+            response = client.post(
+                "/upload_staged_refactored",
+                data=data,
+                content_type='multipart/form-data'
+            )
+    
+            # Should succeed
+            assert response.status_code in [200, 302]
+>           mock_stage.assert_called_once()
+
+tests\arb\portal\test_route_equivalence.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <MagicMock name='stage_uploaded_file_for_review' id='3042131118608'>
+
+    def assert_called_once(self):
+        """assert that the mock was called only once.
+        """
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to have been called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+>           raise AssertionError(msg)
+E           AssertionError: Expected 'stage_uploaded_file_for_review' to have been called once. Called 0 times.
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\unittest\mock.py:918: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:789 File conversion failed: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.routes:routes.py:1401 Staging blocked: file conversion failed for test_ts_2025_08_01_17_22_29.xlsx
+_ TestRefactoredRouteImprovements.test_refactored_route_specific_error_types __
+
+self = <test_route_equivalence.TestRefactoredRouteImprovements object at 0x000002C4500BF510>
+client = <FlaskClient <Flask 'arb.portal.app'>>
+
+    def test_refactored_route_specific_error_types(self, client):
+        """Test that refactored route provides specific error type handling."""
+        with patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review') as mock_stage:
+            # Test missing ID error
+            mock_result = StagingResult(
+                file_path=Path("test.xlsx"),
+                id_=None,
+                sector="Dairy Digester",
+                json_data={"sector": "Dairy Digester"},
+                staged_filename=None,
+                success=False,
+                error_message="No valid id_incidence found",
+                error_type="missing_id"
+            )
+            mock_stage.return_value = mock_result
+    
+            excel_content = b'PK\x03\x04'
+            data = {'file': (io.BytesIO(excel_content), 'test.xlsx')}
+    
+            response = client.post(
+                "/upload_staged_refactored",
+                data=data,
+                content_type='multipart/form-data'
+            )
+    
+            assert response.status_code == 200
+            html = response.get_data(as_text=True)
+>           assert "No valid id_incidence found" in html
+E           assert 'No valid id_incidence found' in '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="UTF-8">\n\n  <!-- Bootstrap CSS -->\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"\n        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">\n  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"\n          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"\n          crossorigin="anonymous"></script>\n\n  <!-- Portal Styles -->\n  <link rel="stylesheet" href="/static/css/portal_styles_01.css">\n\n  <!-- Portal JavaScript -->\n  <script defer src="/static/js/delete_confirmation.js"></script>\n  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system\n       Benefits of re-enabling in the future:\n       - Better UX for ephemeral messages (upload progress, success notifications)\n       - Non-intrusive feedback for non-critical warnings\n       - Consistent notification system across the application\n       - Auto-dismiss functionality reduces UI clutte...lass="drop-zone-icon" alt="Upload Icon">\n        <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input"\n               accept=".xlsx,.xls,.json">\n        <small class="text-muted d-block mt-2">\n          <strong>Supported formats:</strong> Excel (.xlsx, .xls) or JSON files<br>\n          File will be staged for review after upload\n        </small>\n      </div>\n\n    </form>\n\n    <!-- ✅ Flash Messages -->\n\n\n    <!-- 📋 Upload Message Display -->\n      <div class="mt-3">\n        <div class="alert alert-info alert-dismissible fade show" role="alert">\n          <strong>Status:</strong> Unsupported file format. Please upload Excel (.xlsx) file.\n          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n        </div>\n      </div>\n\n  </div>\n  <!-- Spinner Overlay -->\n  <div id="spinner-overlay" class="spinner-overlay d-none">\n    <div class="spinner-container">\n      <div class="spinner-border text-primary" role="status"></div>\n      <div class="mt-3 text-white fw-bold">📤 Uploading & Staging... Please wait.</div>\n    </div>\n  </div>\n\n<!-- Footer Scripts -->\n</body>\n</html>'
+
+tests\arb\portal\test_route_equivalence.py:272: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:492 Excel parsing failed for D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx: File is not a zip file
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:553 Unable to convert uploaded file to JSON: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.utils.db_ingest_util:db_ingest_util.py:789 File conversion failed: D:\local\cursor\feedback_portal\portal_uploads\test_ts_2025_08_01_17_22_29.xlsx
+WARNING  arb.portal.routes:routes.py:1401 Staging blocked: file conversion failed for test_ts_2025_08_01_17_22_29.xlsx
+=========================== short test summary info ===========================
+FAILED tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_post_empty_file_equivalence
+FAILED tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_post_invalid_file_equivalence
+FAILED tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_success_case_equivalence
+FAILED tests/arb/portal/test_route_equivalence.py::TestRouteEquivalence::test_refactored_route_specific_error_handling
+FAILED tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_uses_staging_result
+FAILED tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_specific_error_types
+========================= 6 failed, 7 passed in 1.12s =========================

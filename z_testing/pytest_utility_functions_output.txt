@@ -1,0 +1,76 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 62 items / 52 deselected / 10 selected
+
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_function_signature PASSED [ 10%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_uses_smaller_functions PASSED [ 20%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_equivalent_to_original FAILED [ 30%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_with_dry_run PASSED [ 40%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_success PASSED [ 50%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_file_error PASSED [ 60%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_conversion_failed PASSED [ 70%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_missing_id PASSED [ 80%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_database_error PASSED [ 90%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_equivalent_to_original PASSED [100%]
+
+================================== FAILURES ===================================
+___________ test_dict_to_database_refactored_equivalent_to_original ___________
+
+mock_db = <MagicMock id='2090951114576'>
+mock_base = <MagicMock id='2090951139792'>
+mock_table_class = <MagicMock id='2090951144976'>
+
+    def test_dict_to_database_refactored_equivalent_to_original(mock_db, mock_base, mock_table_class):
+        """dict_to_database_refactored produces same result as original function."""
+        # Test that both functions produce the same result for the same input
+        data_dict = {"id_incidence": 123, "sector": "test"}
+    
+        # Mock the dependencies for both functions
+        mock_model = MagicMock()
+        mock_model.id_incidence = 123
+    
+        with patch('arb.portal.utils.db_ingest_util.get_ensured_row') as mock_get_ensured:
+            with patch('arb.portal.utils.db_ingest_util.update_model_with_payload_and_commit') as mock_update:
+>               with patch('arb.portal.utils.db_ingest_util.update_model_with_payload') as mock_update_original:
+
+tests\arb\portal\test_utils_db_ingest_util.py:496: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\unittest\mock.py:1446: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E6D665F010>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'arb.portal.utils.db_ingest_util' from 'D:\\local\\cursor\\feedback_portal\\source\\production\\arb\\portal\\utils\\db_ingest_util.py'> does not have the attribute 'update_model_with_payload'
+
+C:\Users\tonyh\miniconda3\envs\mini_conda_02\Lib\unittest\mock.py:1419: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/arb/portal/test_utils_db_ingest_util.py::test_dict_to_database_refactored_equivalent_to_original
+================= 1 failed, 9 passed, 52 deselected in 0.68s ==================

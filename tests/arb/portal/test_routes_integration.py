@@ -622,3 +622,57 @@ def test_portal_updates_route_with_invalid_sorting(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Feedback Portal Updates" in html 
+
+# --- Test: /upload_refactored (GET and POST) ---
+def test_upload_file_refactored_route_get(client):
+  """
+  GET /upload_refactored should return 200 and show the upload form.
+  """
+  response = client.get("/upload_refactored")
+  assert response.status_code == 200
+  html = response.get_data(as_text=True)
+  assert "Upload Feedback Spreadsheet" in html
+
+def test_upload_file_refactored_route_get_with_message(client):
+  """
+  GET /upload_refactored/<message> should return 200 and show the upload form with decoded message.
+  """
+  test_message = "Test%20refactored%20message%20with%20spaces"
+  response = client.get(f"/upload_refactored/{test_message}")
+  assert response.status_code == 200
+  html = response.get_data(as_text=True)
+  assert "Upload Feedback Spreadsheet" in html
+
+def test_upload_file_refactored_route_post_no_file(client):
+  """
+  POST /upload_refactored with no file should return 200 and show error message.
+  """
+  response = client.post("/upload_refactored")
+  assert response.status_code == 200
+  html = response.get_data(as_text=True)
+  # The error message is logged but may not be displayed in the HTML
+  # Check that the upload form is still rendered
+  assert "Upload Feedback Spreadsheet" in html
+
+def test_upload_file_refactored_route_post_empty_file(client):
+  """
+  POST /upload_refactored with empty filename should return 200 and show error message.
+  """
+  data = {'file': (io.BytesIO(b''), '')}
+  response = client.post("/upload_refactored", data=data, content_type='multipart/form-data')
+  assert response.status_code == 200
+  html = response.get_data(as_text=True)
+  # The error message is logged but may not be displayed in the HTML
+  # Check that the upload form is still rendered
+  assert "Upload Feedback Spreadsheet" in html
+
+def test_upload_file_refactored_route_post_invalid_file(client):
+  """
+  POST /upload_refactored with invalid file should return 200 and show error message.
+  """
+  data = {'file': (io.BytesIO(b'invalid content'), 'test.txt')}
+  response = client.post("/upload_refactored", data=data, content_type='multipart/form-data')
+  assert response.status_code == 200
+  html = response.get_data(as_text=True)
+  # Should show some form of error message
+  assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower() 

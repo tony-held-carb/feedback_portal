@@ -1,0 +1,146 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 422 items / 311 deselected / 111 selected
+
+tests/arb/portal/config/test_accessors.py::test_get_upload_folder PASSED [  0%]
+tests/arb/portal/test_cross_field_conditional_logic.py::TestOilGasCrossFieldLogic::test_ogi_result_requires_method21 PASSED [  1%]
+tests/arb/portal/test_cross_field_conditional_logic.py::TestUploadFormCrossFieldLogic::test_file_type_validation PASSED [  2%]
+tests/arb/portal/test_cross_field_conditional_logic.py::TestUploadFormCrossFieldLogic::test_file_required_validation PASSED [  3%]
+tests/arb/portal/test_file_upload_suite.py::test_dairy_digester_upload PASSED [  4%]
+tests/arb/portal/test_file_upload_suite.py::test_landfill_upload PASSED  [  5%]
+tests/arb/portal/test_file_upload_suite.py::test_oil_and_gas_upload PASSED [  6%]
+tests/arb/portal/test_file_upload_suite.py::test_energy_upload PASSED    [  7%]
+tests/arb/portal/test_file_upload_suite.py::test_generic_upload PASSED   [  8%]
+tests/arb/portal/test_file_upload_suite.py::test_dairy_digester_staged_upload PASSED [  9%]
+tests/arb/portal/test_file_upload_suite.py::test_landfill_staged_upload PASSED [  9%]
+tests/arb/portal/test_file_upload_suite.py::test_oil_and_gas_staged_upload PASSED [ 10%]
+tests/arb/portal/test_file_upload_suite.py::test_energy_staged_upload PASSED [ 11%]
+tests/arb/portal/test_file_upload_suite.py::test_generic_staged_upload PASSED [ 12%]
+tests/arb/portal/test_file_upload_suite.py::test_all_file_uploads PASSED [ 13%]
+tests/arb/portal/test_file_upload_suite.py::test_field_level_value_assertions PASSED [ 14%]
+tests/arb/portal/test_file_upload_suite.py::test_database_state_verification PASSED [ 15%]
+tests/arb/portal/test_file_upload_suite.py::test_comprehensive_upload_validation PASSED [ 16%]
+tests/arb/portal/test_file_upload_suite.py::test_invalid_excel_file PASSED [ 17%]
+tests/arb/portal/test_file_upload_suite.py::test_corrupted_excel_file PASSED [ 18%]
+tests/arb/portal/test_file_upload_suite.py::test_missing_required_fields PASSED [ 18%]
+tests/arb/portal/test_file_upload_suite.py::test_negative_validation_errors PASSED [ 19%]
+tests/arb/portal/test_file_upload_suite.py::test_file_size_limits PASSED [ 20%]
+tests/arb/portal/test_file_upload_suite.py::test_concurrent_upload_handling PASSED [ 21%]
+tests/arb/portal/test_file_upload_suite.py::test_malicious_file_handling PASSED [ 22%]
+tests/arb/portal/test_file_upload_suite.py::test_data_integrity_through_processing_pipeline PASSED [ 23%]
+tests/arb/portal/test_integration_app.py::test_list_uploads_route PASSED [ 24%]
+tests/arb/portal/test_result_types.py::TestStagingResult::test_staging_result_creation PASSED [ 25%]
+tests/arb/portal/test_result_types.py::TestStagingResult::test_staging_result_error_case PASSED [ 26%]
+tests/arb/portal/test_result_types.py::TestStagingResult::test_staging_result_immutability PASSED [ 27%]
+tests/arb/portal/test_result_types.py::TestUploadResult::test_upload_result_creation PASSED [ 27%]
+tests/arb/portal/test_result_types.py::TestUploadResult::test_upload_result_error_case PASSED [ 28%]
+tests/arb/portal/test_result_types.py::TestUploadResult::test_upload_result_immutability PASSED [ 29%]
+tests/arb/portal/test_result_types.py::TestResultTypesModule::test_module_import PASSED [ 30%]
+tests/arb/portal/test_result_types.py::TestResultTypesModule::test_result_types_documentation PASSED [ 31%]
+tests/arb/portal/test_route_equivalence.py::TestRefactoredRouteImprovements::test_refactored_route_uses_staging_result PASSED [ 32%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_route_function_signature PASSED [ 33%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request PASSED [ 34%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_success PASSED [ 35%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_missing_id_error PASSED [ 36%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_conversion_error PASSED [ 36%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_file_error PASSED [ 37%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_database_error PASSED [ 38%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_unknown_error PASSED [ 39%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_no_file_selected PASSED [ 40%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_with_message_parameter PASSED [ 41%]
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_exception_handling PASSED [ 42%]
+tests/arb/portal/test_routes_integration.py::test_list_uploads_route PASSED [ 43%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_get PASSED [ 44%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_get_with_message PASSED [ 45%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_post_no_file PASSED [ 45%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_post_empty_file PASSED [ 46%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_post_invalid_file PASSED [ 47%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_staged_route_get PASSED [ 48%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_staged_route_get_with_message PASSED [ 49%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_staged_route_post_no_file PASSED [ 50%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_staged_route_post_empty_file PASSED [ 51%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_staged_route_post_invalid_file PASSED [ 52%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_exception_handling PASSED [ 53%]
+tests/arb/portal/test_routes_integration.py::test_upload_staged_route_exception_handling PASSED [ 54%]
+tests/arb/portal/test_routes_integration.py::test_upload_file_route_with_special_characters_in_message PASSED [ 54%]
+tests/arb/portal/test_routes_integration.py::test_upload_staged_route_with_special_characters_in_message PASSED [ 55%]
+tests/arb/portal/test_sqla_models.py::test_uploaded_file_repr PASSED     [ 56%]
+tests/arb/portal/test_sqla_models.py::test_uploaded_file_integration PASSED [ 57%]
+tests/arb/portal/test_startup_flask.py::test_upload_configuration_applied PASSED [ 58%]
+tests/arb/portal/test_startup_flask.py::test_upload_configuration_overwrites_existing PASSED [ 59%]
+tests/arb/portal/test_startup_flask.py::test_upload_path_is_valid_directory PASSED [ 60%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_upload_and_update_db_function_signature PASSED [ 61%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_upload_and_stage_only_function_signature PASSED [ 62%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_named_tuple PASSED [ 63%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_error_case PASSED [ 63%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_staging_result_function_signature PASSED [ 64%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_function_signature PASSED [ 65%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_success PASSED [ 66%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_save_uploaded_file_failure PASSED [ 67%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_success PASSED [ 68%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_file_error PASSED [ 69%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_conversion_failed PASSED [ 70%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_missing_id PASSED [ 71%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_database_error PASSED [ 72%]
+tests/arb/portal/test_utils_db_ingest_util.py::test_stage_uploaded_file_for_review_equivalent_to_original PASSED [ 72%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_function_signature PASSED [ 73%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_valid_data PASSED [ 74%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_path_object PASSED [ 75%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_none_status_and_description PASSED [ 76%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_default_parameters PASSED [ 77%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_raises_error_for_none_filename PASSED [ 78%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_handles_commit_failure PASSED [ 79%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_logs_debug_messages PASSED [ 80%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_empty_strings PASSED [ 81%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_unicode_filename PASSED [ 81%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_long_description PASSED [ 82%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_returns_none PASSED [ 83%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_creates_audit_record PASSED [ 84%]
+tests/arb/portal/test_utils_file_upload_util.py::test_add_file_to_upload_table_with_special_characters PASSED [ 85%]
+tests/arb/portal/test_utils_route_util.py::test_generate_upload_diagnostics_function_signature PASSED [ 86%]
+tests/arb/portal/test_utils_route_util.py::test_generate_staging_diagnostics_function_signature PASSED [ 87%]
+tests/arb/portal/test_utils_route_util.py::test_generate_upload_diagnostics_success PASSED [ 88%]
+tests/arb/portal/test_utils_route_util.py::test_generate_upload_diagnostics_no_file PASSED [ 89%]
+tests/arb/portal/test_utils_route_util.py::test_generate_upload_diagnostics_file_not_saved PASSED [ 90%]
+tests/arb/portal/test_utils_route_util.py::test_generate_staging_diagnostics_success PASSED [ 90%]
+tests/arb/portal/test_utils_route_util.py::test_generate_staging_diagnostics_upload_failure PASSED [ 91%]
+tests/arb/portal/test_utils_route_util.py::test_generate_upload_diagnostics_with_id_extraction PASSED [ 92%]
+tests/arb/portal/test_utils_route_util.py::test_generate_staging_diagnostics_with_all_parameters PASSED [ 93%]
+tests/arb/portal/test_wtf_upload.py::test_form_instantiation PASSED      [ 94%]
+tests/arb/portal/test_wtf_upload.py::test_file_field_present PASSED      [ 95%]
+tests/arb/portal/test_wtf_upload.py::test_submit_field_present PASSED    [ 96%]
+tests/arb/portal/test_wtf_upload.py::test_form_validation_with_valid_excel_file PASSED [ 97%]
+tests/arb/portal/test_wtf_upload.py::test_form_validation_with_invalid_file_type PASSED [ 98%]
+tests/arb/portal/test_wtf_upload.py::test_form_validation_without_file PASSED [ 99%]
+tests/arb/portal/test_wtf_upload.py::test_form_validation_with_empty_filename PASSED [100%]
+
+============================== warnings summary ===============================
+tests/arb/portal/test_file_upload_suite.py: 17 warnings
+  D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alchemy.py:584: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    primary_row = db.session.query(primary_table).get(primary_table_pk_value)  # type: ignore
+
+tests/arb/portal/test_file_upload_suite.py: 17 warnings
+  D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alchemy.py:592: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    foreign_row = db.session.query(foreign_table).get(fk_value)  # type: ignore
+
+tests/arb/portal/test_file_upload_suite.py::test_dairy_digester_upload
+tests/arb/portal/test_file_upload_suite.py::test_landfill_upload
+tests/arb/portal/test_file_upload_suite.py::test_oil_and_gas_upload
+tests/arb/portal/test_file_upload_suite.py::test_energy_upload
+tests/arb/portal/test_file_upload_suite.py::test_generic_upload
+tests/arb/portal/test_file_upload_suite.py::test_all_file_uploads
+tests/arb/portal/test_file_upload_suite.py::test_comprehensive_upload_validation
+  D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alchemy.py:592: SAWarning: fully NULL primary key identity cannot load any object.  This condition may raise an error in a future release.
+    foreign_row = db.session.query(foreign_table).get(fk_value)  # type: ignore
+
+tests/arb/portal/test_file_upload_suite.py: 17 warnings
+  D:\local\cursor\feedback_portal\source\production\arb\utils\sql_alchemy.py:525: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    row = db.session.query(table).get(id_)  # type: ignore
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============== 111 passed, 311 deselected, 58 warnings in 7.52s ===============
