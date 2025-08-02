@@ -16,10 +16,10 @@ Check 'Dry Run' to preview what would be deleted without making changes.
 Warning: This cannot delete real data (id_incidence < 1000000 is not allowed).
 For safety, always do a dry run first!
 [ALERT] Summary:
-portal_updates: 324 row(s) would be deleted
-id_incidence(s): [ 1002001, 1002002, 1002011, 1002012, 1002021, 1002022, 1002031, 1002032, 1002041, 1002051, 1002052 ]
-incidences: 11 row(s) would be deleted
-id_incidence(s): [ 1002001, 1002002, 1002011, 1002012, 1002021, 1002022, 1002031, 1002032, 1002041, 1002051, 1002052 ]
+portal_updates: 234 row(s) would be deleted
+id_incidence(s): [ 1002012, 1002021, 1002022, 1002031, 1002032, 1002041, 1002051, 1002052 ]
+incidences: 8 row(s) would be deleted
+id_incidence(s): [ 1002012, 1002021, 1002022, 1002031, 1002032, 1002041, 1002051, 1002052 ]
 
 This was a dry run. No data was deleted.
 PASSED
@@ -29,8 +29,8 @@ Check 'Dry Run' to preview what would be deleted without making changes.
 Warning: This cannot delete real data (id_incidence < 1000000 is not allowed).
 For safety, always do a dry run first!
 [ALERT] Summary:
-portal_updates: 324 row(s) deleted
-incidences: 11 row(s) deleted
+portal_updates: 234 row(s) deleted
+incidences: 8 row(s) deleted
 
 Rows have been permanently deleted.
 PASSED
@@ -84,13 +84,13 @@ tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium
 tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium] PASSED
 tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium] PASSED
 tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium] PASSED
-tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] [STEP] Navigated to /list_staged for staged file: id_1002001_ts_20250801_143522.json
-[STEP] Found discard button for staged file: id_1002001_ts_20250801_143522.json
-[STEP] Clicked discard button for staged file: id_1002001_ts_20250801_143522.json
+tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] [STEP] Navigated to /list_staged for staged file: id_1002001_ts_20250801_181339.json
+[STEP] Found discard button for staged file: id_1002001_ts_20250801_181339.json
+[STEP] Clicked discard button for staged file: id_1002001_ts_20250801_181339.json
 [STEP] Discard confirm modal appeared.
 [STEP] Modal confirm button is visible. Clicking...
 [STEP] Modal confirm clicked and navigation complete.
-[STEP] Staged file id_1002001_ts_20250801_143522.json successfully discarded and not present after reload.
+[STEP] Staged file id_1002001_ts_20250801_181339.json successfully discarded and not present after reload.
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_page_loads[chromium] PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_page_loads[chromium] PASSED
@@ -165,7 +165,7 @@ tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEq
 tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_message_parameter_equivalence[chromium] PASSED
 tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_specific_error_messages[chromium] PASSED
 tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_navigation[chromium] PASSED
-tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143708.json
+tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181548.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -194,10 +194,10 @@ tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] [DEBUG] Af
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_143708.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_181548.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 SKIPPED
-tests/e2e/test_review_staged.py::test_field_search_filter[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143710.json
+tests/e2e/test_review_staged.py::test_field_search_filter[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181550.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -226,10 +226,10 @@ tests/e2e/test_review_staged.py::test_field_search_filter[chromium] [DEBUG] Afte
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_143710.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_181550.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 PASSED
-tests/e2e/test_review_staged.py::test_change_summary_card[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143713.json
+tests/e2e/test_review_staged.py::test_change_summary_card[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181553.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -258,10 +258,10 @@ tests/e2e/test_review_staged.py::test_change_summary_card[chromium] [DEBUG] Afte
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_143713.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_181553.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 PASSED
-tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143715.json
+tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181555.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -290,10 +290,10 @@ tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] [DEBUG] 
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_143715.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_181555.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 PASSED
-tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143719.json
+tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] [DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181559.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -322,13 +322,13 @@ tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] [DEBUG] After
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_143719.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250801_181559.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_143733.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_181614.json
 [CHECKBOX DIAGNOSTICS] Found 43 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -439,7 +439,7 @@ A total of 21 check boxes were selected.
   - Checkbox 41: name/id='confirm_overwrite_transport_method', checked=False
   - Checkbox 42: name/id='confirm_overwrite_transport_recipient', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_143740.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_181620.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 22 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -485,7 +485,7 @@ checking box named: confirm_overwrite_observation_timestamp
 checking box named: confirm_overwrite_transport_method
 A total of 20 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_143742.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250801_181623.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -522,7 +522,7 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143753.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181633.json
 [CHECKBOX DIAGNOSTICS] Found 28 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -595,7 +595,7 @@ A total of 13 check boxes were selected.
   - Checkbox 26: name/id='confirm_overwrite_sector', checked=True
   - Checkbox 27: name/id='confirm_overwrite_venting_description_2', checked=False
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143758.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181638.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 15 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -627,7 +627,7 @@ checking box named: confirm_overwrite_repair_timestamp
 checking box named: confirm_overwrite_venting_description_2
 A total of 13 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_143800.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250801_181640.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -652,7 +652,7 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_143815.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_181655.json
 [CHECKBOX DIAGNOSTICS] Found 30 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -730,7 +730,7 @@ A total of 14 check boxes were selected.
   - Checkbox 28: name/id='confirm_overwrite_re_monitored_timestamp', checked=True
   - Checkbox 29: name/id='confirm_overwrite_sector', checked=False
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_143820.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_181700.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 16 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -764,7 +764,7 @@ checking box named: confirm_overwrite_re_monitored_concentration
 checking box named: confirm_overwrite_sector
 A total of 14 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_143822.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250801_181702.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -801,7 +801,7 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_143833.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_181713.json
 [CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -902,7 +902,7 @@ A total of 19 check boxes were selected.
   - Checkbox 37: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
   - Checkbox 38: name/id='confirm_overwrite_sector', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_143838.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_181719.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 20 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -944,7 +944,7 @@ checking box named: confirm_overwrite_planned_for_next_lmr_description
 checking box named: confirm_overwrite_re_monitored_timestamp
 A total of 18 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_143841.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250801_181721.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -981,7 +981,7 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_143851.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_181732.json
 [CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1082,7 +1082,7 @@ A total of 19 check boxes were selected.
   - Checkbox 37: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
   - Checkbox 38: name/id='confirm_overwrite_sector', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_143857.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_181738.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 20 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1124,7 +1124,7 @@ checking box named: confirm_overwrite_planned_for_next_lmr_description
 checking box named: confirm_overwrite_re_monitored_timestamp
 A total of 18 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_143900.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250801_181740.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1161,7 +1161,7 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] clear_test_data called with page: <Page url='about:blank'>
 [DEBUG] Test data cleared via UI at /delete_testing_range
 Running incremental upload test for: feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_143911.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_181751.json
 [CHECKBOX DIAGNOSTICS] Found 33 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1247,7 +1247,7 @@ A total of 16 check boxes were selected.
   - Checkbox 31: name/id='confirm_overwrite_venting_description_2', checked=False
   - Checkbox 32: name/id='confirm_overwrite_venting_exclusion', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_143916.json
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_181756.json
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 17 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1283,7 +1283,7 @@ checking box named: confirm_overwrite_sector
 checking box named: confirm_overwrite_venting_description_2
 A total of 15 check boxes were selected on 2nd upload.
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_143918.json
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250801_181759.json
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 2 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1470,4 +1470,4 @@ tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file
 PASSED
 tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...)
 
-================= 121 passed, 5 skipped in 351.13s (0:05:51) ==================
+================= 121 passed, 5 skipped in 375.46s (0:06:15) ==================
