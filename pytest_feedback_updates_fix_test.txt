@@ -1,0 +1,16 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 11 items / 6 deselected / 5 selected
+
+tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium] PASSED [ 20%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_empty_state[chromium] PASSED [ 40%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_date_range_boundaries[chromium] PASSED [ 60%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium] PASSED [ 80%]
+tests/e2e/test_feedback_updates.py::test_feedback_updates_rapid_filter_changes[chromium] PASSED [100%]
+
+====================== 5 passed, 6 deselected in 34.73s =======================

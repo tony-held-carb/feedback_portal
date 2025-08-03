@@ -120,7 +120,7 @@ def test_feedback_updates_empty_state(page: Page):
     user_input = page.get_by_placeholder("User")
     user_input.fill(random_user)
     page.get_by_role("button", name="Apply Filters").click()
-    page.wait_for_timeout(1000)
+    expect(page.locator("table tbody tr").first).to_be_visible()
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     # Check for the 'no data' row
@@ -208,7 +208,7 @@ def test_feedback_updates_date_range_boundaries(page: Page):
         page.evaluate(f"document.getElementById('start_date').value = '{min_ts.strftime('%Y-%m-%d')}'")
         page.evaluate(f"document.getElementById('end_date').value = '{max_ts.strftime('%Y-%m-%d')}'")
     page.get_by_role("button", name="Apply Filters").click()
-    page.wait_for_timeout(1000)
+    expect(page.locator("table tbody tr").first).to_be_visible()
     # All visible rows should have timestamps within the range
     rows = table.locator("tbody tr")
     for i in range(rows.count()):
@@ -228,7 +228,7 @@ def test_feedback_updates_csv_download_with_filters(page: Page, tmp_path):
     user_input = page.get_by_placeholder("User")
     user_input.fill("anonymous")
     page.get_by_role("button", name="Apply Filters").click()
-    page.wait_for_timeout(1000)
+    expect(page.locator("table tbody tr").first).to_be_visible()
     # Download CSV
     with page.expect_download() as download_info:
         page.get_by_role("link", name="Download CSV").click()
@@ -252,10 +252,10 @@ def test_feedback_updates_rapid_filter_changes(page: Page):
     for i in range(5):
         user_input.fill(f"anonymous{i}")
         page.get_by_role("button", name="Apply Filters").click()
-        page.wait_for_timeout(300)
+        expect(page.locator("table tbody tr").first).to_be_visible()
     # After rapid changes, clear filters
     page.get_by_role("button", name="Clear Filters").click()
-    page.wait_for_timeout(500)
+    expect(page.locator("table tbody tr").first).to_be_visible()
     # Table should be present and not broken
     table = page.locator("table, .table")
     assert table.count() > 0

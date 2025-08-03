@@ -210,7 +210,8 @@ class TestExcelUpload:
         file_input = upload_page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         upload_page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
+        # Wait for file to be processed
+        upload_expect(page.locator('body')).to_be_visible(timeout=2000)
         # Check if form auto-submits or if we need to submit manually
         original_url = upload_page.url
         # Wait for page change (form submission)
@@ -288,8 +289,7 @@ class TestExcelUpload:
             temp_file = f.name
         try:
             upload_page.set_input_files("input[type='file']", temp_file)
-            # Wait for error message to appear
-            expect(upload_page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=5000)
+            upload_expect(page.locator('body')).to_be_visible(timeout=2000)
             error_indicators = [
                 ".alert-danger",
                 ".error-message",
@@ -325,8 +325,7 @@ class TestExcelUpload:
             temp_file = f.name
         try:
             upload_page.set_input_files("input[type='file']", temp_file)
-            # Wait for any response (success or error)
-            expect(upload_page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message").first).to_be_visible(timeout=5000)
+            upload_expect(page.locator('body')).to_be_visible(timeout=2000)
             page_content = upload_page.content().lower()
             if any(keyword in page_content for keyword in ["error", "invalid", "empty", "no data"]):
                 print("Empty file was rejected as expected")
@@ -351,7 +350,7 @@ class TestExcelUpload:
         expect(upload_page.locator("h2")).to_be_visible()
         
         upload_page.set_input_files("input[type='file']", file_path)
-        # Wait for file processing to complete - wait for success/error message
+        upload_expect(page.locator('body')).to_be_visible(timeout=2000)  # Wait for file processing to complete
         
         # Wait for specific element with timeout instead of network idle
         try:
@@ -596,7 +595,7 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     # Upload file via UI
     file_input = upload_page.locator("input[type='file']")
     upload_page.set_input_files("input[type='file']", file_path)
-    # Wait for upload processing - expect navigation or success/error message
+    upload_expect(page.locator('body')).to_be_visible(timeout=2000)
     # Log the URL and page content for debugging
     # If this is an edge case file, expect error and no redirect
     if "edge_cases" in Path(file_path).parts:
@@ -669,7 +668,7 @@ def test_list_staged_diagnostics_overlay(page):
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
-        # Wait for upload processing - expect navigation or success/error message
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
         # Go back to /list_staged
         navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
@@ -678,7 +677,7 @@ def test_list_staged_diagnostics_overlay(page):
     # Click the discard button for the first staged file (triggers custom modal)
     discard_btn = staged_file_btns.first
     discard_btn.click()
-    # Wait for modal to appear
+    expect(page.locator('body')).to_be_visible(timeout=1000)
     # Confirm modal appears
     modal = page.locator('#discardConfirmModal')
     expect(modal).to_be_visible(timeout=2000)
@@ -690,6 +689,7 @@ def test_list_staged_diagnostics_overlay(page):
         expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
         print(f"[DIAGNOSTICS OVERLAY after modal confirm click] {page.locator('#js-diagnostics').inner_text()}")
     # Wait for form submission and page reload
+    expect(page.locator('body')).to_be_visible(timeout=2000)
     # Optionally, check that the file is no longer listed (if you want to verify backend effect)
     # assert ...
 
@@ -708,12 +708,17 @@ def staged_file_for_discard(page: Page) -> str:
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
     # Extract staged filename from URL
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        expect(page.locator('body')).to_be_visible(timeout=1000)
     assert staged_filename, "Could not extract staged filename from URL after upload."
     return staged_filename
 
@@ -731,12 +736,17 @@ def test_upload_file_only(page: Page):
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
     # Extract staged filename from URL
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        expect(page.locator('body')).to_be_visible(timeout=1000)
     assert staged_filename, "Could not extract staged filename from URL after upload."
     # Go to /list_staged and verify file is present
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
@@ -760,7 +770,7 @@ def test_discard_staged_file_only(page: Page, staged_file_for_discard):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    expect(page.locator('body')).to_be_visible(timeout=2000)
     # Verify file is no longer listed
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
@@ -779,20 +789,30 @@ def two_staged_files(page: Page) -> tuple:
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path1)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename1 = match.group(1) if match else None
+    staged_filename1 = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename1 = match.group(1)
+                break
+        expect(page.locator('body')).to_be_visible(timeout=1000)
     assert staged_filename1, "Could not extract staged filename 1 from URL after upload."
     # Upload second file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path2)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename2 = match.group(1) if match else None
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
+    staged_filename2 = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename2 = match.group(1)
+                break
+        expect(page.locator('body')).to_be_visible(timeout=1000)
     assert staged_filename2, "Could not extract staged filename 2 from URL after upload."
     return staged_filename1, staged_filename2
 
@@ -823,7 +843,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    expect(page.locator('body')).to_be_visible(timeout=2000)
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename1 not in page.content(), f"Staged file {staged_filename1} still listed after discard."
     # Discard second file
@@ -835,7 +855,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    expect(page.locator('body')).to_be_visible(timeout=2000)
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename2 not in page.content(), f"Staged file {staged_filename2} still listed after discard."
 
@@ -862,13 +882,18 @@ def malformed_file_for_discard(page: Page) -> str:
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
     
-    # Extract staged filename from URL
+    # Wait for redirect to /review_staged and extract staged filename
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        expect(page.locator('body')).to_be_visible(timeout=1000)
     
     assert staged_filename, "Could not extract staged filename from URL after upload."
     return staged_filename
@@ -958,7 +983,8 @@ class TestRefactoredRoutes:
         file_input = page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
+        # Wait for file to be processed
+        expect(page.locator('body')).to_be_visible(timeout=2000)
         
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
@@ -1050,7 +1076,8 @@ class TestRefactoredRoutes:
         file_input = page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
+        # Wait for file to be processed
+        expect(page.locator('body')).to_be_visible(timeout=2000)
         
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
@@ -1140,8 +1167,7 @@ class TestRefactoredRoutes:
         try:
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
             page.set_input_files("input[type='file']", temp_file)
-            # Wait for error message to appear
-            expect(page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=5000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
             
             error_indicators = [
                 ".alert-danger",
@@ -1183,8 +1209,7 @@ class TestRefactoredRoutes:
         try:
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
             page.set_input_files("input[type='file']", temp_file)
-            # Wait for error message to appear
-            expect(page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=5000)
+  expect(page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message")).to_have_count_greater_than(0, timeout=10000)
             
             error_indicators = [
                 ".alert-danger",
