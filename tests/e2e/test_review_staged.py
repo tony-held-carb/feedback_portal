@@ -184,10 +184,6 @@ def test_cancel_and_save_buttons(page: Page, upload_and_stage_file):
     with page.expect_navigation():
         file_input.set_input_files(TEST_FILE)
     page.wait_for_timeout(1000)
-    for _ in range(10):
-        if "/review_staged/" in page.url:
-            break
-        page.wait_for_timeout(500)
     # Test Save Changes
     save_btn = page.locator("button.btn-success")
     with page.expect_navigation():

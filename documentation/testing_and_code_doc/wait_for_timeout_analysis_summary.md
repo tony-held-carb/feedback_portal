@@ -9,6 +9,7 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 - **UI Interaction Timeouts**: 10/10 instances replaced (Phase 1A - SUCCESSFUL)
 - **MEDIUM Risk networkidle**: 4/4 instances replaced with robust alternatives
 - **LOW Risk networkidle**: 91/91 instances replaced with E2E readiness marker
+- **Phase 1 wait_for_timeout with E2E readiness**: 27/27 instances attempted, 0/27 successful (REVERTED)
 
 ### 📊 Progress Summary:
 - **Total networkidle instances**: 95/95 completed (100%)
@@ -17,9 +18,12 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 - **Test execution speed**: Improved with targeted waiting strategies
 
 ### 🔄 Remaining Work:
-- **URL Check Loops**: 10 instances to replace
-- **File Upload Processing**: 17 instances to replace  
-- **Filter Operation Timeouts**: 7 instances to replace (previously failed with networkidle)
+- **URL Check Loops**: 10 instances to replace (E2E readiness marker not suitable for file upload scenarios)
+- **File Upload Processing**: 17 instances to replace (E2E readiness marker not suitable for file upload scenarios)
+- **Filter Operation Timeouts**: 7 instances to replace (need element-specific assertions)
+
+### 🚫 Failed Attempts:
+- **Phase 1 wait_for_timeout replacements**: All 27 instances reverted due to execution context destruction in file upload scenarios
 
 ## Table 1. wait_for_timeout usages
 
@@ -437,6 +441,16 @@ page.wait_for_function("() => window.location.href.includes('/incidence_update/'
 - **Element-specific assertions** instead of `wait_for_load_state("networkidle")` for filter operations
 - **Specific locator waits** like `expect(page.locator("table tbody tr").first).to_be_visible()`
 
+### Phase 1 wait_for_timeout with E2E Readiness Marker - FAILED:
+- **Attempted**: 27 instances (10 URL Check Loops + 17 File Upload Processing)
+- **Result**: All instances reverted due to execution context destruction
+- **Error Types**:
+  - `Locator.count: Execution context was destroyed, most likely because of a navigation`
+  - `Page.content: Unable to retrieve content because the page is navigating and changing the content`
+  - `AssertionError: Could not extract id_incidence from redirect after uploading`
+- **Root Cause**: File upload scenarios trigger immediate page navigation, destroying the Playwright execution context before the E2E readiness marker can be reliably set or subsequent assertions can be made on the new page
+- **Lesson Learned**: E2E readiness marker is not suitable for scenarios where the page immediately navigates or reloads after a file input
+
 - The issue occurs when page navigation happens during upload, destroying the execution context before locator operations
 - **Cascading failures** - Replacing some `wait_for_timeout` instances caused unrelated tests to fail
 - **Inconsistent test results** - Tests would pass one run and fail the next, depending on system timing
@@ -492,8 +506,10 @@ Test A: expect(locator).to_be_visible() → Test B: wait_for_timeout(500) → Te
 6. **✅ Replace MEDIUM risk networkidle instances** - **COMPLETED**: All 4 MEDIUM risk instances replaced with robust alternatives
 7. **✅ Replace LOW risk networkidle instances** - **COMPLETED**: All 91 LOW risk instances replaced with E2E readiness marker
 8. **🔄 Continue with wait_for_timeout replacements** - **NEXT**: Focus on remaining 44 `wait_for_timeout` instances
-   - **URL Check Loops (10 instances)** - Replace by file to maintain timing consistency
-   - **File Upload Processing (17 instances)** - Use smaller batches and extreme caution for system state changes
+   - **URL Check Loops (10 instances)** - E2E readiness marker not suitable for file upload scenarios
+   - **File Upload Processing (17 instances)** - E2E readiness marker not suitable for file upload scenarios
+   - **Filter Operation Timeouts (7 instances)** - Need element-specific assertions (previously failed with networkidle)
+9. **❌ Phase 1 wait_for_timeout with E2E readiness** - **FAILED**: All 27 instances reverted due to execution context destruction
    - **Filter Operation Timeouts (7 instances)** - Consider alternatives to `networkidle` based on previous learnings
 
 ### Phase 1A Results:

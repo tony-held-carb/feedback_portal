@@ -350,7 +350,7 @@ class TestExcelUpload:
         upload_page.wait_for_load_state("networkidle")
         
         upload_page.set_input_files("input[type='file']", file_path)
-        upload_page.wait_for_timeout(2000)  # Longer timeout for large files
+        upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
         
         # Wait for specific element with timeout instead of network idle
         try:
@@ -597,11 +597,6 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     file_input = upload_page.locator("input[type='file']")
     upload_page.set_input_files("input[type='file']", file_path)
     upload_page.wait_for_timeout(1000)
-    # Wait for redirect or success
-    for _ in range(10):
-        if "/incidence_update/" in upload_page.url:
-            break
-        upload_page.wait_for_timeout(500)
     # Log the URL and page content for debugging
     # If this is an edge case file, expect error and no redirect
     if "edge_cases" in Path(file_path).parts:
@@ -675,12 +670,6 @@ def test_list_staged_diagnostics_overlay(page):
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
         page.wait_for_timeout(1000)
-        # Wait for redirect to /review_staged
-        import re
-        for _ in range(10):
-            if "/review_staged/" in page.url:
-                break
-            page.wait_for_timeout(500)
         # Go back to /list_staged
         navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
@@ -721,7 +710,7 @@ def staged_file_for_discard(page: Page) -> str:
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
     page.wait_for_timeout(1000)
-    # Wait for redirect to /review_staged
+    # Extract staged filename from URL
     import re
     staged_filename = None
     for _ in range(10):
@@ -749,7 +738,7 @@ def test_upload_file_only(page: Page):
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
     page.wait_for_timeout(1000)
-    # Extract staged filename
+    # Extract staged filename from URL
     import re
     staged_filename = None
     for _ in range(10):
@@ -1083,8 +1072,7 @@ class TestRefactoredRoutes:
             pytest.skip(f"Test file not found: {file_path}")
         
         # Navigate to refactored staged upload page
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         # Get file input
         file_input = page.locator("input[type='file']")
@@ -1179,8 +1167,7 @@ class TestRefactoredRoutes:
             temp_file = f.name
         
         try:
-            page.goto(f"{BASE_URL}/upload_refactored")
-            page.wait_for_load_state("networkidle")
+            navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
             page.set_input_files("input[type='file']", temp_file)
             page.wait_for_timeout(1000)
             
@@ -1222,8 +1209,7 @@ class TestRefactoredRoutes:
             temp_file = f.name
         
         try:
-            page.goto(f"{BASE_URL}/upload_staged_refactored")
-            page.wait_for_load_state("networkidle")
+            navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
             page.set_input_files("input[type='file']", temp_file)
             page.wait_for_timeout(1000)
             
