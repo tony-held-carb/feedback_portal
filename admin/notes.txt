@@ -2052,3 +2052,6 @@ pytest_TONY_HOME_e2e_32.txt ran with 1 error that did not occur again after re-r
 i reran the whole suite as 33.
 it seems like there is some natural variability in the passes given buffering issues, that is why
 i am trying to get rid of the wait_for_timeouts ...
+
+pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  > output_file_01.txt 2>&1
+pytest tests/e2e/test_excel_upload_workflows_2.py -v -s -k "test_invalid_file_upload"  > pytest_excel_upload_workflows_2.txt 2>&1
