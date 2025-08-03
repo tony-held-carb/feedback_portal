@@ -11,9 +11,14 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 - **LOW Risk networkidle**: 91/91 instances replaced with E2E readiness marker
 - **Phase 1 wait_for_timeout with E2E readiness**: 27/27 instances attempted, 0/27 successful (REVERTED)
 
+### 📈 Overall Progress:
+- **Total wait_for_timeout instances**: 44 total → 34 remaining (23% completed)
+- **Total networkidle instances**: 95 total → 0 remaining (100% completed)
+- **Test suite status**: All tests passing (121 passed, 5 skipped, 0 failed)
+
 ### 📊 Progress Summary:
 - **Total networkidle instances**: 95/95 completed (100%)
-- **Total wait_for_timeout instances**: 44 remaining (44/44 = 0% completed)
+- **Total wait_for_timeout instances**: 34 remaining (34/44 = 23% completed)
 - **Overall test reliability**: Significantly improved with E2E readiness marker
 - **Test execution speed**: Improved with targeted waiting strategies
 
@@ -25,64 +30,66 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 ### 🚫 Failed Attempts:
 - **Phase 1 wait_for_timeout replacements**: All 27 instances reverted due to execution context destruction in file upload scenarios
 
-## Table 1. wait_for_timeout usages
+## Table 1. wait_for_timeout usages - Current Status
 
-| File | Line | Timeout (ms) | Context | Pattern Category | Replacement Difficulty |
-|------|------|--------------|---------|------------------|------------------------|
-| `test_review_staged.py` | 121 | 500 | After `hide_checkbox.check()` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 127 | 500 | After `hide_checkbox.uncheck()` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 141 | 500 | After `search_input.fill("timestamp")` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 148 | 500 | After `search_input.fill("")` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 187 | 1000 | After file upload and navigation | URL Check Loop | **MEDIUM** |
-| `test_review_staged.py` | 191 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_review_staged.py` | 226 | 100 | Before `checkbox.check()` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 237 | 100 | Before `checkbox.uncheck()` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 248 | 100 | Before `checkbox.check()` | UI Interaction | **EASY** |
-| `test_review_staged.py` | 312 | 100 | Before `checkbox.check()` | UI Interaction | **EASY** |
-| `test_feedback_updates.py` | 70 | 1000 | After `apply_btn.click()` (user filter) | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 82 | 1000 | After `clear_btn.click()` | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 124 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (date range) | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 215 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (CSV download) | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 236 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (rapid filter) | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 261 | 300 | After `page.get_by_role("button", name="Apply Filters").click()` (rapid filter) | Filter Operation | **EASY** |
-| `test_feedback_updates.py` | 264 | 500 | After `page.get_by_role("button", name="Clear Filters").click()` (rapid filter) | Filter Operation | **EASY** |
-| `test_excel_upload_workflows.py` | 210 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 287 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 323 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 348 | 2000 | After `upload_page.set_input_files(file_path)` (large files) | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 355 | 3000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 593 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 598 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 673 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 679 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 689 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 701 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 721 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 731 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 750 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 760 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 786 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 807 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 816 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 823 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 831 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 864 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 877 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 906 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 917 | 500 | URL polling loop | URL Check Loop | **MEDIUM** |
-| `test_excel_upload_workflows.py` | 1015 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 1109 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 1200 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
-| `test_excel_upload_workflows.py` | 1243 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **HARD** |
+| File | Line | Timeout (ms) | Context | Pattern Category | Status |
+|------|------|--------------|---------|------------------|--------|
+| `test_review_staged.py` | 187 | 1000 | After file upload and navigation | URL Check Loop | **PENDING** |
+| `test_review_staged.py` | 191 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_feedback_updates.py` | 70 | 1000 | After `apply_btn.click()` (user filter) | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 82 | 1000 | After `clear_btn.click()` | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 124 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (date range) | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 215 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (CSV download) | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 236 | 1000 | After `page.get_by_role("button", name="Apply Filters").click()` (rapid filter) | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 261 | 300 | After `page.get_by_role("button", name="Apply Filters").click()` (rapid filter) | Filter Operation | **PENDING** |
+| `test_feedback_updates.py` | 264 | 500 | After `page.get_by_role("button", name="Clear Filters").click()` (rapid filter) | Filter Operation | **PENDING** |
+| `test_excel_upload_workflows.py` | 210 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 287 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 323 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 348 | 2000 | After `upload_page.set_input_files(file_path)` (large files) | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 355 | 3000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 593 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 598 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 673 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 679 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 689 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 701 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 721 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 731 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 750 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 760 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 786 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 807 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 816 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 823 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 831 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 864 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 877 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 906 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 917 | 500 | URL polling loop | URL Check Loop | **PENDING** |
+| `test_excel_upload_workflows.py` | 1015 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 1109 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 1200 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
+| `test_excel_upload_workflows.py` | 1243 | 1000 | After `upload_page.set_input_files(file_path)` | File Upload Processing | **PENDING** |
 
-**Total: 44 instances**
+**Total: 34 instances remaining**
 
-## Table 3. wait_for_load_state("networkidle") usages
+### Summary by Pattern Category:
+- **URL Check Loops**: 10 instances (2 in `test_review_staged.py`, 8 in `test_excel_upload_workflows.py`)
+- **File Upload Processing**: 17 instances (all in `test_excel_upload_workflows.py`)
+- **Filter Operation Timeouts**: 7 instances (all in `test_feedback_updates.py`)
 
-| File | Line | Context | Usage Pattern | Risk Level | Notes |
-|------|------|---------|---------------|------------|-------|
+### Previously Completed:
+- **UI Interaction Timeouts**: 10 instances - ✅ **COMPLETED** (Phase 1A - SUCCESSFUL)
+  - All instances in `test_review_staged.py` replaced with element-specific assertions
+
+## Table 3. wait_for_load_state("networkidle") usages - ✅ ALL COMPLETED
+
+| File | Line | Context | Usage Pattern | Risk Level | Status |
+|------|------|---------|---------------|------------|--------|
 | `test_single_page.py` | 81 | After page navigation | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker |
 | `test_review_staged.py` | 49 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 55 | After file upload navigation | Post-upload wait | **MEDIUM** | ✅ **COMPLETED** - Replaced with element-specific wait |
 | `test_review_staged.py` | 92 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_review_staged.py` | 112 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_review_staged.py` | 137 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
@@ -91,23 +98,13 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 | `test_review_staged.py` | 185 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_review_staged.py` | 205 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_review_staged.py` | 280 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 290 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_review_staged.py` | 347 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
-| `test_review_staged.py` | 55 | After file upload navigation | Post-upload wait | **MEDIUM** | After file upload |
-| `test_review_staged.py` | 92 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 112 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 137 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 158 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 175 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 185 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 205 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 280 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 290 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 347 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 354 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 358 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 383 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 390 | After page.goto() | Page load wait | **LOW** | Standard page load |
-| `test_review_staged.py` | 394 | After page.goto() | Page load wait | **LOW** | Standard page load |
+| `test_review_staged.py` | 354 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 358 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 383 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 390 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 394 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_refactored_vs_original_equivalence.py` | 145 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_refactored_vs_original_equivalence.py` | 173 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_refactored_vs_original_equivalence.py` | 230 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
@@ -152,8 +149,8 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 | `test_feedback_updates.py` | 258 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_feedback_updates.py` | 277 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_excel_upload_workflows.py` | 130 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
-| `test_excel_upload_workflows.py` | 226 | After file upload | Post-upload wait | **MEDIUM** | After file upload |
-| `test_excel_upload_workflows.py` | 345 | After file upload | Post-upload wait | **MEDIUM** | After file upload |
+| `test_excel_upload_workflows.py` | 226 | After file upload | Post-upload wait | **MEDIUM** | ✅ **COMPLETED** - Replaced with element-specific wait |
+| `test_excel_upload_workflows.py` | 345 | After file upload | Post-upload wait | **MEDIUM** | ✅ **COMPLETED** - Replaced with element-specific wait |
 | `test_excel_upload_workflows.py` | 589 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_excel_upload_workflows.py` | 661 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_excel_upload_workflows.py` | 670 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
@@ -188,7 +185,7 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 | `test_delete_testing_data.py` | 82 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_delete_testing_data.py` | 113 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 
-**Total: 95 instances**
+**Total: 95 instances (91 LOW risk + 4 MEDIUM risk) - ALL COMPLETED ✅**
 
 ### Analysis of wait_for_load_state("networkidle") Usage:
 
@@ -354,7 +351,9 @@ page.wait_for_timeout(1000)  # Wait for filter results
 **Recommended Replacement:**
 ```python
 apply_btn.click()
-page.wait_for_load_state("networkidle")
+expect(page.locator("table tbody tr").first).to_be_visible()
+# OR wait for specific filter results
+expect(page.locator(".filter-results, .data-table").first).to_be_visible()
 ```
 
 ### 3. File Upload Processing (17 instances) - **HARD**
@@ -405,7 +404,7 @@ page.wait_for_function("() => window.location.href.includes('/incidence_update/'
    - **Rationale:** Most isolated, least likely to affect other tests
    - **Approach:** Replace all instances in one commit, then test full suite
 
-2. **Filter Operation Timeouts (7 instances)** - Replace all 7 at once with `page.wait_for_load_state("networkidle")`
+2. **Filter Operation Timeouts (7 instances)** - Replace all 7 at once with element-specific assertions
    - **Location:** All in `test_feedback_updates.py`
    - **Rationale:** Self-contained within one file, affects data state but not system state
    - **Approach:** Replace all instances in one commit, then test full suite
@@ -432,14 +431,18 @@ page.wait_for_function("() => window.location.href.includes('/incidence_update/'
 
 ### What Worked:
 - UI interaction replacements with `expect(locator).to_be_visible()` and `expect(locator).to_be_checked()`
+- E2E readiness marker for standard page navigation (91 LOW risk networkidle instances)
+- Element-specific waits for post-upload scenarios (4 MEDIUM risk networkidle instances)
 
 ### What Failed:
 - Filter operation replacements with `page.wait_for_load_state("networkidle")` - **Tests froze due to persistent network activity**
 - File upload replacements with `page.wait_for_load_state("networkidle")` caused "Execution context destroyed" errors
+- Phase 1 wait_for_timeout with E2E readiness marker - **All 27 instances reverted due to execution context destruction**
 
 ### What Works Better:
 - **Element-specific assertions** instead of `wait_for_load_state("networkidle")` for filter operations
 - **Specific locator waits** like `expect(page.locator("table tbody tr").first).to_be_visible()`
+- **UI interaction replacements** with `expect(locator).to_be_visible()` and `expect(locator).to_be_checked()`
 
 ### Phase 1 wait_for_timeout with E2E Readiness Marker - FAILED:
 - **Attempted**: 27 instances (10 URL Check Loops + 17 File Upload Processing)
@@ -505,7 +508,7 @@ Test A: expect(locator).to_be_visible() → Test B: wait_for_timeout(500) → Te
 5. **✅ Document learnings** - **COMPLETED**: Updated with progress and timing patterns discovered
 6. **✅ Replace MEDIUM risk networkidle instances** - **COMPLETED**: All 4 MEDIUM risk instances replaced with robust alternatives
 7. **✅ Replace LOW risk networkidle instances** - **COMPLETED**: All 91 LOW risk instances replaced with E2E readiness marker
-8. **🔄 Continue with wait_for_timeout replacements** - **NEXT**: Focus on remaining 44 `wait_for_timeout` instances
+8. **🔄 Continue with wait_for_timeout replacements** - **NEXT**: Focus on remaining 34 `wait_for_timeout` instances
    - **URL Check Loops (10 instances)** - E2E readiness marker not suitable for file upload scenarios
    - **File Upload Processing (17 instances)** - E2E readiness marker not suitable for file upload scenarios
    - **Filter Operation Timeouts (7 instances)** - Need element-specific assertions (previously failed with networkidle)
@@ -546,7 +549,7 @@ Test A: expect(locator).to_be_visible() → Test B: wait_for_timeout(500) → Te
 ### Progress Summary:
 - **Phase 1A Status:** ✅ **SUCCESS** - All 10 UI Interaction timeouts replaced successfully
 - **Test Results:** ✅ **PASSED** - Full test suite runs without cascading failures
-- **Next Phase:** Phase 1B - Replace all 7 Filter Operation timeouts in `test_feedback_updates.py`
+- **Next Phase:** Phase 1B - Replace all 7 Filter Operation timeouts in `test_feedback_updates.py` with element-specific assertions
 
 ## References
 
