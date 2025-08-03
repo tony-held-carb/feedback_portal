@@ -40,10 +40,10 @@ Example:
 """
 
 import pytest
-from playwright.sync_api import Page
-import os
+from playwright.sync_api import Page, expect
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -56,8 +56,7 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     - Diagnostics button logs to overlay (including input value)
     - Waits are used to avoid race conditions
     """
-    page.goto(f"{BASE_URL}/java_script_diagnostic_test")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/java_script_diagnostic_test")
     # Scrape overlay after page load
     overlay = ''
     try:
@@ -71,7 +70,6 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
     btn.first.click()
     # Use Playwright's expect to robustly wait for overlay update
-    from playwright.sync_api import expect
     expect(page.locator('#js-diagnostics')).to_contain_text('send-diagnostic')
     overlay2 = ''
     try:

@@ -1,0 +1,28 @@
+{# 
+  includes/e2e_testing_related.jinja
+  ----------------------------------
+  This template injects the global E2E readiness marker for all Playwright tests.
+
+  It references `static/js/e2e_testing_related.js`, which adds the attribute:
+    <html data-e2e-ready="true">
+
+  This flag is used to determine when the page is visually rendered and JS initialization has settled.
+
+  🔒 Placement Notes:
+  -------------------
+  - Always place this just **before** `{% block footer_js %}` and `{% block scripts %}`.
+  - This ensures it runs *after* all primary content and layout, but *before* any optional page-level JS.
+  - It can be moved below the footers if you have a specific need and testing pattern, but likely a bad idea.
+  - Do NOT defer or async the script — it's tied to the `window.onload` event.
+
+  ✅ Safe Usage Pattern:
+      {% include 'includes/e2e_testing_related.jinja' %}
+
+  ✅ Playwright Test Usage:
+      page.goto(url, wait_until="load")
+      page.wait_for_selector("html[data-e2e-ready='true']", timeout=7000)
+
+  📂 File Location:
+      static/js/e2e_testing_related.js
+#}
+<script src="{{ url_for('static', filename='js/e2e_testing_related.js') }}"></script>

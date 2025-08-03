@@ -16,6 +16,7 @@ import pytest
 from playwright.sync_api import Page, expect
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -25,8 +26,7 @@ def test_list_uploads_page_loads(page: Page):
     """
     E2E: Loads the List Uploaded Files page and checks for title and table presence.
     """
-    page.goto(f"{BASE_URL}/list_uploads")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_uploads")
     expect(page).to_have_title("Uploaded Files")
     # Check for main header
     expect(page.locator("h2")).to_contain_text("Uploaded Files")
@@ -39,8 +39,7 @@ def test_list_uploads_file_links(page: Page):
     """
     E2E: Checks that file links are present and valid in the uploaded files table.
     """
-    page.goto(f"{BASE_URL}/list_uploads")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_uploads")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() == 0:
@@ -57,8 +56,7 @@ def test_list_uploads_accessibility(page: Page):
     """
     E2E: Basic accessibility checks for the List Uploaded Files page.
     """
-    page.goto(f"{BASE_URL}/list_uploads")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_uploads")
     table = page.locator("table, .table")
     assert table.count() > 0, "Table should be present for accessibility check"
     # Check tab order: first link should be focusable
@@ -73,8 +71,7 @@ def test_list_uploads_empty_state(page: Page):
     """
     E2E: Checks that the page handles the empty state (no uploaded files) gracefully.
     """
-    page.goto(f"{BASE_URL}/list_uploads")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_uploads")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() > 0:

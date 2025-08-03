@@ -1,0 +1,357 @@
+Navigating to page: http://127.0.0.1:2113/upload ...
+Page title: Upload File
+Current URL: http://127.0.0.1:2113/upload
+
+=== ALL BUTTONS ===
+Button 1:
+  Text: '
+        
+      '
+  Type: button
+  Class: navbar-toggler
+  ID: None
+  Visible: False
+
+=== ALL INPUT ELEMENTS ===
+Input 1:
+  Type: file
+  Value: None
+  Class: form-control mt-2 d-none
+  ID: hidden-file-input
+  Visible: False
+
+=== FORM ELEMENTS ===
+Form 1:
+  Action: /upload
+  Method: POST
+  Class: None
+  ID: upload-form
+
+=== FILE INPUT ELEMENTS ===
+File Input 1:
+  Class: form-control mt-2 d-none
+  ID: hidden-file-input
+  Name: file
+  Accept: None
+  Visible: False
+
+=== DROP ZONE ELEMENTS ===
+Drop Zone 1:
+  Tag: LI
+  Class: nav-item dropdown
+  ID: None
+  Visible: True
+
+Drop Zone 2:
+  Tag: A
+  Class: nav-link dropdown-toggle
+  ID: None
+  Visible: True
+
+Drop Zone 3:
+  Tag: UL
+  Class: dropdown-menu
+  ID: None
+  Visible: False
+
+Drop Zone 4:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 5:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 6:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 7:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 8:
+  Tag: HR
+  Class: dropdown-divider
+  ID: None
+  Visible: False
+
+Drop Zone 9:
+  Tag: A
+  Class: dropdown-item disabled
+  ID: None
+  Visible: False
+
+Drop Zone 10:
+  Tag: LI
+  Class: nav-item dropdown
+  ID: None
+  Visible: True
+
+Drop Zone 11:
+  Tag: A
+  Class: nav-link dropdown-toggle
+  ID: None
+  Visible: True
+
+Drop Zone 12:
+  Tag: UL
+  Class: dropdown-menu
+  ID: None
+  Visible: False
+
+Drop Zone 13:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 14:
+  Tag: A
+  Class: dropdown-item disabled
+  ID: None
+  Visible: False
+
+Drop Zone 15:
+  Tag: LI
+  Class: nav-item dropdown
+  ID: None
+  Visible: True
+
+Drop Zone 16:
+  Tag: A
+  Class: nav-link dropdown-toggle
+  ID: None
+  Visible: True
+
+Drop Zone 17:
+  Tag: UL
+  Class: dropdown-menu
+  ID: None
+  Visible: False
+
+Drop Zone 18:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 19:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 20:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 21:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 22:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 23:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 24:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 25:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 26:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 27:
+  Tag: LI
+  Class: nav-item dropdown
+  ID: None
+  Visible: True
+
+Drop Zone 28:
+  Tag: A
+  Class: nav-link dropdown-toggle
+  ID: None
+  Visible: True
+
+Drop Zone 29:
+  Tag: UL
+  Class: dropdown-menu
+  ID: None
+  Visible: False
+
+Drop Zone 30:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 31:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 32:
+  Tag: A
+  Class: dropdown-item disabled
+  ID: None
+  Visible: False
+
+Drop Zone 33:
+  Tag: LI
+  Class: nav-item dropdown
+  ID: None
+  Visible: True
+
+Drop Zone 34:
+  Tag: A
+  Class: nav-link dropdown-toggle
+  ID: None
+  Visible: True
+
+Drop Zone 35:
+  Tag: UL
+  Class: dropdown-menu
+  ID: None
+  Visible: False
+
+Drop Zone 36:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 37:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 38:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 39:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 40:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 41:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 42:
+  Tag: A
+  Class: dropdown-item
+  ID: None
+  Visible: False
+
+Drop Zone 43:
+  Tag: DIV
+  Class: drop-zone
+  ID: drop_zone
+  Visible: True
+
+Drop Zone 44:
+  Tag: DIV
+  Class: drop-zone-text
+  ID: None
+  Visible: True
+
+Drop Zone 45:
+  Tag: IMG
+  Class: drop-zone-icon
+  ID: None
+  Visible: True
+
+=== PAGE SOURCE (first 2000 chars) ===
+<!DOCTYPE html><html lang="en" data-e2e-ready="true"><head>
+  <meta charset="UTF-8">
+
+  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Portal Styles -->
+  <link rel="stylesheet" href="/static/css/portal_styles_01.css">
+
+  <!-- Portal JavaScript -->
+  <script defer="" src="/static/js/delete_confirmation.js"></script>
+  <!-- TOAST NOTIFICATIONS DISABLED - Reverted to old system
+       Benefits of re-enabling in the future:
+       - Better UX for ephemeral messages (upload progress, success notifications)
+       - Non-intrusive feedback for non-critical warnings
+       - Consistent notification system across the application
+       - Auto-dismiss functionality reduces UI clutter
+  -->
+  <!-- <script defer src="/static/js/toast_notifications.js"></script> -->
+
+  <!-- Portal Jinja Macros -->
+
+  <!-- Page-Specific CSS & JS -->
+  <link rel="stylesheet" href="/static/css/upload.css">
+  <script defer="" src="/static/js/file_upload.js"></script>
+
+  <title>  Upload File
+</title>
+</head>
+
+<body data-form-id="">
+
+<!-- Portal Navigation -->
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="/static/images/carb_logo_01.jpg" alt="California Air Resources Board" width="40" height="40">
+        Methane Satellite Portal
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSuppo
+
+=== TAKING SCREENSHOT ===
+Screenshot saved as debug_upload_page.png

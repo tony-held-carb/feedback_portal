@@ -61,6 +61,10 @@ import shutil
 import pytest
 import functools
 import conftest
+import pytest
+from playwright.sync_api import expect
+import os
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -127,8 +131,7 @@ def upload_page(page: Page):
     Navigate to upload page and return the page object.
     Ensures each test starts from a clean upload page.
     """
-    page.goto(f"{BASE_URL}/upload")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload")
     return page
 
 def get_test_files() -> list:
@@ -224,7 +227,8 @@ class TestExcelUpload:
             submit_button = upload_page.locator("button[type='submit'], input[type='submit']")
             if submit_button.count() > 0:
                 submit_button.click()
-                upload_page.wait_for_load_state("networkidle")
+                # Wait for specific success/error indicator instead of network idle
+                expect(upload_page.locator(".alert-success, .alert-danger, .success-message, .error-message").first).to_be_visible()
         # Check for success or error messages
         success_indicators = [
             ".alert-success",
@@ -348,12 +352,13 @@ class TestExcelUpload:
         upload_page.set_input_files("input[type='file']", file_path)
         upload_page.wait_for_timeout(2000)  # Longer timeout for large files
         
-        # Wait for navigation to complete before getting content
+        # Wait for specific element with timeout instead of network idle
         try:
-            upload_page.wait_for_load_state("networkidle", timeout=10000)
+            expect(upload_page.locator(".alert-success, .alert-danger").first).to_be_visible(timeout=15000)
         except Exception:
-            # If navigation doesn't complete, wait a bit more and continue
-            upload_page.wait_for_timeout(3000)
+            # Fallback: check page content for success/error keywords
+            page_content = upload_page.content().lower()
+            assert any(keyword in page_content for keyword in ["success", "error", "uploaded", "failed"]), "Upload result unclear"
         
         page_content = upload_page.content().lower()
         if any(keyword in page_content for keyword in ["success", "uploaded", "processed"]):
@@ -658,8 +663,7 @@ def test_list_staged_diagnostics_overlay(page):
     from playwright.sync_api import expect
     import os
     # Ensure at least one staged file exists
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
     if staged_file_btns.count() == 0:
         # Upload a file to stage it
@@ -667,8 +671,7 @@ def test_list_staged_diagnostics_overlay(page):
         if not test_files:
             pytest.skip("No test files available to upload and stage.")
         file_path = test_files[0]
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
         page.wait_for_timeout(1000)
@@ -679,8 +682,7 @@ def test_list_staged_diagnostics_overlay(page):
                 break
             page.wait_for_timeout(500)
         # Go back to /list_staged
-        page.goto(f"{BASE_URL}/list_staged")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
         if staged_file_btns.count() == 0:
             pytest.skip("Failed to stage a file for diagnostics overlay test.")
@@ -715,8 +717,7 @@ def staged_file_for_discard(page: Page) -> str:
         pytest.skip("No test files available for staging.")
     file_path = test_files[0]
     # Upload file
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
     page.wait_for_timeout(1000)
@@ -744,8 +745,7 @@ def test_upload_file_only(page: Page):
         pytest.skip("No test files available for upload.")
     file_path = test_files[0]
     # Upload file
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
     page.wait_for_timeout(1000)
@@ -761,8 +761,7 @@ def test_upload_file_only(page: Page):
         page.wait_for_timeout(500)
     assert staged_filename, "Could not extract staged filename from URL after upload."
     # Go to /list_staged and verify file is present
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged after upload."
 
 
@@ -773,8 +772,7 @@ def test_discard_staged_file_only(page: Page, staged_file_for_discard):
     """
     staged_filename = staged_file_for_discard
     # Go to /list_staged and verify file is present
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged before discard."
     # Discard the file using the new modal
     discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
@@ -786,8 +784,7 @@ def test_discard_staged_file_only(page: Page, staged_file_for_discard):
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
     page.wait_for_timeout(1000)
     # Verify file is no longer listed
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
 
 @pytest.fixture(scope="function")
@@ -801,8 +798,7 @@ def two_staged_files(page: Page) -> tuple:
         pytest.skip("Need at least two test files for this test.")
     file_path1, file_path2 = test_files[:2]
     # Upload first file
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path1)
     page.wait_for_timeout(1000)
@@ -817,8 +813,7 @@ def two_staged_files(page: Page) -> tuple:
         page.wait_for_timeout(500)
     assert staged_filename1, "Could not extract staged filename 1 from URL after upload."
     # Upload second file
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path2)
     page.wait_for_timeout(1000)
@@ -840,8 +835,7 @@ def test_upload_multiple_files_only(page: Page, two_staged_files):
     Does NOT discard the files. Isolates upload and staged list logic for multiple files.
     """
     staged_filename1, staged_filename2 = two_staged_files
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename1 in page.content(), f"Staged file {staged_filename1} not listed in /list_staged after upload."
     assert staged_filename2 in page.content(), f"Staged file {staged_filename2} not listed in /list_staged after upload."
 
@@ -852,8 +846,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     """
     staged_filename1, staged_filename2 = two_staged_files
     # Discard first file
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename1 in page.content(), f"Staged file {staged_filename1} not listed before discard."
     discard_btn = page.locator(f"form[action*='{staged_filename1}'] button[data-js-logging-context='discard-staged']").first
     discard_btn.click()
@@ -863,8 +856,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
     page.wait_for_timeout(1000)
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename1 not in page.content(), f"Staged file {staged_filename1} still listed after discard."
     # Discard second file
     assert staged_filename2 in page.content(), f"Staged file {staged_filename2} not listed before discard."
@@ -876,8 +868,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
     page.wait_for_timeout(1000)
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename2 not in page.content(), f"Staged file {staged_filename2} still listed after discard."
 
 
@@ -900,8 +891,7 @@ def malformed_file_for_discard(page: Page) -> str:
     file_path = test_files[0]
     
     # Upload file via the standard workflow
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
     page.wait_for_timeout(1000)
@@ -927,8 +917,7 @@ def test_upload_malformed_file_only(page: Page, malformed_file_for_discard):
     Does NOT discard the file. Tests staged file listing functionality.
     """
     staged_filename = malformed_file_for_discard
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged after upload."
 
 
@@ -939,8 +928,7 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     """
     staged_filename = malformed_file_for_discard
     # 1. Navigate to /list_staged
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     print(f"[STEP] Navigated to /list_staged for staged file: {staged_filename}")
     # 2. Locate the staged file row and discard button
     discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
@@ -963,8 +951,7 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
     print(f"[STEP] Modal confirm clicked and navigation complete.")
     # 8. After reload, verify file is gone
     page.wait_for_load_state("networkidle")
-    page.goto(f"{BASE_URL}/list_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
     print(f"[STEP] Staged file {staged_filename} successfully discarded and not present after reload.")
 
@@ -973,8 +960,7 @@ class TestRefactoredRoutes:
     
     def test_upload_file_refactored_page_loads(self, page: Page):
         """Test that the refactored upload page loads correctly."""
-        page.goto(f"{BASE_URL}/upload_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
         
         # Check page title and structure
         assert "Upload Feedback Spreadsheet" in page.content()
@@ -983,8 +969,7 @@ class TestRefactoredRoutes:
     
     def test_upload_file_staged_refactored_page_loads(self, page: Page):
         """Test that the refactored staged upload page loads correctly."""
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         # Check page title and structure
         assert "Upload" in page.content()
@@ -1005,8 +990,7 @@ class TestRefactoredRoutes:
             pytest.skip(f"Test file not found: {file_path}")
         
         # Navigate to refactored upload page
-        page.goto(f"{BASE_URL}/upload_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
         
         # Get file input
         file_input = page.locator("input[type='file']")

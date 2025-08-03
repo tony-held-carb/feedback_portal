@@ -17,6 +17,7 @@ import pytest
 from playwright.sync_api import Page, expect
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -36,8 +37,7 @@ def test_calsmp_help_menu_links(page: Page):
         ("Feedback Portal Source Code & Documentation", "tony-held-carb.github.io/feedback_portal/")
     ]
     # Go to the main page
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     # Open the CalSMP & Help dropdown
     help_dropdown = page.locator(".nav-link", has_text="CalSMP & Help")
     help_dropdown.click()

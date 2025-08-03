@@ -23,6 +23,7 @@ import requests
 import re
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -40,14 +41,15 @@ TEST_FILES = [
     "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx",
 ]
 
+
+
 @pytest.fixture
 def upload_and_stage_file(page: Page):
     """
     Uploads a test file via /upload_staged and returns the review_staged URL.
     Adds diagnostics after upload.
     """
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     if not Path(TEST_FILE).exists():
         pytest.skip(f"Test file {TEST_FILE} not found.")
@@ -89,8 +91,7 @@ def clear_test_data(page: Page):
     print(f"clear_test_data called with page: {page}")
 
     # Step 0: Use Playwright to clear test data via the UI
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     page.fill("#min_id", "1000000")
     page.fill("#max_id", "2000000")
     dry_run_checkbox = page.locator("#dry_run")
@@ -109,8 +110,7 @@ def test_hide_changes_checkbox(page: Page, upload_and_stage_file):
     """
     E2E: Hide unchanged fields checkbox toggles visibility of .unchanged-field rows.
     """
-    page.goto(upload_and_stage_file)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, upload_and_stage_file)
     hide_checkbox = page.locator("#hideUnchangedFields")
     expect(hide_checkbox).to_be_visible()
     # Check that unchanged fields are visible by default
@@ -134,8 +134,7 @@ def test_field_search_filter(page: Page, upload_and_stage_file):
     """
     E2E: Field search input filters .field-row elements by name/value.
     """
-    page.goto(upload_and_stage_file)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, upload_and_stage_file)
     search_input = page.locator("#fieldSearch")
     expect(search_input).to_be_visible()
     search_input.fill("timestamp")
@@ -155,8 +154,7 @@ def test_change_summary_card(page: Page, upload_and_stage_file):
     """
     E2E: Change summary card displays correct numbers for total, changed, and need confirmation fields.
     """
-    page.goto(upload_and_stage_file)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, upload_and_stage_file)
     summary_card = page.locator(".card-header.bg-info")
     expect(summary_card).to_be_visible()
     # Check numbers in the card body
@@ -172,8 +170,7 @@ def test_cancel_and_save_buttons(page: Page, upload_and_stage_file):
     """
     E2E: Cancel link and Save Changes button work and trigger navigation.
     """
-    page.goto(upload_and_stage_file)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, upload_and_stage_file)
     cancel_link = page.locator("a.btn-secondary")
     save_btn = page.locator("button.btn-success")
     expect(cancel_link).to_be_visible()
@@ -182,8 +179,7 @@ def test_cancel_and_save_buttons(page: Page, upload_and_stage_file):
     with page.expect_navigation():
         cancel_link.click()
     # Re-upload to get back to review page
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
         file_input.set_input_files(TEST_FILE)
@@ -202,8 +198,7 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
     """
     E2E: .confirm-checkbox elements can be checked/unchecked and update the form.
     """
-    page.goto(upload_and_stage_file)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, upload_and_stage_file)
     
     # Wait for checkboxes to be available
     checkboxes = page.locator(".confirm-checkbox")
@@ -277,8 +272,7 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
     """
     print(f"Running incremental upload test for: {test_file}")
     # Step 1: Go to the staged upload page
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     if save_screenshots:
         page.screenshot(path=f"screenshot_01_upload_staged_{Path(test_file).stem}.png")
 
@@ -351,8 +345,7 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
         page.screenshot(path=f"screenshot_03_after_first_save_{Path(test_file).stem}.png")
 
     # Step 8. Re-upload the same file, print diagnostics, and check remaining unchecked checkboxes
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
         file_input.set_input_files(test_file)
@@ -387,8 +380,7 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
         page.screenshot(path=f"screenshot_06_after_second_save_{Path(test_file).stem}.png")
 
     # Step 10. Re-upload the file a third time, print diagnostics, and assert no confirmable checkboxes remain
-    page.goto(f"{BASE_URL}/upload_staged")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
         file_input.set_input_files(test_file)

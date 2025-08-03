@@ -24,6 +24,7 @@ import string
 from datetime import datetime, timedelta
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -33,8 +34,7 @@ def test_feedback_updates_page_loads(page: Page):
     """
     E2E: Loads the Feedback Portal Updates page and checks for title, filter UI, and table presence.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     expect(page).to_have_title(re.compile(r"Feedback.*Updates", re.I))
     # Check for main header
     expect(page.locator("h1, h2")).to_contain_text("Feedback Portal Updates")
@@ -60,15 +60,15 @@ def test_feedback_updates_filter_functionality(page: Page):
     """
     E2E: Tests the filter UI by applying a filter and checking that the table updates.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     # Enter a value in the 'User' filter (assume 'anonymous' is present)
     user_input = page.locator("input[placeholder*='User'], input[name*='user']")
     user_input.fill("anonymous")
     # Click Apply Filters
     apply_btn = page.get_by_role("button", name="Apply Filters")
     apply_btn.click()
-    page.wait_for_timeout(1000)
+    # Wait for table to update with filtered results
+    expect(page.locator("table tbody tr").first).to_be_visible()
     # Check that all visible rows have 'anonymous' in the User column
     table = page.locator("table, .table")
     user_cells = table.locator("tbody tr td:nth-child(5)")  # User column is 5th
@@ -80,7 +80,8 @@ def test_feedback_updates_filter_functionality(page: Page):
     # Clear filters
     clear_btn = page.get_by_role("button", name="Clear Filters")
     clear_btn.click()
-    page.wait_for_timeout(1000)
+    # Wait for table to reset with all results
+    expect(page.locator("table tbody tr").first).to_be_visible()
     # Table should reset (row count should increase or stay the same)
     assert table.locator("tbody tr").count() >= user_cells.count(), "Table did not reset after clearing filters"
 
@@ -89,8 +90,7 @@ def test_feedback_updates_download_csv_button(page: Page):
     """
     E2E: Checks that the Download CSV button is present and enabled.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     download_btn = page.get_by_role("link", name="Download CSV")
     assert download_btn.count() > 0 and download_btn.first.is_enabled(), "Download CSV button should be present and enabled"
 
@@ -99,8 +99,7 @@ def test_feedback_updates_accessibility(page: Page):
     """
     E2E: Basic accessibility checks for the Feedback Updates page.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     # Check for ARIA roles on table
     table = page.locator("table, .table")
     assert table.count() > 0, "Table should be present for accessibility check"
@@ -115,8 +114,7 @@ def test_feedback_updates_empty_state(page: Page):
     """
     E2E: Apply a filter that matches no records and check for empty state handling.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     # Use a random unlikely string for user filter
     random_user = "user_" + ''.join(random.choices(string.ascii_letters + string.digits, k=12))
     user_input = page.get_by_placeholder("User")
@@ -135,8 +133,7 @@ def test_feedback_updates_long_text_overflow(page: Page):
     """
     E2E: Check that long text in fields/comments does not break table layout.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() == 0:
@@ -161,8 +158,7 @@ def test_feedback_updates_special_characters(page: Page):
     """
     E2E: Check that special characters render correctly and do not break filters.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() == 0:
@@ -187,8 +183,7 @@ def test_feedback_updates_date_range_boundaries(page: Page):
     """
     E2E: Use start/end date filters at the boundary of available data.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() == 0:
@@ -229,8 +224,7 @@ def test_feedback_updates_csv_download_with_filters(page: Page, tmp_path):
     """
     E2E: Apply a filter, download CSV, and check that the CSV only contains filtered results.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     user_input = page.get_by_placeholder("User")
     user_input.fill("anonymous")
     page.get_by_role("button", name="Apply Filters").click()
@@ -253,8 +247,7 @@ def test_feedback_updates_rapid_filter_changes(page: Page):
     """
     E2E: Rapidly change filters and apply them in succession, checking for UI stability.
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     user_input = page.get_by_placeholder("User")
     for i in range(5):
         user_input.fill(f"anonymous{i}")
@@ -272,8 +265,7 @@ def test_feedback_updates_large_data_set(page: Page):
     """
     E2E: If possible, check that the table handles a large number of updates (pagination, scrolling).
     """
-    page.goto(f"{BASE_URL}/portal_updates")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/portal_updates")
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() < 100:

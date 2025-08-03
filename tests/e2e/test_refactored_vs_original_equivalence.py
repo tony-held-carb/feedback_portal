@@ -28,6 +28,7 @@ import psycopg2
 import warnings
 import conftest
 from datetime import datetime
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -142,8 +143,7 @@ class TestRefactoredVsOriginalEquivalence:
         file_name = Path(file_path).name
         
         # Step 1: Upload through original route
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         
         # Upload file
         with page.expect_file_chooser() as fc_info:
@@ -170,8 +170,7 @@ class TestRefactoredVsOriginalEquivalence:
                 original_id = extract_id_from_staged_filename(staged_files[-1])
         
         # Step 2: Upload through refactored route
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         # Upload same file
         with page.expect_file_chooser() as fc_info:
@@ -227,8 +226,7 @@ class TestRefactoredVsOriginalEquivalence:
     def test_error_handling_equivalence_no_file(self, page: Page):
         """Test that both routes handle 'no file selected' error identically."""
         # Test original route
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         
         # Since there's no submit button, we need to trigger form submission differently
         # The form uses JavaScript to auto-submit when a file is selected, but we can test
@@ -265,8 +263,7 @@ class TestRefactoredVsOriginalEquivalence:
         
         try:
             # Test original route
-            page.goto(f"{BASE_URL}/upload_staged")
-            page.wait_for_load_state("networkidle")
+            navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
             
             # Use the hidden file input directly since it's not visible
             file_input = page.locator("input[type='file']")
@@ -284,8 +281,7 @@ class TestRefactoredVsOriginalEquivalence:
             page.wait_for_load_state("networkidle")
             
             # Test refactored route
-            page.goto(f"{BASE_URL}/upload_staged_refactored")
-            page.wait_for_load_state("networkidle")
+            navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
             
             # Use the hidden file input directly since it's not visible
             file_input = page.locator("input[type='file']")
@@ -310,8 +306,7 @@ class TestRefactoredVsOriginalEquivalence:
     def test_form_structure_equivalence(self, page: Page):
         """Test that both routes have identical form structure."""
         # Test original route form
-        page.goto(f"{BASE_URL}/upload_staged")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         
         original_form = page.locator("form")
         original_file_input = page.locator("input[type='file']")
@@ -325,8 +320,7 @@ class TestRefactoredVsOriginalEquivalence:
         assert "d-none" in original_file_input.get_attribute("class"), "File input should be hidden"
         
         # Test refactored route form
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         refactored_form = page.locator("form")
         refactored_file_input = page.locator("input[type='file']")
@@ -344,14 +338,12 @@ class TestRefactoredVsOriginalEquivalence:
         test_message = "Test%20message%20for%20equivalence"
         
         # Test original route with message
-        page.goto(f"{BASE_URL}/upload_staged/{test_message}")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged/{test_message}")
         
         original_html = page.content()
         
         # Test refactored route with message
-        page.goto(f"{BASE_URL}/upload_staged_refactored/{test_message}")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored/{test_message}")
         
         refactored_html = page.content()
         
@@ -369,8 +361,7 @@ class TestRefactoredRouteSpecificFeatures:
         # This would require creating test files that trigger different error scenarios
         # For now, we'll test the basic structure
         
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         # Check that the page loads correctly
         assert page.title() or page.content(), "Refactored route should load"
@@ -382,8 +373,7 @@ class TestRefactoredRouteSpecificFeatures:
     def test_refactored_route_navigation(self, page: Page):
         """Test that refactored route is accessible from navigation."""
         # Go to main page and check if refactored route is in navigation
-        page.goto(f"{BASE_URL}/")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/")
         
         # Look for refactored route in navigation
         refactored_link = page.locator("a[href*='upload_staged_refactored']")

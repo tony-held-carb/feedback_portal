@@ -18,6 +18,7 @@ from playwright.sync_api import Page, expect
 import re
 import os
 import conftest
+from e2e_helpers import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -83,8 +84,7 @@ def test_developer_utilities_menu_links_and_create_incidence(page: Page):
     E2E: Verify the Developer Utilities dropdown menu contains all expected items with valid hrefs.
     For 'Create Incidence' items, click and check dummy data as before.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     dev_dropdown = page.locator(".nav-link", has_text="Developer Utilities")
     dev_dropdown.click()
     dropdown_menu = page.locator(".dropdown-menu:visible").nth(-1)
@@ -118,8 +118,7 @@ def test_developer_utilities_menu_links_and_create_incidence(page: Page):
         assert date_pattern.search(page.content()), f"Expected a date (YYYY-MM-DD) in page content after clicking '{link_text}'."
         print(f"'{link_text}' navigated successfully to an incidence update page: {page.url} and all dummy data fields were found.")
         # Go back to main page for next menu item
-        page.goto(BASE_URL)
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, BASE_URL)
         dev_dropdown = page.locator(".nav-link", has_text="Developer Utilities")
         dev_dropdown.click()
         dropdown_menu = page.locator(".dropdown-menu:visible").nth(-1)
