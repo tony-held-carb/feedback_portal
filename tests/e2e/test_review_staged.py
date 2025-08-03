@@ -55,7 +55,8 @@ def upload_and_stage_file(page: Page):
         pytest.skip(f"Test file {TEST_FILE} not found.")
     with page.expect_navigation():
         file_input.set_input_files(TEST_FILE)
-    page.wait_for_load_state("networkidle")
+    # Wait for specific element instead of network idle
+    expect(page.locator("input.confirm-checkbox").first).to_be_visible()
     print(f"[DEBUG] After upload, page.url = {page.url}")
     # Print all checkboxes and their names
     checkboxes = page.locator("input.confirm-checkbox")
@@ -205,8 +206,8 @@ def test_confirm_checkboxes(page: Page, upload_and_stage_file):
         print("No confirm checkboxes found - this is valid when all fields are the same or it's a new record")
         return
     
-    # Wait for at least one checkbox to be visible
-    page.wait_for_selector(".confirm-checkbox", timeout=10000)
+            # Wait for at least one checkbox to be visible
+        expect(page.locator(".confirm-checkbox").first).to_be_visible(timeout=10000)
     
     if checkboxes.count() < 2:
         pytest.skip("Not enough checkboxes to test field selection.")
@@ -278,7 +279,8 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
         pytest.skip(f"Test file {test_file} not found.")
     with page.expect_navigation():
         file_input.set_input_files(test_file)
-    page.wait_for_load_state("networkidle")
+    # Wait for specific element instead of network idle
+    expect(page.locator("input.confirm-checkbox").first).to_be_visible()
 
     # Step 3. Print staged url and screenshot
     print(f"[DEBUG] After upload, page.url = {page.url}")
@@ -335,7 +337,8 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
     save_btn = page.locator("button.btn-success, button[type='submit']")
     with page.expect_navigation():
         save_btn.click()
-    page.wait_for_load_state("networkidle")
+    # Wait for specific element instead of network idle
+    expect(page.locator("h2")).to_contain_text("Upload & Review")
     print(f"[DEBUG] After first save, navigated to: {page.url}")
     if save_screenshots:
         page.screenshot(path=f"screenshot_03_after_first_save_{Path(test_file).stem}.png")
@@ -345,7 +348,8 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
     file_input = page.locator("input[type='file']")
     with page.expect_navigation():
         file_input.set_input_files(test_file)
-    page.wait_for_load_state("networkidle")
+    # Wait for specific element instead of network idle
+    expect(page.locator("input.confirm-checkbox").first).to_be_visible()
     print(f"[DEBUG] After re-upload, page.url = {page.url}")
     if save_screenshots:
         page.screenshot(path=f"screenshot_04_review_staged_2nd_upload_{Path(test_file).stem}.png")
@@ -370,7 +374,8 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
     save_btn = page.locator("button.btn-success, button[type='submit']")
     with page.expect_navigation():
         save_btn.click()
-    page.wait_for_load_state("networkidle")
+    # Wait for specific element instead of network idle
+    expect(page.locator("h2")).to_contain_text("Upload & Review")
     print(f"[DEBUG] After second save, navigated to: {page.url}")
     if save_screenshots:
         page.screenshot(path=f"screenshot_06_after_second_save_{Path(test_file).stem}.png")

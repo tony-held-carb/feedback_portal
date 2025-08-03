@@ -8,16 +8,16 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 ### ✅ Completed Work:
 - **UI Interaction Timeouts**: 10/10 instances replaced (Phase 1A - SUCCESSFUL)
 - **MEDIUM Risk networkidle**: 4/4 instances replaced with robust alternatives
-- **LOW Risk networkidle**: 91/91 instances replaced with E2E readiness marker
+- **LOW Risk networkidle**: 76/91 instances replaced with E2E readiness marker (15 remaining)
 - **Phase 1 wait_for_timeout with E2E readiness**: 27/27 instances attempted, 0/27 successful (REVERTED)
 
 ### 📈 Overall Progress:
 - **Total wait_for_timeout instances**: 44 total → 34 remaining (23% completed)
-- **Total networkidle instances**: 95 total → 0 remaining (100% completed)
+- **Total networkidle instances**: 95 total → 15 remaining (84% completed)
 - **Test suite status**: All tests passing (121 passed, 5 skipped, 0 failed)
 
 ### 📊 Progress Summary:
-- **Total networkidle instances**: 95/95 completed (100%)
+- **Total networkidle instances**: 80/95 completed (84% completed, 15 remaining)
 - **Total wait_for_timeout instances**: 34 remaining (34/44 = 23% completed)
 - **Overall test reliability**: Significantly improved with E2E readiness marker
 - **Test execution speed**: Improved with targeted waiting strategies
@@ -83,7 +83,7 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 - **UI Interaction Timeouts**: 10 instances - ✅ **COMPLETED** (Phase 1A - SUCCESSFUL)
   - All instances in `test_review_staged.py` replaced with element-specific assertions
 
-## Table 3. wait_for_load_state("networkidle") usages - ✅ ALL COMPLETED
+## Table 3. wait_for_load_state("networkidle") usages - 80/95 COMPLETED
 
 | File | Line | Context | Usage Pattern | Risk Level | Status |
 |------|------|---------|---------------|------------|--------|
@@ -184,8 +184,29 @@ This document provides a comprehensive analysis of all `wait_for_timeout` usages
 | `test_delete_testing_data.py` | 59 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_delete_testing_data.py` | 82 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
 | `test_delete_testing_data.py` | 113 | After page.goto() | Page load wait | **LOW** | ✅ **COMPLETED** - Replaced with E2E readiness marker + helper function |
+| `test_review_staged.py` | 57 | After file upload navigation | Post-upload wait | **MEDIUM** | **PENDING** - Needs element-specific wait |
+| `test_review_staged.py` | 280 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_review_staged.py` | 337 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_review_staged.py` | 347 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_review_staged.py` | 372 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_review_staged.py` | 382 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_refactored_vs_original_equivalence.py` | 245 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_refactored_vs_original_equivalence.py` | 275 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_refactored_vs_original_equivalence.py` | 280 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_refactored_vs_original_equivalence.py` | 293 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_javascript_logging.py` | 34 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_excel_upload_workflows.py` | 349 | After file upload | Post-upload wait | **MEDIUM** | **PENDING** - Needs element-specific wait |
+| `test_excel_upload_workflows.py` | 594 | After file upload | Post-upload wait | **MEDIUM** | **PENDING** - Needs element-specific wait |
+| `test_excel_upload_workflows.py` | 941 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_excel_upload_workflows.py` | 1005 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_excel_upload_workflows.py` | 1098 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_delete_testing_data.py` | 30 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_delete_testing_data.py` | 46 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_delete_testing_data.py` | 60 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_delete_testing_data.py` | 83 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
+| `test_delete_testing_data.py` | 114 | After page.goto() | Page load wait | **LOW** | **PENDING** - Needs E2E readiness marker |
 
-**Total: 95 instances (91 LOW risk + 4 MEDIUM risk) - ALL COMPLETED ✅**
+**Total: 95 instances (91 LOW risk + 4 MEDIUM risk) - 80 COMPLETED, 15 REMAINING**
 
 ### Analysis of wait_for_load_state("networkidle") Usage:
 

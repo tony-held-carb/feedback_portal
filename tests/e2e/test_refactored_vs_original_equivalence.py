@@ -242,8 +242,7 @@ class TestRefactoredVsOriginalEquivalence:
         assert file_input.get_attribute("required") == "", "File input should be required"
         
         # Test refactored route
-        page.goto(f"{BASE_URL}/upload_staged_refactored")
-        page.wait_for_load_state("networkidle")
+        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
         
         form = page.locator("form")
         file_input = page.locator("input[type='file']")
@@ -273,12 +272,11 @@ class TestRefactoredVsOriginalEquivalence:
                 file_input.set_input_files(str(invalid_file))
             
             # Wait for the page to be fully loaded after navigation
-            page.wait_for_load_state("networkidle")
+            expect(page.locator("h2")).to_be_visible()
             original_html = page.content()
             
             # Reset page state before testing refactored route
             page.goto("about:blank")
-            page.wait_for_load_state("networkidle")
             
             # Test refactored route
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
@@ -291,7 +289,7 @@ class TestRefactoredVsOriginalEquivalence:
                 file_input.set_input_files(str(invalid_file))
             
             # Wait for the page to be fully loaded after navigation
-            page.wait_for_load_state("networkidle")
+            expect(page.locator("h2")).to_be_visible()
             refactored_html = page.content()
             
             # Both should show some form of error

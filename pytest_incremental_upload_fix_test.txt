@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- C:\Users\tonyh\miniconda3\envs\mini_conda_02\python.exe
+cachedir: .pytest_cache
+rootdir: D:\local\cursor\feedback_portal
+configfile: pytest.ini
+plugins: anyio-4.7.0, asyncio-1.1.0, base-url-2.1.0, playwright-0.7.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 6 items / 5 deselected / 1 selected
+
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] PASSED [100%]
+
+======================= 1 passed, 5 deselected in 9.08s =======================

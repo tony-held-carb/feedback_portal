@@ -347,7 +347,7 @@ class TestExcelUpload:
         print(f"Testing upload with file size: {file_size} bytes")
         
         # Wait for any existing navigation to complete
-        upload_page.wait_for_load_state("networkidle")
+        expect(upload_page.locator("h2")).to_be_visible()
         
         upload_page.set_input_files("input[type='file']", file_path)
         upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
@@ -591,8 +591,7 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     This is your main guarantee that the database is being updated with the correct spreadsheet contents.
     """
     # Navigate to the upload page
-    upload_page.goto(f"{BASE_URL}/upload")
-    upload_page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(upload_page, f"{BASE_URL}/upload")
     # Upload file via UI
     file_input = upload_page.locator("input[type='file']")
     upload_page.set_input_files("input[type='file']", file_path)
@@ -939,7 +938,6 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
         confirm_btn.click()
     print(f"[STEP] Modal confirm clicked and navigation complete.")
     # 8. After reload, verify file is gone
-    page.wait_for_load_state("networkidle")
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
     print(f"[STEP] Staged file {staged_filename} successfully discarded and not present after reload.")

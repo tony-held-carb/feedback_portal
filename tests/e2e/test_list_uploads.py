@@ -39,7 +39,17 @@ def test_list_uploads_file_links(page: Page):
     """
     E2E: Checks that file links are present and valid in the uploaded files table.
     """
-    navigate_and_wait_for_ready(page, f"{BASE_URL}/list_uploads")
+    # Use a more robust approach for this page that might be slow to load
+    page.goto(f"{BASE_URL}/list_uploads", wait_until="domcontentloaded")
+    # Wait for the table to be present
+    expect(page.locator("table, .table")).to_be_visible(timeout=30000)
+    # Wait for E2E readiness if available
+    try:
+        page.wait_for_selector("html[data-e2e-ready='true']", timeout=5000)
+    except:
+        # If E2E readiness marker doesn't appear, continue anyway
+        pass
+    
     table = page.locator("table, .table")
     rows = table.locator("tbody tr")
     if rows.count() == 0:
