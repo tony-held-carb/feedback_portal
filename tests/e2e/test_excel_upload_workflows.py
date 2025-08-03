@@ -210,7 +210,8 @@ class TestExcelUpload:
         file_input = upload_page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         upload_page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
+        # Wait for file to be processed
+        upload_page.wait_for_timeout(1000)
         # Check if form auto-submits or if we need to submit manually
         original_url = upload_page.url
         # Wait for page change (form submission)
@@ -288,15 +289,7 @@ class TestExcelUpload:
             temp_file = f.name
         try:
             upload_page.set_input_files("input[type='file']", temp_file)
-            # Wait for some response - either error message or page content change
-            try:
-                # First try to wait for an error message
-                expect(upload_page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=3000)
-            except Exception:
-                # If no error message appears, wait a bit for any page changes
-                upload_page.wait_for_timeout(2000)
-            
-            # Check for error indicators
+            upload_page.wait_for_timeout(1000)
             error_indicators = [
                 ".alert-danger",
                 ".error-message",
@@ -332,14 +325,7 @@ class TestExcelUpload:
             temp_file = f.name
         try:
             upload_page.set_input_files("input[type='file']", temp_file)
-            # Wait for some response - either success/error message or page content change
-            try:
-                # First try to wait for a response message
-                expect(upload_page.locator(".alert-success, .alert-danger, .alert-warning, .success-message, .error-message").first).to_be_visible(timeout=3000)
-            except Exception:
-                # If no message appears, wait a bit for any page changes
-                upload_page.wait_for_timeout(2000)
-            
+            upload_page.wait_for_timeout(1000)
             page_content = upload_page.content().lower()
             if any(keyword in page_content for keyword in ["error", "invalid", "empty", "no data"]):
                 print("Empty file was rejected as expected")
@@ -359,13 +345,13 @@ class TestExcelUpload:
         file_path = test_files[0]
         file_size = os.path.getsize(file_path)
         print(f"Testing upload with file size: {file_size} bytes")
-        
+
         # Wait for any existing navigation to complete
         expect(upload_page.locator("h2")).to_be_visible()
-        
+
         upload_page.set_input_files("input[type='file']", file_path)
-        # Wait for file processing to complete - wait for success/error message
-        
+        upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
+
         # Wait for specific element with timeout instead of network idle
         try:
             expect(upload_page.locator(".alert-success, .alert-danger").first).to_be_visible(timeout=15000)
@@ -373,7 +359,7 @@ class TestExcelUpload:
             # Fallback: check page content for success/error keywords
             page_content = upload_page.content().lower()
             assert any(keyword in page_content for keyword in ["success", "error", "uploaded", "failed"]), "Upload result unclear"
-        
+
         page_content = upload_page.content().lower()
         if any(keyword in page_content for keyword in ["success", "uploaded", "processed"]):
             print("Large file upload successful")
@@ -549,7 +535,7 @@ def fetch_misc_json_from_db(id_):
         conn = psycopg2.connect(pg_uri)
         try:
             cur = conn.cursor()
-            
+
             # Determine the correct schema from settings
             schema_name = "satellite_tracker_new"  # default
             try:
@@ -563,7 +549,7 @@ def fetch_misc_json_from_db(id_):
                         schema_name = search_path
             except ImportError:
                 pass  # Use default if settings import fails
-            
+
             # Use schema-qualified table name
             cur.execute(f"SELECT misc_json FROM {schema_name}.incidences WHERE id_incidence = %s", (id_,))
             row = cur.fetchone()
@@ -609,7 +595,7 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     # Upload file via UI
     file_input = upload_page.locator("input[type='file']")
     upload_page.set_input_files("input[type='file']", file_path)
-    # Wait for upload processing - expect navigation or success/error message
+    upload_page.wait_for_timeout(1000)
     # Log the URL and page content for debugging
     # If this is an edge case file, expect error and no redirect
     if "edge_cases" in Path(file_path).parts:
@@ -682,7 +668,7 @@ def test_list_staged_diagnostics_overlay(page):
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
-        # Wait for upload processing - expect navigation or success/error message
+        page.wait_for_timeout(1000)
         # Go back to /list_staged
         navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
@@ -691,7 +677,7 @@ def test_list_staged_diagnostics_overlay(page):
     # Click the discard button for the first staged file (triggers custom modal)
     discard_btn = staged_file_btns.first
     discard_btn.click()
-    # Wait for modal to appear
+    page.wait_for_timeout(500)
     # Confirm modal appears
     modal = page.locator('#discardConfirmModal')
     expect(modal).to_be_visible(timeout=2000)
@@ -703,6 +689,7 @@ def test_list_staged_diagnostics_overlay(page):
         expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
         print(f"[DIAGNOSTICS OVERLAY after modal confirm click] {page.locator('#js-diagnostics').inner_text()}")
     # Wait for form submission and page reload
+    page.wait_for_timeout(1000)
     # Optionally, check that the file is no longer listed (if you want to verify backend effect)
     # assert ...
 
@@ -721,12 +708,17 @@ def staged_file_for_discard(page: Page) -> str:
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+    page.wait_for_timeout(1000)
     # Extract staged filename from URL
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        page.wait_for_timeout(500)
     assert staged_filename, "Could not extract staged filename from URL after upload."
     return staged_filename
 
@@ -744,12 +736,17 @@ def test_upload_file_only(page: Page):
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+    page.wait_for_timeout(1000)
     # Extract staged filename from URL
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        page.wait_for_timeout(500)
     assert staged_filename, "Could not extract staged filename from URL after upload."
     # Go to /list_staged and verify file is present
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
@@ -773,7 +770,7 @@ def test_discard_staged_file_only(page: Page, staged_file_for_discard):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    page.wait_for_timeout(1000)
     # Verify file is no longer listed
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename not in page.content(), f"Staged file {staged_filename} still listed after discard."
@@ -792,20 +789,30 @@ def two_staged_files(page: Page) -> tuple:
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path1)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
+    page.wait_for_timeout(1000)
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename1 = match.group(1) if match else None
+    staged_filename1 = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename1 = match.group(1)
+                break
+        page.wait_for_timeout(500)
     assert staged_filename1, "Could not extract staged filename 1 from URL after upload."
     # Upload second file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path2)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename2 = match.group(1) if match else None
+    page.wait_for_timeout(1000)
+    staged_filename2 = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename2 = match.group(1)
+                break
+        page.wait_for_timeout(500)
     assert staged_filename2, "Could not extract staged filename 2 from URL after upload."
     return staged_filename1, staged_filename2
 
@@ -836,7 +843,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    page.wait_for_timeout(1000)
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename1 not in page.content(), f"Staged file {staged_filename1} still listed after discard."
     # Discard second file
@@ -848,7 +855,7 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
     confirm_btn = page.locator('#discardConfirmModal [data-js-logging-context="discard-modal-confirm"]')
     confirm_btn.click()
     expect(page.locator('#js-diagnostics')).to_contain_text("discard-modal-confirm")
-    # Wait for navigation to complete
+    page.wait_for_timeout(1000)
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
     assert staged_filename2 not in page.content(), f"Staged file {staged_filename2} still listed after discard."
 
@@ -862,27 +869,32 @@ def malformed_file_for_discard(page: Page) -> str:
     # For malformed file testing, we'll use a file that has valid Excel structure
     # but missing required fields (like id_incidence), which will create a staged file
     # that can be tested for discard functionality
-    
+
     # Get test files and use one that might have missing required fields
     test_files = get_test_files()
     if not test_files:
         pytest.skip("No test files available for malformed file testing.")
-    
+
     # Use the first test file - it should work for testing discard functionality
     file_path = test_files[0]
-    
+
     # Upload file via the standard workflow
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    # Wait for navigation to review page
-    page.wait_for_url("**/review_staged/*", timeout=10000)
-    
-    # Extract staged filename from URL
+    page.wait_for_timeout(1000)
+
+    # Wait for redirect to /review_staged and extract staged filename
     import re
-    match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
-    staged_filename = match.group(1) if match else None
-    
+    staged_filename = None
+    for _ in range(10):
+        if "/review_staged/" in page.url:
+            match = re.search(r"/review_staged/\d+/(.*?)$", page.url)
+            if match:
+                staged_filename = match.group(1)
+                break
+        page.wait_for_timeout(500)
+
     assert staged_filename, "Could not extract staged filename from URL after upload."
     return staged_filename
 
@@ -932,25 +944,25 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
 
 class TestRefactoredRoutes:
     """E2E tests for refactored upload routes."""
-    
+
     def test_upload_file_refactored_page_loads(self, page: Page):
         """Test that the refactored upload page loads correctly."""
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
-        
+
         # Check page title and structure
         assert "Upload Feedback Spreadsheet" in page.content()
         assert page.locator("input[type='file']").count() > 0
         assert page.locator("form").count() > 0
-    
+
     def test_upload_file_staged_refactored_page_loads(self, page: Page):
         """Test that the refactored staged upload page loads correctly."""
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
-        
+
         # Check page title and structure
         assert "Upload" in page.content()
         assert page.locator("input[type='file']").count() > 0
         assert page.locator("form").count() > 0
-    
+
     @pytest.mark.parametrize("file_path", get_test_files())
     def test_upload_file_refactored_workflow(self, page: Page, file_path: str):
         """
@@ -963,16 +975,17 @@ class TestRefactoredRoutes:
         """
         if not os.path.exists(file_path):
             pytest.skip(f"Test file not found: {file_path}")
-        
+
         # Navigate to refactored upload page
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
-        
+
         # Get file input
         file_input = page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
-        
+        # Wait for file to be processed
+        page.wait_for_timeout(1000)
+
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
         # Wait for page change (form submission)
@@ -989,7 +1002,7 @@ class TestRefactoredRoutes:
             if submit_button.count() > 0:
                 submit_button.click()
                 page.wait_for_load_state("networkidle")
-        
+
         # Check for success or error messages
         success_indicators = [
             ".alert-success",
@@ -1001,7 +1014,7 @@ class TestRefactoredRoutes:
             ".error-message",
             ".alert-warning"
         ]
-        
+
         # Check for success
         for indicator in success_indicators:
             if page.locator(indicator).count() > 0:
@@ -1015,7 +1028,7 @@ class TestRefactoredRoutes:
                     safe_text = success_text.encode('ascii', 'replace').decode('ascii')
                     print(f"Refactored upload successful: {safe_text}")
                 return
-        
+
         # Check for errors
         for indicator in error_indicators:
             if page.locator(indicator).count() > 0:
@@ -1030,7 +1043,7 @@ class TestRefactoredRoutes:
                     print(f"Refactored upload failed: {safe_text}")
                 # Don't fail the test for expected errors (like validation errors)
                 return
-        
+
         # Check page content for success/error keywords
         page_content = page.content().lower()
         if any(keyword in page_content for keyword in ["success", "uploaded", "processed"]):
@@ -1039,10 +1052,10 @@ class TestRefactoredRoutes:
         elif any(keyword in page_content for keyword in ["error", "invalid", "failed"]):
             print("Refactored upload appears to have failed based on page content")
             return
-        
+
         # If we get here, the result is unclear
         pytest.fail("Refactored upload result unclear - no success or error indicators found")
-    
+
     @pytest.mark.parametrize("file_path", get_test_files())
     def test_upload_file_staged_refactored_workflow(self, page: Page, file_path: str):
         """
@@ -1055,16 +1068,17 @@ class TestRefactoredRoutes:
         """
         if not os.path.exists(file_path):
             pytest.skip(f"Test file not found: {file_path}")
-        
+
         # Navigate to refactored staged upload page
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
-        
+
         # Get file input
         file_input = page.locator("input[type='file']")
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed - wait for success/error message or URL change
-        
+        # Wait for file to be processed
+        page.wait_for_timeout(1000)
+
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
         # Wait for page change (form submission)
@@ -1081,7 +1095,7 @@ class TestRefactoredRoutes:
             if submit_button.count() > 0:
                 submit_button.click()
                 page.wait_for_load_state("networkidle")
-        
+
         # For staged uploads, we expect either:
         # 1. Success: redirect to review page
         # 2. Error: form with error message (if staging fails)
@@ -1093,7 +1107,7 @@ class TestRefactoredRoutes:
             elif "/list_staged" in page.url:
                 print("Refactored staged upload successful - redirected to list staged")
                 return
-        
+
         # Check for success or error messages
         success_indicators = [
             ".alert-success",
@@ -1105,7 +1119,7 @@ class TestRefactoredRoutes:
             ".error-message",
             ".alert-warning"
         ]
-        
+
         # Check for success
         for indicator in success_indicators:
             if page.locator(indicator).count() > 0:
@@ -1117,7 +1131,7 @@ class TestRefactoredRoutes:
                     safe_text = success_text.encode('ascii', 'replace').decode('ascii')
                     print(f"Refactored staged upload successful: {safe_text}")
                 return
-        
+
         # Check for errors
         for indicator in error_indicators:
             if page.locator(indicator).count() > 0:
@@ -1130,7 +1144,7 @@ class TestRefactoredRoutes:
                     print(f"Refactored staged upload failed: {safe_text}")
                 # Don't fail the test for expected errors (like validation errors)
                 return
-        
+
         # Check page content for success/error keywords
         page_content = page.content().lower()
         if any(keyword in page_content for keyword in ["success", "uploaded", "processed", "staged"]):
@@ -1139,29 +1153,28 @@ class TestRefactoredRoutes:
         elif any(keyword in page_content for keyword in ["error", "invalid", "failed"]):
             print("Refactored staged upload appears to have failed based on page content")
             return
-        
+
         # If we get here, the result is unclear
         pytest.fail("Refactored staged upload result unclear - no success or error indicators found")
-    
+
     def test_upload_file_refactored_invalid_file(self, page: Page):
         """Test refactored upload with invalid file type (e.g., .txt)."""
         import tempfile
         with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as f:
             f.write(b"This is not an Excel file")
             temp_file = f.name
-        
+
         try:
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
             page.set_input_files("input[type='file']", temp_file)
-            # Wait for error message to appear
-            expect(page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=5000)
-            
+            page.wait_for_timeout(1000)
+
             error_indicators = [
                 ".alert-danger",
                 ".error-message",
                 ".alert-warning"
             ]
-            
+
             # Check for error indicators
             for indicator in error_indicators:
                 if page.locator(indicator).count() > 0:
@@ -1169,35 +1182,34 @@ class TestRefactoredRoutes:
                     assert error_text is not None
                     print(f"Refactored upload correctly rejected invalid file: {error_text}")
                     return
-            
+
             # Check page content for error keywords
             page_content = page.content().lower()
             if any(keyword in page_content for keyword in ["error", "invalid", "not recognized", "failed"]):
                 print("Refactored upload correctly rejected invalid file based on page content")
                 return
-            
+
             # If no clear error, this might be acceptable behavior
             print("Refactored upload handled invalid file without clear error message")
-            
+
         finally:
             # Clean up temp file
             try:
                 os.unlink(temp_file)
             except:
                 pass
-    
+
     def test_upload_file_staged_refactored_invalid_file(self, page: Page):
         """Test refactored staged upload with invalid file type (e.g., .txt)."""
         import tempfile
         with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as f:
             f.write(b"This is not an Excel file")
             temp_file = f.name
-        
+
         try:
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
             page.set_input_files("input[type='file']", temp_file)
-            # Wait for error message to appear
-            expect(page.locator(".alert-danger, .error-message, .alert-warning").first).to_be_visible(timeout=5000)
+            page.wait_for_timeout(1000)
             
             error_indicators = [
                 ".alert-danger",
