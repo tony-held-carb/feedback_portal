@@ -2065,3 +2065,4 @@ sometimes cursor does not realize that a pytest has completed and hangs.  on pos
 prior to your pytest command.  do you think the following will work?  if so, lets run it and see.
 
 winpty pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
+pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt

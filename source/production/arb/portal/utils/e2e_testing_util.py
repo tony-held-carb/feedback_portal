@@ -1,9 +1,14 @@
 """
-E2E Testing Helper Functions
+E2E Testing Utility Functions
 ============================
 
-This module contains shared helper functions for end-to-end testing with Playwright.
+This module contains shared utility functions for end-to-end testing with Playwright.
 These functions provide consistent, reliable patterns for common E2E testing operations.
+
+Part of the arb.portal.utils package for general-purpose testing utilities.
+
+These utilities are designed to work with the custom E2E readiness marker system
+implemented in the feedback portal application.
 """
 
 from playwright.sync_api import Page

@@ -18,7 +18,7 @@ from playwright.sync_api import Page, expect
 import re
 import os
 import conftest
-from e2e_helpers import navigate_and_wait_for_ready
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)

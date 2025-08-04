@@ -1,12 +1,14 @@
 """
-upload_helpers.py
------------------
+Playwright Testing Utility Functions
+===================================
 
 General-purpose Playwright helpers for robust testing of file upload workflows in web applications.
 
 These functions help ensure that file uploads are handled and verified reliably without using
 fragile time-based waits like `page.wait_for_timeout(...)`. Instead, they detect visible feedback
 messages in the DOM to confirm whether an upload succeeded, failed, or was rejected.
+
+Part of the arb.portal.utils package for general-purpose testing utilities.
 
 The current helper functions assume that the file upload does not change the route 
 (i.e., the browser stays on the same page) after the upload process.
@@ -59,7 +61,6 @@ Typical usage flow:
 
 These helpers are compatible with Bootstrap-style alerts and can be extended to support modals,
 toasts, or custom feedback containers if needed.
-
 """
 from playwright.sync_api import Page, expect
 
@@ -218,4 +219,4 @@ def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
   """
   expect(
     page.locator(".upload-marker[data-upload-attempted='true']")
-  ).to_have_count(1, timeout=timeout)
+  ).to_have_count(1, timeout=timeout) 

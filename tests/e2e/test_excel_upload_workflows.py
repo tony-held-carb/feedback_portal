@@ -64,8 +64,8 @@ import conftest
 import pytest
 from playwright.sync_api import expect
 import os
-from e2e_helpers import navigate_and_wait_for_ready
-from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker, wait_for_upload_attempt_marker
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
+from arb.portal.utils.playwright_testing_util import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker, wait_for_upload_attempt_marker
 
 
 # Test configuration - can be overridden by environment variables

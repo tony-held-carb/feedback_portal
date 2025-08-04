@@ -28,7 +28,7 @@ import psycopg2
 import warnings
 import conftest
 from datetime import datetime
-from e2e_helpers import navigate_and_wait_for_ready
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)

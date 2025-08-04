@@ -46,7 +46,7 @@ import time
 from playwright.sync_api import sync_playwright
 import conftest
 import os
-from e2e_helpers import navigate_and_wait_for_ready
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 
 
