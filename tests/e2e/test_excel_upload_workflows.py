@@ -746,10 +746,11 @@ def staged_file_for_discard(page: Page) -> str:
     # Upload file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
 
+    # Clear any existing markers before upload
+    clear_upload_attempt_marker(page)
     # Upload file using Playwright's set_input_files
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    clear_upload_attempt_marker(page)
     # Wait for the upload attempt marker to appear (may be on redirected page)
     wait_for_upload_attempt_marker(page)
 
@@ -779,10 +780,11 @@ def test_upload_file_only(page: Page):
     # Upload file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
 
+    # Clear any existing markers before upload
+    clear_upload_attempt_marker(page)
     # Upload file using Playwright's set_input_files
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    clear_upload_attempt_marker(page)
     # Wait for the upload attempt marker to appear (may be on redirected page)
     wait_for_upload_attempt_marker(page)
 
