@@ -63,16 +63,62 @@ toasts, or custom feedback containers if needed.
 """
 from playwright.sync_api import Page, expect
 
+def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
+  """
+  Waits for a hidden DOM element that signals a file upload was attempted.
+
+  This element is injected by the server when Flask flashes an internal marker.
+  It allows tests to verify that a file was uploaded (regardless of success/failure)
+  without relying on visible alerts or user-facing DOM changes.
+
+  Args:
+    page (Page): The Playwright Page object.
+    timeout (int): How long to wait for the marker (in ms). Default is 7000.
+
+  Raises:
+    TimeoutError: If the marker is not found within the timeout window.
+  """
+  expect(
+    page.locator(".upload-marker[data-upload-attempted='true']")
+  ).to_have_count(1, timeout=timeout)
+
 # Constants for feedback message selectors
 UPLOAD_FEEDBACK_SELECTOR = (
   ".alert-success, .alert-danger, .alert-warning, .success-message, .error-message"
 )
+
+UPLOAD_ATTEMPT_MARKER_SELECTOR = ".upload-marker[data-upload-attempted='true']"
 
 CLEAR_ALERTS_JS = """
   document.querySelectorAll(
     '.alert-success, .alert-danger, .alert-warning, .success-message, .error-message'
   ).forEach(el => el.remove());
 """
+
+CLEAR_UPLOAD_MARKER_JS = """
+  document.querySelectorAll('.upload-marker[data-upload-attempted="true"]')
+    .forEach(el => el.remove());
+"""
+
+def clear_upload_attempt_marker(page: Page) -> None:
+  """
+  Remove the hidden upload-attempt marker from the DOM before a new file upload.
+
+  This is useful when testing multiple uploads in the same session to ensure that
+  old markers do not interfere with new assertions.
+
+  The marker is a non-visual DOM element added by the Flask server to indicate
+  that a file upload was attempted (regardless of success or failure).
+
+  Args:
+    page (Page): The current Playwright page instance.
+
+  Example:
+    >>> clear_upload_attempt_marker(page)
+  """
+  print("clear_upload_attempt_marker() called")
+  page.evaluate(CLEAR_UPLOAD_MARKER_JS)
+
 
 def clear_upload_feedback_alerts(page: Page) -> None:
   """
@@ -87,6 +133,8 @@ def clear_upload_feedback_alerts(page: Page) -> None:
   Example:
     >>> clear_upload_feedback_alerts(page)
   """
+  print("clear_upload_feedback_alerts() called")
+
   page.evaluate(CLEAR_ALERTS_JS)
 
 
@@ -116,3 +164,58 @@ def upload_file_and_wait_for_feedback(page: Page, file_path: str, timeout: int =
   expect(
     page.locator(UPLOAD_FEEDBACK_SELECTOR).first
   ).to_be_visible(timeout=timeout)
+
+
+def upload_file_and_wait_for_attempt_marker(page: Page, file_path: str, timeout: int = 10000) -> None:
+  """
+  Upload a file and wait for the hidden DOM marker that indicates an upload attempt occurred.
+
+  This function sets a file into an <input type="file"> field, then waits for a hidden element
+  (e.g., <div class="upload-marker" data-upload-attempted="true" style="display: none;">)
+  to appear in the DOM. This marker is flashed by the Flask backend and persists across redirects.
+
+  It does NOT require a visible success or error message and is useful for testing upload
+  mechanics regardless of outcome.
+
+  Args:
+    page (Page): The current Playwright page instance.
+    file_path (str): The path to the file to be uploaded.
+    timeout (int): Max time in milliseconds to wait for marker (default 10 seconds).
+
+  Example:
+    >>> clear_upload_attempt_marker(page)
+    >>> upload_file_and_wait_for_attempt_marker(page, "data/upload.xlsx")
+
+  Raises:
+    AssertionError if the marker is not found within the timeout.
+  """
+  print("upload_file_and_wait_for_attempt_marker() called")
+
+  page.set_input_files("input[type='file']", file_path)
+
+  expect(
+    page.locator(UPLOAD_ATTEMPT_MARKER_SELECTOR)
+  ).to_have_count(1, timeout=timeout)
+
+
+def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
+  """
+  Waits for a hidden DOM element that signals a file upload was attempted.
+
+  This element is injected by the server when Flask flashes an internal marker.
+  It allows tests to verify that a file was uploaded (regardless of success/failure)
+  without relying on visible alerts or user-facing DOM changes.
+
+  Args:
+    page (Page): The Playwright Page object.
+    timeout (int): How long to wait for the marker (in ms). Default is 7000.
+
+  Raises:
+    TimeoutError: If the marker is not found within the timeout window.
+
+  Usage:
+    flash("_upload_attempted", "internal-marker")  # 🔐 Hidden marker for E2E testing
+  """
+  expect(
+    page.locator(".upload-marker[data-upload-attempted='true']")
+  ).to_have_count(1, timeout=timeout)

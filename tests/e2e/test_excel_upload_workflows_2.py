@@ -65,7 +65,8 @@ import pytest
 from playwright.sync_api import expect
 import os
 from e2e_helpers import navigate_and_wait_for_ready
-from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback
+from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker
+
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -209,10 +210,15 @@ class TestExcelUpload:
             pytest.skip(f"Test file not found: {file_path}")
         # Get file input
         file_input = upload_page.locator("input[type='file']")
+
+
         # Upload file using Playwright's set_input_files
         upload_page.set_input_files("input[type='file']", file_path)
         # Wait for file to be processed
         upload_page.wait_for_timeout(1000)
+
+
+
         # Check if form auto-submits or if we need to submit manually
         original_url = upload_page.url
         # Wait for page change (form submission)
@@ -294,24 +300,29 @@ class TestExcelUpload:
 
             # new code that we replaced that did not use helper functions
             # Clear any stale alerts from previous test steps
-            upload_page.evaluate("""
-                document.querySelectorAll(
-                '.alert-success, .alert-danger, .alert-warning, .success-message, .error-message'
-                ).forEach(el => el.remove());
-            """)
+            # upload_page.evaluate("""
+            #     document.querySelectorAll(
+            #     '.alert-success, .alert-danger, .alert-warning, .success-message, .error-message'
+            #     ).forEach(el => el.remove());
+            # """)
 
-            upload_page.set_input_files("input[type='file']", temp_file)
+            # upload_page.set_input_files("input[type='file']", temp_file)
 
-            # Wait for any new alert (error/success/warning) to become visible
-            expect(
-            upload_page.locator(
-                ".alert-success, .alert-danger, .alert-warning, .success-message, .error-message"
-            ).first
-            ).to_be_visible(timeout=10000)
+            # # Wait for any new alert (error/success/warning) to become visible
+            # expect(
+            # upload_page.locator(
+            #     ".alert-success, .alert-danger, .alert-warning, .success-message, .error-message"
+            # ).first
+            # ).to_be_visible(timeout=10000)
 
             # new code that we replaced that used helper functions
             # clear_upload_feedback_alerts(upload_page)
             # upload_file_and_wait_for_feedback(upload_page, temp_file)
+
+            print("about to call: clear_upload_attempt_marker(upload_page)")
+            clear_upload_attempt_marker(upload_page)
+            print("about to call: upload_file_and_wait_for_attempt_marker(upload_page, temp_file)")
+            upload_file_and_wait_for_attempt_marker(upload_page, temp_file)
 
             error_indicators = [
                 ".alert-danger",

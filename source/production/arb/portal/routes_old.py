@@ -347,6 +347,7 @@ def list_staged() -> ResponseReturnValue:
   # Always pass both variables, even if empty
   return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
 
+
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
 def upload_file(message: str | None = None) -> Union[str, Response]:
@@ -384,7 +385,6 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 
       if not request_file or not request_file.filename:
         logger.warning("POST received with no file selected.")
-        flash("_upload_attempted", "internal-marker")
         return render_template(
           'upload.html',
           form=form,
@@ -398,13 +398,12 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 
       if id_:
         logger.debug(f"Upload successful: id={id_}, sector={sector}. Redirecting to update page.")
-        flash("_upload_attempted", "internal-marker")
         return redirect(url_for('main.incidence_update', id_=id_))
 
       # If id_ is None, check if likely blocked due to missing/invalid id_incidence
       if file_path and (file_path.exists() if hasattr(file_path, 'exists') else True):
+        # Check log message or just show the message if id_ is None
         logger.warning(f"Upload blocked: missing or invalid id_incidence in {file_path.name}")
-        flash("_upload_attempted", "internal-marker")
         return render_template(
           'upload.html',
           form=form,
@@ -419,7 +418,6 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
       error_details = generate_upload_diagnostics(request_file, file_path)
       detailed_message = format_diagnostic_message(error_details,
                                                    "Uploaded file format not recognized.")
-      flash("_upload_attempted", "internal-marker")
       return render_template(
         'upload.html',
         form=form,
@@ -429,12 +427,11 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
     except Exception as e:
       logger.exception("Exception occurred during upload or parsing.")
 
-      error_details = generate_upload_diagnostics(
-        request_file,
-        file_path if 'file_path' in locals() else None
-      )
+      # Enhanced error handling with diagnostic information
+      error_details = generate_upload_diagnostics(request_file,
+                                                  file_path if 'file_path' in locals() else None)
       detailed_message = format_diagnostic_message(error_details)
-      flash("_upload_attempted", "internal-marker")
+
       return render_template(
         'upload.html',
         form=form,
