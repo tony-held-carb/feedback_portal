@@ -2,18 +2,20 @@
 
 ## Overview
 
-This document provides a comprehensive guide to E2E testing with Playwright for the ARB Feedback Portal. It consolidates all proven strategies, best practices, and working patterns from our testing experience.
+This document provides a comprehensive guide to E2E testing with Playwright for the ARB Feedback Portal. It consolidates all proven strategies, best practices, and working patterns from our testing experience, including our custom DOM marker synchronization system.
 
 ## Table of Contents
 
 1. [Core Testing Strategy](#core-testing-strategy)
 2. [E2E Readiness Marker System](#e2e-readiness-marker-system)
-3. [Waiting Strategies](#waiting-strategies)
-4. [Test Structure and Patterns](#test-structure-and-patterns)
-5. [Setup and Configuration](#setup-and-configuration)
-6. [Running Tests](#running-tests)
-7. [Troubleshooting](#troubleshooting)
-8. [Best Practices](#best-practices)
+3. [DOM Marker Synchronization System](#dom-marker-synchronization-system)
+4. [Waiting Strategies](#waiting-strategies)
+5. [Test Structure and Patterns](#test-structure-and-patterns)
+6. [Setup and Configuration](#setup-and-configuration)
+7. [Running Tests](#running-tests)
+8. [Troubleshooting](#troubleshooting)
+9. [Best Practices](#best-practices)
+10. [File Upload Testing](#file-upload-testing)
 
 ---
 
@@ -24,6 +26,7 @@ This document provides a comprehensive guide to E2E testing with Playwright for 
 - **Explicit synchronization**: Use Playwright's waiting tools to avoid flakiness
 - **Robust patterns**: Replace arbitrary timeouts with element-specific assertions
 - **Maintainable code**: Follow consistent patterns across all tests
+- **DOM marker synchronization**: Use custom markers for reliable file upload testing
 
 ### Test Types
 1. **Unit Tests**: Individual functions and modules (`tests/arb/`)
@@ -35,12 +38,21 @@ This document provides a comprehensive guide to E2E testing with Playwright for 
 ## E2E Readiness Marker System
 
 ### Overview
-Our project uses a custom E2E readiness marker system to ensure pages are fully loaded before interaction.
+Our project uses a custom E2E readiness marker system to ensure pages are fully loaded before interaction. This system provides a unified readiness signal that layers multiple browser events.
 
 ### Implementation
-1. **JavaScript File**: `static/js/e2e_testing_related.js`
-2. **Jinja Include**: `templates/includes/e2e_testing_related.jinja`
-3. **Helper Functions**: `tests/e2e/e2e_helpers.py`
+1. **JavaScript File**: `source/production/arb/portal/static/js/e2e_testing_related.js`
+2. **Jinja Include**: `source/production/arb/portal/templates/includes/e2e_testing_related.jinja`
+3. **Helper Functions**: `source/production/arb/portal/utils/e2e_testing_util.py`
+
+### How It Works
+The E2E readiness system uses a layered approach:
+```
+window.onload
+  ↳ requestAnimationFrame (wait for next paint frame)
+    ↳ requestIdleCallback (wait for JS to finish initializing)
+      ↳ SET ATTRIBUTE: <html data-e2e-ready="true">
+```
 
 ### Helper Functions
 ```python
@@ -66,6 +78,7 @@ page.goto(f"{BASE_URL}/upload_staged")
 page.wait_for_load_state("networkidle")
 
 # Use:
+from source.production.arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
 ```
 
@@ -73,6 +86,114 @@ navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
 - **File upload scenarios**: Page navigation destroys execution context
 - **Immediate redirects**: Page reloads before marker can be set
 - **Dynamic content**: Content that loads after initial page render
+
+---
+
+## DOM Marker Synchronization System
+
+### Overview
+Our custom DOM marker synchronization system provides reliable file upload testing by using hidden DOM elements as synchronization points. This system eliminates the need for arbitrary `wait_for_timeout` calls.
+
+### Core Components
+
+#### 1. Flask Backend Integration
+```python
+# In Flask routes (source/production/arb/portal/routes.py)
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # ... file processing logic ...
+        flash("_upload_attempted", "internal-marker")  # Creates DOM marker
+        return redirect(url_for('main.review_staged'))
+```
+
+#### 2. Jinja Template Rendering
+```html
+<!-- In flash_messaging.jinja -->
+{% if category == "internal-marker" %}
+  <div class="upload-marker" data-upload-attempted="true" style="display: none;"></div>
+{% endif %}
+```
+
+#### 3. Helper Functions
+```python
+# In source/production/arb/portal/utils/playwright_testing_util.py
+
+def wait_for_upload_attempt_marker(page: Page, timeout: int = 10000) -> None:
+    """Wait for the upload attempt marker to appear in the DOM."""
+    try:
+        page.wait_for_selector(".upload-marker[data-upload-attempted='true']", timeout=timeout)
+    except TimeoutError:
+        print(f"❌ Upload attempt marker not found on {page.url}")
+        page.screenshot(path="debug_upload_marker_timeout.png", full_page=True)
+        raise
+
+def clear_upload_attempt_marker(page: Page) -> None:
+    """Remove any existing upload attempt markers from the DOM."""
+    try:
+        page.evaluate("""
+            document.querySelectorAll('.upload-marker[data-upload-attempted="true"]')
+                .forEach(el => el.remove());
+        """)
+    except Exception as e:
+        print(f"⚠️ Could not clear upload markers: {e}")
+
+def upload_file_and_wait_for_attempt_marker(page: Page, file_path: str) -> None:
+    """Upload a file and wait for the upload attempt marker to appear."""
+    clear_upload_attempt_marker(page)
+    page.set_input_files("input[type='file']", file_path)
+    wait_for_upload_attempt_marker(page)
+```
+
+### Decision Framework: Which Helper to Use
+
+#### Use `upload_file_and_wait_for_attempt_marker` when:
+- You need to upload a file AND wait for the marker
+- The page doesn't navigate immediately after upload
+- You want a single function call for the complete operation
+
+```python
+# Example: Upload form that shows success/error messages
+upload_file_and_wait_for_attempt_marker(page, file_path)
+expect(page.locator(".alert-success, .alert-danger")).to_be_visible()
+```
+
+#### Use `wait_for_upload_attempt_marker` when:
+- `page.set_input_files` causes immediate page navigation
+- You need to handle the upload and wait separately
+- The execution context might be destroyed by navigation
+
+```python
+# Example: Upload that triggers immediate redirect
+clear_upload_attempt_marker(page)
+file_input = page.locator("input[type='file']")
+file_input.set_input_files(file_path)
+# Page navigates here, destroying execution context
+wait_for_upload_attempt_marker(page)  # Wait on new page
+```
+
+### Multiple File Upload Scenarios
+
+#### Current Limitations
+- The marker system is designed for single file uploads
+- Multiple sequential uploads may cause marker conflicts
+- Each upload attempt creates a new marker
+
+#### Recommended Pattern for Multiple Files
+```python
+# For multiple files, clear markers between uploads
+for file_path in [file_path1, file_path2]:
+    clear_upload_attempt_marker(page)
+    file_input = page.locator("input[type='file']")
+    file_input.set_input_files(file_path)
+    wait_for_upload_attempt_marker(page)
+```
+
+### Portal Behavior with Multiple Files
+- The portal processes one file at a time
+- Each file upload attempt creates a new marker
+- Subsequent uploads may overwrite previous markers
+- The system is designed for single-file workflows
 
 ---
 
@@ -110,6 +231,15 @@ with page.expect_response("**/api/endpoint"):
     submit_btn.click()
 ```
 
+#### 4. DOM Marker Waits
+```python
+# For file upload synchronization
+wait_for_upload_attempt_marker(page)
+
+# For E2E readiness
+wait_for_e2e_readiness(page)
+```
+
 ### ❌ Avoid These Patterns
 
 #### 1. Arbitrary Timeouts
@@ -117,8 +247,8 @@ with page.expect_response("**/api/endpoint"):
 # DON'T: Use arbitrary timeouts
 page.wait_for_timeout(1000)
 
-# DO: Wait for specific elements
-expect(page.locator("table tbody tr")).to_be_visible()
+# DO: Wait for specific elements or markers
+wait_for_upload_attempt_marker(page)
 ```
 
 #### 2. Network Idle (Problematic)
@@ -157,14 +287,19 @@ apply_btn.click()
 expect(page.locator("table tbody tr").first).to_be_visible()
 ```
 
-#### File Uploads
+#### File Uploads with Navigation
 ```python
-# For file uploads that trigger navigation
-with page.expect_navigation():
-    upload_page.set_input_files(file_path)
+# For file uploads that trigger immediate navigation
+clear_upload_attempt_marker(page)
+file_input = page.locator("input[type='file']")
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)  # Wait on redirected page
+```
 
+#### File Uploads with Messages
+```python
 # For file uploads that show success/error messages
-upload_page.set_input_files(file_path)
+upload_file_and_wait_for_attempt_marker(page, file_path)
 expect(page.locator(".alert-success, .alert-danger")).to_be_visible()
 ```
 
@@ -181,13 +316,125 @@ expect(page.locator(".success-message")).to_be_visible()
 
 ---
 
+## File Upload Testing
+
+### Overview
+File upload testing requires special handling due to page navigation and execution context destruction. Our marker system provides reliable synchronization for these scenarios.
+
+### Common Patterns
+
+#### 1. Single File Upload (No Navigation)
+```python
+def test_upload_file_with_feedback(page: Page, file_path: str):
+    """Upload file and wait for feedback message."""
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload")
+    
+    upload_file_and_wait_for_attempt_marker(page, file_path)
+    expect(page.locator(".alert-success, .alert-danger")).to_be_visible()
+```
+
+#### 2. Single File Upload (With Navigation)
+```python
+def test_upload_file_with_redirect(page: Page, file_path: str):
+    """Upload file and handle page redirect."""
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+    
+    # Clear markers before upload
+    clear_upload_attempt_marker(page)
+    file_input = page.locator("input[type='file']")
+    file_input.set_input_files(file_path)
+    # Page navigates here, destroying execution context
+    wait_for_upload_attempt_marker(page)  # Wait on new page
+```
+
+#### 3. Multiple File Upload
+```python
+def test_multiple_file_upload(page: Page, file_paths: List[str]):
+    """Upload multiple files sequentially."""
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+    
+    for file_path in file_paths:
+        clear_upload_attempt_marker(page)
+        file_input = page.locator("input[type='file']")
+        file_input.set_input_files(file_path)
+        wait_for_upload_attempt_marker(page)
+```
+
+### Fixture Patterns
+
+#### Staged File Fixture
+```python
+@pytest.fixture
+def staged_file_for_discard(page: Page) -> str:
+    """Create a staged file for discard testing."""
+    file_path = create_test_file()
+    
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+    # Clear any existing markers before upload
+    clear_upload_attempt_marker(page)
+    # Upload file using Playwright's set_input_files
+    file_input = page.locator("input[type='file']")
+    file_input.set_input_files(file_path)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
+    
+    return file_path
+```
+
+### Common Pitfalls
+
+#### 1. Execution Context Destroyed
+```python
+# ❌ WRONG: Clear marker after navigation
+file_input.set_input_files(file_path)
+clear_upload_attempt_marker(page)  # Page already navigated!
+
+# ✅ CORRECT: Clear marker before navigation
+clear_upload_attempt_marker(page)
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)
+```
+
+#### 2. Stale Markers
+```python
+# ❌ WRONG: Don't clear previous markers
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)  # May find old marker
+
+# ✅ CORRECT: Clear markers before upload
+clear_upload_attempt_marker(page)
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)
+```
+
+#### 3. Multiple File Conflicts
+```python
+# ❌ WRONG: Upload multiple files without clearing markers
+for file_path in file_paths:
+    file_input.set_input_files(file_path)
+    wait_for_upload_attempt_marker(page)
+
+# ✅ CORRECT: Clear markers between uploads
+for file_path in file_paths:
+    clear_upload_attempt_marker(page)
+    file_input.set_input_files(file_path)
+    wait_for_upload_attempt_marker(page)
+```
+
+---
+
 ## Test Structure and Patterns
 
 ### Basic Test Template
 ```python
 import pytest
 from playwright.sync_api import Page, expect
-from e2e_helpers import navigate_and_wait_for_ready
+from source.production.arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
+from source.production.arb.portal.utils.playwright_testing_util import (
+    upload_file_and_wait_for_attempt_marker,
+    wait_for_upload_attempt_marker,
+    clear_upload_attempt_marker
+)
 
 @pytest.mark.e2e
 def test_example_functionality(page: Page):
@@ -216,8 +463,11 @@ tests/e2e/
 ├── test_javascript_logging.py        # JS diagnostics
 ├── test_homepage.py                  # Homepage functionality
 ├── test_list_uploads.py              # Upload listing
-├── e2e_helpers.py                    # Shared helper functions
 └── conftest.py                       # Pytest configuration
+
+source/production/arb/portal/utils/
+├── e2e_testing_util.py               # E2E readiness helpers
+└── playwright_testing_util.py        # Playwright-specific helpers
 ```
 
 ### Naming Conventions
@@ -350,7 +600,34 @@ except:
     pass  # Continue if marker doesn't appear
 ```
 
-#### 2. Multi-Element Locator Issues
+#### 2. Upload Marker Timeout
+```python
+# Problem: Upload marker not found
+TimeoutError: page.wait_for_selector: Timeout 10000ms exceeded.
+
+# Solution: Check if page navigated and marker is on new page
+try:
+    wait_for_upload_attempt_marker(page, timeout=5000)
+except TimeoutError:
+    # Page may have navigated, check current URL
+    if "/review_staged" in page.url:
+        wait_for_upload_attempt_marker(page, timeout=5000)
+    else:
+        raise
+```
+
+#### 3. Execution Context Destroyed
+```python
+# Problem: Page navigation during file upload
+Execution context was destroyed, most likely because of a navigation
+
+# Solution: Clear markers before navigation
+clear_upload_attempt_marker(page)
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)  # Wait on new page
+```
+
+#### 4. Multi-Element Locator Issues
 ```python
 # Problem: Multiple elements match selector
 StrictModeViolation: Multiple elements found
@@ -364,17 +641,7 @@ expect(page.locator(".confirm-checkbox").first).to_be_visible()
 # Solution: expect(page.locator("table tbody tr").first).to_be_visible()
 ```
 
-#### 3. Execution Context Destroyed
-```python
-# Problem: Page navigation during file upload
-Execution context was destroyed, most likely because of a navigation
-
-# Solution: Use expect_navigation for file uploads
-with page.expect_navigation():
-    upload_page.set_input_files(file_path)
-```
-
-#### 4. Flask App Not Running
+#### 5. Flask App Not Running
 ```bash
 # Problem: E2E tests fail with connection errors
 # Solution: Start Flask app first
@@ -382,7 +649,7 @@ cd source/production
 flask --app arb/wsgi run --debug --no-reload
 ```
 
-#### 5. Browser Not Found
+#### 6. Browser Not Found
 ```bash
 # Problem: Playwright can't find browsers
 # Solution: Install browsers
@@ -408,6 +675,7 @@ page.pause()
 # Add debug information
 print(f"[DEBUG] Current URL: {page.url}")
 print(f"[DEBUG] Element count: {page.locator('table tr').count()}")
+print(f"[DEBUG] Upload markers: {page.locator('.upload-marker').count()}")
 ```
 
 #### 4. Video Recording
@@ -429,28 +697,35 @@ pytest tests/e2e/ --headed --video=retain-on-failure
 ### 2. Waiting Strategies
 - **Prefer element-specific waits** over arbitrary timeouts
 - **Use E2E readiness marker** for standard page navigation
+- **Use DOM markers** for file upload synchronization
 - **Handle both success and failure states** in assertions
 - **Provide clear error messages** in assertions
 
-### 3. Selector Strategy
+### 3. File Upload Testing
+- **Clear markers before uploads** to prevent stale state
+- **Handle page navigation** when execution context is destroyed
+- **Use appropriate helper functions** based on upload behavior
+- **Test both success and error scenarios**
+
+### 4. Selector Strategy
 - **Role-based selectors first**: `page.get_by_role("button", name="Submit")`
 - **Specific CSS selectors**: `page.locator("table tbody tr")`
 - **Avoid generic selectors**: Don't use `page.locator("button")`
 - **Test selectors manually**: Verify selectors work before using in tests
 
-### 4. Error Handling
+### 5. Error Handling
 - **Graceful degradation**: Handle cases where elements might not exist
 - **Meaningful assertions**: Provide clear error messages
 - **Screenshots on failure**: Capture visual state for debugging
 - **Logging**: Add debug information for troubleshooting
 
-### 5. Performance
+### 6. Performance
 - **Minimize waits**: Use targeted waits instead of long timeouts
 - **Parallel execution**: Run tests in parallel when possible
 - **Resource cleanup**: Close browsers and clean up resources
 - **Efficient selectors**: Use efficient CSS selectors
 
-### 6. Maintenance
+### 7. Maintenance
 - **Consistent patterns**: Follow established patterns across all tests
 - **Documentation**: Keep test documentation up to date
 - **Regular review**: Periodically review and update test patterns
@@ -469,6 +744,7 @@ pytest tests/e2e/ --headed --video=retain-on-failure
 ### Coverage Goals
 - **Core workflows**: All main user journeys covered
 - **Edge cases**: Error conditions and boundary cases
+- **File upload scenarios**: All upload workflows tested
 - **Accessibility**: Basic accessibility testing included
 - **Cross-browser**: Works across different browsers
 
@@ -480,7 +756,7 @@ pytest tests/e2e/ --headed --video=retain-on-failure
 
 ---
 
-## Lessons Learned: Real-World Fix Example
+## Lessons Learned: Real-World Fix Examples
 
 ### The `test_feedback_updates.py` Strict Mode Violation
 
@@ -505,11 +781,29 @@ We replaced the broad selector with a more specific approach:
 expect(page.locator("table tbody tr").first).to_be_visible()
 ```
 
-#### Why This Works
-- `.first` ensures we're targeting exactly one element
-- We only need to verify that table content is visible, not specific content
-- This handles both data rows and empty state rows
-- The test logic after the wait handles the specific content validation
+### The File Upload Execution Context Issue
+
+#### What Happened
+In file upload tests, we encountered "Execution context was destroyed" errors:
+```python
+# Problematic pattern
+file_input.set_input_files(file_path)
+clear_upload_attempt_marker(page)  # Page already navigated!
+```
+
+#### Why It Failed
+- `page.set_input_files` triggered immediate page navigation
+- The navigation destroyed the JavaScript execution context
+- `clear_upload_attempt_marker` tried to run JavaScript on a destroyed context
+
+#### The Fix
+We moved marker clearing before the upload:
+```python
+# Working pattern
+clear_upload_attempt_marker(page)  # Clear before navigation
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)  # Wait on new page
+```
 
 #### Key Lessons for Future Testing
 
@@ -534,6 +828,11 @@ expect(page.locator("table tbody tr").first).to_be_visible()
    - They prevent flaky tests from passing with wrong elements
    - Always fix strict mode violations rather than disabling strict mode
 
+6. **File Uploads Require Special Handling**
+   - Clear markers before uploads to prevent stale state
+   - Handle page navigation that destroys execution context
+   - Use appropriate helper functions based on upload behavior
+
 #### Pattern for Future Filter Operations
 ```python
 # ✅ Recommended pattern for filter operations
@@ -549,6 +848,19 @@ else:
     assert page.locator("table tbody tr").count() > 0
 ```
 
+#### Pattern for Future File Upload Operations
+```python
+# ✅ Recommended pattern for file uploads with navigation
+clear_upload_attempt_marker(page)
+file_input = page.locator("input[type='file']")
+file_input.set_input_files(file_path)
+wait_for_upload_attempt_marker(page)  # Wait on redirected page
+
+# ✅ Recommended pattern for file uploads with feedback
+upload_file_and_wait_for_attempt_marker(page, file_path)
+expect(page.locator(".alert-success, .alert-danger")).to_be_visible()
+```
+
 ---
 
 ## References
@@ -556,4 +868,5 @@ else:
 - [Playwright Documentation](https://playwright.dev/python/)
 - [Pytest Documentation](https://docs.pytest.org/)
 - [E2E Readiness Strategy](./e2e_playwright_readiness_strategy.md)
-- [Wait for Timeout Analysis](./wait_for_timeout_analysis_summary.md) 
+- [Wait for Timeout Analysis](./wait_for_timeout_analysis_summary.md)
+- [DOM Marker System](./playwright_marker_usage.md) 
