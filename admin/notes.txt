@@ -2055,3 +2055,13 @@ i am trying to get rid of the wait_for_timeouts ...
 
 pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  > output_file_01.txt 2>&1
 pytest tests/e2e/test_excel_upload_workflows_2.py -v -s -k "test_invalid_file_upload"  > pytest_excel_upload_workflows_2.txt 2>&1
+
+winpty was recommended by chatgpt to get cursor to hang less
+
+pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  | tee output_file_01.txt
+
+
+sometimes cursor does not realize that a pytest has completed and hangs.  on possible solution is to use winpty
+prior to your pytest command.  do you think the following will work?  if so, lets run it and see.
+
+winpty pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt

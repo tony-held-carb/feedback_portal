@@ -41,30 +41,8 @@
 <!-- Portal Navigation -->
 {% include 'includes/navbar.jinja' %}
 
-<!-- todo - move this to an include file -->
-{% block flash_messages %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="container mt-3">
-      {% for category, message in messages %}
-        {% if category == "internal-marker" %}
-          {# 🪪 Internal test marker: invisible to users, visible to Playwright #}
-          {% if message == "_upload_attempted" %}
-            <div class="upload-marker" data-upload-attempted="true" style="display: none;"></div>
-          {% endif %}
-        {% else %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-{% endblock %}
-
-
+<!-- Flash Messages -->
+{% include 'includes/flash_messaging.jinja' %}
 
 
 <!-- JS Diagnostics Overlay -->

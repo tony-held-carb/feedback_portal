@@ -379,7 +379,6 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
   logger.debug(f"Files received: {list(request.files.keys())}, upload_folder={upload_folder}")
 
   if request.method == 'POST':
-    # todo - seeing if you can do a flash here and it will be visible for all related renders
     flash("_upload_attempted", "internal-marker")
     try:
       request_file = request.files.get('file')
@@ -482,6 +481,7 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
   logger.debug(f"Files received: {list(request.files.keys())}, upload_folder={upload_folder}")
 
   if request.method == 'POST':
+    flash("_upload_attempted", "internal-marker")
     try:
       request_file = request.files.get('file')
 
@@ -596,6 +596,7 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
   logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
 
   if request.method == 'POST':
+    flash("_upload_attempted", "internal-marker")
     try:
       request_file = request.files.get('file')
 
@@ -1478,6 +1479,7 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
     logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
     
     if request.method == 'POST':
+        flash("_upload_attempted", "internal-marker")
         try:
             request_file = request.files.get('file')
             

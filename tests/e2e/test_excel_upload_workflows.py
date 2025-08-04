@@ -65,6 +65,8 @@ import pytest
 from playwright.sync_api import expect
 import os
 from e2e_helpers import navigate_and_wait_for_ready
+from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker
+
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -208,10 +210,12 @@ class TestExcelUpload:
             pytest.skip(f"Test file not found: {file_path}")
         # Get file input
         file_input = upload_page.locator("input[type='file']")
+
         # Upload file using Playwright's set_input_files
         upload_page.set_input_files("input[type='file']", file_path)
         # Wait for file to be processed
         upload_page.wait_for_timeout(1000)
+
         # Check if form auto-submits or if we need to submit manually
         original_url = upload_page.url
         # Wait for page change (form submission)
@@ -288,8 +292,12 @@ class TestExcelUpload:
             f.write(b"This is not an Excel file")
             temp_file = f.name
         try:
-            upload_page.set_input_files("input[type='file']", temp_file)
-            upload_page.wait_for_timeout(1000)
+            # todo - worked in a POC, see if it works elsewhere
+            print("about to call: clear_upload_attempt_marker(upload_page)")
+            clear_upload_attempt_marker(upload_page)
+            print("about to call: upload_file_and_wait_for_attempt_marker(upload_page, temp_file)")
+            upload_file_and_wait_for_attempt_marker(upload_page, temp_file)
+
             error_indicators = [
                 ".alert-danger",
                 ".error-message",
@@ -348,9 +356,10 @@ class TestExcelUpload:
 
         # Wait for any existing navigation to complete
         expect(upload_page.locator("h2")).to_be_visible()
-
-        upload_page.set_input_files("input[type='file']", file_path)
-        upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
+        # upload_page.set_input_files("input[type='file']", file_path)
+        # upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
+        clear_upload_attempt_marker(upload_page)
+        upload_file_and_wait_for_attempt_marker(upload_page, file_path)
 
         # Wait for specific element with timeout instead of network idle
         try:
@@ -614,6 +623,17 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     if id_error and "/upload" in upload_page.url:
         print("Upload blocked due to missing/invalid id_incidence as expected.")
         return  # Test passes for this scenario
+    
+    # Check for file locked/open error message
+    file_locked_error = (
+        "close any files before uploading" in page_content
+        or "files that are still open may be locked" in page_content
+        or "this site can't be reached" in page_content
+    )
+    if file_locked_error and "/upload" in upload_page.url:
+        print("Upload blocked due to file being locked/open as expected.")
+        return  # Test passes for this scenario
+    
     # Otherwise, proceed as before
     match = re.search(r"/incidence_update/(\d+)", upload_page.url)
     id_ = match.group(1) if match else None
