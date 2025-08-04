@@ -9,4 +9,4 @@ collecting ... collected 76 items / 75 deselected / 1 selected
 
 tests/e2e/test_excel_upload_workflows_2.py::TestExcelUpload::test_invalid_file_upload[chromium] PASSED [100%]
 
-====================== 1 passed, 75 deselected in 1.09s =======================
+====================== 1 passed, 75 deselected in 1.12s =======================
