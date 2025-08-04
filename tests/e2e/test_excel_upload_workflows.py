@@ -65,7 +65,7 @@ import pytest
 from playwright.sync_api import expect
 import os
 from e2e_helpers import navigate_and_wait_for_ready
-from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker
+from upload_helpers import clear_upload_feedback_alerts, upload_file_and_wait_for_feedback, clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker, wait_for_upload_attempt_marker
 
 
 # Test configuration - can be overridden by environment variables
@@ -212,9 +212,8 @@ class TestExcelUpload:
         file_input = upload_page.locator("input[type='file']")
 
         # Upload file using Playwright's set_input_files
-        upload_page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed
-        upload_page.wait_for_timeout(1000)
+        clear_upload_attempt_marker(upload_page)
+        upload_file_and_wait_for_attempt_marker(upload_page, file_path)
 
         # Check if form auto-submits or if we need to submit manually
         original_url = upload_page.url
@@ -292,7 +291,6 @@ class TestExcelUpload:
             f.write(b"This is not an Excel file")
             temp_file = f.name
         try:
-            # todo - worked in a POC, see if it works elsewhere
             print("about to call: clear_upload_attempt_marker(upload_page)")
             clear_upload_attempt_marker(upload_page)
             print("about to call: upload_file_and_wait_for_attempt_marker(upload_page, temp_file)")
@@ -332,8 +330,14 @@ class TestExcelUpload:
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as f:
             temp_file = f.name
         try:
-            upload_page.set_input_files("input[type='file']", temp_file)
-            upload_page.wait_for_timeout(1000)
+
+            # upload_page.set_input_files("input[type='file']", temp_file)
+            # upload_page.wait_for_timeout(1000)
+
+            # Upload file using Playwright's set_input_files
+            clear_upload_attempt_marker(upload_page)
+            upload_file_and_wait_for_attempt_marker(upload_page, temp_file)
+
             page_content = upload_page.content().lower()
             if any(keyword in page_content for keyword in ["error", "invalid", "empty", "no data"]):
                 print("Empty file was rejected as expected")
@@ -356,8 +360,7 @@ class TestExcelUpload:
 
         # Wait for any existing navigation to complete
         expect(upload_page.locator("h2")).to_be_visible()
-        # upload_page.set_input_files("input[type='file']", file_path)
-        # upload_page.wait_for_timeout(1000)  # Wait for file processing to complete
+        # Wait for file processing to complete
         clear_upload_attempt_marker(upload_page)
         upload_file_and_wait_for_attempt_marker(upload_page, file_path)
 
@@ -602,9 +605,15 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     # Navigate to the upload page
     navigate_and_wait_for_ready(upload_page, f"{BASE_URL}/upload")
     # Upload file via UI
-    file_input = upload_page.locator("input[type='file']")
+
+    # Clear any previous upload attempt markers
+    clear_upload_attempt_marker(upload_page)
+    # Upload file using Playwright's set_input_files
     upload_page.set_input_files("input[type='file']", file_path)
-    upload_page.wait_for_timeout(1000)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(upload_page)
+
+
     # Log the URL and page content for debugging
     # If this is an edge case file, expect error and no redirect
     if "edge_cases" in Path(file_path).parts:
@@ -686,9 +695,19 @@ def test_list_staged_diagnostics_overlay(page):
             pytest.skip("No test files available to upload and stage.")
         file_path = test_files[0]
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+
+        # file_input = page.locator("input[type='file']")
+        # file_input.set_input_files(file_path)
+        # page.wait_for_timeout(1000)
+
+        # Upload file using Playwright's set_input_files
         file_input = page.locator("input[type='file']")
         file_input.set_input_files(file_path)
-        page.wait_for_timeout(1000)
+        clear_upload_attempt_marker(page)
+        # Wait for the upload attempt marker to appear (may be on redirected page)
+        wait_for_upload_attempt_marker(page)
+
+
         # Go back to /list_staged
         navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
         staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
@@ -726,9 +745,14 @@ def staged_file_for_discard(page: Page) -> str:
     file_path = test_files[0]
     # Upload file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+
+    # Upload file using Playwright's set_input_files
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    page.wait_for_timeout(1000)
+    clear_upload_attempt_marker(page)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
+
     # Extract staged filename from URL
     import re
     staged_filename = None
@@ -754,9 +778,14 @@ def test_upload_file_only(page: Page):
     file_path = test_files[0]
     # Upload file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+
+    # Upload file using Playwright's set_input_files
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    page.wait_for_timeout(1000)
+    clear_upload_attempt_marker(page)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
+
     # Extract staged filename from URL
     import re
     staged_filename = None
@@ -807,9 +836,12 @@ def two_staged_files(page: Page) -> tuple:
     file_path1, file_path2 = test_files[:2]
     # Upload first file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+    # Clear any previous upload attempt markers
+    clear_upload_attempt_marker(page)
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path1)
-    page.wait_for_timeout(1000)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
     import re
     staged_filename1 = None
     for _ in range(10):
@@ -822,9 +854,12 @@ def two_staged_files(page: Page) -> tuple:
     assert staged_filename1, "Could not extract staged filename 1 from URL after upload."
     # Upload second file
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+    # Clear any previous upload attempt markers
+    clear_upload_attempt_marker(page)
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path2)
-    page.wait_for_timeout(1000)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
     staged_filename2 = None
     for _ in range(10):
         if "/review_staged/" in page.url:
@@ -900,9 +935,17 @@ def malformed_file_for_discard(page: Page) -> str:
 
     # Upload file via the standard workflow
     navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged")
+
+    # Clear any previous upload attempt markers
+    clear_upload_attempt_marker(page)
     file_input = page.locator("input[type='file']")
     file_input.set_input_files(file_path)
-    page.wait_for_timeout(1000)
+    # Wait for the upload attempt marker to appear (may be on redirected page)
+    wait_for_upload_attempt_marker(page)
+
+    # Upload file using Playwright's set_input_files
+    # clear_upload_attempt_marker(page)
+    # upload_file_and_wait_for_attempt_marker(page, file_path)
 
     # Wait for redirect to /review_staged and extract staged filename
     import re
@@ -999,12 +1042,12 @@ class TestRefactoredRoutes:
         # Navigate to refactored upload page
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
 
-        # Get file input
-        file_input = page.locator("input[type='file']")
+        # Clear any previous upload attempt markers
+        clear_upload_attempt_marker(page)
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed
-        page.wait_for_timeout(1000)
+        # Wait for the upload attempt marker to appear (may be on redirected page)
+        wait_for_upload_attempt_marker(page)
 
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
@@ -1092,12 +1135,12 @@ class TestRefactoredRoutes:
         # Navigate to refactored staged upload page
         navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_refactored")
 
-        # Get file input
-        file_input = page.locator("input[type='file']")
+        # Clear any previous upload attempt markers
+        clear_upload_attempt_marker(page)
         # Upload file using Playwright's set_input_files
         page.set_input_files("input[type='file']", file_path)
-        # Wait for file to be processed
-        page.wait_for_timeout(1000)
+        # Wait for the upload attempt marker to appear (may be on redirected page)
+        wait_for_upload_attempt_marker(page)
 
         # Check if form auto-submits or if we need to submit manually
         original_url = page.url
@@ -1186,8 +1229,13 @@ class TestRefactoredRoutes:
 
         try:
             navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_refactored")
-            page.set_input_files("input[type='file']", temp_file)
-            page.wait_for_timeout(1000)
+
+            # page.set_input_files("input[type='file']", temp_file)
+            # page.wait_for_timeout(1000)
+
+            # Upload file using Playwright's set_input_files
+            clear_upload_attempt_marker(page)
+            upload_file_and_wait_for_attempt_marker(page, temp_file)
 
             error_indicators = [
                 ".alert-danger",
@@ -1297,4 +1345,4 @@ def get_js_diagnostics_overlay(page):
     try:
         return page.locator('#js-diagnostics').inner_text()
     except Exception:
-        return '' 
+        return ''
