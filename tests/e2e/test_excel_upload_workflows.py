@@ -387,7 +387,13 @@ class TestExcelUpload:
     print(f"[DEBUG] About to check upload result...")
     # Check if upload was successful by looking for success indicators in page content
     page_content = upload_page.content().lower()
-    print(f"[DEBUG] Page content preview: {page_content[:200]}...")
+    # Handle Unicode characters safely for Windows console
+    try:
+      print(f"[DEBUG] Page content preview: {page_content[:200]}...")
+    except UnicodeEncodeError:
+      # Fallback for Windows console encoding issues
+      safe_content = page_content[:200].encode('ascii', 'replace').decode('ascii')
+      print(f"[DEBUG] Page content preview: {safe_content}...")
 
     # Check for various success indicators
     success_indicators = ["success", "uploaded", "processed", "completed"]
@@ -1342,7 +1348,8 @@ class TestRefactoredRoutes:
         if page.locator(indicator).count() > 0:
           error_text = page.locator(indicator).first.text_content()
           assert error_text is not None
-          print(f"Refactored upload correctly rejected invalid file: {error_text}")
+          # Use repr() to safely handle Unicode characters in error messages
+          print(f"Refactored upload correctly rejected invalid file: {repr(error_text)}")
           return
 
       # Check page content for error keywords
@@ -1384,7 +1391,8 @@ class TestRefactoredRoutes:
         if page.locator(indicator).count() > 0:
           error_text = page.locator(indicator).first.text_content()
           assert error_text is not None
-          print(f"Refactored staged upload correctly rejected invalid file: {error_text}")
+          # Use repr() to safely handle Unicode characters in error messages
+          print(f"Refactored staged upload correctly rejected invalid file: {repr(error_text)}")
           return
 
       # Check page content for error keywords
