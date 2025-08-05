@@ -110,3 +110,11 @@ git status
 * Activate mini_conda environment
   * conda deactivate
   * conda activate mini_conda_02
+
+
+### Importing the snapshot into my home postgress system
+psql -U postgres -c "DROP DATABASE IF EXISTS tony_home_tracker;"
+psql -U postgres -c "CREATE DATABASE tony_home_tracker;"
+psql -U postgres -c "CREATE ROLE methane LOGIN;"
+psql -U postgres -d tony_home_tracker -c "CREATE EXTENSION postgis;"
+psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql > import_02.log 2>&1

@@ -17,6 +17,7 @@ import pytest
 from playwright.sync_api import Page, expect
 import os
 import conftest
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -26,8 +27,7 @@ def test_delete_testing_range_page_loads(page: Page):
     """
     E2E: Loads the Delete Testing Range page and checks for form and input presence.
     """
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     expect(page.locator("h2")).to_contain_text("Delete Testing Range")
     min_input = page.locator("#min_id")
     max_input = page.locator("#max_id")
@@ -42,8 +42,7 @@ def test_min_max_id_inputs(page: Page):
     """
     E2E: Min/Max ID input boxes accept values and update form state.
     """
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     min_input = page.locator("#min_id")
     max_input = page.locator("#max_id")
     min_input.fill("1000000")
@@ -56,8 +55,7 @@ def test_dry_run_checkbox_and_preview(page: Page):
     """
     E2E: Dry Run checkbox toggles Preview/Delete button and triggers dry run preview.
     """
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     dry_run_checkbox = page.locator("#dry_run")
     preview_btn = page.locator("#delete-preview-btn")
     # Ensure dry run is checked (Preview mode)
@@ -79,8 +77,7 @@ def test_delete_button_and_real_delete(page: Page):
     """
     E2E: Unchecking Dry Run enables Delete mode, triggers confirmation modal, and performs delete.
     """
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     dry_run_checkbox = page.locator("#dry_run")
     preview_btn = page.locator("#delete-preview-btn")
     # Uncheck dry run (Delete mode)
@@ -110,8 +107,7 @@ def test_diagnostics_messaging(page: Page):
     """
     E2E: Diagnostics messages (success, error, info) appear after actions.
     """
-    page.goto(f"{BASE_URL}/delete_testing_range")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/delete_testing_range")
     # Try an invalid range (min > max)
     min_input = page.locator("#min_id")
     max_input = page.locator("#max_id")

@@ -46,6 +46,9 @@ import time
 from playwright.sync_api import sync_playwright
 import conftest
 import os
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
+
+
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -78,8 +81,13 @@ def single_page_diagnostics(page_url: str|None=None):
     try:
       # Navigate to upload page
       print(f"Navigating to page: {page_url} ...")
-      page.goto(page_url)
-      page.wait_for_load_state("networkidle")
+
+      # replace with the following:
+      # page.goto(page_url)
+      # page.wait_for_load_state("networkidle")
+      
+      # with the new waiting strategy
+      navigate_and_wait_for_ready(page, page_url)
       
       print(f"Page title: {page.title()}")
       print(f"Current URL: {page.url}")

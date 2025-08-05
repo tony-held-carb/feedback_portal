@@ -1372,56 +1372,6 @@ landfill_operator_feedback_v071_test_01_good_data.xlsx
 oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
 
 
-Running pytests
-
-1. Ensure you are in the root folder to run tests
-      cd /d/local/cursor/feedback_portal
-2. General pytest run
-      pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  | tee output_file_01.txt
-      pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  > output_file_01.txt 2>&1
-
-3. Flag meanings:
-      --maxfail=num         Exit after first num failures or errors
-      -v, --verbose         Increase verbosity
-      -s                    Don't suppress print statements that are in test files
-      -k EXPRESSION         Only run tests which match the given substring expression. An expression is a Python evaluable     
-                            expression where all names are substring-matched against test names and their parent classes.      
-                            Example: -k 'test_method or test_other' matches all test functions and classes whose name contains 
-                            'test_method' or 'test_other', while -k 'not test_method' matches those that don't contain
-                            'test_method' in their names. -k 'not test_method and not test_other' will eliminate the matches.  
-                            Additionally keywords are matched to classes and functions containing extra names in their
-                            'extra_keyword_matches' set, as well as functions which have names assigned directly to them. The  
-                            matching is case-insensitive.
-
-4. tee versus redirection
-    | tee <filename>        you get terminal feedback of the tests while simultaneously sending to log file
-    > <filename> 2>&1       captures standard output and error and may be more reliable in some situations
-
-5. example runs:
-
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py --only-discard-tests -v | tee pytest_output_04.txt
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 | tee pytest_output_04.txt
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v | tee pytest_output_04.txt
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v --maxfail=3 -k "discard or malformed" | tee pytest_output_04.txt
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "test_diagnostics_overlay_on_diagnostic_test_page" | tee pytest_output_04.txt
-    pytest tests/e2e/test_diagnostics.py -v  | tee pytest_diag_03.txt
-    pytest tests/e2e/test_excel_upload_playwright_pytest.py -v -k "discard or malformed" | tee pytest_output_04.txt
-    pytest tests/e2e/test_diagnostics.py -v | tee pytest_diag_28.txt
-    pytest tests/e2e/test_diagnostics.py -v -k test_diagnostics_overlay_on_diagnostic_test_page | tee pytest_diag_12.txt
-    pytest tests/e2e/test_feedback_updates.py -v > pytest_feedback_updates.txt 2>&1
-    pytest tests/e2e -v  | tee pytest_e2e_10.txt
-    pytest tests/arb -v  | tee pytest_all_07.txt
-    pytest -s tests/arb/portal/test_file_upload_suite.py | tee pytest_06.txt
-
-    mini_conda_01.yml original production environment interpreter
-    mini_conda_02.yml updated to include playwright and other requirements
-
-    7/22/25 5:37PM ec2 installed from  ~/mini_conda_02.yml
-    7/22/25 5:43PM work computer from  "C:\tony_local\pycharm\feedback_portal\admin\mini_conda_02.yml"
-    7/22/25 5:40PM home computer from  "D:\local\cursor\feedback_portal\admin\mini_conda_02.yml"
-
-    pytest tests/arb -v  > pytest_laptop_all_16.txt 2>&1
-    pytest tests/e2e -v  > pytest_laptop_e2e_16.txt 2>&1
 
 home project root:
 work project root: C:\tony_local\pycharm\feedback_portal
@@ -1429,67 +1379,6 @@ work project root: C:\tony_local\pycharm\feedback_portal
 need to set the python path
     setx PYTHONPATH "%PYTHONPATH%;C:\tony_local\pycharm\feedback_portal\source\production"
 
-listing environmental variables on git bash
-printenv | sort
-
-To list only environment variables containing the word "root"
-printenv | sort | grep root         (case-sensitive)
-printenv | sort | grep -i root      (case-insensitive)
-
-----------------------------------
-Creating Environmental Variables
-----------------------------------
-Create an environmental variable in all systems named, MACHINE_NAME that can be "TONY_HOME", "TONY_WORK", or "TONY_EC2"
-
-*** Windows ***
-
-Single Variable
-setx MACHINE_NAME "TONY_WORK"           (CMD or Git Bash)
-setx MACHINE_NAME "TONY_HOME"           (CMD or Git Bash)
-
-To prepend/append use the format
-setx PATH "%PATH%;C:\your\new\path"     (CMD)
-setx PATH "C:\your\new\path;%PATH%"     (CMD)
-
-setx PATH "$PATH;/c/your/new/path"      (Git Bash)
-setx PATH "$PATH;C:\your\new\path"      (Git Bash)
-
-To check if it worked
-echo %MACHINE_NAME%     (CMD)
-echo "$MACHINE_NAME"    (Git Bash)
-
-
-*** Linux EC2 ***
-note that linux uses : not like windows ;
-
-edit ~/.bashrc to include
-export MACHINE_NAME="TONY_EC2"
-export PATH="$PATH:/your/new/path"
-export PATH="/your/new/path:$PATH"
-source ~/.bashrc
-
-To check if it worked
-echo "$MACHINE_NAME"
-
-Notes:
-1. If you run the following and PATH is not already defined
-        export PATH="$PATH:/your/new/path"
-        PATH=":/your/new/path"
-2. In linux a leading colon resolves  "include the current directory (.)"
-3. If you only want to include the variable if it already exists
-    export PATH="${PATH:+$PATH:}/your/new/path"
-    ${PATH:+$PATH:} means:
-        If PATH is defined → include $PATH:
-        If PATH is undefined → insert nothing (no colon)
-4. The PATH example is a little confusing because the colon is doing double duty, the more generalized syntax is:
-        ${var:+value} is a parameter expansion operator
-            If var is set and not null → return value
-            If var is unset or null → return nothing
-        export my_long_list="${my_long_list:+$my_long_list, }list item #10, list item #11"
-            If my_long_list is already populated, you insert its current value plus a comma and space
-            Then add new items at the end
-
-You can use the linux style export on windows git bash, but it won't be persistent
 
 
 Set Git Bash as the Terminal in PyCharm (Windows)
@@ -1673,341 +1562,6 @@ Rename github → origin
 (mini_conda_02) scripts$ cat portal_screen_launch.sh
 #!/bin/bash
 
-# ----------------------------------------------------------------------
-# portal_screen_launch.sh
-#
-# Launch a Flask or Gunicorn server in a detached screen session
-# using the conda environment and logs all output to LOG_DIR="$PROJECT_ROOT/logs"
-#
-# Usage:
-#   cd ~/code/git_repos/feedback_portal/scripts
-#   ./portal_screen_launch.sh                        # defaults to flask, 0.0.0.0:2113, debug=true
-#   ./portal_screen_launch.sh gunicorn               # gunicorn with defaults
-#   ./portal_screen_launch.sh flask 0.0.0.0 5000 true
-#   ./portal_screen_launch.sh gunicorn 127.0.0.1 8000 false
-#
-# Arguments:
-#   $1 = MODE      (flask | gunicorn)       [default: flask]
-#   $2 = HOST      (IP or hostname)         [default: 0.0.0.0]
-#   $3 = PORT      (port number)            [default: 2113]
-#   $4 = DEBUG     (true | false)           [default: true — flask only]
-# ----------------------------------------------------------------------
-
-# Args with defaults
-MODE="${1:-flask}"
-HOST="${2:-0.0.0.0}"
-PORT="${3:-2113}"
-DEBUG="${4:-true}"
-
-# Config
-SESSION_NAME="feedback_portal"
-CONDA_ENV="mini_conda_02"
-REPO_ROOT="$HOME/code/git_repos"
-PROJECT_ROOT="$REPO_ROOT/feedback_portal"
-PRODUCTION_DIR="$PROJECT_ROOT/source/production"
-LOG_DIR="$PROJECT_ROOT/logs"
-TIMESTAMP=$(date +"%Y_%m_%d_%H_%M_%S")
-LOG_FILE="$LOG_DIR/screen_${MODE}_$TIMESTAMP.log"
-
-echo "🔍 Launching $MODE in screen session '$SESSION_NAME'"
-echo "📁 Production directory: $PRODUCTION_DIR"
-echo "🐍 Conda env: $CONDA_ENV"
-echo "🌐 Host:Port $HOST:$PORT"
-echo "🐞 Debug mode: $DEBUG"
-echo "📄 Log file: $LOG_FILE"
-echo
-
-# Step 1: Check if production directory exists
-echo "Step 1: Checking production directory..."
-if [[ ! -d "$PRODUCTION_DIR" ]]; then
-  echo "❌ Production directory does not exist: $PRODUCTION_DIR"
-  exit 1
-fi
-echo "✅ Production directory exists"
-
-# Step 2: Create log directory
-echo "Step 2: Creating log directory..."
-mkdir -p "$LOG_DIR"
-if [[ ! -d "$LOG_DIR" ]]; then
-  echo "❌ Failed to create log directory: $LOG_DIR"
-  exit 1
-fi
-echo "✅ Log directory ready"
-
-# Step 3: Kill existing screen session if it exists
-echo "Step 3: Checking for existing screen session..."
-if screen -list | grep -q "$SESSION_NAME"; then
-  echo "🔄 Killing existing screen session '$SESSION_NAME'"
-  screen -S "$SESSION_NAME" -X quit
-  sleep 1
-  echo "✅ Existing session killed"
-else
-  echo "✅ No existing session found"
-fi
-
-# Step 4: Build the command based on mode
-echo "Step 4: Building launch command..."
-if [[ "$MODE" == "flask" ]]; then
-  LAUNCH_CMD="flask --app arb/wsgi run --host=$HOST --port=$PORT"
-  [[ "$DEBUG" == "true" ]] && LAUNCH_CMD="$LAUNCH_CMD --debug"
-elif [[ "$MODE" == "gunicorn" ]]; then
-  LAUNCH_CMD="gunicorn --bind $HOST:$PORT arb.wsgi:app"
-else
-  echo "❌ Unknown mode: $MODE"
-  exit 1
-fi
-echo "✅ Command: $LAUNCH_CMD"
-
-# Step 5: Launch screen session with direct commands
-echo "Step 5: Launching screen session..."
-SCREEN_CMD="cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD >> $LOG_FILE 2>&1"
-echo "SCREEN_CMD: $SCREEN_CMD"
-
-screen -S "$SESSION_NAME" -dm bash -c "$SCREEN_CMD"
-SCREEN_EXIT_CODE=$?
-
-if [[ $SCREEN_EXIT_CODE -ne 0 ]]; then
-  echo "❌ Screen command failed with exit code: $SCREEN_EXIT_CODE"
-  exit 1
-fi
-echo "✅ Screen session launched"
-
-# Step 6: Verify session is running
-echo "Step 6: Verifying session is running..."
-sleep 2
-if screen -list | grep -q "$SESSION_NAME"; then
-  echo "✅ Screen session '$SESSION_NAME' is running"
-  echo "📄 Log file: $LOG_FILE"
-  echo
-  echo "To reattach:  screen -r $SESSION_NAME"
-  echo "To list all:  screen -ls"
-  echo "To stop:      screen -S $SESSION_NAME -X quit"
-else
-  echo "❌ Screen session failed to start"
-  echo "📄 Log file: $LOG_FILE"
-  echo
-  echo "🔍 Debugging steps:"
-  echo "1. Check if log file was created:"
-  echo "   ls -la $LOG_FILE"
-  echo "2. If log file exists, check contents:"
-  echo "   cat $LOG_FILE"
-  echo "3. Check screen sessions:"
-  echo "   screen -ls"
-  echo "4. Test command manually:"
-  echo "   cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD"
-fi (mini_conda_02) scripts$ source portal_screen_launch.sh
-🔍 Launching flask in screen session 'feedback_portal'
-📁 Production directory: /home/theld/code/git_repos/feedback_portal/source/production
-🐍 Conda env: mini_conda_02
-🌐 Host:Port 0.0.0.0:2113
-🐞 Debug mode: true
-📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_32_09.log
-
-Step 1: Checking production directory...
-✅ Production directory exists
-Step 2: Creating log directory...
-✅ Log directory ready
-Step 3: Checking for existing screen session...
-✅ No existing session found
-Step 4: Building launch command...
-✅ Command: flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-Step 5: Launching screen session...
-SCREEN_CMD: cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_32_09.log 2>&1
-✅ Screen session launched
-Step 6: Verifying session is running...
-❌ Screen session failed to start
-📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_32_09.log
-
-🔍 Debugging steps:
-1. Check if log file was created:
-   ls -la /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_32_09.log
-2. If log file exists, check contents:
-   cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_32_09.log
-3. Check screen sessions:
-   screen -ls
-4. Test command manually:
-   cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-(mini_conda_02) scripts$ ^C
-(mini_conda_02) scripts$ cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
- * Serving Flask app 'arb/wsgi'
- * Debug mode: on
-[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
-
----
-(mini_conda_02) scripts$ cat portal_screen_launch.sh
-#!/bin/bash
-
-# ----------------------------------------------------------------------
-# portal_screen_launch.sh
-#
-# Launch a Flask or Gunicorn server in a detached screen session
-# using the conda environment and logs all output to LOG_DIR="$PROJECT_ROOT/logs"
-#
-# Usage:
-#   cd ~/code/git_repos/feedback_portal/scripts
-#   ./portal_screen_launch.sh                        # defaults to flask, 0.0.0.0:2113, debug=true
-#   ./portal_screen_launch.sh gunicorn               # gunicorn with defaults
-#   ./portal_screen_launch.sh flask 0.0.0.0 5000 true
-#   ./portal_screen_launch.sh gunicorn 127.0.0.1 8000 false
-#
-# Arguments:
-#   $1 = MODE      (flask | gunicorn)       [default: flask]
-#   $2 = HOST      (IP or hostname)         [default: 0.0.0.0]
-#   $3 = PORT      (port number)            [default: 2113]
-#   $4 = DEBUG     (true | false)           [default: true — flask only]
-# ----------------------------------------------------------------------
-
-# Args with defaults
-MODE="${1:-flask}"
-HOST="${2:-0.0.0.0}"
-PORT="${3:-2113}"
-DEBUG="${4:-true}"
-
-# Config
-SESSION_NAME="feedback_portal"
-CONDA_ENV="mini_conda_02"
-REPO_ROOT="$HOME/code/git_repos"
-PROJECT_ROOT="$REPO_ROOT/feedback_portal"
-PRODUCTION_DIR="$PROJECT_ROOT/source/production"
-LOG_DIR="$PROJECT_ROOT/logs"
-TIMESTAMP=$(date +"%Y_%m_%d_%H_%M_%S")
-LOG_FILE="$LOG_DIR/screen_${MODE}_$TIMESTAMP.log"
-
-echo "🔍 Launching $MODE in screen session '$SESSION_NAME'"
-echo "📁 Production directory: $PRODUCTION_DIR"
-echo "🐍 Conda env: $CONDA_ENV"
-echo "🌐 Host:Port $HOST:$PORT"
-echo "🐞 Debug mode: $DEBUG"
-echo "📄 Log file: $LOG_FILE"
-echo
-
-# Step 1: Check if production directory exists
-echo "Step 1: Checking production directory..."
-if [[ ! -d "$PRODUCTION_DIR" ]]; then
-  echo "❌ Production directory does not exist: $PRODUCTION_DIR"
-  exit 1
-fi
-echo "✅ Production directory exists"
-
-# Step 2: Create log directory
-echo "Step 2: Creating log directory..."
-mkdir -p "$LOG_DIR"
-if [[ ! -d "$LOG_DIR" ]]; then
-  echo "❌ Failed to create log directory: $LOG_DIR"
-  exit 1
-fi
-echo "✅ Log directory ready"
-
-# Step 3: Kill existing screen session if it exists
-echo "Step 3: Checking for existing screen session..."
-if screen -list | grep -q "$SESSION_NAME"; then
-  echo "🔄 Killing existing screen session '$SESSION_NAME'"
-  screen -S "$SESSION_NAME" -X quit
-  sleep 1
-  echo "✅ Existing session killed"
-else
-  echo "✅ No existing session found"
-fi
-
-# Step 4: Build the command based on mode
-echo "Step 4: Building launch command..."
-if [[ "$MODE" == "flask" ]]; then
-  LAUNCH_CMD="flask --app arb/wsgi run --host=$HOST --port=$PORT"
-  [[ "$DEBUG" == "true" ]] && LAUNCH_CMD="$LAUNCH_CMD --debug"
-elif [[ "$MODE" == "gunicorn" ]]; then
-  LAUNCH_CMD="gunicorn --bind $HOST:$PORT arb.wsgi:app"
-else
-  echo "❌ Unknown mode: $MODE"
-  exit 1
-fi
-
-echo "✅ Command: $LAUNCH_CMD"
-
-# Step 5: Launch screen session with direct commands
-echo "Step 5: Launching screen session..."
-SCREEN_CMD="cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD >> $LOG_FILE 2>&1"
-echo "SCREEN_CMD: $SCREEN_CMD"
-
-echo "🔍 Full screen command that will be executed:"
-echo "screen -S \"$SESSION_NAME\" -dm bash -c \"$SCREEN_CMD\""
-echo
-
-screen -S "$SESSION_NAME" -dm bash -c "$SCREEN_CMD"
-SCREEN_EXIT_CODE=$?
-
-if [[ $SCREEN_EXIT_CODE -ne 0 ]]; then
-  echo "❌ Screen command failed with exit code: $SCREEN_EXIT_CODE"
-  exit 1
-fi
-echo "✅ Screen session launched"
-
-# Step 6: Verify session is running
-echo "Step 6: Verifying session is running..."
-sleep 2
-if screen -list | grep -q "$SESSION_NAME"; then
-  echo "✅ Screen session '$SESSION_NAME' is running"
-  echo "📄 Log file: $LOG_FILE"
-  echo
-  echo "To reattach:  screen -r $SESSION_NAME"
-  echo "To list all:  screen -ls"
-  echo "To stop:      screen -S $SESSION_NAME -X quit"
-else
-  echo "❌ Screen session failed to start"
-  echo "📄 Log file: $LOG_FILE"
-  echo
-  echo "🔍 Debugging steps:"
-  echo "1. Check if log file was created:"
-  echo "   ls -la $LOG_FILE"
-  echo "2. If log file exists, check contents:"
-  echo "   cat $LOG_FILE"
-  echo "3. Check screen sessions:"
-  echo "   screen -ls"
-  echo "4. Test command manually:"
-  echo "   cd $PRODUCTION_DIR && conda activate $CONDA_ENV && $LAUNCH_CMD"
-fi (mini_conda_02) scripts$ source portal_screen_launch.sh
-🔍 Launching flask in screen session 'feedback_portal'
-📁 Production directory: /home/theld/code/git_repos/feedback_portal/source/production
-🐍 Conda env: mini_conda_02
-🌐 Host:Port 0.0.0.0:2113
-🐞 Debug mode: true
-📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log
-
-Step 1: Checking production directory...
-✅ Production directory exists
-Step 2: Creating log directory...
-✅ Log directory ready
-Step 3: Checking for existing screen session...
-✅ No existing session found
-Step 4: Building launch command...
-✅ Command: flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-Step 5: Launching screen session...
-SCREEN_CMD: cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log 2>&1
-🔍 Full screen command that will be executed:
-screen -S "feedback_portal" -dm bash -c "cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log 2>&1"
-
-✅ Screen session launched
-Step 6: Verifying session is running...
-❌ Screen session failed to start
-📄 Log file: /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log
-
-🔍 Debugging steps:
-1. Check if log file was created:
-   ls -la /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log
-2. If log file exists, check contents:
-   cat /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log
-3. Check screen sessions:
-   screen -ls
-4. Test command manually:
-   cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-(mini_conda_02) scripts$ cd /home/theld/code/git_repos/feedback_portal/source/production && conda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug
-[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
- * Serving Flask app 'arb/wsgi'
- * Debug mode: on
-[Logging] App logging configured: /home/theld/code/git_repos/feedback_portal/logs/arb_portal.log (level=DEBUG)
-^C(mini_conda_02) production$ screen -S "feedback_portal" -dm bash -c "cd /home/theld/code/git_repos/feedback_portal/source/production && cda activate mini_conda_02 && flask --app arb/wsgi run --host=0.0.0.0 --port=2113 --debug >> /home/theld/code/git_repos/feedback_portal/logs/screen_flask_2025_07_29_21_39_21.log 2>&1"
-(mini_conda_02) production$ screen -list
-No Sockets found in /var/run/screen/S-theld.
 
 (mini_conda_02) production$
 
@@ -2043,6 +1597,31 @@ The results are located here:
 
 running on the ec2 create 3 logs.  two are from the portal because it gets a new name on restart
 the other is the screen log
+
+cd /d/local/cursor/feedback_portal && <test of interest> | tee pytest_output_description.txt
+
+Fri, Aug  1, 2025  6:16:47 PM
+reset commit to pre wait_for_timeout refactor
+pytest_TONY_HOME_e2e_32.txt ran with 1 error that did not occur again after re-running that single test
+i reran the whole suite as 33.
+it seems like there is some natural variability in the passes given buffering issues, that is why
+i am trying to get rid of the wait_for_timeouts ...
+
+pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  > output_file_01.txt 2>&1
+pytest tests/e2e/test_excel_upload_workflows_2.py -v -s -k "test_invalid_file_upload"  > pytest_excel_upload_workflows_2.txt 2>&1
+
+winpty was recommended by chatgpt to get cursor to hang less
+
+pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  | tee output_file_01.txt
+
+
+sometimes cursor does not realize that a pytest has completed and hangs.  on possible solution is to use winpty
+prior to your pytest command.  do you think the following will work?  if so, lets run it and see.
+
+winpty pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
+pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
+
+
 
 
 

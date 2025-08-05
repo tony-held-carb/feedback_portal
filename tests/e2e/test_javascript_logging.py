@@ -25,14 +25,13 @@ Test Coverage:
 
 Playwright Best Practices for Diagnostics Overlay:
 -------------------------------------------------
-- Always use `wait_for_load_state("networkidle")` after navigation to ensure the page and overlay are ready.
+- Always use `navigate_and_wait_for_ready()` after navigation to ensure the page and overlay are ready.
 - After triggering a UI event (like a button click), use Playwright's `expect(locator).to_contain_text()` or similar polling-based assertions to wait for the overlay to update before asserting.
 - Avoid asserting overlay content immediately after a click; always use robust Playwright waiting strategies instead of arbitrary timeouts.
 - If testing backend logging, use Playwright's network interception or polling for POST requests if needed.
 
 Example:
-    page.goto(f"{BASE_URL}/java_script_diagnostic_test")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/java_script_diagnostic_test")
     # ... interact with page ...
     from playwright.sync_api import expect
     expect(page.locator('#js-diagnostics')).to_contain_text("expected log")
@@ -40,10 +39,10 @@ Example:
 """
 
 import pytest
-from playwright.sync_api import Page
-import os
+from playwright.sync_api import Page, expect
 import os
 import conftest
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -56,8 +55,7 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     - Diagnostics button logs to overlay (including input value)
     - Waits are used to avoid race conditions
     """
-    page.goto(f"{BASE_URL}/java_script_diagnostic_test")
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, f"{BASE_URL}/java_script_diagnostic_test")
     # Scrape overlay after page load
     overlay = ''
     try:
@@ -71,7 +69,6 @@ def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
     assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
     btn.first.click()
     # Use Playwright's expect to robustly wait for overlay update
-    from playwright.sync_api import expect
     expect(page.locator('#js-diagnostics')).to_contain_text('send-diagnostic')
     overlay2 = ''
     try:

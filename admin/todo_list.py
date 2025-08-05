@@ -2,25 +2,13 @@
 
 # todo - Next Steps
 ----------------------------
-7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
 
-created PR 29 to clean up documentation and deploy to ec2
-* deploy to ec2
+* merge into main, create new branch and reformat all .py code with pycharm, rerun tests
 
-* update docs to show what testing was done, consider creating a primer for the rest of the group
-* create a protocol/template for documenting source code consistent with testing approach
-* create a launch new version protocol for automated and manual testing
-* review testing_protocol_and_notes.txt
-* update notes and scripts to launch from app/wsgi
-* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
-
-likely want to reinstall git bash so that it uses a path that does not have a space in it
-
-
 
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
@@ -61,6 +49,8 @@ likely want to reinstall git bash so that it uses a path that does not have a sp
 * ---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
 
-add pytest-cov and then try get a good coverage report
+
+* add pytest-cov and then try get a good coverage report
+* come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 """

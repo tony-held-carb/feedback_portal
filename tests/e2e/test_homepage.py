@@ -17,6 +17,7 @@ from playwright.sync_api import Page, expect
 import re
 import os
 import conftest
+from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -26,8 +27,7 @@ def test_homepage_loads(page: Page):
     """
     E2E: Loads the homepage and checks for title/header and incidence list presence.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     # Check for main header
     expect(page.locator("h2, h1")).to_contain_text("Operator Feedback Incidence List")
     # Check for at least one card or table row (incidence)
@@ -41,8 +41,7 @@ def test_homepage_empty_state(page: Page):
     """
     E2E: Checks that the homepage handles the empty state (no incidences) gracefully.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     cards = page.locator(".card, .incidence-list, .incidence-row")
     if cards.count() > 0:
         pytest.skip("Incidences are present; skipping empty state check.")
@@ -54,8 +53,7 @@ def test_homepage_navigation_menu(page: Page):
     """
     E2E: Checks that the main navigation/menu is present and contains expected items.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     nav = page.locator("nav.navbar")
     assert nav.count() > 0, "Main navigation bar should be present."
     # Check for key menu items
@@ -69,8 +67,7 @@ def test_homepage_accessibility(page: Page):
     """
     E2E: Basic accessibility checks for the homepage.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     # Check tab order: first link or button should be focusable
     first_link = page.locator("a, button").first
     if first_link.count() == 0:
@@ -83,8 +80,7 @@ def test_homepage_card_content_and_links(page: Page):
     """
     E2E: Checks that each incidence card displays expected fields and has a valid link.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     cards = page.locator(".card")
     if cards.count() == 0:
         pytest.skip("No incidences present to check card content.")
@@ -107,8 +103,7 @@ def test_homepage_card_navigation(page: Page):
     """
     E2E: Clicks the first incidence card's link and checks navigation to the detail/edit page.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     link = page.locator(".card a[href*='incidence_update']").first
     if link.count() == 0:
         pytest.skip("No incidence links to test navigation.")
@@ -123,8 +118,7 @@ def test_homepage_pagination_or_scrolling(page: Page):
     """
     E2E: Checks for pagination or scrolling if many incidences are present.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     cards = page.locator(".card")
     if cards.count() < 20:
         pytest.skip("Not enough incidences to test pagination/scrolling.")
@@ -138,8 +132,7 @@ def test_homepage_special_characters_and_long_text(page: Page):
     """
     E2E: Checks for special characters and long text in incidence card data.
     """
-    page.goto(BASE_URL)
-    page.wait_for_load_state("networkidle")
+    navigate_and_wait_for_ready(page, BASE_URL)
     cards = page.locator(".card")
     if cards.count() == 0:
         pytest.skip("No incidences present to check special characters/long text.")
