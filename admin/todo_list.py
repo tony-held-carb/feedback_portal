@@ -4,6 +4,7 @@
 ----------------------------
 
 * merge into main, create new branch and reformat all .py code with pycharm, rerun tests
+* creating new branch for using pycharm to reformat python source code across the whole project
 
 
 -------------------------------------------------------

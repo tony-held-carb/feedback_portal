@@ -10,7 +10,7 @@ import copy
 import datetime
 import logging
 from decimal import Decimal
-from typing import Callable, Any
+from typing import Any, Callable
 
 from flask_wtf import FlaskForm
 from sqlalchemy.ext.automap import AutomapBase

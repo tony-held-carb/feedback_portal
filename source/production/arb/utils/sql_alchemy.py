@@ -42,7 +42,6 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.ext.automap import AutomapBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
-from typing import Any
 
 from arb.utils.json import safe_json_loads
 from arb.utils.misc import log_error

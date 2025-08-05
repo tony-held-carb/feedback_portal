@@ -20,10 +20,10 @@
     - Runtime-dependent settings (platform, CLI, etc.) should go in `startup/runtime_info.py`.
 """
 
+import json
 import logging
 import os
 from pathlib import Path
-import json
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -61,24 +61,23 @@ class BaseConfig:
   # "prj-sandbox-smdms-postgresql-serverless.cluster-cjqb8tty130x.us-west-2.rds.amazonaws.com"
 
   POSTGRES_ENGINE_OPTIONS = {'connect_args': {
-    # 'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
-    'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
+    'options': '-c search_path=satellite_tracker_demo1,public -c timezone=UTC'  # practice schema
+    # 'options': '-c search_path=satellite_tracker_new,public -c timezone=UTC'  # dan's live schema
   }
   }
-
 
   SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key-goes-here'
   SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or POSTGRES_DB_URI
   # Parse SQLALCHEMY_ENGINE_OPTIONS from environment if set, otherwise use default
   _engine_options_env = os.environ.get('DATABASE_ENGINE_OPTIONS')
   if _engine_options_env:
-      try:
-          SQLALCHEMY_ENGINE_OPTIONS = json.loads(_engine_options_env)
-      except Exception as e:
-          print(f"[ERROR] Could not parse DATABASE_ENGINE_OPTIONS env var as JSON: {e}")
-          SQLALCHEMY_ENGINE_OPTIONS = POSTGRES_ENGINE_OPTIONS
-  else:
+    try:
+      SQLALCHEMY_ENGINE_OPTIONS = json.loads(_engine_options_env)
+    except Exception as e:
+      print(f"[ERROR] Could not parse DATABASE_ENGINE_OPTIONS env var as JSON: {e}")
       SQLALCHEMY_ENGINE_OPTIONS = POSTGRES_ENGINE_OPTIONS
+  else:
+    SQLALCHEMY_ENGINE_OPTIONS = POSTGRES_ENGINE_OPTIONS
   SQLALCHEMY_TRACK_MODIFICATIONS = False
   # When enabled, Flask will log detailed information about templating files
   # consider setting to True if you're getting TemplateNotFound errors.

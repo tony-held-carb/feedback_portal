@@ -1,13 +1,16 @@
 import pytest
+
 try:
   import arb.portal.db_hardcoded as db_hardcoded
 except ModuleNotFoundError:
   # If running as a script, ensure PYTHONPATH includes the project root
   import sys, os
+
   sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
   import arb.portal.db_hardcoded as db_hardcoded
 import datetime
 import copy
+
 
 # NOTE: Some edge cases or error conditions in get_excel_dropdown_data may not be fully covered by unit tests,
 # as the transformation logic is delegated to arb.utils.web_html.update_selector_dict. This ensures canonical
@@ -30,11 +33,12 @@ def test_get_landfill_dummy_form_data_keys():
   assert "inspection_timestamp" in data
   assert isinstance(data["inspection_timestamp"], datetime.datetime)
 
+
 # --- Enhanced Dummy Data Testing ---
 def test_get_og_dummy_form_data_completeness():
   """Test that all expected Oil & Gas fields are present and have correct types."""
   data = db_hardcoded.get_og_dummy_form_data()
-  
+
   # Required fields that should always be present
   expected_fields = {
     "id_incidence": int,
@@ -63,7 +67,7 @@ def test_get_og_dummy_form_data_completeness():
     "sector": str,
     "sector_type": str,
   }
-  
+
   for field, expected_type in expected_fields.items():
     assert field in data, f"Missing field: {field}"
     assert isinstance(data[field], expected_type), f"Field {field} has wrong type: {type(data[field])}"
@@ -72,7 +76,7 @@ def test_get_og_dummy_form_data_completeness():
 def test_get_landfill_dummy_form_data_completeness():
   """Test that all expected Landfill fields are present and have correct types."""
   data = db_hardcoded.get_landfill_dummy_form_data()
-  
+
   # Required fields that should always be present
   expected_fields = {
     "additional_activities": str,
@@ -105,7 +109,7 @@ def test_get_landfill_dummy_form_data_completeness():
     "sector": str,
     "sector_type": str,
   }
-  
+
   for field, expected_type in expected_fields.items():
     assert field in data, f"Missing field: {field}"
     assert isinstance(data[field], expected_type), f"Field {field} has wrong type: {type(data[field])}"
@@ -115,19 +119,19 @@ def test_dummy_data_datetime_consistency():
   """Test that datetime fields in dummy data are consistent and naive (local time)."""
   og_data = db_hardcoded.get_og_dummy_form_data()
   landfill_data = db_hardcoded.get_landfill_dummy_form_data()
-  
+
   # Check that datetime fields are naive (no timezone info)
   datetime_fields_og = ["observation_timestamp", "ogi_date", "method21_date", "repair_timestamp"]
-  datetime_fields_landfill = ["inspection_timestamp", "last_component_leak_monitoring_timestamp", 
-                             "last_surface_monitoring_timestamp", "mitigation_timestamp", 
-                             "observation_timestamp", "re_monitored_timestamp"]
-  
+  datetime_fields_landfill = ["inspection_timestamp", "last_component_leak_monitoring_timestamp",
+                              "last_surface_monitoring_timestamp", "mitigation_timestamp",
+                              "observation_timestamp", "re_monitored_timestamp"]
+
   for field in datetime_fields_og:
     dt = og_data[field]
     assert dt.tzinfo is None, f"OG field {field} should be naive datetime"
     assert dt.second == 0, f"OG field {field} should have seconds=0"
     assert dt.microsecond == 0, f"OG field {field} should have microseconds=0"
-  
+
   for field in datetime_fields_landfill:
     dt = landfill_data[field]
     assert dt.tzinfo is None, f"Landfill field {field} should be naive datetime"
@@ -139,7 +143,7 @@ def test_dummy_data_sector_consistency():
   """Test that sector information is consistent across dummy data."""
   og_data = db_hardcoded.get_og_dummy_form_data()
   landfill_data = db_hardcoded.get_landfill_dummy_form_data()
-  
+
   assert og_data["sector"] == "Oil & Gas"
   assert og_data["sector_type"] == "Oil & Gas"
   assert landfill_data["sector"] == "Landfill"
@@ -209,19 +213,20 @@ def test_contingent_dropdown_structure():
     for subkey, subval in val.items():
       assert isinstance(subval, list)
 
+
 # --- Enhanced Dropdown Testing ---
 def test_all_expected_dropdown_keys_present():
   """Test that all expected dropdown keys are present in the transformed data."""
   drop_downs, _ = db_hardcoded.get_excel_dropdown_data()
-  
+
   expected_keys = {
-    "venting_exclusion", "ogi_performed", "ogi_result", "method21_performed", 
+    "venting_exclusion", "ogi_performed", "ogi_result", "method21_performed",
     "method21_result", "equipment_at_source", "component_at_source",
     "emission_identified_flag_fk", "emission_type_fk", "emission_location",
     "emission_cause", "emission_cause_secondary", "emission_cause_tertiary",
     "included_in_last_lmr", "planned_for_next_lmr"
   }
-  
+
   for key in expected_keys:
     assert key in drop_downs, f"Missing dropdown key: {key}"
 
@@ -229,7 +234,7 @@ def test_all_expected_dropdown_keys_present():
 def test_dropdown_values_not_empty():
   """Test that all dropdowns contain values (not just the Please Select option)."""
   drop_downs, _ = db_hardcoded.get_excel_dropdown_data()
-  
+
   for key, values in drop_downs.items():
     assert len(values) > 1, f"Dropdown {key} should have more than just 'Please Select'"
     # Check that there are actual options beyond the Please Select
@@ -240,10 +245,10 @@ def test_dropdown_values_not_empty():
 def test_contingent_dropdown_completeness():
   """Test that contingent dropdowns have all expected parent-child relationships."""
   _, contingent = db_hardcoded.get_excel_dropdown_data()
-  
+
   # Test the main contingent relationship
   assert "emission_cause_contingent_on_emission_location" in contingent
-  
+
   contingent_data = contingent["emission_cause_contingent_on_emission_location"]
   expected_parents = {
     "Gas Collection System Component (e.g., blower, well, valve, port)",
@@ -254,7 +259,7 @@ def test_contingent_dropdown_completeness():
     "Leachate Management System",
     "Working Face (area where active filling was being conducted at the time of detection)"
   }
-  
+
   for parent in expected_parents:
     assert parent in contingent_data, f"Missing parent option: {parent}"
     assert isinstance(contingent_data[parent], list), f"Parent {parent} should have list of options"
@@ -264,7 +269,7 @@ def test_contingent_dropdown_completeness():
 def test_dropdown_data_consistency():
   """Test that dropdown data is consistent between original and transformed versions."""
   drop_downs, _ = db_hardcoded.get_excel_dropdown_data()
-  
+
   # Test that the original data is preserved in the transformed version
   for key, original_values in db_hardcoded._drop_downs.items():
     if key in drop_downs:
@@ -289,23 +294,24 @@ def test_sector_constants_content():
   """Test that sector constants contain expected values."""
   oil_gas_sectors = db_hardcoded.OIL_AND_GAS_SECTORS
   landfill_sectors = db_hardcoded.LANDFILL_SECTORS
-  
+
   # Test that lists are not empty
   assert len(oil_gas_sectors) > 0
   assert len(landfill_sectors) > 0
-  
+
   # Test that all values are strings
   for sector in oil_gas_sectors:
     assert isinstance(sector, str)
   for sector in landfill_sectors:
     assert isinstance(sector, str)
-  
+
   # Test for specific expected values
   assert "Oil & Gas" in oil_gas_sectors
   assert "Landfill" in landfill_sectors
 
 
 # --- Canonical Transformation Logic ---
-@pytest.mark.skip(reason="The transformation logic for dropdowns is delegated to arb.utils.web_html.update_selector_dict. Canonical logic is tested elsewhere.")
+@pytest.mark.skip(
+  reason="The transformation logic for dropdowns is delegated to arb.utils.web_html.update_selector_dict. Canonical logic is tested elsewhere.")
 def test_selector_list_to_tuples_matches_canonical():
-  pass 
+  pass

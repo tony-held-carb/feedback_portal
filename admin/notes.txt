@@ -1622,6 +1622,13 @@ winpty pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.t
 pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
 
 
+pytest_TONY_WORK_arb_79.txt
+pytest_TONY_WORK_e2e_79.txt
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
 
-
-
+Use this which was after code refactor
+pytest_TONY_WORK_arb_80.txt
+pytest_TONY_WORK_e2e_80.txt
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]

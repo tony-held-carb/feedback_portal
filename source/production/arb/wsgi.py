@@ -67,10 +67,10 @@ Notes:
               - e.g., FLASK_ENV, FLASK_DEBUG, FLASK_RUN_PORT
 """
 
-import os
 import logging
-from pathlib import Path
+import os
 from datetime import datetime
+from pathlib import Path
 
 from arb.logging.arb_logging import setup_app_logging
 from arb.portal.app import create_app
@@ -84,9 +84,9 @@ timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
 # Create a more descriptive log filename with timestamp
 if machine_name is None:
-    log_filename = f"{app_name}_created_{timestamp}"
+  log_filename = f"{app_name}_created_{timestamp}"
 else:
-    log_filename = f"{app_name}_{machine_name}_created_{timestamp}"
+  log_filename = f"{app_name}_{machine_name}_created_{timestamp}"
 
 setup_app_logging(log_filename)
 
@@ -107,14 +107,13 @@ logger.info(f"[DIAGNOSTIC] {__name__} logger level: {logging.getLevelName(logger
 
 # Development server configuration
 if __name__ == "__main__":
-    logger.info("Starting Flask development server")
-    logger.info("For production, use: gunicorn arb.wsgi:app")
-    
+  logger.info("Starting Flask development server")
+  logger.info("For production, use: gunicorn arb.wsgi:app")
 
-    app.run(
-      #  host='0.0.0.0',      # Bind to all interfaces
-        # port=2113,           # Standard development port
-        debug=True,          # Enable debug mode for development <--- (debug=True) is critical for PyCharm-based debug mode
-        use_reloader=False,  # Disable auto-reload for stability
-      #  threaded=True        # Enable threading for concurrent requests
-    )
+  app.run(
+    #  host='0.0.0.0',      # Bind to all interfaces
+    # port=2113,           # Standard development port
+    debug=True,  # Enable debug mode for development <--- (debug=True) is critical for PyCharm-based debug mode
+    use_reloader=False,  # Disable auto-reload for stability
+    #  threaded=True        # Enable threading for concurrent requests
+  )

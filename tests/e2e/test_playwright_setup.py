@@ -44,9 +44,9 @@ Output:
 """
 
 import pytest
-import asyncio
 import sniffio
 from playwright.async_api import async_playwright
+
 
 # IMPORTANT: This test is skipped in pytest runs due to known issues with pytest-asyncio and event loop handling on Windows.
 # - Playwright async tests can fail under pytest-asyncio on Windows due to event loop policy conflicts (ProactorEventLoop).
@@ -60,39 +60,40 @@ from playwright.async_api import async_playwright
 @pytest.mark.skip(reason="Skipped in pytest runs due to Windows/pytest-asyncio event loop issues. Run as a script if needed.")
 @pytest.mark.asyncio
 async def test_playwright_setup():
-    """
-    Asynchronously verifies that Playwright is installed and functional by:
-    - Launching a headless Chromium browser
-    - Navigating to https://example.com
-    - Checking that the page loads and contains the expected content
-    - Printing progress and result messages to the console
+  """
+  Asynchronously verifies that Playwright is installed and functional by:
+  - Launching a headless Chromium browser
+  - Navigating to https://example.com
+  - Checking that the page loads and contains the expected content
+  - Printing progress and result messages to the console
 
-    Skips the test if the current async library is not asyncio (required by Playwright).
-    """
-    if sniffio.current_async_library() != "asyncio":
-        pytest.skip("Playwright only supports asyncio backend")
-    print("Testing Playwright setup (async)...")
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
-        try:
-            print("Navigating to example.com...")
-            await page.goto("https://example.com")
-            title = await page.title()
-            print(f"Page title: {title}")
-            content = await page.content()
-            assert "Example Domain" in content, "❌ Unexpected page content"
-            print("✅ Playwright setup is working correctly!")
-        finally:
-            await browser.close()
+  Skips the test if the current async library is not asyncio (required by Playwright).
+  """
+  if sniffio.current_async_library() != "asyncio":
+    pytest.skip("Playwright only supports asyncio backend")
+  print("Testing Playwright setup (async)...")
+  async with async_playwright() as p:
+    browser = await p.chromium.launch(headless=True)
+    page = await browser.new_page()
+    try:
+      print("Navigating to example.com...")
+      await page.goto("https://example.com")
+      title = await page.title()
+      print(f"Page title: {title}")
+      content = await page.content()
+      assert "Example Domain" in content, "❌ Unexpected page content"
+      print("✅ Playwright setup is working correctly!")
+    finally:
+      await browser.close()
+
 
 if __name__ == "__main__":
-    success = test_playwright_setup()
-    if success:
-        print("\n🎉 Playwright migration completed successfully!")
-        print("You can now run E2E tests with Playwright.")
-    else:
-        print("\n❌ Playwright setup test failed.")
-        print("Please check your Playwright installation.")
-    
-    exit(0 if success else 1) 
+  success = test_playwright_setup()
+  if success:
+    print("\n🎉 Playwright migration completed successfully!")
+    print("You can now run E2E tests with Playwright.")
+  else:
+    print("\n❌ Playwright setup test failed.")
+    print("Please check your Playwright installation.")
+
+  exit(0 if success else 1)

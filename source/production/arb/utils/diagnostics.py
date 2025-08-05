@@ -14,9 +14,9 @@ or ad-hoc inspection of application state during development.
 
 import logging
 import pprint
+from typing import Any
 
 from bs4 import BeautifulSoup
-from typing import Any
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)

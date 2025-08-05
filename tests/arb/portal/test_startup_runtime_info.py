@@ -3,12 +3,11 @@ Comprehensive tests for arb.portal.startup.runtime_info
 
 Covers platform detection, path constants, directory creation, and print_runtime_diagnostics logging.
 """
-import pytest
 import sys
-import os
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+
 from arb.portal.startup import runtime_info
+
 
 def test_platform_constants_defined():
   """Platform detection constants are defined and correct types."""
@@ -20,6 +19,7 @@ def test_platform_constants_defined():
   assert isinstance(runtime_info.IS_WINDOWS, bool)
   assert isinstance(runtime_info.IS_LINUX, bool)
   assert isinstance(runtime_info.IS_MAC, bool)
+
 
 def test_platform_detection_logic():
   """Platform detection logic is mutually exclusive and matches sys.platform."""
@@ -34,11 +34,13 @@ def test_platform_detection_logic():
   elif plat.startswith('darwin'):
     assert runtime_info.IS_MAC
 
+
 def test_path_constants_defined_and_types():
   """Path constants are defined and are Path objects."""
   for attr in ['PROJECT_ROOT', 'UPLOAD_PATH', 'LOG_DIR', 'LOG_FILE', 'STATIC_DIR']:
     val = getattr(runtime_info, attr)
     assert isinstance(val, Path)
+
 
 def test_path_structure():
   """Path structure follows expected pattern and names."""
@@ -49,12 +51,14 @@ def test_path_structure():
   # Check that LOG_FILE is inside LOG_DIR
   assert runtime_info.LOG_FILE.parent == runtime_info.LOG_DIR
 
+
 def test_required_directories_exist():
   """UPLOAD_PATH and LOG_DIR exist and are directories."""
   assert runtime_info.UPLOAD_PATH.exists()
   assert runtime_info.UPLOAD_PATH.is_dir()
   assert runtime_info.LOG_DIR.exists()
   assert runtime_info.LOG_DIR.is_dir()
+
 
 def test_directory_creation_idempotent(tmp_path, monkeypatch):
   """Directory creation is idempotent and does not raise if already exists."""
@@ -70,12 +74,15 @@ def test_directory_creation_idempotent(tmp_path, monkeypatch):
     d.mkdir(parents=True, exist_ok=True)  # Call again to check idempotency
     assert d.exists() and d.is_dir()
 
+
 def test_print_runtime_diagnostics_logs_all(monkeypatch):
   """print_runtime_diagnostics logs all expected info."""
   logs = []
+
   class DummyLogger:
     def info(self, msg):
       logs.append(msg)
+
   monkeypatch.setattr(runtime_info, 'logger', DummyLogger())
   runtime_info.print_runtime_diagnostics()
   # Check that all expected keys are in the logs
@@ -86,12 +93,15 @@ def test_print_runtime_diagnostics_logs_all(monkeypatch):
   for key in expected_keys:
     assert any(key in str(line) for line in logs)
 
+
 def test_print_runtime_diagnostics_multiple_calls(monkeypatch):
   """print_runtime_diagnostics can be called multiple times without error."""
   logs = []
+
   class DummyLogger:
     def info(self, msg):
       logs.append(msg)
+
   monkeypatch.setattr(runtime_info, 'logger', DummyLogger())
   runtime_info.print_runtime_diagnostics()
   runtime_info.print_runtime_diagnostics()
@@ -103,7 +113,8 @@ def test_print_runtime_diagnostics_multiple_calls(monkeypatch):
   for key in expected_keys:
     assert sum(key in str(line) for line in logs) >= 2
 
+
 def test_log_file_path_is_file():
   """LOG_FILE is a file path inside LOG_DIR."""
   assert runtime_info.LOG_FILE.parent == runtime_info.LOG_DIR
-  assert runtime_info.LOG_FILE.name == 'arb_portal.log' 
+  assert runtime_info.LOG_FILE.name == 'arb_portal.log'

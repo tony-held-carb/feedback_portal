@@ -4,13 +4,12 @@ Integration tests for arb.portal.routes
 Covers complex POST routes, file upload endpoints, and routes requiring specific DB state.
 Uses pytest and Flask's test client. Skips routes that require real uploads or external dependencies.
 """
-import pytest
-from arb.portal.app import create_app
-from flask import Flask
 import io
-import os
-from flask import url_for
-from werkzeug.datastructures import FileStorage
+
+import pytest
+
+from arb.portal.app import create_app
+
 
 def seed_incidence(app):
   """
@@ -79,9 +78,11 @@ def app():
   app = create_app()
   yield app
 
+
 @pytest.fixture(scope="module")
 def client(app):
   return app.test_client()
+
 
 # --- Test: /incidence_update/<id_>/ ---
 def test_incidence_update_route(client, app):
@@ -101,6 +102,7 @@ def test_incidence_update_route(client, app):
     response = client.get("/incidence_update/999999/")
     assert response.status_code in (302, 404)
 
+
 def test_incidence_update_route_with_message(client):
   """
   GET /incidence_update/<id_>/ should handle URL-encoded messages properly.
@@ -108,12 +110,14 @@ def test_incidence_update_route_with_message(client):
   response = client.get("/incidence_update/999999/")
   assert response.status_code in (302, 404)
 
+
 def test_incidence_update_route_invalid_id(client):
   """
   GET /incidence_update/<id_>/ should handle invalid ID formats gracefully.
   """
   response = client.get("/incidence_update/invalid/")
   assert response.status_code == 404
+
 
 # --- Test: /og_incidence_create/ ---
 def test_og_incidence_create_route(client, app):
@@ -132,6 +136,7 @@ def test_og_incidence_create_route(client, app):
   except Exception:
     pass
 
+
 def test_og_incidence_create_route_get(client):
   """
   GET /og_incidence_create/ should also work (though POST is the primary method).
@@ -140,6 +145,7 @@ def test_og_incidence_create_route_get(client):
   assert response.status_code in (302, 303)
   location = response.headers.get("Location", "")
   assert "/incidence_update/" in location
+
 
 # --- Test: /landfill_incidence_create/ ---
 def test_landfill_incidence_create_route(client, app):
@@ -156,6 +162,7 @@ def test_landfill_incidence_create_route(client, app):
   except Exception:
     pass
 
+
 def test_landfill_incidence_create_route_get(client):
   """
   GET /landfill_incidence_create/ should also work (though POST is the primary method).
@@ -164,6 +171,7 @@ def test_landfill_incidence_create_route_get(client):
   assert response.status_code in (302, 303)
   location = response.headers.get("Location", "")
   assert "/incidence_update/" in location
+
 
 # --- Test: /incidence_delete/<id_>/ ---
 def test_incidence_delete_route(client, app):
@@ -181,12 +189,14 @@ def test_incidence_delete_route(client, app):
     response = client.post("/incidence_delete/999999/")
     assert response.status_code in (302, 404)
 
+
 def test_incidence_delete_route_invalid_id(client):
   """
   POST /incidence_delete/<id_>/ should handle invalid ID formats gracefully.
   """
   response = client.post("/incidence_delete/invalid/")
   assert response.status_code == 404
+
 
 # --- Test: /list_uploads ---
 def test_list_uploads_route(client):
@@ -198,6 +208,7 @@ def test_list_uploads_route(client):
   html = response.get_data(as_text=True)
   assert "Uploaded Files" in html or "📁 Uploaded Files" in html
 
+
 # --- Test: /list_staged ---
 def test_list_staged_route(client):
   """
@@ -207,6 +218,7 @@ def test_list_staged_route(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Staged Files" in html or "📋 Staged Files" in html
+
 
 # --- Test: /upload (GET and POST) ---
 def test_upload_file_route_get(client):
@@ -218,6 +230,7 @@ def test_upload_file_route_get(client):
   html = response.get_data(as_text=True)
   assert "Upload Feedback Spreadsheet" in html
 
+
 def test_upload_file_route_get_with_message(client):
   """
   GET /upload/<message> should return 200 and show the upload form with decoded message.
@@ -227,6 +240,7 @@ def test_upload_file_route_get_with_message(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Upload Feedback Spreadsheet" in html
+
 
 def test_upload_file_route_post_no_file(client):
   """
@@ -238,6 +252,7 @@ def test_upload_file_route_post_no_file(client):
   # The error message is logged but may not be displayed in the HTML
   # Check that the upload form is still rendered
   assert "Upload Feedback Spreadsheet" in html
+
 
 def test_upload_file_route_post_empty_file(client):
   """
@@ -251,6 +266,7 @@ def test_upload_file_route_post_empty_file(client):
   # Check that the upload form is still rendered
   assert "Upload Feedback Spreadsheet" in html
 
+
 def test_upload_file_route_post_invalid_file(client):
   """
   POST /upload with invalid file should return 200 and show error message.
@@ -262,6 +278,7 @@ def test_upload_file_route_post_invalid_file(client):
   # Should show some form of error message
   assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower()
 
+
 # --- Test: /upload_staged (GET and POST) ---
 def test_upload_file_staged_route_get(client):
   """
@@ -271,6 +288,7 @@ def test_upload_file_staged_route_get(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Staged Upload Process" in html or "Upload & Review (Staged Workflow)" in html
+
 
 def test_upload_file_staged_route_get_with_message(client):
   """
@@ -282,6 +300,7 @@ def test_upload_file_staged_route_get_with_message(client):
   html = response.get_data(as_text=True)
   assert "Staged Upload Process" in html or "Upload & Review (Staged Workflow)" in html
 
+
 def test_upload_file_staged_route_post_no_file(client):
   """
   POST /upload_staged with no file should return 200 and show error message.
@@ -290,6 +309,7 @@ def test_upload_file_staged_route_post_no_file(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "No file selected" in html
+
 
 def test_upload_file_staged_route_post_empty_file(client):
   """
@@ -300,6 +320,7 @@ def test_upload_file_staged_route_post_empty_file(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "No file selected" in html
+
 
 def test_upload_file_staged_route_post_invalid_file(client):
   """
@@ -312,6 +333,7 @@ def test_upload_file_staged_route_post_invalid_file(client):
   # Should show some form of error message
   assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower()
 
+
 # --- Test: /search/ (GET and POST) ---
 def test_search_route_get(client):
   """
@@ -322,6 +344,7 @@ def test_search_route_get(client):
   html = response.get_data(as_text=True)
   assert "Search Results" in html
 
+
 def test_search_route_post(client):
   """
   POST /search/ should return 200 and echo the search string.
@@ -330,6 +353,7 @@ def test_search_route_post(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "test search" in html
+
 
 def test_search_route_post_empty_search(client):
   """
@@ -340,6 +364,7 @@ def test_search_route_post_empty_search(client):
   html = response.get_data(as_text=True)
   assert "Search Results" in html
 
+
 def test_search_route_post_no_search_param(client):
   """
   POST /search/ with no search parameter should return 200 and handle gracefully.
@@ -348,6 +373,7 @@ def test_search_route_post_no_search_param(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Search Results" in html
+
 
 # --- Test: /diagnostics ---
 def test_diagnostics_route(client):
@@ -359,6 +385,7 @@ def test_diagnostics_route(client):
   html = response.get_data(as_text=True)
   assert "Diagnostic Results" in html or "Auto-Increment Check" in html
 
+
 # --- Test: /show_dropdown_dict ---
 def test_show_dropdown_dict_route(client):
   """
@@ -368,6 +395,7 @@ def test_show_dropdown_dict_route(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Dropdown Dictionaries" in html
+
 
 # --- Test: /show_database_structure ---
 def test_show_database_structure_route(client):
@@ -379,6 +407,7 @@ def test_show_database_structure_route(client):
   html = response.get_data(as_text=True)
   assert "Database Structure Overview" in html
 
+
 # --- Test: /show_feedback_form_structure ---
 def test_show_feedback_form_structure_route(client):
   """
@@ -388,6 +417,7 @@ def test_show_feedback_form_structure_route(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "WTForms Feedback Form Structure" in html
+
 
 # --- Test: /show_log_file ---
 def test_show_log_file_route(client):
@@ -399,6 +429,7 @@ def test_show_log_file_route(client):
   html = response.get_data(as_text=True)
   assert "Log File Contents" in html or "Last" in html
 
+
 # --- Test: /portal_updates ---
 def test_portal_updates_route(client):
   """
@@ -409,6 +440,7 @@ def test_portal_updates_route(client):
   html = response.get_data(as_text=True)
   assert "Feedback Portal Updates" in html
 
+
 def test_portal_updates_route_with_filters(client):
   """
   GET /portal_updates with query parameters should return 200 and apply filters.
@@ -418,6 +450,7 @@ def test_portal_updates_route_with_filters(client):
   html = response.get_data(as_text=True)
   assert "Feedback Portal Updates" in html
 
+
 def test_portal_updates_route_with_sorting(client):
   """
   GET /portal_updates with sorting parameters should return 200 and apply sorting.
@@ -426,6 +459,7 @@ def test_portal_updates_route_with_sorting(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Feedback Portal Updates" in html
+
 
 # --- Test: /portal_updates/export ---
 def test_portal_updates_export_route(client):
@@ -437,6 +471,7 @@ def test_portal_updates_export_route(client):
   assert "text/csv" in response.content_type
   assert "timestamp" in response.get_data(as_text=True)
 
+
 def test_portal_updates_export_route_with_filters(client):
   """
   GET /portal_updates/export with filters should return 200 and apply filters to CSV.
@@ -446,12 +481,14 @@ def test_portal_updates_export_route_with_filters(client):
   assert "text/csv" in response.content_type
   assert "timestamp" in response.get_data(as_text=True)
 
+
 # --- Test: /review_staged/<id_>/<filename> ---
 def test_review_staged_route(client):
   """GET /review_staged/<id_>/<filename> should handle gracefully even without staged file."""
   # Test with a likely non-existent ID - should handle gracefully
   response = client.get("/review_staged/999999/test.json")
   assert response.status_code in (404, 302, 200)
+
 
 def test_review_staged_route_invalid_id(client):
   """
@@ -460,12 +497,14 @@ def test_review_staged_route_invalid_id(client):
   response = client.get("/review_staged/invalid/test.json")
   assert response.status_code == 404
 
+
 # --- Test: /confirm_staged/<id_>/<filename> ---
 def test_confirm_staged_route(client):
   """POST /confirm_staged/<id_>/<filename> should handle gracefully even without staged file."""
   # Test with a likely non-existent ID - should handle gracefully
   response = client.post("/confirm_staged/999999/test.json")
   assert response.status_code in (404, 302, 500)
+
 
 def test_confirm_staged_route_invalid_id(client):
   """
@@ -474,12 +513,14 @@ def test_confirm_staged_route_invalid_id(client):
   response = client.post("/confirm_staged/invalid/test.json")
   assert response.status_code == 404
 
+
 # --- Test: /discard_staged_update/<id_> ---
 def test_discard_staged_update_route(client):
   """POST /discard_staged_update/<id_> should handle gracefully even without staged file."""
   # Test with a likely non-existent ID - should handle gracefully
   response = client.post("/discard_staged_update/999999")
   assert response.status_code in (404, 302, 500)
+
 
 def test_discard_staged_update_route_invalid_id(client):
   """
@@ -488,12 +529,14 @@ def test_discard_staged_update_route_invalid_id(client):
   response = client.post("/discard_staged_update/invalid")
   assert response.status_code == 404
 
+
 # --- Test: /apply_staged_update/<id_> ---
 def test_apply_staged_update_route(client):
   """POST /apply_staged_update/<id_> should handle gracefully even without staged file."""
   # Test with a likely non-existent ID - should handle gracefully
   response = client.post("/apply_staged_update/999999")
   assert response.status_code in (404, 302, 500)
+
 
 def test_apply_staged_update_route_invalid_id(client):
   """
@@ -502,6 +545,7 @@ def test_apply_staged_update_route_invalid_id(client):
   response = client.post("/apply_staged_update/invalid")
   assert response.status_code == 404
 
+
 # --- Test: /serve_file/<filename> ---
 def test_serve_file_route(client):
   """GET /serve_file/<filename> should handle gracefully even without test files."""
@@ -509,12 +553,14 @@ def test_serve_file_route(client):
   response = client.get("/serve_file/nonexistent_file.xlsx")
   assert response.status_code in (404, 302)
 
+
 def test_serve_file_route_invalid_filename(client):
   """
   GET /serve_file/<filename> with invalid filename should handle gracefully.
   """
   response = client.get("/serve_file/../../invalid_file.txt")
   assert response.status_code in (404, 400)
+
 
 def test_index_route(client, app):
   """
@@ -540,6 +586,7 @@ def test_index_route(client, app):
     # If DB seeding is not possible, at least check the page renders without error
     assert "No description provided." in html or "Operator Feedback Incidence List" in html
 
+
 # --- Additional Error Handling Tests ---
 def test_incidence_update_route_multiple_rows_error(client, app):
   """
@@ -551,6 +598,7 @@ def test_incidence_update_route_multiple_rows_error(client, app):
   # by ensuring the route doesn't crash on invalid inputs.
   response = client.get("/incidence_update/999999/")
   assert response.status_code in (302, 404, 500)
+
 
 def test_upload_file_route_exception_handling(client):
   """
@@ -564,6 +612,7 @@ def test_upload_file_route_exception_handling(client):
   # Should show some form of error message
   assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower()
 
+
 def test_upload_staged_route_exception_handling(client):
   """
   Test that /upload_staged handles exceptions gracefully during file processing.
@@ -576,6 +625,7 @@ def test_upload_staged_route_exception_handling(client):
   # Should show some form of error message
   assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower()
 
+
 # --- URL Parameter and Edge Case Tests ---
 def test_upload_file_route_with_special_characters_in_message(client):
   """
@@ -587,6 +637,7 @@ def test_upload_file_route_with_special_characters_in_message(client):
   html = response.get_data(as_text=True)
   assert "Upload Feedback Spreadsheet" in html
 
+
 def test_upload_staged_route_with_special_characters_in_message(client):
   """
   Test that /upload_staged/<message> handles special characters in the message parameter.
@@ -596,6 +647,7 @@ def test_upload_staged_route_with_special_characters_in_message(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Staged Upload Process" in html or "Upload & Review (Staged Workflow)" in html
+
 
 def test_portal_updates_route_with_invalid_pagination(client):
   """
@@ -614,6 +666,7 @@ def test_portal_updates_route_with_invalid_pagination(client):
     # The route should be updated to handle this gracefully in the future
     pass
 
+
 def test_portal_updates_route_with_invalid_sorting(client):
   """
   Test that /portal_updates handles invalid sorting parameters gracefully.
@@ -621,7 +674,8 @@ def test_portal_updates_route_with_invalid_sorting(client):
   response = client.get("/portal_updates?sort_by=invalid&direction=invalid")
   assert response.status_code == 200
   html = response.get_data(as_text=True)
-  assert "Feedback Portal Updates" in html 
+  assert "Feedback Portal Updates" in html
+
 
 # --- Test: /upload_refactored (GET and POST) ---
 def test_upload_file_refactored_route_get(client):
@@ -633,6 +687,7 @@ def test_upload_file_refactored_route_get(client):
   html = response.get_data(as_text=True)
   assert "Upload Feedback Spreadsheet" in html
 
+
 def test_upload_file_refactored_route_get_with_message(client):
   """
   GET /upload_refactored/<message> should return 200 and show the upload form with decoded message.
@@ -642,6 +697,7 @@ def test_upload_file_refactored_route_get_with_message(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   assert "Upload Feedback Spreadsheet" in html
+
 
 def test_upload_file_refactored_route_post_no_file(client):
   """
@@ -653,6 +709,7 @@ def test_upload_file_refactored_route_post_no_file(client):
   # The error message is logged but may not be displayed in the HTML
   # Check that the upload form is still rendered
   assert "Upload Feedback Spreadsheet" in html
+
 
 def test_upload_file_refactored_route_post_empty_file(client):
   """
@@ -666,6 +723,7 @@ def test_upload_file_refactored_route_post_empty_file(client):
   # Check that the upload form is still rendered
   assert "Upload Feedback Spreadsheet" in html
 
+
 def test_upload_file_refactored_route_post_invalid_file(client):
   """
   POST /upload_refactored with invalid file should return 200 and show error message.
@@ -675,4 +733,4 @@ def test_upload_file_refactored_route_post_invalid_file(client):
   assert response.status_code == 200
   html = response.get_data(as_text=True)
   # Should show some form of error message
-  assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower() 
+  assert "error" in html.lower() or "failed" in html.lower() or "not recognized" in html.lower()

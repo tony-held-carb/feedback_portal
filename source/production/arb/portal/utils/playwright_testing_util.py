@@ -64,6 +64,7 @@ toasts, or custom feedback containers if needed.
 """
 from playwright.sync_api import Page, expect
 
+
 def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
   """
   Waits for a hidden DOM element that signals a file upload was attempted.
@@ -83,6 +84,7 @@ def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
     page.locator(".upload-marker[data-upload-attempted='true']")
   ).to_have_count(1, timeout=timeout)
 
+
 # Constants for feedback message selectors
 UPLOAD_FEEDBACK_SELECTOR = (
   ".alert-success, .alert-danger, .alert-warning, .success-message, .error-message"
@@ -100,6 +102,7 @@ CLEAR_UPLOAD_MARKER_JS = """
   document.querySelectorAll('.upload-marker[data-upload-attempted="true"]')
     .forEach(el => el.remove());
 """
+
 
 def clear_upload_attempt_marker(page: Page) -> None:
   """
@@ -219,4 +222,4 @@ def wait_for_upload_attempt_marker(page: Page, timeout: int = 7000) -> None:
   """
   expect(
     page.locator(".upload-marker[data-upload-attempted='true']")
-  ).to_have_count(1, timeout=timeout) 
+  ).to_have_count(1, timeout=timeout)

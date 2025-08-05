@@ -38,42 +38,44 @@ Example:
 
 """
 
-import pytest
-from playwright.sync_api import Page, expect
 import os
+
+from playwright.sync_api import Page, expect
+
 import conftest
 from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 
+
 def test_diagnostics_overlay_on_diagnostic_test_page(page: Page):
-    """
-    E2E: Load /java_script_diagnostic_test, check overlay for page load diagnostic, click diagnostics button, and check overlay updates.
-    This test verifies:
-    - Overlay is present and logs page load
-    - Diagnostics button logs to overlay (including input value)
-    - Waits are used to avoid race conditions
-    """
-    navigate_and_wait_for_ready(page, f"{BASE_URL}/java_script_diagnostic_test")
-    # Scrape overlay after page load
-    overlay = ''
-    try:
-        overlay = page.locator('#js-diagnostics').inner_text()
-    except Exception:
-        overlay = '[Overlay not found]'
-    print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
-    assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
-    # Click the diagnostics button (send-diagnostic)
-    btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
-    assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
-    btn.first.click()
-    # Use Playwright's expect to robustly wait for overlay update
-    expect(page.locator('#js-diagnostics')).to_contain_text('send-diagnostic')
-    overlay2 = ''
-    try:
-        overlay2 = page.locator('#js-diagnostics').inner_text()
-    except Exception:
-        overlay2 = '[Overlay not found]'
-    print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
-    assert 'send-diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button." 
+  """
+  E2E: Load /java_script_diagnostic_test, check overlay for page load diagnostic, click diagnostics button, and check overlay updates.
+  This test verifies:
+  - Overlay is present and logs page load
+  - Diagnostics button logs to overlay (including input value)
+  - Waits are used to avoid race conditions
+  """
+  navigate_and_wait_for_ready(page, f"{BASE_URL}/java_script_diagnostic_test")
+  # Scrape overlay after page load
+  overlay = ''
+  try:
+    overlay = page.locator('#js-diagnostics').inner_text()
+  except Exception:
+    overlay = '[Overlay not found]'
+  print(f"[DIAGNOSTICS OVERLAY after load] {overlay}")
+  assert 'Page loaded' in overlay or overlay != '[Overlay not found]', "Overlay did not show page load diagnostic."
+  # Click the diagnostics button (send-diagnostic)
+  btn = page.locator('.js-log-btn[data-js-logging-context="send-diagnostic"]')
+  assert btn.count() > 0 and btn.first.is_visible(), "Diagnostics button should be present and visible"
+  btn.first.click()
+  # Use Playwright's expect to robustly wait for overlay update
+  expect(page.locator('#js-diagnostics')).to_contain_text('send-diagnostic')
+  overlay2 = ''
+  try:
+    overlay2 = page.locator('#js-diagnostics').inner_text()
+  except Exception:
+    overlay2 = '[Overlay not found]'
+  print(f"[DIAGNOSTICS OVERLAY after click] {overlay2}")
+  assert 'send-diagnostic' in overlay2, "Overlay did not update after clicking diagnostics button."
