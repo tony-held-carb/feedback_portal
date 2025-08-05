@@ -70,7 +70,7 @@
 import logging
 import pprint
 from pathlib import Path
-from typing import Callable, Any
+from typing import Any, Callable
 
 from arb.utils.file_io import get_project_root_dir
 

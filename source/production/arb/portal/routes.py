@@ -42,8 +42,8 @@ from arb.portal.globals import Globals
 from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
-from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, upload_and_stage_only, upload_and_update_db, upload_and_process_file, \
-  xl_dict_to_database
+from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, \
+  upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, generate_upload_diagnostics, incidence_prep
@@ -346,6 +346,7 @@ def list_staged() -> ResponseReturnValue:
   logger.warning(f'[DEBUG] /list_staged rendering {len(staged_files)} staged, {len(malformed_files)} malformed files')
   # Always pass both variables, even if empty
   return render_template('staged_list.html', staged_files=staged_files, malformed_files=malformed_files)
+
 
 @main.route('/upload', methods=['GET', 'POST'])
 @main.route('/upload/<message>', methods=['GET', 'POST'])
@@ -1163,13 +1164,13 @@ def show_database_structure() -> str:
     'SQLALCHEMY_DATABASE_URI': BaseConfig.SQLALCHEMY_DATABASE_URI,
     'SQLALCHEMY_ENGINE_OPTIONS': BaseConfig.SQLALCHEMY_ENGINE_OPTIONS,
   }
-  
+
   db_config_html = obj_to_html(db_config)
   db_structure_html = obj_to_html(Globals.db_column_types)
-  
+
   result = (f"<p><strong>Database Configuration Variables:</strong></p> <p>{db_config_html}</p>"
             f"<p><strong>Postgres Database Structure:</strong></p> <p>{db_structure_html}</p>")
-  
+
   return render_template('diagnostics.html',
                          header="Database Structure Overview",
                          subheader="Reflecting SQLAlchemy model metadata and database configuration.",
@@ -1440,138 +1441,139 @@ def java_script_diagnostic_test():
 @main.route('/upload_staged_refactored', methods=['GET', 'POST'])
 @main.route('/upload_staged_refactored/<message>', methods=['GET', 'POST'])
 def upload_file_staged_refactored(message: str | None = None) -> Union[str, Response]:
-    """
-    Refactored version of upload_file_staged with improved error handling.
-    
-    This route demonstrates the new staging approach using StagingResult named tuples
-    for better error handling and user experience. It provides the same functionality
-    as upload_file_staged but with more specific error messages and clearer logic.
-    
-    Args:
-        message (str | None): Optional message to display on the staged upload page.
-        
-    Returns:
-        str|Response: Rendered HTML for the staged upload form, or redirect after upload.
-        
-    Examples:
-        # In browser: GET /upload_staged_refactored
-        # Returns: HTML staged upload form
-        # In browser: POST /upload_staged_refactored
-        # Redirects to: /list_staged or shows specific error message
-        
-    Notes:
-        - This is a parallel implementation to upload_file_staged
-        - Uses the new stage_uploaded_file_for_review function
-        - Provides more specific error messages based on error_type
-        - Maintains the same user workflow as the original route
-    """
-    logger.info(f"route called: upload_file_staged_refactored with message: {message}")
-    
-    base: AutomapBase = current_app.base  # type: ignore[attr-defined]
-    form = UploadForm()
-    
-    # Decode optional redirect message
-    if message:
-        message = unquote(message)
-        logger.debug(f"Received redirect message: {message}")
-    
-    upload_folder = get_upload_folder()
-    logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
-    
-    if request.method == 'POST':
-        flash("_upload_attempted", "internal-marker")
-        try:
-            request_file = request.files.get('file')
-            
-            if not request_file or not request_file.filename:
-                logger.warning("POST received with no file selected.")
-                return render_template(
-                    'upload_staged.html', 
-                    form=form, 
-                    upload_message="No file selected. Please choose a file."
-                )
-            
-            logger.debug(f"Received uploaded file: {request_file.filename}")
-            
-            # Use the new refactored staging function
-            result = stage_uploaded_file_for_review(db, upload_folder, request_file, base)
-            
-            if result.success:
-                # Success case - redirect to review page
-                logger.debug(f"Staged upload successful: id={result.id_}, sector={result.sector}, filename={result.staged_filename}. Redirecting to review page.")
-                
-                # Enhanced success feedback with staging details
-                success_message = (
-                    f"✅ File '{request_file.filename}' staged successfully!\n"
-                    f"📋 ID: {result.id_}\n"
-                    f"🏭 Sector: {result.sector}\n"
-                    f"📁 Staged as: {result.staged_filename}\n"
-                    f"🔍 Ready for review and confirmation."
-                )
-                flash(success_message, "success")
-                return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
-            
-            else:
-                # Handle specific error types with appropriate messages
-                if result.error_type == "missing_id":
-                    logger.warning(f"Staging blocked: missing or invalid id_incidence in {result.file_path.name}")
-                    return render_template(
-                        'upload_staged.html',
-                        form=form,
-                        upload_message=result.error_message
-                    )
-                
-                elif result.error_type == "conversion_failed":
-                    logger.warning(f"Staging blocked: file conversion failed for {result.file_path.name}")
-                    return render_template(
-                        'upload_staged.html',
-                        form=form,
-                        upload_message=result.error_message
-                    )
-                
-                elif result.error_type == "file_error":
-                    logger.error(f"File upload error: {result.error_message}")
-                    return render_template(
-                        'upload_staged.html',
-                        form=form,
-                        upload_message=f"File upload error: {result.error_message}"
-                    )
-                
-                elif result.error_type == "database_error":
-                    logger.error(f"Database error during staging: {result.error_message}")
-                    return render_template(
-                        'upload_staged.html',
-                        form=form,
-                        upload_message=f"Database error during staging: {result.error_message}"
-                    )
-                
-                else:
-                    # Fallback for unknown error types
-                    logger.error(f"Unknown staging error: {result.error_message}")
-                    return render_template(
-                        'upload_staged.html',
-                        form=form,
-                        upload_message=f"Unexpected error during staging: {result.error_message}"
-                    )
-        
-        except Exception as e:
-            logger.exception("Exception occurred during staged upload.")
-            
-            # Enhanced error handling with staging-specific diagnostic information
-            error_details = generate_staging_diagnostics(
-                request_file,
-                result.file_path if 'result' in locals() else None,
-                result.staged_filename if 'result' in locals() else None,
-                result.id_ if 'result' in locals() else None,
-                result.sector if 'result' in locals() else None
-            )
-            detailed_message = format_diagnostic_message(error_details, "Staged upload processing failed.")
-            
-            return render_template(
-                'upload_staged.html',
-                form=form,
-                upload_message=detailed_message
-            )
-    
-    # GET request: display form
-    return render_template('upload_staged.html', form=form, upload_message=message)
+  """
+  Refactored version of upload_file_staged with improved error handling.
+
+  This route demonstrates the new staging approach using StagingResult named tuples
+  for better error handling and user experience. It provides the same functionality
+  as upload_file_staged but with more specific error messages and clearer logic.
+
+  Args:
+      message (str | None): Optional message to display on the staged upload page.
+
+  Returns:
+      str|Response: Rendered HTML for the staged upload form, or redirect after upload.
+
+  Examples:
+      # In browser: GET /upload_staged_refactored
+      # Returns: HTML staged upload form
+      # In browser: POST /upload_staged_refactored
+      # Redirects to: /list_staged or shows specific error message
+
+  Notes:
+      - This is a parallel implementation to upload_file_staged
+      - Uses the new stage_uploaded_file_for_review function
+      - Provides more specific error messages based on error_type
+      - Maintains the same user workflow as the original route
+  """
+  logger.info(f"route called: upload_file_staged_refactored with message: {message}")
+
+  base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+  form = UploadForm()
+
+  # Decode optional redirect message
+  if message:
+    message = unquote(message)
+    logger.debug(f"Received redirect message: {message}")
+
+  upload_folder = get_upload_folder()
+  logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
+
+  if request.method == 'POST':
+    flash("_upload_attempted", "internal-marker")
+    try:
+      request_file = request.files.get('file')
+
+      if not request_file or not request_file.filename:
+        logger.warning("POST received with no file selected.")
+        return render_template(
+          'upload_staged.html',
+          form=form,
+          upload_message="No file selected. Please choose a file."
+        )
+
+      logger.debug(f"Received uploaded file: {request_file.filename}")
+
+      # Use the new refactored staging function
+      result = stage_uploaded_file_for_review(db, upload_folder, request_file, base)
+
+      if result.success:
+        # Success case - redirect to review page
+        logger.debug(
+          f"Staged upload successful: id={result.id_}, sector={result.sector}, filename={result.staged_filename}. Redirecting to review page.")
+
+        # Enhanced success feedback with staging details
+        success_message = (
+          f"✅ File '{request_file.filename}' staged successfully!\n"
+          f"📋 ID: {result.id_}\n"
+          f"🏭 Sector: {result.sector}\n"
+          f"📁 Staged as: {result.staged_filename}\n"
+          f"🔍 Ready for review and confirmation."
+        )
+        flash(success_message, "success")
+        return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
+
+      else:
+        # Handle specific error types with appropriate messages
+        if result.error_type == "missing_id":
+          logger.warning(f"Staging blocked: missing or invalid id_incidence in {result.file_path.name}")
+          return render_template(
+            'upload_staged.html',
+            form=form,
+            upload_message=result.error_message
+          )
+
+        elif result.error_type == "conversion_failed":
+          logger.warning(f"Staging blocked: file conversion failed for {result.file_path.name}")
+          return render_template(
+            'upload_staged.html',
+            form=form,
+            upload_message=result.error_message
+          )
+
+        elif result.error_type == "file_error":
+          logger.error(f"File upload error: {result.error_message}")
+          return render_template(
+            'upload_staged.html',
+            form=form,
+            upload_message=f"File upload error: {result.error_message}"
+          )
+
+        elif result.error_type == "database_error":
+          logger.error(f"Database error during staging: {result.error_message}")
+          return render_template(
+            'upload_staged.html',
+            form=form,
+            upload_message=f"Database error during staging: {result.error_message}"
+          )
+
+        else:
+          # Fallback for unknown error types
+          logger.error(f"Unknown staging error: {result.error_message}")
+          return render_template(
+            'upload_staged.html',
+            form=form,
+            upload_message=f"Unexpected error during staging: {result.error_message}"
+          )
+
+    except Exception as e:
+      logger.exception("Exception occurred during staged upload.")
+
+      # Enhanced error handling with staging-specific diagnostic information
+      error_details = generate_staging_diagnostics(
+        request_file,
+        result.file_path if 'result' in locals() else None,
+        result.staged_filename if 'result' in locals() else None,
+        result.id_ if 'result' in locals() else None,
+        result.sector if 'result' in locals() else None
+      )
+      detailed_message = format_diagnostic_message(error_details, "Staged upload processing failed.")
+
+      return render_template(
+        'upload_staged.html',
+        form=form,
+        upload_message=detailed_message
+      )
+
+  # GET request: display form
+  return render_template('upload_staged.html', form=form, upload_message=message)

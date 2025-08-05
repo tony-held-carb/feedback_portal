@@ -133,15 +133,15 @@ def validate_payload_for_database(data_dict: dict) -> None:
     msg = "Attempt to add empty entry to database"
     logger.warning(msg)
     raise ValueError(msg)
-  
+
   logger.debug(f"Payload validation passed for dict with {len(data_dict)} keys")
 
 
 def resolve_database_row(db: SQLAlchemy,
-                        base: AutomapBase,
-                        data_dict: dict,
-                        table_name: str = "incidences",
-                        primary_key: str = "id_incidence") -> tuple[Any, int, bool]:
+                         base: AutomapBase,
+                         data_dict: dict,
+                         table_name: str = "incidences",
+                         primary_key: str = "id_incidence") -> tuple[Any, int, bool]:
   """
   Resolve or create a database row for the given payload.
   
@@ -163,7 +163,7 @@ def resolve_database_row(db: SQLAlchemy,
     # Resolves or creates the database row
   """
   id_ = data_dict.get(primary_key)
-  
+
   model, id_, is_new_row = get_ensured_row(
     db=db,
     base=base,
@@ -171,20 +171,20 @@ def resolve_database_row(db: SQLAlchemy,
     primary_key_name=primary_key,
     id_=id_
   )
-  
+
   # Backfill generated primary key into payload if it was not supplied
   if is_new_row:
     logger.debug(f"Backfilling {primary_key} = {id_} into payload")
     data_dict[primary_key] = id_
-    
+
   return model, id_, is_new_row
 
 
 def update_model_with_payload_and_commit(db: SQLAlchemy,
-                                       model: Any,
-                                       data_dict: dict,
-                                       json_field: str = "misc_json",
-                                       dry_run: bool = False) -> None:
+                                         model: Any,
+                                         data_dict: dict,
+                                         json_field: str = "misc_json",
+                                         dry_run: bool = False) -> None:
   """
   Update a model with payload data and commit to database.
   
@@ -200,9 +200,9 @@ def update_model_with_payload_and_commit(db: SQLAlchemy,
     # Updates the model and commits changes
   """
   from arb.utils.wtf_forms_util import update_model_with_payload
-  
+
   update_model_with_payload(model, data_dict, json_field=json_field)
-  
+
   if not dry_run:
     db.session.add(model)
     db.session.commit()
@@ -235,12 +235,12 @@ def extract_primary_key_from_model(model: Any, primary_key: str = "id_incidence"
 
 
 def dict_to_database_refactored(db: SQLAlchemy,
-                               base: AutomapBase,
-                               data_dict: dict,
-                               table_name: str = "incidences",
-                               primary_key: str = "id_incidence",
-                               json_field: str = "misc_json",
-                               dry_run: bool = False) -> int:
+                                base: AutomapBase,
+                                data_dict: dict,
+                                table_name: str = "incidences",
+                                primary_key: str = "id_incidence",
+                                json_field: str = "misc_json",
+                                dry_run: bool = False) -> int:
   """
   Refactored version of dict_to_database that uses smaller, focused functions.
   
@@ -273,10 +273,10 @@ def dict_to_database_refactored(db: SQLAlchemy,
     - Can be used as a drop-in replacement once thoroughly tested.
   """
   logger.debug(f"dict_to_database_refactored() called with {len(data_dict)} keys")
-  
+
   # Step 1: Validate the payload
   validate_payload_for_database(data_dict)
-  
+
   # Step 2: Resolve or create the database row
   model, id_, is_new_row = resolve_database_row(
     db=db,
@@ -285,7 +285,7 @@ def dict_to_database_refactored(db: SQLAlchemy,
     table_name=table_name,
     primary_key=primary_key
   )
-  
+
   # Step 3: Update the model and commit
   update_model_with_payload_and_commit(
     db=db,
@@ -294,7 +294,7 @@ def dict_to_database_refactored(db: SQLAlchemy,
     json_field=json_field,
     dry_run=dry_run
   )
-  
+
   # Step 4: Extract and return the primary key
   return extract_primary_key_from_model(model, primary_key)
 
@@ -436,107 +436,104 @@ def upload_and_update_db_old(db: SQLAlchemy,
   return file_name, id_, sector
 
 
-
-
-
 def upload_and_process_file(db: SQLAlchemy,
-                           upload_dir: str | Path,
-                           request_file: FileStorage,
-                           base: AutomapBase) -> UploadResult:
-    """
-    Process uploaded Excel file and insert parsed contents directly into the database.
-    
-    This function provides a modular, refactored approach to file upload and database
-    insertion with improved error handling and clear separation of concerns.
-    
-    Args:
-        db (SQLAlchemy): SQLAlchemy database instance.
-        upload_dir (str | Path): Directory where the uploaded file should be saved.
-        request_file (FileStorage): File uploaded via the Flask request.
-        base (AutomapBase): SQLAlchemy base object from automap reflection.
-    
-    Returns:
-        UploadResult: Named tuple containing the result of the upload process with
-                     detailed error information and success indicators.
-    
-    Examples:
-        result = upload_and_process_file(db, upload_dir, request_file, base)
-        if result.success:
-            # Redirect to incidence update page
-            return redirect(url_for('main.incidence_update', id_=result.id_))
-        else:
-            # Handle specific error types
-            if result.error_type == "missing_id":
-                return render_template('upload.html', upload_message=result.error_message)
-            elif result.error_type == "conversion_failed":
-                return render_template('upload.html', upload_message=result.error_message)
-    
-    Notes:
-        - Performs a full ingest: logs the file, parses Excel → JSON, and inserts the data into the database.
-        - Returns detailed error information for better user experience and debugging.
-        - Maintains the same functionality as upload_and_update_db but with improved structure.
-        - Uses shared helper functions for consistency with stage_uploaded_file_for_review.
-    """
-    logger.debug(f"upload_and_process_file() called with {request_file=}")
-    
-    # Step 1: Save uploaded file
-    try:
-        file_path = _save_uploaded_file(upload_dir, request_file, db, description="Direct upload to database")
-    except ValueError as e:
-        return UploadResult(
-            file_path=Path("unknown"),
-            id_=None,
-            sector=None,
-            success=False,
-            error_message=str(e),
-            error_type="file_error"
-        )
-    
-    # Step 2: Convert file to JSON and extract data
-    json_path, sector, json_data, error = _convert_file_to_json(file_path)
-    if error:
-        return UploadResult(
-            file_path=file_path,
-            id_=None,
-            sector=sector,
-            success=False,
-            error_message=error,
-            error_type="conversion_failed"
-        )
-    
-    # Step 3: Validate ID from JSON data
-    id_, error = _validate_id_from_json(json_data)
-    if error:
-        return UploadResult(
-            file_path=file_path,
-            id_=None,
-            sector=sector,
-            success=False,
-            error_message=error,
-            error_type="missing_id"
-        )
-    
-    # Step 4: Insert data into database
-    id_, error = _insert_json_into_database(json_path, base, db)
-    if error:
-        return UploadResult(
-            file_path=file_path,
-            id_=None,
-            sector=sector,
-            success=False,
-            error_message=error,
-            error_type="database_error"
-        )
-    
-    # Success case
+                            upload_dir: str | Path,
+                            request_file: FileStorage,
+                            base: AutomapBase) -> UploadResult:
+  """
+  Process uploaded Excel file and insert parsed contents directly into the database.
+
+  This function provides a modular, refactored approach to file upload and database
+  insertion with improved error handling and clear separation of concerns.
+
+  Args:
+      db (SQLAlchemy): SQLAlchemy database instance.
+      upload_dir (str | Path): Directory where the uploaded file should be saved.
+      request_file (FileStorage): File uploaded via the Flask request.
+      base (AutomapBase): SQLAlchemy base object from automap reflection.
+
+  Returns:
+      UploadResult: Named tuple containing the result of the upload process with
+                   detailed error information and success indicators.
+
+  Examples:
+      result = upload_and_process_file(db, upload_dir, request_file, base)
+      if result.success:
+          # Redirect to incidence update page
+          return redirect(url_for('main.incidence_update', id_=result.id_))
+      else:
+          # Handle specific error types
+          if result.error_type == "missing_id":
+              return render_template('upload.html', upload_message=result.error_message)
+          elif result.error_type == "conversion_failed":
+              return render_template('upload.html', upload_message=result.error_message)
+
+  Notes:
+      - Performs a full ingest: logs the file, parses Excel → JSON, and inserts the data into the database.
+      - Returns detailed error information for better user experience and debugging.
+      - Maintains the same functionality as upload_and_update_db but with improved structure.
+      - Uses shared helper functions for consistency with stage_uploaded_file_for_review.
+  """
+  logger.debug(f"upload_and_process_file() called with {request_file=}")
+
+  # Step 1: Save uploaded file
+  try:
+    file_path = _save_uploaded_file(upload_dir, request_file, db, description="Direct upload to database")
+  except ValueError as e:
     return UploadResult(
-        file_path=file_path,
-        id_=id_,
-        sector=sector,
-        success=True,
-        error_message=None,
-        error_type=None
+      file_path=Path("unknown"),
+      id_=None,
+      sector=None,
+      success=False,
+      error_message=str(e),
+      error_type="file_error"
     )
+
+  # Step 2: Convert file to JSON and extract data
+  json_path, sector, json_data, error = _convert_file_to_json(file_path)
+  if error:
+    return UploadResult(
+      file_path=file_path,
+      id_=None,
+      sector=sector,
+      success=False,
+      error_message=error,
+      error_type="conversion_failed"
+    )
+
+  # Step 3: Validate ID from JSON data
+  id_, error = _validate_id_from_json(json_data)
+  if error:
+    return UploadResult(
+      file_path=file_path,
+      id_=None,
+      sector=sector,
+      success=False,
+      error_message=error,
+      error_type="missing_id"
+    )
+
+  # Step 4: Insert data into database
+  id_, error = _insert_json_into_database(json_path, base, db)
+  if error:
+    return UploadResult(
+      file_path=file_path,
+      id_=None,
+      sector=sector,
+      success=False,
+      error_message=error,
+      error_type="database_error"
+    )
+
+  # Success case
+  return UploadResult(
+    file_path=file_path,
+    id_=id_,
+    sector=sector,
+    success=True,
+    error_message=None,
+    error_type=None
+  )
 
 
 def upload_and_update_db(db: SQLAlchemy,
@@ -760,316 +757,311 @@ def upload_and_stage_only(db: SQLAlchemy,
       logger.warning("id_incidence could not be extracted. Staging file was not created.")
   return file_path, None, None, {}, ""
 
+
 # =============================================================================
 # REFACTORED STAGING FUNCTIONS - PARALLEL IMPLEMENTATION
 # =============================================================================
 
 
-
-
-
-
-
-
 def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy, description: str | None = None) -> Path:
-    """
-    Save an uploaded file to the upload directory.
+  """
+  Save an uploaded file to the upload directory.
 
-    Args:
-        upload_dir (str | Path): Directory to save the file in
-        request_file (FileStorage): File uploaded via Flask request
-        db (SQLAlchemy): Database instance for logging upload
-        description (str | None): Optional description for the upload table entry
+  Args:
+      upload_dir (str | Path): Directory to save the file in
+      request_file (FileStorage): File uploaded via Flask request
+      db (SQLAlchemy): Database instance for logging upload
+      description (str | None): Optional description for the upload table entry
 
-    Returns:
-        Path: Path to the saved file
+  Returns:
+      Path: Path to the saved file
 
-    Raises:
-        ValueError: If file upload fails
+  Raises:
+      ValueError: If file upload fails
 
-    Examples:
-        file_path = _save_uploaded_file(upload_dir, request_file, db)
-        # Saves the uploaded file and returns its path
-    """
-    try:
-        file_path = upload_single_file(upload_dir, request_file)
-        add_file_to_upload_table(db, file_path, status="File Added", description=description)
-        logger.debug(f"Uploaded file saved to: {file_path}")
-        return file_path
-    except Exception as e:
-        logger.error(f"Failed to save uploaded file: {e}")
-        raise ValueError(f"File upload failed: {e}")
+  Examples:
+      file_path = _save_uploaded_file(upload_dir, request_file, db)
+      # Saves the uploaded file and returns its path
+  """
+  try:
+    file_path = upload_single_file(upload_dir, request_file)
+    add_file_to_upload_table(db, file_path, status="File Added", description=description)
+    logger.debug(f"Uploaded file saved to: {file_path}")
+    return file_path
+  except Exception as e:
+    logger.error(f"Failed to save uploaded file: {e}")
+    raise ValueError(f"File upload failed: {e}")
 
 
 def _convert_file_to_json(file_path: Path) -> tuple[Path | None, str | None, dict, str | None]:
-    """
-    Convert uploaded file to JSON format and extract sector and data.
-    
-    Args:
-        file_path (Path): Path to the uploaded file
-        
-    Returns:
-        tuple[Path | None, str | None, dict, str | None]: (JSON file path, sector name, json_data, error_message)
-        - JSON file path: Path to converted JSON file (None if conversion failed)
-        - sector name: Extracted sector name (None if conversion failed)
-        - json_data: Parsed JSON data (empty dict if parsing failed)
-        - error_message: Error message if conversion failed (None if successful)
-        
-    Examples:
-        json_path, sector, json_data, error = _convert_file_to_json(file_path)
-        if json_path:
-            # Conversion successful
-        else:
-            # Conversion failed, check error message
-    """
+  """
+  Convert uploaded file to JSON format and extract sector and data.
+
+  Args:
+      file_path (Path): Path to the uploaded file
+
+  Returns:
+      tuple[Path | None, str | None, dict, str | None]: (JSON file path, sector name, json_data, error_message)
+      - JSON file path: Path to converted JSON file (None if conversion failed)
+      - sector name: Extracted sector name (None if conversion failed)
+      - json_data: Parsed JSON data (empty dict if parsing failed)
+      - error_message: Error message if conversion failed (None if successful)
+
+  Examples:
+      json_path, sector, json_data, error = _convert_file_to_json(file_path)
+      if json_path:
+          # Conversion successful
+      else:
+          # Conversion failed, check error message
+  """
+  try:
+    json_path, sector = convert_excel_to_json_if_valid(file_path)
+
+    # Generate import audit for diagnostics
     try:
-        json_path, sector = convert_excel_to_json_if_valid(file_path)
-        
-        # Generate import audit for diagnostics
-        try:
-            parse_result = parse_xl_file(file_path)
-            audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
-            audit_log_path = LOG_DIR / "import_audit.log"
-            audit_log_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(audit_log_path, "a", encoding="utf-8") as f:
-                f.write(audit + "\n\n")
-        except Exception as e:
-            logger.warning(f"Failed to generate import audit: {e}")
-        
-        if not json_path:
-            return None, None, {}, "File could not be converted to JSON format"
-        
-        json_data, _ = json_load_with_meta(json_path)
-        logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
-        return json_path, sector, json_data, None
-        
+      parse_result = parse_xl_file(file_path)
+      audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+      audit_log_path = LOG_DIR / "import_audit.log"
+      audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+      with open(audit_log_path, "a", encoding="utf-8") as f:
+        f.write(audit + "\n\n")
     except Exception as e:
-        logger.error(f"Error during file conversion: {e}")
-        return None, None, {}, f"Error converting file to JSON: {e}"
+      logger.warning(f"Failed to generate import audit: {e}")
+
+    if not json_path:
+      return None, None, {}, "File could not be converted to JSON format"
+
+    json_data, _ = json_load_with_meta(json_path)
+    logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
+    return json_path, sector, json_data, None
+
+  except Exception as e:
+    logger.error(f"Error during file conversion: {e}")
+    return None, None, {}, f"Error converting file to JSON: {e}"
 
 
 def _validate_id_from_json(json_data: dict) -> tuple[int | None, str | None]:
-    """
-    Validate and extract id_incidence from JSON data.
-    
-    Args:
-        json_data (dict): Parsed JSON data
-        
-    Returns:
-        tuple[int | None, str | None]: (id_incidence, error_message)
-        - id_incidence: Extracted ID (None if missing/invalid)
-        - error_message: Error message if validation failed (None if successful)
-        
-    Examples:
-        id_, error = _validate_id_from_json(json_data)
-        if id_:
-            # Valid ID found
-        else:
-            # Missing or invalid ID, check error message
-    """
-    try:
-        id_candidate = extract_id_from_json(json_data)
-        
-        if isinstance(id_candidate, int) and id_candidate > 0:
-            logger.debug(f"Valid id_incidence found: {id_candidate}")
-            return id_candidate, None
-        else:
-            logger.warning(f"Invalid or missing id_incidence: {id_candidate}")
-            return None, "No valid id_incidence found in spreadsheet"
-    except Exception as e:
-        logger.error(f"Error extracting ID from JSON: {e}")
-        return None, f"Error extracting ID from JSON: {e}"
+  """
+  Validate and extract id_incidence from JSON data.
+
+  Args:
+      json_data (dict): Parsed JSON data
+
+  Returns:
+      tuple[int | None, str | None]: (id_incidence, error_message)
+      - id_incidence: Extracted ID (None if missing/invalid)
+      - error_message: Error message if validation failed (None if successful)
+
+  Examples:
+      id_, error = _validate_id_from_json(json_data)
+      if id_:
+          # Valid ID found
+      else:
+          # Missing or invalid ID, check error message
+  """
+  try:
+    id_candidate = extract_id_from_json(json_data)
+
+    if isinstance(id_candidate, int) and id_candidate > 0:
+      logger.debug(f"Valid id_incidence found: {id_candidate}")
+      return id_candidate, None
+    else:
+      logger.warning(f"Invalid or missing id_incidence: {id_candidate}")
+      return None, "No valid id_incidence found in spreadsheet"
+  except Exception as e:
+    logger.error(f"Error extracting ID from JSON: {e}")
+    return None, f"Error extracting ID from JSON: {e}"
 
 
 def _create_staged_file(id_: int, json_data: dict, db: SQLAlchemy, base: AutomapBase, upload_dir: str | Path) -> str | None:
-    """
-    Create a staged file for review with base_misc_json metadata.
-    
-    Args:
-        id_ (int): Valid incidence ID
-        json_data (dict): Parsed JSON data to stage
-        db (SQLAlchemy): Database instance
-        base (AutomapBase): Reflected metadata
-        upload_dir (str | Path): Upload directory
-        
-    Returns:
-        str | None: Staged filename (None if staging failed)
-        
-    Examples:
-        staged_filename = _create_staged_file(id_, json_data, db, base, upload_dir)
-        if staged_filename:
-            # Staging successful
-        else:
-            # Staging failed
-    """
-    try:
-        from arb.utils.json import json_save_with_meta
-        from arb.utils.wtf_forms_util import prep_payload_for_json
-        
-        # Get current database state for comparison
-        model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
-        base_misc_json = getattr(model, "misc_json", {}) or {}
-        
-        # Prepare JSON data for staging
-        json_data = prep_payload_for_json(json_data)
-        
-        # Create staging directory and filename
-        staging_dir = Path(upload_dir) / "staging"
-        staging_dir.mkdir(parents=True, exist_ok=True)
-        staged_filename = f"id_{id_}_ts_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        staged_path = staging_dir / staged_filename
-        
-        # Save staged file with metadata
-        json_save_with_meta(staged_path, json_data, metadata={"base_misc_json": base_misc_json})
-        add_file_to_upload_table(db, staged_path, status="Staged JSON", description="Staged file with base_misc_json")
-        
-        logger.debug(f"Staged file created: {staged_path}")
-        return staged_filename
-    except Exception as e:
-        logger.error(f"Error creating staged file: {e}")
-        return None
+  """
+  Create a staged file for review with base_misc_json metadata.
+
+  Args:
+      id_ (int): Valid incidence ID
+      json_data (dict): Parsed JSON data to stage
+      db (SQLAlchemy): Database instance
+      base (AutomapBase): Reflected metadata
+      upload_dir (str | Path): Upload directory
+
+  Returns:
+      str | None: Staged filename (None if staging failed)
+
+  Examples:
+      staged_filename = _create_staged_file(id_, json_data, db, base, upload_dir)
+      if staged_filename:
+          # Staging successful
+      else:
+          # Staging failed
+  """
+  try:
+    from arb.utils.json import json_save_with_meta
+    from arb.utils.wtf_forms_util import prep_payload_for_json
+
+    # Get current database state for comparison
+    model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
+    base_misc_json = getattr(model, "misc_json", {}) or {}
+
+    # Prepare JSON data for staging
+    json_data = prep_payload_for_json(json_data)
+
+    # Create staging directory and filename
+    staging_dir = Path(upload_dir) / "staging"
+    staging_dir.mkdir(parents=True, exist_ok=True)
+    staged_filename = f"id_{id_}_ts_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    staged_path = staging_dir / staged_filename
+
+    # Save staged file with metadata
+    json_save_with_meta(staged_path, json_data, metadata={"base_misc_json": base_misc_json})
+    add_file_to_upload_table(db, staged_path, status="Staged JSON", description="Staged file with base_misc_json")
+
+    logger.debug(f"Staged file created: {staged_path}")
+    return staged_filename
+  except Exception as e:
+    logger.error(f"Error creating staged file: {e}")
+    return None
 
 
 def _insert_json_into_database(json_path: Path, base: AutomapBase, db: SQLAlchemy) -> tuple[int | None, str | None]:
-    """
-    Insert JSON data into the database.
-    
-    Args:
-        json_path (Path): Path to the JSON file
-        base (AutomapBase): SQLAlchemy base object from automap reflection
-        db (SQLAlchemy): SQLAlchemy database instance
-    
-    Returns:
-        tuple[int | None, str | None]: (id_, error_message)
-        - id_: Inserted incidence ID (None if insertion failed)
-        - error_message: Error message if insertion failed (None if successful)
-    
-    Examples:
-        id_, error = _insert_json_into_database(json_path, base, db)
-        if id_:
-            # Insertion successful
-        else:
-            # Insertion failed, check error message
-    """
-    try:
-        id_, _ = json_file_to_db(db, json_path, base)
-        return id_, None
-    except Exception as e:
-        logger.error(f"Error inserting data into database: {e}")
-        return None, f"Database error occurred during insertion: {e}"
+  """
+  Insert JSON data into the database.
+
+  Args:
+      json_path (Path): Path to the JSON file
+      base (AutomapBase): SQLAlchemy base object from automap reflection
+      db (SQLAlchemy): SQLAlchemy database instance
+
+  Returns:
+      tuple[int | None, str | None]: (id_, error_message)
+      - id_: Inserted incidence ID (None if insertion failed)
+      - error_message: Error message if insertion failed (None if successful)
+
+  Examples:
+      id_, error = _insert_json_into_database(json_path, base, db)
+      if id_:
+          # Insertion successful
+      else:
+          # Insertion failed, check error message
+  """
+  try:
+    id_, _ = json_file_to_db(db, json_path, base)
+    return id_, None
+  except Exception as e:
+    logger.error(f"Error inserting data into database: {e}")
+    return None, f"Database error occurred during insertion: {e}"
 
 
 def stage_uploaded_file_for_review(db: SQLAlchemy,
-                                 upload_dir: str | Path,
-                                 request_file: FileStorage,
-                                 base: AutomapBase) -> StagingResult:
-    """
-    Stage an uploaded file for review without committing to database.
-    
-    This function handles the complete staging workflow:
-    1. Save the uploaded file
-    2. Convert to JSON format
-    3. Validate and extract id_incidence
-    4. Create staged file with metadata
-    
-    Args:
-        db (SQLAlchemy): Active SQLAlchemy database instance
-        upload_dir (str | Path): Target upload folder path
-        request_file (FileStorage): Uploaded file from Flask request
-        base (AutomapBase): Reflected metadata
-        
-    Returns:
-        StagingResult: Rich result object with success/failure information
-        
-    Examples:
-        result = stage_uploaded_file_for_review(db, upload_dir, request_file, base)
-        
-        if result.success:
-            # Staging successful
-            flash(f"File staged successfully: {result.staged_filename}")
-        else:
-            # Handle specific error
-            if result.error_type == "missing_id":
-                flash("Please add a valid ID to your spreadsheet")
-            elif result.error_type == "conversion_failed":
-                flash("Please upload an Excel file")
-            else:
-                flash(f"Error: {result.error_message}")
-    
-    Notes:
-        - This function does NOT update the database
-        - Staging will be blocked if id_incidence is missing or invalid
-        - All values are JSON-serializable before staging
-        - Includes current database state as base_misc_json for comparison
-    """
-    logger.debug(f"stage_uploaded_file_for_review() called with {request_file.filename}")
-    
-    # Step 1: Save the uploaded file
-    try:
-        file_path = _save_uploaded_file(upload_dir, request_file, db, description="Staged only (no DB write)")
-    except ValueError as e:
-        return StagingResult(
-            file_path=Path("unknown"),
-            id_=None,
-            sector=None,
-            json_data={},
-            staged_filename=None,
-            success=False,
-            error_message=str(e),
-            error_type="file_error"
-        )
-    
-    # Step 2: Convert file to JSON and extract sector
-    json_path, sector, json_data, error = _convert_file_to_json(file_path)
-    if not json_path:
-        return StagingResult(
-            file_path=file_path,
-            id_=None,
-            sector=None,
-            json_data={},
-            staged_filename=None,
-            success=False,
-            error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
-            error_type="conversion_failed"
-        )
-    
-    # Step 3: Validate and extract id_incidence
-    id_, error = _validate_id_from_json(json_data)
-    if not id_:
-        return StagingResult(
-            file_path=file_path,
-            id_=None,
-            sector=sector,
-            json_data=json_data,
-            staged_filename=None,
-            success=False,
-            error_message=error,
-            error_type="missing_id"
-        )
-    
-    # Step 4: Create staged file
-    staged_filename = _create_staged_file(id_, json_data, db, base, upload_dir)
-    if not staged_filename:
-        return StagingResult(
-            file_path=file_path,
-            id_=id_,
-            sector=sector,
-            json_data=json_data,
-            staged_filename=None,
-            success=False,
-            error_message="Failed to create staged file. Please try again.",
-            error_type="database_error"
-        )
-    
-    # Success case
-    logger.debug(f"Staging successful: id={id_}, sector={sector}, filename={staged_filename}")
+                                   upload_dir: str | Path,
+                                   request_file: FileStorage,
+                                   base: AutomapBase) -> StagingResult:
+  """
+  Stage an uploaded file for review without committing to database.
+
+  This function handles the complete staging workflow:
+  1. Save the uploaded file
+  2. Convert to JSON format
+  3. Validate and extract id_incidence
+  4. Create staged file with metadata
+
+  Args:
+      db (SQLAlchemy): Active SQLAlchemy database instance
+      upload_dir (str | Path): Target upload folder path
+      request_file (FileStorage): Uploaded file from Flask request
+      base (AutomapBase): Reflected metadata
+
+  Returns:
+      StagingResult: Rich result object with success/failure information
+
+  Examples:
+      result = stage_uploaded_file_for_review(db, upload_dir, request_file, base)
+
+      if result.success:
+          # Staging successful
+          flash(f"File staged successfully: {result.staged_filename}")
+      else:
+          # Handle specific error
+          if result.error_type == "missing_id":
+              flash("Please add a valid ID to your spreadsheet")
+          elif result.error_type == "conversion_failed":
+              flash("Please upload an Excel file")
+          else:
+              flash(f"Error: {result.error_message}")
+
+  Notes:
+      - This function does NOT update the database
+      - Staging will be blocked if id_incidence is missing or invalid
+      - All values are JSON-serializable before staging
+      - Includes current database state as base_misc_json for comparison
+  """
+  logger.debug(f"stage_uploaded_file_for_review() called with {request_file.filename}")
+
+  # Step 1: Save the uploaded file
+  try:
+    file_path = _save_uploaded_file(upload_dir, request_file, db, description="Staged only (no DB write)")
+  except ValueError as e:
     return StagingResult(
-        file_path=file_path,
-        id_=id_,
-        sector=sector,
-        json_data=json_data,
-        staged_filename=staged_filename,
-        success=True,
-        error_message=None,
-        error_type=None
+      file_path=Path("unknown"),
+      id_=None,
+      sector=None,
+      json_data={},
+      staged_filename=None,
+      success=False,
+      error_message=str(e),
+      error_type="file_error"
     )
+
+  # Step 2: Convert file to JSON and extract sector
+  json_path, sector, json_data, error = _convert_file_to_json(file_path)
+  if not json_path:
+    return StagingResult(
+      file_path=file_path,
+      id_=None,
+      sector=None,
+      json_data={},
+      staged_filename=None,
+      success=False,
+      error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
+      error_type="conversion_failed"
+    )
+
+  # Step 3: Validate and extract id_incidence
+  id_, error = _validate_id_from_json(json_data)
+  if not id_:
+    return StagingResult(
+      file_path=file_path,
+      id_=None,
+      sector=sector,
+      json_data=json_data,
+      staged_filename=None,
+      success=False,
+      error_message=error,
+      error_type="missing_id"
+    )
+
+  # Step 4: Create staged file
+  staged_filename = _create_staged_file(id_, json_data, db, base, upload_dir)
+  if not staged_filename:
+    return StagingResult(
+      file_path=file_path,
+      id_=id_,
+      sector=sector,
+      json_data=json_data,
+      staged_filename=None,
+      success=False,
+      error_message="Failed to create staged file. Please try again.",
+      error_type="database_error"
+    )
+
+  # Success case
+  logger.debug(f"Staging successful: id={id_}, sector={sector}, filename={staged_filename}")
+  return StagingResult(
+    file_path=file_path,
+    id_=id_,
+    sector=sector,
+    json_data=json_data,
+    staged_filename=staged_filename,
+    success=True,
+    error_message=None,
+    error_type=None
+  )

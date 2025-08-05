@@ -61,7 +61,7 @@
  * ✅ Avoid placing it after `{% block footer_js %}` or `{% block scripts %}` unless you
  *    explicitly want it to depend on page-specific logic.
  *
- * 
+ *
  * Why this order matters:
  * ------------------------
  * - Footer blocks are usually for page-specific scripts (widgets, analytics, charts).
@@ -106,29 +106,29 @@
  *
  * In either case, adjust your test to wait for a more specific signal, increase the timeout,
  * or inspect whether the `data-e2e-ready` script executed successfully (e.g. log to console).
- * 
+ *
  */
 
 (function () {
     if (typeof window === "undefined" || typeof document === "undefined") return;
-  
+
     // Check if we're already marked as ready (prevent duplicate marking)
     if (document.documentElement.hasAttribute("data-e2e-ready")) return;
-  
+
     // Layered readiness signal using onload → rAF → idle callback
     window.addEventListener("load", () => {
-      requestAnimationFrame(() => {
-        if ("requestIdleCallback" in window) {
-          requestIdleCallback(() => {
-            document.documentElement.setAttribute("data-e2e-ready", "true");
-          });
-        } else {
-          // Fallback for older browsers
-          setTimeout(() => {
-            document.documentElement.setAttribute("data-e2e-ready", "true");
-          }, 50);
-        }
-      });
+        requestAnimationFrame(() => {
+            if ("requestIdleCallback" in window) {
+                requestIdleCallback(() => {
+                    document.documentElement.setAttribute("data-e2e-ready", "true");
+                });
+            } else {
+                // Fallback for older browsers
+                setTimeout(() => {
+                    document.documentElement.setAttribute("data-e2e-ready", "true");
+                }, 50);
+            }
+        });
     });
-  })();
+})();
   
