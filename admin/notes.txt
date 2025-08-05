@@ -2075,3 +2075,6 @@ pytest tests/e2e -v --durations=10
 
 # Show timing with more detail
 pytest tests/e2e -v --durations=0 --tb=short
+
+it may be helpful to kill chrome when running tests
+taskkill //f //im chrome.exe

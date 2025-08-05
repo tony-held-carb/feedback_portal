@@ -2,24 +2,14 @@
 
 # todo - Next Steps
 ----------------------------
-7/22/25 planning to deploy the new version of the portal to ec2 and updating notes/testing for next steps
-
-created refactor 30 to hand test new deployment to ec2
 
 * update docs to show what testing was done, consider creating a primer for the rest of the group
 * create a protocol/template for documenting source code consistent with testing approach
-* create a launch new version protocol for automated and manual testing
-* review testing_protocol_and_notes.txt
-* update notes and scripts to launch from app/wsgi
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
-
-likely want to reinstall git bash so that it uses a path that does not have a space in it
-
-
 
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
