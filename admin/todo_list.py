@@ -3,8 +3,9 @@
 # todo - Next Steps
 ----------------------------
 
-* merge into main, create new branch and reformat all .py code with pycharm, rerun tests
-* creating new branch for using pycharm to reformat python source code across the whole project
+* reformatted all code in pycharm
+* need to fix 2 minor failing tests
+* maybe use cursor linter to see if there are any issues with the source code/testing code
 
 
 -------------------------------------------------------
