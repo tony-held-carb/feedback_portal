@@ -1632,3 +1632,10 @@ pytest_TONY_WORK_arb_80.txt
 pytest_TONY_WORK_e2e_80.txt
 FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
 FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
+
+reran updated code with
+pytest_TONY_WORK_arb_81.txt
+pytest_TONY_WORK_e2e_81.txt
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
+FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
+ERROR tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium]
