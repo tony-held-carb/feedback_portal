@@ -1349,7 +1349,11 @@ class TestRefactoredRoutes:
           error_text = page.locator(indicator).first.text_content()
           assert error_text is not None
           # Use repr() to safely handle Unicode characters in error messages
-          print(f"Refactored upload correctly rejected invalid file: {repr(error_text)}")
+          try:
+            print(f"Refactored upload correctly rejected invalid file: {repr(error_text)}")
+          except UnicodeEncodeError:
+            safe_error = repr(error_text).encode('ascii', 'replace').decode('ascii')
+            print(f"Refactored upload correctly rejected invalid file: {safe_error}")
           return
 
       # Check page content for error keywords
@@ -1392,7 +1396,11 @@ class TestRefactoredRoutes:
           error_text = page.locator(indicator).first.text_content()
           assert error_text is not None
           # Use repr() to safely handle Unicode characters in error messages
-          print(f"Refactored staged upload correctly rejected invalid file: {repr(error_text)}")
+          try:
+            print(f"Refactored staged upload correctly rejected invalid file: {repr(error_text)}")
+          except UnicodeEncodeError:
+            safe_error = repr(error_text).encode('ascii', 'replace').decode('ascii')
+            print(f"Refactored staged upload correctly rejected invalid file: {safe_error}")
           return
 
       # Check page content for error keywords
