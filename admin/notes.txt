@@ -2066,3 +2066,12 @@ prior to your pytest command.  do you think the following will work?  if so, let
 
 winpty pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
 pytest tests/e2e/test_excel_upload_workflows.py -v | tee output_file_01.txt
+
+# Show timing for each test
+pytest tests/e2e -v --durations=0
+
+# Show timing for slowest tests
+pytest tests/e2e -v --durations=10
+
+# Show timing with more detail
+pytest tests/e2e -v --durations=0 --tb=short

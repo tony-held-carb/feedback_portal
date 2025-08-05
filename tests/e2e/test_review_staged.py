@@ -266,6 +266,9 @@ def test_incremental_upload(page: Page, clear_test_data, test_file):
       5. Re-upload again and verify that no confirmable checkboxes remain (all are accepted).
     This test matches the manual workflow and prints diagnostics for debugging.
     Set save_screenshots=False to save screenshots at each step.
+    
+    TODO: INVESTIGATE - This test was modified to use element-specific waits instead of wait_for_timeout
+    but may be causing hanging issues. Consider reverting to simpler approach or investigating further.
     """
     print(f"Running incremental upload test for: {test_file}")
     # Step 1: Go to the staged upload page
