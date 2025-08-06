@@ -1,0 +1,50 @@
+=== Git Analysis: Line Ending Changes ===
+
+1. Current Git status:
+?? debugging/git_analysis.sh
+?? git_status.txt
+?? tatus
+
+2. Number of modified files:
+3
+
+3. Git core.autocrlf setting:
+input
+
+4. Git core.eol setting:
+
+5. Recent commits:
+e2a283d converted many more files from crlf to lf.  system files should all be using linux style file endings now
+806d2ce Initial pycharm CRLF to LF batch.
+3052e69 adding LF documentation guide
+
+6. Files that were actually changed in the last commit:
+commit e2a283d58cc899a5d478ebe7c9f1668b9efef42c
+Author: tony-held-carb <tony.held@arb.ca.gov>
+Date:   Wed Aug 6 13:19:54 2025 -0700
+
+    converted many more files from crlf to lf.  system files should all be using linux style file endings now
+
+admin/notes.txt
+archive/archived_2025_07_09/diagnostics/old/archived_2025_06_25/diagnostics/cursor_live_auth_20250625_174344.txt
+debugging/bash_diag.sh
+debugging/sample.txt
+documentation/misc/guide_on_convertion_file_system_to_lf.md
+feedback_forms/archived/archived_2025_05_28/energy_v00_01_vba.json
+feedback_forms/archived/archived_2025_05_28/landfill_v01_00_vba.json
+feedback_forms/archived/archived_2025_05_28/oil_and_gas_v01_00_vba.json
+feedback_forms/archived/archived_2025_06_29/energy_v00_01_vba.json
+feedback_forms/archived/archived_2025_07_02/dairy_digester_v01_00_vba.json
+feedback_forms/current_versions/dairy_digester_v01_00_vba.json
+feedback_forms/current_versions/energy_v01_00_vba.json
+feedback_forms/current_versions/generic_v01_00_vba.json
+feedback_forms/current_versions/landfill_v01_00_vba.json
+
+7. Number of files in last commit:
+28
+
+8. Check if any files still have CRLF:
+./archive/archived_2025_07_09/diagnostics/old/archived_2025_06_25/diagnostics/cursor_live_auth_20250625_174344.txt:                                         ASCII text, with CRLF, LF line terminators
+
+9. Total files with CRLF remaining:
+1
