@@ -1663,7 +1663,7 @@ wsl and windows have different users theld and tonyh, very easy to get confused 
                           ------------                        --------
 Windows Home Directory:   C:\Users\tonyh,                     /mnt/c/Users/tonyh
 WSL Home Directory:       \\wsl$\Ubuntu\home\tonyh            /home/tonyh
-Feedback Portal:
+Feedback Portal:          D:\local\cursor\feedback_portal     /mnt/d/local/cursor/feedback_portal
 
 
 Determine if you are on wsl
