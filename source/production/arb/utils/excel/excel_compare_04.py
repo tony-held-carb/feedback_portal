@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Any, Optional, Tuple
 
 
 # =========================
@@ -182,7 +182,26 @@ def parse_workbook(zipf: zipfile.ZipFile) -> Dict[str, Dict[str, Dict[str, str]]
   return sheets
 
 
-def excel_range_from_addresses(addresses):
+def excel_range_from_addresses(addresses: List[str]) -> str:
+  """
+  Convert a list of Excel cell addresses to a range notation.
+  
+  Only works for addresses in the same row or same column.
+  
+  Args:
+      addresses (List[str]): List of Excel cell addresses (e.g., ['A1', 'A2', 'A3']).
+      
+  Returns:
+      str: Excel range notation (e.g., 'A1:A3') or comma-separated addresses if not consecutive.
+      
+  Examples:
+      Input : ['A1', 'A2', 'A3']
+      Output: 'A1:A3'
+      Input : ['A1', 'B1', 'C1']
+      Output: 'A1:C1'
+      Input : ['A1', 'C3', 'B2']
+      Output: 'A1,C3,B2'
+  """
   # Only works for addresses in the same row or same column
   if not addresses:
     return ''
@@ -204,14 +223,48 @@ def excel_range_from_addresses(addresses):
   return ','.join(addresses)
 
 
-def col_to_num(col):
+def col_to_num(col: str) -> int:
+  """
+  Convert Excel column letter to column number.
+  
+  Args:
+      col (str): Excel column letter (e.g., 'A', 'B', 'AA').
+      
+  Returns:
+      int: Column number (1-based).
+      
+  Examples:
+      Input : 'A'
+      Output: 1
+      Input : 'B'
+      Output: 2
+      Input : 'AA'
+      Output: 27
+  """
   num = 0
   for c in col:
     num = num * 26 + (ord(c) - ord('A') + 1)
   return num
 
 
-def num_to_col(num):
+def num_to_col(num: int) -> str:
+  """
+  Convert column number to Excel column letter.
+  
+  Args:
+      num (int): Column number (1-based).
+      
+  Returns:
+      str: Excel column letter (e.g., 'A', 'B', 'AA').
+      
+  Examples:
+      Input : 1
+      Output: 'A'
+      Input : 2
+      Output: 'B'
+      Input : 27
+      Output: 'AA'
+  """
   col = ''
   while num > 0:
     num, rem = divmod(num - 1, 26)
@@ -219,7 +272,20 @@ def num_to_col(num):
   return col
 
 
-def canonicalize_font(font):
+def canonicalize_font(font: Dict[str, Any]) -> Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]:
+  """
+  Canonicalize font properties for comparison.
+  
+  Args:
+      font (Dict[str, Any]): Font dictionary from Excel styles.
+      
+  Returns:
+      Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]: Canonicalized font tuple or None if not a dict.
+      
+  Examples:
+      Input : {'name': 'Arial', 'sz': 12, 'bold': True}
+      Output: ('arial', '12', None, None, None, True, None, None, None)
+  """
   if not isinstance(font, dict):
     return None
   return (
@@ -235,7 +301,20 @@ def canonicalize_font(font):
   )
 
 
-def canonicalize_fill(fill):
+def canonicalize_fill(fill: Dict[str, Any]) -> Optional[Tuple[Any, Any, Any]]:
+  """
+  Canonicalize fill properties for comparison.
+  
+  Args:
+      fill (Dict[str, Any]): Fill dictionary from Excel styles.
+      
+  Returns:
+      Optional[Tuple[Any, Any, Any]]: Canonicalized fill tuple or None if not a dict.
+      
+  Examples:
+      Input : {'patternType': 'solid', 'fgColor': {'rgb': 'FF0000'}}
+      Output: ('solid', {'rgb': 'FF0000'}, None)
+  """
   if not isinstance(fill, dict):
     return None
   return (
@@ -245,13 +324,39 @@ def canonicalize_fill(fill):
   )
 
 
-def canonicalize_border(border):
+def canonicalize_border(border: Dict[str, Any]) -> Optional[Tuple[Tuple[str, Any], ...]]:
+  """
+  Canonicalize border properties for comparison.
+  
+  Args:
+      border (Dict[str, Any]): Border dictionary from Excel styles.
+      
+  Returns:
+      Optional[Tuple[Tuple[str, Any], ...]]: Canonicalized border tuple or None if not a dict.
+      
+  Examples:
+      Input : {'left': {'style': 'thin'}, 'right': {'style': 'thin'}}
+      Output: (('left', {'style': 'thin'}), ('right', {'style': 'thin'}))
+  """
   if not isinstance(border, dict):
     return None
   return tuple(sorted(border.items()))
 
 
-def build_font_map(styles):
+def build_font_map(styles: Dict[str, Any]) -> Dict[int, Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]]:
+  """
+  Build a mapping of font indices to canonicalized font properties.
+  
+  Args:
+      styles (Dict[str, Any]): Excel styles dictionary.
+      
+  Returns:
+      Dict[int, Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]]: Mapping of font index to canonicalized font.
+      
+  Examples:
+      Input : {'fonts': [{'name': 'Arial', 'sz': 12}, {'name': 'Times', 'sz': 10}]}
+      Output: {0: ('arial', '12', None, ...), 1: ('times', '10', None, ...)}
+  """
   font_map = {}
   fonts = styles.get('fonts', []) if styles else []
   for idx, font in enumerate(fonts):

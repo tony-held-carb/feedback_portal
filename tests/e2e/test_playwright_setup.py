@@ -82,7 +82,10 @@ async def test_playwright_setup():
       print(f"Page title: {title}")
       content = await page.content()
       assert "Example Domain" in content, "❌ Unexpected page content"
-      print("✅ Playwright setup is working correctly!")
+      try:
+        print("✅ Playwright setup is working correctly!")
+      except UnicodeEncodeError:
+        print("Playwright setup is working correctly!")
     finally:
       await browser.close()
 
@@ -90,10 +93,16 @@ async def test_playwright_setup():
 if __name__ == "__main__":
   success = test_playwright_setup()
   if success:
-    print("\n🎉 Playwright migration completed successfully!")
+    try:
+      print("\n🎉 Playwright migration completed successfully!")
+    except UnicodeEncodeError:
+      print("\nPlaywright migration completed successfully!")
     print("You can now run E2E tests with Playwright.")
   else:
-    print("\n❌ Playwright setup test failed.")
+    try:
+      print("\n❌ Playwright setup test failed.")
+    except UnicodeEncodeError:
+      print("\nPlaywright setup test failed.")
     print("Please check your Playwright installation.")
 
   exit(0 if success else 1)

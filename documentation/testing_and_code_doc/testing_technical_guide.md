@@ -1168,6 +1168,29 @@ upload_file_and_wait_for_attempt_marker(page, file_path)
 expect(page.locator(".alert-success, .alert-danger")).to_be_visible()
 ```
 
+### Lessons Learned from Marker System Implementation
+
+#### 1. Marker System Benefits
+- **Eliminates arbitrary timeouts**: Provides explicit synchronization points
+- **Provides reliable synchronization**: Consistent behavior across different environments
+- **Reduces test flakiness**: Predictable waiting patterns
+- **Improves test performance**: Faster execution with targeted waits
+
+#### 2. Navigation Pattern Consistency
+- **Standard navigation approach prevents hanging**: Use `navigate_and_wait_for_ready` consistently
+- **Avoid mixing different navigation strategies**: Stick to established patterns
+- **Handle page navigation properly**: Account for execution context destruction
+
+#### 3. Test Isolation
+- **Excluding problematic tests allows suite to run**: Don't let one bad test block everything
+- **Marking tests for investigation maintains visibility**: Keep track of known issues
+- **Gradual improvement approach is effective**: Fix issues systematically
+
+#### 4. Documentation Importance
+- **Comprehensive documentation prevents confusion**: Clear patterns help future development
+- **Decision frameworks help with future development**: Document when to use which helper
+- **Migration guides ease transition to new patterns**: Provide clear upgrade paths
+
 ---
 
 ## Success Metrics

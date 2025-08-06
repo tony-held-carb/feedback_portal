@@ -26,7 +26,10 @@ def check_browser_compatibility(browser_name, launch_options=None):
       elif browser_name == "webkit":
         browser_type = p.webkit
       else:
-        print(f"❌ Unknown browser: {browser_name}")
+        try:
+          print(f"❌ Unknown browser: {browser_name}")
+        except UnicodeEncodeError:
+          print(f"Unknown browser: {browser_name}")
         assert False, f"Unknown browser: {browser_name}"
 
       # Launch browser with options
@@ -43,12 +46,18 @@ def check_browser_compatibility(browser_name, launch_options=None):
       # Clean up
       browser.close()
 
-      print(f"✅ {browser_name.upper()} is working!")
+      try:
+        print(f"✅ {browser_name.upper()} is working!")
+      except UnicodeEncodeError:
+        print(f"{browser_name.upper()} is working!")
       print(f"   Page title: {title}")
       assert True, f"{browser_name} is working"
 
   except Exception as e:
-    print(f"❌ {browser_name.upper()} failed: {str(e)[:100]}...")
+    try:
+      print(f"❌ {browser_name.upper()} failed: {str(e)[:100]}...")
+    except UnicodeEncodeError:
+      print(f"{browser_name.upper()} failed: {str(e)[:100]}...")
     assert False, f"{browser_name} failed: {str(e)[:100]}"
 
 
@@ -87,7 +96,10 @@ def main():
   print(f"{'=' * 50}")
 
   if working_configs:
-    print("✅ Working browser configurations:")
+    try:
+      print("✅ Working browser configurations:")
+    except UnicodeEncodeError:
+      print("Working browser configurations:")
     for browser_name, launch_options in working_configs:
       config_desc = f"{browser_name}"
       if launch_options:
@@ -99,7 +111,10 @@ def main():
     print(f"   browser = p.{browser_name}.launch(**{launch_options})")
 
   else:
-    print("❌ No browsers are working on this system.")
+    try:
+      print("❌ No browsers are working on this system.")
+    except UnicodeEncodeError:
+      print("No browsers are working on this system.")
     print("   This indicates that Playwright cannot run on this EC2 instance")
     print("   due to missing system dependencies that require admin access.")
     print("   Consider using Selenium as an alternative for E2E testing.")

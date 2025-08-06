@@ -12,17 +12,39 @@ from arb.auth import get_db
 bp = Blueprint('user_management', __name__, url_prefix='/user')
 
 
+from flask import Response, Union
+
 @bp.route('/profile')
 @login_required
-def profile():
-  """User profile page - accessible to logged-in users."""
+def profile() -> str:
+  """
+  User profile page - accessible to logged-in users.
+  
+  Returns:
+      str: Rendered HTML for the user profile page.
+      
+  Examples:
+      # In browser: GET /user/profile (requires login)
+      # Returns: HTML user profile page
+  """
   return render_template('user_management/profile.html')
 
 
 @bp.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
-def edit_profile():
-  """Edit user profile - accessible to logged-in users."""
+def edit_profile() -> Union[str, Response]:
+  """
+  Edit user profile - accessible to logged-in users.
+  
+  Returns:
+      Union[str, Response]: Rendered HTML for the edit profile page, or redirect after submission.
+      
+  Examples:
+      # In browser: GET /user/profile/edit (requires login)
+      # Returns: HTML edit profile page
+      # In browser: POST /user/profile/edit (requires login)
+      # Returns: Redirect to profile page
+  """
   if request.method == 'POST':
     # In a real app, you'd validate and update user data
     flash('Profile updated successfully!', 'success')
@@ -33,8 +55,19 @@ def edit_profile():
 
 @bp.route('/change-password', methods=['GET', 'POST'])
 @login_required
-def change_password():
-  """Change password - accessible to logged-in users."""
+def change_password() -> Union[str, Response]:
+  """
+  Change password - accessible to logged-in users.
+  
+  Returns:
+      Union[str, Response]: Rendered HTML for the change password page, or redirect after submission.
+      
+  Examples:
+      # In browser: GET /user/change-password (requires login)
+      # Returns: HTML change password page
+      # In browser: POST /user/change-password (requires login)
+      # Returns: Redirect to profile page or error page
+  """
   if request.method == 'POST':
     current_password = request.form.get('current_password')
     new_password = request.form.get('new_password')
@@ -66,13 +99,31 @@ def change_password():
 
 @bp.route('/activity')
 @login_required
-def activity():
-  """User activity log - accessible to logged-in users."""
+def activity() -> str:
+  """
+  User activity log - accessible to logged-in users.
+  
+  Returns:
+      str: Rendered HTML for the user activity page.
+      
+  Examples:
+      # In browser: GET /user/activity (requires login)
+      # Returns: HTML user activity page
+  """
   return render_template('user_management/activity.html')
 
 
 @bp.route('/roles')
 @login_required
-def view_roles():
-  """View user roles - accessible to logged-in users."""
+def view_roles() -> str:
+  """
+  View user roles - accessible to logged-in users.
+  
+  Returns:
+      str: Rendered HTML for the user roles page.
+      
+  Examples:
+      # In browser: GET /user/roles (requires login)
+      # Returns: HTML user roles page
+  """
   return render_template('user_management/roles.html')

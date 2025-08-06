@@ -16,15 +16,33 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 @bp.route('/')
 @admin_required
-def admin_dashboard():
-  """Admin dashboard - accessible only to admins."""
+def admin_dashboard() -> str:
+  """
+  Admin dashboard - accessible only to admins.
+  
+  Returns:
+      str: Rendered HTML for the admin dashboard.
+      
+  Examples:
+      # In browser: GET /admin/ (requires admin role)
+      # Returns: HTML admin dashboard
+  """
   return render_template('admin/dashboard.html')
 
 
 @bp.route('/users')
 @admin_required
-def user_list():
-  """List all users - admin only."""
+def user_list() -> str:
+  """
+  List all users - admin only.
+  
+  Returns:
+      str: Rendered HTML for the user list page.
+      
+  Examples:
+      # In browser: GET /admin/users (requires admin role)
+      # Returns: HTML user list page
+  """
   User = get_user_model()
   users = User.query.all()
   return render_template('admin/user_list.html', users=users)
@@ -32,17 +50,43 @@ def user_list():
 
 @bp.route('/user/<int:user_id>')
 @admin_required
-def user_detail(user_id):
-  """View user details - admin only."""
+def user_detail(user_id: int) -> str:
+  """
+  View user details - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to view.
+      
+  Returns:
+      str: Rendered HTML for the user detail page.
+      
+  Examples:
+      # In browser: GET /admin/user/123 (requires admin role)
+      # Returns: HTML user detail page
+  """
   User = get_user_model()
   user = User.query.get_or_404(user_id)
   return render_template('admin/user_detail.html', user=user)
 
 
+from flask import Response
+
 @bp.route('/user/<int:user_id>/add-role', methods=['POST'])
 @admin_required
-def add_user_role(user_id):
-  """Add a role to a user - admin only."""
+def add_user_role(user_id: int) -> Response:
+  """
+  Add a role to a user - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to add a role to.
+      
+  Returns:
+      Response: Redirect to the user detail page.
+      
+  Examples:
+      # In browser: POST /admin/user/123/add-role (requires admin role)
+      # Returns: Redirect to user detail page
+  """
   user = get_user_model().query.get_or_404(user_id)
   role = request.form.get('role')
 
@@ -57,8 +101,20 @@ def add_user_role(user_id):
 
 @bp.route('/user/<int:user_id>/remove-role', methods=['POST'])
 @admin_required
-def remove_user_role(user_id):
-  """Remove a role from a user - admin only."""
+def remove_user_role(user_id: int) -> Response:
+  """
+  Remove a role from a user - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to remove a role from.
+      
+  Returns:
+      Response: Redirect to the user detail page.
+      
+  Examples:
+      # In browser: POST /admin/user/123/remove-role (requires admin role)
+      # Returns: Redirect to user detail page
+  """
   user = get_user_model().query.get_or_404(user_id)
   role = request.form.get('role')
 
@@ -73,8 +129,20 @@ def remove_user_role(user_id):
 
 @bp.route('/user/<int:user_id>/set-roles', methods=['POST'])
 @admin_required
-def set_user_roles(user_id):
-  """Set all roles for a user - admin only."""
+def set_user_roles(user_id: int) -> Response:
+  """
+  Set all roles for a user - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to set roles for.
+      
+  Returns:
+      Response: Redirect to the user detail page.
+      
+  Examples:
+      # In browser: POST /admin/user/123/set-roles (requires admin role)
+      # Returns: Redirect to user detail page
+  """
   user = get_user_model().query.get_or_404(user_id)
   roles_str = request.form.get('roles', '')
 
@@ -88,8 +156,20 @@ def set_user_roles(user_id):
 
 @bp.route('/user/<int:user_id>/toggle-active', methods=['POST'])
 @admin_required
-def toggle_user_active(user_id):
-  """Toggle user active status - admin only."""
+def toggle_user_active(user_id: int) -> Response:
+  """
+  Toggle user active status - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to toggle active status for.
+      
+  Returns:
+      Response: Redirect to the user detail page.
+      
+  Examples:
+      # In browser: POST /admin/user/123/toggle-active (requires admin role)
+      # Returns: Redirect to user detail page
+  """
   User = get_user_model()
   user = User.query.get_or_404(user_id)
 
@@ -109,8 +189,20 @@ def toggle_user_active(user_id):
 
 @bp.route('/user/<int:user_id>/delete', methods=['POST'])
 @admin_required
-def delete_user(user_id):
-  """Delete a user - admin only."""
+def delete_user(user_id: int) -> Response:
+  """
+  Delete a user - admin only.
+  
+  Args:
+      user_id (int): The ID of the user to delete.
+      
+  Returns:
+      Response: Redirect to the user list page.
+      
+  Examples:
+      # In browser: POST /admin/user/123/delete (requires admin role)
+      # Returns: Redirect to user list page
+  """
   User = get_user_model()
   user = User.query.get_or_404(user_id)
 

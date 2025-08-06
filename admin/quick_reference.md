@@ -14,6 +14,11 @@
       pytest tests/arb -v  > "pytest_${MACHINE_NAME}_arb_78.txt" 2>&1
       pytest -s tests/e2e -v --durations=0  > "pytest_${MACHINE_NAME}_e2e_78.txt" 2>&1
 
+2b. cursor recommended test pattern
+      please use this testing pattern
+      cd /d/local/cursor/feedback_portal && pytest <file or folder> <options>  | tee pytest_<description of test>.txt
+
+
 3. Flag meanings:
       --maxfail=num         Exit after first num failures or errors
       -v, --verbose         Increase verbosity

@@ -95,7 +95,13 @@ def single_page_diagnostics(page_url: str | None = None):
       buttons = page.locator("button").all()
       for i, button in enumerate(buttons):
         print(f"Button {i + 1}:")
-        print(f"  Text: '{button.text_content()}'")
+        # Handle Unicode characters safely for Windows console
+        try:
+          print(f"  Text: '{button.text_content()}'")
+        except UnicodeEncodeError:
+          # Fallback for Windows console encoding issues
+          safe_text = button.text_content().encode('ascii', 'replace').decode('ascii')
+          print(f"  Text: '{safe_text}'")
         print(f"  Type: {button.get_attribute('type')}")
         print(f"  Class: {button.get_attribute('class')}")
         print(f"  ID: {button.get_attribute('id')}")

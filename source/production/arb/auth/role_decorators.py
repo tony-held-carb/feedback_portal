@@ -19,6 +19,10 @@ from flask_login import current_user
 from arb.auth.okta_settings import USE_OKTA
 
 
+from typing import Callable, TypeVar, Any
+
+F = TypeVar('F', bound=Callable[..., Any])
+
 def roles_required(*roles: str):
   """
   Decorator to restrict access to users with any of the specified roles.
@@ -26,18 +30,21 @@ def roles_required(*roles: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      *roles: Variable number of role names to check for.
+      *roles (str): Variable number of role names to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @roles_required('editor', 'reviewer')
       def edit_page():
           # Only users with 'editor' OR 'reviewer' role can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for any of the specified groups/claims.
         # Need: Okta group/claim mapping for role access.
@@ -47,7 +54,7 @@ def roles_required(*roles: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
@@ -59,18 +66,21 @@ def all_roles_required(*roles: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      *roles: Variable number of role names to check for.
+      *roles (str): Variable number of role names to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @all_roles_required('editor', 'qaqc')
       def qaqc_edit_page():
           # Only users with BOTH 'editor' AND 'qaqc' roles can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for all of the specified groups/claims.
         # Need: Okta group/claim mapping for role access.
@@ -80,7 +90,7 @@ def all_roles_required(*roles: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
@@ -92,18 +102,21 @@ def role_required(role_name: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      role_name: The role name to check for.
+      role_name (str): The role name to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @role_required('editor')
       def edit_page():
           # Only users with 'editor' role can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for the specified group/claim.
         # Need: Okta group/claim mapping for role access.
@@ -113,20 +126,32 @@ def role_required(role_name: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
 
-def admin_required(f):
+def admin_required(f: F) -> F:
   """
   Decorator to restrict access to admin users only.
   - If USE_OKTA is True, checks Okta claims/groups for admin access.
   - If USE_OKTA is False, uses local role field.
+
+  Args:
+      f (F): The function to decorate.
+
+  Returns:
+      F: The decorated function.
+
+  Examples:
+      @admin_required
+      def admin_only_page():
+          # Only admin users can access this
+          pass
   """
 
   @wraps(f)
-  def decorated_function(*args, **kwargs):
+  def decorated_function(*args: Any, **kwargs: Any) -> Any:
     if USE_OKTA:
       # TODO: Check Okta token for 'admin' group/claim.
       # Need: Okta group/claim mapping for admin users.
@@ -136,4 +161,4 @@ def admin_required(f):
         abort(403)
     return f(*args, **kwargs)
 
-  return decorated_function
+  return decorated_function  # type: ignore[return-value]

@@ -18,40 +18,85 @@ example = Blueprint('example', __name__)
 # Example 1: Single role check
 @example.route('/editor-only')
 @role_required('editor')
-def editor_only_page():
-  """Only users with 'editor' role can access this page."""
+def editor_only_page() -> str:
+  """
+  Only users with 'editor' role can access this page.
+  
+  Returns:
+      str: Rendered HTML for the editor-only page.
+      
+  Examples:
+      # In browser: GET /editor-only (requires editor role)
+      # Returns: HTML editor-only page
+  """
   return render_template('editor_only.html')
 
 
 # Example 2: Any of multiple roles
 @example.route('/review-access')
 @roles_required('editor', 'reviewer', 'qaqc')
-def review_access_page():
-  """Users with 'editor' OR 'reviewer' OR 'qaqc' roles can access."""
+def review_access_page() -> str:
+  """
+  Users with 'editor' OR 'reviewer' OR 'qaqc' roles can access.
+  
+  Returns:
+      str: Rendered HTML for the review access page.
+      
+  Examples:
+      # In browser: GET /review-access (requires editor, reviewer, or qaqc role)
+      # Returns: HTML review access page
+  """
   return render_template('review_access.html')
 
 
 # Example 3: All roles required
 @example.route('/advanced-edit')
 @all_roles_required('editor', 'qaqc')
-def advanced_edit_page():
-  """Only users with BOTH 'editor' AND 'qaqc' roles can access."""
+def advanced_edit_page() -> str:
+  """
+  Only users with BOTH 'editor' AND 'qaqc' roles can access.
+  
+  Returns:
+      str: Rendered HTML for the advanced edit page.
+      
+  Examples:
+      # In browser: GET /advanced-edit (requires both editor and qaqc roles)
+      # Returns: HTML advanced edit page
+  """
   return render_template('advanced_edit.html')
 
 
 # Example 4: Admin access
 @example.route('/admin-panel')
 @admin_required
-def admin_panel():
-  """Only users with 'admin' role can access."""
+def admin_panel() -> str:
+  """
+  Only users with 'admin' role can access.
+  
+  Returns:
+      str: Rendered HTML for the admin panel page.
+      
+  Examples:
+      # In browser: GET /admin-panel (requires admin role)
+      # Returns: HTML admin panel page
+  """
   return render_template('admin_panel.html')
 
 
 # Example 5: Manual role checking in views
 @example.route('/flexible-access')
 @login_required
-def flexible_access_page():
-  """Manual role checking for complex logic."""
+def flexible_access_page() -> str:
+  """
+  Manual role checking for complex logic.
+  
+  Returns:
+      str: Rendered HTML for the appropriate view based on user roles.
+      
+  Examples:
+      # In browser: GET /flexible-access (requires login)
+      # Returns: HTML view based on user roles
+  """
 
   # Check for specific roles
   if current_user.has_role('admin'):
@@ -71,8 +116,17 @@ def flexible_access_page():
 # Example 6: Template-level role checking
 @example.route('/dashboard')
 @login_required
-def dashboard():
-  """Dashboard with role-based UI elements."""
+def dashboard() -> str:
+  """
+  Dashboard with role-based UI elements.
+  
+  Returns:
+      str: Rendered HTML for the dashboard page.
+      
+  Examples:
+      # In browser: GET /dashboard (requires login)
+      # Returns: HTML dashboard page
+  """
   return render_template('dashboard.html')
 
 
@@ -103,8 +157,16 @@ def dashboard():
 
 
 # Example 7: Programmatic role management
-def manage_user_roles_example():
-  """Example of how to programmatically manage user roles."""
+def manage_user_roles_example() -> None:
+  """
+  Example of how to programmatically manage user roles.
+  
+  Returns:
+      None: This function demonstrates role management but doesn't return anything.
+      
+  Examples:
+      manage_user_roles_example()
+  """
 
   # Get a user
   user = User.query.filter_by(email='example@carb.ca.gov').first()
@@ -136,10 +198,16 @@ def manage_user_roles_example():
 
 
 # Example 8: Database migration helper
-def migrate_single_role_to_multiple():
+def migrate_single_role_to_multiple() -> None:
   """
   Helper function to migrate existing single-role users to multiple roles.
   Run this once after updating the database schema.
+  
+  Returns:
+      None: This function migrates data but doesn't return anything.
+      
+  Examples:
+      migrate_single_role_to_multiple()
   """
   from arb.auth import get_db
 

@@ -25,8 +25,9 @@ Key Features:
 import logging
 from functools import wraps
 
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for, Response
 from flask_login import current_user, login_required, login_user, logout_user
+from typing import Callable, TypeVar, Any, Union
 
 from arb.auth import get_db
 from arb.auth.models import get_user_model
@@ -34,16 +35,29 @@ from arb.auth.okta_settings import USE_OKTA
 
 logger = logging.getLogger(__name__)
 
+F = TypeVar('F', bound=Callable[..., Any])
 
-def admin_required(f):
+def admin_required(f: F) -> F:
   """
   Decorator to restrict access to admin users only.
   - If USE_OKTA is True, checks Okta claims/groups for admin access.
   - If USE_OKTA is False, uses local role field.
+
+  Args:
+      f (F): The function to decorate.
+
+  Returns:
+      F: The decorated function.
+
+  Examples:
+      @admin_required
+      def admin_only_page():
+          # Only admin users can access this
+          pass
   """
 
   @wraps(f)
-  def decorated_function(*args, **kwargs):
+  def decorated_function(*args: Any, **kwargs: Any) -> Any:
     if USE_OKTA:
       # TODO: Check Okta token for 'admin' group/claim.
       # Need: Okta group/claim mapping for admin users.
@@ -53,7 +67,7 @@ def admin_required(f):
         abort(403)
     return f(*args, **kwargs)
 
-  return decorated_function
+  return decorated_function  # type: ignore[return-value]
 
 
 def roles_required(*roles: str):
@@ -63,18 +77,21 @@ def roles_required(*roles: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      *roles: Variable number of role names to check for.
+      *roles (str): Variable number of role names to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @roles_required('editor', 'reviewer')
       def edit_page():
           # Only users with 'editor' OR 'reviewer' role can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for any of the specified groups/claims.
         # Need: Okta group/claim mapping for role access.
@@ -84,7 +101,7 @@ def roles_required(*roles: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
@@ -96,18 +113,21 @@ def all_roles_required(*roles: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      *roles: Variable number of role names to check for.
+      *roles (str): Variable number of role names to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @all_roles_required('editor', 'qaqc')
       def qaqc_edit_page():
           # Only users with BOTH 'editor' AND 'qaqc' roles can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for all of the specified groups/claims.
         # Need: Okta group/claim mapping for role access.
@@ -117,7 +137,7 @@ def all_roles_required(*roles: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
@@ -129,18 +149,21 @@ def role_required(role_name: str):
   - If USE_OKTA is False, uses local role field.
 
   Args:
-      role_name: The role name to check for.
+      role_name (str): The role name to check for.
 
-  Example:
+  Returns:
+      Callable[[F], F]: A decorator function that takes a function and returns the decorated function.
+
+  Examples:
       @role_required('editor')
       def edit_page():
           # Only users with 'editor' role can access
           pass
   """
 
-  def decorator(f):
+  def decorator(f: F) -> F:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def decorated_function(*args: Any, **kwargs: Any) -> Any:
       if USE_OKTA:
         # TODO: Check Okta token for the specified group/claim.
         # Need: Okta group/claim mapping for role access.
@@ -150,7 +173,7 @@ def role_required(role_name: str):
           abort(403)
       return f(*args, **kwargs)
 
-    return decorated_function
+    return decorated_function  # type: ignore[return-value]
 
   return decorator
 
@@ -164,10 +187,17 @@ auth_blueprint = auth
 
 @auth.route('/admin/dashboard')
 @admin_required
-def admin_dashboard():
+def admin_dashboard() -> str:
   """
   Render the admin-only dashboard page.
   In Okta, access would be restricted based on Okta admin group/claim.
+
+  Returns:
+      str: Rendered HTML for the admin dashboard page.
+
+  Examples:
+      # In browser: GET /auth/admin/dashboard
+      # Returns: HTML page for admin dashboard
   """
   if USE_OKTA:
     # TODO: Render admin dashboard for Okta-authenticated admin users.
@@ -179,10 +209,17 @@ def admin_dashboard():
 
 @auth.route('/editor/dashboard')
 @role_required('editor')
-def editor_dashboard():
+def editor_dashboard() -> str:
   """
   Render the editor-only dashboard page.
   Only users with 'editor' role can access.
+
+  Returns:
+      str: Rendered HTML for the editor dashboard page.
+
+  Examples:
+      # In browser: GET /auth/editor/dashboard
+      # Returns: HTML page for editor dashboard
   """
   if USE_OKTA:
     # TODO: Render editor dashboard for Okta-authenticated editor users.
@@ -193,10 +230,17 @@ def editor_dashboard():
 
 @auth.route('/qaqc/dashboard')
 @role_required('qaqc')
-def qaqc_dashboard():
+def qaqc_dashboard() -> str:
   """
   Render the QA/QC-only dashboard page.
   Only users with 'qaqc' role can access.
+
+  Returns:
+      str: Rendered HTML for the QA/QC dashboard page.
+
+  Examples:
+      # In browser: GET /auth/qaqc/dashboard
+      # Returns: HTML page for QA/QC dashboard
   """
   if USE_OKTA:
     # TODO: Render QA/QC dashboard for Okta-authenticated qaqc users.
@@ -207,10 +251,17 @@ def qaqc_dashboard():
 
 @auth.route('/review/dashboard')
 @roles_required('editor', 'reviewer', 'qaqc')
-def review_dashboard():
+def review_dashboard() -> str:
   """
   Render the review dashboard page.
   Users with 'editor', 'reviewer', OR 'qaqc' roles can access.
+
+  Returns:
+      str: Rendered HTML for the review dashboard page.
+
+  Examples:
+      # In browser: GET /auth/review/dashboard
+      # Returns: HTML page for review dashboard
   """
   if USE_OKTA:
     # TODO: Render review dashboard for Okta-authenticated users with appropriate roles.
@@ -221,10 +272,17 @@ def review_dashboard():
 
 @auth.route('/advanced/edit')
 @all_roles_required('editor', 'qaqc')
-def advanced_edit():
+def advanced_edit() -> str:
   """
   Render the advanced editing page.
   Only users with BOTH 'editor' AND 'qaqc' roles can access.
+
+  Returns:
+      str: Rendered HTML for the advanced editing page.
+
+  Examples:
+      # In browser: GET /auth/advanced/edit
+      # Returns: HTML page for advanced editing
   """
   if USE_OKTA:
     # TODO: Render advanced edit page for Okta-authenticated users with all required roles.
@@ -235,10 +293,17 @@ def advanced_edit():
 
 @auth.route('/settings')
 @login_required
-def settings():
+def settings() -> str:
   """
   Render the user account settings page (placeholder).
   In Okta, this page may display Okta-managed profile info or link to Okta profile management.
+
+  Returns:
+      str: Rendered HTML for the user settings page.
+
+  Examples:
+      # In browser: GET /auth/settings
+      # Returns: HTML page for user settings
   """
   if USE_OKTA:
     # TODO: Display Okta profile info or link to Okta profile management.
@@ -250,10 +315,17 @@ def settings():
 
 @auth.route('/email_preferences')
 @login_required
-def email_preferences():
+def email_preferences() -> str:
   """
   Render the user email preferences page (placeholder).
   In Okta, notification preferences may be managed in Okta or remain app-specific.
+
+  Returns:
+      str: Rendered HTML for the email preferences page.
+
+  Examples:
+      # In browser: GET /auth/email_preferences
+      # Returns: HTML page for email preferences
   """
   if USE_OKTA:
     # TODO: Integrate with Okta notification/email preferences if available.
@@ -265,10 +337,17 @@ def email_preferences():
 
 @auth.route('/activity_log')
 @login_required
-def activity_log():
+def activity_log() -> str:
   """
   Render the user activity log page (placeholder).
   In Okta, activity logs may be available via Okta or remain app-specific.
+
+  Returns:
+      str: Rendered HTML for the activity log page.
+
+  Examples:
+      # In browser: GET /auth/activity_log
+      # Returns: HTML page for activity log
   """
   if USE_OKTA:
     # TODO: Integrate with Okta activity log if available, or display app-specific log.
@@ -279,11 +358,20 @@ def activity_log():
 
 
 @auth.route('/login', methods=['GET', 'POST'])
-def login():
+def login() -> Union[str, Response]:
   """
   User login route.
   - If USE_OKTA is False, handles local login form and session creation.
   - If USE_OKTA is True, delegates to Okta login (not yet implemented).
+
+  Returns:
+      Union[str, Response]: Rendered HTML for login form, or redirect after successful login.
+
+  Examples:
+      # In browser: GET /auth/login
+      # Returns: HTML login form
+      # In browser: POST /auth/login (with valid credentials)
+      # Returns: Redirect to main.index
   """
   logger.debug(f"Login route accessed - Method: {request.method}")
 
@@ -329,11 +417,18 @@ def login():
 
 
 @auth.route('/logout')
-def logout():
+def logout() -> Response:
   """
   User logout route.
   - If USE_OKTA is False, logs out the user locally.
   - If USE_OKTA is True, delegates to Okta logout (not yet implemented).
+
+  Returns:
+      Response: Redirect to login page after logout.
+
+  Examples:
+      # In browser: GET /auth/logout
+      # Returns: Redirect to /auth/login
   """
   if USE_OKTA:
     # TODO: Implement Okta logout redirect/flow.
@@ -346,11 +441,20 @@ def logout():
 
 
 @auth.route('/register', methods=['GET', 'POST'])
-def register():
+def register() -> Union[str, Response]:
   """
   User registration route.
   - If USE_OKTA is False, handles local registration form and user creation.
   - If USE_OKTA is True, delegates to Okta registration (not yet implemented).
+
+  Returns:
+      Union[str, Response]: Rendered HTML for registration form, or redirect after successful registration.
+
+  Examples:
+      # In browser: GET /auth/register
+      # Returns: HTML registration form
+      # In browser: POST /auth/register (with valid data)
+      # Returns: Redirect to /auth/login
   """
   logger.debug(f"Register route accessed - Method: {request.method}")
 
@@ -405,10 +509,20 @@ def register():
 
 
 @auth.route('/confirm-email/<token>')
-def confirm_email(token):
+def confirm_email(token: str) -> Response:
   """
   Email confirmation route.
   Verifies the email confirmation token and confirms the user's account.
+
+  Args:
+      token (str): The email confirmation token from the URL.
+
+  Returns:
+      Response: Redirect to login page after confirmation attempt.
+
+  Examples:
+      # In browser: GET /auth/confirm-email/<token>
+      # Returns: Redirect to /auth/login with success/error message
   """
   logger.debug(f"Email confirmation route accessed with token: {token[:10]}...")
 
@@ -438,10 +552,19 @@ def confirm_email(token):
 
 
 @auth.route('/resend-confirmation', methods=['GET', 'POST'])
-def resend_confirmation():
+def resend_confirmation() -> Union[str, Response]:
   """
   Resend email confirmation route.
   Allows users to request a new confirmation email if they didn't receive the first one.
+
+  Returns:
+      Union[str, Response]: Rendered HTML for resend confirmation form, or redirect after submission.
+
+  Examples:
+      # In browser: GET /auth/resend-confirmation
+      # Returns: HTML form for resending confirmation
+      # In browser: POST /auth/resend-confirmation (with email)
+      # Returns: Redirect to /auth/login
   """
   logger.debug(f"Resend confirmation route accessed - Method: {request.method}")
 

@@ -66,8 +66,19 @@ def create_app(config_name: str = 'default') -> Flask:
   return app
 
 
-def create_example_users():
-  """Create example users with different role combinations."""
+def create_example_users() -> None:
+  """
+  Create example users with different role combinations.
+  
+  This function creates a set of example users with various role
+  combinations for testing the authentication system.
+  
+  Returns:
+      None: This function creates users but doesn't return anything.
+      
+  Examples:
+      create_example_users()
+  """
   from arb.auth.models import get_user_model
   User = get_user_model()
 

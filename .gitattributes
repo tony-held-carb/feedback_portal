@@ -1,0 +1,10 @@
+# .gitattributes
+# ----------------------------------------
+# This file instructs Git to normalize all text files to LF on commit
+# and ensures consistent behavior across platforms.
+#
+# `text=auto` lets Git detect text files automatically.
+# `eol=lf` enforces LF line endings on commit.
+# ----------------------------------------
+
+* text=auto eol=lf
