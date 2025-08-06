@@ -25,11 +25,11 @@ Cursor.exe                   19556 Console                    1    202,312 K Unk
   Level: Error
   Level: Error
 [17:43:45.52] Testing DNS resolution... 
-*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
 Server:  ns-tms.arb.ca.gov
 Address:  10.77.94.22
 
-*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
 Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
 Address:  10.77.94.22
 
@@ -71,11 +71,11 @@ Cursor.exe                   19556 Console                    1    201,684 K Unk
   Level: Error
   Level: Error
 [17:43:56.61] Testing DNS resolution... 
-*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
+*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
 Server:  ibx_tmsb_dns-dhcp.arb.ca.gov
 Address:  10.77.94.22
 
-*** ns1.arb.ca.gov can't find api.github.com: Query refused
+*** ns1.arb.ca.gov can't find api.github.com: Query refused
 Server:  ns1.arb.ca.gov
 Address:  10.77.94.22
 
@@ -117,11 +117,11 @@ Cursor.exe                   19556 Console                    1    201,676 K Unk
   Level: Error
   Level: Error
 [17:44:08.58] Testing DNS resolution... 
-*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
 Server:  ns-tms.arb.ca.gov
 Address:  10.77.94.22
 
-*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
 Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
 Address:  10.77.94.22
 
@@ -163,11 +163,11 @@ Cursor.exe                   19556 Console                    1    201,468 K Unk
   Level: Error
   Level: Error
 [17:44:19.76] Testing DNS resolution... 
-*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
+*** ibx_tmsb_dns-dhcp.arb.ca.gov can't find cursor.sh: Query refused
 Server:  ibx_tmsb_dns-dhcp.arb.ca.gov
 Address:  10.77.94.22
 
-*** ns1.arb.ca.gov can't find api.github.com: Query refused
+*** ns1.arb.ca.gov can't find api.github.com: Query refused
 Server:  ns1.arb.ca.gov
 Address:  10.77.94.22
 
@@ -209,11 +209,11 @@ Cursor.exe                   19556 Console                    1    192,640 K Unk
   Level: Error
   Level: Error
 [17:44:31.54] Testing DNS resolution... 
-*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
+*** ns-tms.arb.ca.gov can't find cursor.sh: Query refused
 Server:  ns-tms.arb.ca.gov
 Address:  10.77.94.22
 
-*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
+*** ibx_tmsb_dns-dhcp.ad.arb.ca.gov can't find api.github.com: Query refused
 Server:  ibx_tmsb_dns-dhcp.ad.arb.ca.gov
 Address:  10.77.94.22
 

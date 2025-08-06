@@ -127,6 +127,10 @@ To convert any existing files from CRLF to LF on disk, run the following from WS
 # Recursively convert all text files to LF using dos2unix
 sudo apt install dos2unix
 find . -type f \( -name "*.sh" -o -name "*.py" -o -name "*.md" -o -name "*.txt" -o -name "*.yml" \) -exec dos2unix {} +
+
+Tony ran the following with success to convert all text files to LF:
+find . -type f -not -path "./.git/*" -not -path "./.idea/*" \( -name "*.py" -o -name "*.txt" -o -name "*.md" -o -name "*.json" -o -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.sh" -o -name "*.yml" -o -name "*.yaml" -o -name "*.xml" -o -name "*.sql" -o -name "*.ini" -o -name "*.cfg" -o -name "*.conf" \) -exec dos2unix {} \;
+
 ```
 
 Or use `sed` if `dos2unix` is unavailable:
