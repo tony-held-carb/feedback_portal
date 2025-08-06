@@ -21,8 +21,21 @@ from arb.portal.extensions import db as portal_db
 from arb.portal.config import get_config
 
 
-def create_migration_app():
-  """Create a minimal Flask app for migration."""
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from flask import Flask
+
+def create_migration_app() -> 'Flask':
+  """
+  Create a minimal Flask app for migration.
+  
+  Returns:
+      Flask: A minimal Flask app configured for migration.
+      
+  Examples:
+      app = create_migration_app()
+  """
   app = Flask(__name__)
   app.config.from_object(get_config())
 
@@ -35,8 +48,19 @@ def create_migration_app():
   return app
 
 
-def migrate_role_column():
-  """Migrate the role column to support multiple roles."""
+def migrate_role_column() -> None:
+  """
+  Migrate the role column to support multiple roles.
+  
+  This function updates existing single-role users to use the new
+  comma-separated multiple roles format.
+  
+  Returns:
+      None: This function migrates data but doesn't return anything.
+      
+  Examples:
+      migrate_role_column()
+  """
 
   print("Starting role column migration...")
 
@@ -78,8 +102,19 @@ def migrate_role_column():
     print(f"Total processed: {migrated_count + skipped_count}")
 
 
-def verify_migration():
-  """Verify that the migration was successful."""
+def verify_migration() -> None:
+  """
+  Verify that the migration was successful.
+  
+  This function checks that all users have been properly migrated
+  to the new multiple roles format.
+  
+  Returns:
+      None: This function verifies data but doesn't return anything.
+      
+  Examples:
+      verify_migration()
+  """
 
   print("\nVerifying migration...")
 
@@ -99,8 +134,19 @@ def verify_migration():
     print("Verification completed!")
 
 
-def update_database_schema():
-  """Update the database schema to increase role column size."""
+def update_database_schema() -> None:
+  """
+  Update the database schema to increase role column size.
+  
+  This function provides instructions for manually updating the database
+  schema to support multiple roles.
+  
+  Returns:
+      None: This function provides instructions but doesn't return anything.
+      
+  Examples:
+      update_database_schema()
+  """
 
   print("Updating database schema...")
 

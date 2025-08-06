@@ -1363,7 +1363,7 @@ def delete_testing_range() -> str:
 
 
 @main.route('/js_diagnostic_log', methods=['POST'])
-def js_diagnostic_log():
+def js_diagnostic_log() -> Response:
   """
   JavaScript Diagnostics Logging Endpoint
   =======================================
@@ -1413,6 +1413,12 @@ def js_diagnostic_log():
       - This endpoint is for diagnostics only. Do not send sensitive user data.
       - Rate limiting or authentication can be added if needed for production.
 
+  Returns:
+      Response: JSON response with status "ok".
+
+  Examples:
+      # Frontend JavaScript sends diagnostic message
+      # Returns: {"status": "ok"}
   """
   logger.info(f"route called: js_diagnostic_log")
 
@@ -1428,11 +1434,18 @@ def js_diagnostic_log():
 
 
 @main.route('/java_script_diagnostic_test')
-def java_script_diagnostic_test():
+def java_script_diagnostic_test() -> str:
   """
   Render a simple page for testing JavaScript diagnostics logging (frontend and backend).
 
   NOTE: This is a developer-only route, not covered by E2E tests by design.
+
+  Returns:
+      str: Rendered HTML for the JavaScript diagnostic test page.
+
+  Examples:
+      # In browser: GET /java_script_diagnostic_test
+      # Returns: HTML page for testing JavaScript diagnostics
   """
   logger.info(f"route called: java_script_diagnostic_test")
   return render_template('java_script_diagnostic_test.html')

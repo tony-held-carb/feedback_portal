@@ -35,10 +35,22 @@ from arb.auth import get_db
 logger = logging.getLogger(__name__)
 
 
-def get_auth_config(key, default=None):
+from typing import Any, Optional
+
+def get_auth_config(key: str, default: Any = None) -> Any:
   """
   Helper to fetch auth-related config from app.config, falling back to default_settings.py if not set.
-  Usage: get_auth_config('PASSWORD_RESET_EXPIRATION', 3600)
+  
+  Args:
+      key (str): The config key to fetch (without 'AUTH_' prefix).
+      default (Any): Default value to return if config is not found.
+      
+  Returns:
+      Any: The config value or default if not found.
+      
+  Examples:
+      get_auth_config('PASSWORD_RESET_EXPIRATION', 3600)
+      get_auth_config('MAX_LOGIN_ATTEMPTS', 5)
   """
   try:
     return current_app.config.get(f'AUTH_{key}', default)
@@ -50,6 +62,19 @@ _UserModel = None
 
 
 def get_user_model():
+  """
+  Get the User model class, creating it if it doesn't exist.
+  
+  This function implements a singleton pattern to ensure the User model
+  is created only once and reused throughout the application.
+  
+  Returns:
+      Type[User]: The User model class.
+      
+  Examples:
+      User = get_user_model()
+      users = User.query.all()
+  """
   global _UserModel
   if _UserModel is not None:
     return _UserModel

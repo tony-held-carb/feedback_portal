@@ -17,11 +17,24 @@ from arb.auth.models import get_user_model
 from arb.auth.okta_settings import USE_OKTA
 
 
-def load_user(user_id):
+from typing import Optional, Union
+from flask_login import UserMixin
+
+def load_user(user_id: Union[str, int]) -> Optional[UserMixin]:
   """
   Load a user for Flask-Login session management.
   - If USE_OKTA is False, loads user from the local database by primary key.
   - If USE_OKTA is True, loads user from Okta session/token (not yet implemented).
+  
+  Args:
+      user_id (Union[str, int]): The user ID to load.
+      
+  Returns:
+      Optional[UserMixin]: The user object if found, None otherwise.
+      
+  Examples:
+      user = load_user(123)
+      user = load_user("123")
   """
   if USE_OKTA:
     # TODO: Implement user loading from Okta session/token.
@@ -32,7 +45,15 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-def register_user_loader():
-  """Register the user loader with the login manager after initialization."""
+def register_user_loader() -> None:
+  """
+  Register the user loader with the login manager after initialization.
+  
+  Returns:
+      None: This function registers the user loader but doesn't return anything.
+      
+  Examples:
+      register_user_loader()
+  """
   from arb.auth import get_login_manager
   get_login_manager().user_loader(load_user)
