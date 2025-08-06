@@ -1,35 +1,35 @@
 {
-
-    // 🐚 Define terminal profiles
-    "terminal.integrated.profiles.windows": {
-      "WSL Ubuntu": {
-        "path": "wsl.exe",
-        "args": ["-d", "Ubuntu"],
-        "icon": "terminal-ubuntu"
-      },
-      "Git Bash": {
-        "path": "C:\\tony_apps\\git\\bin\\bash.exe",
-        "args": ["--login", "-i"]
-      }
+  "files.eol": "\n",
+  // 🐚 Define terminal profiles
+  "terminal.integrated.profiles.windows": {
+    "WSL Ubuntu": {
+      "path": "wsl.exe",
+      "args": [
+        "-d",
+        "Ubuntu"
+      ],
+      "icon": "terminal-ubuntu"
     },
-  
-    // 🖥️ Set WSL Ubuntu as the default integrated terminal
-    "terminal.integrated.defaultProfile.windows": "WSL Ubuntu",
-    
-    // 🤖 Use WSL for automation tasks (AI commands)
-    "terminal.integrated.automationProfile.windows": "WSL Ubuntu"
+    "Git Bash": {
+      "path": "C:\\tony_apps\\git\\bin\\bash.exe",
+      "args": [
+        "--login",
+        "-i"
+      ]
+    }
+  },
+  // 🖥️ Set WSL Ubuntu as the default integrated terminal
+  "terminal.integrated.defaultProfile.windows": "WSL Ubuntu",
+  // 🤖 Use WSL for automation tasks (AI commands)
+  "terminal.integrated.automationProfile.windows": "WSL Ubuntu"
 
   // 🎛️ Enable the Command Center UI in Cursor
   "window.commandCenter": true,
-
-
   // 🎨 Theme preferences
   "workbench.colorTheme": "Daynight Darcula",
-
   // 🔁 Git settings for streamlined commits
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-
   // 🐧 Optional Linux profiles (harmless on Windows, useful for cross-platform projects)
   "terminal.integrated.profiles.linux": {
     "bash": {
@@ -51,7 +51,6 @@
       "icon": "terminal-powershell"
     }
   },
-
   // 🛡️ Conda injection fix
   // These settings prevent Cursor/VS Code from injecting malformed activation commands
   // such as:
@@ -65,22 +64,17 @@
   "terminal.integrated.inheritEnv": false,
   "python.terminal.activateEnvironment": false,
   "python.terminal.launchArgs": [],
-
   // ⚙️ Terminal stability improvements
   // These help avoid hanging behavior after running or exiting commands in Cursor
 
   // ✅ Prevent Cursor from persisting previous terminal sessions that may contain corrupted state
   "terminal.integrated.enablePersistentSessions": false,
-
   // ✅ Turn off automatic locale detection which may cause startup delays or encoding issues
   "terminal.integrated.detectLocale": "off",
-
   // ✅ Disable shell integration features that can conflict with non-standard shells like Git Bash
   "terminal.integrated.shellIntegration.enabled": false,
-
   // ✅ Set scrollback buffer to a reasonable size for large logs and smooth rendering
   "terminal.integrated.scrollback": 10000,
-
   // ✅ (Experimental) Disable Windows conpty support which can break Git Bash input/output (especially Ctrl+C/input())
   // Note: May not be supported in all versions of Cursor. Safe to include.
   "terminal.integrated.windowsEnableConpty": false
