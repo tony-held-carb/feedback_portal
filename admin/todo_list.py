@@ -2,7 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-
+* prepping to convert all files to LF
 
 * ---------   Key persistence refactor ----------
 * how data are loaded/stored converted is still a bit confusing
