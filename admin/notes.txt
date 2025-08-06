@@ -1658,3 +1658,14 @@ Then in Windows Explorer, you can access that WSL path like this:
 \\wsl$\Ubuntu\home\tonyh
 
 wsl and windows have different users theld and tonyh, very easy to get confused on the matter
+
+                          Windows Path                        WSL Path
+                          ------------                        --------
+Windows Home Directory:   C:\Users\tonyh,                     /mnt/c/Users/tonyh
+WSL Home Directory:       \\wsl$\Ubuntu\home\tonyh            /home/tonyh
+Feedback Portal:
+
+
+Determine if you are on wsl
+grep -i microsoft /proc/version
+Linux version 6.6.87.2-microsoft-standard-WSL2 (root@439a258ad544) (gcc (GCC) 11.2.0, GNU ld (GNU Binutils) 2.37) #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025          D:\local\cursor\feedback_portal     /d/local/cursor/feedback_portal
