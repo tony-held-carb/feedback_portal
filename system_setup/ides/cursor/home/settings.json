@@ -1,15 +1,23 @@
 {
 
-    // 🐚 Define Git Bash terminal profile
+    // 🐚 Define terminal profiles
     "terminal.integrated.profiles.windows": {
+      "WSL Ubuntu": {
+        "path": "wsl.exe",
+        "args": ["-d", "Ubuntu"],
+        "icon": "terminal-ubuntu"
+      },
       "Git Bash": {
         "path": "C:\\tony_apps\\git\\bin\\bash.exe",
         "args": ["--login", "-i"]
       }
     },
   
-    // 🖥️ Set Git Bash as the default integrated terminal
-    "terminal.integrated.defaultProfile.windows": "Git Bash"
+    // 🖥️ Set WSL Ubuntu as the default integrated terminal
+    "terminal.integrated.defaultProfile.windows": "WSL Ubuntu",
+    
+    // 🤖 Use WSL for automation tasks (AI commands)
+    "terminal.integrated.automationProfile.windows": "WSL Ubuntu"
 
   // 🎛️ Enable the Command Center UI in Cursor
   "window.commandCenter": true,

@@ -1639,3 +1639,22 @@ pytest_TONY_WORK_e2e_81.txt
 FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
 FAILED tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
 ERROR tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium]
+
+trying to get cursor to stop hanging, it is updating my terminal to use bash.
+see: D:\local\cursor\feedback_portal\system_setup\ides\cursor\home\settings.json
+
+
+starting a wsl shell in windows
+windows-r wsl
+
+
+
+conda env create --yes -f "/mnt/d/local/cursor/feedback_portal/admin/mini_conda_02.yml" > "conda_install.log" 2>&1
+
+If you're running WSL and your pwd shows:
+/home/tonyh
+
+Then in Windows Explorer, you can access that WSL path like this:
+\\wsl$\Ubuntu\home\tonyh
+
+wsl and windows have different users theld and tonyh, very easy to get confused on the matter
