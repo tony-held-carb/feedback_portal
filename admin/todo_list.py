@@ -3,9 +3,19 @@
 # todo - Next Steps
 ----------------------------
 
-* reformatted all code in pycharm
-* need to fix 2 minor failing tests
-* maybe use cursor linter to see if there are any issues with the source code/testing code
+
+* ---------   Key persistence refactor ----------
+* how data are loaded/stored converted is still a bit confusing
+* did an initial review of key functions and put it in documentation for future consideration
+* link to plume tracker now works off row id rather than misc_json contents.
+  * it may be possible to get rid of id_incidence entirely from misc_json, but
+    that will require wtforms to be changed and the filter logic.  keeping it in for now.
+  * id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
+    alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
+  * need to figure out what to do with delete incidences? (may not really happen often)
+* high priority code reorg so that primary keys work as expected and allow for staged changes
+  * figure out when/if incidence primary key can be changed/enabled
+
 
 
 -------------------------------------------------------
@@ -30,17 +40,6 @@ Future Initiatives & Feature Requests Below
 * make sure to strip checkbox feedback forms
 * have new forms upload to database and json, but don't try to show forms that don't exist yet
 
-* ---------   Key persistence refactor ----------
-* how data are loaded/stored converted is still a bit confusing
-* did an initial review of key functions and put it in documentation for future consideration
-* link to plume tracker now works off row id rather than misc_json contents.
-  * it may be possible to get rid of id_incidence entirely from misc_json, but
-    that will require wtforms to be changed and the filter logic.  keeping it in for now.
-  * id_incidence was left in json so that the filters work.  there may be a better way (perhaps use row.id_incidence)
-    alternatively, the code could likely be strengthened to never allow id_incidence to be changed within the json column.
-  * need to figure out what to do with delete incidences? (may not really happen often)
-* high priority code reorg so that primary keys work as expected and allow for staged changes
-  * figure out when/if incidence primary key can be changed/enabled
 
 * ---------   future initiatives----------
   * add user log-in
