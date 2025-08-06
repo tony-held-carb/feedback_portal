@@ -4,16 +4,17 @@ import mkdocs_gen_files
 
 SRC_ROOT = Path("arb")
 
+
 def generate_docs() -> None:
   """
   Generate documentation files for all Python modules in the arb package.
-  
+
   This function walks through all Python files in the arb directory and creates
   corresponding markdown documentation files with mkdocs-gen-files directives.
-  
+
   Returns:
       None: This function generates files but doesn't return anything.
-      
+
   Examples:
       # Called automatically by mkdocs-gen-files
       # Generates documentation for all Python modules

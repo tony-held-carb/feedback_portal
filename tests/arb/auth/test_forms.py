@@ -69,25 +69,29 @@ def test_change_password_form_instantiation(app_ctx):
   assert hasattr(form, 'submit')
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
 def test_registration_form_validation():
   """RegistrationForm validates correctly with valid data."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
 def test_login_form_validation():
   """LoginForm validates correctly with valid data."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
 def test_password_reset_form_validation():
   """PasswordResetForm validates correctly with valid data."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and database queries. Will be addressed in follow-up context testing.")
 def test_change_password_form_validation():
   """ChangePasswordForm validates correctly with valid data."""
   pass

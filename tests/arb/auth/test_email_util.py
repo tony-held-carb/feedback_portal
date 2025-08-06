@@ -27,19 +27,22 @@ def test_send_email_confirmation_function_signature():
   # Function should exist and be callable
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
 def test_send_welcome_email_with_valid_user():
   """send_welcome_email works with valid user."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
 def test_send_password_reset_email_with_valid_user():
   """send_password_reset_email works with valid user and token."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and email sending setup. Will be addressed in follow-up context testing.")
 def test_send_email_confirmation_with_valid_user():
   """send_email_confirmation works with valid user and token."""
   pass

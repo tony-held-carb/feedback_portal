@@ -2,11 +2,13 @@
 
 ## Overview
 
-This document describes the custom modal system implemented to replace browser confirm dialogs on the `/list_staged` page. This system provides consistent, testable, and well-logged confirmation dialogs for discard actions.
+This document describes the custom modal system implemented to replace browser confirm dialogs on the `/list_staged`
+page. This system provides consistent, testable, and well-logged confirmation dialogs for discard actions.
 
 ## Problem Statement
 
 ### Original Issue: Browser Confirm Dialogs
+
 The original `/list_staged` page used browser's native `window.confirm()` dialogs for discard confirmations:
 
 ```javascript
@@ -27,7 +29,9 @@ if (!confirmed) {
 5. **No Visibility**: Test failures were hard to debug due to lack of logging
 
 ### Test Failure Evidence
-From the logs, we can see that discard actions were working (backend logs show successful discards), but the E2E tests couldn't reliably interact with the browser confirm dialogs.
+
+From the logs, we can see that discard actions were working (backend logs show successful discards), but the E2E tests
+couldn't reliably interact with the browser confirm dialogs.
 
 ## Solution: Custom Bootstrap Modals
 
@@ -42,9 +46,10 @@ From the logs, we can see that discard actions were working (backend logs show s
 ### Implementation Architecture
 
 #### 1. HTML Structure
+
 ```html
 <!-- Discard button with data attributes for file identification -->
-<button type="submit" class="btn btn-outline-danger js-log-btn" 
+<button type="submit" class="btn btn-outline-danger js-log-btn"
         data-js-logging-context="discard-staged"
         data-filename="{{ file.filename }}"
         data-file-id="{{ file.id_incidence }}">
@@ -53,6 +58,7 @@ From the logs, we can see that discard actions were working (backend logs show s
 ```
 
 #### 2. JavaScript Modal Management
+
 ```javascript
 // Find all discard buttons and attach custom modal handlers
 const discardButtons = document.querySelectorAll(
@@ -70,6 +76,7 @@ discardButtons.forEach(function(button) {
 ```
 
 #### 3. Dynamic Modal Creation
+
 ```javascript
 function createDiscardModal() {
   const modal = document.createElement('div');
@@ -81,12 +88,13 @@ function createDiscardModal() {
 ```
 
 #### 4. File-Specific Content
+
 ```javascript
 function updateDiscardModalContent(modal, filename, fileId, form) {
   // Update modal with specific file information
   modal.querySelector('#discard-filename').textContent = filename;
   modal.querySelector('#discard-file-id').textContent = fileId;
-  
+
   // Set up form submission on confirm
   const confirmBtn = modal.querySelector('#discard-confirm-btn');
   confirmBtn.addEventListener('click', function() {
@@ -99,6 +107,7 @@ function updateDiscardModalContent(modal, filename, fileId, form) {
 ## Diagnostics Integration
 
 ### Automatic Logging
+
 All modal interactions are automatically logged via the diagnostics system:
 
 1. **Button Click**: `Button clicked: discard-staged`
@@ -108,6 +117,7 @@ All modal interactions are automatically logged via the diagnostics system:
 5. **Form Submission**: (handled by form submit event)
 
 ### Log Examples
+
 ```
 [JS_DIAG] Page loaded: list_staged
 Button clicked: discard-staged
@@ -118,6 +128,7 @@ Button clicked: discard-modal-confirm
 ## E2E Testing Improvements
 
 ### Before (Browser Confirm)
+
 ```python
 # Unreliable browser confirm handling
 page.on("dialog", lambda dialog: dialog.accept())
@@ -126,6 +137,7 @@ discard_btn.click()
 ```
 
 ### After (Custom Modal)
+
 ```python
 # Reliable Bootstrap modal handling
 discard_btn = page.locator('[data-js-logging-context="discard-staged"]').first
@@ -137,6 +149,7 @@ confirm_btn.click()
 ```
 
 ### Test Selectors
+
 ```python
 # Easy to find and interact with modal elements
 page.locator('#discardConfirmModal')  # Modal container
@@ -148,14 +161,16 @@ page.locator('#discard-filename')  # File information display
 ## Modal Workflow
 
 ### User Interaction Flow
+
 1. **User clicks "🗑️ Discard"** → Button click logged
 2. **Custom modal appears** → Shows file-specific information
 3. **User sees confirmation** → File name, ID, warning message
 4. **User chooses action**:
-   - **"❌ Cancel"** → Modal closes, no action taken
-   - **"🗑️ Yes, Discard"** → Modal closes, form submits
+    - **"❌ Cancel"** → Modal closes, no action taken
+    - **"🗑️ Yes, Discard"** → Modal closes, form submits
 
 ### Technical Flow
+
 1. **Event Prevention**: `e.preventDefault()` stops immediate form submission
 2. **Modal Creation**: Dynamic modal created if not exists
 3. **Content Update**: Modal populated with file-specific data
@@ -166,6 +181,7 @@ page.locator('#discard-filename')  # File information display
 ## File Identification
 
 ### Data Attributes
+
 Each discard button includes file identification data:
 
 ```html
@@ -175,6 +191,7 @@ data-js-logging-context="discard-staged"      <!-- Action type for logging -->
 ```
 
 ### Modal Content
+
 The modal displays file-specific information:
 
 ```html
@@ -187,12 +204,14 @@ The modal displays file-specific information:
 ## Error Handling
 
 ### Graceful Fallbacks
+
 1. **Missing Modal**: Modal created dynamically if not exists
 2. **Missing Elements**: Checks for element existence before operations
 3. **Form Issues**: Validates form before submission
 4. **Bootstrap Issues**: Uses Bootstrap API safely with existence checks
 
 ### Debugging Support
+
 1. **Console Logging**: JavaScript errors logged to browser console
 2. **Diagnostics Overlay**: All actions visible in real-time
 3. **Backend Logging**: Server-side confirmation of actions
@@ -201,12 +220,14 @@ The modal displays file-specific information:
 ## Performance Considerations
 
 ### Efficient Implementation
+
 1. **Single Modal**: One modal reused for all discard actions
 2. **Dynamic Content**: Modal content updated, not recreated
 3. **Event Cleanup**: Old event listeners removed to prevent memory leaks
 4. **Minimal DOM**: Modal only created when needed
 
 ### Memory Management
+
 ```javascript
 // Remove old event listeners by cloning element
 const newConfirmBtn = confirmBtn.cloneNode(true);
@@ -216,6 +237,7 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 ## Testing Strategy
 
 ### Manual Testing
+
 1. **Load `/list_staged`** → Check diagnostics overlay appears
 2. **Click discard button** → Verify custom modal appears
 3. **Check modal content** → Verify file information is correct
@@ -223,6 +245,7 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 5. **Click confirm** → Verify form submits, file is discarded
 
 ### Automated Testing
+
 1. **Element Presence**: Verify modal elements exist
 2. **Content Accuracy**: Verify modal shows correct file info
 3. **Interaction Flow**: Test complete discard workflow
@@ -232,16 +255,19 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 ## Migration from Browser Confirm
 
 ### What Changed
+
 - **Before**: `window.confirm()` → Unreliable, no logging
 - **After**: Bootstrap modal → Reliable, fully logged
 
 ### What Stayed the Same
+
 - **Form Action**: Same POST endpoint (`/discard_staged_update`)
 - **Backend Logic**: No changes to server-side discard processing
 - **User Intent**: Same confirmation requirement
 - **Security**: Same CSRF protection and validation
 
 ### Backward Compatibility
+
 - **Existing Tests**: Need updates to use new selectors
 - **Manual Usage**: Same user workflow, better experience
 - **API Endpoints**: No changes to backend routes
@@ -249,6 +275,7 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 ## Future Enhancements
 
 ### Potential Improvements
+
 1. **AJAX Submission**: Submit form via fetch to prevent page reload
 2. **Batch Operations**: Multiple file selection and discard
 3. **Undo Functionality**: Temporary undo for discarded files
@@ -256,6 +283,7 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 5. **Animation Customization**: Custom modal animations
 
 ### Monitoring and Analytics
+
 1. **Discard Analytics**: Track which files are discarded most
 2. **User Behavior**: Monitor confirmation vs cancellation rates
 3. **Performance Metrics**: Modal show/hide timing
@@ -263,13 +291,17 @@ confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 
 ## Conclusion
 
-The custom modal system successfully addresses the E2E testing reliability issues while providing a better user experience and comprehensive diagnostics logging. The implementation is robust, well-documented, and maintains backward compatibility while enabling more reliable automated testing.
+The custom modal system successfully addresses the E2E testing reliability issues while providing a better user
+experience and comprehensive diagnostics logging. The implementation is robust, well-documented, and maintains backward
+compatibility while enabling more reliable automated testing.
 
 ### Key Success Metrics
+
 - ✅ **E2E Tests**: Now pass reliably with custom modals
 - ✅ **User Experience**: Professional, consistent confirmation dialogs
 - ✅ **Debugging**: Full visibility into all user actions
 - ✅ **Maintainability**: Well-documented, modular implementation
 - ✅ **Performance**: Efficient, memory-safe implementation
 
-This system serves as a template for implementing similar custom confirmation dialogs throughout the application, ensuring consistent behavior and reliable testing across all user interactions. 
+This system serves as a template for implementing similar custom confirmation dialogs throughout the application,
+ensuring consistent behavior and reliable testing across all user interactions.

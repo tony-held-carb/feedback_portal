@@ -79,7 +79,8 @@ def test_homepage_accessibility(page: Page):
   if first_link.count() == 0:
     pytest.skip("No links or buttons to check focusability.")
   first_link.focus()
-  assert first_link.evaluate('el => el === document.activeElement'), "First link/button should be focusable via tab order"
+  assert first_link.evaluate(
+    'el => el === document.activeElement'), "First link/button should be focusable via tab order"
 
 
 @pytest.mark.e2e

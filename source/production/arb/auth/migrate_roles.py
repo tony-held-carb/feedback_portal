@@ -14,25 +14,24 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from flask import Flask
 from arb.auth import init_auth, get_db
 from arb.auth.models import User
 from arb.portal.extensions import db as portal_db
 from arb.portal.config import get_config
 
-
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from flask import Flask
+  from flask import Flask
+
 
 def create_migration_app() -> 'Flask':
   """
   Create a minimal Flask app for migration.
-  
+
   Returns:
       Flask: A minimal Flask app configured for migration.
-      
+
   Examples:
       app = create_migration_app()
   """
@@ -51,13 +50,13 @@ def create_migration_app() -> 'Flask':
 def migrate_role_column() -> None:
   """
   Migrate the role column to support multiple roles.
-  
+
   This function updates existing single-role users to use the new
   comma-separated multiple roles format.
-  
+
   Returns:
       None: This function migrates data but doesn't return anything.
-      
+
   Examples:
       migrate_role_column()
   """
@@ -105,13 +104,13 @@ def migrate_role_column() -> None:
 def verify_migration() -> None:
   """
   Verify that the migration was successful.
-  
+
   This function checks that all users have been properly migrated
   to the new multiple roles format.
-  
+
   Returns:
       None: This function verifies data but doesn't return anything.
-      
+
   Examples:
       verify_migration()
   """
@@ -137,13 +136,13 @@ def verify_migration() -> None:
 def update_database_schema() -> None:
   """
   Update the database schema to increase role column size.
-  
+
   This function provides instructions for manually updating the database
   schema to support multiple roles.
-  
+
   Returns:
       None: This function provides instructions but doesn't return anything.
-      
+
   Examples:
       update_database_schema()
   """

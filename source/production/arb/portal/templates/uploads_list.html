@@ -22,16 +22,16 @@
     <div class="table-responsive border border-blue-gray bg-white rounded shadow-sm mt-3 p-3">
       <table class="table table-striped">
         <thead>
-        <tr>
-          <th>Filename</th>
-        </tr>
+          <tr>
+            <th>Filename</th>
+          </tr>
         </thead>
         <tbody>
-        {% for file in files %}
-          <tr>
-            <td><a href="{{ url_for('main.serve_file', filename=file) }}">{{ file }}</a></td>
-          </tr>
-        {% endfor %}
+          {% for file in files %}
+            <tr>
+              <td><a href="{{ url_for('main.serve_file', filename=file) }}">{{ file }}</a></td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

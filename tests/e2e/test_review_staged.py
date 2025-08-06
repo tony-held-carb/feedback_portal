@@ -591,7 +591,8 @@ def test_incremental_upload(page: Page, test_file):
       cb.set_checked(True)
       new_checks += 1
       print(f"checking box named: {name}")
-  print(f"A total of {new_checks} check boxes were selected on 2nd upload (limited to {max_checkboxes_to_process} for performance).")
+  print(
+    f"A total of {new_checks} check boxes were selected on 2nd upload (limited to {max_checkboxes_to_process} for performance).")
   checkbox2_time = time.time() - checkbox2_start
   print(f"[TIMING] Second checkbox operations (OPTIMIZED): {checkbox2_time:.2f}s")
 

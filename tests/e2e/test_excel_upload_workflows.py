@@ -58,8 +58,9 @@ from playwright.sync_api import Page, expect
 
 import conftest
 from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
-from arb.portal.utils.playwright_testing_util import clear_upload_attempt_marker, upload_file_and_wait_for_attempt_marker, \
-    wait_for_upload_attempt_marker
+from arb.portal.utils.playwright_testing_util import clear_upload_attempt_marker, \
+  upload_file_and_wait_for_attempt_marker, \
+  wait_for_upload_attempt_marker
 
 # Test configuration - can be overridden by environment variables
 BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
@@ -182,7 +183,8 @@ class TestExcelUpload:
     assert file_input.count() > 0, "File input should exist in the DOM"
     # Check that it accepts Excel files
     accept_attr = file_input.get_attribute("accept")
-    assert accept_attr is None or any(ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
+    assert accept_attr is None or any(
+      ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
 
   def test_drop_zone_exists(self, upload_page: Page):
     """
@@ -230,7 +232,8 @@ class TestExcelUpload:
       if submit_button.count() > 0:
         submit_button.click()
         # Wait for specific success/error indicator instead of network idle
-        expect(upload_page.locator(".alert-success, .alert-danger, .success-message, .error-message").first).to_be_visible()
+        expect(
+          upload_page.locator(".alert-success, .alert-danger, .success-message, .error-message").first).to_be_visible()
     # Check for success or error messages
     success_indicators = [
       ".alert-success",
@@ -458,7 +461,8 @@ class TestUploadPageElements:
     file_input = form.locator("input[type='file']")
     assert file_input.count() > 0, "File input should exist in the form"
     accept_attr = file_input.get_attribute("accept")
-    assert accept_attr is None or any(ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
+    assert accept_attr is None or any(
+      ext in accept_attr for ext in ["xlsx", "xls"]), "File input should accept Excel files"
     submit_button = form.locator("button[type='submit'], input[type='submit']")
     if submit_button.count() > 0:
       expect(submit_button.first).to_be_visible()
@@ -577,9 +581,9 @@ DB_PATH = "source/production/app.db"
 
 # Try to get database URI from environment variables, then fall back to settings
 DB_URI = (
-    os.environ.get("POSTGRES_DB_URI") or
-    os.environ.get("DATABASE_URI") or
-    os.environ.get("SQLALCHEMY_DATABASE_URI")
+        os.environ.get("POSTGRES_DB_URI") or
+        os.environ.get("DATABASE_URI") or
+        os.environ.get("SQLALCHEMY_DATABASE_URI")
 )
 
 # If no environment variable is set, try to get it from settings
@@ -680,15 +684,16 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
     # Should remain on upload page and show error message
     assert "/upload" in upload_page.url, f"Expected to remain on upload page for edge case file, got: {upload_page.url}"
     assert any(
-      keyword in upload_page.content().lower() for keyword in ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
+      keyword in upload_page.content().lower() for keyword in
+      ["error", "invalid", "not recognized", "missing", "could not", "failed"]), (
       f"Expected error message for edge case file. Content: {upload_page.content()[:300]}"
     )
     return  # Test passes for edge case scenario
   # After upload, check for id_incidence error message
   page_content = upload_page.content().lower()
   id_error = (
-      ("id_incidence" in page_content and "positive integer" in page_content)
-      or ("missing a valid 'incidence/emission id'" in page_content)
+          ("id_incidence" in page_content and "positive integer" in page_content)
+          or ("missing a valid 'incidence/emission id'" in page_content)
   )
   if id_error and "/upload" in upload_page.url:
     print("Upload blocked due to missing/invalid id_incidence as expected.")
@@ -696,9 +701,9 @@ def test_excel_upload_deep_backend_validation(upload_page, file_path):
 
   # Check for file locked/open error message
   file_locked_error = (
-      "close any files before uploading" in page_content
-      or "files that are still open may be locked" in page_content
-      or "this site can't be reached" in page_content
+          "close any files before uploading" in page_content
+          or "files that are still open may be locked" in page_content
+          or "this site can't be reached" in page_content
   )
   if file_locked_error and "/upload" in upload_page.url:
     print("Upload blocked due to file being locked/open as expected.")
@@ -747,7 +752,8 @@ def test_list_staged_diagnostics_overlay(page):
   from playwright.sync_api import expect
   # Ensure at least one staged file exists
   navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
-  staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
+  staged_file_btns = page.locator(
+    "form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
   if staged_file_btns.count() == 0:
     # Upload a file to stage it
     test_files = get_test_files()
@@ -769,7 +775,8 @@ def test_list_staged_diagnostics_overlay(page):
 
     # Go back to /list_staged
     navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
-    staged_file_btns = page.locator("form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
+    staged_file_btns = page.locator(
+      "form[action*='discard_staged_update'] button[data-js-logging-context='discard-staged']")
     if staged_file_btns.count() == 0:
       pytest.skip("Failed to stage a file for diagnostics overlay test.")
   # Click the discard button for the first staged file (triggers custom modal)
@@ -876,7 +883,8 @@ def test_discard_staged_file_only(page: Page, staged_file_for_discard):
   navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
   assert staged_filename in page.content(), f"Staged file {staged_filename} not listed in /list_staged before discard."
   # Discard the file using the new modal
-  discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
+  discard_btn = page.locator(
+    f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
   discard_btn.click()
   modal = page.locator('#discardConfirmModal')
   expect(modal).to_be_visible(timeout=2000)
@@ -962,7 +970,8 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
   navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
   assert staged_filename1 in page.content(), f"Staged file {staged_filename1} not listed before discard."
 
-  discard_btn = page.locator(f"form[action*='{staged_filename1}'] button[data-js-logging-context='discard-staged']").first
+  discard_btn = page.locator(
+    f"form[action*='{staged_filename1}'] button[data-js-logging-context='discard-staged']").first
   discard_btn.click()
 
   # Wait for modal and confirm
@@ -989,7 +998,8 @@ def test_discard_each_staged_file_separately(page: Page, two_staged_files):
   # Discard second file
   assert staged_filename2 in page.content(), f"Staged file {staged_filename2} not listed before discard."
 
-  discard_btn = page.locator(f"form[action*='{staged_filename2}'] button[data-js-logging-context='discard-staged']").first
+  discard_btn = page.locator(
+    f"form[action*='{staged_filename2}'] button[data-js-logging-context='discard-staged']").first
   discard_btn.click()
 
   # Wait for modal and confirm
@@ -1081,7 +1091,8 @@ def test_discard_malformed_file_only(page: Page, malformed_file_for_discard):
   navigate_and_wait_for_ready(page, f"{BASE_URL}/list_staged")
   print(f"[STEP] Navigated to /list_staged for staged file: {staged_filename}")
   # 2. Locate the staged file row and discard button
-  discard_btn = page.locator(f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
+  discard_btn = page.locator(
+    f"form[action*='{staged_filename}'] button[data-js-logging-context='discard-staged']").first
   assert discard_btn.is_visible(), f"Discard button for staged file {staged_filename} not found or not visible."
   print(f"[STEP] Found discard button for staged file: {staged_filename}")
   # 3. Click the discard button
@@ -1439,9 +1450,9 @@ def pytest_collection_modifyitems(config, items):
     keep = []
     for item in items:
       if (
-          "test_discard_staged_by_filename" in item.nodeid
-          or "test_multiple_staged_files_same_id" in item.nodeid
-          or "test_malformed_staged_file_handling" in item.nodeid
+              "test_discard_staged_by_filename" in item.nodeid
+              or "test_multiple_staged_files_same_id" in item.nodeid
+              or "test_malformed_staged_file_handling" in item.nodeid
       ):
         keep.append(item)
     items[:] = keep

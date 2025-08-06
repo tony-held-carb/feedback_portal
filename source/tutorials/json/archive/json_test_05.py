@@ -1,8 +1,8 @@
 """
 Template to demonstrate how to serialize and deserialize JSON data for custom datatypes (such as datetime)
 """
-import logging
 import json
+import logging
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
@@ -128,5 +128,3 @@ if __name__ == "__main__":
 
   # Deserialize
   decoded_data = json_load_01(json_str, deserializer=deserializer)
-
-

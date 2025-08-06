@@ -6,22 +6,21 @@ that supports multiple roles per user.
 
 Decorators:
 - roles_required: Access if user has ANY of the specified roles
-- all_roles_required: Access if user has ALL of the specified roles  
+- all_roles_required: Access if user has ALL of the specified roles
 - role_required: Access if user has the specified role
 - admin_required: Access if user has admin role (existing functionality)
 """
 
 from functools import wraps
+from typing import Callable, TypeVar, Any
 
 from flask import abort
 from flask_login import current_user
 
 from arb.auth.okta_settings import USE_OKTA
 
-
-from typing import Callable, TypeVar, Any
-
 F = TypeVar('F', bound=Callable[..., Any])
+
 
 def roles_required(*roles: str):
   """

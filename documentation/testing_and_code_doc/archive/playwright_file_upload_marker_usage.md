@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Playwright Marker System is a robust approach to testing file upload workflows without relying on arbitrary timeouts (`page.wait_for_timeout()`). Instead, it uses hidden DOM markers that are injected by the Flask backend to signal when upload attempts have occurred, regardless of success or failure.
+The Playwright Marker System is a robust approach to testing file upload workflows without relying on arbitrary
+timeouts (`page.wait_for_timeout()`). Instead, it uses hidden DOM markers that are injected by the Flask backend to
+signal when upload attempts have occurred, regardless of success or failure.
 
 ## Core Components
 
@@ -36,33 +38,41 @@ if request.method == 'POST':
 Three key functions provide different levels of control:
 
 #### `upload_file_and_wait_for_attempt_marker(page, file_path, timeout=10000)`
+
 **Purpose**: Complete upload workflow - sets file input AND waits for marker
 **When to use**: When you want to upload a file and wait for the marker in one step
-**Behavior**: 
+**Behavior**:
+
 - Calls `page.set_input_files("input[type='file']", file_path)`
 - Waits for `.upload-marker[data-upload-attempted='true']` to appear
 
 #### `wait_for_upload_attempt_marker(page, timeout=7000)`
+
 **Purpose**: Wait-only function - does NOT upload the file
 **When to use**: When `page.set_input_files()` causes immediate page navigation/redirect
-**Behavior**: 
+**Behavior**:
+
 - Only waits for `.upload-marker[data-upload-attempted='true']` to appear
 - Does NOT perform file upload
 
 #### `clear_upload_attempt_marker(page)`
+
 **Purpose**: Remove previous markers to prevent stale state
 **When to use**: Before each new upload attempt in the same test session
-**Behavior**: 
+**Behavior**:
+
 - Removes all `.upload-marker[data-upload-attempted='true']` elements from DOM
 
 ## Key Decision: Which Function to Use?
 
 ### Use `upload_file_and_wait_for_attempt_marker()` when:
+
 - The upload form stays on the same page after file selection
 - No immediate navigation/redirect occurs
 - You want the simplest one-step approach
 
 ### Use `wait_for_upload_attempt_marker()` when:
+
 - `page.set_input_files()` triggers immediate page navigation
 - The file input element disappears after upload (redirects to `/review_staged/`)
 - You need to handle the upload and wait separately
@@ -70,6 +80,7 @@ Three key functions provide different levels of control:
 ## Common Patterns and Examples
 
 ### Pattern 1: Simple Upload (No Navigation)
+
 ```python
 # Clear any previous markers
 clear_upload_attempt_marker(page)
@@ -79,6 +90,7 @@ upload_file_and_wait_for_attempt_marker(page, file_path)
 ```
 
 ### Pattern 2: Upload with Navigation
+
 ```python
 # Clear any previous markers
 clear_upload_attempt_marker(page)
@@ -91,6 +103,7 @@ wait_for_upload_attempt_marker(page)
 ```
 
 ### Pattern 3: Using Page Locator
+
 ```python
 # Clear any previous markers
 clear_upload_attempt_marker(page)
@@ -143,12 +156,14 @@ wait_for_upload_attempt_marker(page)
 ## Migration Guide: Replacing `wait_for_timeout()`
 
 ### Before (Problematic):
+
 ```python
 page.set_input_files("input[type='file']", file_path)
 page.wait_for_timeout(1000)  # ❌ Arbitrary timeout
 ```
 
 ### After (Robust):
+
 ```python
 # Clear any previous upload attempt markers
 clear_upload_attempt_marker(page)
@@ -163,7 +178,9 @@ wait_for_upload_attempt_marker(page)
 ## Common Pitfalls and Solutions
 
 ### Pitfall 1: Double Upload Attempts
+
 **Problem**: Calling `upload_file_and_wait_for_attempt_marker()` after already calling `set_input_files()`
+
 ```python
 # ❌ WRONG - Double upload attempt
 file_input.set_input_files(file_path)
@@ -171,6 +188,7 @@ upload_file_and_wait_for_attempt_marker(page, file_path)  # Tries to upload agai
 ```
 
 **Solution**: Use `wait_for_upload_attempt_marker()` after manual `set_input_files()`
+
 ```python
 # ✅ CORRECT
 file_input.set_input_files(file_path)
@@ -178,7 +196,9 @@ wait_for_upload_attempt_marker(page)
 ```
 
 ### Pitfall 2: Stale Markers
+
 **Problem**: Previous test uploads leave markers that interfere with new tests
+
 ```python
 # ❌ WRONG - May pick up old marker
 page.set_input_files("input[type='file']", file_path)
@@ -186,6 +206,7 @@ wait_for_upload_attempt_marker(page)
 ```
 
 **Solution**: Always clear markers before new uploads
+
 ```python
 # ✅ CORRECT
 clear_upload_attempt_marker(page)
@@ -194,7 +215,9 @@ wait_for_upload_attempt_marker(page)
 ```
 
 ### Pitfall 3: Missing Navigation Handling
+
 **Problem**: Not accounting for page redirects after upload
+
 ```python
 # ❌ WRONG - May fail if page navigates
 upload_file_and_wait_for_attempt_marker(page, file_path)
@@ -202,6 +225,7 @@ page.locator("input[type='file']")  # Element may not exist after redirect
 ```
 
 **Solution**: Use `wait_for_upload_attempt_marker()` for navigation scenarios
+
 ```python
 # ✅ CORRECT
 clear_upload_attempt_marker(page)
@@ -212,15 +236,18 @@ wait_for_upload_attempt_marker(page)  # Works even after navigation
 ## Best Practices
 
 ### 1. Always Clear Markers First
+
 ```python
 clear_upload_attempt_marker(page)  # Prevent stale state
 ```
 
 ### 2. Choose the Right Function
+
 - **Navigation expected**: Use `wait_for_upload_attempt_marker()`
 - **No navigation**: Use `upload_file_and_wait_for_attempt_marker()`
 
 ### 3. Handle Multiple Files Sequentially
+
 ```python
 for file_path in file_paths:
     clear_upload_attempt_marker(page)
@@ -230,6 +257,7 @@ for file_path in file_paths:
 ```
 
 ### 4. Use Descriptive Comments
+
 ```python
 # Clear any previous upload attempt markers
 clear_upload_attempt_marker(page)
@@ -244,28 +272,35 @@ wait_for_upload_attempt_marker(page)
 ## Troubleshooting
 
 ### Marker Not Found
+
 **Symptoms**: `TimeoutError` waiting for marker
 **Causes**:
+
 - Flask route not calling `flash("_upload_attempted", "internal-marker")`
 - Page navigation before marker appears
 - JavaScript errors preventing DOM updates
 
 **Solutions**:
+
 - Verify Flask route includes the flash call
 - Increase timeout if needed
 - Check browser console for JavaScript errors
 
 ### Multiple Markers Found
+
 **Symptoms**: Test passes but may be unreliable
 **Causes**: Previous uploads left markers in DOM
 **Solutions**:
+
 - Always call `clear_upload_attempt_marker(page)` before uploads
 - Ensure proper test isolation
 
 ### Element Not Found After Upload
+
 **Symptoms**: `TimeoutError` on `set_input_files()`
 **Causes**: Page navigation after file selection
 **Solutions**:
+
 - Use `wait_for_upload_attempt_marker()` instead of `upload_file_and_wait_for_attempt_marker()`
 - Handle navigation explicitly
 
@@ -278,6 +313,7 @@ The Playwright Marker System provides a robust, timeout-free approach to testing
 3. **Supporting multiple file uploads** through sequential requests
 4. **Providing clear function separation** for different use cases
 
-The key is understanding when to use `upload_file_and_wait_for_attempt_marker()` vs `wait_for_upload_attempt_marker()` based on whether page navigation occurs during the upload process.
+The key is understanding when to use `upload_file_and_wait_for_attempt_marker()` vs `wait_for_upload_attempt_marker()`
+based on whether page navigation occurs during the upload process.
 
 

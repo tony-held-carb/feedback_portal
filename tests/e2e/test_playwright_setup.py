@@ -57,7 +57,8 @@ from playwright.async_api import async_playwright
 # - See: https://github.com/microsoft/playwright-python/issues/975 and https://github.com/pytest-dev/pytest-asyncio/issues/154
 
 # @pytest.mark.skip(reason="Not an application E2E test; causes unrelated failures due to async backend issues.")
-@pytest.mark.skip(reason="Skipped in pytest runs due to Windows/pytest-asyncio event loop issues. Run as a script if needed.")
+@pytest.mark.skip(
+  reason="Skipped in pytest runs due to Windows/pytest-asyncio event loop issues. Run as a script if needed.")
 @pytest.mark.asyncio
 async def test_playwright_setup():
   """

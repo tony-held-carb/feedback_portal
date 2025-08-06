@@ -11,18 +11,18 @@ from arb.auth import get_db
 
 bp = Blueprint('user_management', __name__, url_prefix='/user')
 
-
 from flask import Response, Union
+
 
 @bp.route('/profile')
 @login_required
 def profile() -> str:
   """
   User profile page - accessible to logged-in users.
-  
+
   Returns:
       str: Rendered HTML for the user profile page.
-      
+
   Examples:
       # In browser: GET /user/profile (requires login)
       # Returns: HTML user profile page
@@ -35,10 +35,10 @@ def profile() -> str:
 def edit_profile() -> Union[str, Response]:
   """
   Edit user profile - accessible to logged-in users.
-  
+
   Returns:
       Union[str, Response]: Rendered HTML for the edit profile page, or redirect after submission.
-      
+
   Examples:
       # In browser: GET /user/profile/edit (requires login)
       # Returns: HTML edit profile page
@@ -58,10 +58,10 @@ def edit_profile() -> Union[str, Response]:
 def change_password() -> Union[str, Response]:
   """
   Change password - accessible to logged-in users.
-  
+
   Returns:
       Union[str, Response]: Rendered HTML for the change password page, or redirect after submission.
-      
+
   Examples:
       # In browser: GET /user/change-password (requires login)
       # Returns: HTML change password page
@@ -102,10 +102,10 @@ def change_password() -> Union[str, Response]:
 def activity() -> str:
   """
   User activity log - accessible to logged-in users.
-  
+
   Returns:
       str: Rendered HTML for the user activity page.
-      
+
   Examples:
       # In browser: GET /user/activity (requires login)
       # Returns: HTML user activity page
@@ -118,10 +118,10 @@ def activity() -> str:
 def view_roles() -> str:
   """
   View user roles - accessible to logged-in users.
-  
+
   Returns:
       str: Rendered HTML for the user roles page.
-      
+
   Examples:
       # In browser: GET /user/roles (requires login)
       # Returns: HTML user roles page

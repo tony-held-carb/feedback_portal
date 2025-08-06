@@ -1,6 +1,7 @@
 # Postgres Setup and Snapshot Restore Guide
 
-This guide explains how to set up a local Postgres database for the feedback_portal project, including best practices for restoring from a snapshot and ensuring schema integrity.
+This guide explains how to set up a local Postgres database for the feedback_portal project, including best practices
+for restoring from a snapshot and ensuring schema integrity.
 
 ---
 
@@ -46,9 +47,11 @@ Navigate to the directory containing your snapshot SQL file and run:
 ```sh
 psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql > import.log 2>&1
 ```
+
 - This will capture all output and errors in `import.log` for review.
 
 ### **D. Schema Considerations**
+
 - The snapshot may create tables in a schema like `satellite_tracker_new`.
 - Your SQLAlchemy config should set the search path accordingly:
   ```python
@@ -62,7 +65,8 @@ psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql
 
 - **Role does not exist:** Create the missing role before import.
 - **PostGIS types missing:** Install and enable PostGIS before import.
-- **Primary keys/constraints missing:** Always restore into a fresh database. Check the dump for `ADD CONSTRAINT ... PRIMARY KEY` lines.
+- **Primary keys/constraints missing:** Always restore into a fresh database. Check the dump for
+  `ADD CONSTRAINT ... PRIMARY KEY` lines.
 - **Schema mismatch:** Make sure your app's search path matches the schema in the dump.
 - **Invalid command \N:** Usually caused by earlier errors; fix those and re-import.
 
@@ -105,8 +109,9 @@ do
 done
 ```
 
-- The above script shows how the production snapshot is created (hourly, from the remote Aurora instance, for the `satellite_tracker_new` schema).
+- The above script shows how the production snapshot is created (hourly, from the remote Aurora instance, for the
+  `satellite_tracker_new` schema).
 
 ---
 
-*Last updated: 2025-07-10* 
+*Last updated: 2025-07-10*

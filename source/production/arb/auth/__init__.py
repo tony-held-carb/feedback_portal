@@ -42,7 +42,7 @@ Summary Table
 -------------------------------------------------------------------------------
 | Name                | What is it?                | Why is it needed?                        |
 |---------------------|----------------------------|------------------------------------------|
-| 'from . import 
+| 'from . import
 | login_manager'      | Imports the module         | Ensures user loader is registered        |
 | _login_manager      | Variable in __init__.py    | Stores the injected LoginManager instance|
 | get_login_manager() | Function in __init__.py    | Returns the injected instance            |
@@ -55,17 +55,18 @@ _mail = None
 _login_manager = None
 _app = None
 
-
 from typing import Optional, Dict, Any
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
-from flask_login import LoginManager
 
-def init_auth(app: Optional[Flask] = None, 
-              db: Optional[SQLAlchemy] = None, 
-              mail: Optional[Mail] = None, 
-              login_manager: Optional[LoginManager] = None, 
+from flask import Flask
+from flask_login import LoginManager
+from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+
+
+def init_auth(app: Optional[Flask] = None,
+              db: Optional[SQLAlchemy] = None,
+              mail: Optional[Mail] = None,
+              login_manager: Optional[LoginManager] = None,
               config: Optional[Dict[str, Any]] = None) -> None:
   """
   Initialize the ARB Auth package for standalone or pluggable use.
@@ -83,7 +84,7 @@ def init_auth(app: Optional[Flask] = None,
   Examples:
       # Standalone usage
       init_auth(app=app, db=db, mail=mail, login_manager=login_manager)
-      
+
       # Package usage
       init_auth(db=host_db, mail=host_mail, login_manager=host_login_manager)
 
@@ -114,13 +115,13 @@ def init_auth(app: Optional[Flask] = None,
 def get_db() -> SQLAlchemy:
   """
   Return the injected SQLAlchemy db instance.
-  
+
   Returns:
       SQLAlchemy: The injected SQLAlchemy instance.
-      
+
   Raises:
       RuntimeError: If the auth package has not been initialized.
-      
+
   Examples:
       db = get_db()
       users = db.session.query(User).all()
@@ -133,32 +134,33 @@ def get_db() -> SQLAlchemy:
 def get_mail() -> Mail:
   """
   Return the injected Flask-Mail instance.
-  
+
   Returns:
       Mail: The injected Flask-Mail instance.
-      
+
   Raises:
       RuntimeError: If the auth package has not been initialized.
-      
+
   Examples:
       mail = get_mail()
       mail.send(message)
   """
   if _mail is None:
-    raise RuntimeError("Auth package not initialized: call init_auth(app, ..., mail=mail, ...) before using get_mail().")
+    raise RuntimeError(
+      "Auth package not initialized: call init_auth(app, ..., mail=mail, ...) before using get_mail().")
   return _mail
 
 
 def get_login_manager() -> LoginManager:
   """
   Return the injected Flask-Login manager instance.
-  
+
   Returns:
       LoginManager: The injected Flask-Login manager instance.
-      
+
   Raises:
       RuntimeError: If the auth package has not been initialized.
-      
+
   Examples:
       login_manager = get_login_manager()
       login_manager.init_app(app)
@@ -172,13 +174,13 @@ def get_login_manager() -> LoginManager:
 def get_app() -> Flask:
   """
   Return the injected Flask app instance.
-  
+
   Returns:
       Flask: The injected Flask app instance.
-      
+
   Raises:
       RuntimeError: If the auth package has not been initialized.
-      
+
   Examples:
       app = get_app()
       app.config['SECRET_KEY'] = 'new-key'
@@ -198,13 +200,13 @@ from .routes import auth_blueprint
 def register_auth_blueprint(app: Flask) -> None:
   """
   Register the auth Blueprint with the given Flask app.
-  
+
   Args:
       app (Flask): The Flask app instance to register the blueprint with.
-      
+
   Returns:
       None: This function registers the blueprint but doesn't return anything.
-      
+
   Examples:
       from arb.auth import register_auth_blueprint
       register_auth_blueprint(app)

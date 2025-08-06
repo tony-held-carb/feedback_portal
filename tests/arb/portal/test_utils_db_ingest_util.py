@@ -13,7 +13,8 @@ import pytest
 
 from arb.portal.utils import db_ingest_util
 from arb.portal.utils.db_ingest_util import (convert_excel_to_json_if_valid, dict_to_database, extract_sector_from_json,
-                                             extract_tab_and_sector, json_file_to_db, store_staged_payload, xl_dict_to_database)
+                                             extract_tab_and_sector, json_file_to_db, store_staged_payload,
+                                             xl_dict_to_database)
 from arb.portal.utils.result_types import StagingResult
 
 

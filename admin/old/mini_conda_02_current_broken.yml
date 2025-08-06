@@ -82,7 +82,7 @@ channels:
   # Include any other channels here if your package is not in defaults
   # - conda-forge
 dependencies:
-#  - python=3.11.*
+  #  - python=3.11.*
   - python=3.10
   - flask
   - flask-sqlalchemy

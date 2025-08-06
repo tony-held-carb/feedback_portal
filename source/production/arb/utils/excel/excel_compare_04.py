@@ -117,7 +117,8 @@ def parse_comments(zipf: zipfile.ZipFile, sheet_file: str) -> Dict[str, str]:
     root = ET.fromstring(zipf.read(comments_file).decode('utf-8'))
     for comment in root.findall('.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}comment'):
       ref = comment.attrib['ref']
-      text = ''.join([t.text or '' for t in comment.findall('.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t')])
+      text = ''.join(
+        [t.text or '' for t in comment.findall('.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t')])
       comments[ref] = text
   return comments
 
@@ -185,15 +186,15 @@ def parse_workbook(zipf: zipfile.ZipFile) -> Dict[str, Dict[str, Dict[str, str]]
 def excel_range_from_addresses(addresses: List[str]) -> str:
   """
   Convert a list of Excel cell addresses to a range notation.
-  
+
   Only works for addresses in the same row or same column.
-  
+
   Args:
       addresses (List[str]): List of Excel cell addresses (e.g., ['A1', 'A2', 'A3']).
-      
+
   Returns:
       str: Excel range notation (e.g., 'A1:A3') or comma-separated addresses if not consecutive.
-      
+
   Examples:
       Input : ['A1', 'A2', 'A3']
       Output: 'A1:A3'
@@ -226,13 +227,13 @@ def excel_range_from_addresses(addresses: List[str]) -> str:
 def col_to_num(col: str) -> int:
   """
   Convert Excel column letter to column number.
-  
+
   Args:
       col (str): Excel column letter (e.g., 'A', 'B', 'AA').
-      
+
   Returns:
       int: Column number (1-based).
-      
+
   Examples:
       Input : 'A'
       Output: 1
@@ -250,13 +251,13 @@ def col_to_num(col: str) -> int:
 def num_to_col(num: int) -> str:
   """
   Convert column number to Excel column letter.
-  
+
   Args:
       num (int): Column number (1-based).
-      
+
   Returns:
       str: Excel column letter (e.g., 'A', 'B', 'AA').
-      
+
   Examples:
       Input : 1
       Output: 'A'
@@ -275,13 +276,13 @@ def num_to_col(num: int) -> str:
 def canonicalize_font(font: Dict[str, Any]) -> Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]:
   """
   Canonicalize font properties for comparison.
-  
+
   Args:
       font (Dict[str, Any]): Font dictionary from Excel styles.
-      
+
   Returns:
       Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]: Canonicalized font tuple or None if not a dict.
-      
+
   Examples:
       Input : {'name': 'Arial', 'sz': 12, 'bold': True}
       Output: ('arial', '12', None, None, None, True, None, None, None)
@@ -304,13 +305,13 @@ def canonicalize_font(font: Dict[str, Any]) -> Optional[Tuple[str, str, Any, Any
 def canonicalize_fill(fill: Dict[str, Any]) -> Optional[Tuple[Any, Any, Any]]:
   """
   Canonicalize fill properties for comparison.
-  
+
   Args:
       fill (Dict[str, Any]): Fill dictionary from Excel styles.
-      
+
   Returns:
       Optional[Tuple[Any, Any, Any]]: Canonicalized fill tuple or None if not a dict.
-      
+
   Examples:
       Input : {'patternType': 'solid', 'fgColor': {'rgb': 'FF0000'}}
       Output: ('solid', {'rgb': 'FF0000'}, None)
@@ -327,13 +328,13 @@ def canonicalize_fill(fill: Dict[str, Any]) -> Optional[Tuple[Any, Any, Any]]:
 def canonicalize_border(border: Dict[str, Any]) -> Optional[Tuple[Tuple[str, Any], ...]]:
   """
   Canonicalize border properties for comparison.
-  
+
   Args:
       border (Dict[str, Any]): Border dictionary from Excel styles.
-      
+
   Returns:
       Optional[Tuple[Tuple[str, Any], ...]]: Canonicalized border tuple or None if not a dict.
-      
+
   Examples:
       Input : {'left': {'style': 'thin'}, 'right': {'style': 'thin'}}
       Output: (('left', {'style': 'thin'}), ('right', {'style': 'thin'}))
@@ -346,13 +347,13 @@ def canonicalize_border(border: Dict[str, Any]) -> Optional[Tuple[Tuple[str, Any
 def build_font_map(styles: Dict[str, Any]) -> Dict[int, Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]]:
   """
   Build a mapping of font indices to canonicalized font properties.
-  
+
   Args:
       styles (Dict[str, Any]): Excel styles dictionary.
-      
+
   Returns:
       Dict[int, Optional[Tuple[str, str, Any, Any, Any, Any, Any, Any, Any]]]: Mapping of font index to canonicalized font.
-      
+
   Examples:
       Input : {'fonts': [{'name': 'Arial', 'sz': 12}, {'name': 'Times', 'sz': 10}]}
       Output: {0: ('arial', '12', None, ...), 1: ('times', '10', None, ...)}
@@ -365,7 +366,8 @@ def build_font_map(styles: Dict[str, Any]) -> Dict[int, Optional[Tuple[str, str,
 
 
 def compare_workbooks(wb1: Dict[str, Dict[str, Dict[str, str]]], wb2: Dict[str, Dict[str, Dict[str, str]]],
-                      verbosity: str = 'significant_only', suppress_trivial_details: bool = True, styles1=None, styles2=None) -> List[str]:
+                      verbosity: str = 'significant_only', suppress_trivial_details: bool = True, styles1=None,
+                      styles2=None) -> List[str]:
   output = []
   warnings = []
   # Check style table alignment if provided
@@ -450,12 +452,14 @@ def compare_workbooks(wb1: Dict[str, Dict[str, Dict[str, str]]], wb2: Dict[str, 
       if c1.get('value', '') != c2.get('value', ''):
         flush_trivial_buffer()
         summary['value'] += 1
-        output.append(f"  {addr}: Value differs [significant]\n    A: {c1.get('value', '')}\n    B: {c2.get('value', '')}")
+        output.append(
+          f"  {addr}: Value differs [significant]\n    A: {c1.get('value', '')}\n    B: {c2.get('value', '')}")
       # Formula
       if c1.get('formula', '') != c2.get('formula', ''):
         flush_trivial_buffer()
         summary['formula'] += 1
-        output.append(f"  {addr}: Formula differs [significant]\n    A: {c1.get('formula', '')}\n    B: {c2.get('formula', '')}")
+        output.append(
+          f"  {addr}: Formula differs [significant]\n    A: {c1.get('formula', '')}\n    B: {c2.get('formula', '')}")
       # Style (compare sub-features)
       s1 = c1.get('style', {}) if isinstance(c1.get('style', {}), dict) else {}
       s2 = c2.get('style', {}) if isinstance(c2.get('style', {}), dict) else {}
@@ -543,7 +547,8 @@ def compare_workbooks(wb1: Dict[str, Dict[str, Dict[str, str]]], wb2: Dict[str, 
       if c1.get('comment', '') != c2.get('comment', ''):
         flush_trivial_buffer()
         summary['comment'] += 1
-        output.append(f"  {addr}: Comment differs [significant]\n    A: {c1.get('comment', '')}\n    B: {c2.get('comment', '')}")
+        output.append(
+          f"  {addr}: Comment differs [significant]\n    A: {c1.get('comment', '')}\n    B: {c2.get('comment', '')}")
       # Data validation
       if c1.get('validation', '') != c2.get('validation', ''):
         flush_trivial_buffer()
@@ -554,7 +559,8 @@ def compare_workbooks(wb1: Dict[str, Dict[str, Dict[str, str]]], wb2: Dict[str, 
       if c1.get('hyperlink', '') != c2.get('hyperlink', ''):
         flush_trivial_buffer()
         summary['hyperlink'] += 1
-        output.append(f"  {addr}: Hyperlink differs [significant]\n    A: {c1.get('hyperlink', '')}\n    B: {c2.get('hyperlink', '')}")
+        output.append(
+          f"  {addr}: Hyperlink differs [significant]\n    A: {c1.get('hyperlink', '')}\n    B: {c2.get('hyperlink', '')}")
     flush_trivial_buffer()
   # Add summary at the top
   summary_lines = [
@@ -567,7 +573,8 @@ def compare_workbooks(wb1: Dict[str, Dict[str, Dict[str, str]]], wb2: Dict[str, 
     f"  (by sub-feature): " + ', '.join(
       [f"{k}: {v}" for k, v in sorted(style_subdiffs.items())]) if style_subdiffs else "  (by sub-feature): None",
     f"  (trivial by type): " + ', '.join(
-      [f"{k}: {v}" for k, v in sorted(trivial_type_counts.items())]) if trivial_type_counts else "  (trivial by type): None",
+      [f"{k}: {v}" for k, v in
+       sorted(trivial_type_counts.items())]) if trivial_type_counts else "  (trivial by type): None",
     f"Comment differences: {summary['comment']}",
     f"Data validation differences: {summary['validation']}",
     f"Hyperlink differences: {summary['hyperlink']}",
@@ -608,8 +615,10 @@ def compare_xlsx_files(file_a: Path, file_b: Path, log_to_file: bool = True) -> 
 
 if __name__ == "__main__":
   # Example usage: update these paths as needed
-  file_a = Path(r"D:/local/cursor/feedback_portal/diagnostics/dairy_digester_operator_feedback_v006_for_review_local.xlsx")
-  file_b = Path(r"D:/local/cursor/feedback_portal/diagnostics/dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx")
+  file_a = Path(
+    r"D:/local/cursor/feedback_portal/diagnostics/dairy_digester_operator_feedback_v006_for_review_local.xlsx")
+  file_b = Path(
+    r"D:/local/cursor/feedback_portal/diagnostics/dairy_digester_operator_feedback_v006_for_review_sharepoint.xlsx")
   compare_xlsx_files(file_a, file_b, log_to_file=True)
 
 # Notes:

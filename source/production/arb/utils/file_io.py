@@ -144,8 +144,8 @@ class ProjectRootNotFoundError(ValueError):
 
 
 def resolve_project_root(
-    file_path: str | Path,
-    candidate_structures: list[list[str]] | None = None
+        file_path: str | Path,
+        candidate_structures: list[list[str]] | None = None
 ) -> Path:
   """
   Attempt to locate the project root directory using known folder sequences.

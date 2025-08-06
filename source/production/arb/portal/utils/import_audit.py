@@ -122,7 +122,8 @@ def try_type_conversion(raw_value: Any, value_type: Any) -> tuple[Any, list[str]
               excel_val = str(excel_val)
             local_datetime = excel_str_to_naive_datetime(excel_val)
             if local_datetime and not is_datetime_naive(local_datetime):
-              logs.append(f"Type conversion failed: parsed datetime is not naive for value '{raw_value}'. Value set to None.")
+              logs.append(
+                f"Type conversion failed: parsed datetime is not naive for value '{raw_value}'. Value set to None.")
               db_value = None
             elif local_datetime is None:
               logs.append(f"Type conversion failed: could not parse '{raw_value}' as datetime. Value set to None.")
@@ -133,7 +134,8 @@ def try_type_conversion(raw_value: Any, value_type: Any) -> tuple[Any, list[str]
           else:
             converted = value_type(raw_value)
             db_value = converted
-            logs.append(f"Type conversion successful: '{raw_value}' → {db_value} ({getattr(value_type, '__name__', str(value_type))})")
+            logs.append(
+              f"Type conversion successful: '{raw_value}' → {db_value} ({getattr(value_type, '__name__', str(value_type))})")
         except (ValueError, TypeError) as e:
           logs.append(
             f"Type conversion failed: could not convert '{raw_value}' to {getattr(value_type, '__name__', str(value_type))}: {e}. Value set to None.")
@@ -172,7 +174,8 @@ def field_diagnostics(field: str, lookup: Dict, ws: Any, logs: List[str]) -> Lis
       spreadsheet_label = cell.value
     except Exception:
       spreadsheet_label = None
-  label_match = (spreadsheet_label == schema_label) if (spreadsheet_label is not None and schema_label is not None) else None
+  label_match = (spreadsheet_label == schema_label) if (
+            spreadsheet_label is not None and schema_label is not None) else None
   spreadsheet_raw_value = None
   if value_address:
     try:
@@ -187,16 +190,18 @@ def field_diagnostics(field: str, lookup: Dict, ws: Any, logs: List[str]) -> Lis
   if db_value == spreadsheet_raw_value:
     value_match_line = f"{pad('Value Match')} : True"
   elif (
-      (isinstance(spreadsheet_raw_value, (int, float, str)) and isinstance(db_value, (int, float, str)))
-      and str(spreadsheet_raw_value) == str(db_value)
+          (isinstance(spreadsheet_raw_value, (int, float, str)) and isinstance(db_value, (int, float, str)))
+          and str(spreadsheet_raw_value) == str(db_value)
   ):
     value_match_line = f"{pad('Value Match')} : True (Type Conversion: {type(spreadsheet_raw_value).__name__} → {type(db_value).__name__}, Value Preserved)"
   else:
     value_match_line = f"{pad('Value Match')} : False"
-  display_spreadsheet_raw_value = spreadsheet_raw_value.strip() if isinstance(spreadsheet_raw_value, str) else spreadsheet_raw_value
+  display_spreadsheet_raw_value = spreadsheet_raw_value.strip() if isinstance(spreadsheet_raw_value,
+                                                                              str) else spreadsheet_raw_value
   display_db_value = db_value.strip() if isinstance(db_value, str) else db_value
   whitespace_warning = None
-  spreadsheet_ws_stripped = isinstance(spreadsheet_raw_value, str) and spreadsheet_raw_value != display_spreadsheet_raw_value
+  spreadsheet_ws_stripped = isinstance(spreadsheet_raw_value,
+                                       str) and spreadsheet_raw_value != display_spreadsheet_raw_value
   db_ws_stripped = isinstance(db_value, str) and db_value != display_db_value
   if spreadsheet_ws_stripped and db_ws_stripped:
     whitespace_warning = f"WARNING: Whitespace was stripped from both spreadsheet and db value (before: {json.dumps(spreadsheet_raw_value, default=json_serializer)}, after: {json.dumps(display_db_value, default=json_serializer)})"
@@ -208,7 +213,8 @@ def field_diagnostics(field: str, lookup: Dict, ws: Any, logs: List[str]) -> Lis
   field_lines.append(f"    {pad('Schema Label')} : {json.dumps(schema_label, default=json_serializer)}")
   field_lines.append(f"    {pad('Spreadsheet Label')} : {json.dumps(spreadsheet_label, default=json_serializer)}")
   field_lines.append(f"    {pad('Value')} : {json.dumps(display_spreadsheet_raw_value, default=json_serializer)}")
-  field_lines.append(f"    {pad('Data Type')} : {getattr(value_type, '__name__', str(value_type)) if value_type else None}")
+  field_lines.append(
+    f"    {pad('Data Type')} : {getattr(value_type, '__name__', str(value_type)) if value_type else None}")
   field_lines.append(f"    {pad('Value Match')} : {value_match_line.split(':', 1)[1].strip()}")
   if whitespace_warning:
     field_lines.append(f"    {pad('Warning')} : {whitespace_warning}")
@@ -225,7 +231,8 @@ def field_diagnostics(field: str, lookup: Dict, ws: Any, logs: List[str]) -> Lis
 # =========================
 # Summary Section
 # =========================
-def summary_section(label_match_count: int, label_mismatch_count: int, value_match_count: int, value_mismatch_count: int,
+def summary_section(label_match_count: int, label_mismatch_count: int, value_match_count: int,
+                    value_mismatch_count: int,
                     warning_count: int, invalid_input_count: int) -> List[str]:
   """
   Generate the summary section for the audit log.
@@ -250,7 +257,8 @@ def summary_section(label_match_count: int, label_mismatch_count: int, value_mat
   return lines
 
 
-def machine_readable_summary(import_id: str, fields_checked: int, warning_count: int, error_count: int, import_time: str) -> List[str]:
+def machine_readable_summary(import_id: str, fields_checked: int, warning_count: int, error_count: int,
+                             import_time: str) -> List[str]:
   summary = {
     "import_id": import_id,
     "fields_checked": fields_checked,
@@ -270,11 +278,11 @@ def machine_readable_summary(import_id: str, fields_checked: int, warning_count:
 # Main Audit Entry Point
 # =========================
 def generate_import_audit(
-    file_path: Path,
-    parse_result: Dict,
-    schema_map: Dict,
-    logs: Optional[List[str]] = None,
-    route: str = ""
+        file_path: Path,
+        parse_result: Dict,
+        schema_map: Dict,
+        logs: Optional[List[str]] = None,
+        route: str = ""
 ) -> str:
   """
   Generate a human-readable audit trail for an Excel import.
@@ -339,12 +347,15 @@ def generate_import_audit(
         notes.add('Some spreadsheet or database values had extra whitespace that was removed during import.')
       if 'INVALID INPUT IGNORED:' in line:
         invalid_input_count += 1
-        notes.add('Some fields contained invalid data and were ignored. Please check your input for correct types and formats.')
+        notes.add(
+          'Some fields contained invalid data and were ignored. Please check your input for correct types and formats.')
     lines.extend(field_lines)
   lines.extend(
-    summary_section(label_match_count, label_mismatch_count, value_match_count, value_mismatch_count, warning_count, invalid_input_count))
+    summary_section(label_match_count, label_mismatch_count, value_match_count, value_mismatch_count, warning_count,
+                    invalid_input_count))
   lines.extend(
-    machine_readable_summary(import_id, label_match_count + label_mismatch_count, warning_count, invalid_input_count, import_time))
+    machine_readable_summary(import_id, label_match_count + label_mismatch_count, warning_count, invalid_input_count,
+                             import_time))
   if notes:
     lines.append('--- NOTES / SUGGESTIONS ---')
     for note in notes:

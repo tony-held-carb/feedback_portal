@@ -1,6 +1,8 @@
 # Google Python Style Guide Summary
 
-This document provides a comprehensive overview of the **Google Python Style Guide**, focusing on recommended file structure, naming conventions, and detailed docstring section headings. It is suitable for both library development and application codebases.
+This document provides a comprehensive overview of the **Google Python Style Guide**, focusing on recommended file
+structure, naming conventions, and detailed docstring section headings. It is suitable for both library development and
+application codebases.
 
 ---
 
@@ -45,14 +47,14 @@ from my_project import helper
 
 ## 🏷️ Naming Conventions
 
-| Element          | Convention                       |
-|------------------|-----------------------------------|
-| Variable         | `lower_case_with_underscores`     |
-| Function         | `lower_case_with_underscores`     |
-| Class            | `CapWords` (PascalCase)           |
-| Constant         | `ALL_CAPS_WITH_UNDERSCORES`       |
-| Module/package   | `lowercase` or `lower_case_with_underscores` |
-| Private name     | `_single_leading_underscore`      |
+| Element        | Convention                                   |
+|----------------|----------------------------------------------|
+| Variable       | `lower_case_with_underscores`                |
+| Function       | `lower_case_with_underscores`                |
+| Class          | `CapWords` (PascalCase)                      |
+| Constant       | `ALL_CAPS_WITH_UNDERSCORES`                  |
+| Module/package | `lowercase` or `lower_case_with_underscores` |
+| Private name   | `_single_leading_underscore`                 |
 
 ---
 
@@ -81,22 +83,22 @@ Raises:
 
 ### 📚 Common Docstring Section Headings
 
-| Heading       | Purpose                                                                 |
-|---------------|-------------------------------------------------------------------------|
-| `Args`        | Describes each function argument, its type, and purpose.                |
-| `Returns`     | Describes the return value and its type.                                |
-| `Yields`      | Used instead of `Returns` for generators that yield values.             |
-| `Raises`      | Lists exceptions the function may raise and under what conditions.      |
-| `Attributes`  | Documents instance attributes in classes.                               |
-| `Class Attributes` | Documents class-level (shared) attributes.                     |
-| `Properties`  | Documents `@property`-decorated attributes.                             |
-| `Methods`     | Documents methods defined within a class (rare).                        |
-| `Examples`    | Provides usage examples or sample code.                                 |
-| `Notes`       | Adds clarifying information, design notes, or caveats.                  |
-| `Warnings`    | Highlights cautionary details that users must consider.                 |
-| `Deprecated`  | Marks the function/class as deprecated.                                 |
-| `See Also`    | Cross-references related functions or modules.                          |
-| `Todo`        | Indicates planned improvements or unimplemented features.               |
+| Heading            | Purpose                                                            |
+|--------------------|--------------------------------------------------------------------|
+| `Args`             | Describes each function argument, its type, and purpose.           |
+| `Returns`          | Describes the return value and its type.                           |
+| `Yields`           | Used instead of `Returns` for generators that yield values.        |
+| `Raises`           | Lists exceptions the function may raise and under what conditions. |
+| `Attributes`       | Documents instance attributes in classes.                          |
+| `Class Attributes` | Documents class-level (shared) attributes.                         |
+| `Properties`       | Documents `@property`-decorated attributes.                        |
+| `Methods`          | Documents methods defined within a class (rare).                   |
+| `Examples`         | Provides usage examples or sample code.                            |
+| `Notes`            | Adds clarifying information, design notes, or caveats.             |
+| `Warnings`         | Highlights cautionary details that users must consider.            |
+| `Deprecated`       | Marks the function/class as deprecated.                            |
+| `See Also`         | Cross-references related functions or modules.                     |
+| `Todo`             | Indicates planned improvements or unimplemented features.          |
 
 ---
 
@@ -151,14 +153,14 @@ def analyze_signal(data: list[float], threshold: float) -> bool:
 
 ## 📎 Summary Table of Python File Sections
 
-| Section                       | Purpose                                      |
-|------------------------------|----------------------------------------------|
-| Module docstring             | Describe module purpose and usage            |
-| Imports                      | Organize dependencies                        |
-| Constants                    | Define reusable, immutable values            |
-| Classes                      | Define OOP structure and logic               |
-| Functions                    | Encapsulate logic; well-documented           |
-| `__main__` block             | Allow script-style execution                 |
+| Section          | Purpose                            |
+|------------------|------------------------------------|
+| Module docstring | Describe module purpose and usage  |
+| Imports          | Organize dependencies              |
+| Constants        | Define reusable, immutable values  |
+| Classes          | Define OOP structure and logic     |
+| Functions        | Encapsulate logic; well-documented |
+| `__main__` block | Allow script-style execution       |
 
 ---
 

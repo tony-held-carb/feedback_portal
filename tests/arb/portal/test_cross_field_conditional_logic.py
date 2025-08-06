@@ -3,7 +3,7 @@ Comprehensive Cross-Field and Conditional Logic Tests for ARB Feedback Portal.
 
 This module tests complex form validation logic including:
 - Contingent field visibility (fields that become required/optional based on other fields)
-- Cross-field validation rules (business logic that enforces relationships between fields)  
+- Cross-field validation rules (business logic that enforces relationships between fields)
 - Conditional dropdown population (dropdowns that change based on other selections)
 - Regulatory compliance logic (specific rules for different sectors)
 
@@ -72,7 +72,8 @@ def mock_globals_oil_gas():
   mock_drop_downs = {
     "venting_exclusion": ["Yes", "No"],
     "ogi_performed": ["Yes", "No"],
-    "ogi_result": ["Venting-construction/maintenance", "Venting-routine", "Unintentional-leak", "Not applicable because not performed"],
+    "ogi_result": ["Venting-construction/maintenance", "Venting-routine", "Unintentional-leak",
+                   "Not applicable because not performed"],
     "method21_performed": ["Yes", "No"],
     "method21_result": ["Venting-construction/maintenance", "Venting-routine", "Unintentional-leak",
                         "Not applicable because not performed"],
@@ -211,8 +212,10 @@ class TestOilGasCrossFieldLogic:
     form.determine_contingent_fields()
 
     # equipment_other_description should be required
-    equipment_other_validators = [v for v in form.equipment_other_description.validators if isinstance(v, InputRequired)]
-    assert len(equipment_other_validators) > 0, "equipment_other_description should be required when equipment_at_source is Other"
+    equipment_other_validators = [v for v in form.equipment_other_description.validators if
+                                  isinstance(v, InputRequired)]
+    assert len(
+      equipment_other_validators) > 0, "equipment_other_description should be required when equipment_at_source is Other"
 
     # Test with equipment_at_source = "Equipment A"
     form.equipment_at_source.data = "Equipment A"
@@ -220,7 +223,8 @@ class TestOilGasCrossFieldLogic:
 
     # equipment_other_description should be optional
     equipment_other_validators = [v for v in form.equipment_other_description.validators if isinstance(v, Optional)]
-    assert len(equipment_other_validators) > 0, "equipment_other_description should be optional when equipment_at_source is not Other"
+    assert len(
+      equipment_other_validators) > 0, "equipment_other_description should be optional when equipment_at_source is not Other"
 
   def test_component_other_description_conditional(self, mock_globals_oil_gas, app_ctx):
     """Test that component_other_description is required when component_at_source is 'Other'."""
@@ -231,8 +235,10 @@ class TestOilGasCrossFieldLogic:
     form.determine_contingent_fields()
 
     # component_other_description should be required
-    component_other_validators = [v for v in form.component_other_description.validators if isinstance(v, InputRequired)]
-    assert len(component_other_validators) > 0, "component_other_description should be required when component_at_source is Other"
+    component_other_validators = [v for v in form.component_other_description.validators if
+                                  isinstance(v, InputRequired)]
+    assert len(
+      component_other_validators) > 0, "component_other_description should be required when component_at_source is Other"
 
     # Test with component_at_source = "Component A"
     form.component_at_source.data = "Component A"
@@ -240,7 +246,8 @@ class TestOilGasCrossFieldLogic:
 
     # component_other_description should be optional
     component_other_validators = [v for v in form.component_other_description.validators if isinstance(v, Optional)]
-    assert len(component_other_validators) > 0, "component_other_description should be optional when component_at_source is not Other"
+    assert len(
+      component_other_validators) > 0, "component_other_description should be optional when component_at_source is not Other"
 
   def test_ogi_result_requires_method21(self, mock_globals_oil_gas, app_ctx):
     """Test that OGI result 'Unintentional-leak' requires Method 21 to be performed."""
@@ -252,7 +259,8 @@ class TestOilGasCrossFieldLogic:
 
     # method21_performed should be required when OGI result is unintentional leak
     method21_performed_validators = [v for v in form.method21_performed.validators if isinstance(v, InputRequired)]
-    assert len(method21_performed_validators) > 0, "method21_performed should be required when OGI result is Unintentional-leak"
+    assert len(
+      method21_performed_validators) > 0, "method21_performed should be required when OGI result is Unintentional-leak"
 
   def test_timestamp_validation_logic(self, mock_globals_oil_gas, app_ctx):
     """Test timestamp validation logic for Oil & Gas sector."""
@@ -334,7 +342,8 @@ class TestLandfillCrossFieldLogic:
 
     # included_in_last_lmr_description should be required
     lmr_desc_validators = [v for v in form.included_in_last_lmr_description.validators if isinstance(v, InputRequired)]
-    assert len(lmr_desc_validators) > 0, "included_in_last_lmr_description should be required when not included in last LMR"
+    assert len(
+      lmr_desc_validators) > 0, "included_in_last_lmr_description should be required when not included in last LMR"
 
     # Test with included in last LMR
     form.included_in_last_lmr.data = "Yes"
@@ -355,7 +364,8 @@ class TestLandfillCrossFieldLogic:
 
     # planned_for_next_lmr_description should be required
     lmr_desc_validators = [v for v in form.planned_for_next_lmr_description.validators if isinstance(v, InputRequired)]
-    assert len(lmr_desc_validators) > 0, "planned_for_next_lmr_description should be required when not planned for next LMR"
+    assert len(
+      lmr_desc_validators) > 0, "planned_for_next_lmr_description should be required when not planned for next LMR"
 
     # Test with planned for next LMR
     form.planned_for_next_lmr.data = "Yes"

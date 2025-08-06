@@ -2,7 +2,8 @@
 
 # ✅ Overview: Converting the Entire Repository to Use LF Line Endings
 
-This guide documents the process of standardizing **all text files in your repository** to use **LF (Unix-style) line endings** across all platforms and tools. This is particularly important for projects that:
+This guide documents the process of standardizing **all text files in your repository** to use **LF (Unix-style) line
+endings** across all platforms and tools. This is particularly important for projects that:
 
 - Run on **WSL**, **Linux (EC2)**, and **Windows**
 - Involve Bash scripts (`.sh`), Python (`.py`), Markdown (`.md`), YAML, and other text formats
@@ -142,16 +143,16 @@ Then re-commit any changed files.
 ## ✅ Summary
 
 | Step                      | Purpose                          |
-| ------------------------- | -------------------------------- |
+|---------------------------|----------------------------------|
 | `.gitattributes`          | Normalize line endings in Git    |
 | `core.autocrlf=input`     | Prevent CRLF pollution           |
 | `.editorconfig`           | Enforce LF in all editors        |
 | Editor settings           | Ensure new files use LF          |
 | Optional conversion tools | Normalize existing files on disk |
 
-By following these steps, you will have a clean, consistent LF-only development environment across Windows, WSL, and Linux.
+By following these steps, you will have a clean, consistent LF-only development environment across Windows, WSL, and
+Linux.
 
 Let me know if you'd like to add a validation script that checks for CRLF files during CI or pre-commit.
-
 
 ## Checklist

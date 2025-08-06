@@ -38,34 +38,34 @@
 
 <body data-form-id="{{ form_id | default('') }}" {{ body_attributes | default('') | safe }}>
 
-<!-- Portal Navigation -->
-{% include 'includes/navbar.jinja' %}
+  <!-- Portal Navigation -->
+  {% include 'includes/navbar.jinja' %}
 
-<!-- Flash Messages -->
-{% include 'includes/flash_messaging.jinja' %}
+  <!-- Flash Messages -->
+  {% include 'includes/flash_messaging.jinja' %}
 
 
-<!-- JS Diagnostics Overlay -->
-<div id="js-diagnostics"
-     style="position:fixed;bottom:0;left:0;z-index:9999;background:#fff;color:#000;padding:4px;font-size:12px;max-width:100vw;overflow:auto;opacity:0.95;box-shadow:0 0 8px #888;pointer-events:auto;"></div>
+  <!-- JS Diagnostics Overlay -->
+  <div id="js-diagnostics"
+       style="position:fixed;bottom:0;left:0;z-index:9999;background:#fff;color:#000;padding:4px;font-size:12px;max-width:100vw;overflow:auto;opacity:0.95;box-shadow:0 0 8px #888;pointer-events:auto;"></div>
 
-<!-- TOAST CONTAINER DISABLED - Reverted to old system
-     This container was used for dynamic toast notifications.
-     Re-enable when switching back to toast notification system.
--->
-<!-- <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
-  <!-- Toasts will be dynamically added here -->
-<!-- </div> -->
+  <!-- TOAST CONTAINER DISABLED - Reverted to old system
+       This container was used for dynamic toast notifications.
+       Re-enable when switching back to toast notification system.
+  -->
+  <!-- <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+    <!-- Toasts will be dynamically added here -->
+  <!-- </div> -->
 
-<!-- Main Page Content -->
-{% block content %}{% endblock %}
-{% block overlay_content %}{% endblock %}
+  <!-- Main Page Content -->
+  {% block content %}{% endblock %}
+  {% block overlay_content %}{% endblock %}
 
-<!-- E2E Readiness Marker Script -->
-{% include 'includes/e2e_testing_related.jinja' %}
+  <!-- E2E Readiness Marker Script -->
+  {% include 'includes/e2e_testing_related.jinja' %}
 
-<!-- Footer Scripts -->
-{% block footer_js %}{% endblock %}
-{% block scripts %}{% endblock %}
+  <!-- Footer Scripts -->
+  {% block footer_js %}{% endblock %}
+  {% block scripts %}{% endblock %}
 </body>
 </html>

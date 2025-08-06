@@ -31,7 +31,8 @@ from zoneinfo import ZoneInfo
 
 from wtforms import BooleanField, DateTimeField, DecimalField, IntegerField, SelectField
 
-from arb.utils.date_and_time import ca_naive_datetime_to_utc_datetime, iso_str_to_utc_datetime, utc_datetime_to_ca_naive_datetime
+from arb.utils.date_and_time import ca_naive_datetime_to_utc_datetime, iso_str_to_utc_datetime, \
+  utc_datetime_to_ca_naive_datetime
 from arb.utils.diagnostics import compare_dicts
 
 __version__ = "1.0.0"
@@ -133,9 +134,9 @@ def json_deserializer(obj: dict[str, Any]) -> Any:
 
 
 def json_save(
-    file_path: str | pathlib.Path,
-    data: object,
-    json_options: dict | None = None
+        file_path: str | pathlib.Path,
+        data: object,
+        json_options: dict | None = None
 ) -> None:
   """
   Save a Python object to a JSON file with optional serialization settings.
@@ -175,10 +176,10 @@ def json_save(
 
 
 def json_save_with_meta(
-    file_path: str | pathlib.Path,
-    data: object,
-    metadata: dict | None = None,
-    json_options: dict | None = None
+        file_path: str | pathlib.Path,
+        data: object,
+        metadata: dict | None = None,
+        json_options: dict | None = None
 ) -> None:
   """
   Save data with metadata to a JSON file under special keys (_data_, _metadata_).
@@ -228,8 +229,8 @@ def json_save_with_meta(
 
 
 def json_load(
-    file_path: str | pathlib.Path,
-    json_options: dict | None = None
+        file_path: str | pathlib.Path,
+        json_options: dict | None = None
 ) -> object:
   """
   Load and deserialize data from a JSON file.
@@ -304,8 +305,8 @@ def json_load_with_meta(file_path: str | pathlib.Path,
 
 
 def add_metadata_to_json(
-    file_name_in: str | pathlib.Path,
-    file_name_out: str | pathlib.Path | None = None
+        file_name_in: str | pathlib.Path,
+        file_name_out: str | pathlib.Path | None = None
 ) -> None:
   """
   Add metadata to an existing JSON file or overwrite it in-place.
@@ -345,8 +346,8 @@ def add_metadata_to_json(
 
 
 def compare_json_files(
-    file_name_1: str | pathlib.Path,
-    file_name_2: str | pathlib.Path
+        file_name_1: str | pathlib.Path,
+        file_name_2: str | pathlib.Path
 ) -> None:
   """
   Compare the contents of two JSON files including metadata and values.
@@ -393,9 +394,9 @@ def compare_json_files(
 
 
 def cast_model_value(
-    value: str,
-    value_type: type,
-    convert_time_to_ca: bool = False
+        value: str,
+        value_type: type,
+        convert_time_to_ca: bool = False
 ) -> Any:
   """
   Cast a stringified JSON value into a Python object of the expected type.
@@ -443,7 +444,7 @@ def cast_model_value(
 
 
 def wtform_types_and_values(
-    wtform
+        wtform
 ) -> tuple[dict[str, type], dict[str, object]]:
   """
   Extract field types and current data values from a WTForm.
@@ -490,9 +491,9 @@ def wtform_types_and_values(
 
 
 def make_dict_serializeable(
-    input_dict: dict,
-    type_map: dict[str, type] | None = None,
-    convert_time_to_ca: bool = False
+        input_dict: dict,
+        type_map: dict[str, type] | None = None,
+        convert_time_to_ca: bool = False
 ) -> dict:
   """
   Transform a dictionary to ensure JSON compatibility of its values.
@@ -543,9 +544,9 @@ def make_dict_serializeable(
 
 
 def deserialize_dict(
-    input_dict: dict,
-    type_map: dict[str, type],
-    convert_time_to_ca: bool = False
+        input_dict: dict,
+        type_map: dict[str, type],
+        convert_time_to_ca: bool = False
 ) -> dict:
   """
   Deserialize a dictionary of raw values using a type map.
@@ -737,8 +738,8 @@ def normalize_value(val: Any) -> str:
 
 
 def compute_field_differences(
-    new_data: dict,
-    existing_data: dict
+        new_data: dict,
+        existing_data: dict
 ) -> list[dict]:
   """
   Generate a field-by-field diff between two dictionaries using keys from `new_data`.
@@ -778,7 +779,7 @@ def compute_field_differences(
 
     is_same = norm_old == norm_new
     requires_confirmation = (
-        norm_new not in (None, "", []) and not is_same
+            norm_new not in (None, "", []) and not is_same
     )
 
     differences.append({

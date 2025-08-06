@@ -47,7 +47,7 @@
         from arb_logging import get_pretty_printer
         data = {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
         logger.info(pp_log(data))
-        
+
         # Output in log:
         # {
         #   'foo': [1, 2, 3],
@@ -105,12 +105,12 @@ def _resolve_log_dir(log_dir: str | Path = "logs", app_dir_structure=None) -> Pa
 
 
 def setup_standalone_logging(
-    log_name: str,
-    log_dir: str | Path = "logs",
-    level: int = logging.DEBUG,
-    app_dir_structure=None,
-    log_format: str = DEFAULT_LOG_FORMAT,
-    log_datefmt: str = DEFAULT_LOG_DATEFMT
+        log_name: str,
+        log_dir: str | Path = "logs",
+        level: int = logging.DEBUG,
+        app_dir_structure=None,
+        log_format: str = DEFAULT_LOG_FORMAT,
+        log_datefmt: str = DEFAULT_LOG_DATEFMT
 ):
   """
   Configure logging for a standalone script. Should be called in the `if __name__ == "__main__"` block.
@@ -135,16 +135,17 @@ def setup_standalone_logging(
     datefmt=log_datefmt,
     encoding="utf-8"
   )
-  print(f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
+  print(
+    f"[Logging] Standalone logging configured: {resolved_dir / f'{log_name}.log'} (level={logging.getLevelName(level)})")
 
 
 def setup_app_logging(
-    log_name: str,
-    log_dir: str | Path = "logs",
-    level: int = logging.DEBUG,
-    app_dir_structure=None,
-    log_format: str = DEFAULT_LOG_FORMAT,
-    log_datefmt: str = DEFAULT_LOG_DATEFMT
+        log_name: str,
+        log_dir: str | Path = "logs",
+        level: int = logging.DEBUG,
+        app_dir_structure=None,
+        log_format: str = DEFAULT_LOG_FORMAT,
+        log_datefmt: str = DEFAULT_LOG_DATEFMT
 ):
   """
   Configure logging for the main application (e.g., in wsgi.py). Should be called before importing the app.

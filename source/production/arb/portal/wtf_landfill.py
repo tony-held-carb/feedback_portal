@@ -32,11 +32,13 @@ from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, DecimalField, EmailField, IntegerField, SelectField, StringField, TextAreaField
 from wtforms.validators import Email, InputRequired, NumberRange, Optional, Regexp
 
-from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, PLEASE_SELECT
+from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, \
+  PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.diagnostics import obj_diagnostics
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, coerce_choices, ensure_field_choice, get_wtforms_fields, \
+from arb.utils.wtf_forms_util import build_choices, change_validators_on_test, coerce_choices, ensure_field_choice, \
+  get_wtforms_fields, \
   validate_selectors
 
 logger = logging.getLogger(__name__)
@@ -509,11 +511,11 @@ class LandfillFeedback(FlaskForm):
                       ]
 
     if (self.emission_cause_secondary.data not in ignore_repeats and
-        self.emission_cause_secondary.data in [self.emission_cause.data]):
+            self.emission_cause_secondary.data in [self.emission_cause.data]):
       self.emission_cause_secondary.errors.append(f"Q17 appears to be a repeat")
 
     if (self.emission_cause_tertiary.data not in ignore_repeats and
-        self.emission_cause_tertiary.data in [self.emission_cause.data, self.emission_cause_secondary.data]):
+            self.emission_cause_tertiary.data in [self.emission_cause.data, self.emission_cause_secondary.data]):
       self.emission_cause_secondary.errors.append(f"Q18 appears to be a repeat")
 
     # not sure if this test makes sense since they may have know about it prior to the plume (going to comment out)
