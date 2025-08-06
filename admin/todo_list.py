@@ -4,6 +4,8 @@
 ----------------------------
 * prepping to convert all files to LF
 
+make phone number optional in feedback forms
+
 * ---------   Key persistence refactor ----------
 * how data are loaded/stored converted is still a bit confusing
 * did an initial review of key functions and put it in documentation for future consideration
