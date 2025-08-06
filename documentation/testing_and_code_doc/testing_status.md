@@ -167,12 +167,24 @@ Success Rate: 100% ✅
 - **Coverage**: All 95 networkidle instances replaced
 - **Files Updated**: 12 test files
 - **Benefits**: Eliminated dependency on network state, improved reliability
+- **Implementation**: Custom JavaScript sets `data-e2e-ready='true'` on `<html>` element
+- **Helper Functions**: `wait_for_e2e_readiness()`, `navigate_and_wait_for_ready()`
 
 #### DOM Marker Synchronization System
 - **Status**: ✅ **COMPLETED**
 - **Coverage**: All 44 wait_for_timeout instances replaced
 - **Files Updated**: 4 test files
 - **Benefits**: Eliminated arbitrary timeouts, improved test reliability
+- **Implementation**: Flask backend flashes `internal-marker` category for upload attempts
+- **Helper Functions**: `wait_for_upload_attempt_marker()`, `clear_upload_attempt_marker()`, `upload_file_and_wait_for_attempt_marker()`
+
+#### File Organization Refactoring
+- **Status**: ✅ **COMPLETED**
+- **Files Moved**: 
+  - `tests/e2e/e2e_helpers.py` → `source/production/arb/portal/utils/e2e_testing_util.py`
+  - `tests/e2e/upload_helpers.py` → `source/production/arb/portal/utils/playwright_testing_util.py`
+- **Import Strategy**: Switched to absolute imports for better maintainability
+- **Pattern**: `from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready`
 
 #### Custom Modal Diagnostics System
 - **Status**: ✅ **COMPLETED**

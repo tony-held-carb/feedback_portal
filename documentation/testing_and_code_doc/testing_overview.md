@@ -119,6 +119,39 @@ python scripts/generate_test_excel_files.py
 - **How it works**: Custom JavaScript handles confirmation dialogs with full logging
 - **Benefits**: Consistent behavior across browsers, better debugging capabilities
 
+### Best Practices Established
+
+#### 1. Navigation Patterns
+```python
+# Standard approach for all E2E tests
+navigate_and_wait_for_ready(page, f"{BASE_URL}/endpoint")
+```
+
+#### 2. File Upload Synchronization
+```python
+# Clear marker before upload
+clear_upload_attempt_marker(page)
+page.set_input_files("input[type='file']", file_path)
+# Wait for marker after upload
+wait_for_upload_attempt_marker(page)
+```
+
+#### 3. Element-Specific Waits
+```python
+# Instead of arbitrary timeouts
+expect(page.locator(".alert-success, .alert-danger, .alert-warning").first).to_be_visible()
+```
+
+#### 4. Error Handling
+```python
+# Use try/except for optional markers
+try:
+    page.wait_for_selector("html[data-e2e-ready='true']", timeout=5000)
+except:
+    # Continue if marker doesn't appear
+    pass
+```
+
 ## Quick Reference
 
 ### Common Commands
