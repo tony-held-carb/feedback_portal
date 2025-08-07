@@ -72,9 +72,9 @@ Miniconda configurations.
 ### 3.1 Key Config/Settings Files
 
 - Reuses VS Code settings in `%APPDATA%\Code\User\`
-- may also be in either:
+- either form:
     - C:\Users\tonyh\AppData\Roaming\Cursor\User\settings.json
-    - `%APPDATA%\Roaming\Cursor\User\settings.json`
+    - `%APPDATA%\Cursor\User\settings.json`
 
 ### 3.2 Application Executable Paths
 

@@ -128,3 +128,19 @@ Notes:
    Then add new items at the end
 
 You can use the linux style export on windows git bash, but it won't be persistent
+
+## WSL and Windows Paths
+
+If you're running WSL and your pwd shows:
+/home/tonyh
+
+Then in Windows Explorer, you can access that WSL path like this:
+\\wsl$\Ubuntu\home\tonyh
+
+Home computer my user is tonyh, on linux it is theld, it is very easy to get confused on the matter
+
+                          Windows Path                        WSL Path
+                          ------------                        --------
+Windows Home Directory:   C:\Users\tonyh,                     /mnt/c/Users/tonyh
+WSL Home Directory:       \\wsl$\Ubuntu\home\tonyh            /home/tonyh
+Feedback Portal:          D:\local\cursor\feedback_portal     /mnt/d/local/cursor/feedback_portal
