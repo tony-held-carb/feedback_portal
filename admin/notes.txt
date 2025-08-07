@@ -26,18 +26,18 @@ from sqlalchemy.inspection import inspect
 def get_column_info(model):
     # Get the table inspector for the model
     inspector = inspect(model)
-    
+
     columns_info = {}
     for column in inspector.columns:
         col_name = column.name
         sqlalchemy_type = column.type
         python_type = column.type.python_type
-        
+
         columns_info[col_name] = {
             'sqlalchemy_type': sqlalchemy_type,
             'python_type': python_type
         }
-    
+
     return columns_info
 
 # Example usage
@@ -846,9 +846,9 @@ It is my understanding that we have:
 
 implemented unit testing for:
 arb/utils/
-date_and_time.py  
+date_and_time.py
 
-Partially implemented unit testing for 
+Partially implemented unit testing for
 arb/utils/
 json.py
 
@@ -911,8 +911,8 @@ psql -U postgres -c "CREATE ROLE methane LOGIN;"
 psql -U postgres -d tony_home_tracker -c "CREATE EXTENSION postgis;"
 psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql > import_02.log 2>&1
 
-set PYTHONPATH=D:\local\cursor\feedback_portal\source\production && 
-pytest tests/arb/utils/test_wtf_forms_util.py -v > arb_utils_test_wtf_forms_util_output.txt 
+set PYTHONPATH=D:\local\cursor\feedback_portal\source\production &&
+pytest tests/arb/utils/test_wtf_forms_util.py -v > arb_utils_test_wtf_forms_util_output.txt
 2>&1
 
 7/11/25 8pm confirmed unit testing status for files with the question:
@@ -958,7 +958,7 @@ Installed git bash to my home and work machines so i can use linux consistently
 $ echo $HOME
 /c/Users/tonyh
 
-explorer . -> opens explore in pwd 
+explorer . -> opens explore in pwd
 
 Most Important Dotfiles in Git Bash
 | Filename              | Purpose                                                                      |
@@ -1061,7 +1061,7 @@ SYSTEMROOT=C:\WINDOWS
 LOCALAPPDATA=C:\Users\tonyh\AppData\Local
 EFC_1892_2283032206=1
 COMPUTERNAME=TONY_DESKTOP
-INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info  
+INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info
 VSCODE_GIT_ASKPASS_EXTRA_ARGS=
 PYSPARK_PYTHON=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
 PYTHONPATH=D:\local\cursor\feedback_portal\source\production;
@@ -1071,7 +1071,7 @@ LOGONSERVER=\\TONY_DESKTOP
 PYSPARK_HOME=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
 ACLOCAL_PATH=C:\Program Files\Git\mingw64\share\aclocal;C:\Program Files\Git\usr\share\aclocal
 CURL_CA_BUNDLE=C:\tony_apps\PostgreSQL\14\ssl\certs\ca-bundle.crt
-PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules      
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
 VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-2bbd251d92-sock
 CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
@@ -1211,7 +1211,7 @@ SYSTEMROOT=C:\WINDOWS
 LOCALAPPDATA=C:\Users\tonyh\AppData\Local
 EFC_1892_2283032206=1
 COMPUTERNAME=TONY_DESKTOP
-INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info  
+INFOPATH=C:\Program Files\Git\mingw64\local\info;C:\Program Files\Git\mingw64\share\info;C:\Program Files\Git\usr\local\info;C:\Program Files\Git\usr\share\info;C:\Program Files\Git\usr\info;C:\Program Files\Git\share\info
 VSCODE_GIT_ASKPASS_EXTRA_ARGS=
 PYSPARK_PYTHON=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
 PYTHONPATH=D:\local\cursor\feedback_portal\source\production;
@@ -1221,7 +1221,7 @@ LOGONSERVER=\\TONY_DESKTOP
 PYSPARK_HOME=C:\Users\tonyh\v_env\py_01\Scripts\python.exe
 ACLOCAL_PATH=C:\Program Files\Git\mingw64\share\aclocal;C:\Program Files\Git\usr\share\aclocal
 CURL_CA_BUNDLE=C:\tony_apps\PostgreSQL\14\ssl\certs\ca-bundle.crt
-PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules      
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
 VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-2bbd251d92-sock
 CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
@@ -1271,7 +1271,7 @@ TERM_PROGRAM=vscode
 ProgramData=C:\ProgramData
 CURSOR_TRACE_ID=9f881b42df854b37911b65588116d9bd
 _=/usr/bin/env
-feedback_portal$ 
+feedback_portal$
 
 7/16/25 ran comparison of feedback spreadsheets. see comparison for details.
 the only key file that differed was dairy_digester_operator_feedback_v006.xlsx
@@ -1651,19 +1651,6 @@ windows-r wsl
 
 conda env create --yes -f "/mnt/d/local/cursor/feedback_portal/admin/mini_conda_02.yml" > "conda_install.log" 2>&1
 
-If you're running WSL and your pwd shows:
-/home/tonyh
-
-Then in Windows Explorer, you can access that WSL path like this:
-\\wsl$\Ubuntu\home\tonyh
-
-wsl and windows have different users theld and tonyh, very easy to get confused on the matter
-
-                          Windows Path                        WSL Path
-                          ------------                        --------
-Windows Home Directory:   C:\Users\tonyh,                     /mnt/c/Users/tonyh
-WSL Home Directory:       \\wsl$\Ubuntu\home\tonyh            /home/tonyh
-Feedback Portal:          D:\local\cursor\feedback_portal     /mnt/d/local/cursor/feedback_portal
 
 
 Determine if you are on wsl
@@ -1674,6 +1661,25 @@ Linux version 6.6.87.2-microsoft-standard-WSL2 (root@439a258ad544) (gcc (GCC) 11
 # Convert all text files to LF
 find . -type f -not -path "./.git/*" -not -path "./.idea/*" \( -name "*.py" -o -name "*.txt" -o -name "*.md" -o -name "*.json" -o -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.sh" -o -name "*.yml" -o -name "*.yaml" -o -name "*.xml" -o -name "*.sql" -o -name "*.ini" -o -name "*.cfg" -o -name "*.conf" \) -exec dos2unix {} \;
 
-find . -type f -not -path "./.git/*" -not -path "./.idea/*" 
+find . -type f -not -path "./.git/*" -not -path "./.idea/*"
 *.py", "*.txt", "*.md", "*.json", "*.html", "*.css", "*.js", "*.sh", "*.yml", "*.yaml", "*.xml", "*.sql", "*.ini", "*.cfg", "*.conf"
 
+dos2unix ~/.bash_profile
+
+C:\Users\tonyh\AppData\Roaming\Cursor\User
+
+i ran this as admin
+netsh advfirewall firewall add rule name="PostgreSQL" dir=in action=allow protocol=TCP localport=5432
+
+netstat -an | findstr "LISTENING" | findstr :5432
+psql -U postgres -c "SHOW listen_addresses;"
+netstat -an | findstr :5432
+ipconfig | findstr "IPv4"
+
+net stop postgresql-x64-14
+
+had to update my C:\tony_apps\PostgreSQL\14\data\pg_hba.conf
+to get postgress to work from the wsl.
+added the line to the bottom:
+# Allow connections from WSL environment
+host    all             all             192.168.1.0/24          scram-sha-256

@@ -2,9 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
-* prepping to convert all files to LF
+consider moving home repo to wsl
 
-make phone number optional in feedback forms
 
 * ---------   Key persistence refactor ----------
 * how data are loaded/stored converted is still a bit confusing
@@ -23,6 +22,9 @@ make phone number optional in feedback forms
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
+
+make phone number optional in feedback forms
+
 
 * ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
