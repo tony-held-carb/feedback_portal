@@ -22,7 +22,7 @@ fi
 # detect machine name using .functions.sh
 detect_os
 detect_machine_location
-MACHINE_NAME="${MACHINE_LOCATION}_${OS_TYPE}"
+export MACHINE_NAME="${MACHINE_LOCATION}_${OS_TYPE}"
 echo "MACHINE_NAME=$MACHINE_NAME"
 
 
@@ -34,6 +34,7 @@ case "$MACHINE_NAME" in
   "TONY_HOME_WSL")
     CONDA_HOME="/home/tonyh/miniconda3"
     export portal="/mnt/d/local/cursor/feedback_portal"
+    export DATABASE_URI=postgresql+psycopg2://postgres:methane@host.docker.internal:5432/tony_home_tracker
     ;;
   "TONY_WORK_WINDOWS")
     CONDA_HOME="/c/Users/theld/AppData/Local/miniconda3"
@@ -95,6 +96,8 @@ echo "portal=$portal"
 echo "prod=$prod"
 echo "CONDA_HOME=$CONDA_HOME"
 echo "PYTHONPATH=$PYTHONPATH"
-# echo "PATH=$PATH"
-echo -e "\nportal=$portal (your pwd)"
-echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload'
+echo ""
+echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload -p 2113'
+echo 'pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1'
+echo 'pytest -s tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1'
+echo ""

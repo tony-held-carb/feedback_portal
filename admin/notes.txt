@@ -1664,3 +1664,22 @@ find . -type f -not -path "./.git/*" -not -path "./.idea/*" \( -name "*.py" -o -
 find . -type f -not -path "./.git/*" -not -path "./.idea/*"
 *.py", "*.txt", "*.md", "*.json", "*.html", "*.css", "*.js", "*.sh", "*.yml", "*.yaml", "*.xml", "*.sql", "*.ini", "*.cfg", "*.conf"
 
+dos2unix ~/.bash_profile
+
+C:\Users\tonyh\AppData\Roaming\Cursor\User
+
+i ran this as admin
+netsh advfirewall firewall add rule name="PostgreSQL" dir=in action=allow protocol=TCP localport=5432
+
+netstat -an | findstr "LISTENING" | findstr :5432
+psql -U postgres -c "SHOW listen_addresses;"
+netstat -an | findstr :5432
+ipconfig | findstr "IPv4"
+
+net stop postgresql-x64-14
+
+had to update my C:\tony_apps\PostgreSQL\14\data\pg_hba.conf
+to get postgress to work from the wsl.
+added the line to the bottom:
+# Allow connections from WSL environment
+host    all             all             192.168.1.0/24          scram-sha-256

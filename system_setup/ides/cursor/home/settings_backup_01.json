@@ -101,38 +101,22 @@
   // "terminal.integrated.shellArgs.windows": ["-d", "Ubuntu-22.04"]
 
   // =============================================================================
-  // CONDA ENVIRONMENT FIXES
+  // MISSING SETTINGS (FROM PREVIOUS CONFIGURATION)
   // =============================================================================
-  // These settings prevent Cursor from injecting Windows conda commands into WSL
-  // and causing the "EnvironmentNameNotFound" errors you're experiencing.
+  // The following settings were in the previous Git Bash configuration
+  // but are not included in the current WSL setup:
   //
-  // Purpose: Disable automatic conda environment activation
-  // Benefits: 
-  //   - Prevents Windows conda paths from being injected into WSL
-  //   - Allows your .bashrc to handle conda activation properly
-  //   - Eliminates "C:\Users\tonyh\miniconda3\envs\mini_conda_02" errors
-  //   - Maintains clean WSL environment
-  "terminal.integrated.inheritEnv": false,
-  "python.terminal.activateEnvironment": false,
-  "python.terminal.launchArgs": [],
-  "python.defaultInterpreterPath": "",
-  "python.condaPath": "",
-  "python.terminal.activateEnvironmentInTerminal": false,
-
-  // =============================================================================
-  // TERMINAL STABILITY SETTINGS
-  // =============================================================================
-  // These settings improve terminal stability and prevent hanging issues
+  // Terminal Stability Settings:
+  //   "terminal.integrated.enablePersistentSessions": false,
+  //   "terminal.integrated.detectLocale": "off",
+  //   "terminal.integrated.shellIntegration.enabled": false,
+  //   "terminal.integrated.windowsEnableConpty": false
   //
-  // Purpose: Prevent terminal session corruption and improve reliability
-  // Benefits:
-  //   - Prevents hanging after running commands
-  //   - Reduces startup delays
-  //   - Improves Ctrl+C handling
-  //   - Better compatibility with WSL
-  "terminal.integrated.enablePersistentSessions": false,
-  "terminal.integrated.detectLocale": "off",
-  "terminal.integrated.shellIntegration.enabled": false,
-  "terminal.integrated.windowsEnableConpty": false,
-  "terminal.integrated.scrollback": 10000
+  // Conda Environment Fixes:
+  //   "terminal.integrated.inheritEnv": false,
+  //   "python.terminal.activateEnvironment": false,
+  //   "python.terminal.launchArgs": []
+  //
+  // These may need to be added back if WSL shows stability issues
+  // =============================================================================
 }
