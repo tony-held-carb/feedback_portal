@@ -106,6 +106,13 @@ git remote prune origin
 git branch -a
 git status
 
+* Tell Git to ignore permission differences locally
+This prevents Git from treating chmod +x changes as meaningful diffs.
+  * Local to a repo (recommended):
+    * git config --local core.fileMode false
+  * Global (for all repos):
+    * git config --global core.fileMode false
+
 ### Installing mini conda
 
 * [mini conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)

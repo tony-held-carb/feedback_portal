@@ -92,6 +92,11 @@ alias run_all="$portal/scripts/run_all"
 # start in the portal directory
 cd $portal
 
+# Tell Git to ignore permission differences locally
+# This prevents Git from treating chmod +x changes as meaningful diffs.
+git config --local core.fileMode false
+
+
 # Diagnostics
 echo "portal=$portal"
 echo "prod=$prod"
