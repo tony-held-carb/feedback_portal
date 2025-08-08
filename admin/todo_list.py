@@ -2,14 +2,8 @@
 
 # todo - Next Steps
 ----------------------------
-moved repo to wsl, don't use the windows repo's any more, going to back them up so they are
-not accidentally used.
 
-need to update settings files for .bash related
-maybe need to set up cursor config for the wsl launch
-
-
-* ---------   Key persistence refactor ----------
+---------   Key persistence refactor ----------
 * how data are loaded/stored converted is still a bit confusing
 * did an initial review of key functions and put it in documentation for future consideration
 * link to plume tracker now works off row id rather than misc_json contents.
@@ -21,27 +15,25 @@ maybe need to set up cursor config for the wsl launch
 * high priority code reorg so that primary keys work as expected and allow for staged changes
   * figure out when/if incidence primary key can be changed/enabled
 
-
-
 -------------------------------------------------------
 Future Initiatives & Feature Requests Below
 -------------------------------------------------------
 
-make phone number optional in feedback forms
+* make phone number optional in feedback forms
 
 
-* ---------   HTML & Forms ----------
+---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
   and stay on the current page
 * consider having all the pages use the frozen buttons on the bottom approach across the site
 
-* ---------   Protocols and Recommendations ----------
+---------   Protocols and Recommendations ----------
 * make updates from C:\Users\theld\OneDrive - California Air Resources Board\OneDriveLinks\Data Management Plan\Operator Portal\operator_portal_feature_requests_010.xlsm
   * Start with Portal UI/UX Requests
   *  Change 'not a citation' to 'not an enforcement action' - hmmm, I can't remember the context of this, so hunt around for these words
 
 
-* ---------   Create New Form Capacity for the new sectors ----------
+---------   Create New Form Capacity for the new sectors ----------
 * refactor forms as they are currently duplicative
 * have parse_xl_file alias the Sectors and Schemas
 * figure out how to handle the pseudo check boxes in the new dairy forms
@@ -49,15 +41,14 @@ make phone number optional in feedback forms
 * have new forms upload to database and json, but don't try to show forms that don't exist yet
 
 
-* ---------   future initiatives----------
+---------   future initiatives----------
   * add user log-in
     * Ultimately, need to use the username in the log
   * move to s3 bucket
   * use carb ois github deployment (docker, etc)
 
-* ---------   Error Handling and Debugging Improvements ----------
+---------   Error Handling and Debugging Improvements ----------
 * TODO: Add a fail-fast check after app initialization (in create_app) to raise a clear error if app.base is missing. This will ensure that database reflection failures (e.g., due to DB downtime) are immediately obvious, rather than causing obscure errors later in the app.
-
 
 * add pytest-cov and then try get a good coverage report
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
