@@ -42,9 +42,20 @@ Miniconda configurations.
 
 ## 2. Visual Studio Code
 
+### Update after migrating home machine to WSL.
+
+On VS Code running from WSL i was told:
+- To open your settings.json configuration file for editing in VS Code from the terminal, use:
+  - code ~/.config/Code/User/settings.json
+- If you want to open workspace settings, use:
+  - code .vscode/settings.json
+- It does not look like either of these was initially present
+- The VS Code on WSL seems to be working fine using defaults without settings files
+
 ### 2.1 Key Config/Settings Files
 
 - `%APPDATA%\Code\User\settings.json`
+- `%APPDATA%\Code\User\keybindings.json`
 - `%APPDATA%\Code\User\snippets\`
 
 ### 2.2 Application Executable Paths
@@ -68,6 +79,11 @@ Miniconda configurations.
 ---
 
 ## 3. Cursor IDE
+
+### Update after migrating home machine to WSL.
+- Cursor thinks the config file should be at:
+  - ~/.config/Cursor/User/settings.json
+  - it has a minimal config file to see if that keeps it from hanging
 
 ### 3.1 Key Config/Settings Files
 
