@@ -104,6 +104,6 @@ echo "CONDA_HOME=$CONDA_HOME"
 echo "PYTHONPATH=$PYTHONPATH"
 echo ""
 echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload -p 2113'
-echo 'pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_21.txt" 2>&1'
-echo 'pytest -s tests/e2e -v  > "pytest_${MACHINE_NAME}_e2e_21.txt" 2>&1'
+echo 'pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_00.txt" 2>&1'
+echo 'pytest tests/e2e -v -s --durations=0 > "pytest_${MACHINE_NAME}_e2e_00.txt" 2>&1'
 echo ""
