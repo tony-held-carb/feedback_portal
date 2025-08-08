@@ -136,3 +136,11 @@ psql -U postgres -c "CREATE DATABASE tony_home_tracker;"
 psql -U postgres -c "CREATE ROLE methane LOGIN;"
 psql -U postgres -d tony_home_tracker -c "CREATE EXTENSION postgis;"
 psql -U postgres -d tony_home_tracker -f current_satellite_tracker2507092101.sql > import_02.log 2>&1
+
+### IDE's
+- on my home machine
+  - pycharm does not use the remote ide to wsl, it can, but it offered no speed boost,
+  and i wanted to keep with my trusty setup
+  - vs code can be run from wsl or a windows shortcut and seems to work the same either way
+  - cursor says it will hang less if it is run from the wsl shell from the $portal directory with cursor .
+  -
