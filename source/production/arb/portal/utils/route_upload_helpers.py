@@ -161,17 +161,20 @@ def handle_upload_error(result, form: UploadForm, template_name: str, request_fi
     # Get user-friendly error message
     error_message = get_error_message_for_type(result.error_type, result)
     
+    # Determine upload type from template name
+    upload_type = "staged" if "staged" in template_name else "direct"
+    
     # Handle conversion_failed specially for detailed diagnostics
     if result.error_type == "conversion_failed":
         logger.warning(f"Upload failed file conversion: {result.file_path=}")
         # Note: Detailed diagnostics would be handled by the calling route
         # since we don't have access to generate_upload_diagnostics here
-        return render_upload_error(form, error_message, template_name)
+        return render_upload_error_page(form, error_message, template_name, upload_type)
     
     # Log the error for debugging
     logger.error(f"Upload error - Type: {result.error_type}, Message: {result.error_message}")
     
-    return render_upload_error(form, error_message, template_name)
+    return render_upload_error_page(form, error_message, template_name, upload_type)
 
 
 def handle_upload_exception(e: Exception, form: UploadForm, template_name: str, 
@@ -195,19 +198,22 @@ def handle_upload_exception(e: Exception, form: UploadForm, template_name: str,
     """
     logger.exception("Exception occurred during upload processing.")
     
+    # Determine upload type from template name
+    upload_type = "staged" if "staged" in template_name else "direct"
+    
     # Generate detailed diagnostic information if diagnostic function is provided
     if diagnostic_func and request_file:
         try:
             file_path = result.file_path if result else None
             error_details = diagnostic_func(request_file, file_path)
             detailed_message = format_diagnostic_message(error_details)
-            return render_upload_error(form, detailed_message, template_name)
+            return render_upload_error_page(form, detailed_message, template_name, upload_type, error_details)
         except Exception as diagnostic_error:
             logger.error(f"Error generating diagnostics: {diagnostic_error}")
     
     # Fallback to generic error message
     generic_message = "An unexpected error occurred during upload processing. Please try again."
-    return render_upload_error(form, generic_message, template_name)
+    return render_upload_error_page(form, generic_message, template_name, upload_type)
 
 
 def handle_upload_success(result, request_file, upload_type: str = "direct") -> tuple[str, str]:
@@ -270,3 +276,92 @@ def get_success_message_for_upload(result, filename: str, upload_type: str) -> s
         )
     else:
         return f"✅ File '{filename}' uploaded successfully! ID: {result.id_}, Sector: {result.sector}"
+
+
+def render_upload_page(form: UploadForm, message: str | None, template_name: str, 
+                      upload_type: str = "direct") -> str:
+    """
+    Render upload page with consistent template handling and user experience.
+
+    Args:
+        form: UploadForm instance
+        message: Optional message to display on the page
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Rendered HTML for the upload page
+
+    Examples:
+        return render_upload_page(form, message, 'upload.html', "direct")
+        return render_upload_page(form, message, 'upload_staged.html', "staged")
+    """
+    # Add upload type context for template customization
+    template_context = {
+        'form': form,
+        'upload_message': message,
+        'upload_type': upload_type,
+        'page_title': f"{upload_type.title()} Upload" if upload_type else "Upload"
+    }
+    
+    return render_template(template_name, **template_context)
+
+
+def render_upload_success_page(form: UploadForm, success_message: str, template_name: str,
+                             upload_type: str = "direct") -> str:
+    """
+    Render upload success page with consistent success handling.
+
+    Args:
+        form: UploadForm instance
+        success_message: Success message to display
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Rendered HTML for the success page
+
+    Examples:
+        return render_upload_success_page(form, "Upload successful!", 'upload.html', "direct")
+    """
+    # Add success-specific context
+    template_context = {
+        'form': form,
+        'upload_message': success_message,
+        'upload_type': upload_type,
+        'is_success': True,
+        'page_title': f"{upload_type.title()} Upload - Success"
+    }
+    
+    return render_template(template_name, **template_context)
+
+
+def render_upload_error_page(form: UploadForm, error_message: str, template_name: str,
+                           upload_type: str = "direct", error_details: dict | None = None) -> str:
+    """
+    Render upload error page with consistent error handling and user experience.
+
+    Args:
+        form: UploadForm instance
+        error_message: Error message to display
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+        error_details: Optional detailed error information for debugging
+
+    Returns:
+        str: Rendered HTML for the error page
+
+    Examples:
+        return render_upload_error_page(form, "File upload failed", 'upload.html', "direct")
+    """
+    # Add error-specific context
+    template_context = {
+        'form': form,
+        'upload_message': error_message,
+        'upload_type': upload_type,
+        'is_error': True,
+        'error_details': error_details,
+        'page_title': f"{upload_type.title()} Upload - Error"
+    }
+    
+    return render_template(template_name, **template_context)

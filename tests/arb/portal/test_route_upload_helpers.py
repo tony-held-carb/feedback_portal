@@ -17,7 +17,10 @@ from arb.portal.utils.route_upload_helpers import (
     render_upload_error,
     handle_upload_error,
     handle_upload_exception,
-    handle_upload_success
+    handle_upload_success,
+    render_upload_page,
+    render_upload_success_page,
+    render_upload_error_page
 )
 from arb.portal.wtf_upload import UploadForm
 
@@ -217,14 +220,20 @@ class TestHandleUploadError:
         # Test that the function calls get_error_message_for_type correctly
         with patch('arb.portal.utils.route_upload_helpers.get_error_message_for_type') as mock_get_error:
             mock_get_error.return_value = "User-friendly error message"
-            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
                 mock_render.return_value = "Rendered HTML"
                 
                 result = handle_upload_error(mock_result, mock_form, 'upload.html')
 
                 # Verify the function calls the expected helpers
                 mock_get_error.assert_called_once_with("missing_id", mock_result)
-                mock_render.assert_called_once_with(mock_form, "User-friendly error message", 'upload.html')
+                mock_render.assert_called_once_with('upload.html', 
+                    form=mock_form,
+                    upload_message="User-friendly error message",
+                    upload_type="direct",
+                    is_error=True,
+                    error_details=None,
+                    page_title="Direct Upload - Error")
                 assert result == "Rendered HTML"
 
     def test_handle_upload_error_with_conversion_failed(self):
@@ -236,12 +245,12 @@ class TestHandleUploadError:
         mock_form = MagicMock()
 
         # Test that the function handles conversion_failed specially
-        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
             mock_render.return_value = "Rendered HTML"
             
             result = handle_upload_error(mock_result, mock_form, 'upload.html')
 
-            # Verify the function calls render_upload_error directly for conversion_failed
+            # Verify the function calls render_template for conversion_failed
             mock_render.assert_called_once()
             assert result == "Rendered HTML"
 
@@ -255,14 +264,20 @@ class TestHandleUploadError:
         # Test that the function calls get_error_message_for_type correctly
         with patch('arb.portal.utils.route_upload_helpers.get_error_message_for_type') as mock_get_error:
             mock_get_error.return_value = "User-friendly error message"
-            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
                 mock_render.return_value = "Rendered HTML"
                 
                 result = handle_upload_error(mock_result, mock_form, 'upload.html')
 
                 # Verify the function calls the expected helpers
                 mock_get_error.assert_called_once_with("file_error", mock_result)
-                mock_render.assert_called_once_with(mock_form, "User-friendly error message", 'upload.html')
+                mock_render.assert_called_once_with('upload.html', 
+                    form=mock_form,
+                    upload_message="User-friendly error message",
+                    upload_type="direct",
+                    is_error=True,
+                    error_details=None,
+                    page_title="Direct Upload - Error")
                 assert result == "Rendered HTML"
 
 
@@ -301,7 +316,7 @@ class TestHandleUploadException:
         
         with patch('arb.portal.utils.route_upload_helpers.format_diagnostic_message') as mock_format:
             mock_format.return_value = "Formatted diagnostic message"
-            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
                 mock_render.return_value = "Rendered HTML"
                 
                 result = handle_upload_exception(mock_exception, mock_form, 'upload.html',
@@ -309,7 +324,13 @@ class TestHandleUploadException:
 
                 # Verify the function calls the expected helpers
                 mock_format.assert_called_once_with({"error": "Test diagnostic"})
-                mock_render.assert_called_once_with(mock_form, "Formatted diagnostic message", 'upload.html')
+                mock_render.assert_called_once_with('upload.html', 
+                    form=mock_form,
+                    upload_message="Formatted diagnostic message",
+                    upload_type="direct",
+                    is_error=True,
+                    error_details={"error": "Test diagnostic"},
+                    page_title="Direct Upload - Error")
                 assert result == "Rendered HTML"
 
     def test_handle_upload_exception_without_diagnostic_func(self):
@@ -317,15 +338,19 @@ class TestHandleUploadException:
         mock_exception = Exception("Test exception")
         mock_form = MagicMock()
 
-        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
             mock_render.return_value = "Rendered HTML"
             
             result = handle_upload_exception(mock_exception, mock_form, 'upload.html')
 
-            # Verify the function calls render_upload_error with generic message
-            mock_render.assert_called_once_with(mock_form, 
-                "An unexpected error occurred during upload processing. Please try again.", 
-                'upload.html')
+            # Verify the function calls render_template with generic message
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="An unexpected error occurred during upload processing. Please try again.",
+                upload_type="direct",
+                is_error=True,
+                error_details=None,
+                page_title="Direct Upload - Error")
             assert result == "Rendered HTML"
 
     def test_handle_upload_exception_with_diagnostic_error(self):
@@ -338,16 +363,20 @@ class TestHandleUploadException:
         def mock_diagnostic_func(req_file, file_path):
             raise Exception("Diagnostic error")
         
-        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
             mock_render.return_value = "Rendered HTML"
             
             result = handle_upload_exception(mock_exception, mock_form, 'upload.html',
                                            mock_request_file, None, mock_diagnostic_func)
 
             # Verify the function falls back to generic message when diagnostic fails
-            mock_render.assert_called_once_with(mock_form, 
-                "An unexpected error occurred during upload processing. Please try again.", 
-                'upload.html')
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="An unexpected error occurred during upload processing. Please try again.",
+                upload_type="direct",
+                is_error=True,
+                error_details=None,
+                page_title="Direct Upload - Error")
             assert result == "Rendered HTML"
 
 
@@ -432,3 +461,210 @@ class TestHandleUploadSuccess:
                 mock_url_for.assert_called_once_with('main.incidence_update', id_=789)
                 assert success_message == "✅ File 'test.xlsx' uploaded successfully!"
                 assert redirect_url == "/incidence_update/789"
+
+
+class TestRenderUploadPage:
+    """Test the render_upload_page helper function."""
+
+    def test_render_upload_page_function_signature(self):
+        """render_upload_page has correct function signature."""
+        import inspect
+        sig = inspect.signature(render_upload_page)
+        params = list(sig.parameters.keys())
+        
+        assert 'form' in params
+        assert 'message' in params
+        assert 'template_name' in params
+        assert 'upload_type' in params
+
+    def test_render_upload_page_docstring(self):
+        """render_upload_page has proper documentation."""
+        assert render_upload_page.__doc__ is not None
+        assert "Render upload page" in render_upload_page.__doc__
+
+    def test_render_upload_page_with_direct_upload(self):
+        """render_upload_page handles direct upload correctly."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_page(mock_form, "Test message", 'upload.html', "direct")
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="Test message",
+                upload_type="direct",
+                page_title="Direct Upload")
+            assert result == "Rendered HTML"
+
+    def test_render_upload_page_with_staged_upload(self):
+        """render_upload_page handles staged upload correctly."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_page(mock_form, "Test message", 'upload_staged.html', "staged")
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload_staged.html', 
+                form=mock_form,
+                upload_message="Test message",
+                upload_type="staged",
+                page_title="Staged Upload")
+            assert result == "Rendered HTML"
+
+    def test_render_upload_page_with_default_upload_type(self):
+        """render_upload_page uses 'direct' as default upload type."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_page(mock_form, "Test message", 'upload.html')
+
+            # Verify the function uses 'direct' as default
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="Test message",
+                upload_type="direct",
+                page_title="Direct Upload")
+            assert result == "Rendered HTML"
+
+
+class TestRenderUploadSuccessPage:
+    """Test the render_upload_success_page helper function."""
+
+    def test_render_upload_success_page_function_signature(self):
+        """render_upload_success_page has correct function signature."""
+        import inspect
+        sig = inspect.signature(render_upload_success_page)
+        params = list(sig.parameters.keys())
+        
+        assert 'form' in params
+        assert 'success_message' in params
+        assert 'template_name' in params
+        assert 'upload_type' in params
+
+    def test_render_upload_success_page_docstring(self):
+        """render_upload_success_page has proper documentation."""
+        assert render_upload_success_page.__doc__ is not None
+        assert "Render upload success page" in render_upload_success_page.__doc__
+
+    def test_render_upload_success_page_with_direct_upload(self):
+        """render_upload_success_page handles direct upload correctly."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_success_page(mock_form, "Upload successful!", 'upload.html', "direct")
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="Upload successful!",
+                upload_type="direct",
+                is_success=True,
+                page_title="Direct Upload - Success")
+            assert result == "Rendered HTML"
+
+    def test_render_upload_success_page_with_staged_upload(self):
+        """render_upload_success_page handles staged upload correctly."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_success_page(mock_form, "Staging successful!", 'upload_staged.html', "staged")
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload_staged.html', 
+                form=mock_form,
+                upload_message="Staging successful!",
+                upload_type="staged",
+                is_success=True,
+                page_title="Staged Upload - Success")
+            assert result == "Rendered HTML"
+
+
+class TestRenderUploadErrorPage:
+    """Test the render_upload_error_page helper function."""
+
+    def test_render_upload_error_page_function_signature(self):
+        """render_upload_error_page has correct function signature."""
+        import inspect
+        sig = inspect.signature(render_upload_error_page)
+        params = list(sig.parameters.keys())
+        
+        assert 'form' in params
+        assert 'error_message' in params
+        assert 'template_name' in params
+        assert 'upload_type' in params
+        assert 'error_details' in params
+
+    def test_render_upload_error_page_docstring(self):
+        """render_upload_error_page has proper documentation."""
+        assert render_upload_error_page.__doc__ is not None
+        assert "Render upload error page" in render_upload_error_page.__doc__
+
+    def test_render_upload_error_page_with_direct_upload(self):
+        """render_upload_error_page handles direct upload correctly."""
+        mock_form = MagicMock()
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_error_page(mock_form, "Upload failed", 'upload.html', "direct")
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="Upload failed",
+                upload_type="direct",
+                is_error=True,
+                error_details=None,
+                page_title="Direct Upload - Error")
+            assert result == "Rendered HTML"
+
+    def test_render_upload_error_page_with_staged_upload(self):
+        """render_upload_error_page handles staged upload correctly."""
+        mock_form = MagicMock()
+        error_details = {"error": "Test error details"}
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_error_page(mock_form, "Staging failed", 'upload_staged.html', "staged", error_details)
+
+            # Verify the function calls render_template with correct context
+            mock_render.assert_called_once_with('upload_staged.html', 
+                form=mock_form,
+                upload_message="Staging failed",
+                upload_type="staged",
+                is_error=True,
+                error_details=error_details,
+                page_title="Staged Upload - Error")
+            assert result == "Rendered HTML"
+
+    def test_render_upload_error_page_with_error_details(self):
+        """render_upload_error_page handles error details correctly."""
+        mock_form = MagicMock()
+        error_details = {"file_path": "test.xlsx", "error": "Conversion failed"}
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_template') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = render_upload_error_page(mock_form, "File conversion failed", 'upload.html', "direct", error_details)
+
+            # Verify the function calls render_template with error details
+            mock_render.assert_called_once_with('upload.html', 
+                form=mock_form,
+                upload_message="File conversion failed",
+                upload_type="direct",
+                is_error=True,
+                error_details=error_details,
+                page_title="Direct Upload - Error")
+            assert result == "Rendered HTML"

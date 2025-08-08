@@ -8,7 +8,7 @@ implementation.
 
 **Last Updated:** August 2025
 **Target Audience:** Developers working on the refactor
-**Status:** ✅ **PHASE 3 COMPLETED** - Success handling logic extracted into shared helper functions
+**Status:** ✅ **PHASE 4 COMPLETED** - Template rendering logic extracted into shared helper functions
 
 ---
 
@@ -165,6 +165,119 @@ def handle_upload_success(result, request_file, upload_type: str = "direct") -> 
 
 def get_success_message_for_upload(result, filename: str, upload_type: str) -> str:
     """Get success message for upload (direct vs staged)."""
+```
+
+### 6. **Template Rendering Helper Function Pattern** ✅ **PHASE 4 COMPLETED**
+
+Extract template rendering logic into shared helper functions to eliminate duplication and ensure consistent user experience.
+
+#### Pattern Template
+
+```python
+def render_upload_page(form: UploadForm, message: str | None, template_name: str, 
+                      upload_type: str = "direct") -> str:
+    """
+    Render upload page with consistent template handling and user experience.
+
+    Args:
+        form: UploadForm instance
+        message: Optional message to display on the page
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Rendered HTML for the upload page
+
+    Examples:
+        return render_upload_page(form, message, 'upload.html', "direct")
+        return render_upload_page(form, message, 'upload_staged.html', "staged")
+    """
+    # Add upload type context for template customization
+    template_context = {
+        'form': form,
+        'upload_message': message,
+        'upload_type': upload_type,
+        'page_title': f"{upload_type.title()} Upload" if upload_type else "Upload"
+    }
+    
+    return render_template(template_name, **template_context)
+
+
+def render_upload_success_page(form: UploadForm, success_message: str, template_name: str,
+                             upload_type: str = "direct") -> str:
+    """
+    Render upload success page with consistent success handling.
+
+    Args:
+        form: UploadForm instance
+        success_message: Success message to display
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Rendered HTML for the success page
+
+    Examples:
+        return render_upload_success_page(form, "Upload successful!", 'upload.html', "direct")
+    """
+    # Add success-specific context
+    template_context = {
+        'form': form,
+        'upload_message': success_message,
+        'upload_type': upload_type,
+        'is_success': True,
+        'page_title': f"{upload_type.title()} Upload - Success"
+    }
+    
+    return render_template(template_name, **template_context)
+
+
+def render_upload_error_page(form: UploadForm, error_message: str, template_name: str,
+                           upload_type: str = "direct", error_details: dict | None = None) -> str:
+    """
+    Render upload error page with consistent error handling and user experience.
+
+    Args:
+        form: UploadForm instance
+        error_message: Error message to display
+        template_name: Name of the template to render
+        upload_type: Type of upload ("direct" or "staged")
+        error_details: Optional detailed error information for debugging
+
+    Returns:
+        str: Rendered HTML for the error page
+
+    Examples:
+        return render_upload_error_page(form, "File upload failed", 'upload.html', "direct")
+    """
+    # Add error-specific context
+    template_context = {
+        'form': form,
+        'upload_message': error_message,
+        'upload_type': upload_type,
+        'is_error': True,
+        'error_details': error_details,
+        'page_title': f"{upload_type.title()} Upload - Error"
+    }
+    
+    return render_template(template_name, **template_context)
+```
+
+#### Implemented Template Rendering Helper Functions
+
+```python
+# Template Rendering
+def render_upload_page(form: UploadForm, message: str | None, template_name: str, 
+                      upload_type: str = "direct") -> str:
+    """Render upload page with consistent template handling and user experience."""
+
+def render_upload_success_page(form: UploadForm, success_message: str, template_name: str,
+                             upload_type: str = "direct") -> str:
+    """Render upload success page with consistent success handling."""
+
+def render_upload_error_page(form: UploadForm, error_message: str, template_name: str,
+                           upload_type: str = "direct", error_details: dict | None = None) -> str:
+    """Render upload error page with consistent error handling and user experience."""
 ```
 
 Extract error handling logic into shared helper functions to eliminate duplication and ensure consistent error behavior.
@@ -380,7 +493,7 @@ def insert_json_into_database_with_result(json_path, base, db) -> DatabaseInsert
     """Insert JSON into database and return result with ID or error."""
 ```
 
-### 6. **Main Function Pattern** ✅ **UPDATED**
+### 7. **Main Function Pattern** ✅ **UPDATED**
 
 Main functions should orchestrate helper functions with result types and return rich result objects.
 
@@ -840,16 +953,17 @@ def test_performance_comparison():
 3. ✅ **Route Helper Functions**: All 5 route helper functions implemented (Phase 1)
 4. ✅ **Error Handling Helper Functions**: All 2 error handling helper functions implemented (Phase 2)
 5. ✅ **Success Handling Helper Functions**: All 2 success handling helper functions implemented (Phase 3)
-6. ✅ **Main Functions**: Both main functions updated to use new helpers
-7. ✅ **Testing**: 58 tests passing (16 helper + 12 main function + 30 route helper tests)
-8. ✅ **Backward Compatibility**: All original functions maintained
+6. ✅ **Template Rendering Helper Functions**: All 3 template rendering helper functions implemented (Phase 4)
+7. ✅ **Main Functions**: Both main functions updated to use new helpers
+8. ✅ **Testing**: 62 tests passing (16 helper + 12 main function + 44 route helper tests)
+9. ✅ **Backward Compatibility**: All original functions maintained
 
 ### Test Results
 
 - **Helper Function Tests**: 16/16 passed (100%)
 - **Main Function Tests**: 12/12 passed (100%)
-- **Route Helper Tests**: 30/30 passed (100%)
-- **Total Tests**: 58/58 passed (100%)
+- **Route Helper Tests**: 44/44 passed (100%)
+- **Total Tests**: 62/62 passed (100%)
 
 ---
 
@@ -863,7 +977,7 @@ successfully. The key principles are:
 3. **Safety**: Maintain backward compatibility throughout
 4. **Performance**: Monitor and optimize as needed
 
-**✅ COMPLETED**: The success handling helper functions have been successfully implemented, providing a major
-architectural improvement that eliminates success handling duplication while maintaining full backward compatibility.
+**✅ COMPLETED**: The template rendering helper functions have been successfully implemented, providing a major
+architectural improvement that eliminates template rendering duplication while maintaining full backward compatibility.
 
 **Next Steps**: Consider performance benchmarking and documentation enhancements to complete the refactor journey.

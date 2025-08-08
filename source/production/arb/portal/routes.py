@@ -47,7 +47,7 @@ from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_se
   upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
   get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
-  handle_upload_success
+  handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
@@ -497,7 +497,7 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
       # Validate upload request using shared helper
       is_valid, error_message = validate_upload_request(request_file)
       if not is_valid:
-        return render_upload_error(form, error_message, 'upload.html')
+        return render_upload_error_page(form, error_message, 'upload.html', "direct")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
@@ -517,7 +517,7 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
         error_details = generate_upload_diagnostics(request_file, result.file_path)
         detailed_message = format_diagnostic_message(error_details,
                                                      "Uploaded file format not recognized.")
-        return render_upload_error(form, detailed_message, 'upload.html')
+        return render_upload_error_page(form, detailed_message, 'upload.html', "direct", error_details)
       
       # Use shared error handling helper for all other error types
       return handle_upload_error(result, form, 'upload.html', request_file)
@@ -529,7 +529,7 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
                                    generate_upload_diagnostics)
 
   # GET request: display form
-  return render_upload_form(form, message, 'upload.html')
+  return render_upload_page(form, message, 'upload.html', "direct")
 
 
 @main.route('/upload_staged', methods=['GET', 'POST'])
@@ -1478,7 +1478,7 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
       # Validate upload request using shared helper
       is_valid, error_message = validate_upload_request(request_file)
       if not is_valid:
-        return render_upload_error(form, error_message, 'upload_staged.html')
+        return render_upload_error_page(form, error_message, 'upload_staged.html', "staged")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
@@ -1511,4 +1511,4 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
                                    ))
 
   # GET request: display form
-  return render_upload_form(form, message, 'upload_staged.html')
+  return render_upload_page(form, message, 'upload_staged.html', "staged")

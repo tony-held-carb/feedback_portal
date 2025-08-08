@@ -7,7 +7,7 @@ as of August 2025. The refactor has made significant progress with parallel impl
 compatibility while introducing improved patterns.
 
 **Last Updated:** August 2025
-**Current Status:** ✅ **PHASE 3 COMPLETED** - Success handling logic extracted into shared helper functions
+**Current Status:** ✅ **PHASE 4 COMPLETED** - Template rendering logic extracted into shared helper functions
 
 ---
 
@@ -61,20 +61,32 @@ compatibility while introducing improved patterns.
 - **Code Reduction**: ~20 lines of duplicated success handling code eliminated
 - **Enhanced Features**: Detailed success messages with emoji and formatting
 
-#### 7. **Refactored Main Functions** ✅ **UPDATED**
+#### 7. **Template Rendering Helper Functions** ✅ **PHASE 4 COMPLETED**
+
+- **New Template Rendering Helper Functions** (shared between refactored routes):
+  - `render_upload_page()` - Centralized template rendering for upload pages
+  - `render_upload_success_page()` - Centralized success page rendering
+  - `render_upload_error_page()` - Centralized error page rendering
+- **Location**: `source/production/arb/portal/utils/route_upload_helpers.py`
+- **Status**: All 12 route helper functions implemented and tested (44/44 tests passing)
+- **Benefits**: Eliminates template rendering duplication, ensures consistent user experience
+- **Code Reduction**: ~15 lines of duplicated template rendering code eliminated
+- **Enhanced Features**: Consistent page titles, upload type context, and status indicators
+
+#### 8. **Refactored Main Functions** ✅ **UPDATED**
 
 - **Main Function**: `stage_uploaded_file_for_review()` in `db_ingest_util.py`
 - **Main Function**: `upload_and_process_file()` in `db_ingest_util.py`
 - **Status**: Both functions now use new helper functions with result types
 - **Test Results**: All 12 main function tests passing (6 staging + 6 upload)
 
-#### 8. **Enhanced Error Handling** ✅ **COMPLETED**
+#### 9. **Enhanced Error Handling** ✅ **COMPLETED**
 
 - **Specific Error Types**: `missing_id`, `conversion_failed`, `file_error`, `database_error`
 - **User-Friendly Messages**: Clear guidance for users on how to fix issues
 - **Comprehensive Logging**: Detailed diagnostics for debugging
 
-#### 9. **Direct Upload Refactor** ✅ **COMPLETED**
+#### 10. **Direct Upload Refactor** ✅ **COMPLETED**
 
 - **Main Function**: `upload_and_process_file()` in `db_ingest_util.py`
 - **Status**: Fully implemented and tested (August 2025)
@@ -201,7 +213,7 @@ else:
   - Upload tests: 6/6 passed
   - New helper function tests: 16/16 passed
   - **Total: 28 tests passing**
-- ✅ **`test_route_upload_helpers.py`**: 30/30 tests passed (100%)
+- ✅ **`test_route_upload_helpers.py`**: 44/44 tests passed (100%)
 - ✅ **`test_route_equivalence.py`**: 13/13 tests passed
 - ✅ **`test_routes.py`**: All refactored route tests passed
 
