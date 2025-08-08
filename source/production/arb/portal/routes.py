@@ -60,6 +60,9 @@ from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
 
+import time
+from flask import session
+
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -1500,6 +1503,13 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
 
   if request.method == 'POST':
     flash("_upload_attempted", "internal-marker")
+    
+    # Set robust session storage state for testing
+    if request.headers.get('X-Test-Mode'):
+      # This will be picked up by the client-side JavaScript
+      session['_upload_attempt_state'] = 'attempted'
+      session['_upload_attempt_timestamp'] = time.time()
+    
     try:
       request_file = request.files.get('file')
 
