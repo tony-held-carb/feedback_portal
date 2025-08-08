@@ -7,7 +7,7 @@ as of August 2025. The refactor has made significant progress with parallel impl
 compatibility while introducing improved patterns.
 
 **Last Updated:** August 2025
-**Current Status:** ✅ **MAJOR MILESTONE COMPLETED** - Helper functions with result types fully implemented
+**Current Status:** ✅ **PHASE 1 COMPLETED** - Route helper functions with shared validation logic implemented
 
 ---
 
@@ -37,29 +37,33 @@ compatibility while introducing improved patterns.
 
 #### 3. **Helper Functions with Result Types** ✅ **MAJOR MILESTONE COMPLETED**
 
-- **New Helper Functions** (with robust result types):
-  - `save_uploaded_file_with_result()` - Returns `FileSaveResult`
-  - `convert_file_to_json_with_result()` - Returns `FileConversionResult`
-  - `validate_id_from_json_with_result()` - Returns `IdValidationResult`
-  - `create_staged_file_with_result()` - Returns `StagedFileResult`
-  - `insert_json_into_database_with_result()` - Returns `DatabaseInsertResult`
-- **Status**: All 5 new helper functions implemented and tested (16/16 tests passing)
-- **Benefits**: Eliminates brittle tuple returns, provides type safety, self-documenting
+#### 4. **Route Helper Functions** ✅ **PHASE 1 COMPLETED**
 
-#### 4. **Refactored Main Functions** ✅ **UPDATED**
+- **New Route Helper Functions** (shared between refactored routes):
+  - `validate_upload_request()` - Validates uploaded file presence
+  - `get_error_message_for_type()` - Provides user-friendly error messages
+  - `get_success_message_for_upload()` - Generates success messages for direct/staged uploads
+  - `render_upload_form()` - Consistent form rendering with message handling
+  - `render_upload_error()` - Consistent error rendering
+- **Location**: `source/production/arb/portal/utils/route_upload_helpers.py`
+- **Status**: All 5 route helper functions implemented and tested (15/15 tests passing)
+- **Benefits**: Eliminates code duplication, ensures consistent behavior, easier maintenance
+- **Code Reduction**: ~30% reduction in route logic, ~40 lines of duplicated code eliminated
+
+#### 5. **Refactored Main Functions** ✅ **UPDATED**
 
 - **Main Function**: `stage_uploaded_file_for_review()` in `db_ingest_util.py`
 - **Main Function**: `upload_and_process_file()` in `db_ingest_util.py`
 - **Status**: Both functions now use new helper functions with result types
 - **Test Results**: All 12 main function tests passing (6 staging + 6 upload)
 
-#### 5. **Enhanced Error Handling** ✅ **COMPLETED**
+#### 6. **Enhanced Error Handling** ✅ **COMPLETED**
 
 - **Specific Error Types**: `missing_id`, `conversion_failed`, `file_error`, `database_error`
 - **User-Friendly Messages**: Clear guidance for users on how to fix issues
 - **Comprehensive Logging**: Detailed diagnostics for debugging
 
-#### 6. **Direct Upload Refactor** ✅ **COMPLETED**
+#### 7. **Direct Upload Refactor** ✅ **COMPLETED**
 
 - **Main Function**: `upload_and_process_file()` in `db_ingest_util.py`
 - **Status**: Fully implemented and tested (August 2025)
@@ -186,6 +190,7 @@ else:
   - Upload tests: 6/6 passed
   - New helper function tests: 16/16 passed
   - **Total: 28 tests passing**
+- ✅ **`test_route_upload_helpers.py`**: 15/15 tests passed (100%)
 - ✅ **`test_route_equivalence.py`**: 13/13 tests passed
 - ✅ **`test_routes.py`**: All refactored route tests passed
 
@@ -306,18 +311,18 @@ User Feedback
 
 ## Conclusion
 
-The data ingestion refactor has achieved a **major milestone** with the completion of helper functions using result types.
-This represents a significant architectural improvement that eliminates the brittleness of tuple returns while maintaining full
-backward compatibility.
+The data ingestion refactor has achieved **Phase 1 completion** with the implementation of shared route helper functions.
+This represents a significant improvement in code organization that eliminates duplication while maintaining full backward compatibility.
 
 **Key Achievements:**
 
 1. **Working refactored routes** with enhanced error handling
 2. **Complete staging and upload implementations** with modular helper functions
-3. **Comprehensive test coverage** for all new components (28 tests passing)
+3. **Comprehensive test coverage** for all new components (43 tests passing)
 4. **Type-safe result objects** with rich error information
 5. **Backward compatibility** maintained throughout
 6. **Eliminated brittle tuple returns** in favor of robust result types
+7. **Shared route helper functions** eliminating code duplication
 
 **Architectural Benefits:**
 
@@ -325,11 +330,13 @@ backward compatibility.
 - **Type Safety**: Named tuples provide compile-time safety
 - **Self-Documenting**: Result types clearly show what data is returned
 - **Better Error Handling**: Specific error types instead of generic messages
-- **Comprehensive Testing**: 28 tests covering all scenarios
+- **Comprehensive Testing**: 43 tests covering all scenarios
 - **Zero Breaking Changes**: All existing code continues to work
+- **Reduced Duplication**: Shared helper functions eliminate code repetition
+- **Consistent Behavior**: Both routes handle errors identically
 
 The refactor demonstrates that **incremental, test-driven improvements** can achieve significant architectural benefits
-without disrupting existing functionality. The helper functions refactor represents a major step forward in code quality
+without disrupting existing functionality. The Phase 1 route helper functions represent a major step forward in code quality
 and maintainability.
 
-**Next Priority:** Consider performance benchmarking and documentation enhancements to complete the refactor journey.
+**Next Priority:** Phase 2 - Extract error handling logic into shared helper functions to further reduce duplication.

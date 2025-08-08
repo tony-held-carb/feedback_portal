@@ -8,7 +8,7 @@ implementation.
 
 **Last Updated:** August 2025
 **Target Audience:** Developers working on the refactor
-**Status:** ✅ **HELPER FUNCTIONS WITH RESULT TYPES COMPLETED**
+**Status:** ✅ **PHASE 1 COMPLETED** - Route helper functions with shared validation logic implemented
 
 ---
 
@@ -83,7 +83,67 @@ def some_function(param1, param2) -> SomeResult:
 
 ### 2. **Helper Function Pattern with Result Types** ✅ **COMPLETED**
 
-Break complex operations into focused helper functions that return rich result objects.
+### 3. **Route Helper Function Pattern** ✅ **PHASE 1 COMPLETED**
+
+Extract common route logic into shared helper functions to eliminate code duplication and ensure consistent behavior.
+
+#### Pattern Template
+
+```python
+def route_helper_function(param1, param2) -> tuple[bool, str | None]:
+    """
+    Brief description of what this route helper does.
+
+    Args:
+        param1: Description of param1
+        param2: Description of param2
+
+    Returns:
+        tuple[bool, str | None]: (is_valid, error_message)
+        - is_valid: True if operation is valid, False otherwise
+        - error_message: Error message if validation failed, None if successful
+
+    Examples:
+        is_valid, error = route_helper_function(value1, value2)
+        if not is_valid:
+            return render_template('template.html', form=form, upload_message=error)
+    """
+    try:
+        # Perform the specific validation/operation
+        if not param1 or not param1.filename:
+            return False, "No file selected. Please choose a file."
+        
+        # Additional validation logic...
+        
+        return True, None
+
+    except Exception as e:
+        logger.error(f"Error in route_helper_function: {e}")
+        return False, f"An unexpected error occurred: {str(e)}"
+```
+
+#### Implemented Route Helper Functions
+
+```python
+# File Validation
+def validate_upload_request(request_file) -> tuple[bool, str | None]:
+    """Validate that a file was uploaded in the request."""
+
+# Error Message Generation
+def get_error_message_for_type(error_type: str, result) -> str:
+    """Get user-friendly error message for specific error types."""
+
+# Success Message Generation
+def get_success_message_for_upload(result, filename: str, upload_type: str) -> str:
+    """Get success message for upload (direct vs staged)."""
+
+# Template Rendering
+def render_upload_form(form, message: str | None, template_name: str) -> str:
+    """Render upload form with consistent message handling."""
+
+def render_upload_error(form, message: str, template_name: str) -> str:
+    """Render upload error with consistent error display."""
+```
 
 #### Pattern Template
 
@@ -157,7 +217,7 @@ def insert_json_into_database_with_result(json_path, base, db) -> DatabaseInsert
     """Insert JSON into database and return result with ID or error."""
 ```
 
-### 3. **Main Function Pattern** ✅ **UPDATED**
+### 4. **Main Function Pattern** ✅ **UPDATED**
 
 Main functions should orchestrate helper functions with result types and return rich result objects.
 
@@ -608,21 +668,23 @@ def test_performance_comparison():
 
 ---
 
-## Implementation Status ✅ **COMPLETED**
+## Implementation Status ✅ **PHASE 1 COMPLETED**
 
 ### Completed Components
 
 1. ✅ **Result Types**: All 7 result types implemented
 2. ✅ **Helper Functions**: All 5 helper functions with result types implemented
-3. ✅ **Main Functions**: Both main functions updated to use new helpers
-4. ✅ **Testing**: 28 tests passing (16 helper + 12 main function tests)
-5. ✅ **Backward Compatibility**: All original functions maintained
+3. ✅ **Route Helper Functions**: All 5 route helper functions implemented (Phase 1)
+4. ✅ **Main Functions**: Both main functions updated to use new helpers
+5. ✅ **Testing**: 43 tests passing (16 helper + 12 main function + 15 route helper tests)
+6. ✅ **Backward Compatibility**: All original functions maintained
 
 ### Test Results
 
 - **Helper Function Tests**: 16/16 passed (100%)
 - **Main Function Tests**: 12/12 passed (100%)
-- **Total Tests**: 28/28 passed (100%)
+- **Route Helper Tests**: 15/15 passed (100%)
+- **Total Tests**: 43/43 passed (100%)
 
 ---
 
