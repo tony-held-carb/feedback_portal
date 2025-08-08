@@ -1683,3 +1683,45 @@ to get postgress to work from the wsl.
 added the line to the bottom:
 # Allow connections from WSL environment
 host    all             all             192.168.1.0/24          scram-sha-256
+
+
+setting up github on cursor on wsl
+git remote rename github origin
+git remote -v
+git remote set-url origin https://github.com/tony-held-carb/feedback_portal
+git remote -v
+
+which gh
+git config --global --list | grep -i credential
+
+Option 1: Personal Access Token (PAT) - Recommended
+Create a new Personal Access Token on GitHub:
+Go to GitHub.com → Settings → Developer settings → Personal access tokens → Tokens (classic)
+Generate new token with repo permissions
+Copy the token
+Configure git to use the token:
+
+git config --global credential.helper store
+
+checking access sta
+
+git config --global user.name "tony-held-carb"
+git config --global user.email
+
+Recommended Scopes for Your Token
+Essential Scopes:
+✅ repo - Full control of private repositories
+This includes: repo:status, repo_deployment, public_repo, repo:invite, security_events
+Why: You need full read/write access to push code, create branches, etc.
+Optional but Useful Scopes:
+✅ workflow - Update GitHub Action workflows
+Why: If you use GitHub Actions for CI/CD
+✅ write:packages - Upload packages to GitHub Package Registry
+Why: If you publish packages (probably not needed for this project)
+✅ delete:packages - Delete packages from GitHub Package Registry
+Why: If you need to delete packages (probably not needed)
+
+
+git config --global credential.helper store
+
+E397-CB4B
