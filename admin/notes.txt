@@ -1725,3 +1725,5 @@ Why: If you need to delete packages (probably not needed)
 git config --global credential.helper store
 
 E397-CB4B
+
+testing commit from vs code running from windows shortcut
