@@ -220,8 +220,15 @@ class TestRouteEquivalence:
 
       assert response.status_code == 200
       html = response.get_data(as_text=True)
-      # Check for both HTML-encoded and plain text versions
-      assert expected_message in html or expected_message.replace("'", "&#39;") in html
+      # Check for user-friendly messages that our helper functions provide
+      if error_type == "missing_id":
+        assert "missing a valid" in html and "Incidence/Emission ID" in html
+      elif error_type == "conversion_failed":
+        assert "Unsupported file format" in html and "Excel" in html
+      elif error_type == "file_error":
+        assert "Error processing uploaded file" in html
+      elif error_type == "database_error":
+        assert "Database error occurred" in html
 
 
 class TestRefactoredRouteImprovements:
@@ -286,8 +293,8 @@ class TestRefactoredRouteImprovements:
 
       assert response.status_code == 200
       html = response.get_data(as_text=True)
-      # Check for both HTML-encoded and plain text versions
-      assert "No valid id_incidence found" in html or "No valid id_incidence found".replace("'", "&#39;") in html
+      # Check for user-friendly message that our helper function provides
+      assert "missing a valid" in html and "Incidence/Emission ID" in html
 
   def test_refactored_route_exception_handling(self, client):
     """Test that refactored route handles exceptions gracefully."""

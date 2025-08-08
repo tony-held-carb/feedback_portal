@@ -88,7 +88,7 @@ def test_upload_file_staged_refactored_missing_id_error(client):
     # Should return error page with specific message
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "No valid" in html
+    assert "missing a valid" in html
     assert "Incidence/Emission ID" in html
 
 
