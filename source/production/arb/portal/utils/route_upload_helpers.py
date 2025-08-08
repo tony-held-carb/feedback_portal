@@ -15,7 +15,7 @@ Examples:
 import logging
 from pathlib import Path
 from typing import Union
-from flask import Response, render_template, request
+from flask import Response, render_template, request, url_for
 from werkzeug.datastructures import FileStorage
 
 from arb.portal.wtf_upload import UploadForm
@@ -208,3 +208,65 @@ def handle_upload_exception(e: Exception, form: UploadForm, template_name: str,
     # Fallback to generic error message
     generic_message = "An unexpected error occurred during upload processing. Please try again."
     return render_upload_error(form, generic_message, template_name)
+
+
+def handle_upload_success(result, request_file, upload_type: str = "direct") -> tuple[str, str]:
+    """
+    Handle successful upload processing with appropriate success messages and logging.
+
+    Args:
+        result: Result object containing success information
+        request_file: Uploaded file for filename information
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        tuple[str, str]: (success_message, redirect_url)
+        - success_message: User-friendly success message
+        - redirect_url: URL to redirect to after successful upload
+
+    Examples:
+        message, redirect_url = handle_upload_success(result, request_file, "staged")
+        flash(message, "success")
+        return redirect(redirect_url)
+    """
+    # Generate success message
+    success_message = get_success_message_for_upload(result, request_file.filename, upload_type)
+    
+    # Log the successful upload
+    logger.info(f"Upload successful - Type: {upload_type}, ID: {result.id_}, Sector: {result.sector}")
+    
+    # Determine redirect URL based on upload type
+    if upload_type == "staged":
+        redirect_url = url_for('main.review_staged', id_=result.id_, filename=result.staged_filename)
+    else:
+        redirect_url = url_for('main.incidence_update', id_=result.id_)
+    
+    return success_message, redirect_url
+
+
+def get_success_message_for_upload(result, filename: str, upload_type: str) -> str:
+    """
+    Get success message for upload (direct vs staged).
+
+    Args:
+        result: Result object containing upload details
+        filename: Original filename that was uploaded
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Success message for the upload
+
+    Examples:
+        message = get_success_message_for_upload(result, "data.xlsx", "staged")
+        flash(message, "success")
+    """
+    if upload_type == "staged":
+        return (
+            f"✅ File '{filename}' staged successfully!\n"
+            f"📋 ID: {result.id_}\n"
+            f"🏭 Sector: {result.sector}\n"
+            f"📁 Staged as: {result.staged_filename}\n"
+            f"🔍 Ready for review and confirmation."
+        )
+    else:
+        return f"✅ File '{filename}' uploaded successfully! ID: {result.id_}, Sector: {result.sector}"

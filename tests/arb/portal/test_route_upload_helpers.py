@@ -16,7 +16,8 @@ from arb.portal.utils.route_upload_helpers import (
     render_upload_form,
     render_upload_error,
     handle_upload_error,
-    handle_upload_exception
+    handle_upload_exception,
+    handle_upload_success
 )
 from arb.portal.wtf_upload import UploadForm
 
@@ -348,3 +349,86 @@ class TestHandleUploadException:
                 "An unexpected error occurred during upload processing. Please try again.", 
                 'upload.html')
             assert result == "Rendered HTML"
+
+
+class TestHandleUploadSuccess:
+    """Test the handle_upload_success helper function."""
+
+    def test_handle_upload_success_function_signature(self):
+        """handle_upload_success has correct function signature."""
+        import inspect
+        sig = inspect.signature(handle_upload_success)
+        params = list(sig.parameters.keys())
+        
+        assert 'result' in params
+        assert 'request_file' in params
+        assert 'upload_type' in params
+
+    def test_handle_upload_success_docstring(self):
+        """handle_upload_success has proper documentation."""
+        assert handle_upload_success.__doc__ is not None
+        assert "Handle successful upload" in handle_upload_success.__doc__
+
+    def test_handle_upload_success_with_direct_upload(self):
+        """handle_upload_success handles direct upload correctly."""
+        mock_result = MagicMock()
+        mock_result.id_ = 123
+        mock_result.sector = "Test Sector"
+        mock_request_file = MagicMock()
+        mock_request_file.filename = "test.xlsx"
+        
+        with patch('arb.portal.utils.route_upload_helpers.get_success_message_for_upload') as mock_get_message:
+            mock_get_message.return_value = "✅ File 'test.xlsx' uploaded successfully!"
+            with patch('arb.portal.utils.route_upload_helpers.url_for') as mock_url_for:
+                mock_url_for.return_value = "/incidence_update/123"
+                
+                success_message, redirect_url = handle_upload_success(mock_result, mock_request_file, "direct")
+
+                # Verify the function calls the expected helpers
+                mock_get_message.assert_called_once_with(mock_result, "test.xlsx", "direct")
+                mock_url_for.assert_called_once_with('main.incidence_update', id_=123)
+                assert success_message == "✅ File 'test.xlsx' uploaded successfully!"
+                assert redirect_url == "/incidence_update/123"
+
+    def test_handle_upload_success_with_staged_upload(self):
+        """handle_upload_success handles staged upload correctly."""
+        mock_result = MagicMock()
+        mock_result.id_ = 456
+        mock_result.sector = "Test Sector"
+        mock_result.staged_filename = "staged_456.json"
+        mock_request_file = MagicMock()
+        mock_request_file.filename = "test.xlsx"
+        
+        with patch('arb.portal.utils.route_upload_helpers.get_success_message_for_upload') as mock_get_message:
+            mock_get_message.return_value = "✅ File 'test.xlsx' staged successfully!"
+            with patch('arb.portal.utils.route_upload_helpers.url_for') as mock_url_for:
+                mock_url_for.return_value = "/review_staged/456/staged_456.json"
+                
+                success_message, redirect_url = handle_upload_success(mock_result, mock_request_file, "staged")
+
+                # Verify the function calls the expected helpers
+                mock_get_message.assert_called_once_with(mock_result, "test.xlsx", "staged")
+                mock_url_for.assert_called_once_with('main.review_staged', id_=456, filename="staged_456.json")
+                assert success_message == "✅ File 'test.xlsx' staged successfully!"
+                assert redirect_url == "/review_staged/456/staged_456.json"
+
+    def test_handle_upload_success_with_default_upload_type(self):
+        """handle_upload_success uses 'direct' as default upload type."""
+        mock_result = MagicMock()
+        mock_result.id_ = 789
+        mock_result.sector = "Test Sector"
+        mock_request_file = MagicMock()
+        mock_request_file.filename = "test.xlsx"
+        
+        with patch('arb.portal.utils.route_upload_helpers.get_success_message_for_upload') as mock_get_message:
+            mock_get_message.return_value = "✅ File 'test.xlsx' uploaded successfully!"
+            with patch('arb.portal.utils.route_upload_helpers.url_for') as mock_url_for:
+                mock_url_for.return_value = "/incidence_update/789"
+                
+                success_message, redirect_url = handle_upload_success(mock_result, mock_request_file)
+
+                # Verify the function uses 'direct' as default
+                mock_get_message.assert_called_once_with(mock_result, "test.xlsx", "direct")
+                mock_url_for.assert_called_once_with('main.incidence_update', id_=789)
+                assert success_message == "✅ File 'test.xlsx' uploaded successfully!"
+                assert redirect_url == "/incidence_update/789"

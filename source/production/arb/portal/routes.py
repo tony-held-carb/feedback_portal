@@ -46,7 +46,8 @@ from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, \
   upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
-  get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception
+  get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
+  handle_upload_success
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
@@ -505,7 +506,10 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
 
       if result.success:
         logger.debug(f"Upload successful: id={result.id_}, sector={result.sector}. Redirecting to update page.")
-        return redirect(url_for('main.incidence_update', id_=result.id_))
+        # Use shared success handling helper
+        success_message, redirect_url = handle_upload_success(result, request_file, "direct")
+        flash(success_message, "success")
+        return redirect(redirect_url)
 
       # Handle conversion_failed specially for detailed diagnostics
       if result.error_type == "conversion_failed":
@@ -1486,10 +1490,10 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
         logger.debug(
           f"Staged upload successful: id={result.id_}, sector={result.sector}, filename={result.staged_filename}. Redirecting to review page.")
 
-        # Enhanced success feedback with staging details
-        success_message = get_success_message_for_upload(result, request_file.filename, "staged")
+        # Use shared success handling helper
+        success_message, redirect_url = handle_upload_success(result, request_file, "staged")
         flash(success_message, "success")
-        return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
+        return redirect(redirect_url)
 
       else:
         # Use shared error handling helper for all error types
