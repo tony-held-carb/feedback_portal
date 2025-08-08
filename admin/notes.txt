@@ -1728,3 +1728,4 @@ E397-CB4B
 
 testing commit from vs code running from windows shortcut
 testing commit from vs code from wsl
+testing commit from python running from windows shortcut
