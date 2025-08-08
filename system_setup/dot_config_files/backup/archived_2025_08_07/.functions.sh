@@ -230,7 +230,7 @@ detect_os() {
 # -----------------------------------------------------------------------------
 
 detect_machine_location() {
-  if [ "$NAME" = "tonydesktop" ] || [ "$HOSTNAME" = "tony_desktop" ] || [ "$WSL_DISTRO_NAME" = "Ubuntu" ]; then
+  if [ "$NAME" = "tonydesktop" ] || [ "$HOSTNAME" = "tony_desktop" ]; then
     export MACHINE_LOCATION="TONY_HOME"
   elif [ "$HOSTNAME" = "5CG3251H1W" ]; then
     export MACHINE_LOCATION="TONY_WORK"

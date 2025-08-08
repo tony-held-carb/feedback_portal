@@ -33,9 +33,8 @@ case "$MACHINE_NAME" in
     ;;
   "TONY_HOME_WSL")
     CONDA_HOME="/home/tonyh/miniconda3"
-    export portal="/home/tonyh/git_repos/feedback_portal"
-    export DATABASE_URI=postgresql+psycopg2://postgres:methane@192.168.1.66:5432/tony_home_tracker
-    # export DATABASE_URI=postgresql+psycopg2://postgres:methane@host.docker.internal:5432/tony_home_tracker
+    export portal="/mnt/d/local/cursor/feedback_portal"
+    export DATABASE_URI=postgresql+psycopg2://postgres:methane@host.docker.internal:5432/tony_home_tracker
     ;;
   "TONY_WORK_WINDOWS")
     CONDA_HOME="/c/Users/theld/AppData/Local/miniconda3"

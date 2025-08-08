@@ -2,7 +2,11 @@
 
 # todo - Next Steps
 ----------------------------
-consider moving home repo to wsl
+moved repo to wsl, don't use the windows repo's any more, going to back them up so they are
+not accidentally used.
+
+need to update settings files for .bash related
+maybe need to set up cursor config for the wsl launch
 
 
 * ---------   Key persistence refactor ----------
