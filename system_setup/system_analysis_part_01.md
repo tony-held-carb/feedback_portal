@@ -40,17 +40,24 @@ Miniconda configurations.
 
 ---
 
+### 2.0 Important about running from WSL for VS CODE and Cursor
+- Even though WSL may show a folder like:
+  - ~/.config/Code/User/
+  - ~/.config/Cursor/User/
+  - That is only used when:
+    - You're running VS Code inside Linux natively, e.g., on Ubuntu Desktop (not WSL)
+    - Or using VS Code Remote Server in WSL with the code CLI and have special configs
+    - But on a typical WSL + VS Code setup, that folder is not read at all.
+  - Your actual wsl setup files will be on your windows system at:
+    - %APPDATA%\Code\User\
+    - %APPDATA%\Cursor\User\
+- Even though it is stated many times that Cursor uses or inherits VS code settings, that is not the case
+  They do share a similar structure and naming system, but they are not reused or inherited
+
 ## 2. Visual Studio Code
 
-### Update after migrating home machine to WSL.
-
-On VS Code running from WSL i was told:
-- To open your settings.json configuration file for editing in VS Code from the terminal, use:
-  - code ~/.config/Code/User/settings.json
-- If you want to open workspace settings, use:
+- If you want to open workspace settings, use from the project base:
   - code .vscode/settings.json
-- It does not look like either of these was initially present
-- The VS Code on WSL seems to be working fine using defaults without settings files
 
 ### 2.1 Key Config/Settings Files
 
@@ -75,22 +82,17 @@ On VS Code running from WSL i was told:
 - VS Code Version: `1.100.2 (system setup)`
 - Executable Path: Not on PATH (likely system install)
 - Config Path: `C:\Users\theld\AppData\Roaming\Code\User\`
-
 ---
 
 ## 3. Cursor IDE
 
-### Update after migrating home machine to WSL.
-- Cursor thinks the config file should be at:
-  - ~/.config/Cursor/User/settings.json
-  - it has a minimal config file to see if that keeps it from hanging
-
 ### 3.1 Key Config/Settings Files
 
-- Reuses VS Code settings in `%APPDATA%\Code\User\`
-- either form:
-    - C:\Users\tonyh\AppData\Roaming\Cursor\User\settings.json
-    - `%APPDATA%\Cursor\User\settings.json`
+- Cursor Settings directory is `%APPDATA%\Cursor\User\`
+  - for example, C:\Users\tonyh\AppData\Roaming\Cursor\User\settings.json
+- key config files include:
+  - settings.json
+  - keybindings.json
 
 ### 3.2 Application Executable Paths
 
