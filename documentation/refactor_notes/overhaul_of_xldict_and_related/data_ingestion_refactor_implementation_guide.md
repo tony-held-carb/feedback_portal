@@ -8,7 +8,7 @@ implementation.
 
 **Last Updated:** August 2025
 **Target Audience:** Developers working on the refactor
-**Status:** ✅ **PHASE 1 COMPLETED** - Route helper functions with shared validation logic implemented
+**Status:** ✅ **PHASE 2 COMPLETED** - Error handling logic extracted into shared helper functions
 
 ---
 
@@ -85,7 +85,90 @@ def some_function(param1, param2) -> SomeResult:
 
 ### 3. **Route Helper Function Pattern** ✅ **PHASE 1 COMPLETED**
 
-Extract common route logic into shared helper functions to eliminate code duplication and ensure consistent behavior.
+### 4. **Error Handling Helper Function Pattern** ✅ **PHASE 2 COMPLETED**
+
+Extract error handling logic into shared helper functions to eliminate duplication and ensure consistent error behavior.
+
+#### Pattern Template
+
+```python
+def handle_upload_error(result, form, template_name, request_file=None) -> str:
+    """
+    Handle upload errors with appropriate error messages and logging.
+
+    Args:
+        result: Result object containing error information
+        form: UploadForm instance
+        template_name: Name of the template to render
+        request_file: Optional uploaded file for diagnostic information
+
+    Returns:
+        str: Rendered HTML with error message
+
+    Examples:
+        return handle_upload_error(result, form, 'upload.html', request_file)
+    """
+    # Get user-friendly error message
+    error_message = get_error_message_for_type(result.error_type, result)
+    
+    # Handle specific error types with special logic
+    if result.error_type == "conversion_failed":
+        logger.warning(f"Upload failed file conversion: {result.file_path=}")
+        return render_upload_error(form, error_message, template_name)
+    
+    # Log the error for debugging
+    logger.error(f"Upload error - Type: {result.error_type}, Message: {result.error_message}")
+    
+    return render_upload_error(form, error_message, template_name)
+
+
+def handle_upload_exception(e: Exception, form, template_name, 
+                          request_file=None, result=None, diagnostic_func=None) -> str:
+    """
+    Handle exceptions during upload processing with enhanced error handling.
+
+    Args:
+        e: The exception that occurred
+        form: UploadForm instance
+        template_name: Name of the template to render
+        request_file: Optional uploaded file for diagnostic information
+        result: Optional result object if available
+        diagnostic_func: Optional function to generate detailed diagnostics
+
+    Returns:
+        str: Rendered HTML with detailed error message
+
+    Examples:
+        return handle_upload_exception(e, form, 'upload.html', request_file, result)
+    """
+    logger.exception("Exception occurred during upload processing.")
+    
+    # Generate detailed diagnostic information if diagnostic function is provided
+    if diagnostic_func and request_file:
+        try:
+            file_path = result.file_path if result else None
+            error_details = diagnostic_func(request_file, file_path)
+            detailed_message = format_diagnostic_message(error_details)
+            return render_upload_error(form, detailed_message, template_name)
+        except Exception as diagnostic_error:
+            logger.error(f"Error generating diagnostics: {diagnostic_error}")
+    
+    # Fallback to generic error message
+    generic_message = "An unexpected error occurred during upload processing. Please try again."
+    return render_upload_error(form, generic_message, template_name)
+```
+
+#### Implemented Error Handling Helper Functions
+
+```python
+# Error Handling
+def handle_upload_error(result, form, template_name, request_file=None) -> str:
+    """Handle upload errors with appropriate error messages and logging."""
+
+def handle_upload_exception(e: Exception, form, template_name, 
+                          request_file=None, result=None, diagnostic_func=None) -> str:
+    """Handle exceptions during upload processing with enhanced error handling."""
+```
 
 #### Pattern Template
 
@@ -217,7 +300,7 @@ def insert_json_into_database_with_result(json_path, base, db) -> DatabaseInsert
     """Insert JSON into database and return result with ID or error."""
 ```
 
-### 4. **Main Function Pattern** ✅ **UPDATED**
+### 5. **Main Function Pattern** ✅ **UPDATED**
 
 Main functions should orchestrate helper functions with result types and return rich result objects.
 
@@ -668,23 +751,24 @@ def test_performance_comparison():
 
 ---
 
-## Implementation Status ✅ **PHASE 1 COMPLETED**
+## Implementation Status ✅ **PHASE 2 COMPLETED**
 
 ### Completed Components
 
 1. ✅ **Result Types**: All 7 result types implemented
 2. ✅ **Helper Functions**: All 5 helper functions with result types implemented
 3. ✅ **Route Helper Functions**: All 5 route helper functions implemented (Phase 1)
-4. ✅ **Main Functions**: Both main functions updated to use new helpers
-5. ✅ **Testing**: 43 tests passing (16 helper + 12 main function + 15 route helper tests)
-6. ✅ **Backward Compatibility**: All original functions maintained
+4. ✅ **Error Handling Helper Functions**: All 2 error handling helper functions implemented (Phase 2)
+5. ✅ **Main Functions**: Both main functions updated to use new helpers
+6. ✅ **Testing**: 53 tests passing (16 helper + 12 main function + 25 route helper tests)
+7. ✅ **Backward Compatibility**: All original functions maintained
 
 ### Test Results
 
 - **Helper Function Tests**: 16/16 passed (100%)
 - **Main Function Tests**: 12/12 passed (100%)
-- **Route Helper Tests**: 15/15 passed (100%)
-- **Total Tests**: 43/43 passed (100%)
+- **Route Helper Tests**: 25/25 passed (100%)
+- **Total Tests**: 53/53 passed (100%)
 
 ---
 
@@ -698,7 +782,7 @@ successfully. The key principles are:
 3. **Safety**: Maintain backward compatibility throughout
 4. **Performance**: Monitor and optimize as needed
 
-**✅ COMPLETED**: The helper functions with result types have been successfully implemented, providing a major
-architectural improvement that eliminates brittle tuple returns while maintaining full backward compatibility.
+**✅ COMPLETED**: The error handling helper functions have been successfully implemented, providing a major
+architectural improvement that eliminates error handling duplication while maintaining full backward compatibility.
 
-**Next Steps**: Consider performance benchmarking and documentation enhancements to complete the refactor journey.
+**Next Steps**: Phase 3 - Extract success handling logic into shared helper functions to complete the route refactoring.

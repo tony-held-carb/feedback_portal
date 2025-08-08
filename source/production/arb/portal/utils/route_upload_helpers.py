@@ -19,6 +19,7 @@ from flask import Response, render_template, request
 from werkzeug.datastructures import FileStorage
 
 from arb.portal.wtf_upload import UploadForm
+from arb.portal.utils.route_util import format_diagnostic_message
 
 logger = logging.getLogger(__name__)
 
@@ -139,3 +140,71 @@ def render_upload_error(form: UploadForm, message: str, template_name: str) -> s
         return render_upload_error(form, "File upload failed", "upload.html")
     """
     return render_template(template_name, form=form, upload_message=message)
+
+
+def handle_upload_error(result, form: UploadForm, template_name: str, request_file=None) -> str:
+    """
+    Handle upload errors with appropriate error messages and logging.
+
+    Args:
+        result: Result object containing error information
+        form: UploadForm instance
+        template_name: Name of the template to render
+        request_file: Optional uploaded file for diagnostic information
+
+    Returns:
+        str: Rendered HTML with error message
+
+    Examples:
+        return handle_upload_error(result, form, 'upload.html', request_file)
+    """
+    # Get user-friendly error message
+    error_message = get_error_message_for_type(result.error_type, result)
+    
+    # Handle conversion_failed specially for detailed diagnostics
+    if result.error_type == "conversion_failed":
+        logger.warning(f"Upload failed file conversion: {result.file_path=}")
+        # Note: Detailed diagnostics would be handled by the calling route
+        # since we don't have access to generate_upload_diagnostics here
+        return render_upload_error(form, error_message, template_name)
+    
+    # Log the error for debugging
+    logger.error(f"Upload error - Type: {result.error_type}, Message: {result.error_message}")
+    
+    return render_upload_error(form, error_message, template_name)
+
+
+def handle_upload_exception(e: Exception, form: UploadForm, template_name: str, 
+                          request_file=None, result=None, diagnostic_func=None) -> str:
+    """
+    Handle exceptions during upload processing with enhanced error handling.
+
+    Args:
+        e: The exception that occurred
+        form: UploadForm instance
+        template_name: Name of the template to render
+        request_file: Optional uploaded file for diagnostic information
+        result: Optional result object if available
+        diagnostic_func: Optional function to generate detailed diagnostics
+
+    Returns:
+        str: Rendered HTML with detailed error message
+
+    Examples:
+        return handle_upload_exception(e, form, 'upload.html', request_file, result)
+    """
+    logger.exception("Exception occurred during upload processing.")
+    
+    # Generate detailed diagnostic information if diagnostic function is provided
+    if diagnostic_func and request_file:
+        try:
+            file_path = result.file_path if result else None
+            error_details = diagnostic_func(request_file, file_path)
+            detailed_message = format_diagnostic_message(error_details)
+            return render_upload_error(form, detailed_message, template_name)
+        except Exception as diagnostic_error:
+            logger.error(f"Error generating diagnostics: {diagnostic_error}")
+    
+    # Fallback to generic error message
+    generic_message = "An unexpected error occurred during upload processing. Please try again."
+    return render_upload_error(form, generic_message, template_name)

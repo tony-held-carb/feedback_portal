@@ -6,7 +6,7 @@ they work correctly and provide consistent behavior.
 """
 
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from werkzeug.datastructures import FileStorage
 
 from arb.portal.utils.route_upload_helpers import (
@@ -14,7 +14,9 @@ from arb.portal.utils.route_upload_helpers import (
     get_error_message_for_type,
     get_success_message_for_upload,
     render_upload_form,
-    render_upload_error
+    render_upload_error,
+    handle_upload_error,
+    handle_upload_exception
 )
 from arb.portal.wtf_upload import UploadForm
 
@@ -183,3 +185,166 @@ class TestRenderUploadError:
         """render_upload_error has proper documentation."""
         assert render_upload_error.__doc__ is not None
         assert "Render upload error" in render_upload_error.__doc__
+
+
+class TestHandleUploadError:
+    """Test the handle_upload_error helper function."""
+
+    def test_handle_upload_error_function_signature(self):
+        """handle_upload_error has correct function signature."""
+        import inspect
+        sig = inspect.signature(handle_upload_error)
+        params = list(sig.parameters.keys())
+        
+        assert 'result' in params
+        assert 'form' in params
+        assert 'template_name' in params
+        assert 'request_file' in params
+
+    def test_handle_upload_error_docstring(self):
+        """handle_upload_error has proper documentation."""
+        assert handle_upload_error.__doc__ is not None
+        assert "Handle upload errors" in handle_upload_error.__doc__
+
+    def test_handle_upload_error_with_missing_id(self):
+        """handle_upload_error handles missing_id error type."""
+        mock_result = MagicMock()
+        mock_result.error_type = "missing_id"
+        mock_result.error_message = "No valid id_incidence found"
+        mock_form = MagicMock()
+
+        # Test that the function calls get_error_message_for_type correctly
+        with patch('arb.portal.utils.route_upload_helpers.get_error_message_for_type') as mock_get_error:
+            mock_get_error.return_value = "User-friendly error message"
+            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+                mock_render.return_value = "Rendered HTML"
+                
+                result = handle_upload_error(mock_result, mock_form, 'upload.html')
+
+                # Verify the function calls the expected helpers
+                mock_get_error.assert_called_once_with("missing_id", mock_result)
+                mock_render.assert_called_once_with(mock_form, "User-friendly error message", 'upload.html')
+                assert result == "Rendered HTML"
+
+    def test_handle_upload_error_with_conversion_failed(self):
+        """handle_upload_error handles conversion_failed error type."""
+        mock_result = MagicMock()
+        mock_result.error_type = "conversion_failed"
+        mock_result.error_message = "File format not supported"
+        mock_result.file_path = "test.xlsx"
+        mock_form = MagicMock()
+
+        # Test that the function handles conversion_failed specially
+        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = handle_upload_error(mock_result, mock_form, 'upload.html')
+
+            # Verify the function calls render_upload_error directly for conversion_failed
+            mock_render.assert_called_once()
+            assert result == "Rendered HTML"
+
+    def test_handle_upload_error_with_file_error(self):
+        """handle_upload_error handles file_error error type."""
+        mock_result = MagicMock()
+        mock_result.error_type = "file_error"
+        mock_result.error_message = "Permission denied"
+        mock_form = MagicMock()
+
+        # Test that the function calls get_error_message_for_type correctly
+        with patch('arb.portal.utils.route_upload_helpers.get_error_message_for_type') as mock_get_error:
+            mock_get_error.return_value = "User-friendly error message"
+            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+                mock_render.return_value = "Rendered HTML"
+                
+                result = handle_upload_error(mock_result, mock_form, 'upload.html')
+
+                # Verify the function calls the expected helpers
+                mock_get_error.assert_called_once_with("file_error", mock_result)
+                mock_render.assert_called_once_with(mock_form, "User-friendly error message", 'upload.html')
+                assert result == "Rendered HTML"
+
+
+class TestHandleUploadException:
+    """Test the handle_upload_exception helper function."""
+
+    def test_handle_upload_exception_function_signature(self):
+        """handle_upload_exception has correct function signature."""
+        import inspect
+        sig = inspect.signature(handle_upload_exception)
+        params = list(sig.parameters.keys())
+        
+        assert 'e' in params
+        assert 'form' in params
+        assert 'template_name' in params
+        assert 'request_file' in params
+        assert 'result' in params
+        assert 'diagnostic_func' in params
+
+    def test_handle_upload_exception_docstring(self):
+        """handle_upload_exception has proper documentation."""
+        assert handle_upload_exception.__doc__ is not None
+        assert "Handle exceptions" in handle_upload_exception.__doc__
+
+    def test_handle_upload_exception_with_diagnostic_func(self):
+        """handle_upload_exception uses diagnostic function when provided."""
+        mock_exception = Exception("Test exception")
+        mock_form = MagicMock()
+        mock_request_file = MagicMock()
+        mock_result = MagicMock()
+        mock_result.file_path = "test.xlsx"
+        
+        # Mock diagnostic function
+        def mock_diagnostic_func(req_file, file_path):
+            return {"error": "Test diagnostic"}
+        
+        with patch('arb.portal.utils.route_upload_helpers.format_diagnostic_message') as mock_format:
+            mock_format.return_value = "Formatted diagnostic message"
+            with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+                mock_render.return_value = "Rendered HTML"
+                
+                result = handle_upload_exception(mock_exception, mock_form, 'upload.html',
+                                               mock_request_file, mock_result, mock_diagnostic_func)
+
+                # Verify the function calls the expected helpers
+                mock_format.assert_called_once_with({"error": "Test diagnostic"})
+                mock_render.assert_called_once_with(mock_form, "Formatted diagnostic message", 'upload.html')
+                assert result == "Rendered HTML"
+
+    def test_handle_upload_exception_without_diagnostic_func(self):
+        """handle_upload_exception handles case without diagnostic function."""
+        mock_exception = Exception("Test exception")
+        mock_form = MagicMock()
+
+        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = handle_upload_exception(mock_exception, mock_form, 'upload.html')
+
+            # Verify the function calls render_upload_error with generic message
+            mock_render.assert_called_once_with(mock_form, 
+                "An unexpected error occurred during upload processing. Please try again.", 
+                'upload.html')
+            assert result == "Rendered HTML"
+
+    def test_handle_upload_exception_with_diagnostic_error(self):
+        """handle_upload_exception handles diagnostic function errors gracefully."""
+        mock_exception = Exception("Test exception")
+        mock_form = MagicMock()
+        mock_request_file = MagicMock()
+        
+        # Mock diagnostic function that raises an exception
+        def mock_diagnostic_func(req_file, file_path):
+            raise Exception("Diagnostic error")
+        
+        with patch('arb.portal.utils.route_upload_helpers.render_upload_error') as mock_render:
+            mock_render.return_value = "Rendered HTML"
+            
+            result = handle_upload_exception(mock_exception, mock_form, 'upload.html',
+                                           mock_request_file, None, mock_diagnostic_func)
+
+            # Verify the function falls back to generic message when diagnostic fails
+            mock_render.assert_called_once_with(mock_form, 
+                "An unexpected error occurred during upload processing. Please try again.", 
+                'upload.html')
+            assert result == "Rendered HTML"

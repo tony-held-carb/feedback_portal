@@ -46,7 +46,7 @@ from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, \
   upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
-  get_success_message_for_upload, render_upload_form, render_upload_error
+  get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
@@ -507,9 +507,6 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
         logger.debug(f"Upload successful: id={result.id_}, sector={result.sector}. Redirecting to update page.")
         return redirect(url_for('main.incidence_update', id_=result.id_))
 
-      # Handle specific error types with shared helper
-      error_message = get_error_message_for_type(result.error_type, result)
-      
       # Handle conversion_failed specially for detailed diagnostics
       if result.error_type == "conversion_failed":
         logger.warning(f"Upload failed file conversion: {result.file_path=}")
@@ -518,21 +515,14 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
                                                      "Uploaded file format not recognized.")
         return render_upload_error(form, detailed_message, 'upload.html')
       
-      return render_upload_error(form, error_message, 'upload.html')
+      # Use shared error handling helper for all other error types
+      return handle_upload_error(result, form, 'upload.html', request_file)
 
     except Exception as e:
-      logger.exception("Exception occurred during upload or parsing.")
-
-      # Enhanced error handling with diagnostic information
-      error_details = generate_upload_diagnostics(request_file,
-                                                  result.file_path if 'result' in locals() else None)
-      detailed_message = format_diagnostic_message(error_details)
-
-      return render_template(
-        'upload.html',
-        form=form,
-        upload_message=detailed_message
-      )
+      # Use shared exception handling helper
+      return handle_upload_exception(e, form, 'upload.html', request_file, 
+                                   result if 'result' in locals() else None, 
+                                   generate_upload_diagnostics)
 
   # GET request: display form
   return render_upload_form(form, message, 'upload.html')
@@ -1502,28 +1492,19 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
         return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
 
       else:
-        # Handle specific error types with shared helper
-        error_message = get_error_message_for_type(result.error_type, result)
-        return render_upload_error(form, error_message, 'upload_staged.html')
+        # Use shared error handling helper for all error types
+        return handle_upload_error(result, form, 'upload_staged.html', request_file)
 
     except Exception as e:
-      logger.exception("Exception occurred during staged upload.")
-
-      # Enhanced error handling with staging-specific diagnostic information
-      error_details = generate_staging_diagnostics(
-        request_file,
-        result.file_path if 'result' in locals() else None,
-        result.staged_filename if 'result' in locals() else None,
-        result.id_ if 'result' in locals() else None,
-        result.sector if 'result' in locals() else None
-      )
-      detailed_message = format_diagnostic_message(error_details, "Staged upload processing failed.")
-
-      return render_template(
-        'upload_staged.html',
-        form=form,
-        upload_message=detailed_message
-      )
+      # Use shared exception handling helper with staging-specific diagnostics
+      return handle_upload_exception(e, form, 'upload_staged.html', request_file,
+                                   result if 'result' in locals() else None,
+                                   lambda req_file, file_path: generate_staging_diagnostics(
+                                     req_file, file_path,
+                                     result.staged_filename if 'result' in locals() else None,
+                                     result.id_ if 'result' in locals() else None,
+                                     result.sector if 'result' in locals() else None
+                                   ))
 
   # GET request: display form
   return render_upload_form(form, message, 'upload_staged.html')
