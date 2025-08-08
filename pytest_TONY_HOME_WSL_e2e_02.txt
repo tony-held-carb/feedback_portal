@@ -16,8 +16,8 @@ Check 'Dry Run' to preview what would be deleted without making changes.
 Warning: This cannot delete real data (id_incidence < 1000000 is not allowed).
 For safety, always do a dry run first!
 [ALERT] Summary:
-portal_updates: 335 row(s) would be deleted
-id_incidence(s): [ 1000001, 1000002, 1002001, 1002011, 1002021, 1002022, 1002030, 1002031, 1002032, 1002041, 1002050, 1002051, 1002052 ]
+portal_updates: 313 row(s) would be deleted
+id_incidence(s): [ 1000001, 1000002, 1002001, 1002011, 1002012, 1002021, 1002022, 1002030, 1002031, 1002041, 1002050, 1002051, 1002052 ]
 incidences: 0 row(s) would be deleted
 
 This was a dry run. No data was deleted.
@@ -28,7 +28,7 @@ Check 'Dry Run' to preview what would be deleted without making changes.
 Warning: This cannot delete real data (id_incidence < 1000000 is not allowed).
 For safety, always do a dry run first!
 [ALERT] Summary:
-portal_updates: 335 row(s) deleted
+portal_updates: 313 row(s) deleted
 incidences: 0 row(s) deleted
 
 Rows have been permanently deleted.
@@ -70,7 +70,7 @@ tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_uploa
 upload_file_and_wait_for_attempt_marker() called
 Empty file was rejected as expected
 PASSED
-tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium] [DEBUG] Starting large file upload test at 15:19:41
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium] [DEBUG] Starting large file upload test at 15:44:27
 [DEBUG] Testing upload with file: landfill_operator_feedback_v070_test_02_bad_data.xlsx
 [DEBUG] File size: 109,151 bytes (0.10 MB)
 [DEBUG] File size check completed in 0.00s
@@ -93,8 +93,8 @@ Large file upload successful
 [DEBUG] Upload result check completed in 0.00s
 [DEBUG] About to check page content for result...
 Large file upload successful
-[DEBUG] Total test time: 0.14s
-[DEBUG] Upload rate: 0.73 MB/s
+[DEBUG] Total test time: 0.15s
+[DEBUG] Upload rate: 0.72 MB/s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium] PASSED
 tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium] PASSED
@@ -119,13 +119,13 @@ PASSED
 tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium] clear_upload_attempt_marker() called
 PASSED
 tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium] clear_upload_attempt_marker() called
-[STEP] Navigated to /list_staged for staged file: id_1002032_ts_20250807_151951.json
-[STEP] Found discard button for staged file: id_1002032_ts_20250807_151951.json
-[STEP] Clicked discard button for staged file: id_1002032_ts_20250807_151951.json
+[STEP] Navigated to /list_staged for staged file: id_1002032_ts_20250807_154437.json
+[STEP] Found discard button for staged file: id_1002032_ts_20250807_154437.json
+[STEP] Clicked discard button for staged file: id_1002032_ts_20250807_154437.json
 [STEP] Discard confirm modal appeared.
 [STEP] Modal confirm button is visible. Clicking...
 [STEP] Modal confirm clicked and navigation complete.
-[STEP] Staged file id_1002032_ts_20250807_151951.json successfully discarded and not present after reload.
+[STEP] Staged file id_1002032_ts_20250807_154437.json successfully discarded and not present after reload.
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_page_loads[chromium] PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_page_loads[chromium] PASSED
@@ -145,7 +145,7 @@ Refactored staged upload failed:
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium] clear_upload_attempt_marker() called
 upload_file_and_wait_for_attempt_marker() called
-Refactored upload correctly rejected invalid file: '\n        Uploaded file format not recognized.\n\nDiagnostic Information:\n  ✅ File uploaded successfully\n  ✅ File saved to disk: tmpv1k7dus4_ts_2025_08_07_22_19_54.txt\n  ❌ File format not recognized - could not convert to JSON\n\n✅ 2 step(s) completed successfully\n❌ Failed at: File format not recognized - could not convert to JSON\n        \n      '
+Refactored upload correctly rejected invalid file: '\n        Uploaded file format not recognized.\n\nDiagnostic Information:\n  ✅ File uploaded successfully\n  ✅ File saved to disk: tmp89s33d8f_ts_2025_08_07_22_44_41.txt\n  ❌ File format not recognized - could not convert to JSON\n\n✅ 2 step(s) completed successfully\n❌ Failed at: File format not recognized - could not convert to JSON\n        \n      '
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium] Refactored staged upload correctly rejected invalid file: '\n      ⚠️ Important: Please close any files before uploading. Files that are still open may be\n      locked and cannot be uploaded. If you try to upload a file that is locked, you will receive an error message\n      "This site can\'t be reached".\n    '
 PASSED
@@ -194,10 +194,10 @@ tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecifi
 tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_navigation[chromium] PASSED
 tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] [TIMING] Starting test_hide_changes_checkbox
 [TIMING] Starting upload_and_stage_file_inline for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
-[TIMING] Navigation to upload page: 0.13s
-[TIMING] File upload operation: 0.23s
+[TIMING] Navigation to upload page: 0.10s
+[TIMING] File upload operation: 0.25s
 [TIMING] Wait for page ready: 0.01s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_152014.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_154501.json
 [DEBUG] Found 26 confirm-checkboxes:
   - Checkbox 0: name=confirm_overwrite_additional_notes
   - Checkbox 1: name=confirm_overwrite_component_at_source
@@ -226,7 +226,7 @@ tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium] [TIMING] S
   - Checkbox 24: name=confirm_overwrite_sector
   - Checkbox 25: name=confirm_overwrite_venting_description_2
 [DEBUG] Found 2 alert/info messages:
-  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250807_152014.json 🔍 Ready for review and confirmation.
+  - Alert 0: ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' staged successfully! 📋 ID: 1002011 🏭 Sector: Energy 📁 Staged as: id_1002011_ts_20250807_154501.json 🔍 Ready for review and confirmation.
   - Alert 1: 📋 Instructions: For fields that would add or overwrite existing data, you must check the Confirm box to approve the change. Unchecked fields will not be updated. Fields with no changes are marked as "Same".
 [TIMING] Diagnostics collection: 0.04s
 [TIMING] Total upload_and_stage_file_inline time: 0.41s
@@ -236,40 +236,40 @@ SKIPPED
 tests/e2e/test_review_staged.py::test_field_search_filter[chromium] [TIMING] Starting test_field_search_filter
 [TIMING] Using cached upload result for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Setup time: 0.00s
-[TIMING] Test logic time: 0.18s
-[TIMING] Total test_field_search_filter time: 0.18s
+[TIMING] Test logic time: 0.19s
+[TIMING] Total test_field_search_filter time: 0.19s
 PASSED
 tests/e2e/test_review_staged.py::test_change_summary_card[chromium] [TIMING] Starting test_change_summary_card
 [TIMING] Using cached upload result for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Setup time: 0.00s
-[TIMING] Test logic time: 0.16s
-[TIMING] Total test_change_summary_card time: 0.16s
+[TIMING] Test logic time: 0.17s
+[TIMING] Total test_change_summary_card time: 0.17s
 PASSED
 tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium] [TIMING] Starting test_cancel_and_save_buttons
 [TIMING] Using cached upload result for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Setup time: 0.00s
-[TIMING] Test logic time: 0.42s
-[TIMING] Total test_cancel_and_save_buttons time: 0.42s
+[TIMING] Test logic time: 0.35s
+[TIMING] Total test_cancel_and_save_buttons time: 0.35s
 PASSED
 tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium] [TIMING] Starting test_confirm_checkboxes
 [TIMING] Using cached upload result for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Setup time: 0.00s
-[TIMING] Test logic time: 0.66s
-[TIMING] Total test_confirm_checkboxes time: 0.66s
+[TIMING] Test logic time: 0.67s
+[TIMING] Total test_confirm_checkboxes time: 0.67s
 PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
-[TIMING] Navigation to delete page: 0.11s
-[TIMING] Form filling: 0.05s
-[TIMING] Click preview button: 0.04s
+[TIMING] Navigation to delete page: 0.10s
+[TIMING] Form filling: 0.04s
+[TIMING] Click preview button: 0.03s
 [TIMING] Modal confirmation (OPTIMIZED): 0.94s
-[TIMING] Total clear_test_data_inline time: 1.13s
+[TIMING] Total clear_test_data_inline time: 1.11s
 [DEBUG] Test data cleared via UI at /delete_testing_range
-[TIMING] Clear test data time: 1.13s
+[TIMING] Clear test data time: 1.11s
 Running incremental upload test for: feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
 [TIMING] Navigation to upload page: 0.06s
 [TIMING] First file upload: 0.23s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_152017.json
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_154504.json
 [CHECKBOX DIAGNOSTICS] Found 43 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -279,16 +279,16 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/da
 checking box named: confirm_overwrite_able_to_repair
 checking box named: confirm_overwrite_additional_manure_management
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.07s
+[TIMING] Checkbox operations (OPTIMIZED): 0.13s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_able_to_repair', checked=True
   - Checkbox 3: name/id='confirm_overwrite_additional_activities', checked=False
   - Checkbox 4: name/id='confirm_overwrite_additional_manure_management', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] First save operation: 0.09s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_152018.json
-[TIMING] Second file upload: 0.18s
+[TIMING] First save operation: 0.08s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_154505.json
+[TIMING] Second file upload: 0.25s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 41 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -301,16 +301,16 @@ checking box named: confirm_overwrite_anaerobic_digestion_portion
 A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
 [TIMING] Second checkbox operations (OPTIMIZED): 0.12s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] Second save operation: 0.11s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_152018.json
-[TIMING] Third file upload: 0.20s
+[TIMING] Second save operation: 0.08s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002001/id_1002001_ts_20250807_154505.json
+[TIMING] Third file upload: 0.18s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 38 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
 [TIMING] Third checkbox operations: 0.01s
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
 [SUCCESS] All checkboxes have been processed
-[TIMING] Third checkbox operations: 0.01s
+[TIMING] Third checkbox operations: 0.02s
   - Checkbox 2: name/id='confirm_overwrite_bio_biogas_conditioning', checked=False
 [INFO] Found 1 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -354,7 +354,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 12: name/id='confirm_overwrite_emission_location', checked=False
 [INFO] Found 11 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.06s
+[TIMING] Third checkbox operations: 0.07s
   - Checkbox 13: name/id='confirm_overwrite_emission_location_notes', checked=False
 [INFO] Found 12 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -402,7 +402,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 24: name/id='confirm_overwrite_long_carb', checked=False
 [INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.12s
+[TIMING] Third checkbox operations: 0.13s
   - Checkbox 25: name/id='confirm_overwrite_manure_daily_spread', checked=False
 [INFO] Found 24 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -438,7 +438,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 33: name/id='confirm_overwrite_mitigation_timestamp', checked=False
 [INFO] Found 32 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.16s
+[TIMING] Third checkbox operations: 0.17s
   - Checkbox 34: name/id='confirm_overwrite_observation_timestamp', checked=False
 [INFO] Found 33 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -446,7 +446,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 35: name/id='confirm_overwrite_sector', checked=False
 [INFO] Found 34 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.17s
+[TIMING] Third checkbox operations: 0.18s
   - Checkbox 36: name/id='confirm_overwrite_transport_method', checked=False
 [INFO] Found 35 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -454,19 +454,19 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 37: name/id='confirm_overwrite_transport_recipient', checked=False
 [INFO] Found 36 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.18s
-[TIMING] Total test_incremental_upload time: 2.38s
+[TIMING] Third checkbox operations: 0.19s
+[TIMING] Total test_incremental_upload time: 2.44s
 [TIMING] Breakdown:
-  - Clear test data: 1.13s
+  - Clear test data: 1.11s
   - Navigation: 0.06s
   - First upload: 0.23s
-  - First checkbox ops: 0.07s
-  - First save: 0.09s
-  - Second upload: 0.18s
+  - First checkbox ops: 0.13s
+  - First save: 0.08s
+  - Second upload: 0.25s
   - Second checkbox ops: 0.12s
-  - Second save: 0.11s
-  - Third upload: 0.20s
-  - Third checkbox ops: 0.18s
+  - Second save: 0.08s
+  - Third upload: 0.18s
+  - Third checkbox ops: 0.19s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
 upload_file_and_wait_for_attempt_marker() called
@@ -496,16 +496,16 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
 [TIMING] Navigation to delete page: 0.09s
-[TIMING] Form filling: 0.05s
-[TIMING] Click preview button: 0.04s
-[TIMING] Modal confirmation (OPTIMIZED): 0.94s
-[TIMING] Total clear_test_data_inline time: 1.11s
+[TIMING] Form filling: 0.04s
+[TIMING] Click preview button: 0.03s
+[TIMING] Modal confirmation (OPTIMIZED): 0.93s
+[TIMING] Total clear_test_data_inline time: 1.10s
 [DEBUG] Test data cleared via UI at /delete_testing_range
-[TIMING] Clear test data time: 1.11s
+[TIMING] Clear test data time: 1.10s
 Running incremental upload test for: feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx
 [TIMING] Navigation to upload page: 0.06s
-[TIMING] First file upload: 0.20s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_152022.json
+[TIMING] First file upload: 0.22s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_154509.json
 [CHECKBOX DIAGNOSTICS] Found 28 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -515,16 +515,16 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/en
 checking box named: confirm_overwrite_additional_notes
 checking box named: confirm_overwrite_contact_email
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.10s
+[TIMING] Checkbox operations (OPTIMIZED): 0.08s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=True
   - Checkbox 3: name/id='confirm_overwrite_component_at_source', checked=False
   - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] First save operation: 0.08s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_152023.json
-[TIMING] Second file upload: 0.17s
+[TIMING] First save operation: 0.09s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_154510.json
+[TIMING] Second file upload: 0.20s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 26 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -535,11 +535,11 @@ checking box named: confirm_overwrite_contact_name
   - Checkbox 4: name/id='confirm_overwrite_contact_phone', checked=False
 checking box named: confirm_overwrite_contact_phone
 A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
-[TIMING] Second checkbox operations (OPTIMIZED): 0.11s
+[TIMING] Second checkbox operations (OPTIMIZED): 0.12s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] Second save operation: 0.10s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_152023.json
-[TIMING] Third file upload: 0.19s
+[TIMING] Second save operation: 0.08s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002011/id_1002011_ts_20250807_154510.json
+[TIMING] Third file upload: 0.20s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 23 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
@@ -566,7 +566,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 6: name/id='confirm_overwrite_id_message', checked=False
 [INFO] Found 5 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.03s
+[TIMING] Third checkbox operations: 0.04s
   - Checkbox 7: name/id='confirm_overwrite_id_plume', checked=False
 [INFO] Found 6 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -594,7 +594,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 13: name/id='confirm_overwrite_method21_performed', checked=False
 [INFO] Found 12 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.06s
+[TIMING] Third checkbox operations: 0.07s
   - Checkbox 14: name/id='confirm_overwrite_method21_result', checked=False
 [INFO] Found 13 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -622,7 +622,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 20: name/id='confirm_overwrite_repair_timestamp', checked=False
 [INFO] Found 19 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.09s
+[TIMING] Third checkbox operations: 0.10s
   - Checkbox 21: name/id='confirm_overwrite_sector', checked=False
 [INFO] Found 20 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -631,17 +631,17 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
 [INFO] Found 21 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
 [TIMING] Third checkbox operations: 0.11s
-[TIMING] Total test_incremental_upload time: 2.25s
+[TIMING] Total test_incremental_upload time: 2.27s
 [TIMING] Breakdown:
-  - Clear test data: 1.11s
+  - Clear test data: 1.10s
   - Navigation: 0.06s
-  - First upload: 0.20s
-  - First checkbox ops: 0.10s
-  - First save: 0.08s
-  - Second upload: 0.17s
-  - Second checkbox ops: 0.11s
-  - Second save: 0.10s
-  - Third upload: 0.19s
+  - First upload: 0.22s
+  - First checkbox ops: 0.08s
+  - First save: 0.09s
+  - Second upload: 0.20s
+  - Second checkbox ops: 0.12s
+  - Second save: 0.08s
+  - Third upload: 0.20s
   - Third checkbox ops: 0.11s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] clear_upload_attempt_marker() called
@@ -671,17 +671,17 @@ Refactored staged upload failed:
 PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
-[TIMING] Navigation to delete page: 0.09s
-[TIMING] Form filling: 0.04s
+[TIMING] Navigation to delete page: 0.10s
+[TIMING] Form filling: 0.05s
 [TIMING] Click preview button: 0.04s
-[TIMING] Modal confirmation (OPTIMIZED): 0.94s
-[TIMING] Total clear_test_data_inline time: 1.11s
+[TIMING] Modal confirmation (OPTIMIZED): 0.93s
+[TIMING] Total clear_test_data_inline time: 1.12s
 [DEBUG] Test data cleared via UI at /delete_testing_range
-[TIMING] Clear test data time: 1.11s
+[TIMING] Clear test data time: 1.12s
 Running incremental upload test for: feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx
-[TIMING] Navigation to upload page: 0.03s
-[TIMING] First file upload: 0.34s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_152027.json
+[TIMING] Navigation to upload page: 0.04s
+[TIMING] First file upload: 0.21s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_154514.json
 [CHECKBOX DIAGNOSTICS] Found 30 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -691,16 +691,16 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/ge
 checking box named: confirm_overwrite_additional_activities
 checking box named: confirm_overwrite_additional_notes
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.07s
+[TIMING] Checkbox operations (OPTIMIZED): 0.08s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=True
   - Checkbox 3: name/id='confirm_overwrite_additional_inspection_notes', checked=False
   - Checkbox 4: name/id='confirm_overwrite_additional_notes', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] First save operation: 0.09s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_152028.json
-[TIMING] Second file upload: 0.17s
+[TIMING] First save operation: 0.08s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_154515.json
+[TIMING] Second file upload: 0.16s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 28 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -714,8 +714,8 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
 [TIMING] Second checkbox operations (OPTIMIZED): 0.11s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
 [TIMING] Second save operation: 0.10s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_152028.json
-[TIMING] Third file upload: 0.15s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002021/id_1002021_ts_20250807_154515.json
+[TIMING] Third file upload: 0.16s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 25 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
@@ -750,7 +750,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 8: name/id='confirm_overwrite_id_message', checked=False
 [INFO] Found 7 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.04s
+[TIMING] Third checkbox operations: 0.05s
   - Checkbox 9: name/id='confirm_overwrite_id_plume', checked=False
 [INFO] Found 8 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -778,7 +778,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 15: name/id='confirm_overwrite_leak_cause', checked=False
 [INFO] Found 14 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.07s
+[TIMING] Third checkbox operations: 0.08s
   - Checkbox 16: name/id='confirm_overwrite_leak_description', checked=False
 [INFO] Found 15 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -786,7 +786,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 17: name/id='confirm_overwrite_long_carb', checked=False
 [INFO] Found 16 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.08s
+[TIMING] Third checkbox operations: 0.09s
   - Checkbox 18: name/id='confirm_overwrite_long_revised', checked=False
 [INFO] Found 17 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -815,17 +815,17 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
 [INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
 [TIMING] Third checkbox operations: 0.12s
-[TIMING] Total test_incremental_upload time: 2.31s
+[TIMING] Total test_incremental_upload time: 2.19s
 [TIMING] Breakdown:
-  - Clear test data: 1.11s
-  - Navigation: 0.03s
-  - First upload: 0.34s
-  - First checkbox ops: 0.07s
-  - First save: 0.09s
-  - Second upload: 0.17s
+  - Clear test data: 1.12s
+  - Navigation: 0.04s
+  - First upload: 0.21s
+  - First checkbox ops: 0.08s
+  - First save: 0.08s
+  - Second upload: 0.16s
   - Second checkbox ops: 0.11s
   - Second save: 0.10s
-  - Third upload: 0.15s
+  - Third upload: 0.16s
   - Third checkbox ops: 0.12s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx] clear_upload_attempt_marker() called
@@ -863,17 +863,17 @@ Refactored staged upload failed:
 PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
-[TIMING] Navigation to delete page: 0.12s
+[TIMING] Navigation to delete page: 0.10s
 [TIMING] Form filling: 0.05s
-[TIMING] Click preview button: 0.03s
-[TIMING] Modal confirmation (OPTIMIZED): 0.93s
-[TIMING] Total clear_test_data_inline time: 1.14s
+[TIMING] Click preview button: 0.04s
+[TIMING] Modal confirmation (OPTIMIZED): 0.94s
+[TIMING] Total clear_test_data_inline time: 1.13s
 [DEBUG] Test data cleared via UI at /delete_testing_range
-[TIMING] Clear test data time: 1.14s
+[TIMING] Clear test data time: 1.13s
 Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx
-[TIMING] Navigation to upload page: 0.04s
-[TIMING] First file upload: 0.25s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_152031.json
+[TIMING] Navigation to upload page: 0.06s
+[TIMING] First file upload: 0.24s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_154518.json
 [CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -883,16 +883,16 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/la
 checking box named: confirm_overwrite_additional_activities
 checking box named: confirm_overwrite_contact_email
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.08s
+[TIMING] Checkbox operations (OPTIMIZED): 0.12s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=True
   - Checkbox 3: name/id='confirm_overwrite_additional_notes', checked=False
   - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] First save operation: 0.09s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_152032.json
-[TIMING] Second file upload: 0.20s
+[TIMING] First save operation: 0.08s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_154519.json
+[TIMING] Second file upload: 0.22s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 37 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -903,11 +903,11 @@ checking box named: confirm_overwrite_contact_name
   - Checkbox 4: name/id='confirm_overwrite_contact_phone', checked=False
 checking box named: confirm_overwrite_contact_phone
 A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
-[TIMING] Second checkbox operations (OPTIMIZED): 0.12s
+[TIMING] Second checkbox operations (OPTIMIZED): 0.11s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] Second save operation: 0.11s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_152032.json
-[TIMING] Third file upload: 0.20s
+[TIMING] Second save operation: 0.09s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002031/id_1002031_ts_20250807_154519.json
+[TIMING] Third file upload: 0.21s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 34 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
@@ -978,7 +978,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 17: name/id='confirm_overwrite_initial_leak_concentration', checked=False
 [INFO] Found 16 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.09s
+[TIMING] Third checkbox operations: 0.08s
   - Checkbox 18: name/id='confirm_overwrite_inspection_timestamp', checked=False
 [INFO] Found 17 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -994,7 +994,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 21: name/id='confirm_overwrite_last_surface_monitoring_timestamp', checked=False
 [INFO] Found 20 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.11s
+[TIMING] Third checkbox operations: 0.10s
   - Checkbox 22: name/id='confirm_overwrite_lat_carb', checked=False
 [INFO] Found 21 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1002,7 +1002,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 23: name/id='confirm_overwrite_lat_revised', checked=False
 [INFO] Found 22 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.12s
+[TIMING] Third checkbox operations: 0.11s
   - Checkbox 24: name/id='confirm_overwrite_long_carb', checked=False
 [INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1010,7 +1010,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 25: name/id='confirm_overwrite_long_revised', checked=False
 [INFO] Found 24 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.13s
+[TIMING] Third checkbox operations: 0.12s
   - Checkbox 26: name/id='confirm_overwrite_mitigation_actions', checked=False
 [INFO] Found 25 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1018,7 +1018,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 27: name/id='confirm_overwrite_mitigation_timestamp', checked=False
 [INFO] Found 26 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.14s
+[TIMING] Third checkbox operations: 0.13s
   - Checkbox 28: name/id='confirm_overwrite_observation_timestamp', checked=False
 [INFO] Found 27 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1038,23 +1038,23 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 32: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
 [INFO] Found 31 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.18s
+[TIMING] Third checkbox operations: 0.16s
   - Checkbox 33: name/id='confirm_overwrite_sector', checked=False
 [INFO] Found 32 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.18s
-[TIMING] Total test_incremental_upload time: 2.42s
+[TIMING] Third checkbox operations: 0.16s
+[TIMING] Total test_incremental_upload time: 2.45s
 [TIMING] Breakdown:
-  - Clear test data: 1.14s
-  - Navigation: 0.04s
-  - First upload: 0.25s
-  - First checkbox ops: 0.08s
-  - First save: 0.09s
-  - Second upload: 0.20s
-  - Second checkbox ops: 0.12s
-  - Second save: 0.11s
-  - Third upload: 0.20s
-  - Third checkbox ops: 0.18s
+  - Clear test data: 1.13s
+  - Navigation: 0.06s
+  - First upload: 0.24s
+  - First checkbox ops: 0.12s
+  - First save: 0.08s
+  - Second upload: 0.22s
+  - Second checkbox ops: 0.11s
+  - Second save: 0.09s
+  - Third upload: 0.21s
+  - Third checkbox ops: 0.16s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
 upload_file_and_wait_for_attempt_marker() called
@@ -1084,16 +1084,16 @@ PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
 [TIMING] Navigation to delete page: 0.10s
-[TIMING] Form filling: 0.04s
+[TIMING] Form filling: 0.05s
 [TIMING] Click preview button: 0.04s
 [TIMING] Modal confirmation (OPTIMIZED): 0.93s
 [TIMING] Total clear_test_data_inline time: 1.11s
 [DEBUG] Test data cleared via UI at /delete_testing_range
 [TIMING] Clear test data time: 1.11s
 Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
-[TIMING] Navigation to upload page: 0.04s
-[TIMING] First file upload: 0.26s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_152036.json
+[TIMING] Navigation to upload page: 0.06s
+[TIMING] First file upload: 0.24s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_154524.json
 [CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1103,7 +1103,7 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/la
 checking box named: confirm_overwrite_additional_activities
 checking box named: confirm_overwrite_contact_email
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.09s
+[TIMING] Checkbox operations (OPTIMIZED): 0.08s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=True
@@ -1111,8 +1111,8 @@ A total of 2 check boxes were selected (limited to 5 for performance).
   - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
 [TIMING] First save operation: 0.08s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_152037.json
-[TIMING] Second file upload: 0.20s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_154524.json
+[TIMING] Second file upload: 0.23s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 37 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1123,11 +1123,11 @@ checking box named: confirm_overwrite_contact_name
   - Checkbox 4: name/id='confirm_overwrite_contact_phone', checked=False
 checking box named: confirm_overwrite_contact_phone
 A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
-[TIMING] Second checkbox operations (OPTIMIZED): 0.12s
+[TIMING] Second checkbox operations (OPTIMIZED): 0.11s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] Second save operation: 0.10s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_152037.json
-[TIMING] Third file upload: 0.21s
+[TIMING] Second save operation: 0.09s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250807_154524.json
+[TIMING] Third file upload: 0.23s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 34 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
@@ -1154,7 +1154,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 6: name/id='confirm_overwrite_emission_identified_flag_fk', checked=False
 [INFO] Found 5 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.03s
+[TIMING] Third checkbox operations: 0.04s
   - Checkbox 7: name/id='confirm_overwrite_emission_location', checked=False
 [INFO] Found 6 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1250,7 +1250,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 30: name/id='confirm_overwrite_planned_for_next_lmr_description', checked=False
 [INFO] Found 29 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.14s
+[TIMING] Third checkbox operations: 0.15s
   - Checkbox 31: name/id='confirm_overwrite_re_monitored_concentration', checked=False
 [INFO] Found 30 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1258,22 +1258,22 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 32: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
 [INFO] Found 31 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.15s
+[TIMING] Third checkbox operations: 0.16s
   - Checkbox 33: name/id='confirm_overwrite_sector', checked=False
 [INFO] Found 32 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
 [TIMING] Third checkbox operations: 0.16s
-[TIMING] Total test_incremental_upload time: 2.38s
+[TIMING] Total test_incremental_upload time: 2.40s
 [TIMING] Breakdown:
   - Clear test data: 1.11s
-  - Navigation: 0.04s
-  - First upload: 0.26s
-  - First checkbox ops: 0.09s
+  - Navigation: 0.06s
+  - First upload: 0.24s
+  - First checkbox ops: 0.08s
   - First save: 0.08s
-  - Second upload: 0.20s
-  - Second checkbox ops: 0.12s
-  - Second save: 0.10s
-  - Third upload: 0.21s
+  - Second upload: 0.23s
+  - Second checkbox ops: 0.11s
+  - Second save: 0.09s
+  - Third upload: 0.23s
   - Third checkbox ops: 0.16s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
@@ -1311,17 +1311,17 @@ Refactored staged upload failed:
 PASSED
 tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
 [TIMING] Starting clear_test_data_inline
-[TIMING] Navigation to delete page: 0.10s
+[TIMING] Navigation to delete page: 0.09s
 [TIMING] Form filling: 0.05s
 [TIMING] Click preview button: 0.04s
 [TIMING] Modal confirmation (OPTIMIZED): 0.93s
-[TIMING] Total clear_test_data_inline time: 1.12s
+[TIMING] Total clear_test_data_inline time: 1.11s
 [DEBUG] Test data cleared via UI at /delete_testing_range
-[TIMING] Clear test data time: 1.12s
+[TIMING] Clear test data time: 1.11s
 Running incremental upload test for: feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
-[TIMING] Navigation to upload page: 0.03s
-[TIMING] First file upload: 0.25s
-[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_152041.json
+[TIMING] Navigation to upload page: 0.06s
+[TIMING] First file upload: 0.27s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_154528.json
 [CHECKBOX DIAGNOSTICS] Found 33 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1331,7 +1331,7 @@ Running incremental upload test for: feedback_forms/testing_versions/standard/oi
 checking box named: confirm_overwrite_additional_notes
 checking box named: confirm_overwrite_component_other_description
 A total of 2 check boxes were selected (limited to 5 for performance).
-[TIMING] Checkbox operations (OPTIMIZED): 0.08s
+[TIMING] Checkbox operations (OPTIMIZED): 0.07s
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
   - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=True
@@ -1339,8 +1339,8 @@ A total of 2 check boxes were selected (limited to 5 for performance).
   - Checkbox 4: name/id='confirm_overwrite_component_other_description', checked=True
 [DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
 [TIMING] First save operation: 0.08s
-[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_152041.json
-[TIMING] Second file upload: 0.18s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_154528.json
+[TIMING] Second file upload: 0.23s
 [CHECKBOX DIAGNOSTICS] (2nd upload) Found 31 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
   - Checkbox 1: name/id='selectAllConfirmations', checked=False
@@ -1353,9 +1353,9 @@ checking box named: confirm_overwrite_contact_name
 A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
 [TIMING] Second checkbox operations (OPTIMIZED): 0.12s
 [DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
-[TIMING] Second save operation: 0.11s
-[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_152042.json
-[TIMING] Third file upload: 0.18s
+[TIMING] Second save operation: 0.08s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250807_154529.json
+[TIMING] Third file upload: 0.22s
 [CHECKBOX DIAGNOSTICS] (3rd upload) Found 28 checkboxes on the page:
   - Checkbox 0: name/id='hideUnchangedFields', checked=False
 [SUCCESS] All checkboxes have been processed
@@ -1382,7 +1382,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 6: name/id='confirm_overwrite_final_repair_concentration', checked=False
 [INFO] Found 5 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.03s
+[TIMING] Third checkbox operations: 0.04s
   - Checkbox 7: name/id='confirm_overwrite_id_arb_eggrt', checked=False
 [INFO] Found 6 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1390,7 +1390,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 8: name/id='confirm_overwrite_id_incidence', checked=False
 [INFO] Found 7 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.04s
+[TIMING] Third checkbox operations: 0.05s
   - Checkbox 9: name/id='confirm_overwrite_id_message', checked=False
 [INFO] Found 8 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1398,7 +1398,7 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 10: name/id='confirm_overwrite_id_plume', checked=False
 [INFO] Found 9 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.05s
+[TIMING] Third checkbox operations: 0.06s
   - Checkbox 11: name/id='confirm_overwrite_initial_leak_concentration', checked=False
 [INFO] Found 10 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1406,43 +1406,43 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 12: name/id='confirm_overwrite_initial_mitigation_plan', checked=False
 [INFO] Found 11 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.06s
+[TIMING] Third checkbox operations: 0.07s
   - Checkbox 13: name/id='confirm_overwrite_lat_carb', checked=False
 [INFO] Found 12 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.06s
+[TIMING] Third checkbox operations: 0.07s
   - Checkbox 14: name/id='confirm_overwrite_long_carb', checked=False
 [INFO] Found 13 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.07s
+[TIMING] Third checkbox operations: 0.08s
   - Checkbox 15: name/id='confirm_overwrite_method21_date', checked=False
 [INFO] Found 14 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.07s
+[TIMING] Third checkbox operations: 0.08s
   - Checkbox 16: name/id='confirm_overwrite_method21_performed', checked=False
 [INFO] Found 15 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.08s
+[TIMING] Third checkbox operations: 0.09s
   - Checkbox 17: name/id='confirm_overwrite_method21_result', checked=False
 [INFO] Found 16 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.08s
+[TIMING] Third checkbox operations: 0.09s
   - Checkbox 18: name/id='confirm_overwrite_observation_timestamp', checked=False
 [INFO] Found 17 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.09s
+[TIMING] Third checkbox operations: 0.10s
   - Checkbox 19: name/id='confirm_overwrite_ogi_date', checked=False
 [INFO] Found 18 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.09s
+[TIMING] Third checkbox operations: 0.10s
   - Checkbox 20: name/id='confirm_overwrite_ogi_performed', checked=False
 [INFO] Found 19 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.10s
+[TIMING] Third checkbox operations: 0.11s
   - Checkbox 21: name/id='confirm_overwrite_ogi_result', checked=False
 [INFO] Found 20 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.10s
+[TIMING] Third checkbox operations: 0.11s
   - Checkbox 22: name/id='confirm_overwrite_repair_description', checked=False
 [INFO] Found 21 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
@@ -1450,35 +1450,35 @@ A total of 3 check boxes were selected on 2nd upload (limited to 5 for performan
   - Checkbox 23: name/id='confirm_overwrite_repair_timestamp', checked=False
 [INFO] Found 22 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.11s
+[TIMING] Third checkbox operations: 0.12s
   - Checkbox 24: name/id='confirm_overwrite_sector', checked=False
 [INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.11s
+[TIMING] Third checkbox operations: 0.12s
   - Checkbox 25: name/id='confirm_overwrite_venting_description_1', checked=False
 [INFO] Found 24 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.12s
+[TIMING] Third checkbox operations: 0.13s
   - Checkbox 26: name/id='confirm_overwrite_venting_description_2', checked=False
 [INFO] Found 25 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.12s
+[TIMING] Third checkbox operations: 0.13s
   - Checkbox 27: name/id='confirm_overwrite_venting_exclusion', checked=False
 [INFO] Found 26 remaining confirmable checkboxes (expected due to performance optimization)
 [INFO] This is expected behavior when limiting checkbox processing for performance
-[TIMING] Third checkbox operations: 0.13s
-[TIMING] Total test_incremental_upload time: 2.29s
+[TIMING] Third checkbox operations: 0.14s
+[TIMING] Total test_incremental_upload time: 2.40s
 [TIMING] Breakdown:
-  - Clear test data: 1.12s
-  - Navigation: 0.03s
-  - First upload: 0.25s
-  - First checkbox ops: 0.08s
+  - Clear test data: 1.11s
+  - Navigation: 0.06s
+  - First upload: 0.27s
+  - First checkbox ops: 0.07s
   - First save: 0.08s
-  - Second upload: 0.18s
+  - Second upload: 0.23s
   - Second checkbox ops: 0.12s
-  - Second save: 0.11s
-  - Third upload: 0.18s
-  - Third checkbox ops: 0.13s
+  - Second save: 0.08s
+  - Third upload: 0.22s
+  - Third checkbox ops: 0.14s
 PASSED
 tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_upload_attempt_marker() called
 upload_file_and_wait_for_attempt_marker() called
@@ -1715,4 +1715,4 @@ Refactored staged upload failed:
 PASSED
 tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...)
 
-================== 120 passed, 6 skipped in 80.95s (0:01:20) ===================
+================== 120 passed, 6 skipped in 83.34s (0:01:23) ===================
