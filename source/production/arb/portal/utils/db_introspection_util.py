@@ -89,7 +89,8 @@ def get_ensured_row(db: SQLAlchemy,
 
     if model is None:
       is_new_row = True
-      logger.info(f"[get_ensured_row] No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
+      logger.info(
+        f"[get_ensured_row] No existing row found; creating new {table_name} row with {primary_key_name}={id_}")
       model = table(**{primary_key_name: id_})  # type: ignore
       # 🆕 CONDITIONAL: Add to session only if requested (for staged uploads)
       if add_to_session:

@@ -361,11 +361,11 @@ def get_class_from_table_name(base: AutomapBase | None, table_name: str) -> Auto
 
 
 def get_rows_by_table_name(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    table_name: str,
-    colum_name_pk: str | None = None,
-    ascending: bool = True
+        db: SQLAlchemy,
+        base: AutomapBase,
+        table_name: str,
+        colum_name_pk: str | None = None,
+        ascending: bool = True
 ) -> list:
   """
   Retrieve all rows from a table, optionally sorted by a column.
@@ -439,10 +439,10 @@ def delete_commit_and_log_model(db: SQLAlchemy, model_row: AutomapBase, comment:
 
 
 def add_commit_and_log_model(
-    db: SQLAlchemy,
-    model_row: AutomapBase,
-    comment: str = "",
-    model_before: dict | None = None
+        db: SQLAlchemy,
+        model_row: AutomapBase,
+        comment: str = "",
+        model_before: dict | None = None
 ) -> None:
   """
   Add or update a model instance in the database, log changes, and commit.
@@ -485,11 +485,11 @@ def add_commit_and_log_model(
 
 
 def get_table_row_and_column(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    table_name: str,
-    column_name: str,
-    id_: int
+        db: SQLAlchemy,
+        base: AutomapBase,
+        table_name: str,
+        column_name: str,
+        id_: int
 ) -> tuple | None:
   """
   Fetch a row and a specific column value given table name and primary key value.
@@ -531,15 +531,15 @@ def get_table_row_and_column(
 
 
 def get_foreign_value(
-    db: SQLAlchemy,
-    base: AutomapBase,
-    primary_table_name: str,
-    foreign_table_name: str,
-    primary_table_fk_name: str,
-    foreign_table_column_name: str,
-    primary_table_pk_value: int,
-    primary_table_pk_name: str | None = None,
-    foreign_table_pk_name: str | None = None
+        db: SQLAlchemy,
+        base: AutomapBase,
+        primary_table_name: str,
+        foreign_table_name: str,
+        primary_table_fk_name: str,
+        foreign_table_column_name: str,
+        primary_table_pk_value: int,
+        primary_table_pk_name: str | None = None,
+        foreign_table_pk_name: str | None = None
 ) -> str | None:
   """
   Resolve a foreign key reference and return the referenced value from the foreign table.

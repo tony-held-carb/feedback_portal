@@ -1,6 +1,12 @@
 {
+  // Enforce LF line endings for consistency
   "files.eol": "\n",
+
+  // Define terminal profiles for both WSL and Git Bash
   "terminal.integrated.profiles.windows": {
+    "WSL": {
+      "path": "C:\\WINDOWS\\System32\\wsl.exe"
+    },
     "Git Bash": {
       "path": "C:\\tony_apps\\git\\bin\\bash.exe",
       "args": [
@@ -9,8 +15,14 @@
       ]
     }
   },
-  "terminal.integrated.defaultProfile.windows": "Git Bash",
+
+  // Use WSL as the default terminal in VS Code
+  "terminal.integrated.defaultProfile.windows": "WSL",
+
+  // Enable shell integration and tab layout
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.fontSize": 13,
-  "terminal.integrated.tabs.location": "left"
+  "terminal.integrated.tabs.location": "left",
+  "security.workspace.trust.untrustedFiles": "open",
+  "git.confirmSync": false
 }

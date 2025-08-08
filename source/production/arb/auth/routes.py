@@ -24,10 +24,10 @@ Key Features:
 
 import logging
 from functools import wraps
+from typing import Callable, TypeVar, Any, Union
 
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for, Response
 from flask_login import current_user, login_required, login_user, logout_user
-from typing import Callable, TypeVar, Any, Union
 
 from arb.auth import get_db
 from arb.auth.models import get_user_model
@@ -36,6 +36,7 @@ from arb.auth.okta_settings import USE_OKTA
 logger = logging.getLogger(__name__)
 
 F = TypeVar('F', bound=Callable[..., Any])
+
 
 def admin_required(f: F) -> F:
   """
@@ -397,7 +398,8 @@ def login() -> Union[str, Response]:
           # Check if email is confirmed
           if not user.is_confirmed:
             logger.debug(f"Login failed: email not confirmed for user: {user.email}")
-            flash('Please confirm your email address before logging in. Check your email for a confirmation link.', 'warning')
+            flash('Please confirm your email address before logging in. Check your email for a confirmation link.',
+                  'warning')
             return render_template('auth/login.html')
 
           login_user(user)
@@ -499,7 +501,9 @@ def register() -> Union[str, Response]:
           import traceback
           logger.error(f"Traceback: {traceback.format_exc()}")
           # Still create the user, but inform them about the email issue
-          flash('Registration successful! However, there was an issue sending the confirmation email. Please contact support.', 'warning')
+          flash(
+            'Registration successful! However, there was an issue sending the confirmation email. Please contact support.',
+            'warning')
 
         return redirect(url_for('auth.login'))
     else:

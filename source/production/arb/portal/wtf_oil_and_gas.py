@@ -29,13 +29,16 @@ from pathlib import Path
 from typing import Any
 
 from flask_wtf import FlaskForm
-from wtforms import DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, TextAreaField
+from wtforms import DateTimeLocalField, DecimalField, EmailField, FloatField, IntegerField, SelectField, StringField, \
+  TextAreaField
 from wtforms.validators import Email, InputRequired, Length, NumberRange, Optional, Regexp
 
-from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, PLEASE_SELECT
+from arb.portal.constants import GPS_RESOLUTION, HTML_LOCAL_TIME_FORMAT, LATITUDE_VALIDATION, LONGITUDE_VALIDATION, \
+  PLEASE_SELECT
 from arb.portal.globals import Globals
 from arb.utils.misc import replace_list_occurrences
-from arb.utils.wtf_forms_util import change_validators_on_test, coerce_choices, ensure_field_choice, get_wtforms_fields, validate_selectors
+from arb.utils.wtf_forms_util import change_validators_on_test, coerce_choices, ensure_field_choice, get_wtforms_fields, \
+  validate_selectors
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')
@@ -391,12 +394,14 @@ class OGFeedback(FlaskForm):
     if self.venting_exclusion and self.ogi_result.data:
       if self.venting_exclusion.data == "Yes":
         if self.ogi_result.data in ["Unintentional-leak"]:
-          self.ogi_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with OGI.")
+          self.ogi_result.errors.append(
+            "If you claim a venting exclusion, you can't also have a leak detected with OGI.")
 
     if self.venting_exclusion and self.method21_result.data:
       if self.venting_exclusion.data == "Yes":
         if self.method21_result.data in ["Unintentional-leak"]:
-          self.method21_result.errors.append("If you claim a venting exclusion, you can't also have a leak detected with Method 21.")
+          self.method21_result.errors.append(
+            "If you claim a venting exclusion, you can't also have a leak detected with Method 21.")
 
     if self.ogi_result.data in self.unintentional_leak:
       if self.method21_performed.data != "Yes":
@@ -414,14 +419,16 @@ class OGFeedback(FlaskForm):
       if self.method21_date.data:
         self.method21_date.errors.append("Can't have an Method 21 inspection date if Method 21 was not performed")
       if self.initial_leak_concentration.data:
-        self.initial_leak_concentration.errors.append("Can't have an Method 21 concentration if Method 21 was not performed")
+        self.initial_leak_concentration.errors.append(
+          "Can't have an Method 21 concentration if Method 21 was not performed")
       # print(f"{self.method21_result.data=}")
       if self.method21_result.data != PLEASE_SELECT:
         if self.method21_result.data != "Not applicable as Method 21 was not performed":
           self.method21_result.errors.append("Can't have an Method 21 result if Method 21 was not performed")
 
     if self.venting_exclusion.data == "No" and self.ogi_performed.data == "No" and self.method21_performed.data == "No":
-      self.method21_performed.errors.append("If you do not claim a venting exclusion, Method 21 or OGI must be performed.")
+      self.method21_performed.errors.append(
+        "If you do not claim a venting exclusion, Method 21 or OGI must be performed.")
 
     # todo (consider) - you could also remove the option for not applicable rather than the following two tests
     if self.ogi_performed.data == "Yes":
@@ -499,7 +506,8 @@ class OGFeedback(FlaskForm):
     ]
     venting_exclusion_test = self.venting_exclusion.data == "Yes"
     # logger.debug(f"\n\t{venting_exclusion_test=}, {self.venting_exclusion_test.data=}")
-    change_validators_on_test(self, venting_exclusion_test, required_if_venting_exclusion, optional_if_venting_exclusion)
+    change_validators_on_test(self, venting_exclusion_test, required_if_venting_exclusion,
+                              optional_if_venting_exclusion)
 
     required_if_ogi_performed = [
       "ogi_date",

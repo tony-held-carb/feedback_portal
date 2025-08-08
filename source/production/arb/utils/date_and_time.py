@@ -158,7 +158,8 @@ def ca_naive_datetime_to_utc_datetime(ca_naive_dt: datetime) -> datetime:
   return ca_naive_dt.replace(tzinfo=PACIFIC_TZ).astimezone(UTC_TZ)
 
 
-def utc_datetime_to_ca_naive_datetime(utc_dt: datetime, assume_naive_is_utc: bool = False, utc_strict: bool = True) -> datetime:
+def utc_datetime_to_ca_naive_datetime(utc_dt: datetime, assume_naive_is_utc: bool = False,
+                                      utc_strict: bool = True) -> datetime:
   """
   Convert a UTC-aware (or optionally naive) datetime to naive California local time.
 
@@ -362,7 +363,8 @@ def utc_iso_str_to_ca_str(iso_str: str) -> str:
 
 # --- Bulk/Recursive Conversion Utilities ---
 
-def bulk_utc_datetime_to_ca_naive_datetime(data: object, assume_naive_is_utc: bool = False, utc_strict: bool = True) -> object:
+def bulk_utc_datetime_to_ca_naive_datetime(data: object, assume_naive_is_utc: bool = False,
+                                           utc_strict: bool = True) -> object:
   """
   Recursively convert all UTC-aware datetimes in a nested structure to naive California local datetimes.
 
@@ -410,7 +412,8 @@ def bulk_ca_naive_datetime_to_utc_datetime(data: object) -> object:
   if isinstance(data, datetime):
     return ca_naive_datetime_to_utc_datetime(data)
   elif isinstance(data, Mapping):
-    return {bulk_ca_naive_datetime_to_utc_datetime(k): bulk_ca_naive_datetime_to_utc_datetime(v) for k, v in data.items()}
+    return {bulk_ca_naive_datetime_to_utc_datetime(k): bulk_ca_naive_datetime_to_utc_datetime(v) for k, v in
+            data.items()}
   elif isinstance(data, list):
     return [bulk_ca_naive_datetime_to_utc_datetime(i) for i in data]
   elif isinstance(data, tuple):

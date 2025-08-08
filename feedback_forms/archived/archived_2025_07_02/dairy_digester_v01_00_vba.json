@@ -1,176 +1,176 @@
-﻿{
-"able_to_repair": {
-"label": "Q16.  Was the emission source able to be repaired?",
-"label_address": "$B$51",
-"value_address": "$D$51",
-"is_drop_down": true
-},
-"additional_activities": {
-"label": "Q8.  If no emission source was identified, please describe any events or activities that may have contributed to the plume observed on the date provided in Section 2.",
-"label_address": "$B$40",
-"value_address": "$D$40",
-"is_drop_down": false
-},
-"additional_manure_management": {
-"label": "Q24.  Please provide any additional information about manure and methane management at this facility, if applicable:",
-"label_address": "$B$104",
-"value_address": "$D$104",
-"is_drop_down": false
-},
-"additional_notes": {
-"label": "Q25.  Please provide any additional notes, comments, or feedback on this form or the plume notification process, if applicable: ",
-"label_address": "$B$108",
-"value_address": "$D$108",
-"is_drop_down": false
-},
-"anaerobic_digestion_portion": {
-"label": "Q21.  What portion of manure is managed by anaerobic digestion?",
-"label_address": "$B$101",
-"value_address": "$D$101",
-"is_drop_down": false
-},
-"contact_email": {
-"label": "Q6.  Contact Email:",
-"label_address": "$B$35",
-"value_address": "$D$35",
-"is_drop_down": false
-},
-"contact_name": {
-"label": "Q4.  Contact Name:",
-"label_address": "$B$33",
-"value_address": "$D$33",
-"is_drop_down": false
-},
-"contact_phone": {
-"label": "Q5.  Contact Phone:",
-"label_address": "$B$34",
-"value_address": "$D$34",
-"is_drop_down": false
-},
-"digester_facility_name": {
-"label": "Q1.  Digester Facility Name:",
-"label_address": "$B$30",
-"value_address": "$D$30",
-"is_drop_down": false
-},
-"emission_cause": {
-"label": "Q14.  Please select from the drop-down menu which option best describes the most likely cause of the methane emissions: ",
-"label_address": "$B$46",
-"value_address": "$D$46",
-"is_drop_down": true
-},
-"emission_cause_notes": {
-"label": "Q15.  Please provide a more detailed description of the cause, including the duration of any activity that may have contributed to the emission source: ",
-"label_address": "$B$47",
-"value_address": "$D$47",
-"is_drop_down": false
-},
-"emission_location": {
-"label": "Q12.  Please select from the drop-down menu which option best describes the location of the methane emissions:",
-"label_address": "$B$44",
-"value_address": "$D$44",
-"is_drop_down": true
-},
-"emission_location_notes": {
-"label": "Q13.  Please provide a more detailed description of the location:",
-"label_address": "$B$45",
-"value_address": "$D$45",
-"is_drop_down": false
-},
-"emission_type_fk": {
-"label": "Q11.  Please select from the drop-down menu which option best matches the description of the methane emissions:",
-"label_address": "$B$43",
-"value_address": "$D$43",
-"is_drop_down": true
-},
-"id_arb_ciwqs": {
-"label": "Q3.  Facility CIWQS Place ID:",
-"label_address": "$B$32",
-"value_address": "$D$32",
-"is_drop_down": false
-},
-"id_incidence": {
-"label": "1.  Incidence/Emission ID",
-"label_address": "$B$21",
-"value_address": "$D$21",
-"is_drop_down": false
-},
-"id_message": {
-"label": "6.  CARB Message ID",
-"label_address": "$B$26",
-"value_address": "$D$26",
-"is_drop_down": false
-},
-"id_plume": {
-"label": "2.  Plume ID(s)",
-"label_address": "$B$22",
-"value_address": "$D$22",
-"is_drop_down": false
-},
-"initial_leak_concentration": {
-"label": "Q9:  Maximum concentration of methane leak (in ppmv).",
-"label_address": "$B$41",
-"value_address": "$D$41",
-"is_drop_down": false
-},
-"inspection_timestamp": {
-"label": "Q7.  Please provide date and time of the ground survey or site inspection, if performed:",
-"label_address": "$B$39",
-"value_address": "$D$39",
-"is_drop_down": false
-},
-"instrument": {
-"label": "Q10.  Instrument used to locate the leak (e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL).",
-"label_address": "$B$42",
-"value_address": "$D$42",
-"is_drop_down": false
-},
-"lat_carb": {
-"label": "4.  Plume Origin CARB Estimated Latitude",
-"label_address": "$B$24",
-"value_address": "$D$24",
-"is_drop_down": false
-},
-"livestock_facility_name": {
-"label": "Q2.  Livestock Facility Name:",
-"label_address": "$B$31",
-"value_address": "$D$31",
-"is_drop_down": false
-},
-"long_carb": {
-"label": "5.  Plume Origin CARB Estimated Longitude",
-"label_address": "$B$25",
-"value_address": "$D$25",
-"is_drop_down": false
-},
-"manure_advanced_solid_liquid": {
-"label": "  •  Advanced solid-liquid separation by flocculation",
-"label_address": "$B$58",
-"value_address": "$D$58",
-"is_drop_down": false
-},
-"mitigation_actions": {
-"label": "Q18.  Please describe what actions were taken to repair the emission source, or will be taken in the future, if applicable:",
-"label_address": "$B$53",
-"value_address": "$D$53",
-"is_drop_down": false
-},
-"mitigation_timestamp": {
-"label": "Q17.  Date and time of repair, if complete: ",
-"label_address": "$B$52",
-"value_address": "$D$52",
-"is_drop_down": false
-},
-"observation_timestamp": {
-"label": "3.  Plume Observation Timestamp(s):",
-"label_address": "$B$23",
-"value_address": "$D$23",
-"is_drop_down": false
-},
-"transport_method": {
-"label": "Q22.  Please describe the transport method (truck, pipeline, etc) \n(If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility):",
-"label_address": "$B$102",
-"value_address": "$D$102",
-"is_drop_down": false
-}
+{
+  "able_to_repair": {
+    "label": "Q16.  Was the emission source able to be repaired?",
+    "label_address": "$B$51",
+    "value_address": "$D$51",
+    "is_drop_down": true
+  },
+  "additional_activities": {
+    "label": "Q8.  If no emission source was identified, please describe any events or activities that may have contributed to the plume observed on the date provided in Section 2.",
+    "label_address": "$B$40",
+    "value_address": "$D$40",
+    "is_drop_down": false
+  },
+  "additional_manure_management": {
+    "label": "Q24.  Please provide any additional information about manure and methane management at this facility, if applicable:",
+    "label_address": "$B$104",
+    "value_address": "$D$104",
+    "is_drop_down": false
+  },
+  "additional_notes": {
+    "label": "Q25.  Please provide any additional notes, comments, or feedback on this form or the plume notification process, if applicable: ",
+    "label_address": "$B$108",
+    "value_address": "$D$108",
+    "is_drop_down": false
+  },
+  "anaerobic_digestion_portion": {
+    "label": "Q21.  What portion of manure is managed by anaerobic digestion?",
+    "label_address": "$B$101",
+    "value_address": "$D$101",
+    "is_drop_down": false
+  },
+  "contact_email": {
+    "label": "Q6.  Contact Email:",
+    "label_address": "$B$35",
+    "value_address": "$D$35",
+    "is_drop_down": false
+  },
+  "contact_name": {
+    "label": "Q4.  Contact Name:",
+    "label_address": "$B$33",
+    "value_address": "$D$33",
+    "is_drop_down": false
+  },
+  "contact_phone": {
+    "label": "Q5.  Contact Phone:",
+    "label_address": "$B$34",
+    "value_address": "$D$34",
+    "is_drop_down": false
+  },
+  "digester_facility_name": {
+    "label": "Q1.  Digester Facility Name:",
+    "label_address": "$B$30",
+    "value_address": "$D$30",
+    "is_drop_down": false
+  },
+  "emission_cause": {
+    "label": "Q14.  Please select from the drop-down menu which option best describes the most likely cause of the methane emissions: ",
+    "label_address": "$B$46",
+    "value_address": "$D$46",
+    "is_drop_down": true
+  },
+  "emission_cause_notes": {
+    "label": "Q15.  Please provide a more detailed description of the cause, including the duration of any activity that may have contributed to the emission source: ",
+    "label_address": "$B$47",
+    "value_address": "$D$47",
+    "is_drop_down": false
+  },
+  "emission_location": {
+    "label": "Q12.  Please select from the drop-down menu which option best describes the location of the methane emissions:",
+    "label_address": "$B$44",
+    "value_address": "$D$44",
+    "is_drop_down": true
+  },
+  "emission_location_notes": {
+    "label": "Q13.  Please provide a more detailed description of the location:",
+    "label_address": "$B$45",
+    "value_address": "$D$45",
+    "is_drop_down": false
+  },
+  "emission_type_fk": {
+    "label": "Q11.  Please select from the drop-down menu which option best matches the description of the methane emissions:",
+    "label_address": "$B$43",
+    "value_address": "$D$43",
+    "is_drop_down": true
+  },
+  "id_arb_ciwqs": {
+    "label": "Q3.  Facility CIWQS Place ID:",
+    "label_address": "$B$32",
+    "value_address": "$D$32",
+    "is_drop_down": false
+  },
+  "id_incidence": {
+    "label": "1.  Incidence/Emission ID",
+    "label_address": "$B$21",
+    "value_address": "$D$21",
+    "is_drop_down": false
+  },
+  "id_message": {
+    "label": "6.  CARB Message ID",
+    "label_address": "$B$26",
+    "value_address": "$D$26",
+    "is_drop_down": false
+  },
+  "id_plume": {
+    "label": "2.  Plume ID(s)",
+    "label_address": "$B$22",
+    "value_address": "$D$22",
+    "is_drop_down": false
+  },
+  "initial_leak_concentration": {
+    "label": "Q9:  Maximum concentration of methane leak (in ppmv).",
+    "label_address": "$B$41",
+    "value_address": "$D$41",
+    "is_drop_down": false
+  },
+  "inspection_timestamp": {
+    "label": "Q7.  Please provide date and time of the ground survey or site inspection, if performed:",
+    "label_address": "$B$39",
+    "value_address": "$D$39",
+    "is_drop_down": false
+  },
+  "instrument": {
+    "label": "Q10.  Instrument used to locate the leak (e.g., Fisher Scientific TVA2020; RKI Multigas Analyzer Eagle 2; TDL).",
+    "label_address": "$B$42",
+    "value_address": "$D$42",
+    "is_drop_down": false
+  },
+  "lat_carb": {
+    "label": "4.  Plume Origin CARB Estimated Latitude",
+    "label_address": "$B$24",
+    "value_address": "$D$24",
+    "is_drop_down": false
+  },
+  "livestock_facility_name": {
+    "label": "Q2.  Livestock Facility Name:",
+    "label_address": "$B$31",
+    "value_address": "$D$31",
+    "is_drop_down": false
+  },
+  "long_carb": {
+    "label": "5.  Plume Origin CARB Estimated Longitude",
+    "label_address": "$B$25",
+    "value_address": "$D$25",
+    "is_drop_down": false
+  },
+  "manure_advanced_solid_liquid": {
+    "label": "  •  Advanced solid-liquid separation by flocculation",
+    "label_address": "$B$58",
+    "value_address": "$D$58",
+    "is_drop_down": false
+  },
+  "mitigation_actions": {
+    "label": "Q18.  Please describe what actions were taken to repair the emission source, or will be taken in the future, if applicable:",
+    "label_address": "$B$53",
+    "value_address": "$D$53",
+    "is_drop_down": false
+  },
+  "mitigation_timestamp": {
+    "label": "Q17.  Date and time of repair, if complete: ",
+    "label_address": "$B$52",
+    "value_address": "$D$52",
+    "is_drop_down": false
+  },
+  "observation_timestamp": {
+    "label": "3.  Plume Observation Timestamp(s):",
+    "label_address": "$B$23",
+    "value_address": "$D$23",
+    "is_drop_down": false
+  },
+  "transport_method": {
+    "label": "Q22.  Please describe the transport method (truck, pipeline, etc) \n(If manure or biogas from this facility is transported to an offsite digester, treatment, or upgrading facility):",
+    "label_address": "$B$102",
+    "value_address": "$D$102",
+    "is_drop_down": false
+  }
 }

@@ -22,78 +22,79 @@
               <div class="table-responsive">
                 <table class="table table-striped">
                   <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Roles</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                  </tr>
+                    <tr>
+                      <th>ID</th>
+                      <th>Email</th>
+                      <th>Roles</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                      <th>Actions</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  {% for user in users %}
-                    <tr>
-                      <td>{{ user.id }}</td>
-                      <td>{{ user.email }}</td>
-                      <td>
-                        {% for role in user.get_roles() %}
-                          <span class="badge bg-secondary me-1">{{ role }}</span>
-                        {% endfor %}
-                      </td>
-                      <td>
-                        {% if user.is_active %}
-                          <span class="badge bg-success">Active</span>
-                        {% else %}
-                          <span class="badge bg-danger">Inactive</span>
-                        {% endif %}
-                      </td>
-                      <td>{{ user.created_timestamp.strftime('%Y-%m-%d') if user.created_timestamp else 'N/A' }}</td>
-                      <td>
-                        <a href="{{ url_for('admin.user_detail', user_id=user.id) }}" class="btn btn-sm btn-primary">View</a>
-                        {% if user.id != current_user.id %}
-                          <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                  data-bs-target="#deleteUserModal{{ user.id }}">
-                            Delete
-                          </button>
-                        {% endif %}
-                      </td>
-                    </tr>
+                    {% for user in users %}
+                      <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                          {% for role in user.get_roles() %}
+                            <span class="badge bg-secondary me-1">{{ role }}</span>
+                          {% endfor %}
+                        </td>
+                        <td>
+                          {% if user.is_active %}
+                            <span class="badge bg-success">Active</span>
+                          {% else %}
+                            <span class="badge bg-danger">Inactive</span>
+                          {% endif %}
+                        </td>
+                        <td>{{ user.created_timestamp.strftime('%Y-%m-%d') if user.created_timestamp else 'N/A' }}</td>
+                        <td>
+                          <a href="{{ url_for('admin.user_detail', user_id=user.id) }}" class="btn btn-sm btn-primary">View</a>
+                          {% if user.id != current_user.id %}
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteUserModal{{ user.id }}">
+                              Delete
+                            </button>
+                          {% endif %}
+                        </td>
+                      </tr>
 
-                    <!-- Delete Confirmation Modal for each user -->
-                    {% if user.id != current_user.id %}
-                      <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1"
-                           aria-labelledby="deleteUserModalLabel{{ user.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="deleteUserModalLabel{{ user.id }}">Confirm User Deletion</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                      aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <p class="text-danger">
-                                <strong>Warning:</strong> This action cannot be undone!
-                              </p>
-                              <p>
-                                Are you sure you want to permanently delete the user <strong>{{ user.email }}</strong>?
-                              </p>
-                              <p class="text-muted">
-                                This will remove all user data including roles, login history, and account settings.
-                              </p>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                              <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}"
-                                    class="d-inline">
-                                <button type="submit" class="btn btn-danger">Delete User Permanently</button>
-                              </form>
+                      <!-- Delete Confirmation Modal for each user -->
+                      {% if user.id != current_user.id %}
+                        <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1"
+                             aria-labelledby="deleteUserModalLabel{{ user.id }}" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="deleteUserModalLabel{{ user.id }}">Confirm User
+                                  Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <p class="text-danger">
+                                  <strong>Warning:</strong> This action cannot be undone!
+                                </p>
+                                <p>
+                                  Are you sure you want to permanently delete the user <strong>{{ user.email }}</strong>?
+                                </p>
+                                <p class="text-muted">
+                                  This will remove all user data including roles, login history, and account settings.
+                                </p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}"
+                                      class="d-inline">
+                                  <button type="submit" class="btn btn-danger">Delete User Permanently</button>
+                                </form>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
+                      {% endif %}
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -109,4 +110,4 @@
       </div>
     </div>
   </div>
-{% endblock %} 
+{% endblock %}

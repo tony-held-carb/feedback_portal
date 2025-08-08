@@ -271,8 +271,8 @@ def wtf_count_errors(form: FlaskForm, log_errors: bool = False) -> dict[str, int
       error_count_dict['element_error_count'] += len(error_list)
 
   error_count_dict['total_error_count'] = (
-      error_count_dict['element_error_count'] +
-      error_count_dict['wtf_form_error_count']
+          error_count_dict['element_error_count'] +
+          error_count_dict['wtf_form_error_count']
   )
 
   return error_count_dict

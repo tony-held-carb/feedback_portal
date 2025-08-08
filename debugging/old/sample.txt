@@ -1,0 +1,3 @@
+I am a single file with CRLF
+I am line 2
+I am line 3

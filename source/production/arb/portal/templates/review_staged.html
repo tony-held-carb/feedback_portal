@@ -116,7 +116,7 @@
               </div>
               <div class="col-4">
                 <div
-                    class="h5 mb-0 text-success">{{ staged_fields | selectattr('requires_confirmation') | list | length }}</div>
+                        class="h5 mb-0 text-success">{{ staged_fields | selectattr('requires_confirmation') | list | length }}</div>
                 <small class="text-muted">Need Confirmation</small>
               </div>
             </div>
@@ -147,38 +147,38 @@
           action="{{ url_for('main.confirm_staged', id_=id_incidence, filename=filename) }}">
       <table id="reviewTable" class="table table-sm table-bordered table-hover review-table">
         <thead class="review-header">
-        <tr>
-          <th class="confirm-th sorting_disabled">
-            <div class="confirm-header">
-              <span>Confirm</span>
-              <input class="form-check-input" type="checkbox" id="selectAllConfirmations"
-                     title="Toggle all confirmations">
-            </div>
-          </th>
-          <th>🔑 Field Name</th>
-          <th>📊 Current Value (DB)</th>
-          <th>🆕 Proposed Value (Upload)</th>
-        </tr>
+          <tr>
+            <th class="confirm-th sorting_disabled">
+              <div class="confirm-header">
+                <span>Confirm</span>
+                <input class="form-check-input" type="checkbox" id="selectAllConfirmations"
+                       title="Toggle all confirmations">
+              </div>
+            </th>
+            <th>🔑 Field Name</th>
+            <th>📊 Current Value (DB)</th>
+            <th>🆕 Proposed Value (Upload)</th>
+          </tr>
         </thead>
         <tbody>
-        {% for row in staged_fields %}
-          <tr class="field-row
+          {% for row in staged_fields %}
+            <tr class="field-row
              {% if row.is_same %}unchanged-field{% elif row.requires_confirmation %}table-warning{% endif %}">
-            <td class="text-center">
-              {% if row.requires_confirmation %}
-                <input type="checkbox" name="confirm_overwrite_{{ row.key }}" class="confirm-checkbox">
-              {% elif row.is_same %}
-                <span class="badge rounded-pill bg-secondary">Same</span>
-              {% else %}
-                &mdash;
-              {% endif %}
-            </td>
-            <td class="sorting_1"><code>{{ row.key }}</code></td>
-            <td class="">{{ row.old }}</td>
-            <td class="">{% if row.changed %}
-              <mark>{{ row.new }}</mark>{% else %}{{ row.new }}{% endif %}</td>
-          </tr>
-        {% endfor %}
+              <td class="text-center">
+                {% if row.requires_confirmation %}
+                  <input type="checkbox" name="confirm_overwrite_{{ row.key }}" class="confirm-checkbox">
+                {% elif row.is_same %}
+                  <span class="badge rounded-pill bg-secondary">Same</span>
+                {% else %}
+                  &mdash;
+                {% endif %}
+              </td>
+              <td class="sorting_1"><code>{{ row.key }}</code></td>
+              <td class="">{{ row.old }}</td>
+              <td class="">{% if row.changed %}
+                <mark>{{ row.new }}</mark>{% else %}{{ row.new }}{% endif %}</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </form>
@@ -186,7 +186,7 @@
 
   <!-- 🔘 Sticky Button Bar -->
   <div
-      class="fixed-bottom bg-light border-top py-3 px-3 d-flex justify-content-end gap-3 shadow fixed-bottom-button-bar">
+          class="fixed-bottom bg-light border-top py-3 px-3 d-flex justify-content-end gap-3 shadow fixed-bottom-button-bar">
     <a href="{{ url_for('main.upload_file_staged') }}" class="btn btn-secondary btn-lg">❌ Cancel</a>
     <button type="submit" form="confirmForm" class="btn btn-success btn-lg">💾 Save Changes</button>
   </div>

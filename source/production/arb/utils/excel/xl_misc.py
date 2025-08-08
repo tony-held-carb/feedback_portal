@@ -67,10 +67,10 @@ def get_excel_row_column(xl_address: str) -> tuple[str, int]:
 
 
 def xl_address_sort(
-    xl_tuple: tuple,
-    address_location: str = "key",
-    sort_by: str = "row",
-    sub_keys: str | list[str] | None = None
+        xl_tuple: tuple,
+        address_location: str = "key",
+        sort_by: str = "row",
+        sub_keys: str | list[str] | None = None
 ) -> int | str:
   """
   Extract the Excel row or column value from a tuple of key-value pairs for sorting.

@@ -34,20 +34,20 @@ from arb.auth import get_db
 
 logger = logging.getLogger(__name__)
 
+from typing import Any
 
-from typing import Any, Optional
 
 def get_auth_config(key: str, default: Any = None) -> Any:
   """
   Helper to fetch auth-related config from app.config, falling back to default_settings.py if not set.
-  
+
   Args:
       key (str): The config key to fetch (without 'AUTH_' prefix).
       default (Any): Default value to return if config is not found.
-      
+
   Returns:
       Any: The config value or default if not found.
-      
+
   Examples:
       get_auth_config('PASSWORD_RESET_EXPIRATION', 3600)
       get_auth_config('MAX_LOGIN_ATTEMPTS', 5)
@@ -64,13 +64,13 @@ _UserModel = None
 def get_user_model():
   """
   Get the User model class, creating it if it doesn't exist.
-  
+
   This function implements a singleton pattern to ensure the User model
   is created only once and reused throughout the application.
-  
+
   Returns:
       Type[User]: The User model class.
-      
+
   Examples:
       User = get_user_model()
       users = User.query.all()
@@ -178,8 +178,8 @@ def get_user_model():
       password_reset_token = getattr(self, 'password_reset_token', None)
       password_reset_expires = getattr(self, 'password_reset_expires', None)
       if (password_reset_token == token and
-          password_reset_expires and
-          password_reset_expires > datetime.datetime.utcnow()):
+              password_reset_expires and
+              password_reset_expires > datetime.datetime.utcnow()):
         self.password_reset_token = None
         self.password_reset_expires = None
         get_db().session.commit()
@@ -200,8 +200,8 @@ def get_user_model():
       email_confirmation_token = getattr(self, 'email_confirmation_token', None)
       email_confirmation_expires = getattr(self, 'email_confirmation_expires', None)
       if (email_confirmation_token == token and
-          email_confirmation_expires and
-          email_confirmation_expires > datetime.datetime.utcnow()):
+              email_confirmation_expires and
+              email_confirmation_expires > datetime.datetime.utcnow()):
         self.is_confirmed_col = True
         self.email_confirmation_token = None
         self.email_confirmation_expires = None

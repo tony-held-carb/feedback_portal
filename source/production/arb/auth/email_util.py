@@ -11,24 +11,24 @@ from arb.auth import get_mail
 
 logger = logging.getLogger(__name__)
 
-
 # ... (rest of the code is the same as before, just update imports)
 
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from arb.auth.models import User
+  from arb.auth.models import User
+
 
 def send_welcome_email(user: 'User') -> None:
   """
   Send a welcome email to the newly registered user.
-  
+
   Args:
       user (User): The user to send the welcome email to.
-      
+
   Returns:
       None: This function sends an email but doesn't return anything.
-      
+
   Examples:
       send_welcome_email(new_user)
   """
@@ -54,14 +54,14 @@ def send_welcome_email(user: 'User') -> None:
 def send_password_reset_email(user: 'User', token: str) -> None:
   """
   Send a password reset email to the user with a reset token.
-  
+
   Args:
       user (User): The user to send the password reset email to.
       token (str): The password reset token.
-      
+
   Returns:
       None: This function sends an email but doesn't return anything.
-      
+
   Examples:
       send_password_reset_email(user, reset_token)
   """
@@ -89,14 +89,14 @@ def send_password_reset_email(user: 'User', token: str) -> None:
 def send_email_confirmation(user: 'User', token: str) -> None:
   """
   Send an email confirmation email to the user with a confirmation token.
-  
+
   Args:
       user (User): The user to send the email confirmation to.
       token (str): The email confirmation token.
-      
+
   Returns:
       None: This function sends an email but doesn't return anything.
-      
+
   Examples:
       send_email_confirmation(user, confirmation_token)
   """

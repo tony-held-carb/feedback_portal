@@ -33,7 +33,8 @@ from werkzeug.datastructures import FileStorage
 from arb.portal.constants import PLEASE_SELECT
 from arb.portal.extensions import db
 from arb.utils.sql_alchemy import add_commit_and_log_model, sa_model_diagnostics, sa_model_to_dict
-from arb.utils.wtf_forms_util import initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, wtform_to_model
+from arb.utils.wtf_forms_util import initialize_drop_downs, model_to_wtform, validate_no_csrf, wtf_count_errors, \
+  wtform_to_model
 
 logger = logging.getLogger(__name__)
 logger.debug(f'Loading File: "{Path(__file__).name}". Full Path: "{Path(__file__)}"')

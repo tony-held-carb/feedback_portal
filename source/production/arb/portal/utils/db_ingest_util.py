@@ -118,13 +118,13 @@ def xl_dict_to_database(db: SQLAlchemy,
 def validate_payload_for_database(data_dict: dict) -> None:
   """
   Validate that a payload is suitable for database operations.
-  
+
   Args:
     data_dict (dict): Dictionary payload to validate.
-    
+
   Raises:
     ValueError: If data_dict is empty or invalid.
-    
+
   Examples:
     validate_payload_for_database(data_dict)
     # Validates the payload before database operations
@@ -144,20 +144,20 @@ def resolve_database_row(db: SQLAlchemy,
                          primary_key: str = "id_incidence") -> tuple[Any, int, bool]:
   """
   Resolve or create a database row for the given payload.
-  
+
   Args:
     db (SQLAlchemy): SQLAlchemy DB instance.
     base (AutomapBase): Reflected model metadata.
     data_dict (dict): Dictionary payload containing the primary key.
     table_name (str): Table name to target.
     primary_key (str): Primary key column name.
-    
+
   Returns:
     tuple[Any, int, bool]: (model, id_, is_new_row)
       - model: SQLAlchemy ORM instance
       - id_: Primary key value
       - is_new_row: Whether a new row was created
-      
+
   Examples:
     model, id_, is_new = resolve_database_row(db, base, data_dict)
     # Resolves or creates the database row
@@ -187,14 +187,14 @@ def update_model_with_payload_and_commit(db: SQLAlchemy,
                                          dry_run: bool = False) -> None:
   """
   Update a model with payload data and commit to database.
-  
+
   Args:
     db (SQLAlchemy): SQLAlchemy DB instance.
     model (Any): SQLAlchemy ORM instance to update.
     data_dict (dict): Dictionary payload to apply.
     json_field (str): Name of JSON field for form payload.
     dry_run (bool): If True, simulate logic without writing to DB.
-    
+
   Examples:
     update_model_with_payload_and_commit(db, model, data_dict)
     # Updates the model and commits changes
@@ -212,17 +212,17 @@ def update_model_with_payload_and_commit(db: SQLAlchemy,
 def extract_primary_key_from_model(model: Any, primary_key: str = "id_incidence") -> int:
   """
   Extract the primary key value from a model instance.
-  
+
   Args:
     model (Any): SQLAlchemy ORM instance.
     primary_key (str): Name of the primary key attribute.
-    
+
   Returns:
     int: The primary key value.
-    
+
   Raises:
     AttributeError: If the model doesn't have the specified primary key.
-    
+
   Examples:
     id_ = extract_primary_key_from_model(model)
     # Extracts the primary key value safely
@@ -243,10 +243,10 @@ def dict_to_database_refactored(db: SQLAlchemy,
                                 dry_run: bool = False) -> int:
   """
   Refactored version of dict_to_database that uses smaller, focused functions.
-  
+
   This function provides the same interface and behavior as dict_to_database,
   but uses the new smaller functions for better maintainability and testing.
-  
+
   Args:
     db (SQLAlchemy): SQLAlchemy DB instance.
     base (AutomapBase): Reflected model metadata.
@@ -763,7 +763,8 @@ def upload_and_stage_only(db: SQLAlchemy,
 # =============================================================================
 
 
-def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy, description: str | None = None) -> Path:
+def _save_uploaded_file(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy,
+                        description: str | None = None) -> Path:
   """
   Save an uploaded file to the upload directory.
 
@@ -873,7 +874,8 @@ def _validate_id_from_json(json_data: dict) -> tuple[int | None, str | None]:
     return None, f"Error extracting ID from JSON: {e}"
 
 
-def _create_staged_file(id_: int, json_data: dict, db: SQLAlchemy, base: AutomapBase, upload_dir: str | Path) -> str | None:
+def _create_staged_file(id_: int, json_data: dict, db: SQLAlchemy, base: AutomapBase,
+                        upload_dir: str | Path) -> str | None:
   """
   Create a staged file for review with base_misc_json metadata.
 

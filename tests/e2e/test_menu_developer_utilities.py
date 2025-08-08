@@ -117,11 +117,14 @@ def test_developer_utilities_menu_links_and_create_incidence(page: Page):
       else:
         assert value in page.content(), f"Expected value '{value}' for field '{key}' not found in page content after clicking '{link_text}'."
     date_pattern = re.compile(r"\d{4}-\d{2}-\d{2}")
-    assert date_pattern.search(page.content()), f"Expected a date (YYYY-MM-DD) in page content after clicking '{link_text}'."
-    print(f"'{link_text}' navigated successfully to an incidence update page: {page.url} and all dummy data fields were found.")
+    assert date_pattern.search(
+      page.content()), f"Expected a date (YYYY-MM-DD) in page content after clicking '{link_text}'."
+    print(
+      f"'{link_text}' navigated successfully to an incidence update page: {page.url} and all dummy data fields were found.")
     # Go back to main page for next menu item
     navigate_and_wait_for_ready(page, BASE_URL)
     dev_dropdown = page.locator(".nav-link", has_text="Developer Utilities")
     dev_dropdown.click()
     dropdown_menu = page.locator(".dropdown-menu:visible").nth(-1)
-  print("All Developer Utilities menu links verified (presence, href, navigation to update page, all dummy data fields present).")
+  print(
+    "All Developer Utilities menu links verified (presence, href, navigation to update page, all dummy data fields present).")

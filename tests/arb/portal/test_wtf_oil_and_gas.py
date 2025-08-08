@@ -34,10 +34,12 @@ def mock_globals():
   mock_drop_downs = {
     "venting_exclusion": ["Yes", "No"],
     "ogi_performed": ["Yes", "No"],
-    "ogi_result": ["Unintentional-leak", "Unintentional-non-component", "Venting-construction/maintenance", "Venting-routine",
+    "ogi_result": ["Unintentional-leak", "Unintentional-non-component", "Venting-construction/maintenance",
+                   "Venting-routine",
                    "Not applicable as OGI was not performed"],
     "method21_performed": ["Yes", "No"],
-    "method21_result": ["Unintentional-leak", "Unintentional-non-component", "Venting-construction/maintenance", "Venting-routine",
+    "method21_result": ["Unintentional-leak", "Unintentional-non-component", "Venting-construction/maintenance",
+                        "Venting-routine",
                         "Not applicable as Method 21 was not performed"],
     "equipment_at_source": ["Compressor", "Other"],
     "component_at_source": ["Valve", "Other"],
@@ -89,13 +91,15 @@ def test_unintentional_leak_constant(app_ctx):
 
 def test_field_validation_email_format(app_ctx):
   form = OGFeedback()
-  email_validators = [v for v in form.contact_email.validators if hasattr(v, '__class__') and 'Email' in v.__class__.__name__]
+  email_validators = [v for v in form.contact_email.validators if
+                      hasattr(v, '__class__') and 'Email' in v.__class__.__name__]
   assert len(email_validators) > 0
 
 
 def test_field_validation_phone_regex(app_ctx):
   form = OGFeedback()
-  regex_validators = [v for v in form.contact_phone.validators if hasattr(v, '__class__') and 'Regexp' in v.__class__.__name__]
+  regex_validators = [v for v in form.contact_phone.validators if
+                      hasattr(v, '__class__') and 'Regexp' in v.__class__.__name__]
   assert len(regex_validators) > 0
   regex_validator = regex_validators[0]
   assert hasattr(regex_validator, 'regex')
@@ -106,7 +110,8 @@ def test_field_validation_phone_regex(app_ctx):
 
 def test_field_validation_number_ranges(app_ctx):
   form = OGFeedback()
-  range_validators = [v for v in form.id_plume.validators if hasattr(v, '__class__') and 'NumberRange' in v.__class__.__name__]
+  range_validators = [v for v in form.id_plume.validators if
+                      hasattr(v, '__class__') and 'NumberRange' in v.__class__.__name__]
   assert len(range_validators) > 0
   range_validator = range_validators[0]
   min_value = getattr(range_validator, 'min', None)

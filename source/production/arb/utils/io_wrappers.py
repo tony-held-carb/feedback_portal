@@ -24,10 +24,10 @@ from shutil import copy2
 
 
 def save_json_safely(
-    data: object,
-    path: Path,
-    encoding: str = "utf-8",
-    json_options: dict | None = None
+        data: object,
+        path: Path,
+        encoding: str = "utf-8",
+        json_options: dict | None = None
 ) -> None:
   """
   Write a dictionary as JSON to the specified path with optional encoding and json options.
@@ -59,9 +59,9 @@ def save_json_safely(
 
 
 def read_json_file(
-    path: Path,
-    encoding: str = "utf-8-sig",
-    json_options: dict | None = None
+        path: Path,
+        encoding: str = "utf-8-sig",
+        json_options: dict | None = None
 ) -> dict:
   """
   Load and return the contents of a JSON file.

@@ -66,8 +66,8 @@ from flask import g, has_request_context
 
 
 def log_function_parameters(
-    logger: logging.Logger | None = None,
-    print_to_console: bool = False
+        logger: logging.Logger | None = None,
+        print_to_console: bool = False
 ) -> None:
   """
   Log the current function's name and arguments using debug-level logging.
@@ -123,8 +123,8 @@ def log_function_parameters(
 
 
 def log_parameters(
-    logger: logging.Logger | None = None,
-    print_to_console: bool = False
+        logger: logging.Logger | None = None,
+        print_to_console: bool = False
 ) -> Callable:
   """
   Decorator to log all arguments passed to a function upon each invocation.

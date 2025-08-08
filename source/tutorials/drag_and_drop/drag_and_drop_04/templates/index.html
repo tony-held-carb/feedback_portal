@@ -7,21 +7,21 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-<div class="container">
-  <h1>Drag and Drop File Uploader</h1>
-  <div id="drop-area" class="drop-area">
-    <form class="my-form">
-      <p>Drag one or more files to this Drop Zone</p>
-      <input type="file" id="fileElem" multiple onchange="handleFiles(this.files)">
-      <label class="button" for="fileElem">Select files</label>
-    </form>
+  <div class="container">
+    <h1>Drag and Drop File Uploader</h1>
+    <div id="drop-area" class="drop-area">
+      <form class="my-form">
+        <p>Drag one or more files to this Drop Zone</p>
+        <input type="file" id="fileElem" multiple onchange="handleFiles(this.files)">
+        <label class="button" for="fileElem">Select files</label>
+      </form>
+    </div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <div id="alert-message"></div>
   </div>
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-  </div>
-  <div id="alert-message"></div>
-</div>
 
-<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>

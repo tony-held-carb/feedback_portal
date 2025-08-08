@@ -10,7 +10,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from arb.portal.utils import route_util
-from arb.portal.utils.route_util import (format_diagnostic_message, generate_staging_diagnostics, generate_upload_diagnostics,
+from arb.portal.utils.route_util import (format_diagnostic_message, generate_staging_diagnostics,
+                                         generate_upload_diagnostics,
                                          render_readonly_sector_view)
 
 

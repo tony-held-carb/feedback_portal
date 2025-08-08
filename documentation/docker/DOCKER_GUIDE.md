@@ -2,11 +2,13 @@
 
 ## Overview
 
-This guide explains how to containerize your ARB Feedback Portal Flask application and the changes needed for logging and debugging in a containerized environment.
+This guide explains how to containerize your ARB Feedback Portal Flask application and the changes needed for logging
+and debugging in a containerized environment.
 
 ## Current Application Structure
 
 Your Flask app currently uses:
+
 - **WSGI Entry Point**: `source/production/arb/wsgi.py`
 - **App Factory**: `source/production/arb/portal/app.py`
 - **Configuration**: Environment-based config selection via `arb.portal.config`
@@ -105,7 +107,8 @@ volumes:
 ### Current Logging Issues in Containers
 
 1. **File-based logging**: Your current setup writes to `logs/arb_portal.log` which may not persist in containers
-2. **Path resolution**: Container paths differ from local development3 **Log rotation**: No built-in log rotation for container environments
+2. **Path resolution**: Container paths differ from local development3 **Log rotation**: No built-in log rotation for
+   container environments
 
 ### Recommended Logging Changes
 
@@ -126,7 +129,7 @@ def setup_app_logging(
     container_mode: bool = False
 ):
     Configure logging for the main application with container support.
-    
+
     Args:
         container_mode (bool): If True, logs to stdout/stderr instead of files
     "" if container_mode or os.environ.get('CONTAINER_MODE') ==true       # Container mode: log to stdout/stderr
@@ -196,7 +199,7 @@ app = create_app()
 
 if __name__ == "__main__":
     logger.debug("Starting Flask app")
-    
+
     # Container-friendly configuration
     if CONTAINER_MODE:
         # Production container settings
@@ -212,7 +215,7 @@ if __name__ == "__main__":
 
 1. **PyCharm debugging**: Won't work with containerized app
 2. **Interactive debugger**: Werkzeug debugger disabled in production
-3**Hot reloading**: Not available in containers
+   3**Hot reloading**: Not available in containers
 
 ### Debugging Strategies for Containerized App
 
@@ -276,7 +279,7 @@ def setup_debug_logging():
         )
         console_handler.setFormatter(formatter)
         logging.getLogger().addHandler(console_handler)
-        
+
         # Log container environment info
         logger.info(fContainer Mode: {CONTAINER_MODE}")
         logger.info(f"Python Path:[object Object]os.environ.get('PYTHONPATH')}")
@@ -368,7 +371,7 @@ def health_check():
 1. **Log aggregation**: Use ELK stack or similar for centralized logging
 2. **Metrics**: Add Prometheus metrics for monitoring
 3. **Tracing**: Implement distributed tracing for request tracking
-4**Alerts**: Set up alerts for application errors and performance issues
+   4**Alerts**: Set up alerts for application errors and performance issues
 
 ## Migration Checklist
 
@@ -387,9 +390,10 @@ def health_check():
 ### Common Issues
 
 1**Import errors**: Ensure PYTHONPATH is set correctly
+
 2. **Database connection**: Verify DATABASE_URI is accessible from container
 3. **Permission errors**: Check file permissions for logs directory
-4**Memory issues**: Adjust Gunicorn worker count based on available memory
+   4**Memory issues**: Adjust Gunicorn worker count based on available memory
 
 ### Debug Commands
 
@@ -409,10 +413,13 @@ docker stats arb-portal
 
 ## Summary
 
-This containerization approach maintains your existing application structure while adapting it for containerized deployment with proper logging and debugging support. The key changes are:
+This containerization approach maintains your existing application structure while adapting it for containerized
+deployment with proper logging and debugging support. The key changes are:
 
 1. **Logging**: Switch from file-based to stdout logging in containers
-2**Configuration**: Use environment variables to control container vs development behavior3bugging**: Provide remote debugging capabilities and enhanced logging for container environments
+   2**Configuration**: Use environment variables to control container vs development behavior3bugging**: Provide remote
+   debugging capabilities and enhanced logging for container environments
 4. **Health Monitoring**: Add health check endpoints for container orchestration
 
-The containerized version will be more suitable for production deployment while maintaining development capabilities through separate Docker configurations. 
+The containerized version will be more suitable for production deployment while maintaining development capabilities
+through separate Docker configurations.

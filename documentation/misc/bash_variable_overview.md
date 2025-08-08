@@ -3,14 +3,14 @@
 ## 🔧 Variable Types
 
 | Type | Example | Meaning |
-| ---- | ------- | ------- |
+|------|---------|---------|
 |      |         |         |
 
 |   |
-| - |
+|---|
 
 | **User-defined** | `$my_var`        | A named variable you define: `my_var=hello`                      |
-| ---------------- | ---------------- | ---------------------------------------------------------------- |
+|------------------|------------------|------------------------------------------------------------------|
 | **Positional**   | `$1`, `$2`       | Arguments passed to a script/function                            |
 | **Special**      | `$@`, `$#`, `$?` | `$@` = all args, `$#` = arg count, `$?` = last return code, etc. |
 | **Environment**  | `$HOME`, `$PATH` | Predefined system variables                                      |
@@ -31,7 +31,7 @@ echo $greeting     # → hello
 ## 🧵 Quoting Rules
 
 | Context           | Example       | Behavior                                                          |
-| ----------------- | ------------- | ----------------------------------------------------------------- |
+|-------------------|---------------|-------------------------------------------------------------------|
 | **Unquoted**      | `echo $var`   | Variables are expanded; word splitting and globbing happen.       |
 | **Double-quoted** | `echo "$var"` | Variables are expanded; **no** word splitting or globbing. ✅ Safe |
 | **Single-quoted** | `echo '$var'` | No expansion; literal string. ❌ `$var` is not replaced.           |
@@ -63,7 +63,7 @@ mv $source_file $destination_file      # Bad if variables have spaces
 **Globbing** matches filenames using wildcards:
 
 | Pattern | Matches                                                          |
-| ------- | ---------------------------------------------------------------- |
+|---------|------------------------------------------------------------------|
 | `*`     | Zero or more characters (`file*` → `file1`, `fileA.txt`, etc.)   |
 | `?`     | Exactly one character (`file?.txt` → `file1.txt`, `fileA.txt`)   |
 | `[abc]` | One character in set (`file[13].txt` → `file1.txt`, `file3.txt`) |
@@ -82,7 +82,7 @@ echo *         # Lists everything
 ## 💬 Special Bash Parameters
 
 | Parameter   | Meaning                          | Use Case                         |
-| ----------- | -------------------------------- | -------------------------------- |
+|-------------|----------------------------------|----------------------------------|
 | `$0`        | Script name                      | `echo "Script is $0"`            |
 | `$1` … `$9` | First to ninth argument          | `echo "First arg is $1"`         |
 | `${10}`     | Tenth argument                   | `echo "Tenth arg is ${10}"`      |
@@ -147,5 +147,6 @@ $var      → Expanded, splits & globs
 
 ---
 
-This file provides a concise and practical reference for understanding shell variables, quoting rules, globbing, and special parameter usage in Bash. Always quote variables unless you know you need expansion and word splitting.
+This file provides a concise and practical reference for understanding shell variables, quoting rules, globbing, and
+special parameter usage in Bash. Always quote variables unless you know you need expansion and word splitting.
 

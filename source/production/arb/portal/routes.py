@@ -26,7 +26,8 @@ from pathlib import Path
 from typing import Any, Union
 from urllib.parse import unquote
 
-from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, send_from_directory, \
+from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, \
+  send_from_directory, \
   url_for  # to access app context
 from flask.typing import ResponseReturnValue
 from sqlalchemy.ext.automap import AutomapBase
@@ -46,7 +47,8 @@ from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_se
   upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
-from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, generate_upload_diagnostics, incidence_prep
+from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
+  generate_upload_diagnostics, incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 from arb.portal.wtf_landfill import LandfillFeedback
@@ -57,6 +59,9 @@ from arb.utils.file_io import read_file_reverse
 from arb.utils.json import compute_field_differences, json_load_with_meta
 from arb.utils.sql_alchemy import find_auto_increment_value, get_class_from_table_name, get_rows_by_table_name
 from arb.utils.wtf_forms_util import get_wtforms_fields, prep_payload_for_json
+
+import time
+from flask import session
 
 __version__ = "1.0.0"
 logger = logging.getLogger(__name__)
@@ -452,7 +457,7 @@ def upload_file(message: str | None = None) -> Union[str, Response]:
 def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
   """
   Refactored version of upload_file route with improved error handling and structure.
-  
+
   This route provides the same functionality as upload_file but uses a more modular
   approach with better error handling and clearer separation of concerns.
 
@@ -603,7 +608,8 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
 
       if not request_file or not request_file.filename:
         logger.warning("POST received with no file selected.")
-        return render_template('upload_staged.html', form=form, upload_message="No file selected. Please choose a file.")
+        return render_template('upload_staged.html', form=form,
+                               upload_message="No file selected. Please choose a file.")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
@@ -611,7 +617,8 @@ def upload_file_staged(message: str | None = None) -> Union[str, Response]:
       file_path, id_, sector, json_data, staged_filename = upload_and_stage_only(db, upload_folder, request_file, base)
 
       if id_ and staged_filename:
-        logger.debug(f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
+        logger.debug(
+          f"Staged upload successful: id={id_}, sector={sector}, filename={staged_filename}. Redirecting to review page.")
         # Enhanced success feedback with staging details
         success_message = (
           f"✅ File '{request_file.filename}' staged successfully!\n"
@@ -864,7 +871,9 @@ def confirm_staged(id_: int, filename: str) -> ResponseReturnValue:
     shutil.move(staged_path, processed_path)
     logger.info(f"[confirm_staged] ✅ Moved staged file to processed: {processed_path}")
 
-    flash(f"✅ Successfully updated record {id_}. {len(patch)} fields changed. Staged file moved to processed directory.", "success")
+    flash(
+      f"✅ Successfully updated record {id_}. {len(patch)} fields changed. Staged file moved to processed directory.",
+      "success")
 
   except Exception as e:
     # Rollback on error to prevent partial commits
@@ -1494,6 +1503,13 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
 
   if request.method == 'POST':
     flash("_upload_attempted", "internal-marker")
+    
+    # Set robust session storage state for testing
+    if request.headers.get('X-Test-Mode'):
+      # This will be picked up by the client-side JavaScript
+      session['_upload_attempt_state'] = 'attempted'
+      session['_upload_attempt_timestamp'] = time.time()
+    
     try:
       request_file = request.files.get('file')
 

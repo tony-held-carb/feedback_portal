@@ -77,7 +77,7 @@
                       </li>
                       {% if current_user.has_any_role('editor', 'admin') %}
                         <li><a href="{{ url_for('main.editor_tools') }}">Editor Tools</a> - <span
-                            class="badge bg-primary">Editor/Admin</span></li>
+                                class="badge bg-primary">Editor/Admin</span></li>
                       {% endif %}
                       {% if current_user.has_role('qaqc') %}
                         <li><a href="{{ url_for('main.qaqc_tools') }}">QA/QC Tools</a> - <span class="badge bg-warning">QA/QC</span>
@@ -85,7 +85,7 @@
                       {% endif %}
                       {% if current_user.has_all_roles('editor', 'qaqc') %}
                         <li><a href="{{ url_for('main.advanced_editing') }}">Advanced Editing</a> - <span
-                            class="badge bg-danger">Editor + QA/QC</span></li>
+                                class="badge bg-danger">Editor + QA/QC</span></li>
                       {% endif %}
                       {% if current_user.has_any_role('reviewer', 'manager', 'admin') %}
                         <li><a href="{{ url_for('main.review_panel') }}">Review Panel</a> - <span class="badge bg-dark">Reviewer/Manager/Admin</span>
@@ -93,7 +93,7 @@
                       {% endif %}
                       {% if current_user.has_role('admin') %}
                         <li><a href="{{ url_for('admin.admin_dashboard') }}">Admin Dashboard</a> - <span
-                            class="badge bg-danger">Admin</span></li>
+                                class="badge bg-danger">Admin</span></li>
                       {% endif %}
                     </ul>
                   </div>
@@ -132,4 +132,4 @@
       </div>
     </div>
   </div>
-{% endblock %} 
+{% endblock %}

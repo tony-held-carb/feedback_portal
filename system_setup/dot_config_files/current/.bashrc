@@ -22,7 +22,7 @@ fi
 # detect machine name using .functions.sh
 detect_os
 detect_machine_location
-MACHINE_NAME="${MACHINE_LOCATION}_${OS_TYPE}"
+export MACHINE_NAME="${MACHINE_LOCATION}_${OS_TYPE}"
 echo "MACHINE_NAME=$MACHINE_NAME"
 
 
@@ -33,7 +33,9 @@ case "$MACHINE_NAME" in
     ;;
   "TONY_HOME_WSL")
     CONDA_HOME="/home/tonyh/miniconda3"
-    export portal="/mnt/d/local/cursor/feedback_portal"
+    export portal="/home/tonyh/git_repos/feedback_portal"
+    export DATABASE_URI=postgresql+psycopg2://postgres:methane@192.168.1.66:5432/tony_home_tracker
+    # export DATABASE_URI=postgresql+psycopg2://postgres:methane@host.docker.internal:5432/tony_home_tracker
     ;;
   "TONY_WORK_WINDOWS")
     CONDA_HOME="/c/Users/theld/AppData/Local/miniconda3"
@@ -90,11 +92,18 @@ alias run_all="$portal/scripts/run_all"
 # start in the portal directory
 cd $portal
 
+# Tell Git to ignore permission differences locally
+# This prevents Git from treating chmod +x changes as meaningful diffs.
+git config --local core.fileMode false
+
+
 # Diagnostics
 echo "portal=$portal"
 echo "prod=$prod"
 echo "CONDA_HOME=$CONDA_HOME"
 echo "PYTHONPATH=$PYTHONPATH"
-# echo "PATH=$PATH"
-echo -e "\nportal=$portal (your pwd)"
-echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload'
+echo ""
+echo 'to run flask: cd $prod, flask --app arb/wsgi run --debug --no-reload -p 2113'
+echo 'pytest tests/arb -v  > "pytest_${MACHINE_NAME}_all_00.txt" 2>&1'
+echo 'pytest tests/e2e -v -s --durations=0 > "pytest_${MACHINE_NAME}_e2e_00.txt" 2>&1'
+echo ""

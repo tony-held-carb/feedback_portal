@@ -67,7 +67,7 @@ def test_flask_user_context_filter_sets_user():
   filter_ = log_util.FlaskUserContextFilter()
   record = MagicMock()
   with patch("arb.utils.log_util.has_request_context", return_value=True), \
-      patch("arb.utils.log_util.g", new=MagicMock(user="bob")):
+          patch("arb.utils.log_util.g", new=MagicMock(user="bob")):
     filter_.filter(record)
     assert record.user == "bob"
 

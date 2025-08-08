@@ -1,7 +1,10 @@
-// Place your key bindings in this file to override the defaults
 [
-    {
-        "key": "ctrl+i",
-        "command": "composerMode.agent"
-    }
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u000b"
+    },
+    "when": "terminalFocus"
+  }
 ]

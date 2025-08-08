@@ -18,12 +18,12 @@ actual Excel files from the feedback_forms/testing_versions folder.
 - **Data Integrity Pipeline**: Validates data consistency through Excel → Database pipeline
 
 ### ✅ FIXED FEATURES (Previously Broken):
-- **Round-Trip Export/Import Tests**: 
+- **Round-Trip Export/Import Tests**:
   - ✅ Export functionality now properly creates Excel files with correct structure
   - ✅ Re-import validation works correctly
   - ✅ Schema recognition issues resolved - proper tab_name -> schema_version mapping
   - ✅ Export file structure validation fixed
-  - **Fixed Issues**: 
+  - **Fixed Issues**:
     - `_validate_exported_file_structure()` linter errors resolved with proper null checks
     - Export file creation in `_export_data_to_excel()` now creates proper structure
     - Schema tab structure now matches expected format for re-import
@@ -41,7 +41,7 @@ actual Excel files from the feedback_forms/testing_versions folder.
 
 Tests cover:
 - File upload to /upload endpoint
-- File upload to /upload_staged endpoint  
+- File upload to /upload_staged endpoint
 - Data ingestion and field mapping
 - Form validation and redirection
 - Sector-specific field validation
@@ -82,8 +82,8 @@ Notes:
 - **✅ Fixed**: 2 test categories (round-trip export/import) - now fully functional
 - **🔄 Partial**: 0 test categories (all fully implemented)
 
-**Recommendation**: The test suite now provides comprehensive coverage of all file upload functionality. 
-All previously broken features have been fixed and are working correctly. The test suite is ready for 
+**Recommendation**: The test suite now provides comprehensive coverage of all file upload functionality.
+All previously broken features have been fixed and are working correctly. The test suite is ready for
 production use and can be used for regression testing and validation of the upload workflow.
 """
 
@@ -345,7 +345,8 @@ def verify_database_state(app, incidence_id: int, expected_values: Dict[str, Any
           errors.append(f"Field '{field_name}' not found in database misc_json")
         elif misc_json[field_name] != expected_value:
           actual_value = misc_json[field_name]
-          errors.append(f"Database field '{field_name}' value mismatch: expected '{expected_value}', got '{actual_value}'")
+          errors.append(
+            f"Database field '{field_name}' value mismatch: expected '{expected_value}', got '{actual_value}'")
 
       # Verify uploaded_file record exists
       file_result = db.session.execute(
@@ -1618,7 +1619,8 @@ def _compare_data_consistency(original_data, reimported_data, expected_values):
             pass
 
         if expected_value != reimported_value:
-          differences.append(f"Expected value mismatch for '{key}': expected='{expected_value}' vs reimported='{reimported_value}'")
+          differences.append(
+            f"Expected value mismatch for '{key}': expected='{expected_value}' vs reimported='{reimported_value}'")
       else:
         differences.append(f"Expected field '{key}' missing in re-imported data")
 

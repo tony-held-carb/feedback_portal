@@ -33,35 +33,35 @@
   </style>
 </head>
 <body>
-<div class="container">
-  <h2>Drag and Drop File Upload</h2>
+  <div class="container">
+    <h2>Drag and Drop File Upload</h2>
 
-  <form action="/upload" class="dropzone" id="file-dropzone" method="POST" enctype="multipart/form-data">
-    <div class="dz-message">
-      <i class="fas fa-cloud-upload-alt"></i>
-      <p>Drag & drop files here or click to upload.</p>
-    </div>
-  </form>
-</div>
+    <form action="/upload" class="dropzone" id="file-dropzone" method="POST" enctype="multipart/form-data">
+      <div class="dz-message">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop files here or click to upload.</p>
+      </div>
+    </form>
+  </div>
 
-<!-- Font Awesome for icon -->
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+  <!-- Font Awesome for icon -->
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
-<script>
-    // Initialize Dropzone
-    Dropzone.options.fileDropzone = {
-        paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 5, // MB
-        init: function () {
-            this.on("dragenter", function () {
-                this.element.classList.add('dragover');
-            });
-            this.on("dragleave", function () {
-                this.element.classList.remove('dragover');
-            });
-        }
-    };
-</script>
+  <script>
+      // Initialize Dropzone
+      Dropzone.options.fileDropzone = {
+          paramName: "file", // The name that will be used to transfer the file
+          maxFilesize: 5, // MB
+          init: function () {
+              this.on("dragenter", function () {
+                  this.element.classList.add('dragover');
+              });
+              this.on("dragleave", function () {
+                  this.element.classList.remove('dragover');
+              });
+          }
+      };
+  </script>
 </body>
 </html>

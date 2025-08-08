@@ -9,8 +9,8 @@
 # mini_conda_01.yml
 
 # need to update for:
-  # pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
-  # pip install sphinxcontrib-napoleon
+# pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+# pip install sphinxcontrib-napoleon
 # -------------------------------------------------------------------------------------------------
 # Purpose:
 # --------

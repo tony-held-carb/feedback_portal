@@ -212,7 +212,8 @@ def compare_excel_content(path1: Path, path2: Path, formatting_mode: str = "comm
             if getattr(c1.alignment, attr) != getattr(c2.alignment, attr):
               formatting_diffs.append(f"  {coord}: alignment.{attr} changed")
           if c1.number_format != c2.number_format:
-            formatting_diffs.append(f"  {coord}: number_format changed\n    A: {c1.number_format}\n    B: {c2.number_format}")
+            formatting_diffs.append(
+              f"  {coord}: number_format changed\n    A: {c1.number_format}\n    B: {c2.number_format}")
           if formatting_mode == "full":
             for side in BORDER_SIDES:
               b1 = getattr(c1.border, side)

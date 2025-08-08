@@ -88,7 +88,8 @@ def test_field_validation_email_format(app_ctx):
   form = LandfillFeedback()
 
   # Test that email field has Email validator
-  email_validators = [v for v in form.contact_email.validators if hasattr(v, '__class__') and 'Email' in v.__class__.__name__]
+  email_validators = [v for v in form.contact_email.validators if
+                      hasattr(v, '__class__') and 'Email' in v.__class__.__name__]
   assert len(email_validators) > 0, "Email field should have Email validator"
 
 
@@ -97,7 +98,8 @@ def test_field_validation_phone_regex(app_ctx):
   form = LandfillFeedback()
 
   # Test that phone field has Regexp validator
-  regex_validators = [v for v in form.contact_phone.validators if hasattr(v, '__class__') and 'Regexp' in v.__class__.__name__]
+  regex_validators = [v for v in form.contact_phone.validators if
+                      hasattr(v, '__class__') and 'Regexp' in v.__class__.__name__]
   assert len(regex_validators) > 0, "Phone field should have Regexp validator"
 
   # Check that the regex pattern matches expected format
@@ -114,7 +116,8 @@ def test_field_validation_number_ranges(app_ctx):
   form = LandfillFeedback()
 
   # Test that id_plume field has NumberRange validator with min=1
-  range_validators = [v for v in form.id_plume.validators if hasattr(v, '__class__') and 'NumberRange' in v.__class__.__name__]
+  range_validators = [v for v in form.id_plume.validators if
+                      hasattr(v, '__class__') and 'NumberRange' in v.__class__.__name__]
   assert len(range_validators) > 0, "id_plume field should have NumberRange validator"
 
   # Check that the range validator has min=1

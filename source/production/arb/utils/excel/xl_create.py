@@ -138,10 +138,10 @@ def schema_to_json_file(data: dict, schema_version: str, file_name: str | None =
 
 
 def update_vba_schema(
-    schema_version: str,
-    file_name_in: Path | None = None,
-    file_name_out: Path | None = None,
-    file_name_default_value_types: Path | None = None
+        schema_version: str,
+        file_name_in: Path | None = None,
+        file_name_out: Path | None = None,
+        file_name_default_value_types: Path | None = None
 ) -> dict:
   """
   Update a VBA-generated Excel schema with value_type info and re-sort it.

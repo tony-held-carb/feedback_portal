@@ -15,25 +15,29 @@ def test_auth_bp_exists():
   # Blueprint should exist
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
 def test_login_route():
   """Login route works correctly."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
 def test_register_route():
   """Register route works correctly."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
 def test_logout_route():
   """Logout route works correctly."""
   pass
 
 
-@pytest.mark.skip(reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
+@pytest.mark.skip(
+  reason="Requires complex Flask app context and authentication setup. Will be addressed in follow-up context testing.")
 def test_password_reset_route():
   """Password reset route works correctly."""
   pass

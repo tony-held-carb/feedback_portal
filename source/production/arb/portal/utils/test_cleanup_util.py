@@ -279,7 +279,8 @@ def list_testing_rows(db: SQLAlchemy,
       for row in incidences_rows
     ]
 
-    logger.info(f"Found {len(result['portal_updates'])} rows in portal_updates and {len(result['incidences'])} rows in incidences")
+    logger.info(
+      f"Found {len(result['portal_updates'])} rows in portal_updates and {len(result['incidences'])} rows in incidences")
 
     return result
 

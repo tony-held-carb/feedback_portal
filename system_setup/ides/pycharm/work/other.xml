@@ -1,34 +1,35 @@
 <application>
-  <component name="AppInspectionProfilesVisibleTreeState">
-    <entry key="Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id>Python</id>
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>User defined</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
-  </component>
-  <component name="FileEditorProviderManager">{
-  &quot;selectedProviders&quot;: {
-    &quot;text-editor,csv-data-editor&quot;: &quot;text-editor&quot;
-  }
-}</component>
-  <component name="LangManager">
-    <option name="languageName" value="Python" />
-  </component>
-  <component name="NotRoamableUiSettings">
-    <option name="fontSize" value="12.0" />
-    <option name="presentationModeIdeScale" value="1.75" />
-    <option name="overrideLafFontsWasMigrated" value="true" />
-  </component>
-  <component name="PropertyService"><![CDATA[{
+    <component name="AppInspectionProfilesVisibleTreeState">
+        <entry key="Default">
+            <profile-state>
+                <expanded-state>
+                    <State>
+                        <id>Python</id>
+                    </State>
+                </expanded-state>
+                <selected-state>
+                    <State>
+                        <id>User defined</id>
+                    </State>
+                </selected-state>
+            </profile-state>
+        </entry>
+    </component>
+    <component name="FileEditorProviderManager">{
+        &quot;selectedProviders&quot;: {
+        &quot;text-editor,csv-data-editor&quot;: &quot;text-editor&quot;
+        }
+        }
+    </component>
+    <component name="LangManager">
+        <option name="languageName" value="Python"/>
+    </component>
+    <component name="NotRoamableUiSettings">
+        <option name="fontSize" value="12.0"/>
+        <option name="presentationModeIdeScale" value="1.75"/>
+        <option name="overrideLafFontsWasMigrated" value="true"/>
+    </component>
+    <component name="PropertyService"><![CDATA[{
   "keyToString": {
     "AIHubNotificationManager.lastUsedLicenseType": "PRO_TRIAL",
     "CUSTOMIZE_ACTIONS": "reload from disk\nreload from",
@@ -196,53 +197,54 @@
     ]
   }
 }]]></component>
-  <component name="ShownTips">{
-  &quot;shownTips&quot;: {
-    &quot;SpeedSearch&quot;: 1716931258641,
-    &quot;LiveTemplates&quot;: 1722200799556,
-    &quot;CtrlW&quot;: 1731567455751,
-    &quot;find_usages&quot;: 1717428685818,
-    &quot;ParameterInfo&quot;: 1732120216005,
-    &quot;QuickJavaDoc&quot;: 1711334380966,
-    &quot;SearchEverywhere&quot;: 1718309522778,
-    &quot;GoToDeclaration&quot;: 1701405917798,
-    &quot;RecentFiles&quot;: 1727627003152,
-    &quot;NonSuspendingBreakpoints&quot;: 1724099121537,
-    &quot;QuickSwitchScheme&quot;: 1727386972227,
-    &quot;GoToClass&quot;: 1722287880722,
-    &quot;ShowUsages&quot;: 1731641840639,
-    &quot;FileStructurePopup&quot;: 1731685835064,
-    &quot;GoToFile&quot;: 1732311394886,
-    &quot;CamelHumpsInCodeCompletion&quot;: 1717514584387,
-    &quot;PostfixCompletion&quot;: 1711488937510,
-    &quot;CtrlShiftI&quot;: 1721140137133,
-    &quot;FindInPath&quot;: 1697551602723,
-    &quot;OverrideImplementMethods&quot;: 1711207517014,
-    &quot;GoToAction&quot;: 1730917772979
-  },
-  &quot;proposedTips&quot;: {
-    &quot;SpeedSearch&quot;: 1716931258430,
-    &quot;LiveTemplates&quot;: 1722200799142,
-    &quot;CtrlW&quot;: 1731567454075,
-    &quot;find_usages&quot;: 1717428685494,
-    &quot;ParameterInfo&quot;: 1732120215280,
-    &quot;QuickJavaDoc&quot;: 1711334380661,
-    &quot;SearchEverywhere&quot;: 1718309522306,
-    &quot;GoToDeclaration&quot;: 1701405917561,
-    &quot;RecentFiles&quot;: 1727627002799,
-    &quot;NonSuspendingBreakpoints&quot;: 1724099120653,
-    &quot;QuickSwitchScheme&quot;: 1727386972018,
-    &quot;GoToClass&quot;: 1722287880385,
-    &quot;ShowUsages&quot;: 1731641839577,
-    &quot;FileStructurePopup&quot;: 1731685834663,
-    &quot;GoToFile&quot;: 1732311394544,
-    &quot;CamelHumpsInCodeCompletion&quot;: 1717514584307,
-    &quot;PostfixCompletion&quot;: 1711488937236,
-    &quot;CtrlShiftI&quot;: 1721140136750,
-    &quot;FindInPath&quot;: 1697551602294,
-    &quot;OverrideImplementMethods&quot;: 1711207516708,
-    &quot;GoToAction&quot;: 1730917772541
-  },
-  &quot;tipsOrderSeed&quot;: 1697469499671
-}</component>
+    <component name="ShownTips">{
+        &quot;shownTips&quot;: {
+        &quot;SpeedSearch&quot;: 1716931258641,
+        &quot;LiveTemplates&quot;: 1722200799556,
+        &quot;CtrlW&quot;: 1731567455751,
+        &quot;find_usages&quot;: 1717428685818,
+        &quot;ParameterInfo&quot;: 1732120216005,
+        &quot;QuickJavaDoc&quot;: 1711334380966,
+        &quot;SearchEverywhere&quot;: 1718309522778,
+        &quot;GoToDeclaration&quot;: 1701405917798,
+        &quot;RecentFiles&quot;: 1727627003152,
+        &quot;NonSuspendingBreakpoints&quot;: 1724099121537,
+        &quot;QuickSwitchScheme&quot;: 1727386972227,
+        &quot;GoToClass&quot;: 1722287880722,
+        &quot;ShowUsages&quot;: 1731641840639,
+        &quot;FileStructurePopup&quot;: 1731685835064,
+        &quot;GoToFile&quot;: 1732311394886,
+        &quot;CamelHumpsInCodeCompletion&quot;: 1717514584387,
+        &quot;PostfixCompletion&quot;: 1711488937510,
+        &quot;CtrlShiftI&quot;: 1721140137133,
+        &quot;FindInPath&quot;: 1697551602723,
+        &quot;OverrideImplementMethods&quot;: 1711207517014,
+        &quot;GoToAction&quot;: 1730917772979
+        },
+        &quot;proposedTips&quot;: {
+        &quot;SpeedSearch&quot;: 1716931258430,
+        &quot;LiveTemplates&quot;: 1722200799142,
+        &quot;CtrlW&quot;: 1731567454075,
+        &quot;find_usages&quot;: 1717428685494,
+        &quot;ParameterInfo&quot;: 1732120215280,
+        &quot;QuickJavaDoc&quot;: 1711334380661,
+        &quot;SearchEverywhere&quot;: 1718309522306,
+        &quot;GoToDeclaration&quot;: 1701405917561,
+        &quot;RecentFiles&quot;: 1727627002799,
+        &quot;NonSuspendingBreakpoints&quot;: 1724099120653,
+        &quot;QuickSwitchScheme&quot;: 1727386972018,
+        &quot;GoToClass&quot;: 1722287880385,
+        &quot;ShowUsages&quot;: 1731641839577,
+        &quot;FileStructurePopup&quot;: 1731685834663,
+        &quot;GoToFile&quot;: 1732311394544,
+        &quot;CamelHumpsInCodeCompletion&quot;: 1717514584307,
+        &quot;PostfixCompletion&quot;: 1711488937236,
+        &quot;CtrlShiftI&quot;: 1721140136750,
+        &quot;FindInPath&quot;: 1697551602294,
+        &quot;OverrideImplementMethods&quot;: 1711207516708,
+        &quot;GoToAction&quot;: 1730917772541
+        },
+        &quot;tipsOrderSeed&quot;: 1697469499671
+        }
+    </component>
 </application>

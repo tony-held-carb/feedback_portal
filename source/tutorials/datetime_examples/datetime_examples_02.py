@@ -98,9 +98,7 @@ Topic 3. Best Practices
 
 """
 
-import warnings
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
+from datetime import timezone
 
 import dateutil
 import pytz

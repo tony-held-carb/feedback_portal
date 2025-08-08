@@ -22,44 +22,44 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <thead>
-                <tr>
-                  <th>Date/Time</th>
-                  <th>Activity</th>
-                  <th>Details</th>
-                  <th>IP Address</th>
-                </tr>
+                  <tr>
+                    <th>Date/Time</th>
+                    <th>Activity</th>
+                    <th>Details</th>
+                    <th>IP Address</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>{{ current_user.last_login_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.last_login_timestamp else 'N/A' }}</td>
-                  <td><span class="badge bg-success">Login</span></td>
-                  <td>Successful login</td>
-                  <td>127.0.0.1</td>
-                </tr>
-                <tr>
-                  <td>{{ current_user.created_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.created_timestamp else 'N/A' }}</td>
-                  <td><span class="badge bg-primary">Account Created</span></td>
-                  <td>Account registration</td>
-                  <td>127.0.0.1</td>
-                </tr>
-                <tr>
-                  <td>2024-01-15 10:30</td>
-                  <td><span class="badge bg-info">Profile Updated</span></td>
-                  <td>Profile information modified</td>
-                  <td>127.0.0.1</td>
-                </tr>
-                <tr>
-                  <td>2024-01-14 14:22</td>
-                  <td><span class="badge bg-warning">Password Changed</span></td>
-                  <td>Password successfully updated</td>
-                  <td>127.0.0.1</td>
-                </tr>
-                <tr>
-                  <td>2024-01-13 09:15</td>
-                  <td><span class="badge bg-success">Login</span></td>
-                  <td>Successful login</td>
-                  <td>127.0.0.1</td>
-                </tr>
+                  <tr>
+                    <td>{{ current_user.last_login_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.last_login_timestamp else 'N/A' }}</td>
+                    <td><span class="badge bg-success">Login</span></td>
+                    <td>Successful login</td>
+                    <td>127.0.0.1</td>
+                  </tr>
+                  <tr>
+                    <td>{{ current_user.created_timestamp.strftime('%Y-%m-%d %H:%M') if current_user.created_timestamp else 'N/A' }}</td>
+                    <td><span class="badge bg-primary">Account Created</span></td>
+                    <td>Account registration</td>
+                    <td>127.0.0.1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-01-15 10:30</td>
+                    <td><span class="badge bg-info">Profile Updated</span></td>
+                    <td>Profile information modified</td>
+                    <td>127.0.0.1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-01-14 14:22</td>
+                    <td><span class="badge bg-warning">Password Changed</span></td>
+                    <td>Password successfully updated</td>
+                    <td>127.0.0.1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-01-13 09:15</td>
+                    <td><span class="badge bg-success">Login</span></td>
+                    <td>Successful login</td>
+                    <td>127.0.0.1</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -82,4 +82,4 @@
       </div>
     </div>
   </div>
-{% endblock %} 
+{% endblock %}

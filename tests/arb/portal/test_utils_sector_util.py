@@ -85,7 +85,7 @@ def test_get_sector_type_landfill():
 
 def test_get_sector_type_unsupported():
   with patch("arb.portal.utils.sector_util.OIL_AND_GAS_SECTORS", []), \
-      patch("arb.portal.utils.sector_util.LANDFILL_SECTORS", []):
+          patch("arb.portal.utils.sector_util.LANDFILL_SECTORS", []):
     assert get_sector_type("Unknown") == "Unknown"
 
 

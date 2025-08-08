@@ -75,7 +75,8 @@ def test_feedback_updates_filter_functionality(page: Page):
   # Check that all visible rows have 'anonymous' in the User column
   table = page.locator("table, .table")
   user_cells = table.locator("tbody tr td:nth-child(5)")  # User column is 5th
-  print("[DEBUG] User column values after filtering:", [user_cells.nth(i).inner_text() for i in range(user_cells.count())])
+  print("[DEBUG] User column values after filtering:",
+        [user_cells.nth(i).inner_text() for i in range(user_cells.count())])
   if user_cells.count() == 0:
     pytest.skip("No rows matched the filter; skipping content check.")
   for i in range(user_cells.count()):

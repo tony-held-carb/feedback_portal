@@ -120,10 +120,10 @@ def list_to_triple_tuple(values: list[str]) -> list[tuple[str, str, dict]]:
 
 
 def update_triple_tuple_dict(
-    tuple_list: list[tuple[str, str, dict]],
-    match_list: list[str],
-    match_update_dict: dict,
-    unmatch_update_dict: dict | None = None
+        tuple_list: list[tuple[str, str, dict]],
+        match_list: list[str],
+        match_update_dict: dict,
+        unmatch_update_dict: dict | None = None
 ) -> list[tuple[str, str, dict]]:
   """
   Update the metadata dict of each WTForms triple tuple based on value match.
@@ -200,10 +200,10 @@ def update_selector_dict(input_dict: dict[str, list[str]]) -> dict[str, list[tup
 
 
 def ensure_placeholder_option(
-    tuple_list: list[tuple[str, str, dict]],
-    item: str = PLEASE_SELECT,
-    item_dict: dict = None,
-    ensure_first: bool = True
+        tuple_list: list[tuple[str, str, dict]],
+        item: str = PLEASE_SELECT,
+        item_dict: dict = None,
+        ensure_first: bool = True
 ) -> list[tuple[str, str, dict]]:
   """
   Ensure a placeholder entry is present in the tuple list.

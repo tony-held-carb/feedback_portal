@@ -65,26 +65,26 @@
               <div class="table-responsive">
                 <table class="table table-striped table-hover">
                   <thead class="table-light">
-                  <tr>
-                    <th style="width: 40%;">Field Name</th>
-                    <th style="width: 60%;">Value</th>
-                  </tr>
+                    <tr>
+                      <th style="width: 40%;">Field Name</th>
+                      <th style="width: 60%;">Value</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  {% for field_name, field_value in all_fields %}
-                    <tr>
-                      <td class="fw-bold">{{ field_name }}</td>
-                      <td>
-                        {% if field_value is none or field_value == '' %}
-                          <!-- Empty field - no text displayed -->
-                        {% elif field_value is string and field_value|length > 100 %}
-                          <div class="text-break">{{ field_value }}</div>
-                        {% else %}
-                          {{ field_value }}
-                        {% endif %}
-                      </td>
-                    </tr>
-                  {% endfor %}
+                    {% for field_name, field_value in all_fields %}
+                      <tr>
+                        <td class="fw-bold">{{ field_name }}</td>
+                        <td>
+                          {% if field_value is none or field_value == '' %}
+                            <!-- Empty field - no text displayed -->
+                          {% elif field_value is string and field_value|length > 100 %}
+                            <div class="text-break">{{ field_value }}</div>
+                          {% else %}
+                            {{ field_value }}
+                          {% endif %}
+                        </td>
+                      </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -163,4 +163,4 @@
     .table td {
         vertical-align: top;
     }
-</style> 
+</style>

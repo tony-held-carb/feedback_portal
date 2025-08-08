@@ -1,81 +1,138 @@
 {
-  "files.eol": "\n",
-  // 🐚 Define terminal profiles
-  "terminal.integrated.profiles.windows": {
-    "WSL Ubuntu": {
-      "path": "wsl.exe",
-      "args": [
-        "-d",
-        "Ubuntu"
-      ],
-      "icon": "terminal-ubuntu"
-    },
-    "Git Bash": {
-      "path": "C:\\tony_apps\\git\\bin\\bash.exe",
-      "args": [
-        "--login",
-        "-i"
-      ]
-    }
-  },
-  // 🖥️ Set WSL Ubuntu as the default integrated terminal
-  "terminal.integrated.defaultProfile.windows": "WSL Ubuntu",
-  // 🤖 Use WSL for automation tasks (AI commands)
-  "terminal.integrated.automationProfile.windows": "WSL Ubuntu"
-
-  // 🎛️ Enable the Command Center UI in Cursor
-  "window.commandCenter": true,
-  // 🎨 Theme preferences
-  "workbench.colorTheme": "Daynight Darcula",
-  // 🔁 Git settings for streamlined commits
-  "git.confirmSync": false,
-  "git.enableSmartCommit": true,
-  // 🐧 Optional Linux profiles (harmless on Windows, useful for cross-platform projects)
-  "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "bash",
-      "icon": "terminal-bash"
-    },
-    "zsh": {
-      "path": "zsh"
-    },
-    "fish": {
-      "path": "fish"
-    },
-    "tmux": {
-      "path": "tmux",
-      "icon": "terminal-tmux"
-    },
-    "pwsh": {
-      "path": "pwsh",
-      "icon": "terminal-powershell"
-    }
-  },
-  // 🛡️ Conda injection fix
-  // These settings prevent Cursor/VS Code from injecting malformed activation commands
-  // such as:
-  //     <pts/activate C:\Users\tonyh\miniconda3\envs\mini_conda_01
-  // which result in:
-  //     EnvironmentNameNotFound: C:Userstonyhminiconda3envsmini_conda_01
+  // =============================================================================
+  // CURSOR CONFIGURATION FILE
+  // =============================================================================
+  // This file contains the complete Cursor IDE configuration for the feedback portal
+  // project. Each section is documented with its purpose, benefits, and implications.
   //
-  // ✅ `inheritEnv: false` stops inherited shell variables from contaminating new terminals
-  // ✅ `python.terminal.activateEnvironment: false` disables Python extension's auto-conda activation
-  // ✅ `python.terminal.launchArgs: []` removes any lingering injected launch commands
+  // Last Updated: 2025-08-06
+  // Environment: WSL2 on Windows 11
+  // Project: feedback_portal
+  // =============================================================================
+
+  // =============================================================================
+  // FILE FORMAT SETTINGS
+  // =============================================================================
+  // Ensures consistent line endings across all platforms
+  // Prevents Git conflicts and maintains code consistency
+  "files.eol": "\n",
+
+  // =============================================================================
+  // UI PRODUCTIVITY SETTINGS
+  // =============================================================================
+  
+  // Command Center - Global Search and Command Interface
+  // Purpose: Enables the global search bar for commands, files, and settings
+  // Access: Press Ctrl+Shift+P or F1
+  // Benefits: 
+  //   - Fuzzy search for commands, files, settings
+  //   - Quick file navigation without using file explorer
+  //   - Command palette with intelligent suggestions
+  //   - Faster workflow - no need to hunt through menus
+  "window.commandCenter": true,
+
+  // Visual Theme - Dark Theme for Eye Comfort
+  // Purpose: Sets a dark theme with blue-green color scheme
+  // Benefits:
+  //   - Reduces eye strain in low-light conditions
+  //   - High contrast syntax highlighting for better code readability
+  //   - Professional appearance
+  //   - Consistent with modern development environments
+  "workbench.colorTheme": "Daynight Darcula",
+
+  // =============================================================================
+  // GIT WORKFLOW OPTIMIZATIONS
+  // =============================================================================
+  
+  // Auto-Sync - Disable Confirmation Dialogs
+  // Purpose: Automatically syncs Git changes without confirmation prompts
+  // Behavior: Pushes/pulls without asking "Sync changes?"
+  // Benefits:
+  //   - Streamlined workflow - no interruptions during development
+  //   - Faster Git operations
+  //   - Reduces context switching
+  // Risk: Could accidentally sync unwanted changes (but can be undone)
+  "git.confirmSync": false,
+
+  // Smart Commit - Auto-Stage All Changes
+  // Purpose: Automatically stages all changes when committing
+  // Behavior: git commit now includes git add . automatically
+  // Benefits:
+  //   - One-step commits instead of two-step process
+  //   - No need to remember git add . before committing
+  //   - Faster commit workflow
+  //   - Reduces chance of forgetting to stage files
+  "git.enableSmartCommit": true,
+
+  // =============================================================================
+  // TERMINAL CONFIGURATION - WSL INTEGRATION
+  // =============================================================================
+  
+  // WSL as Default Terminal
+  // Purpose: Sets WSL as the primary terminal instead of PowerShell/CMD
+  // Impact: All new terminals open in WSL environment
+  // Benefits:
+  //   - Linux development environment on Windows
+  //   - Better compatibility with Python/Linux tools
+  //   - Consistent with production Linux environments
+  //   - Access to full Linux command set
+  "terminal.integrated.defaultProfile.windows": "WSL",
+
+  // WSL Profile Definition
+  // Purpose: Defines the WSL terminal profile configuration
+  // Path: Points to Windows Subsystem for Linux executable
+  // Behavior: Launches your default WSL distribution
+  // Customization: Can specify particular distro with shellArgs
+  "terminal.integrated.profiles.windows": {
+    "WSL": {
+      "path": "C:\\WINDOWS\\System32\\wsl.exe"
+    }
+  },
+
+  // =============================================================================
+  // OPTIONAL CONFIGURATIONS (CURRENTLY DISABLED)
+  // =============================================================================
+  
+  // Specific WSL Distribution
+  // Purpose: Force use of a particular WSL distribution
+  // Current: Uses default distro (Ubuntu)
+  // If Uncommented: Would force use of Ubuntu-22.04 specifically
+  // Usage: Uncomment and modify if you have multiple WSL distros
+  // "terminal.integrated.shellArgs.windows": ["-d", "Ubuntu-22.04"]
+
+  // =============================================================================
+  // CONDA ENVIRONMENT FIXES
+  // =============================================================================
+  // These settings prevent Cursor from injecting Windows conda commands into WSL
+  // and causing the "EnvironmentNameNotFound" errors you're experiencing.
+  //
+  // Purpose: Disable automatic conda environment activation
+  // Benefits: 
+  //   - Prevents Windows conda paths from being injected into WSL
+  //   - Allows your .bashrc to handle conda activation properly
+  //   - Eliminates "C:\Users\tonyh\miniconda3\envs\mini_conda_02" errors
+  //   - Maintains clean WSL environment
   "terminal.integrated.inheritEnv": false,
   "python.terminal.activateEnvironment": false,
   "python.terminal.launchArgs": [],
-  // ⚙️ Terminal stability improvements
-  // These help avoid hanging behavior after running or exiting commands in Cursor
+  "python.defaultInterpreterPath": "",
+  "python.condaPath": "",
+  "python.terminal.activateEnvironmentInTerminal": false,
 
-  // ✅ Prevent Cursor from persisting previous terminal sessions that may contain corrupted state
+  // =============================================================================
+  // TERMINAL STABILITY SETTINGS
+  // =============================================================================
+  // These settings improve terminal stability and prevent hanging issues
+  //
+  // Purpose: Prevent terminal session corruption and improve reliability
+  // Benefits:
+  //   - Prevents hanging after running commands
+  //   - Reduces startup delays
+  //   - Improves Ctrl+C handling
+  //   - Better compatibility with WSL
   "terminal.integrated.enablePersistentSessions": false,
-  // ✅ Turn off automatic locale detection which may cause startup delays or encoding issues
   "terminal.integrated.detectLocale": "off",
-  // ✅ Disable shell integration features that can conflict with non-standard shells like Git Bash
   "terminal.integrated.shellIntegration.enabled": false,
-  // ✅ Set scrollback buffer to a reasonable size for large logs and smooth rendering
-  "terminal.integrated.scrollback": 10000,
-  // ✅ (Experimental) Disable Windows conpty support which can break Git Bash input/output (especially Ctrl+C/input())
-  // Note: May not be supported in all versions of Cursor. Safe to include.
-  "terminal.integrated.windowsEnableConpty": false
+  "terminal.integrated.windowsEnableConpty": false,
+  "terminal.integrated.scrollback": 10000
 }
