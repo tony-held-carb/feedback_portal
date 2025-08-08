@@ -31,7 +31,10 @@ from arb.portal.startup.runtime_info import LOG_DIR
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.portal.utils.import_audit import generate_import_audit
-from arb.portal.utils.result_types import StagingResult, UploadResult
+from arb.portal.utils.result_types import (
+    StagingResult, UploadResult, FileSaveResult, FileConversionResult,
+    IdValidationResult, StagedFileResult, DatabaseInsertResult
+)
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, xl_schema_map
 from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
@@ -477,59 +480,58 @@ def upload_and_process_file(db: SQLAlchemy,
   logger.debug(f"upload_and_process_file() called with {request_file=}")
 
   # Step 1: Save uploaded file
-  try:
-    file_path = _save_uploaded_file(upload_dir, request_file, db, description="Direct upload to database")
-  except ValueError as e:
+  save_result = save_uploaded_file_with_result(upload_dir, request_file, db, description="Direct upload to database")
+  if not save_result.success:
     return UploadResult(
       file_path=Path("unknown"),
       id_=None,
       sector=None,
       success=False,
-      error_message=str(e),
-      error_type="file_error"
+      error_message=save_result.error_message,
+      error_type=save_result.error_type
     )
 
   # Step 2: Convert file to JSON and extract data
-  json_path, sector, json_data, error = _convert_file_to_json(file_path)
-  if error:
+  conversion_result = convert_file_to_json_with_result(save_result.file_path)
+  if not conversion_result.success:
     return UploadResult(
-      file_path=file_path,
+      file_path=save_result.file_path,
       id_=None,
-      sector=sector,
+      sector=conversion_result.sector,
       success=False,
-      error_message=error,
-      error_type="conversion_failed"
+      error_message=conversion_result.error_message,
+      error_type=conversion_result.error_type
     )
 
   # Step 3: Validate ID from JSON data
-  id_, error = _validate_id_from_json(json_data)
-  if error:
+  validation_result = validate_id_from_json_with_result(conversion_result.json_data)
+  if not validation_result.success:
     return UploadResult(
-      file_path=file_path,
+      file_path=save_result.file_path,
       id_=None,
-      sector=sector,
+      sector=conversion_result.sector,
       success=False,
-      error_message=error,
-      error_type="missing_id"
+      error_message=validation_result.error_message,
+      error_type=validation_result.error_type
     )
 
   # Step 4: Insert data into database
-  id_, error = _insert_json_into_database(json_path, base, db)
-  if error:
+  insert_result = insert_json_into_database_with_result(conversion_result.json_path, base, db)
+  if not insert_result.success:
     return UploadResult(
-      file_path=file_path,
+      file_path=save_result.file_path,
       id_=None,
-      sector=sector,
+      sector=conversion_result.sector,
       success=False,
-      error_message=error,
-      error_type="database_error"
+      error_message=insert_result.error_message,
+      error_type=insert_result.error_type
     )
 
   # Success case
   return UploadResult(
-    file_path=file_path,
-    id_=id_,
-    sector=sector,
+    file_path=save_result.file_path,
+    id_=insert_result.id_,
+    sector=conversion_result.sector,
     success=True,
     error_message=None,
     error_type=None
@@ -999,9 +1001,8 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
   logger.debug(f"stage_uploaded_file_for_review() called with {request_file.filename}")
 
   # Step 1: Save the uploaded file
-  try:
-    file_path = _save_uploaded_file(upload_dir, request_file, db, description="Staged only (no DB write)")
-  except ValueError as e:
+  save_result = save_uploaded_file_with_result(upload_dir, request_file, db, description="Staged only (no DB write)")
+  if not save_result.success:
     return StagingResult(
       file_path=Path("unknown"),
       id_=None,
@@ -1009,61 +1010,342 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
       json_data={},
       staged_filename=None,
       success=False,
-      error_message=str(e),
-      error_type="file_error"
+      error_message=save_result.error_message,
+      error_type=save_result.error_type
     )
 
   # Step 2: Convert file to JSON and extract sector
-  json_path, sector, json_data, error = _convert_file_to_json(file_path)
-  if not json_path:
+  conversion_result = convert_file_to_json_with_result(save_result.file_path)
+  if not conversion_result.success:
     return StagingResult(
-      file_path=file_path,
+      file_path=save_result.file_path,
       id_=None,
       sector=None,
       json_data={},
       staged_filename=None,
       success=False,
-      error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
-      error_type="conversion_failed"
+      error_message=conversion_result.error_message,
+      error_type=conversion_result.error_type
     )
 
   # Step 3: Validate and extract id_incidence
-  id_, error = _validate_id_from_json(json_data)
-  if not id_:
+  validation_result = validate_id_from_json_with_result(conversion_result.json_data)
+  if not validation_result.success:
     return StagingResult(
-      file_path=file_path,
+      file_path=save_result.file_path,
       id_=None,
-      sector=sector,
-      json_data=json_data,
+      sector=conversion_result.sector,
+      json_data=conversion_result.json_data,
       staged_filename=None,
       success=False,
-      error_message=error,
-      error_type="missing_id"
+      error_message=validation_result.error_message,
+      error_type=validation_result.error_type
     )
 
   # Step 4: Create staged file
-  staged_filename = _create_staged_file(id_, json_data, db, base, upload_dir)
-  if not staged_filename:
+  staging_result = create_staged_file_with_result(validation_result.id_, conversion_result.json_data, db, base, upload_dir)
+  if not staging_result.success:
     return StagingResult(
-      file_path=file_path,
-      id_=id_,
-      sector=sector,
-      json_data=json_data,
+      file_path=save_result.file_path,
+      id_=validation_result.id_,
+      sector=conversion_result.sector,
+      json_data=conversion_result.json_data,
       staged_filename=None,
       success=False,
-      error_message="Failed to create staged file. Please try again.",
-      error_type="database_error"
+      error_message=staging_result.error_message,
+      error_type=staging_result.error_type
     )
 
   # Success case
-  logger.debug(f"Staging successful: id={id_}, sector={sector}, filename={staged_filename}")
+  logger.debug(f"Staging successful: id={validation_result.id_}, sector={conversion_result.sector}, filename={staging_result.staged_filename}")
   return StagingResult(
-    file_path=file_path,
-    id_=id_,
-    sector=sector,
-    json_data=json_data,
-    staged_filename=staged_filename,
+    file_path=save_result.file_path,
+    id_=validation_result.id_,
+    sector=conversion_result.sector,
+    json_data=conversion_result.json_data,
+    staged_filename=staging_result.staged_filename,
     success=True,
     error_message=None,
     error_type=None
   )
+
+
+def save_uploaded_file_with_result(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy,
+                                  description: str | None = None) -> FileSaveResult:
+    """
+    Save an uploaded file to the upload directory with rich result information.
+
+    This function provides a type-safe alternative to _save_uploaded_file with
+    detailed error information and clear success/failure indicators.
+
+    Args:
+        upload_dir (str | Path): Directory to save the file in
+        request_file (FileStorage): File uploaded via Flask request
+        db (SQLAlchemy): Database instance for logging upload
+        description (str | None): Optional description for the upload table entry
+
+    Returns:
+        FileSaveResult: Rich result object with success/failure information
+
+    Examples:
+        result = save_uploaded_file_with_result(upload_dir, request_file, db)
+        if result.success:
+            # File saved successfully
+            file_path = result.file_path
+        else:
+            # Handle error
+            if result.error_type == "file_error":
+                flash(f"File upload failed: {result.error_message}")
+    """
+    try:
+        file_path = upload_single_file(upload_dir, request_file)
+        add_file_to_upload_table(db, file_path, status="File Added", description=description)
+        logger.debug(f"Uploaded file saved to: {file_path}")
+        return FileSaveResult(
+            file_path=file_path,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    except Exception as e:
+        logger.error(f"Failed to save uploaded file: {e}")
+        return FileSaveResult(
+            file_path=None,
+            success=False,
+            error_message=f"File upload failed: {e}",
+            error_type="file_error"
+        )
+
+
+def convert_file_to_json_with_result(file_path: Path) -> FileConversionResult:
+    """
+    Convert uploaded file to JSON format with rich result information.
+
+    This function provides a type-safe alternative to _convert_file_to_json with
+    detailed error information and clear success/failure indicators.
+
+    Args:
+        file_path (Path): Path to the uploaded file
+
+    Returns:
+        FileConversionResult: Rich result object with conversion information
+
+    Examples:
+        result = convert_file_to_json_with_result(file_path)
+        if result.success:
+            # Conversion successful
+            json_path = result.json_path
+            sector = result.sector
+            json_data = result.json_data
+        else:
+            # Handle conversion error
+            if result.error_type == "conversion_failed":
+                flash(f"File conversion failed: {result.error_message}")
+    """
+    try:
+        json_path, sector = convert_excel_to_json_if_valid(file_path)
+
+        # Generate import audit for diagnostics
+        try:
+            parse_result = parse_xl_file(file_path)
+            audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+            audit_log_path = LOG_DIR / "import_audit.log"
+            audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(audit_log_path, "a", encoding="utf-8") as f:
+                f.write(audit + "\n\n")
+        except Exception as e:
+            logger.warning(f"Failed to generate import audit: {e}")
+
+        if not json_path:
+            return FileConversionResult(
+                json_path=None,
+                sector=None,
+                json_data={},
+                success=False,
+                error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
+                error_type="conversion_failed"
+            )
+
+        json_data, _ = json_load_with_meta(json_path)
+        logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
+        return FileConversionResult(
+            json_path=json_path,
+            sector=sector,
+            json_data=json_data,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+    except Exception as e:
+        logger.error(f"Error during file conversion: {e}")
+        return FileConversionResult(
+            json_path=None,
+            sector=None,
+            json_data={},
+            success=False,
+            error_message=f"Error converting file to JSON: {e}",
+            error_type="conversion_failed"
+        )
+
+
+def validate_id_from_json_with_result(json_data: dict) -> IdValidationResult:
+    """
+    Validate and extract id_incidence from JSON data with rich result information.
+
+    This function provides a type-safe alternative to _validate_id_from_json with
+    detailed error information and clear success/failure indicators.
+
+    Args:
+        json_data (dict): Parsed JSON data
+
+    Returns:
+        IdValidationResult: Rich result object with validation information
+
+    Examples:
+        result = validate_id_from_json_with_result(json_data)
+        if result.success:
+            # Valid ID found
+            id_ = result.id_
+        else:
+            # Handle validation error
+            if result.error_type == "missing_id":
+                flash(f"ID validation failed: {result.error_message}")
+    """
+    try:
+        id_candidate = extract_id_from_json(json_data)
+
+        if isinstance(id_candidate, int) and id_candidate > 0:
+            logger.debug(f"Valid id_incidence found: {id_candidate}")
+            return IdValidationResult(
+                id_=id_candidate,
+                success=True,
+                error_message=None,
+                error_type=None
+            )
+        else:
+            logger.warning(f"Invalid or missing id_incidence: {id_candidate}")
+            return IdValidationResult(
+                id_=None,
+                success=False,
+                error_message="No valid id_incidence found in spreadsheet",
+                error_type="missing_id"
+            )
+    except Exception as e:
+        logger.error(f"Error extracting ID from JSON: {e}")
+        return IdValidationResult(
+            id_=None,
+            success=False,
+            error_message=f"Error extracting ID from JSON: {e}",
+            error_type="validation_error"
+        )
+
+
+def create_staged_file_with_result(id_: int, json_data: dict, db: SQLAlchemy, base: AutomapBase,
+                                  upload_dir: str | Path) -> StagedFileResult:
+    """
+    Create a staged file for review with rich result information.
+
+    This function provides a type-safe alternative to _create_staged_file with
+    detailed error information and clear success/failure indicators.
+
+    Args:
+        id_ (int): Valid incidence ID
+        json_data (dict): Parsed JSON data to stage
+        db (SQLAlchemy): Database instance
+        base (AutomapBase): Reflected metadata
+        upload_dir (str | Path): Upload directory
+
+    Returns:
+        StagedFileResult: Rich result object with staging information
+
+    Examples:
+        result = create_staged_file_with_result(id_, json_data, db, base, upload_dir)
+        if result.success:
+            # Staging successful
+            staged_filename = result.staged_filename
+        else:
+            # Handle staging error
+            if result.error_type == "database_error":
+                flash(f"Staging failed: {result.error_message}")
+    """
+    try:
+        from arb.utils.json import json_save_with_meta
+        from arb.utils.wtf_forms_util import prep_payload_for_json
+
+        # Get current database state for comparison
+        model, _, _ = get_ensured_row(db, base, table_name="incidences", primary_key_name="id_incidence", id_=id_)
+        base_misc_json = getattr(model, "misc_json", {}) or {}
+
+        # Prepare JSON data for staging
+        json_data = prep_payload_for_json(json_data)
+
+        # Create staging directory and filename
+        staging_dir = Path(upload_dir) / "staging"
+        staging_dir.mkdir(parents=True, exist_ok=True)
+        staged_filename = f"id_{id_}_ts_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        staged_path = staging_dir / staged_filename
+
+        # Save staged file with metadata
+        json_save_with_meta(staged_path, json_data, metadata={"base_misc_json": base_misc_json})
+        add_file_to_upload_table(db, staged_path, status="Staged JSON", description="Staged file with base_misc_json")
+
+        logger.debug(f"Staged file created: {staged_path}")
+        return StagedFileResult(
+            staged_filename=staged_filename,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    except Exception as e:
+        logger.error(f"Error creating staged file: {e}")
+        return StagedFileResult(
+            staged_filename=None,
+            success=False,
+            error_message=f"Failed to create staged file: {e}",
+            error_type="database_error"
+        )
+
+
+def insert_json_into_database_with_result(json_path: Path, base: AutomapBase, db: SQLAlchemy) -> DatabaseInsertResult:
+    """
+    Insert JSON data into the database with rich result information.
+
+    This function provides a type-safe alternative to _insert_json_into_database with
+    detailed error information and clear success/failure indicators.
+
+    Args:
+        json_path (Path): Path to the JSON file
+        base (AutomapBase): SQLAlchemy base object from automap reflection
+        db (SQLAlchemy): SQLAlchemy database instance
+
+    Returns:
+        DatabaseInsertResult: Rich result object with insertion information
+
+    Examples:
+        result = insert_json_into_database_with_result(json_path, base, db)
+        if result.success:
+            # Insertion successful
+            id_ = result.id_
+        else:
+            # Handle insertion error
+            if result.error_type == "database_error":
+                flash(f"Database insertion failed: {result.error_message}")
+    """
+    try:
+        id_, sector = json_file_to_db(db, json_path, base)
+        logger.debug(f"JSON data inserted into database: id={id_}, sector={sector}")
+        return DatabaseInsertResult(
+            id_=id_,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    except Exception as e:
+        logger.error(f"Error inserting JSON into database: {e}")
+        return DatabaseInsertResult(
+            id_=None,
+            success=False,
+            error_message=f"Database error occurred during insertion: {e}",
+            error_type="database_error"
+        )
