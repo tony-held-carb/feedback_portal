@@ -400,3 +400,130 @@ class UploadResult(NamedTuple):
     success: bool
     error_message: str | None
     error_type: str | None
+
+
+# Phase 6: Lower-level utility function result types
+
+class FileUploadResult(NamedTuple):
+    """
+    Result of file upload operation to disk.
+
+    This named tuple provides detailed information about file upload attempts,
+    including the saved file path and specific error types for better handling.
+
+    Attributes:
+        file_path (Path | None): Path where the file was saved (None on failure)
+        success (bool): True if file was uploaded successfully
+        error_message (str | None): Human-readable error message (None on success)
+        error_type (str | None): Type of error for programmatic handling (None on success)
+
+    Examples:
+        # Success case
+        result = FileUploadResult(
+            file_path=Path("/uploads/file_20250101_120000.xlsx"),
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+        # Error case
+        result = FileUploadResult(
+            file_path=None,
+            success=False,
+            error_message="Invalid file format",
+            error_type="validation_error"
+        )
+
+    Error Types:
+        - "validation_error": Invalid file or filename
+        - "permission_error": Cannot write to upload directory
+        - "disk_error": Disk space or I/O error
+        - "unexpected_error": Other unexpected errors
+    """
+    file_path: Path | None
+    success: bool
+    error_message: str | None
+    error_type: str | None
+
+
+class FileAuditResult(NamedTuple):
+    """
+    Result of file audit logging operation.
+
+    This named tuple provides information about attempts to log file uploads
+    to the audit table for tracking and diagnostics.
+
+    Attributes:
+        success (bool): True if audit record was created successfully
+        error_message (str | None): Human-readable error message (None on success)
+        error_type (str | None): Type of error for programmatic handling (None on success)
+
+    Examples:
+        # Success case
+        result = FileAuditResult(
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+        # Error case
+        result = FileAuditResult(
+            success=False,
+            error_message="Database connection failed",
+            error_type="database_error"
+        )
+
+    Error Types:
+        - "database_error": Database connection or transaction error
+        - "validation_error": Invalid audit data provided
+        - "unexpected_error": Other unexpected errors
+    """
+    success: bool
+    error_message: str | None
+    error_type: str | None
+
+
+class JsonProcessingResult(NamedTuple):
+    """
+    Result of Excel to JSON conversion operation.
+
+    This named tuple provides detailed information about file conversion attempts,
+    including the output JSON path and detected sector information.
+
+    Attributes:
+        json_path (Path | None): Path to converted JSON file (None on failure)
+        sector (str | None): Detected sector from file content (None if not detected)
+        success (bool): True if conversion completed successfully
+        error_message (str | None): Human-readable error message (None on success)
+        error_type (str | None): Type of error for programmatic handling (None on success)
+
+    Examples:
+        # Success case
+        result = JsonProcessingResult(
+            json_path=Path("/tmp/converted.json"),
+            sector="manufacturing",
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+        # Error case
+        result = JsonProcessingResult(
+            json_path=None,
+            sector=None,
+            success=False,
+            error_message="Unsupported file format",
+            error_type="conversion_failed"
+        )
+
+    Error Types:
+        - "conversion_failed": Unable to parse or convert file
+        - "file_error": File access or I/O error
+        - "validation_error": File format validation failed
+        - "unexpected_error": Other unexpected errors
+    """
+    json_path: Path | None
+    sector: str | None
+    success: bool
+    error_message: str | None
+    error_type: str | None

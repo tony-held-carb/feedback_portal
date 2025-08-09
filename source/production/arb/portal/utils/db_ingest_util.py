@@ -33,7 +33,8 @@ from arb.portal.utils.file_upload_util import add_file_to_upload_table
 from arb.portal.utils.import_audit import generate_import_audit
 from arb.portal.utils.result_types import (
     StagingResult, UploadResult, FileSaveResult, FileConversionResult,
-    IdValidationResult, StagedFileResult, DatabaseInsertResult
+    IdValidationResult, StagedFileResult, DatabaseInsertResult,
+    FileUploadResult, FileAuditResult, JsonProcessingResult
 )
 from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, xl_schema_map
 from arb.utils.json import extract_id_from_json, json_load_with_meta
@@ -1349,3 +1350,612 @@ def insert_json_into_database_with_result(json_path: Path, base: AutomapBase, db
             error_message=f"Database error occurred during insertion: {e}",
             error_type="database_error"
         )
+
+
+# Phase 6: Enhanced lower-level utility functions with result types
+
+def upload_file_with_result(upload_dir: str | Path, request_file: FileStorage) -> FileUploadResult:
+    """
+    Enhanced wrapper for upload_single_file with result type return.
+
+    This function provides a robust, type-safe alternative to upload_single_file
+    with comprehensive error handling and clear success/failure indicators.
+
+    Args:
+        upload_dir (str | Path): Directory where the file should be uploaded
+        request_file (FileStorage): File uploaded via Flask request
+
+    Returns:
+        FileUploadResult: Rich result object with upload information
+
+    Examples:
+        result = upload_file_with_result(upload_dir, request_file)
+        if result.success:
+            # File uploaded successfully
+            file_path = result.file_path
+            logger.info(f"File uploaded to: {file_path}")
+        else:
+            # Handle upload error
+            if result.error_type == "validation_error":
+                flash("Please select a valid file to upload")
+            elif result.error_type == "permission_error":
+                flash("Upload failed due to server permissions")
+
+    Notes:
+        - Wraps the original upload_single_file function
+        - Provides consistent error handling and logging
+        - Returns structured result instead of raising exceptions
+        - Maintains compatibility with existing upload workflows
+    """
+    try:
+        # Validate inputs
+        if not request_file or not request_file.filename:
+            return FileUploadResult(
+                file_path=None,
+                success=False,
+                error_message="No file selected or filename is empty",
+                error_type="validation_error"
+            )
+
+        # Attempt file upload using original function
+        file_path = upload_single_file(upload_dir, request_file)
+        logger.debug(f"File uploaded successfully to: {file_path}")
+        
+        return FileUploadResult(
+            file_path=file_path,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+    except ValueError as e:
+        logger.error(f"Validation error during file upload: {e}")
+        return FileUploadResult(
+            file_path=None,
+            success=False,
+            error_message=f"File upload validation failed: {e}",
+            error_type="validation_error"
+        )
+    except PermissionError as e:
+        logger.error(f"Permission error during file upload: {e}")
+        return FileUploadResult(
+            file_path=None,
+            success=False,
+            error_message="Upload failed due to insufficient permissions",
+            error_type="permission_error"
+        )
+    except OSError as e:
+        logger.error(f"Disk error during file upload: {e}")
+        return FileUploadResult(
+            file_path=None,
+            success=False,
+            error_message=f"Upload failed due to disk error: {e}",
+            error_type="disk_error"
+        )
+    except Exception as e:
+        logger.error(f"Unexpected error during file upload: {e}")
+        return FileUploadResult(
+            file_path=None,
+            success=False,
+            error_message=f"Unexpected upload error: {e}",
+            error_type="unexpected_error"
+        )
+
+
+def audit_file_upload_with_result(db: SQLAlchemy, file_path: Path | str, 
+                                 status: str | None = None, 
+                                 description: str | None = None) -> FileAuditResult:
+    """
+    Enhanced wrapper for add_file_to_upload_table with result type return.
+
+    This function provides a robust, type-safe alternative to add_file_to_upload_table
+    with comprehensive error handling and clear success/failure indicators.
+
+    Args:
+        db (SQLAlchemy): Database instance for audit logging
+        file_path (Path | str): Path to the uploaded file
+        status (str | None): Optional upload status label
+        description (str | None): Optional description for the upload
+
+    Returns:
+        FileAuditResult: Rich result object with audit information
+
+    Examples:
+        result = audit_file_upload_with_result(db, file_path, "File Added", "Direct upload")
+        if result.success:
+            logger.info("File upload audit logged successfully")
+        else:
+            if result.error_type == "database_error":
+                logger.warning("Failed to log upload to audit table")
+
+    Notes:
+        - Wraps the original add_file_to_upload_table function
+        - Provides consistent error handling and logging
+        - Returns structured result instead of raising exceptions
+        - Non-critical failure - upload can continue even if audit fails
+    """
+    try:
+        # Validate inputs
+        if not file_path:
+            return FileAuditResult(
+                success=False,
+                error_message="File path cannot be None or empty",
+                error_type="validation_error"
+            )
+
+        # Attempt audit logging using original function
+        add_file_to_upload_table(db, file_path, status=status, description=description)
+        logger.debug(f"File upload audited successfully: {file_path}")
+        
+        return FileAuditResult(
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+    except ValueError as e:
+        logger.error(f"Validation error during file audit: {e}")
+        return FileAuditResult(
+            success=False,
+            error_message=f"File audit validation failed: {e}",
+            error_type="validation_error"
+        )
+    except Exception as e:
+        logger.error(f"Database error during file audit: {e}")
+        return FileAuditResult(
+            success=False,
+            error_message=f"Failed to log file upload: {e}",
+            error_type="database_error"
+        )
+
+
+def convert_excel_to_json_with_result(file_path: Path) -> JsonProcessingResult:
+    """
+    Enhanced wrapper for convert_excel_to_json_if_valid with result type return.
+
+    This function provides a robust, type-safe alternative to convert_excel_to_json_if_valid
+    with comprehensive error handling and clear success/failure indicators.
+
+    Args:
+        file_path (Path): Path to the uploaded file to convert
+
+    Returns:
+        JsonProcessingResult: Rich result object with conversion information
+
+    Examples:
+        result = convert_excel_to_json_with_result(file_path)
+        if result.success:
+            # Conversion successful
+            json_path = result.json_path
+            sector = result.sector
+            logger.info(f"File converted to: {json_path}, sector: {sector}")
+        else:
+            # Handle conversion error
+            if result.error_type == "conversion_failed":
+                flash("Please upload an Excel (.xlsx) file")
+
+    Notes:
+        - Wraps the original convert_excel_to_json_if_valid function
+        - Provides consistent error handling and logging
+        - Returns structured result instead of tuple
+        - Handles all conversion error scenarios gracefully
+    """
+    try:
+        # Validate input
+        if not file_path or not file_path.exists():
+            return JsonProcessingResult(
+                json_path=None,
+                sector=None,
+                success=False,
+                error_message="File path does not exist or is invalid",
+                error_type="file_error"
+            )
+
+        # Attempt conversion using original function
+        json_path, sector = convert_excel_to_json_if_valid(file_path)
+        
+        if not json_path:
+            return JsonProcessingResult(
+                json_path=None,
+                sector=None,
+                success=False,
+                error_message="Unsupported file format. Please upload Excel (.xlsx) file.",
+                error_type="conversion_failed"
+            )
+
+        logger.debug(f"File converted successfully to: {json_path}, sector: {sector}")
+        return JsonProcessingResult(
+            json_path=json_path,
+            sector=sector,
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+    except FileNotFoundError as e:
+        logger.error(f"File not found during conversion: {e}")
+        return JsonProcessingResult(
+            json_path=None,
+            sector=None,
+            success=False,
+            error_message=f"File not found: {e}",
+            error_type="file_error"
+        )
+    except PermissionError as e:
+        logger.error(f"Permission error during conversion: {e}")
+        return JsonProcessingResult(
+            json_path=None,
+            sector=None,
+            success=False,
+            error_message="Permission denied while accessing file",
+            error_type="file_error"
+        )
+    except Exception as e:
+        logger.error(f"Unexpected error during conversion: {e}")
+        return JsonProcessingResult(
+            json_path=None,
+            sector=None,
+            success=False,
+            error_message=f"Conversion failed: {e}",
+            error_type="unexpected_error"
+        )
+
+
+def save_uploaded_file_enhanced_with_result(upload_dir: str | Path, request_file: FileStorage, 
+                                          db: SQLAlchemy, description: str | None = None) -> FileSaveResult:
+    """
+    Enhanced version of save_uploaded_file_with_result using new Phase 6 utility functions.
+
+    This function demonstrates the improved architecture using enhanced lower-level
+    utility functions with proper result types and error handling.
+
+    Args:
+        upload_dir (str | Path): Directory to save the file in
+        request_file (FileStorage): File uploaded via Flask request
+        db (SQLAlchemy): Database instance for logging upload
+        description (str | None): Optional description for the upload table entry
+
+    Returns:
+        FileSaveResult: Rich result object with success/failure information
+
+    Examples:
+        result = save_uploaded_file_enhanced_with_result(upload_dir, request_file, db)
+        if result.success:
+            # File saved successfully
+            file_path = result.file_path
+        else:
+            # Handle error based on result.error_type
+            if result.error_type == "file_error":
+                flash(f"File upload failed: {result.error_message}")
+
+    Notes:
+        - Uses enhanced Phase 6 utility functions
+        - Provides better error handling granularity
+        - Continues processing even if audit logging fails (non-critical)
+        - Demonstrates the Phase 6 improvement pattern
+    """
+    logger.debug(f"Enhanced file save called with {request_file.filename}")
+
+    # Step 1: Upload file using enhanced utility function
+    upload_result = upload_file_with_result(upload_dir, request_file)
+    if not upload_result.success:
+        return FileSaveResult(
+            file_path=None,
+            success=False,
+            error_message=upload_result.error_message,
+            error_type=upload_result.error_type
+        )
+
+    # Step 2: Audit the upload (non-critical - continue even if it fails)
+    audit_result = audit_file_upload_with_result(
+        db, upload_result.file_path, status="File Added", description=description
+    )
+    if not audit_result.success:
+        # Log audit failure but don't fail the upload
+        logger.warning(f"File upload audit failed: {audit_result.error_message}")
+
+    logger.debug(f"Enhanced upload completed successfully: {upload_result.file_path}")
+    return FileSaveResult(
+        file_path=upload_result.file_path,
+        success=True,
+        error_message=None,
+        error_type=None
+    )
+
+
+def convert_file_to_json_enhanced_with_result(file_path: Path) -> FileConversionResult:
+    """
+    Enhanced version of convert_file_to_json_with_result using new Phase 6 utility functions.
+
+    This function demonstrates the improved architecture using enhanced lower-level
+    utility functions with proper result types and error handling.
+
+    Args:
+        file_path (Path): Path to the uploaded file
+
+    Returns:
+        FileConversionResult: Rich result object with conversion information
+
+    Examples:
+        result = convert_file_to_json_enhanced_with_result(file_path)
+        if result.success:
+            # Conversion successful
+            json_path = result.json_path
+            sector = result.sector
+            json_data = result.json_data
+        else:
+            # Handle conversion error
+            if result.error_type == "conversion_failed":
+                flash("Please upload an Excel (.xlsx) file")
+
+    Notes:
+        - Uses enhanced Phase 6 utility functions
+        - Provides better error handling granularity
+        - Includes import audit generation (non-critical)
+        - Demonstrates the Phase 6 improvement pattern
+    """
+    logger.debug(f"Enhanced file conversion called with {file_path}")
+
+    # Step 1: Convert file using enhanced utility function
+    conversion_result = convert_excel_to_json_with_result(file_path)
+    if not conversion_result.success:
+        return FileConversionResult(
+            json_path=None,
+            sector=None,
+            json_data={},
+            success=False,
+            error_message=conversion_result.error_message,
+            error_type=conversion_result.error_type
+        )
+
+    # Step 2: Load JSON data for response
+    try:
+        json_data, _ = json_load_with_meta(conversion_result.json_path)
+    except Exception as e:
+        logger.error(f"Error loading converted JSON data: {e}")
+        return FileConversionResult(
+            json_path=conversion_result.json_path,
+            sector=conversion_result.sector,
+            json_data={},
+            success=False,
+            error_message=f"Error loading converted JSON: {e}",
+            error_type="conversion_failed"
+        )
+
+    # Step 3: Generate import audit for diagnostics (non-critical)
+    try:
+        parse_result = parse_xl_file(file_path)
+        audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+        audit_log_path = LOG_DIR / "import_audit.log"
+        audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(audit_log_path, "a", encoding="utf-8") as f:
+            f.write(audit + "\n\n")
+    except Exception as e:
+        # Audit failure is non-critical - log warning but continue
+        logger.warning(f"Failed to generate import audit: {e}")
+
+    logger.debug(f"Enhanced conversion completed successfully: {conversion_result.json_path}")
+    return FileConversionResult(
+        json_path=conversion_result.json_path,
+        sector=conversion_result.sector,
+        json_data=json_data,
+        success=True,
+        error_message=None,
+        error_type=None
+    )
+
+
+def upload_and_process_file_enhanced(db: SQLAlchemy,
+                                    upload_dir: str | Path,
+                                    request_file: FileStorage,
+                                    base: AutomapBase) -> UploadResult:
+    """
+    Enhanced version of upload_and_process_file using new Phase 6 utility functions.
+
+    This function demonstrates the improved architecture using enhanced lower-level
+    utility functions with proper result types, better error handling, and improved
+    consistency throughout the call tree.
+
+    Args:
+        db (SQLAlchemy): SQLAlchemy database instance
+        upload_dir (str | Path): Directory where the uploaded file should be saved
+        request_file (FileStorage): File uploaded via the Flask request
+        base (AutomapBase): SQLAlchemy base object from automap reflection
+
+    Returns:
+        UploadResult: Rich result object with upload processing information
+
+    Examples:
+        result = upload_and_process_file_enhanced(db, upload_dir, request_file, base)
+        if result.success:
+            # Redirect to incidence update page
+            return redirect(url_for('main.incidence_update', id_=result.id_))
+        else:
+            # Handle specific error types
+            if result.error_type == "missing_id":
+                return render_template('upload.html', upload_message=result.error_message)
+            elif result.error_type == "conversion_failed":
+                return render_template('upload.html', upload_message=result.error_message)
+
+    Notes:
+        - Uses enhanced Phase 6 utility functions throughout
+        - Provides granular error handling at each step
+        - Maintains the same functionality as upload_and_process_file
+        - Demonstrates the complete Phase 6 improvement pattern
+        - Better separation of concerns with result type propagation
+    """
+    logger.debug(f"Enhanced upload_and_process_file called with {request_file.filename}")
+
+    # Step 1: Save uploaded file using enhanced utility function
+    save_result = save_uploaded_file_enhanced_with_result(
+        upload_dir, request_file, db, description="Direct upload to database"
+    )
+    if not save_result.success:
+        return UploadResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message=save_result.error_message,
+            error_type=save_result.error_type
+        )
+
+    # Step 2: Convert file to JSON using enhanced utility function
+    conversion_result = convert_file_to_json_enhanced_with_result(save_result.file_path)
+    if not conversion_result.success:
+        return UploadResult(
+            file_path=save_result.file_path,
+            id_=None,
+            sector=conversion_result.sector,
+            success=False,
+            error_message=conversion_result.error_message,
+            error_type=conversion_result.error_type
+        )
+
+    # Step 3: Validate ID from JSON data
+    validation_result = validate_id_from_json_with_result(conversion_result.json_data)
+    if not validation_result.success:
+        return UploadResult(
+            file_path=save_result.file_path,
+            id_=None,
+            sector=conversion_result.sector,
+            success=False,
+            error_message=validation_result.error_message,
+            error_type=validation_result.error_type
+        )
+
+    # Step 4: Insert data into database
+    insert_result = insert_json_into_database_with_result(conversion_result.json_path, base, db)
+    if not insert_result.success:
+        return UploadResult(
+            file_path=save_result.file_path,
+            id_=validation_result.id_,
+            sector=conversion_result.sector,
+            success=False,
+            error_message=insert_result.error_message,
+            error_type=insert_result.error_type
+        )
+
+    # Success case
+    logger.debug(f"Enhanced upload completed successfully: id={insert_result.id_}, sector={conversion_result.sector}")
+    return UploadResult(
+        file_path=save_result.file_path,
+        id_=insert_result.id_,
+        sector=conversion_result.sector,
+        success=True,
+        error_message=None,
+        error_type=None
+    )
+
+
+def stage_uploaded_file_for_review_enhanced(db: SQLAlchemy,
+                                          upload_dir: str | Path,
+                                          request_file: FileStorage,
+                                          base: AutomapBase) -> StagingResult:
+    """
+    Enhanced version of stage_uploaded_file_for_review using new Phase 6 utility functions.
+
+    This function demonstrates the improved architecture using enhanced lower-level
+    utility functions with proper result types, better error handling, and improved
+    consistency throughout the call tree.
+
+    Args:
+        db (SQLAlchemy): Active SQLAlchemy database instance
+        upload_dir (str | Path): Target upload folder path
+        request_file (FileStorage): Uploaded file from Flask request
+        base (AutomapBase): Reflected metadata
+
+    Returns:
+        StagingResult: Rich result object with staging information
+
+    Examples:
+        result = stage_uploaded_file_for_review_enhanced(db, upload_dir, request_file, base)
+        if result.success:
+            # Staging successful
+            flash(f"File staged successfully: {result.staged_filename}")
+        else:
+            # Handle specific error
+            if result.error_type == "missing_id":
+                flash("Please add a valid ID to your spreadsheet")
+
+    Notes:
+        - Uses enhanced Phase 6 utility functions throughout
+        - Provides granular error handling at each step
+        - Maintains the same functionality as stage_uploaded_file_for_review
+        - Demonstrates the complete Phase 6 improvement pattern
+        - Better separation of concerns with result type propagation
+    """
+    logger.debug(f"Enhanced stage_uploaded_file_for_review called with {request_file.filename}")
+
+    # Step 1: Save uploaded file using enhanced utility function
+    save_result = save_uploaded_file_enhanced_with_result(
+        upload_dir, request_file, db, description="Staged only (no DB write)"
+    )
+    if not save_result.success:
+        return StagingResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            json_data={},
+            staged_filename=None,
+            success=False,
+            error_message=save_result.error_message,
+            error_type=save_result.error_type
+        )
+
+    # Step 2: Convert file to JSON using enhanced utility function
+    conversion_result = convert_file_to_json_enhanced_with_result(save_result.file_path)
+    if not conversion_result.success:
+        return StagingResult(
+            file_path=save_result.file_path,
+            id_=None,
+            sector=None,
+            json_data={},
+            staged_filename=None,
+            success=False,
+            error_message=conversion_result.error_message,
+            error_type=conversion_result.error_type
+        )
+
+    # Step 3: Validate ID from JSON data
+    validation_result = validate_id_from_json_with_result(conversion_result.json_data)
+    if not validation_result.success:
+        return StagingResult(
+            file_path=save_result.file_path,
+            id_=None,
+            sector=conversion_result.sector,
+            json_data=conversion_result.json_data,
+            staged_filename=None,
+            success=False,
+            error_message=validation_result.error_message,
+            error_type=validation_result.error_type
+        )
+
+    # Step 4: Create staged file
+    staged_result = create_staged_file_with_result(
+        validation_result.id_, conversion_result.json_data, db, base, upload_dir
+    )
+    if not staged_result.success:
+        return StagingResult(
+            file_path=save_result.file_path,
+            id_=validation_result.id_,
+            sector=conversion_result.sector,
+            json_data=conversion_result.json_data,
+            staged_filename=None,
+            success=False,
+            error_message=staged_result.error_message,
+            error_type=staged_result.error_type
+        )
+
+    # Success case
+    logger.debug(f"Enhanced staging completed successfully: {staged_result.staged_filename}")
+    return StagingResult(
+        file_path=save_result.file_path,
+        id_=validation_result.id_,
+        sector=conversion_result.sector,
+        json_data=conversion_result.json_data,
+        staged_filename=staged_result.staged_filename,
+        success=True,
+        error_message=None,
+        error_type=None
+    )

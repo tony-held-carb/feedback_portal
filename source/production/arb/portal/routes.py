@@ -44,7 +44,8 @@ from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, \
-  upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
+  upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database, \
+  upload_and_process_file_enhanced, stage_uploaded_file_for_review_enhanced
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
   get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
   handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page
