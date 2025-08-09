@@ -13,13 +13,18 @@ Examples:
 """
 
 import logging
+import time
 from pathlib import Path
-from typing import Union
-from flask import Response, render_template, request, url_for
+from typing import Union, Callable
+from urllib.parse import unquote
+from flask import Response, render_template, request, url_for, current_app, flash, redirect, session
 from werkzeug.datastructures import FileStorage
+from sqlalchemy.ext.automap import AutomapBase
 
 from arb.portal.wtf_upload import UploadForm
-from arb.portal.utils.route_util import format_diagnostic_message
+from arb.portal.utils.route_util import format_diagnostic_message, generate_upload_diagnostics_unified
+from arb.portal.config.accessors import get_upload_folder
+from arb.portal.extensions import db
 
 logger = logging.getLogger(__name__)
 
@@ -365,3 +370,138 @@ def render_upload_error_page(form: UploadForm, error_message: str, template_name
     }
     
     return render_template(template_name, **template_context)
+
+
+# Phase 7: Route Orchestration Framework
+
+class UploadConfiguration:
+    """
+    Configuration class for upload route orchestration.
+    
+    This class encapsulates all the configuration needed to handle different
+    types of upload routes (direct vs staged) in a unified way.
+    """
+    
+    def __init__(self, upload_type: str, template_name: str, processing_function: Callable):
+        """
+        Initialize upload configuration.
+        
+        Args:
+            upload_type: Type of upload ("direct" or "staged")
+            template_name: Name of the template to render
+            processing_function: Function to process the uploaded file
+        """
+        self.upload_type = upload_type
+        self.template_name = template_name
+        self.processing_function = processing_function
+
+
+def orchestrate_upload_route(config: UploadConfiguration, message: str | None = None) -> Union[str, Response]:
+    """
+    Unified route orchestration framework for upload routes.
+    
+    This function provides a unified approach to handling upload routes, eliminating
+    duplication between direct and staged upload routes while maintaining their
+    individual functionality and behavior.
+    
+    Args:
+        config: UploadConfiguration containing upload type, template, and processing function
+        message: Optional message to display on the upload page
+        
+    Returns:
+        str|Response: Rendered HTML for the upload form, or redirect after upload
+        
+    Examples:
+        # Direct upload configuration
+        direct_config = UploadConfiguration(
+            upload_type="direct",
+            template_name="upload.html", 
+            processing_function=upload_and_process_file
+        )
+        return orchestrate_upload_route(direct_config, message)
+        
+        # Staged upload configuration
+        staged_config = UploadConfiguration(
+            upload_type="staged",
+            template_name="upload_staged.html",
+            processing_function=stage_uploaded_file_for_review
+        )
+        return orchestrate_upload_route(staged_config, message)
+        
+    Notes:
+        - Handles all common route logic (setup, validation, error handling)
+        - Provides consistent behavior across different upload types
+        - Maintains backward compatibility with existing route signatures
+        - Uses shared helper functions for all common operations
+    """
+    logger.info(f"route orchestrator called for {config.upload_type} upload with message: {message}")
+    
+    # Common setup for all upload routes
+    base: AutomapBase = current_app.base  # type: ignore[attr-defined]
+    form = UploadForm()
+    
+    # Decode optional redirect message
+    if message:
+        message = unquote(message)
+        logger.debug(f"Received redirect message: {message}")
+    
+    # Setup upload folder
+    upload_folder = get_upload_folder()
+    logger.debug(f"Request received with files: {list(request.files.keys())}, upload_folder={upload_folder}")
+    
+    # Handle GET request: display form
+    if request.method == 'GET':
+        return render_upload_page(form, message, config.template_name, config.upload_type)
+    
+    # Handle POST request: process upload
+    flash("_upload_attempted", "internal-marker")
+    
+    # Set robust session storage state for testing (for staged uploads)
+    if config.upload_type == "staged" and request.headers.get('X-Test-Mode'):
+        session['_upload_attempt_state'] = 'attempted'
+        session['_upload_attempt_timestamp'] = time.time()
+    
+    try:
+        request_file = request.files.get('file')
+        
+        # Validate upload request using shared helper
+        is_valid, error_message = validate_upload_request(request_file)
+        if not is_valid:
+            return render_upload_error_page(form, error_message, config.template_name, config.upload_type)
+        
+        logger.debug(f"Received uploaded file: {request_file.filename}")
+        
+        # Process uploaded file using configured processing function
+        result = config.processing_function(db, upload_folder, request_file, base)
+        
+        if result.success:
+            # Success case - use shared success handling
+            logger.debug(f"{config.upload_type.title()} upload successful: id={result.id_}, sector={result.sector}")
+            
+            success_message, redirect_url = handle_upload_success(result, request_file, config.upload_type)
+            flash(success_message, "success")
+            return redirect(redirect_url)
+        
+        # Handle special case for conversion_failed with detailed diagnostics (direct uploads only)
+        if config.upload_type == "direct" and result.error_type == "conversion_failed":
+            logger.warning(f"Upload failed file conversion: {result.file_path=}")
+            error_details = generate_upload_diagnostics_unified(
+                request_file, config.upload_type, file_path=result.file_path
+            )
+            detailed_message = format_diagnostic_message(error_details, "Uploaded file format not recognized.")
+            return render_upload_error_page(
+                form, detailed_message, config.template_name, config.upload_type, {"error_details": error_details}
+            )
+        
+        # Use shared error handling helper for all other error types
+        return handle_upload_error(result, form, config.template_name, request_file)
+        
+    except Exception as e:
+        # Use shared exception handling helper with unified diagnostics
+        return handle_upload_exception(
+            e, form, config.template_name, request_file,
+            result if 'result' in locals() else None,
+            lambda req_file, file_path: generate_upload_diagnostics_unified(
+                req_file, config.upload_type, file_path=file_path
+            )
+        )

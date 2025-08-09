@@ -48,7 +48,8 @@ from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_se
   upload_and_process_file_enhanced, stage_uploaded_file_for_review_enhanced
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
   get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
-  handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page
+  handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page, \
+  UploadConfiguration, orchestrate_upload_route
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
@@ -1515,3 +1516,83 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
 
   # GET request: display form
   return render_upload_page(form, message, 'upload_staged.html', "staged")
+
+
+# Phase 7: Demonstration Routes using Route Orchestration Framework
+
+@main.route('/upload_orchestrated', methods=['GET', 'POST'])
+@main.route('/upload_orchestrated/<message>', methods=['GET', 'POST'])
+def upload_file_orchestrated(message: str | None = None) -> Union[str, Response]:
+  """
+  Phase 7 demonstration: Direct upload route using orchestration framework.
+  
+  This route demonstrates the Phase 7 route orchestration framework, showing how
+  the unified orchestrate_upload_route function can eliminate duplication while
+  maintaining full functionality and backward compatibility.
+  
+  Args:
+    message (str | None): Optional message to display on the upload page.
+    
+  Returns:
+    str|Response: Rendered HTML for the upload form, or redirect after upload.
+    
+  Examples:
+    # In browser: GET /upload_orchestrated
+    # Returns: HTML upload form
+    # In browser: POST /upload_orchestrated
+    # Redirects to: /incidence_update or error page
+    
+  Notes:
+    - Demonstrates Phase 7 cross-cutting concern extraction
+    - Uses unified route orchestration framework
+    - Eliminates duplication compared to original refactored routes
+    - Maintains identical functionality to upload_file_refactored
+  """
+  # Configure direct upload orchestration
+  direct_config = UploadConfiguration(
+    upload_type="direct",
+    template_name="upload.html",
+    processing_function=upload_and_process_file
+  )
+  
+  # Use unified orchestration framework
+  return orchestrate_upload_route(direct_config, message)
+
+
+@main.route('/upload_staged_orchestrated', methods=['GET', 'POST'])
+@main.route('/upload_staged_orchestrated/<message>', methods=['GET', 'POST'])
+def upload_file_staged_orchestrated(message: str | None = None) -> Union[str, Response]:
+  """
+  Phase 7 demonstration: Staged upload route using orchestration framework.
+  
+  This route demonstrates the Phase 7 route orchestration framework, showing how
+  the unified orchestrate_upload_route function can eliminate duplication while
+  maintaining full functionality and backward compatibility.
+  
+  Args:
+    message (str | None): Optional message to display on the staged upload page.
+    
+  Returns:
+    str|Response: Rendered HTML for the staged upload form, or redirect after upload.
+    
+  Examples:
+    # In browser: GET /upload_staged_orchestrated
+    # Returns: HTML staged upload form
+    # In browser: POST /upload_staged_orchestrated
+    # Redirects to: /list_staged or shows specific error message
+    
+  Notes:
+    - Demonstrates Phase 7 cross-cutting concern extraction
+    - Uses unified route orchestration framework
+    - Eliminates duplication compared to original refactored routes
+    - Maintains identical functionality to upload_file_staged_refactored
+  """
+  # Configure staged upload orchestration
+  staged_config = UploadConfiguration(
+    upload_type="staged",
+    template_name="upload_staged.html",
+    processing_function=stage_uploaded_file_for_review
+  )
+  
+  # Use unified orchestration framework
+  return orchestrate_upload_route(staged_config, message)
