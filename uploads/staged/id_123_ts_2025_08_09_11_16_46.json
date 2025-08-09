@@ -1,0 +1,15 @@
+{
+  "original_filename": "test.xlsx",
+  "upload_timestamp": "2025-08-09T11:16:46.903671",
+  "id_incidence": 123,
+  "sector": "Dairy Digester",
+  "metadata": {
+    "original_filename": "test.xlsx",
+    "file_size": 0,
+    "upload_timestamp": "2025-08-09T11:16:46.903671",
+    "processing_timestamp": "2025-08-09T11:16:46.903671",
+    "file_path": "uploads/test.xlsx",
+    "json_path": "test.json"
+  },
+  "json_data": {}
+}

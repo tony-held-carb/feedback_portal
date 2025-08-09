@@ -339,7 +339,7 @@ def process_upload_to_memory(db: SQLAlchemy, upload_dir: str | Path,
         )
         
         # Step 1: Save uploaded file
-        save_result = save_uploaded_file_with_result(request_file, upload_dir)
+        save_result = save_uploaded_file_with_result(upload_dir, request_file, db)
         if not save_result.success:
             logger.warning(f"File save failed: {save_result.error_message}")
             return InMemoryStagingResult(

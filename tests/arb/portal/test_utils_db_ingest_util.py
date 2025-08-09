@@ -864,88 +864,61 @@ def test_upload_and_process_file_conversion_failed(mock_db, mock_base):
 
 
 def test_upload_and_process_file_missing_id(mock_db, mock_base):
-  """upload_and_process_file returns missing_id result."""
+  """upload_and_process_file returns missing_id result (Phase 8B: using unified architecture)."""
   mock_request_file = MagicMock()
   mock_request_file.filename = "test.xlsx"
 
-  with patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result') as mock_save:
-    with patch('arb.portal.utils.db_ingest_util.convert_file_to_json_with_result') as mock_convert:
-      with patch('arb.portal.utils.db_ingest_util.validate_id_from_json_with_result') as mock_validate:
-        from arb.portal.utils.result_types import FileSaveResult, FileConversionResult, IdValidationResult
-        
-        mock_save.return_value = FileSaveResult(
-          file_path=Path("uploads/test.xlsx"),
-          success=True,
-          error_message=None,
-          error_type=None
-        )
-        mock_convert.return_value = FileConversionResult(
-          json_path=Path("test.json"),
-          sector="Dairy Digester",
-          json_data={"sector": "Dairy Digester"},
-          success=True,
-          error_message=None,
-          error_type=None
-        )
-        mock_validate.return_value = IdValidationResult(
-          id_=None,
-          success=False,
-          error_message="No valid id_incidence found in spreadsheet",
-          error_type="missing_id"
-        )
+  # Phase 8B: Mock the unified function that upload_and_process_file now delegates to
+  with patch('arb.portal.utils.db_ingest_util.upload_and_process_file_unified') as mock_unified:
+    from arb.portal.utils.result_types import UploadResult
+    
+    mock_unified.return_value = UploadResult(
+      file_path=Path("uploads/test.xlsx"),
+      id_=None,
+      sector="Dairy Digester",
+      success=False,
+      error_message="No valid id_incidence found in spreadsheet",
+      error_type="missing_id"
+    )
 
-        result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+    result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
 
-        assert result.success is False
-        assert result.error_type == "missing_id"
-        assert "No valid id_incidence found in spreadsheet" in result.error_message
-        assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
+    assert result.success is False
+    assert result.error_type == "missing_id"
+    assert "No valid id_incidence found in spreadsheet" in result.error_message
+    assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
+    
+    # Verify that the unified function was called with correct arguments
+    mock_unified.assert_called_once_with(mock_db, "uploads", mock_request_file, mock_base)
 
 
 def test_upload_and_process_file_database_error(mock_db, mock_base):
-  """upload_and_process_file returns database_error result."""
+  """upload_and_process_file returns database_error result (Phase 8B: using unified architecture)."""
   mock_request_file = MagicMock()
   mock_request_file.filename = "test.xlsx"
 
-  with patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result') as mock_save:
-    with patch('arb.portal.utils.db_ingest_util.convert_file_to_json_with_result') as mock_convert:
-      with patch('arb.portal.utils.db_ingest_util.validate_id_from_json_with_result') as mock_validate:
-        with patch('arb.portal.utils.db_ingest_util.insert_json_into_database_with_result') as mock_insert:
-          from arb.portal.utils.result_types import FileSaveResult, FileConversionResult, IdValidationResult, DatabaseInsertResult
-          
-          mock_save.return_value = FileSaveResult(
-            file_path=Path("uploads/test.xlsx"),
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_convert.return_value = FileConversionResult(
-            json_path=Path("test.json"),
-            sector="Dairy Digester",
-            json_data={"id_incidence": 123},
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_validate.return_value = IdValidationResult(
-            id_=123,
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_insert.return_value = DatabaseInsertResult(
-            id_=None,
-            success=False,
-            error_message="Database error occurred during insertion",
-            error_type="database_error"
-          )
+  # Phase 8B: Mock the unified function that upload_and_process_file now delegates to
+  with patch('arb.portal.utils.db_ingest_util.upload_and_process_file_unified') as mock_unified:
+    from arb.portal.utils.result_types import UploadResult
+    
+    mock_unified.return_value = UploadResult(
+      file_path=Path("uploads/test.xlsx"),
+      id_=None,
+      sector="Dairy Digester",
+      success=False,
+      error_message="Database error occurred during insertion",
+      error_type="database_error"
+    )
 
-          result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
+    result = db_ingest_util.upload_and_process_file(mock_db, "uploads", mock_request_file, mock_base)
 
-          assert result.success is False
-          assert result.error_type == "database_error"
-          assert "Database error occurred during insertion" in result.error_message
-          assert result.sector == "Dairy Digester"  # Should preserve sector even on DB failure
+    assert result.success is False
+    assert result.error_type == "database_error"
+    assert "Database error occurred during insertion" in result.error_message
+    assert result.sector == "Dairy Digester"  # Should preserve sector even on DB failure
+    
+    # Verify that the unified function was called with correct arguments
+    mock_unified.assert_called_once_with(mock_db, "uploads", mock_request_file, mock_base)
 
 
 def test_create_staged_file_function_signature():
@@ -1076,135 +1049,94 @@ def test_stage_uploaded_file_for_review_missing_id(mock_db, mock_base, mock_tabl
   mock_request_file = MagicMock()
   mock_request_file.filename = "test.xlsx"
 
-  with patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result') as mock_save:
-    with patch('arb.portal.utils.db_ingest_util.convert_file_to_json_with_result') as mock_convert:
-      with patch('arb.portal.utils.db_ingest_util.validate_id_from_json_with_result') as mock_validate:
-        from arb.portal.utils.result_types import FileSaveResult, FileConversionResult, IdValidationResult
-        
-        mock_save.return_value = FileSaveResult(
-          file_path=Path("uploads/test.xlsx"),
-          success=True,
-          error_message=None,
-          error_type=None
-        )
-        mock_convert.return_value = FileConversionResult(
-          json_path=Path("test.json"),
-          sector="Dairy Digester",
-          json_data={"sector": "Dairy Digester"},
-          success=True,
-          error_message=None,
-          error_type=None
-        )
-        mock_validate.return_value = IdValidationResult(
-          id_=None,
-          success=False,
-          error_message="No valid id_incidence found in spreadsheet",
-          error_type="missing_id"
-        )
+  # Phase 8B: Mock the unified function that stage_uploaded_file_for_review now delegates to
+  with patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review_unified') as mock_unified:
+    from arb.portal.utils.result_types import StagingResult
+    
+    mock_unified.return_value = StagingResult(
+      file_path=Path("uploads/test.xlsx"),
+      id_=None,
+      sector="Dairy Digester",
+      json_data={"sector": "Dairy Digester"},
+      staged_filename=None,
+      success=False,
+      error_message="No valid id_incidence found in spreadsheet",
+      error_type="missing_id"
+    )
 
-        result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
+    result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
 
-        assert result.success is False
-        assert result.error_type == "missing_id"
-        assert "No valid id_incidence found in spreadsheet" in result.error_message
-        assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
+    assert result.success is False
+    assert result.error_type == "missing_id"
+    assert "No valid id_incidence found in spreadsheet" in result.error_message
+    assert result.sector == "Dairy Digester"  # Should preserve sector even on ID failure
+    
+    # Verify that the unified function was called with correct arguments
+    mock_unified.assert_called_once_with(mock_db, "uploads", mock_request_file, mock_base)
 
 
 def test_stage_uploaded_file_for_review_database_error(mock_db, mock_base, mock_table_class):
-  """stage_uploaded_file_for_review returns database_error result."""
+  """stage_uploaded_file_for_review returns database_error result (Phase 8B: using unified architecture)."""
   mock_request_file = MagicMock()
   mock_request_file.filename = "test.xlsx"
 
-  with patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result') as mock_save:
-    with patch('arb.portal.utils.db_ingest_util.convert_file_to_json_with_result') as mock_convert:
-      with patch('arb.portal.utils.db_ingest_util.validate_id_from_json_with_result') as mock_validate:
-        with patch('arb.portal.utils.db_ingest_util.create_staged_file_with_result') as mock_create:
-          from arb.portal.utils.result_types import FileSaveResult, FileConversionResult, IdValidationResult, StagedFileResult
-          
-          mock_save.return_value = FileSaveResult(
-            file_path=Path("uploads/test.xlsx"),
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_convert.return_value = FileConversionResult(
-            json_path=Path("test.json"),
-            sector="Dairy Digester",
-            json_data={"id_incidence": 123},
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_validate.return_value = IdValidationResult(
-            id_=123,
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_create.return_value = StagedFileResult(
-            staged_filename=None,
-            success=False,
-            error_message="Failed to create staged file: Database error",
-            error_type="database_error"
-          )
+  # Phase 8B: Mock the unified function that stage_uploaded_file_for_review now delegates to
+  with patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review_unified') as mock_unified:
+    from arb.portal.utils.result_types import StagingResult
+    
+    mock_unified.return_value = StagingResult(
+      file_path=Path("uploads/test.xlsx"),
+      id_=123,
+      sector="Dairy Digester",
+      json_data={"id_incidence": 123},
+      staged_filename=None,
+      success=False,
+      error_message="Database error occurred during staging",
+      error_type="database_error"
+    )
 
-          result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
+    result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
 
-          assert result.success is False
-          assert result.error_type == "database_error"
-          assert "Failed to create staged file" in result.error_message
-          assert result.id_ == 123  # Should preserve ID even on staging failure
+    assert result.success is False
+    assert result.error_type == "database_error"
+    assert "Database error occurred during staging" in result.error_message
+    assert result.sector == "Dairy Digester"  # Should preserve sector even on DB failure
+    
+    # Verify that the unified function was called with correct arguments
+    mock_unified.assert_called_once_with(mock_db, "uploads", mock_request_file, mock_base)
 
 
 def test_stage_uploaded_file_for_review_equivalent_to_original(mock_db, mock_base, mock_table_class):
-  """stage_uploaded_file_for_review produces equivalent results to upload_and_stage_only."""
+  """stage_uploaded_file_for_review produces equivalent results to upload_and_stage_only (Phase 8B: using unified architecture)."""
   mock_request_file = MagicMock()
   mock_request_file.filename = "test.xlsx"
-  mock_model = MagicMock()
-  mock_model.misc_json = {"existing": "data"}
 
-  # Test with successful staging
-  with patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result') as mock_save:
-    with patch('arb.portal.utils.db_ingest_util.convert_file_to_json_with_result') as mock_convert:
-      with patch('arb.portal.utils.db_ingest_util.validate_id_from_json_with_result') as mock_validate:
-        with patch('arb.portal.utils.db_ingest_util.create_staged_file_with_result') as mock_create:
-          from arb.portal.utils.result_types import FileSaveResult, FileConversionResult, IdValidationResult, StagedFileResult
-          
-          mock_save.return_value = FileSaveResult(
-            file_path=Path("uploads/test.xlsx"),
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_convert.return_value = FileConversionResult(
-            json_path=Path("test.json"),
-            sector="Dairy Digester",
-            json_data={"id_incidence": 123},
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_validate.return_value = IdValidationResult(
-            id_=123,
-            success=True,
-            error_message=None,
-            error_type=None
-          )
-          mock_create.return_value = StagedFileResult(
-            staged_filename="id_123_ts_20250101_120000.json",
-            success=True,
-            error_message=None,
-            error_type=None
-          )
+  # Phase 8B: This test now verifies that stage_uploaded_file_for_review delegates correctly
+  # to the unified implementation, maintaining equivalence through delegation
+  with patch('arb.portal.utils.db_ingest_util.stage_uploaded_file_for_review_unified') as mock_unified:
+    from arb.portal.utils.result_types import StagingResult
+    
+    mock_unified.return_value = StagingResult(
+      file_path=Path("uploads/test.xlsx"),
+      id_=123,
+      sector="Dairy Digester",
+      json_data={"id_incidence": 123},
+      staged_filename="id_123_ts_20250101_120000.json",
+      success=True,
+      error_message=None,
+      error_type=None
+    )
 
-          result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
+    result = db_ingest_util.stage_uploaded_file_for_review(mock_db, "uploads", mock_request_file, mock_base)
 
-          # Should match the tuple format of upload_and_stage_only
-          assert result.file_path == Path("uploads/test.xlsx")
-          assert result.id_ == 123
-          assert result.sector == "Dairy Digester"
-          assert result.json_data == {"id_incidence": 123}
-          assert result.staged_filename == "id_123_ts_20250101_120000.json"
+    # Test equivalence by verifying delegation works correctly
+    assert result.success is True
+    assert result.id_ == 123
+    assert result.sector == "Dairy Digester"
+    assert result.staged_filename == "id_123_ts_20250101_120000.json"
+    
+    # Verify that the unified function was called with correct arguments (equivalence maintained)
+    mock_unified.assert_called_once_with(mock_db, "uploads", mock_request_file, mock_base)
 
 
 # Tests for new helper functions with result types

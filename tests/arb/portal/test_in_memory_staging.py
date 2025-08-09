@@ -294,7 +294,7 @@ class TestProcessUploadToMemory:
         assert staging.json_data["sector"] == "Dairy Digester"
         
         # Verify all processing steps were called
-        mock_save.assert_called_once_with(mock_file_storage, upload_dir)
+        mock_save.assert_called_once_with(upload_dir, mock_file_storage, mock_db)
         mock_convert.assert_called_once_with(Path("/tmp/upload.xlsx"))
         mock_validate.assert_called_once_with(Path("/tmp/upload.json"))
     
