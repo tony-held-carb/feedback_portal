@@ -1145,4 +1145,880 @@ PASSED
 tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
 Refactored staged upload appears successful based on page content
 PASSED
-tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] 
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
+[TIMING] Starting clear_test_data_inline
+[TIMING] Navigation to delete page: 0.09s
+[TIMING] Form filling: 0.05s
+[TIMING] Click preview button: 0.03s
+[TIMING] Modal confirmation (OPTIMIZED): 0.93s
+[TIMING] Total clear_test_data_inline time: 1.11s
+[DEBUG] Test data cleared via UI at /delete_testing_range
+[TIMING] Clear test data time: 1.11s
+Running incremental upload test for: feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx
+[TIMING] Navigation to upload page: 0.04s
+[TIMING] First file upload: 0.23s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250809_091236.json
+[CHECKBOX DIAGNOSTICS] Found 39 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=False
+  - Checkbox 3: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=False
+checking box named: confirm_overwrite_additional_activities
+checking box named: confirm_overwrite_contact_email
+A total of 2 check boxes were selected (limited to 5 for performance).
+[TIMING] Checkbox operations (OPTIMIZED): 0.08s
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_activities', checked=True
+  - Checkbox 3: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_contact_email', checked=True
+[DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
+[TIMING] First save operation: 0.08s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250809_091237.json
+[TIMING] Second file upload: 0.18s
+[CHECKBOX DIAGNOSTICS] (2nd upload) Found 37 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=False
+checking box named: confirm_overwrite_additional_notes
+  - Checkbox 3: name/id='confirm_overwrite_contact_name', checked=False
+checking box named: confirm_overwrite_contact_name
+  - Checkbox 4: name/id='confirm_overwrite_contact_phone', checked=False
+checking box named: confirm_overwrite_contact_phone
+A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
+[TIMING] Second checkbox operations (OPTIMIZED): 0.12s
+[DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
+[TIMING] Second save operation: 0.10s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002041/id_1002041_ts_20250809_091237.json
+[TIMING] Third file upload: 0.21s
+[CHECKBOX DIAGNOSTICS] (3rd upload) Found 34 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+[SUCCESS] All checkboxes have been processed
+[TIMING] Third checkbox operations: 0.01s
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+[SUCCESS] All checkboxes have been processed
+[TIMING] Third checkbox operations: 0.01s
+  - Checkbox 2: name/id='confirm_overwrite_emission_cause', checked=False
+[INFO] Found 1 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.02s
+  - Checkbox 3: name/id='confirm_overwrite_emission_cause_notes', checked=False
+[INFO] Found 2 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.02s
+  - Checkbox 4: name/id='confirm_overwrite_emission_cause_secondary', checked=False
+[INFO] Found 3 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.03s
+  - Checkbox 5: name/id='confirm_overwrite_emission_cause_tertiary', checked=False
+[INFO] Found 4 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.03s
+  - Checkbox 6: name/id='confirm_overwrite_emission_identified_flag_fk', checked=False
+[INFO] Found 5 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.04s
+  - Checkbox 7: name/id='confirm_overwrite_emission_location', checked=False
+[INFO] Found 6 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.04s
+  - Checkbox 8: name/id='confirm_overwrite_emission_location_notes', checked=False
+[INFO] Found 7 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.04s
+  - Checkbox 9: name/id='confirm_overwrite_emission_type_fk', checked=False
+[INFO] Found 8 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.05s
+  - Checkbox 10: name/id='confirm_overwrite_facility_name', checked=False
+[INFO] Found 9 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.05s
+  - Checkbox 11: name/id='confirm_overwrite_id_arb_swis', checked=False
+[INFO] Found 10 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.06s
+  - Checkbox 12: name/id='confirm_overwrite_id_incidence', checked=False
+[INFO] Found 11 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.06s
+  - Checkbox 13: name/id='confirm_overwrite_id_message', checked=False
+[INFO] Found 12 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.07s
+  - Checkbox 14: name/id='confirm_overwrite_id_plume', checked=False
+[INFO] Found 13 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.07s
+  - Checkbox 15: name/id='confirm_overwrite_included_in_last_lmr', checked=False
+[INFO] Found 14 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.08s
+  - Checkbox 16: name/id='confirm_overwrite_included_in_last_lmr_description', checked=False
+[INFO] Found 15 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.08s
+  - Checkbox 17: name/id='confirm_overwrite_initial_leak_concentration', checked=False
+[INFO] Found 16 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.08s
+  - Checkbox 18: name/id='confirm_overwrite_inspection_timestamp', checked=False
+[INFO] Found 17 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.09s
+  - Checkbox 19: name/id='confirm_overwrite_instrument', checked=False
+[INFO] Found 18 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.10s
+  - Checkbox 20: name/id='confirm_overwrite_last_component_leak_monitoring_timestamp', checked=False
+[INFO] Found 19 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.10s
+  - Checkbox 21: name/id='confirm_overwrite_last_surface_monitoring_timestamp', checked=False
+[INFO] Found 20 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.11s
+  - Checkbox 22: name/id='confirm_overwrite_lat_carb', checked=False
+[INFO] Found 21 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.11s
+  - Checkbox 23: name/id='confirm_overwrite_lat_revised', checked=False
+[INFO] Found 22 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.11s
+  - Checkbox 24: name/id='confirm_overwrite_long_carb', checked=False
+[INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.12s
+  - Checkbox 25: name/id='confirm_overwrite_long_revised', checked=False
+[INFO] Found 24 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.12s
+  - Checkbox 26: name/id='confirm_overwrite_mitigation_actions', checked=False
+[INFO] Found 25 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.13s
+  - Checkbox 27: name/id='confirm_overwrite_mitigation_timestamp', checked=False
+[INFO] Found 26 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.13s
+  - Checkbox 28: name/id='confirm_overwrite_observation_timestamp', checked=False
+[INFO] Found 27 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.14s
+  - Checkbox 29: name/id='confirm_overwrite_planned_for_next_lmr', checked=False
+[INFO] Found 28 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.14s
+  - Checkbox 30: name/id='confirm_overwrite_planned_for_next_lmr_description', checked=False
+[INFO] Found 29 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.15s
+  - Checkbox 31: name/id='confirm_overwrite_re_monitored_concentration', checked=False
+[INFO] Found 30 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.15s
+  - Checkbox 32: name/id='confirm_overwrite_re_monitored_timestamp', checked=False
+[INFO] Found 31 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.16s
+  - Checkbox 33: name/id='confirm_overwrite_sector', checked=False
+[INFO] Found 32 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.16s
+[TIMING] Total test_incremental_upload time: 2.33s
+[TIMING] Breakdown:
+  - Clear test data: 1.11s
+  - Navigation: 0.04s
+  - First upload: 0.23s
+  - First checkbox ops: 0.08s
+  - First save: 0.08s
+  - Second upload: 0.18s
+  - Second checkbox ops: 0.12s
+  - Second save: 0.10s
+  - Third upload: 0.21s
+  - Third checkbox ops: 0.16s
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Dairy Digester) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx' uploaded successfully! ID: 1002002, Sector: Dairy Digester
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx] [TIMING] Starting test_incremental_upload for feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+[TIMING] Starting clear_test_data_inline
+[TIMING] Navigation to delete page: 0.45s
+[TIMING] Form filling: 0.04s
+[TIMING] Click preview button: 0.03s
+[TIMING] Modal confirmation (OPTIMIZED): 1.53s
+[TIMING] Total clear_test_data_inline time: 2.06s
+[DEBUG] Test data cleared via UI at /delete_testing_range
+[TIMING] Clear test data time: 2.06s
+Running incremental upload test for: feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx
+[TIMING] Navigation to upload page: 0.04s
+[TIMING] First file upload: 0.26s
+[DEBUG] After upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250809_091241.json
+[CHECKBOX DIAGNOSTICS] Found 33 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=False
+  - Checkbox 3: name/id='confirm_overwrite_component_at_source', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_component_other_description', checked=False
+checking box named: confirm_overwrite_additional_notes
+checking box named: confirm_overwrite_component_other_description
+A total of 2 check boxes were selected (limited to 5 for performance).
+[TIMING] Checkbox operations (OPTIMIZED): 0.08s
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_additional_notes', checked=True
+  - Checkbox 3: name/id='confirm_overwrite_component_at_source', checked=False
+  - Checkbox 4: name/id='confirm_overwrite_component_other_description', checked=True
+[DEBUG] After first save, navigated to: http://127.0.0.1:2113/upload_staged
+[TIMING] First save operation: 0.08s
+[DEBUG] After re-upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250809_091241.json
+[TIMING] Second file upload: 0.18s
+[CHECKBOX DIAGNOSTICS] (2nd upload) Found 31 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+  - Checkbox 2: name/id='confirm_overwrite_component_at_source', checked=False
+checking box named: confirm_overwrite_component_at_source
+  - Checkbox 3: name/id='confirm_overwrite_contact_email', checked=False
+checking box named: confirm_overwrite_contact_email
+  - Checkbox 4: name/id='confirm_overwrite_contact_name', checked=False
+checking box named: confirm_overwrite_contact_name
+A total of 3 check boxes were selected on 2nd upload (limited to 5 for performance).
+[TIMING] Second checkbox operations (OPTIMIZED): 0.11s
+[DEBUG] After second save, navigated to: http://127.0.0.1:2113/upload_staged
+[TIMING] Second save operation: 0.10s
+[DEBUG] After 3rd upload, page.url = http://127.0.0.1:2113/review_staged/1002051/id_1002051_ts_20250809_091241.json
+[TIMING] Third file upload: 0.23s
+[CHECKBOX DIAGNOSTICS] (3rd upload) Found 28 checkboxes on the page:
+  - Checkbox 0: name/id='hideUnchangedFields', checked=False
+[SUCCESS] All checkboxes have been processed
+[TIMING] Third checkbox operations: 0.01s
+  - Checkbox 1: name/id='selectAllConfirmations', checked=False
+[SUCCESS] All checkboxes have been processed
+[TIMING] Third checkbox operations: 0.02s
+  - Checkbox 2: name/id='confirm_overwrite_contact_phone', checked=False
+[INFO] Found 1 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.02s
+  - Checkbox 3: name/id='confirm_overwrite_equipment_at_source', checked=False
+[INFO] Found 2 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.03s
+  - Checkbox 4: name/id='confirm_overwrite_equipment_other_description', checked=False
+[INFO] Found 3 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.03s
+  - Checkbox 5: name/id='confirm_overwrite_facility_name', checked=False
+[INFO] Found 4 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.04s
+  - Checkbox 6: name/id='confirm_overwrite_final_repair_concentration', checked=False
+[INFO] Found 5 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.04s
+  - Checkbox 7: name/id='confirm_overwrite_id_arb_eggrt', checked=False
+[INFO] Found 6 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.05s
+  - Checkbox 8: name/id='confirm_overwrite_id_incidence', checked=False
+[INFO] Found 7 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.05s
+  - Checkbox 9: name/id='confirm_overwrite_id_message', checked=False
+[INFO] Found 8 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.06s
+  - Checkbox 10: name/id='confirm_overwrite_id_plume', checked=False
+[INFO] Found 9 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.06s
+  - Checkbox 11: name/id='confirm_overwrite_initial_leak_concentration', checked=False
+[INFO] Found 10 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.07s
+  - Checkbox 12: name/id='confirm_overwrite_initial_mitigation_plan', checked=False
+[INFO] Found 11 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.07s
+  - Checkbox 13: name/id='confirm_overwrite_lat_carb', checked=False
+[INFO] Found 12 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.08s
+  - Checkbox 14: name/id='confirm_overwrite_long_carb', checked=False
+[INFO] Found 13 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.08s
+  - Checkbox 15: name/id='confirm_overwrite_method21_date', checked=False
+[INFO] Found 14 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.09s
+  - Checkbox 16: name/id='confirm_overwrite_method21_performed', checked=False
+[INFO] Found 15 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.09s
+  - Checkbox 17: name/id='confirm_overwrite_method21_result', checked=False
+[INFO] Found 16 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.10s
+  - Checkbox 18: name/id='confirm_overwrite_observation_timestamp', checked=False
+[INFO] Found 17 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.10s
+  - Checkbox 19: name/id='confirm_overwrite_ogi_date', checked=False
+[INFO] Found 18 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.11s
+  - Checkbox 20: name/id='confirm_overwrite_ogi_performed', checked=False
+[INFO] Found 19 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.12s
+  - Checkbox 21: name/id='confirm_overwrite_ogi_result', checked=False
+[INFO] Found 20 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.12s
+  - Checkbox 22: name/id='confirm_overwrite_repair_description', checked=False
+[INFO] Found 21 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.13s
+  - Checkbox 23: name/id='confirm_overwrite_repair_timestamp', checked=False
+[INFO] Found 22 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.13s
+  - Checkbox 24: name/id='confirm_overwrite_sector', checked=False
+[INFO] Found 23 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.14s
+  - Checkbox 25: name/id='confirm_overwrite_venting_description_1', checked=False
+[INFO] Found 24 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.14s
+  - Checkbox 26: name/id='confirm_overwrite_venting_description_2', checked=False
+[INFO] Found 25 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.15s
+  - Checkbox 27: name/id='confirm_overwrite_venting_exclusion', checked=False
+[INFO] Found 26 remaining confirmable checkboxes (expected due to performance optimization)
+[INFO] This is expected behavior when limiting checkbox processing for performance
+[TIMING] Third checkbox operations: 0.16s
+[TIMING] Total test_incremental_upload time: 3.33s
+[TIMING] Breakdown:
+  - Clear test data: 2.06s
+  - Navigation: 0.04s
+  - First upload: 0.26s
+  - First checkbox ops: 0.08s
+  - First save: 0.08s
+  - Second upload: 0.18s
+  - Second checkbox ops: 0.11s
+  - Second save: 0.10s
+  - Third upload: 0.23s
+  - Third checkbox ops: 0.16s
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Energy) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'energy_operator_feedback_v003_test_01_good_data.xlsx' uploaded successfully! ID: 1002011, Sector: Energy
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload failed: 
+
+       9 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload failed: 
+
+       9 validation error(s) was/were detected.
+      Please correct entry errors where possible.
+      
+    
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload failed: 
+              No fields were confirmed for update. No changes saved.
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Energy) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'energy_operator_feedback_v003_test_02_bad_data.xlsx' uploaded successfully! ID: 1002012, Sector: Energy
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+              ✅ All changes have been saved successfully! No validation warnings or errors found.
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ All changes have been saved successfully! No validation warnings or errors found.
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload failed: 
+        This file is missing a valid 'Incidence/Emission ID' (id_incidence). Please add a positive integer id_incidence to your spreadsheet before uploading.
+        
+      
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx] clear_upload_attempt_marker() called
+Upload blocked due to missing/invalid id_incidence as expected.
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx] clear_upload_attempt_marker() called
+Refactored upload failed: 
+        This file is missing a valid 'Incidence/Emission ID' (id_incidence). Please add a positive integer id_incidence to your spreadsheet before uploading.
+        
+      
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload successful: 
+          Status: This file is missing a valid 'Incidence/Emission ID' (id_incidence). Please add a positive integer id_incidence to your spreadsheet before uploading.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Dairy Digester) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'dairy_digester_operator_feedback_v006_test_01_good_data.xlsx' uploaded successfully! ID: 1002001, Sector: Dairy Digester
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Generic) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'generic_operator_feedback_v002_test_02_bad_data.xlsx' uploaded successfully! ID: 1002022, Sector: Generic
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Upload successful: 
+          
+             Read-Only View
+          
+          
+            This sector (Energy) does not currently have an interactive web form associated
+            with it.
+            The data is displayed below in read-only format.
+          
+        
+PASSED
+tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx] clear_upload_attempt_marker() called
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx] clear_upload_attempt_marker() called
+Refactored upload successful: 
+              ✅ File 'energy_operator_feedback_v003_test_01_good_data_update.xlsx' uploaded successfully! ID: 1002011, Sector: Energy
+              
+            
+PASSED
+tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx] clear_upload_attempt_marker() called
+Refactored staged upload appears successful based on page content
+PASSED
+tests/e2e/test_playwright_setup.py::test_playwright_setup SKIPPED (S...)
+
+============================== slowest durations ===============================
+2.57s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium]
+2.57s call     tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium]
+2.57s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+2.39s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+2.37s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+2.37s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+2.33s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+2.29s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_long_text_overflow[chromium]
+2.24s call     tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+2.09s call     tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium]
+1.94s call     tests/e2e/test_excel_upload_workflows.py::test_list_staged_diagnostics_overlay[chromium]
+1.62s call     tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium]
+1.48s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium]
+1.19s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_rapid_filter_changes[chromium]
+1.12s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
+0.96s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.95s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.92s setup    tests/e2e/test_excel_upload_workflows.py::test_discard_each_staged_file_separately[chromium]
+0.86s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.84s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.84s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium]
+0.84s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.83s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_empty_state[chromium]
+0.83s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_special_characters[chromium]
+0.83s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.82s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.82s call     tests/e2e/test_delete_testing_data.py::test_delete_button_and_real_delete[chromium]
+0.81s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.81s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_page_loads[chromium]
+0.80s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.79s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_date_range_boundaries[chromium]
+0.78s call     tests/e2e/test_homepage.py::test_homepage_card_content_and_links[chromium]
+0.73s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_accessibility[chromium]
+0.73s call     tests/e2e/test_feedback_updates.py::test_feedback_updates_large_data_set[chromium]
+0.72s call     tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium]
+0.53s call     tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium]
+0.52s call     tests/e2e/test_excel_upload_workflows.py::test_upload_file_only[chromium]
+0.45s call     tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium]
+0.44s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_staged_orchestrated_invalid_file_handling[chromium]
+0.44s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_configuration_driven_behavior[chromium]
+0.42s setup    tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium]
+0.38s setup    tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium]
+0.34s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.34s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.32s setup    tests/e2e/test_excel_upload_workflows.py::test_discard_staged_file_only[chromium]
+0.32s call     tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium]
+0.32s call     tests/e2e/test_homepage.py::test_homepage_special_characters_and_long_text[chromium]
+0.31s call     tests/e2e/test_list_uploads.py::test_list_uploads_file_links[chromium]
+0.31s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.30s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.29s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.28s call     tests/e2e/test_excel_upload_workflows.py::test_upload_multiple_files_only[chromium]
+0.28s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.27s setup    tests/e2e/test_excel_upload_workflows.py::test_discard_malformed_file_only[chromium]
+0.27s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.27s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.26s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.26s call     tests/e2e/test_excel_upload_workflows.py::test_upload_malformed_file_only[chromium]
+0.26s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.25s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.24s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.23s call     tests/e2e/test_delete_testing_data.py::test_diagnostics_messaging[chromium]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.23s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.22s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.22s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_error_handling_equivalence_invalid_file[chromium]
+0.22s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.22s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium]
+0.22s call     tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium]
+0.22s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.22s setup    tests/e2e/test_delete_testing_data.py::test_delete_testing_range_page_loads[chromium]
+0.22s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.20s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.20s call     tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium]
+0.20s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.20s call     tests/e2e/test_delete_testing_data.py::test_dry_run_checkbox_and_preview[chromium]
+0.19s call     tests/e2e/test_list_uploads.py::test_list_uploads_page_loads[chromium]
+0.19s call     tests/e2e/test_homepage.py::test_homepage_card_navigation[chromium]
+0.19s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.18s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.18s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.18s call     tests/e2e/test_review_staged.py::test_field_search_filter[chromium]
+0.18s call     tests/e2e/test_menu_calsmp_help.py::test_calsmp_help_menu_links[chromium]
+0.18s call     tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.17s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.16s call     tests/e2e/test_review_staged.py::test_change_summary_card[chromium]
+0.16s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.16s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.16s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredRouteSpecificEnhancements::test_enhanced_success_message_detail[chromium]
+0.15s call     tests/e2e/test_homepage.py::test_homepage_navigation_menu[chromium]
+0.15s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.14s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.14s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.14s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_orchestrated_route_consistency[chromium]
+0.14s call     tests/e2e/test_javascript_logging.py::test_diagnostics_overlay_on_diagnostic_test_page[chromium]
+0.14s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_form_structure_equivalence[chromium]
+0.14s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_error_handling_equivalence_no_file[chromium]
+0.14s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_cross_cutting_concern_extraction[chromium]
+0.14s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_staged_orchestrated_page_loads[chromium]
+0.14s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.14s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_refactored_empty_file_upload[chromium]
+0.13s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.13s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_message_parameter_equivalence[chromium]
+0.13s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_staged_orchestrated_invalid_file_handling[chromium]
+0.13s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.13s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_framework_extensibility[chromium]
+0.13s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_unified_route_logic[chromium]
+0.13s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.13s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_orchestrated_invalid_file_handling[chromium]
+0.13s call     tests/e2e/test_homepage.py::test_homepage_loads[chromium]
+0.13s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.13s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_refactored_invalid_file_upload[chromium]
+0.13s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_staged_refactored_invalid_file_upload[chromium]
+0.13s call     tests/e2e/test_homepage.py::test_homepage_accessibility[chromium]
+0.13s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.13s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_invalid_file_upload[chromium]
+0.12s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_refactored_no_file_selected_error[chromium]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_drop_zone_exists[chromium]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.12s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_navigation[chromium]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.12s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_staged_refactored_invalid_file_upload[chromium]
+0.12s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_upload[chromium]
+0.12s call     tests/e2e/test_homepage.py::test_homepage_pagination_or_scrolling[chromium]
+0.12s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredRouteSpecificEnhancements::test_helper_function_integration[chromium]
+0.12s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_refactored_empty_file_upload[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_invalid_file_upload[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.11s call     tests/e2e/test_delete_testing_data.py::test_delete_testing_range_page_loads[chromium]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_staged_refactored_page_loads[chromium]
+0.11s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_orchestrated_invalid_file_handling[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadWorkflows::test_file_input_functionality_staged_refactored[chromium]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_staged_refactored_accessibility_features[chromium]
+0.11s call     tests/e2e/test_homepage.py::test_homepage_empty_state[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_upload_page_loads[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_input_exists[chromium]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadWorkflows::test_file_input_functionality_refactored[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.11s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_refactored_page_loads[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_large_file_upload[chromium]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.11s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.10s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_page_loads[chromium]
+0.10s call     tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_page_loads[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_empty_file_upload[chromium]
+0.10s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_orchestrated_page_loads[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_form_structure[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_accessibility_features[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredRouteSpecificEnhancements::test_result_type_integration[chromium]
+0.10s call     tests/e2e/test_delete_testing_data.py::test_min_max_id_inputs[chromium]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_page_structure[chromium]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredErrorHandling::test_refactored_invalid_file_upload[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_upload_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.10s call     tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_specific_error_messages[chromium]
+0.10s setup    tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_accessibility_features[chromium]
+0.10s setup    tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredRouteSpecificEnhancements::test_enhanced_error_message_specificity[chromium]
+0.05s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredRouteSpecificEnhancements::test_enhanced_error_message_specificity[chromium]
+0.05s setup    tests/e2e/test_excel_upload_workflows.py::test_upload_file_only[chromium]
+0.04s teardown tests/e2e/test_playwright_setup.py::test_playwright_setup
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_page_loads[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_cross_cutting_concern_extraction[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_accessibility[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.02s setup    tests/e2e/test_list_uploads.py::test_list_uploads_page_loads[chromium]
+0.02s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_configuration_driven_behavior[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_unified_route_logic[chromium]
+0.02s setup    tests/e2e/test_delete_testing_data.py::test_delete_button_and_real_delete[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_review_staged.py::test_hide_changes_checkbox[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_filter_functionality[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_date_range_boundaries[chromium]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_empty_state[chromium]
+0.02s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_framework_extensibility[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_rapid_filter_changes[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_large_data_set[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_delete_testing_data.py::test_min_max_id_inputs[chromium]
+0.02s setup    tests/e2e/test_menu_calsmp_help.py::test_calsmp_help_menu_links[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_empty_state[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_javascript_logging.py::test_diagnostics_overlay_on_diagnostic_test_page[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_page_loads[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_review_staged.py::test_field_search_filter[chromium]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_accessibility[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_review_staged.py::test_confirm_checkboxes[chromium]
+0.02s setup    tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_page_loads[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_change_summary_card[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_cancel_and_save_buttons[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_03_blank.xlsx]
+0.02s setup    tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_orchestrated_route_consistency[chromium]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_error_handling_equivalence_no_file[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_error_handling_equivalence_invalid_file[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_invalid_file[chromium]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_navigation_menu[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_invalid_file[chromium]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_card_content_and_links[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_special_characters[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_loads[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_card_navigation[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::test_list_staged_diagnostics_overlay[chromium]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_navigation[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_message_parameter_equivalence[chromium]
+0.02s setup    tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_pagination_or_scrolling[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data_update.xlsx]
+0.02s setup    tests/e2e/test_list_uploads.py::test_list_uploads_file_links[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_staged_refactored_workflow[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_02_bad_data.xlsx]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredRouteSpecificFeatures::test_refactored_route_specific_error_messages[chromium]
+0.02s setup    tests/e2e/test_delete_testing_data.py::test_diagnostics_messaging[chromium]
+0.02s setup    tests/e2e/test_review_staged.py::test_incremental_upload[chromium-feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+0.02s setup    tests/e2e/test_homepage.py::test_homepage_special_characters_and_long_text[chromium]
+0.02s setup    tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_form_structure_equivalence[chromium]
+0.02s setup    tests/e2e/test_feedback_updates.py::test_feedback_updates_long_text_overflow[chromium]
+0.02s setup    tests/e2e/test_excel_upload_workflows.py::TestRefactoredRoutes::test_upload_file_refactored_workflow[chromium-feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_02_bad_data.xlsx]
+0.01s setup    tests/e2e/test_delete_testing_data.py::test_dry_run_checkbox_and_preview[chromium]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_form_structure[chromium]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_upload_page_loads[chromium]
+0.01s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_refactored_page_loads[chromium]
+0.01s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_accessibility_features[chromium]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_accessibility_features[chromium]
+0.01s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_form_structure[chromium]
+0.01s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_orchestrated_page_loads[chromium]
+0.01s call     tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_staged_orchestrated_page_loads[chromium]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestUploadPageElements::test_page_structure[chromium]
+0.01s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_page_structure[chromium]
+0.01s call     tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_staged_refactored_page_loads[chromium]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_drop_zone_exists[chromium]
+0.01s teardown tests/e2e/test_feedback_updates.py::test_feedback_updates_csv_download_with_filters[chromium]
+0.01s teardown tests/e2e/test_feedback_updates.py::test_feedback_updates_download_csv_button[chromium]
+0.01s teardown tests/e2e/test_excel_upload_workflows.py::test_excel_upload_deep_backend_validation[chromium-feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx]
+0.01s call     tests/e2e/test_excel_upload_workflows.py::TestExcelUpload::test_file_input_exists[chromium]
+0.01s teardown tests/e2e/test_refactored_vs_original_equivalence.py::TestRefactoredVsOriginalEquivalence::test_form_structure_equivalence[chromium]
+
+(167 durations < 0.005s hidden.  Use -vv to show these durations.)
+================== 145 passed, 12 skipped in 78.31s (0:01:18) ==================
