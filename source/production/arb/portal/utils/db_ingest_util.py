@@ -477,66 +477,12 @@ def upload_and_process_file(db: SQLAlchemy,
       - Returns detailed error information for better user experience and debugging.
       - Maintains the same functionality as upload_and_update_db but with improved structure.
       - Uses shared helper functions for consistency with stage_uploaded_file_for_review.
+      - Phase 8B: Now uses unified in-memory processing architecture for code deduplication.
   """
-  logger.debug(f"upload_and_process_file() called with {request_file=}")
-
-  # Step 1: Save uploaded file
-  save_result = save_uploaded_file_with_result(upload_dir, request_file, db, description="Direct upload to database")
-  if not save_result.success:
-    return UploadResult(
-      file_path=Path("unknown"),
-      id_=None,
-      sector=None,
-      success=False,
-      error_message=save_result.error_message,
-      error_type=save_result.error_type
-    )
-
-  # Step 2: Convert file to JSON and extract data
-  conversion_result = convert_file_to_json_with_result(save_result.file_path)
-  if not conversion_result.success:
-    return UploadResult(
-      file_path=save_result.file_path,
-      id_=None,
-      sector=conversion_result.sector,
-      success=False,
-      error_message=conversion_result.error_message,
-      error_type=conversion_result.error_type
-    )
-
-  # Step 3: Validate ID from JSON data
-  validation_result = validate_id_from_json_with_result(conversion_result.json_data)
-  if not validation_result.success:
-    return UploadResult(
-      file_path=save_result.file_path,
-      id_=None,
-      sector=conversion_result.sector,
-      success=False,
-      error_message=validation_result.error_message,
-      error_type=validation_result.error_type
-    )
-
-  # Step 4: Insert data into database
-  insert_result = insert_json_into_database_with_result(conversion_result.json_path, base, db)
-  if not insert_result.success:
-    return UploadResult(
-      file_path=save_result.file_path,
-      id_=None,
-      sector=conversion_result.sector,
-      success=False,
-      error_message=insert_result.error_message,
-      error_type=insert_result.error_type
-    )
-
-  # Success case
-  return UploadResult(
-    file_path=save_result.file_path,
-    id_=insert_result.id_,
-    sector=conversion_result.sector,
-    success=True,
-    error_message=None,
-    error_type=None
-  )
+  logger.debug(f"upload_and_process_file() called with {request_file=} (Phase 8B: using unified architecture)")
+  
+  # Phase 8B: Delegate to unified implementation for code deduplication
+  return upload_and_process_file_unified(db, upload_dir, request_file, base)
 
 
 def upload_and_update_db(db: SQLAlchemy,
@@ -998,77 +944,12 @@ def stage_uploaded_file_for_review(db: SQLAlchemy,
       - Staging will be blocked if id_incidence is missing or invalid
       - All values are JSON-serializable before staging
       - Includes current database state as base_misc_json for comparison
+      - Phase 8B: Now uses unified in-memory processing architecture for code deduplication.
   """
-  logger.debug(f"stage_uploaded_file_for_review() called with {request_file.filename}")
-
-  # Step 1: Save the uploaded file
-  save_result = save_uploaded_file_with_result(upload_dir, request_file, db, description="Staged only (no DB write)")
-  if not save_result.success:
-    return StagingResult(
-      file_path=Path("unknown"),
-      id_=None,
-      sector=None,
-      json_data={},
-      staged_filename=None,
-      success=False,
-      error_message=save_result.error_message,
-      error_type=save_result.error_type
-    )
-
-  # Step 2: Convert file to JSON and extract sector
-  conversion_result = convert_file_to_json_with_result(save_result.file_path)
-  if not conversion_result.success:
-    return StagingResult(
-      file_path=save_result.file_path,
-      id_=None,
-      sector=None,
-      json_data={},
-      staged_filename=None,
-      success=False,
-      error_message=conversion_result.error_message,
-      error_type=conversion_result.error_type
-    )
-
-  # Step 3: Validate and extract id_incidence
-  validation_result = validate_id_from_json_with_result(conversion_result.json_data)
-  if not validation_result.success:
-    return StagingResult(
-      file_path=save_result.file_path,
-      id_=None,
-      sector=conversion_result.sector,
-      json_data=conversion_result.json_data,
-      staged_filename=None,
-      success=False,
-      error_message=validation_result.error_message,
-      error_type=validation_result.error_type
-    )
-
-  # Step 4: Create staged file
-  staging_result = create_staged_file_with_result(validation_result.id_, conversion_result.json_data, db, base, upload_dir)
-  if not staging_result.success:
-    return StagingResult(
-      file_path=save_result.file_path,
-      id_=validation_result.id_,
-      sector=conversion_result.sector,
-      json_data=conversion_result.json_data,
-      staged_filename=None,
-      success=False,
-      error_message=staging_result.error_message,
-      error_type=staging_result.error_type
-    )
-
-  # Success case
-  logger.debug(f"Staging successful: id={validation_result.id_}, sector={conversion_result.sector}, filename={staging_result.staged_filename}")
-  return StagingResult(
-    file_path=save_result.file_path,
-    id_=validation_result.id_,
-    sector=conversion_result.sector,
-    json_data=conversion_result.json_data,
-    staged_filename=staging_result.staged_filename,
-    success=True,
-    error_message=None,
-    error_type=None
-  )
+  logger.debug(f"stage_uploaded_file_for_review() called with {request_file.filename} (Phase 8B: using unified architecture)")
+  
+  # Phase 8B: Delegate to unified implementation for code deduplication
+  return stage_uploaded_file_for_review_unified(db, upload_dir, request_file, base)
 
 
 def save_uploaded_file_with_result(upload_dir: str | Path, request_file: FileStorage, db: SQLAlchemy,
@@ -1103,7 +984,7 @@ def save_uploaded_file_with_result(upload_dir: str | Path, request_file: FileSto
         add_file_to_upload_table(db, file_path, status="File Added", description=description)
         logger.debug(f"Uploaded file saved to: {file_path}")
         return FileSaveResult(
-            file_path=file_path,
+      file_path=file_path,
             success=True,
             error_message=None,
             error_type=None
@@ -1171,8 +1052,8 @@ def convert_file_to_json_with_result(file_path: Path) -> FileConversionResult:
         logger.debug(f"File converted to JSON: {json_path}, sector: {sector}")
         return FileConversionResult(
             json_path=json_path,
-            sector=sector,
-            json_data=json_data,
+      sector=sector,
+      json_data=json_data,
             success=True,
             error_message=None,
             error_type=None
@@ -1301,11 +1182,11 @@ def create_staged_file_with_result(id_: int, json_data: dict, db: SQLAlchemy, ba
     except Exception as e:
         logger.error(f"Error creating staged file: {e}")
         return StagedFileResult(
-            staged_filename=None,
-            success=False,
+      staged_filename=None,
+      success=False,
             error_message=f"Failed to create staged file: {e}",
-            error_type="database_error"
-        )
+      error_type="database_error"
+    )
 
 
 def insert_json_into_database_with_result(json_path: Path, base: AutomapBase, db: SQLAlchemy) -> DatabaseInsertResult:
@@ -1337,7 +1218,7 @@ def insert_json_into_database_with_result(json_path: Path, base: AutomapBase, db
         id_, sector = json_file_to_db(db, json_path, base)
         logger.debug(f"JSON data inserted into database: id={id_}, sector={sector}")
         return DatabaseInsertResult(
-            id_=id_,
+    id_=id_,
             success=True,
             error_message=None,
             error_type=None
@@ -1566,7 +1447,7 @@ def convert_excel_to_json_with_result(file_path: Path) -> JsonProcessingResult:
         logger.debug(f"File converted successfully to: {json_path}, sector: {sector}")
         return JsonProcessingResult(
             json_path=json_path,
-            sector=sector,
+    sector=sector,
             success=True,
             error_message=None,
             error_type=None
@@ -1738,7 +1619,7 @@ def convert_file_to_json_enhanced_with_result(file_path: Path) -> FileConversion
     return FileConversionResult(
         json_path=conversion_result.json_path,
         sector=conversion_result.sector,
-        json_data=json_data,
+    json_data=json_data,
         success=True,
         error_message=None,
         error_type=None
@@ -1848,6 +1729,166 @@ def upload_and_process_file_enhanced(db: SQLAlchemy,
     )
 
 
+# Phase 8B: Unified Processing Functions
+
+def upload_and_process_file_unified(db: SQLAlchemy,
+                                   upload_dir: str | Path,
+                                   request_file: FileStorage,
+                                   base: AutomapBase) -> UploadResult:
+    """
+    Unified upload processing using in-memory staging architecture.
+    
+    This function represents the Phase 8B implementation of direct upload using
+    the unified in-memory processing pipeline. It eliminates code duplication
+    by leveraging the same core processing logic as staged uploads.
+    
+    Args:
+        db (SQLAlchemy): SQLAlchemy database instance.
+        upload_dir (str | Path): Directory where the uploaded file should be saved.
+        request_file (FileStorage): File uploaded via the Flask request.
+        base (AutomapBase): SQLAlchemy base object from automap reflection.
+
+    Returns:
+        UploadResult: Named tuple containing the result of the upload process with
+                     detailed error information and success indicators.
+
+    Examples:
+        result = upload_and_process_file_unified(db, upload_dir, request_file, base)
+        if result.success:
+            # Redirect to incidence update page
+            return redirect(url_for('main.incidence_update', id_=result.id_))
+        else:
+            # Handle specific error types
+            if result.error_type == "missing_id":
+                return render_template('upload.html', upload_message=result.error_message)
+
+    Notes:
+        - Uses unified in-memory processing pipeline (Phase 8 architecture)
+        - Eliminates ~75% code duplication with staged upload function
+        - Configuration: auto_confirm=True, update_all_fields=True, persist_staging_file=False
+        - Maintains exact same interface as upload_and_process_file for backward compatibility
+    """
+    from arb.portal.utils.in_memory_staging import (
+        process_upload_with_config,
+        UploadProcessingConfig
+    )
+    
+    logger.debug(f"upload_and_process_file_unified() called with {request_file=}")
+    
+    # Configure for direct upload: auto-confirm to database, update all fields, no staging file
+    config = UploadProcessingConfig(
+        auto_confirm=True,
+        update_all_fields=True,
+        persist_staging_file=False,
+        cleanup_staging_file=False
+    )
+    
+    # Use unified processing pipeline
+    result = process_upload_with_config(config, db, upload_dir, request_file, base)
+    
+    if result.success:
+        # Success: return UploadResult with database insertion data
+        return UploadResult(
+            file_path=Path(result.result_data.get("file_path", "unknown")),
+            id_=result.result_data.get("id_"),
+            sector=result.result_data.get("sector"),
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    else:
+        # Error: convert PersistenceResult error to UploadResult error
+        return UploadResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            success=False,
+            error_message=result.error_message,
+            error_type=result.error_type
+        )
+
+
+def stage_uploaded_file_for_review_unified(db: SQLAlchemy,
+                                         upload_dir: str | Path,
+                                         request_file: FileStorage,
+                                         base: AutomapBase) -> StagingResult:
+    """
+    Unified staging processing using in-memory staging architecture.
+    
+    This function represents the Phase 8B implementation of staged upload using
+    the unified in-memory processing pipeline. It eliminates code duplication
+    by leveraging the same core processing logic as direct uploads.
+    
+    Args:
+        db (SQLAlchemy): Active SQLAlchemy database instance
+        upload_dir (str | Path): Target upload folder path
+        request_file (FileStorage): Uploaded file from Flask request
+        base (AutomapBase): Reflected metadata
+
+    Returns:
+        StagingResult: Rich result object with success/failure information
+
+    Examples:
+        result = stage_uploaded_file_for_review_unified(db, upload_dir, request_file, base)
+
+        if result.success:
+            # Staging successful
+            flash(f"File staged successfully: {result.staged_filename}")
+        else:
+            # Handle specific error
+            if result.error_type == "missing_id":
+                flash("Please add a valid ID to your spreadsheet")
+
+    Notes:
+        - Uses unified in-memory processing pipeline (Phase 8 architecture)
+        - Eliminates ~75% code duplication with direct upload function
+        - Configuration: auto_confirm=False, persist_staging_file=True
+        - Maintains exact same interface as stage_uploaded_file_for_review for backward compatibility
+    """
+    from arb.portal.utils.in_memory_staging import (
+        process_upload_with_config,
+        UploadProcessingConfig
+    )
+    
+    logger.debug(f"stage_uploaded_file_for_review_unified() called with {request_file.filename}")
+    
+    # Configure for staged upload: no auto-confirm, create staging file
+    config = UploadProcessingConfig(
+        auto_confirm=False,
+        update_all_fields=False,  # Staging doesn't update database
+        persist_staging_file=True,
+        cleanup_staging_file=False
+    )
+    
+    # Use unified processing pipeline
+    result = process_upload_with_config(config, db, upload_dir, request_file, base)
+    
+    if result.success:
+        # Success: return StagingResult with staging file data
+        return StagingResult(
+            file_path=Path(result.result_data.get("file_path", "unknown")),
+            id_=result.result_data.get("id_"),
+            sector=result.result_data.get("sector"),
+            json_data=result.result_data.get("json_data", {}),
+            staged_filename=result.result_data.get("staged_filename"),
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+    else:
+        # Error: convert PersistenceResult error to StagingResult error
+        return StagingResult(
+            file_path=Path("unknown"),
+            id_=None,
+            sector=None,
+            json_data={},
+            staged_filename=None,
+            success=False,
+            error_message=result.error_message,
+            error_type=result.error_type
+        )
+
+
 def stage_uploaded_file_for_review_enhanced(db: SQLAlchemy,
                                           upload_dir: str | Path,
                                           request_file: FileStorage,
@@ -1955,7 +1996,7 @@ def stage_uploaded_file_for_review_enhanced(db: SQLAlchemy,
         sector=conversion_result.sector,
         json_data=conversion_result.json_data,
         staged_filename=staged_result.staged_filename,
-        success=True,
-        error_message=None,
-        error_type=None
-    )
+    success=True,
+    error_message=None,
+    error_type=None
+  )

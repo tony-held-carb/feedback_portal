@@ -527,3 +527,107 @@ class JsonProcessingResult(NamedTuple):
     success: bool
     error_message: str | None
     error_type: str | None
+
+
+# Phase 8: In-Memory Unified Processing Result Types
+
+class InMemoryStagingResult(NamedTuple):
+    """
+    Result of unified in-memory processing pipeline.
+
+    This named tuple provides the result of processing an uploaded file into
+    in-memory staging format, which can then be persisted to database or file
+    based on configuration. This is the core result type for the unified
+    upload processing architecture.
+
+    Attributes:
+        in_memory_staging (InMemoryStaging | None): In-memory staging data (None on failure)
+        success (bool): True if in-memory staging was created successfully
+        error_message (str | None): Human-readable error message (None on success)
+        error_type (str | None): Type of error for programmatic handling (None on success)
+
+    Examples:
+        # Success case - will be created by InMemoryStaging dataclass
+        result = InMemoryStagingResult(
+            in_memory_staging=InMemoryStaging(...),
+            success=True,
+            error_message=None,
+            error_type=None
+        )
+
+        # Error case
+        result = InMemoryStagingResult(
+            in_memory_staging=None,
+            success=False,
+            error_message="No valid id_incidence found in spreadsheet",
+            error_type="missing_id"
+        )
+
+    Error Types:
+        - "missing_id": No valid id_incidence found in the file
+        - "conversion_failed": File could not be converted to JSON
+        - "file_error": Error uploading or saving the file
+        - "validation_failed": Other validation errors
+        - "processing_error": Error during in-memory processing
+
+    Notes:
+        - The InMemoryStaging object (when present) provides methods to persist
+          to database or file system based on upload configuration
+        - This result type is used by the unified process_upload_to_memory() function
+        - Replaces separate processing paths for direct and staged uploads
+    """
+    in_memory_staging: 'InMemoryStaging | None'  # Forward reference
+    success: bool
+    error_message: str | None
+    error_type: str | None
+
+
+class PersistenceResult(NamedTuple):
+    """
+    Result of persisting in-memory staging data.
+
+    This named tuple provides the result of persisting InMemoryStaging data
+    either to database (direct upload) or to staging file (staged upload).
+
+    Attributes:
+        success (bool): True if persistence completed successfully
+        result_data (dict): Persistence-specific result data (ID, filename, etc.)
+        error_message (str | None): Human-readable error message (None on success)
+        error_type (str | None): Type of error for programmatic handling (None on success)
+
+    Examples:
+        # Database persistence success
+        result = PersistenceResult(
+            success=True,
+            result_data={"id_": 123, "sector": "Dairy Digester"},
+            error_message=None,
+            error_type=None
+        )
+
+        # File persistence success
+        result = PersistenceResult(
+            success=True,
+            result_data={"staged_filename": "id_123_ts_20250101_120000.json"},
+            error_message=None,
+            error_type=None
+        )
+
+        # Error case
+        result = PersistenceResult(
+            success=False,
+            result_data={},
+            error_message="Database connection failed",
+            error_type="database_error"
+        )
+
+    Error Types:
+        - "database_error": Error during database persistence
+        - "file_error": Error during file persistence
+        - "validation_error": Data validation failed during persistence
+        - "permission_error": Insufficient permissions for persistence
+        - "unexpected_error": Other unexpected errors
+    """
+    success: bool
+    result_data: dict
+    error_message: str | None
+    error_type: str | None
