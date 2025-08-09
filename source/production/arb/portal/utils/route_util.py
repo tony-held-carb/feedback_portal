@@ -338,6 +338,148 @@ def generate_staging_diagnostics(request_file: FileStorage, file_path: Optional[
   return error_details
 
 
+def generate_upload_diagnostics_unified(request_file: FileStorage,
+                                       upload_type: str,
+                                       file_path: Optional[Path] = None,
+                                       staged_filename: Optional[str] = None,
+                                       id_: Optional[int] = None,
+                                       sector: Optional[str] = None) -> List[str]:
+  """
+  Unified diagnostic function for both direct and staged uploads.
+
+  This function consolidates the logic from generate_upload_diagnostics and
+  generate_staging_diagnostics to eliminate code duplication while providing
+  upload type specific diagnostics.
+
+  Args:
+    request_file: The uploaded file object from Flask request
+    upload_type: Type of upload ("direct" or "staged")
+    file_path: Optional path to the saved file
+    staged_filename: Optional name of staged file (for staged uploads)
+    id_: Optional extracted ID (for staged uploads)
+    sector: Optional detected sector (for staged uploads)
+
+  Returns:
+    List[str]: List of diagnostic messages with ✅/❌ indicators
+
+  Examples:
+    # Direct upload diagnostics
+    diagnostics = generate_upload_diagnostics_unified(
+        request_file, "direct", file_path=file_path
+    )
+    
+    # Staged upload diagnostics
+    diagnostics = generate_upload_diagnostics_unified(
+        request_file, "staged", file_path=file_path,
+        staged_filename=staged_filename, id_=id_, sector=sector
+    )
+
+  Notes:
+    - Replaces both generate_upload_diagnostics and generate_staging_diagnostics
+    - Provides consistent diagnostic output across upload types
+    - Maintains backward compatibility by preserving original function signatures
+  """
+  error_details = []
+
+  # Step 1: File upload validation (common to all upload types)
+  if request_file and request_file.filename:
+    error_details.append("✅ File uploaded successfully")
+  else:
+    error_details.append("❌ No file selected or file upload failed")
+    return error_details
+
+  # Step 2: File save validation (common to all upload types)
+  if file_path and file_path.exists():
+    error_details.append(f"✅ File saved to disk: {file_path.name}")
+  else:
+    error_details.append("❌ File could not be saved to disk")
+    return error_details
+
+  # Step 3: JSON conversion validation (common to all upload types)
+  try:
+    from arb.portal.utils.db_ingest_util import convert_excel_to_json_if_valid
+    json_path, detected_sector = convert_excel_to_json_if_valid(file_path)
+    if json_path:
+      error_details.append(f"✅ File converted to JSON successfully")
+      error_details.append(f"✅ Sector detected: {detected_sector}")
+    else:
+      error_details.append("❌ File format not recognized - could not convert to JSON")
+      return error_details
+  except Exception as e:
+    error_details.append(f"❌ JSON conversion failed: {str(e)}")
+    return error_details
+
+  # Step 4: Upload type specific diagnostics
+  if upload_type == "direct":
+    return _generate_direct_upload_diagnostics(error_details, json_path)
+  elif upload_type == "staged":
+    return _generate_staged_upload_diagnostics(
+      error_details, json_path, staged_filename, id_, sector
+    )
+  else:
+    error_details.append(f"❌ Unknown upload type: {upload_type}")
+    return error_details
+
+
+def _generate_direct_upload_diagnostics(base_details: List[str], json_path: Path) -> List[str]:
+  """Generate diagnostics specific to direct uploads."""
+  error_details = base_details.copy()
+  
+  # For direct uploads, we typically don't need ID extraction in diagnostics
+  # since the main upload process handles that
+  # Additional direct upload specific checks could go here
+  
+  return error_details
+
+
+def _generate_staged_upload_diagnostics(base_details: List[str], 
+                                       json_path: Path,
+                                       staged_filename: Optional[str],
+                                       id_: Optional[int],
+                                       sector: Optional[str]) -> List[str]:
+  """Generate diagnostics specific to staged uploads."""
+  error_details = base_details.copy()
+  
+  # ID extraction validation (specific to staged uploads)
+  try:
+    from arb.portal.utils.db_ingest_util import extract_id_from_json
+    from arb.utils.json import json_load_with_meta
+    json_data, _ = json_load_with_meta(json_path)
+    extracted_id = extract_id_from_json(json_data)
+    if extracted_id:
+      error_details.append(f"✅ ID extracted successfully: {extracted_id}")
+    else:
+      error_details.append("❌ Could not extract ID from JSON data")
+  except Exception as e:
+    error_details.append(f"❌ ID extraction failed: {str(e)}")
+
+  # Staging file creation validation
+  if staged_filename:
+    error_details.append(f"✅ Staging file created: {staged_filename}")
+
+    # Check if staging file exists on disk
+    try:
+      from arb.portal.config.accessors import get_upload_folder
+      staging_dir = Path(get_upload_folder()) / "staging"
+      staged_path = staging_dir / staged_filename
+      if staged_path.exists():
+        error_details.append("✅ Staging file saved to disk successfully")
+      else:
+        error_details.append("❌ Staging file not found on disk")
+    except Exception as e:
+      error_details.append(f"❌ Could not verify staging file: {str(e)}")
+  else:
+    error_details.append("❌ Staging file creation failed")
+
+  # Metadata capture validation
+  if id_ and sector:
+    error_details.append(f"✅ Metadata captured: ID={id_}, Sector={sector}")
+  else:
+    error_details.append("❌ Metadata capture incomplete")
+
+  return error_details
+
+
 def format_diagnostic_message(error_details: List[str],
                               custom_message: str = "Upload processing failed.") -> str:
   """

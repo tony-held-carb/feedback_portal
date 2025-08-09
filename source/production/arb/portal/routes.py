@@ -44,11 +44,16 @@ from arb.portal.json_update_util import apply_json_patch_and_log
 from arb.portal.sqla_models import PortalUpdate
 from arb.portal.startup.runtime_info import LOG_FILE
 from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_sector, stage_uploaded_file_for_review, \
-  upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database
+  upload_and_process_file, upload_and_stage_only, upload_and_update_db, xl_dict_to_database, \
+  upload_and_process_file_enhanced, stage_uploaded_file_for_review_enhanced
+from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
+  get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
+  handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page, \
+  UploadConfiguration, orchestrate_upload_route
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
-  generate_upload_diagnostics, incidence_prep
+  generate_upload_diagnostics, generate_upload_diagnostics_unified, incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 from arb.portal.wtf_landfill import LandfillFeedback
@@ -491,13 +496,10 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
     try:
       request_file = request.files.get('file')
 
-      if not request_file or not request_file.filename:
-        logger.warning("POST received with no file selected.")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message="No file selected. Please choose a file."
-        )
+      # Validate upload request using shared helper
+      is_valid, error_message = validate_upload_request(request_file)
+      if not is_valid:
+        return render_upload_error_page(form, error_message, 'upload.html', "direct")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
@@ -506,68 +508,32 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
 
       if result.success:
         logger.debug(f"Upload successful: id={result.id_}, sector={result.sector}. Redirecting to update page.")
-        return redirect(url_for('main.incidence_update', id_=result.id_))
+        # Use shared success handling helper
+        success_message, redirect_url = handle_upload_success(result, request_file, "direct")
+        flash(success_message, "success")
+        return redirect(redirect_url)
 
-      # Handle specific error types with detailed messages
-      if result.error_type == "missing_id":
-        logger.warning(f"Upload blocked: missing or invalid id_incidence in {result.file_path.name}")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message=(
-            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
-            "Please add a positive integer id_incidence to your spreadsheet before uploading."
-          )
-        )
-      elif result.error_type == "conversion_failed":
+      # Handle conversion_failed specially for detailed diagnostics
+      if result.error_type == "conversion_failed":
         logger.warning(f"Upload failed file conversion: {result.file_path=}")
-        error_details = generate_upload_diagnostics(request_file, result.file_path)
+        error_details = generate_upload_diagnostics_unified(request_file, "direct", file_path=result.file_path)
         detailed_message = format_diagnostic_message(error_details,
                                                      "Uploaded file format not recognized.")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message=detailed_message
-        )
-      elif result.error_type == "file_error":
-        logger.error(f"File processing error: {result.error_message}")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message=f"Error processing uploaded file: {result.error_message}"
-        )
-      elif result.error_type == "database_error":
-        logger.error(f"Database error: {result.error_message}")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message=f"Database error occurred: {result.error_message}"
-        )
-      else:
-        # Handle unknown error types
-        logger.error(f"Unknown error during upload: {result.error_message}")
-        return render_template(
-          'upload.html',
-          form=form,
-          upload_message=f"An unexpected error occurred: {result.error_message}"
-        )
+        return render_upload_error_page(form, detailed_message, 'upload.html', "direct", {"error_details": error_details})
+      
+      # Use shared error handling helper for all other error types
+      return handle_upload_error(result, form, 'upload.html', request_file)
 
     except Exception as e:
-      logger.exception("Exception occurred during upload or parsing.")
-
-      # Enhanced error handling with diagnostic information
-      error_details = generate_upload_diagnostics(request_file,
-                                                  result.file_path if 'result' in locals() else None)
-      detailed_message = format_diagnostic_message(error_details)
-
-      return render_template(
-        'upload.html',
-        form=form,
-        upload_message=detailed_message
-      )
+      # Use shared exception handling helper with unified diagnostics
+      return handle_upload_exception(e, form, 'upload.html', request_file, 
+                                   result if 'result' in locals() else None, 
+                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
+                                     req_file, "direct", file_path=file_path
+                                   ))
 
   # GET request: display form
-  return render_template('upload.html', form=form, upload_message=message)
+  return render_upload_page(form, message, 'upload.html', "direct")
 
 
 @main.route('/upload_staged', methods=['GET', 'POST'])
@@ -1513,13 +1479,10 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
     try:
       request_file = request.files.get('file')
 
-      if not request_file or not request_file.filename:
-        logger.warning("POST received with no file selected.")
-        return render_template(
-          'upload_staged.html',
-          form=form,
-          upload_message="No file selected. Please choose a file."
-        )
+      # Validate upload request using shared helper
+      is_valid, error_message = validate_upload_request(request_file)
+      if not is_valid:
+        return render_upload_error_page(form, error_message, 'upload_staged.html', "staged")
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
@@ -1531,78 +1494,105 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
         logger.debug(
           f"Staged upload successful: id={result.id_}, sector={result.sector}, filename={result.staged_filename}. Redirecting to review page.")
 
-        # Enhanced success feedback with staging details
-        success_message = (
-          f"✅ File '{request_file.filename}' staged successfully!\n"
-          f"📋 ID: {result.id_}\n"
-          f"🏭 Sector: {result.sector}\n"
-          f"📁 Staged as: {result.staged_filename}\n"
-          f"🔍 Ready for review and confirmation."
-        )
+        # Use shared success handling helper
+        success_message, redirect_url = handle_upload_success(result, request_file, "staged")
         flash(success_message, "success")
-        return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
+        return redirect(redirect_url)
 
       else:
-        # Handle specific error types with appropriate messages
-        if result.error_type == "missing_id":
-          logger.warning(f"Staging blocked: missing or invalid id_incidence in {result.file_path.name}")
-          return render_template(
-            'upload_staged.html',
-            form=form,
-            upload_message=result.error_message
-          )
-
-        elif result.error_type == "conversion_failed":
-          logger.warning(f"Staging blocked: file conversion failed for {result.file_path.name}")
-          return render_template(
-            'upload_staged.html',
-            form=form,
-            upload_message=result.error_message
-          )
-
-        elif result.error_type == "file_error":
-          logger.error(f"File upload error: {result.error_message}")
-          return render_template(
-            'upload_staged.html',
-            form=form,
-            upload_message=f"File upload error: {result.error_message}"
-          )
-
-        elif result.error_type == "database_error":
-          logger.error(f"Database error during staging: {result.error_message}")
-          return render_template(
-            'upload_staged.html',
-            form=form,
-            upload_message=f"Database error during staging: {result.error_message}"
-          )
-
-        else:
-          # Fallback for unknown error types
-          logger.error(f"Unknown staging error: {result.error_message}")
-          return render_template(
-            'upload_staged.html',
-            form=form,
-            upload_message=f"Unexpected error during staging: {result.error_message}"
-          )
+        # Use shared error handling helper for all error types
+        return handle_upload_error(result, form, 'upload_staged.html', request_file)
 
     except Exception as e:
-      logger.exception("Exception occurred during staged upload.")
-
-      # Enhanced error handling with staging-specific diagnostic information
-      error_details = generate_staging_diagnostics(
-        request_file,
-        result.file_path if 'result' in locals() else None,
-        result.staged_filename if 'result' in locals() else None,
-        result.id_ if 'result' in locals() else None,
-        result.sector if 'result' in locals() else None
-      )
-      detailed_message = format_diagnostic_message(error_details, "Staged upload processing failed.")
-
-      return render_template(
-        'upload_staged.html',
-        form=form,
-        upload_message=detailed_message
-      )
+      # Use shared exception handling helper with unified staging diagnostics
+      return handle_upload_exception(e, form, 'upload_staged.html', request_file,
+                                   result if 'result' in locals() else None,
+                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
+                                     req_file, "staged", file_path=file_path,
+                                     staged_filename=result.staged_filename if 'result' in locals() else None,
+                                     id_=result.id_ if 'result' in locals() else None,
+                                     sector=result.sector if 'result' in locals() else None
+                                   ))
 
   # GET request: display form
-  return render_template('upload_staged.html', form=form, upload_message=message)
+  return render_upload_page(form, message, 'upload_staged.html', "staged")
+
+
+# Phase 7: Demonstration Routes using Route Orchestration Framework
+
+@main.route('/upload_orchestrated', methods=['GET', 'POST'])
+@main.route('/upload_orchestrated/<message>', methods=['GET', 'POST'])
+def upload_file_orchestrated(message: str | None = None) -> Union[str, Response]:
+  """
+  Phase 7 demonstration: Direct upload route using orchestration framework.
+  
+  This route demonstrates the Phase 7 route orchestration framework, showing how
+  the unified orchestrate_upload_route function can eliminate duplication while
+  maintaining full functionality and backward compatibility.
+  
+  Args:
+    message (str | None): Optional message to display on the upload page.
+    
+  Returns:
+    str|Response: Rendered HTML for the upload form, or redirect after upload.
+    
+  Examples:
+    # In browser: GET /upload_orchestrated
+    # Returns: HTML upload form
+    # In browser: POST /upload_orchestrated
+    # Redirects to: /incidence_update or error page
+    
+  Notes:
+    - Demonstrates Phase 7 cross-cutting concern extraction
+    - Uses unified route orchestration framework
+    - Eliminates duplication compared to original refactored routes
+    - Maintains identical functionality to upload_file_refactored
+  """
+  # Configure direct upload orchestration
+  direct_config = UploadConfiguration(
+    upload_type="direct",
+    template_name="upload.html",
+    processing_function=upload_and_process_file
+  )
+  
+  # Use unified orchestration framework
+  return orchestrate_upload_route(direct_config, message)
+
+
+@main.route('/upload_staged_orchestrated', methods=['GET', 'POST'])
+@main.route('/upload_staged_orchestrated/<message>', methods=['GET', 'POST'])
+def upload_file_staged_orchestrated(message: str | None = None) -> Union[str, Response]:
+  """
+  Phase 7 demonstration: Staged upload route using orchestration framework.
+  
+  This route demonstrates the Phase 7 route orchestration framework, showing how
+  the unified orchestrate_upload_route function can eliminate duplication while
+  maintaining full functionality and backward compatibility.
+  
+  Args:
+    message (str | None): Optional message to display on the staged upload page.
+    
+  Returns:
+    str|Response: Rendered HTML for the staged upload form, or redirect after upload.
+    
+  Examples:
+    # In browser: GET /upload_staged_orchestrated
+    # Returns: HTML staged upload form
+    # In browser: POST /upload_staged_orchestrated
+    # Redirects to: /list_staged or shows specific error message
+    
+  Notes:
+    - Demonstrates Phase 7 cross-cutting concern extraction
+    - Uses unified route orchestration framework
+    - Eliminates duplication compared to original refactored routes
+    - Maintains identical functionality to upload_file_staged_refactored
+  """
+  # Configure staged upload orchestration
+  staged_config = UploadConfiguration(
+    upload_type="staged",
+    template_name="upload_staged.html",
+    processing_function=stage_uploaded_file_for_review
+  )
+  
+  # Use unified orchestration framework
+  return orchestrate_upload_route(staged_config, message)
