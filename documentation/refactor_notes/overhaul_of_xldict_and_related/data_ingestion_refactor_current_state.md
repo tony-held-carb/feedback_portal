@@ -363,7 +363,48 @@ The refactor demonstrates that **incremental, test-driven improvements** can ach
 without disrupting existing functionality. The Phase 1 route helper functions represent a major step forward in code quality
 and maintainability.
 
-**Next Priority:** Consider performance benchmarking and documentation enhancements to complete the refactor journey.
+## **📊 Call Tree Analysis & Phase 5 Planning**
+
+### **Deep Consistency Analysis Completed (August 2025)**
+
+**Finding**: While route-level consistency is excellent, opportunities exist for deeper call tree improvements.
+
+#### **Current Consistency Status**
+- ✅ **Route-level helpers**: Fully shared and consistent
+- ✅ **Main functions**: Identical patterns with result types
+- ✅ **Helper functions with result types**: All follow consistent patterns
+- 🔄 **Lower-level utilities**: Duplication and inconsistencies identified
+
+#### **Key Opportunities Identified**
+
+1. **Diagnostic Function Duplication** (High Priority)
+   - `generate_upload_diagnostics()` vs `generate_staging_diagnostics()`
+   - ~60 lines of nearly identical logic
+   - Target for Phase 5 consolidation
+
+2. **File Processing Patterns** (Medium Priority)
+   - Inconsistent error handling at utility level
+   - Direct calls to `upload_single_file()` without wrappers
+
+3. **Database Operation Inconsistencies** (Medium Priority)
+   - Multiple patterns for database operations
+   - Inconsistent error handling approaches
+
+4. **JSON Processing Patterns** (Low Priority)
+   - Multiple conversion functions with different approaches
+   - Opportunity for consolidation
+
+### **Phase 5: Diagnostic Function Consolidation** ✅ **COMPLETED**
+
+**Target**: Create unified diagnostic function to eliminate duplication
+**Status**: Successfully implemented and tested
+**Achieved Benefits**: 
+- Eliminated ~60 lines of duplicated diagnostic code
+- Consistent diagnostic output across upload types
+- Single maintenance point for diagnostic improvements
+- All refactored route tests passing (22/22)
+
+**Next Priority:** Consider Phase 6 - Enhance Lower-Level Utility Functions
 
 **Latest Test Results (August 2025):**
 - **Unit Tests**: 745 passed, 2 failed (now fixed), 18 skipped

@@ -51,7 +51,7 @@ from arb.portal.utils.route_upload_helpers import validate_upload_request, get_e
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
-  generate_upload_diagnostics, incidence_prep
+  generate_upload_diagnostics, generate_upload_diagnostics_unified, incidence_prep
 from arb.portal.utils.sector_util import get_sector_info
 from arb.portal.utils.test_cleanup_util import delete_testing_rows, list_testing_rows
 from arb.portal.wtf_landfill import LandfillFeedback
@@ -514,19 +514,21 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
       # Handle conversion_failed specially for detailed diagnostics
       if result.error_type == "conversion_failed":
         logger.warning(f"Upload failed file conversion: {result.file_path=}")
-        error_details = generate_upload_diagnostics(request_file, result.file_path)
+        error_details = generate_upload_diagnostics_unified(request_file, "direct", file_path=result.file_path)
         detailed_message = format_diagnostic_message(error_details,
                                                      "Uploaded file format not recognized.")
-        return render_upload_error_page(form, detailed_message, 'upload.html', "direct", error_details)
+        return render_upload_error_page(form, detailed_message, 'upload.html', "direct", {"error_details": error_details})
       
       # Use shared error handling helper for all other error types
       return handle_upload_error(result, form, 'upload.html', request_file)
 
     except Exception as e:
-      # Use shared exception handling helper
+      # Use shared exception handling helper with unified diagnostics
       return handle_upload_exception(e, form, 'upload.html', request_file, 
                                    result if 'result' in locals() else None, 
-                                   generate_upload_diagnostics)
+                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
+                                     req_file, "direct", file_path=file_path
+                                   ))
 
   # GET request: display form
   return render_upload_page(form, message, 'upload.html', "direct")
@@ -1500,14 +1502,14 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
         return handle_upload_error(result, form, 'upload_staged.html', request_file)
 
     except Exception as e:
-      # Use shared exception handling helper with staging-specific diagnostics
+      # Use shared exception handling helper with unified staging diagnostics
       return handle_upload_exception(e, form, 'upload_staged.html', request_file,
                                    result if 'result' in locals() else None,
-                                   lambda req_file, file_path: generate_staging_diagnostics(
-                                     req_file, file_path,
-                                     result.staged_filename if 'result' in locals() else None,
-                                     result.id_ if 'result' in locals() else None,
-                                     result.sector if 'result' in locals() else None
+                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
+                                     req_file, "staged", file_path=file_path,
+                                     staged_filename=result.staged_filename if 'result' in locals() else None,
+                                     id_=result.id_ if 'result' in locals() else None,
+                                     sector=result.sector if 'result' in locals() else None
                                    ))
 
   # GET request: display form

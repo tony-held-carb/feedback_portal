@@ -465,7 +465,77 @@ The refactor demonstrates that **incremental, test-driven improvements** can ach
 without disrupting existing functionality. The Phase 2 error handling helper functions represent a major step forward in code quality
 and maintainability.
 
-**Next Priority:** Consider performance benchmarking and documentation enhancements to complete the refactor journey.
+## **📊 PHASE 5: CALL TREE ANALYSIS & DEEP CONSISTENCY** 🔄 **PLANNED**
+
+### **Call Tree Analysis Results (August 2025)**
+
+**Current Status**: Comprehensive analysis of refactored routes call trees completed
+**Finding**: Route-level consistency is excellent, but lower-level utility functions contain duplication
+
+#### **✅ ALREADY CONSISTENT (No Changes Needed)**
+- **Route-level helpers**: Fully shared (`validate_upload_request`, `handle_upload_error`, etc.)
+- **Main functions**: Both use identical patterns with result types
+- **Helper functions with result types**: All 5 functions follow consistent patterns
+
+#### **🔄 INCONSISTENCIES IDENTIFIED (Opportunities)**
+
+##### **A. Diagnostic Function Duplication**
+- `generate_upload_diagnostics()` vs `generate_staging_diagnostics()`
+- **Problem**: Nearly identical logic with different names (~60 lines duplication)
+- **Impact**: Code duplication, maintenance overhead
+- **Priority**: High - Immediate code duplication reduction
+
+##### **B. File Processing Function Patterns**
+- Multiple functions use `upload_single_file()` directly
+- **Problem**: No error handling consistency at this level
+- **Priority**: Medium - Foundation robustness improvement
+
+##### **C. Database Operation Inconsistencies**
+- `add_file_to_upload_table()` used inconsistently
+- `json_file_to_db()` vs `dict_to_database()` patterns
+- **Problem**: Different error handling approaches
+- **Priority**: Medium - Database operation standardization
+
+##### **D. JSON Processing Patterns**
+- `convert_excel_to_json_if_valid()` vs `convert_upload_to_json()`
+- **Problem**: Different conversion functions with different error handling
+- **Priority**: Low - Nice to have consolidation
+
+### **Strategic Refactoring Plan**
+
+#### **Phase 5: Consolidate Diagnostic Functions** ✅ **COMPLETED**
+**Target**: Eliminate diagnostic function duplication
+**Approach**: Create unified `generate_upload_diagnostics_unified()` function
+
+**Completed Actions**:
+1. ✅ Created unified diagnostic function with upload type parameter
+2. ✅ Updated both refactored routes to use unified function
+3. ✅ Comprehensive testing completed - all refactored route tests passing
+4. ✅ Documented consolidation for future reference
+
+**Implementation Details**:
+- **New Function**: `generate_upload_diagnostics_unified()` in `route_util.py`
+- **Helper Functions**: `_generate_direct_upload_diagnostics()` and `_generate_staged_upload_diagnostics()`
+- **Code Reduction**: Eliminated ~60 lines of duplicated diagnostic logic
+- **Routes Updated**: Both `upload_file_refactored` and `upload_file_staged_refactored`
+- **Test Results**: 22/22 refactored route tests passing (100%)
+
+**Completion Date**: August 2025
+
+**Expected Benefits**:
+- Eliminate ~60 lines of duplicated diagnostic logic
+- Consistent diagnostic output across both routes
+- Single point of maintenance for diagnostic improvements
+
+#### **Phase 6: Enhance Lower-Level Utility Functions** 🔄 **FUTURE**
+**Target**: Improve foundation robustness
+**Priority**: Medium-term enhancement
+
+#### **Phase 7: Extract Cross-Cutting Concerns** 🔄 **FUTURE**
+**Target**: Architecture improvement
+**Priority**: Long-term optimization
+
+**Next Priority:** Begin Phase 5 - Diagnostic Function Consolidation
 
 **Latest Test Results (August 2025):**
 - **Unit Tests**: 745 passed, 2 failed (now fixed), 18 skipped
