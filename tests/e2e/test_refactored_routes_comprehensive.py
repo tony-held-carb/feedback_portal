@@ -97,11 +97,29 @@ def get_test_files() -> list:
     This mirrors the test file selection from the original test suite.
     """
     base_dirs = [
-        Path("feedback_forms/testing_versions/standard"),
+        conftest.STANDARD_TEST_FILES_DIR,
     ]
     files = []
     for base_dir in base_dirs:
         files.extend(get_xls_files(base_dir, recursive=True))
+    
+    # Safety check: fail catastrophically if no test files are found
+    if not files:
+        error_msg = f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: No test files found!
+
+Base directories checked: {base_dirs}
+Current working directory: {Path.cwd()}
+Repository root: {conftest.REPO_ROOT}
+Standard test files dir: {conftest.STANDARD_TEST_FILES_DIR}
+Standard test files dir exists: {conftest.STANDARD_TEST_FILES_DIR.exists()}
+Files in standard dir: {list(conftest.STANDARD_TEST_FILES_DIR.glob('*'))}
+
+This test will fail catastrophically to prevent silent test failures.
+"""
+        pytest.fail(error_msg)
+    
+    print(f"✓ Found {len(files)} test files for parameterized testing")
     return files
 
 

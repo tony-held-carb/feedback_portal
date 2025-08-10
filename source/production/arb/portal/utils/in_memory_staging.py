@@ -361,7 +361,7 @@ def process_upload_to_memory(db: SQLAlchemy, upload_dir: str | Path,
             )
         
         # Step 3: Validate and extract ID
-        validate_result = validate_id_from_json_with_result(convert_result.json_path)
+        validate_result = validate_id_from_json_with_result(convert_result.json_data)
         if not validate_result.success:
             logger.warning(f"ID validation failed: {validate_result.error_message}")
             return InMemoryStagingResult(

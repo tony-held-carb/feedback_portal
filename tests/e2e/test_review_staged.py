@@ -33,15 +33,15 @@ BASE_URL = os.environ.get('TEST_BASE_URL', conftest.TEST_BASE_URL)
 save_screenshots = False
 
 # TEST_FILE = "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx"
-TEST_FILE = "feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx"
+TEST_FILE = conftest.STANDARD_TEST_FILES_DIR / "energy_operator_feedback_v003_test_01_good_data.xlsx"
 
 TEST_FILES = [
-  "feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx",
-  "feedback_forms/testing_versions/standard/energy_operator_feedback_v003_test_01_good_data.xlsx",
-  "feedback_forms/testing_versions/standard/generic_operator_feedback_v002_test_01_good_data.xlsx",
-  "feedback_forms/testing_versions/standard/landfill_operator_feedback_v070_test_01_good_data.xlsx",
-  "feedback_forms/testing_versions/standard/landfill_operator_feedback_v071_test_01_good_data.xlsx",
-  "feedback_forms/testing_versions/standard/oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "dairy_digester_operator_feedback_v006_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "energy_operator_feedback_v003_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "generic_operator_feedback_v002_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "landfill_operator_feedback_v003_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "landfill_operator_feedback_v071_test_01_good_data.xlsx",
+  conftest.STANDARD_TEST_FILES_DIR / "oil_and_gas_operator_feedback_v070_test_01_good_data.xlsx",
 ]
 
 # Simple cache for uploaded files to avoid re-uploading
