@@ -1,0 +1,80 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:00:30.951469+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Dairy Digester",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "dairy_digester_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002002,
+                "id_plume": null,
+                "observation_timestamp": null,
+                "lat_carb": null,
+                "long_carb": -150.0,
+                "id_message": "2002-12002",
+                "digester_facility_name": "\ud83d\udc04 Moo Moo Digesters Unlimited & Sons, LLC and Friends Extra Ordinaire",
+                "livestock_facility_name": "8675309 Livestock Blvd, Unit ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+                "id_arb_ciwqs": "PLACE-ID-XYZ-ABC-NULLVOID-FLUBBER",
+                "contact_name": "1234567890",
+                "contact_phone": "John Q. Contactme Maybe",
+                "contact_email": "not-an-email-at-okay",
+                "inspection_timestamp": null,
+                "additional_activities": "I think the cows were stomping too hard or maybe aliens? hard to say tbh",
+                "initial_leak_concentration": null,
+                "instrument": "Wet finger in the air (left hand only)",
+                "emission_type_fk": "Please Select",
+                "emission_location": "Please Select",
+                "emission_location_notes": "somewhere between the big red tank and the squeaky thing with the birds on it",
+                "emission_cause": "Please Select",
+                "emission_cause_notes": "I wasn\u2019t there but someone said the lights flickered and then the thing went *whoosh*",
+                "able_to_repair": "Please Select",
+                "mitigation_timestamp": null,
+                "mitigation_actions": "Hit it with a wrench, then rebooted twice. Leak seems chill now.",
+                "manure_solid_dry_scrape": "1",
+                "manure_vacuum": "2",
+                "manure_liquid_flush": "4",
+                "manure_pasture": "",
+                "manure_dry_lot_corral": "",
+                "manure_solid_storage": "",
+                "manure_solar_drying": "",
+                "manure_composting": "",
+                "manure_compost_bedded": "",
+                "manure_slatted_floor": "",
+                "manure_anaerobic_lagoon": "",
+                "manure_anaerobic_digester": "",
+                "manure_vermifiltration": "",
+                "manure_liquid_slurry": "",
+                "manure_mechanical_separator": "",
+                "manure_gravity_separator": "",
+                "manure_weeping_wall": "",
+                "manure_flocculation": "",
+                "manure_daily_spread": "",
+                "manure_land_application_flood": "",
+                "manure_land_application_drip": "",
+                "bio_biogas_conditioning": "asdf",
+                "bio_biogas_moving": "wqer",
+                "bio_biomethane_upgrading": "zxvc",
+                "bio_covered_lagoon": "",
+                "bio_in_vessel": "",
+                "bio_electricity": "",
+                "bio_heating": "",
+                "bio_fuel_cells": "",
+                "bio_common_carrier": "",
+                "bio_onsite_fuel": "",
+                "anaerobic_digestion_portion": "",
+                "transport_method": "",
+                "transport_recipient": "",
+                "additional_manure_management": "",
+                "additional_notes": "There were definitely no cats involved in this process"
+            }
+        }
+    }
+}

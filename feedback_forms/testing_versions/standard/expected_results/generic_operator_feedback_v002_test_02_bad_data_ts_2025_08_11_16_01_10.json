@@ -1,0 +1,47 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:10.655929+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Generic",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "generic_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002022,
+                "id_plume": null,
+                "observation_timestamp": null,
+                "lat_carb": null,
+                "long_carb": -200.0,
+                "id_message": "xxxy",
+                "facility_name": "Prairie View Digesters & Goat Rodeo 2025 Ultimate Extended Mega Edition \ud83d\udc10\ud83d\udd25\ud83d\udca8",
+                "id_arb": "possibly PV? or something like \"IDK123-MAYBE\"",
+                "id_arb_swis": "possibly PV? or something like \"IDK123-MAYBE\"",
+                "contact_name": "88888888",
+                "contact_phone": "sarahhollingsworth(at)digesters-dot-com",
+                "contact_email": "(559) email her maybe",
+                "emission_identified_flag_fk": "Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification",
+                "inspection_timestamp": null,
+                "instrument": "RKI sniffy box thing",
+                "additional_inspection_notes": "Technician thought it \"smelled funny\" but forgot the meter so we just assumed.",
+                "additional_activities": "It was hot. Real hot. So probably that?",
+                "initial_leak_concentration": null,
+                "lat_revised": null,
+                "long_revised": null,
+                "leak_description": "Due to a temporary activity (i.e., would be resolved without corrective action when the activity is complete)",
+                "leak_cause": "Something hissed, then stopped hissing when we kicked it.",
+                "mitigation_actions": "Turned it off and back on again. Then left a note.",
+                "mitigation_timestamp": null,
+                "re_monitored_timestamp": null,
+                "re_monitored_concentration": null,
+                "additional_notes": "I'm the operator of a pocket calculator"
+            }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:03.000869+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Generic",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "generic_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002021,
+                "id_plume": 12021,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-16T17:25:00"
+                },
+                "lat_carb": 35.3211,
+                "long_carb": -119.5808,
+                "id_message": "2021-12021",
+                "facility_name": "Prairie View Holdings",
+                "id_arb": "PV-56789",
+                "id_arb_swis": "PV-56789",
+                "contact_name": "Sarah Hollingsworth",
+                "contact_phone": "(559) 555-8842",
+                "contact_email": "sarah.h@prairiedigesters.com",
+                "emission_identified_flag_fk": "Operator was aware of the leak prior to receiving the CARB plume notification",
+                "inspection_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-12T00:00:00"
+                },
+                "instrument": "RKI Multigas Analyzer Eagle 2",
+                "additional_inspection_notes": "Area was visually inspected and confirmed with handheld sensor; surrounding equipment showed no anomalies.",
+                "additional_activities": "Routine flare restart coincided with the detected plume; no excess venting observed.",
+                "initial_leak_concentration": 68.0,
+                "lat_revised": 36.782645,
+                "long_revised": -119.728934,
+                "leak_description": "Operator was aware of the leak prior to receiving the notification, and/or repairs were in progress on the date of the plume observation",
+                "leak_cause": "Leak occurred near a high-pressure flange downstream of the moisture trap; likely caused by thermal cycling.",
+                "mitigation_actions": "Flange gasket was replaced and all adjacent fittings re-torqued to spec. Follow-up inspection scheduled.",
+                "mitigation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-12T14:30:00"
+                },
+                "re_monitored_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-13T09:00:00"
+                },
+                "re_monitored_concentration": 3.0,
+                "additional_notes": "System logs were reviewed and no alarms were triggered during the event; future inspections to include more frequent visual checks."
+            }
+        }
+    }
+}

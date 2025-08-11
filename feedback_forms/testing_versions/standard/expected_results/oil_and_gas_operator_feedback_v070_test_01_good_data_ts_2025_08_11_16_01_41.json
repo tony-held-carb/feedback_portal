@@ -1,0 +1,63 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:41.723750+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Oil and Gas",
+            "test value 01": 1,
+            "test value 02": 2
+        },
+        "schemas": {
+            "Feedback Form": "oil_and_gas_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002051,
+                "id_plume": 1234,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2024-06-25T00:00:00"
+                },
+                "lat_carb": 35.3211,
+                "long_carb": -119.5808,
+                "id_message": "123-001",
+                "facility_name": "ClearSky Oil & Gas Facility",
+                "id_arb_eggrt": "ARB-OG-CA-0047",
+                "contact_name": "Dana Ochoa",
+                "contact_phone": "(661) 555-3390",
+                "contact_email": "dana.ochoa@clearskyog.com",
+                "venting_exclusion": "No",
+                "venting_description_1": "-",
+                "ogi_performed": "Yes",
+                "ogi_date": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-11T10:05:00"
+                },
+                "ogi_result": "Unintentional-leak",
+                "method21_performed": "Yes",
+                "method21_date": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-11T13:20:00"
+                },
+                "method21_result": "Unintentional-leak",
+                "initial_leak_concentration": 47.0,
+                "venting_description_2": "N/A",
+                "initial_mitigation_plan": "Leaking valve was isolated, and secondary containment was verified. Full repair scheduled same day.",
+                "equipment_at_source": "Centrifugal Natural Gas Compressor",
+                "equipment_other_description": "\u2014",
+                "component_at_source": "Open-ended line",
+                "component_other_description": "\u2014",
+                "repair_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-11T16:15:00"
+                },
+                "final_repair_concentration": 0.8,
+                "repair_description": "Packing material replaced, valve retested at multiple flow rates and certified below threshold.",
+                "additional_notes": "Fluctuating line pressure may have contributed to leak development. No flare events or bypasses occurred during this time."
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:21.693789+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Landfill",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "landfill_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002032,
+                "id_plume": null,
+                "observation_timestamp": null,
+                "lat_carb": null,
+                "long_carb": -200.0,
+                "id_message": "xxxy",
+                "facility_name": "Sierra Ridge Landfill but now with 200% more methane\u2122",
+                "id_arb_swis": "58-\ud83c\udd70\ufe0f-\ud83c\udfb2\ud83c\udfb2",
+                "contact_name": "9988776655",
+                "contact_phone": "michael.tanaka[at]srlfacility-dot-com",
+                "contact_email": "916-TACO-LUV",
+                "inspection_timestamp": null,
+                "instrument": "sniffer thing? or maybe the flashlight with beep mode",
+                "emission_identified_flag_fk": "Please Select",
+                "additional_activities": "Some goats were loose and it smelled weird but that\u2019s unrelated probably",
+                "initial_leak_concentration": null,
+                "lat_revised": null,
+                "long_revised": null,
+                "emission_type_fk": "Please Select",
+                "emission_location": "Please Select",
+                "emission_location_notes": "no idea, we think near the bee box but GPS was off",
+                "emission_cause": "Please Select",
+                "emission_cause_secondary": "Please Select",
+                "emission_cause_tertiary": "Please Select",
+                "emission_cause_notes": "Might be aliens. Could also be the generator's fault, or mercury in retrograde.",
+                "mitigation_actions": "Hit it with a wrench then called Jerry",
+                "mitigation_timestamp": null,
+                "re_monitored_timestamp": null,
+                "re_monitored_concentration": null,
+                "included_in_last_lmr": "Please Select",
+                "included_in_last_lmr_description": "They were on vacation",
+                "planned_for_next_lmr": "Please Select",
+                "planned_for_next_lmr_description": "Area cursed after 2003 backhoe incident",
+                "last_surface_monitoring_timestamp": null,
+                "last_component_leak_monitoring_timestamp": null,
+                "additional_notes": "This whole form was filled out using vibes and educated guesses. Good luck."
+            }
+        }
+    }
+}
