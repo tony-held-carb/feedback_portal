@@ -1064,4 +1064,59 @@ tests/e2e/test_list_uploads.py::test_list_uploads_accessibility[chromium] PASSED
 tests/e2e/test_list_uploads.py::test_list_uploads_empty_state[chromium] SKIPPED
 tests/e2e/test_menu_calsmp_help.py::test_calsmp_help_menu_links[chromium] All CalSMP & Help menu links verified (presence, href, target).
 PASSED
-tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium] 
+tests/e2e/test_menu_developer_utilities.py::test_developer_utilities_menu_links_and_create_incidence[chromium] 'Create Incidence (Oil & Gas)' navigated successfully to an incidence update page: http://127.0.0.1:2113/incidence_update/1002050/ and all dummy data fields were found.
+'Create Incidence (Landfill)' navigated successfully to an incidence update page: http://127.0.0.1:2113/incidence_update/1002030/ and all dummy data fields were found.
+All Developer Utilities menu links verified (presence, href, navigation to update page, all dummy data fields present).
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_orchestrated_page_loads[chromium] PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_upload_staged_orchestrated_page_loads[chromium] PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedRouteStructure::test_orchestrated_route_consistency[chromium] PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedWorkflows::test_upload_orchestrated_workflow[chromium-/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] Testing orchestrated upload workflow with file: dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+orchestrated direct upload successful: 
+              ✅ File 'dairy_digester_operator_feedback_v006_test_01_good_data.xlsx' uploaded successfully! ID: 1002001, Sector: Dairy Digester
+              
+            
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedWorkflows::test_upload_staged_orchestrated_workflow[chromium-/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] Testing orchestrated staged workflow with file: dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+orchestrated staged upload appears successful based on page content
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_orchestrated_invalid_file_handling[chromium] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Orchestrated route invalid file error: 
+        Uploaded file format not recognized.
+
+Diagnostic Information:
+  ✅ File uploaded successfully
+  ❌ File could not be saved to disk
+
+✅ 1 step(s) completed successfully
+❌ Failed at: File could not be saved to disk
+        
+      
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedErrorHandling::test_staged_orchestrated_invalid_file_handling[chromium] clear_upload_attempt_marker() called
+upload_file_and_wait_for_attempt_marker() called
+Orchestrated staged route invalid file error: 
+      ⚠️ Important: Please close any files before uploading. Files that are still open may be
+      locked and cannot be uploaded. If you try to upload a file that is locked, you will receive an error message
+      "This site can't be reached".
+    
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_configuration_driven_behavior[chromium] Orchestration framework demonstrates configuration-driven behavior
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_cross_cutting_concern_extraction[chromium] Orchestration framework demonstrates cross-cutting concern extraction
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_unified_route_logic[chromium] Orchestration framework demonstrates unified route logic
+PASSED
+tests/e2e/test_orchestrated_routes.py::TestOrchestratedFrameworkFeatures::test_framework_extensibility[chromium] Orchestration framework demonstrates extensibility through multiple working configurations
+PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_refactored_page_loads[chromium] PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_upload_staged_refactored_page_loads[chromium] PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_page_structure[chromium] PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_form_structure[chromium] PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_refactored_accessibility_features[chromium] PASSED
+tests/e2e/test_refactored_routes_comprehensive.py::TestRefactoredUploadPageStructure::test_staged_refactored_accessibility_features[chromium] 
