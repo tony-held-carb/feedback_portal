@@ -20,9 +20,9 @@ import sys
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-# Add the source directory to the Python path
-source_dir = Path(__file__).parent.parent.parent / "source" / "production"
-sys.path.insert(0, str(source_dir))
+# Add the source/production directory to the Python path
+production_dir = Path(__file__).parent.parent.parent / "source" / "production"
+sys.path.insert(0, str(production_dir))
 
 # Import the logic functions to test
 from arb.portal.upload_logic import (
