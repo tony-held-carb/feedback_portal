@@ -49,15 +49,31 @@ def suppress_openpyxl_warnings():
 
 def get_test_files() -> list:
     """Get test files for orchestrated route testing."""
-    test_data_dir = Path(__file__).parent.parent.parent / "test_data" / "excel_files" / "feedback_forms" / "testing_versions" / "standard"
+    # Use the same test directory as other tests for consistency
+    from conftest import STANDARD_TEST_FILES_DIR
+    test_data_dir = Path(STANDARD_TEST_FILES_DIR)
+    
+    # CRITICAL: Fail explicitly if directory doesn't exist
     if not test_data_dir.exists():
-        return []
+        pytest.fail(f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: Test data directory not found!
+
+Expected path: {test_data_dir}
+Current working directory: {Path.cwd()}
+Repository root: {Path(__file__).parent.parent.parent}
+
+This test will fail catastrophically to prevent silent test failures.
+""")
     
     files = []
-    for file_path in test_data_dir.glob("**/*.xlsx"):
+    for file_path in test_data_dir.glob("*.xlsx"):  # Changed from **/*.xlsx to *.xlsx for consistency
         if file_path.is_file():
             files.append(str(file_path))
     
+    if not files:
+        pytest.fail(f"No Excel test files found in: {test_data_dir}")
+    
+    print(f"✓ Found {len(files)} test files for orchestrated route testing")
     return sorted(files)[:3]  # Limit to 3 files for focused testing
 
 

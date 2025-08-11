@@ -41,26 +41,35 @@ def get_test_files() -> list:
     """Safely retrieve test file paths for parameterized testing."""
     try:
         # Get the test files directory from conftest
-        from tests.e2e.conftest import STANDARD_TEST_FILES_DIR
+        # Use relative import since we're in tests/unit/
+        import sys
+        sys.path.append(str(Path(__file__).parent.parent / "e2e"))
+        from conftest import STANDARD_TEST_FILES_DIR
         test_dir = Path(STANDARD_TEST_FILES_DIR)
         
+        # CRITICAL: Fail explicitly if directory doesn't exist
         if not test_dir.exists():
-            print(f"⚠️  Test directory not found: {test_dir}")
-            return []
+            pytest.fail(f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: Test directory not found!
+
+Expected path: {test_dir}
+Current working directory: {Path.cwd()}
+Repository root: {Path(__file__).parent.parent.parent}
+
+This test will fail catastrophically to prevent silent test failures.
+""")
         
         # Get all Excel files in the directory
         files = list(test_dir.glob("*.xlsx"))
         
         if not files:
-            print(f"⚠️  No Excel files found in: {test_dir}")
-            return []
+            pytest.fail(f"No Excel files found in: {test_dir}")
         
         print(f"📁 Found {len(files)} test files in {test_dir}")
         return files
         
     except Exception as e:
-        print(f"⚠️  Error getting test files: {e}")
-        return []
+        pytest.fail(f"Critical error getting test files: {e}")
 
 
 @pytest.fixture(scope="session")

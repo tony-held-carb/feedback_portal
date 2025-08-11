@@ -74,10 +74,22 @@ def get_xls_files(base_path: Path, recursive: bool = False, excel_exts=None) -> 
         excel_exts = ['.xlsx', '.xls', '.xlsm', '.xlsb']
     
     files = []
-    test_data_dir = Path(__file__).parent.parent.parent / "test_data" / "excel_files" / base_path
+    # Use the same test directory as other tests for consistency
+    from conftest import STANDARD_TEST_FILES_DIR
+    test_data_dir = Path(STANDARD_TEST_FILES_DIR)
     
+    # CRITICAL: Fail explicitly if directory doesn't exist
     if not test_data_dir.exists():
-        return files
+        pytest.fail(f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: Test data directory not found!
+
+Expected path: {test_data_dir}
+Base path: {base_path}
+Current working directory: {Path.cwd()}
+Repository root: {Path(__file__).parent.parent.parent}
+
+This test will fail catastrophically to prevent silent test failures.
+""")
     
     if recursive:
         pattern = "**/*"
