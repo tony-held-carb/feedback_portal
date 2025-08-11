@@ -224,7 +224,7 @@ class TestRouteEquivalence:
       if error_type == "missing_id":
         assert "missing a valid" in html and "Incidence/Emission ID" in html
       elif error_type == "conversion_failed":
-        assert "Unsupported file format" in html and "Excel" in html
+        assert "Failed to convert file to JSON format" in html
       elif error_type == "file_error":
         assert "Error processing uploaded file" in html
       elif error_type == "database_error":

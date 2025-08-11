@@ -503,34 +503,54 @@ def upload_file_refactored(message: str | None = None) -> Union[str, Response]:
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
-      # Process uploaded file using refactored function
+      # Process uploaded file using the new refactored function
       result = upload_and_process_file(db, upload_folder, request_file, base)
 
       if result.success:
         logger.debug(f"Upload successful: id={result.id_}, sector={result.sector}. Redirecting to update page.")
-        # Use shared success handling helper
-        success_message, redirect_url = handle_upload_success(result, request_file, "direct")
-        flash(success_message, "success")
-        return redirect(redirect_url)
+        return redirect(url_for('main.incidence_update', id_=result.id_))
 
-      # Handle conversion_failed specially for detailed diagnostics
-      if result.error_type == "conversion_failed":
+      # Handle specific error types based on the result
+      if result.error_type == "missing_id":
+        logger.warning(f"Upload blocked: missing or invalid id_incidence in {result.file_path.name}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=(
+            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+            "Please add a positive integer id_incidence to your spreadsheet before uploading."
+          )
+        )
+      elif result.error_type == "conversion_failed":
         logger.warning(f"Upload failed file conversion: {result.file_path=}")
-        error_details = generate_upload_diagnostics_unified(request_file, "direct", file_path=result.file_path)
-        detailed_message = format_diagnostic_message(error_details,
-                                                     "Uploaded file format not recognized.")
-        return render_upload_error_page(form, detailed_message, 'upload.html', "direct", {"error_details": error_details})
-      
-      # Use shared error handling helper for all other error types
-      return handle_upload_error(result, form, 'upload.html', request_file)
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=result.error_message or "Uploaded file format not recognized."
+        )
+      else:
+        # Handle other error types
+        logger.warning(f"Upload failed: {result.error_type=}, {result.error_message=}")
+        return render_template(
+          'upload.html',
+          form=form,
+          upload_message=result.error_message or "Upload processing failed."
+        )
 
     except Exception as e:
-      # Use shared exception handling helper with unified diagnostics
-      return handle_upload_exception(e, form, 'upload.html', request_file, 
-                                   result if 'result' in locals() else None, 
-                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
-                                     req_file, "direct", file_path=file_path
-                                   ))
+      logger.exception("Exception occurred during upload or parsing.")
+
+      # Use result object if available, otherwise fall back to diagnostics
+      if 'result' in locals() and hasattr(result, 'file_path'):
+        error_details = generate_upload_diagnostics(request_file, result.file_path)
+      else:
+        error_details = generate_upload_diagnostics(request_file, None)
+      detailed_message = format_diagnostic_message(error_details)
+      return render_template(
+        'upload.html',
+        form=form,
+        upload_message=detailed_message
+      )
 
   # GET request: display form
   return render_upload_page(form, message, 'upload.html', "direct")
@@ -1470,11 +1490,7 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
   if request.method == 'POST':
     flash("_upload_attempted", "internal-marker")
     
-    # Set robust session storage state for testing
-    if request.headers.get('X-Test-Mode'):
-      # This will be picked up by the client-side JavaScript
-      session['_upload_attempt_state'] = 'attempted'
-      session['_upload_attempt_timestamp'] = time.time()
+
     
     try:
       request_file = request.files.get('file')
@@ -1486,33 +1502,78 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
 
       logger.debug(f"Received uploaded file: {request_file.filename}")
 
-      # Use the new refactored staging function
+      # Save and stage (no DB commit) using the new refactored function
       result = stage_uploaded_file_for_review(db, upload_folder, request_file, base)
 
       if result.success:
-        # Success case - redirect to review page
         logger.debug(
           f"Staged upload successful: id={result.id_}, sector={result.sector}, filename={result.staged_filename}. Redirecting to review page.")
-
-        # Use shared success handling helper
-        success_message, redirect_url = handle_upload_success(result, request_file, "staged")
+        # Enhanced success feedback with staging details
+        success_message = (
+          f"✅ File '{request_file.filename}' staged successfully!\n"
+          f"📋 ID: {result.id_}\n"
+          f"🏭 Sector: {result.sector}\n"
+          f"📁 Staged as: {result.staged_filename}\n"
+          f"🔍 Ready for review and confirmation."
+        )
         flash(success_message, "success")
-        return redirect(redirect_url)
+        return redirect(url_for('main.review_staged', id_=result.id_, filename=result.staged_filename))
 
+      # Handle specific error types based on the result
+      if result.error_type == "missing_id":
+        logger.warning(f"Staging blocked: missing or invalid id_incidence in {result.file_path.name}")
+        return render_template(
+          'upload_staged.html',
+          form=form,
+          upload_message=(
+            "This file is missing a valid 'Incidence/Emission ID' (id_incidence). "
+            "Please add a positive integer id_incidence to your spreadsheet before uploading."
+          )
+        )
+      elif result.error_type == "conversion_failed":
+        logger.warning(f"Staging failed file conversion: {result.file_path=}")
+        return render_template(
+          'upload_staged.html',
+          form=form,
+          upload_message=result.error_message or "Uploaded file format not recognized."
+        )
       else:
-        # Use shared error handling helper for all error types
-        return handle_upload_error(result, form, 'upload_staged.html', request_file)
+        # Handle other error types
+        logger.warning(f"Staging failed: {result.error_type=}, {result.error_message=}")
+        return render_template(
+          'upload_staged.html',
+          form=form,
+          upload_message=result.error_message or "Staging processing failed."
+        )
 
     except Exception as e:
-      # Use shared exception handling helper with unified staging diagnostics
-      return handle_upload_exception(e, form, 'upload_staged.html', request_file,
-                                   result if 'result' in locals() else None,
-                                   lambda req_file, file_path: generate_upload_diagnostics_unified(
-                                     req_file, "staged", file_path=file_path,
-                                     staged_filename=result.staged_filename if 'result' in locals() else None,
-                                     id_=result.id_ if 'result' in locals() else None,
-                                     sector=result.sector if 'result' in locals() else None
-                                   ))
+      logger.exception("Exception occurred during staged upload.")
+
+      # Enhanced error handling with staging-specific diagnostic information
+      if 'result' in locals() and hasattr(result, 'file_path'):
+        error_details = generate_staging_diagnostics(
+          request_file,
+          result.file_path,
+          result.staged_filename,
+          result.id_,
+          result.sector
+        )
+      else:
+        error_details = generate_staging_diagnostics(
+          request_file,
+          None,
+          None,
+          None,
+          None
+        )
+      detailed_message = format_diagnostic_message(error_details,
+                                                   "Staged upload processing failed.")
+
+      return render_template(
+        'upload_staged.html',
+        form=form,
+        upload_message=detailed_message
+      )
 
   # GET request: display form
   return render_upload_page(form, message, 'upload_staged.html', "staged")

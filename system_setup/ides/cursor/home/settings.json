@@ -20,11 +20,11 @@
   // =============================================================================
   // UI PRODUCTIVITY SETTINGS
   // =============================================================================
-  
+
   // Command Center - Global Search and Command Interface
   // Purpose: Enables the global search bar for commands, files, and settings
   // Access: Press Ctrl+Shift+P or F1
-  // Benefits: 
+  // Benefits:
   //   - Fuzzy search for commands, files, settings
   //   - Quick file navigation without using file explorer
   //   - Command palette with intelligent suggestions
@@ -43,7 +43,7 @@
   // =============================================================================
   // GIT WORKFLOW OPTIMIZATIONS
   // =============================================================================
-  
+
   // Auto-Sync - Disable Confirmation Dialogs
   // Purpose: Automatically syncs Git changes without confirmation prompts
   // Behavior: Pushes/pulls without asking "Sync changes?"
@@ -67,7 +67,7 @@
   // =============================================================================
   // TERMINAL CONFIGURATION - WSL INTEGRATION
   // =============================================================================
-  
+
   // WSL as Default Terminal
   // Purpose: Sets WSL as the primary terminal instead of PowerShell/CMD
   // Impact: All new terminals open in WSL environment
@@ -92,7 +92,7 @@
   // =============================================================================
   // OPTIONAL CONFIGURATIONS (CURRENTLY DISABLED)
   // =============================================================================
-  
+
   // Specific WSL Distribution
   // Purpose: Force use of a particular WSL distribution
   // Current: Uses default distro (Ubuntu)
@@ -107,7 +107,7 @@
   // and causing the "EnvironmentNameNotFound" errors you're experiencing.
   //
   // Purpose: Disable automatic conda environment activation
-  // Benefits: 
+  // Benefits:
   //   - Prevents Windows conda paths from being injected into WSL
   //   - Allows your .bashrc to handle conda activation properly
   //   - Eliminates "C:\Users\tonyh\miniconda3\envs\mini_conda_02" errors
@@ -132,7 +132,9 @@
   //   - Better compatibility with WSL
   "terminal.integrated.enablePersistentSessions": false,
   "terminal.integrated.detectLocale": "off",
-  "terminal.integrated.shellIntegration.enabled": false,
-  "terminal.integrated.windowsEnableConpty": false,
+  // terminal.integrated.shellIntegration.enabled false may make cursor hang
+  "terminal.integrated.shellIntegration.enabled": true,
+  // terminal.integrated.windowsEnableConpty false may make cursor hang
+  "terminal.integrated.windowsEnableConpty": true,
   "terminal.integrated.scrollback": 10000
 }

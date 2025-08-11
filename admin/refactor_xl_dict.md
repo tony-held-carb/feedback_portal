@@ -8,6 +8,6 @@ Thoughts on refactoring xl_dict and related files.
     - Purpose: Extract data from the data tabs that are enumerated in the schema tab.
 
 - Analysis
-  - parse_xl_file & extract_tabs are a little ugly and rely on a schema map dict that is a little ugy too but a lower priorty
+  - parse_xl_file & extract_tabs are a little ugly and rely on a schema map dict that is a little ugly too but a lower priorty
   -
 

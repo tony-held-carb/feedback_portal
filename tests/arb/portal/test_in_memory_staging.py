@@ -296,7 +296,10 @@ class TestProcessUploadToMemory:
         # Verify all processing steps were called
         mock_save.assert_called_once_with(upload_dir, mock_file_storage, mock_db)
         mock_convert.assert_called_once_with(Path("/tmp/upload.xlsx"))
-        mock_validate.assert_called_once_with(Path("/tmp/upload.json"))
+        mock_validate.assert_called_once_with({
+            "metadata": {"sector": "Dairy Digester"},
+            "tab_contents": {"Feedback Form": {"id_incidence": 123, "sector": "Dairy Digester"}}
+        })
     
     @patch('arb.portal.utils.db_ingest_util.save_uploaded_file_with_result')
     def test_process_upload_to_memory_save_failure(self, mock_save, mock_file_storage):

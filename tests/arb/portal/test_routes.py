@@ -179,7 +179,7 @@ def test_upload_file_staged_refactored_unknown_error(client):
       json_data={},
       staged_filename=None,
       success=False,
-      error_message="An unexpected error occurred",
+              error_message="Unexpected error occurred",
       error_type="unknown_error"
     )
 
@@ -190,7 +190,7 @@ def test_upload_file_staged_refactored_unknown_error(client):
     # Should return error page with specific message
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "An unexpected error occurred" in html
+    assert "Unexpected error occurred" in html
 
 
 def test_upload_file_staged_refactored_no_file_selected(client):
@@ -309,7 +309,7 @@ def test_upload_file_refactored_conversion_error(client):
 
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "Uploaded file format not recognized" in html
+    assert "File could not be converted to JSON format" in html
 
 
 def test_upload_file_refactored_file_error(client):
@@ -329,7 +329,7 @@ def test_upload_file_refactored_file_error(client):
 
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "Error processing uploaded file" in html
+    assert "File upload failed" in html
 
 
 def test_upload_file_refactored_database_error(client):
@@ -349,7 +349,7 @@ def test_upload_file_refactored_database_error(client):
 
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "Database error occurred" in html
+    assert "Database connection failed" in html
 
 
 def test_upload_file_refactored_unknown_error(client):
@@ -369,7 +369,7 @@ def test_upload_file_refactored_unknown_error(client):
 
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "An unexpected error occurred" in html
+    assert "Unexpected error occurred" in html
 
 
 def test_upload_file_refactored_no_file_selected(client):
