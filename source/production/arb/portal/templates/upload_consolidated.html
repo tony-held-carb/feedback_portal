@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Consolidated Upload - All Upload Types
+{% endblock %}
+
+{% block header_css_and_js %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+  <script defer src="{{ url_for('static', filename='js/file_upload.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid post-nav-buffer">
+
+    <div class="p-3 mb-3 bg-main-header text-white rounded">
+      <h2>Consolidated Upload - All Upload Types</h2>
+      <p class="mb-0">Phase 10: Unified upload interface for all upload scenarios</p>
+    </div>
+
+    <div>
+      <p>This consolidated interface allows you to upload feedback spreadsheets using any combination of upload type and processing logic. Choose your preferred configuration below.</p>
+    </div>
+
+    <!-- 📢 Persistent warning for locked Excel files -->
+    <div class="alert alert-warning mt-3" role="alert">
+      <strong>Important:</strong> Please close any files before uploading a file. Files that are still open may be
+      locked and cannot be uploaded. If you try to upload a file that is locked, you will receive an error message
+      "This site can't be reached".
+    </div>
+
+    <!-- 🔧 Upload Configuration Section -->
+    <div class="card mt-3">
+      <div class="card-header">
+        <h5 class="mb-0">Upload Configuration</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST"
+              enctype="multipart/form-data"
+              id="upload-form"
+              action=""
+              novalidate>
+
+          <!-- Upload Type Selection -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="upload_type" class="form-label">Upload Type</label>
+              <select class="form-select" id="upload_type" name="upload_type" required>
+                <option value="direct" selected>Direct Upload</option>
+                <option value="staged">Staged Upload</option>
+              </select>
+              <div class="form-text">
+                <strong>Direct:</strong> File is processed and immediately committed to database<br>
+                <strong>Staged:</strong> File is staged for review before database commitment
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="logic_version" class="form-label">Processing Logic</label>
+              <select class="form-select" id="logic_version" name="logic_version" required>
+                <option value="refactored" selected>Refactored (Enhanced)</option>
+                <option value="original">Original (Legacy)</option>
+              </select>
+              <div class="form-text">
+                <strong>Refactored:</strong> Enhanced error handling and diagnostics<br>
+                <strong>Original:</strong> Legacy processing logic
+              </div>
+            </div>
+          </div>
+
+          <!-- Configuration Summary -->
+          <div class="alert alert-info" role="alert">
+            <strong>Selected Configuration:</strong> 
+            <span id="config-summary">Direct Upload with Enhanced Processing</span>
+          </div>
+
+          <!-- File Upload Zone -->
+          <div id="drop_zone" class="drop-zone">
+            <div class="drop-zone-text">Click or Drag & Drop File Here</div>
+            <img src="{{ url_for('static', filename='images/upload_icon.png') }}"
+                 class="drop-zone-icon" alt="Upload Icon">
+            <input type="file" name="file" class="form-control mt-2 d-none" required id="hidden-file-input">
+            <small class="text-muted d-block mt-2">File will upload automatically after selection or drop</small>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- 📋 Available Configurations -->
+    <div class="card mt-3">
+      <div class="card-header">
+        <h5 class="mb-0">Available Upload Configurations</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          {% for name, config in configurations.items() %}
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-header">
+                <h6 class="mb-0">{{ name.replace('_', ' ').title() }}</h6>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ config.description }}</p>
+                <ul class="list-unstyled mb-0">
+                  <li><strong>Type:</strong> {{ config.upload_type.title() }}</li>
+                  <li><strong>Logic:</strong> {{ config.core_logic_function.title() }}</li>
+                  <li><strong>Enhanced:</strong> {{ "Yes" if config.is_refactored else "No" }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- 🚨 Upload Error Message -->
+    {% if upload_message %}
+      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        {{ upload_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+
+  </div>
+{% endblock %}
+
+{% block overlay_content %}
+  <!-- Spinner Overlay -->
+  <div id="spinner-overlay" class="spinner-overlay d-none">
+    <div class="spinner-container">
+      <div class="spinner-border text-primary" role="status"></div>
+      <div class="mt-3 text-white fw-bold">Uploading... Please wait.</div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Update configuration summary when selections change
+  document.addEventListener('DOMContentLoaded', function() {
+    const uploadType = document.getElementById('upload_type');
+    const logicVersion = document.getElementById('logic_version');
+    const configSummary = document.getElementById('config-summary');
+    
+    function updateSummary() {
+      const type = uploadType.value;
+      const logic = logicVersion.value;
+      const typeText = type === 'direct' ? 'Direct Upload' : 'Staged Upload';
+      const logicText = logic === 'refactored' ? 'Enhanced Processing' : 'Legacy Processing';
+      configSummary.textContent = `${typeText} with ${logicText}`;
+    }
+    
+    uploadType.addEventListener('change', updateSummary);
+    logicVersion.addEventListener('change', updateSummary);
+    
+    // Initialize summary
+    updateSummary();
+  });
+</script>
+{% endblock %}

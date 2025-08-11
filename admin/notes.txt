@@ -1814,3 +1814,14 @@ do we have any tests that should have this sort of existence test in place to ma
 to path specification issues.
 
 
+ok, lets see if understand.
+the original upload_file route is working,  a refactored version upload_file_refactored is working that includes clearer return status and error handling.  Similarly upload_file_staged is working and upload_file_staged_refactored is includes better return status and error handling.  upload_file_staged_refactored file tries to reuse helper functions with  upload_file_refactored 
+
+In addition, and not fully implemented are orchestrated routes, these are designed to see upload_file and upload_file_staged as very similar operations with some configuration differences such as persisting staged info, etc.  These will hopefully result in a smaller, clearer codebase with good seperation of concerns.
+
+The orchestrated approach is currently under development and has not been completed/tested.
+
+Is this a correct depiction of the code base?
+
+I'm not sure if the unified are better than the refactored since they
+may be relying on the old/working routes for logic and the new refactored had better logic

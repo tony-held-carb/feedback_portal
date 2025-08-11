@@ -29,51 +29,6 @@ from arb.portal.extensions import db
 logger = logging.getLogger(__name__)
 
 
-def _safe_get_value(result, key: str, fallback_key: str = None, default: str = 'N/A'):
-    """
-    Safely extract a value from a result object, supporting both old and new formats.
-    
-    This function handles backward compatibility by checking multiple possible locations
-    for the requested value:
-    1. Direct attribute access (old format): result.key
-    2. Processed data dictionary (new format): result.processed_data.get(key)
-    3. Fallback attribute if specified: result.fallback_key
-    
-    Args:
-        result: Result object that may have either old or new structure
-        key: Primary key to look for
-        fallback_key: Optional fallback key to try if primary key not found
-        default: Default value to return if key not found
-        
-    Returns:
-        The value if found, otherwise the default value
-        
-    Examples:
-        id_value = _safe_get_value(result, 'id_incidence', 'id_', 'N/A')
-        sector_value = _safe_get_value(result, 'sector', default='Unknown')
-    """
-    # Try direct attribute access first (old format)
-    if hasattr(result, key):
-        value = getattr(result, key)
-        if value is not None and not str(value).startswith('<MagicMock'):
-            return value
-    
-    # Try processed_data dictionary (new format)
-    if hasattr(result, 'processed_data') and result.processed_data:
-        if isinstance(result.processed_data, dict):
-            value = result.processed_data.get(key)
-            if value is not None and not str(value).startswith('<MagicMock'):
-                return value
-    
-    # Try fallback key if specified
-    if fallback_key and hasattr(result, fallback_key):
-        value = getattr(result, fallback_key)
-        if value is not None and not str(value).startswith('<MagicMock'):
-            return value
-    
-    return default
-
-
 def validate_upload_request(request_file: FileStorage | None) -> tuple[bool, str | None]:
     """
     Validate that a file was uploaded in the request.
@@ -147,13 +102,13 @@ def get_success_message_for_upload(result, filename: str, upload_type: str) -> s
     if upload_type == "staged":
         return (
             f"✅ File '{filename}' staged successfully!\n"
-            f"📋 ID: {_safe_get_value(result, 'id_incidence', 'id_')}\n"
-            f"🏭 Sector: {_safe_get_value(result, 'sector')}\n"
-            f"📁 Staged as: {_safe_get_value(result, 'staged_filename')}\n"
+            f"📋 ID: {result.processed_data.get('id_incidence', 'N/A')}\n"
+            f"🏭 Sector: {result.sector}\n"
+            f"📁 Staged as: {result.staged_filename}\n"
             f"🔍 Ready for review and confirmation."
         )
     else:
-        return f"✅ File '{filename}' uploaded successfully! ID: {_safe_get_value(result, 'id_incidence', 'id_')}, Sector: {_safe_get_value(result, 'sector')}"
+        return f"✅ File '{filename}' uploaded successfully! ID: {result.processed_data.get('id_incidence', 'N/A')}, Sector: {result.sector}"
 
 
 def render_upload_form(form: UploadForm, message: str | None, template_name: str) -> str:
@@ -289,15 +244,43 @@ def handle_upload_success(result, request_file, upload_type: str = "direct") -> 
     success_message = get_success_message_for_upload(result, request_file.filename, upload_type)
     
     # Log the successful upload
-    logger.info(f"Upload successful - Type: {upload_type}, ID: {_safe_get_value(result, 'id_incidence', 'id_')}, Sector: {_safe_get_value(result, 'sector')}")
+    logger.info(f"Upload successful - Type: {upload_type}, ID: {result.processed_data.get('id_incidence', 'N/A')}, Sector: {result.sector}")
     
     # Determine redirect URL based on upload type
     if upload_type == "staged":
-        redirect_url = url_for('main.review_staged', id_=_safe_get_value(result, 'id_incidence', 'id_'), filename=_safe_get_value(result, 'staged_filename'))
+        redirect_url = url_for('main.review_staged', id_=result.processed_data.get('id_incidence'), filename=result.staged_filename)
     else:
-        redirect_url = url_for('main.incidence_update', id_=_safe_get_value(result, 'id_incidence', 'id_'))
+        redirect_url = url_for('main.incidence_update', id_=result.processed_data.get('id_incidence'))
     
     return success_message, redirect_url
+
+
+def get_success_message_for_upload(result, filename: str, upload_type: str) -> str:
+    """
+    Get success message for upload (direct vs staged).
+
+    Args:
+        result: Result object containing upload details
+        filename: Original filename that was uploaded
+        upload_type: Type of upload ("direct" or "staged")
+
+    Returns:
+        str: Success message for the upload
+
+    Examples:
+        message = get_success_message_for_upload(result, "data.xlsx", "staged")
+        flash(message, "success")
+    """
+    if upload_type == "staged":
+        return (
+            f"✅ File '{filename}' staged successfully!\n"
+            f"📋 ID: {result.processed_data.get('id_incidence', 'N/A')}\n"
+            f"🏭 Sector: {result.sector}\n"
+            f"📁 Staged as: {result.staged_filename}\n"
+            f"🔍 Ready for review and confirmation."
+        )
+    else:
+        return f"✅ File '{filename}' uploaded successfully! ID: {result.processed_data.get('id_incidence', 'N/A')}, Sector: {result.sector}"
 
 
 def render_upload_page(form: UploadForm, message: str | None, template_name: str, 
@@ -493,7 +476,7 @@ def orchestrate_upload_route(config: UploadConfiguration, message: str | None = 
         
         if result.success:
             # Success case - use shared success handling
-            logger.debug(f"{config.upload_type.title()} upload successful: id={_safe_get_value(result, 'id_incidence', 'id_')}, sector={_safe_get_value(result, 'sector')}")
+            logger.debug(f"{config.upload_type.title()} upload successful: id={result.processed_data.get('id_incidence', 'N/A')}, sector={result.sector}")
             
             success_message, redirect_url = handle_upload_success(result, request_file, config.upload_type)
             flash(success_message, "success")
