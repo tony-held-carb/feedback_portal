@@ -1,0 +1,9 @@
+===== RUN SCRIPT DIAGNOSTICS =====
+Command: timeout 30 grep -r from.*orchestrate source/ tests/
+Working Directory: /home/tonyh/git_repos/feedback_portal
+Timestamp: Mon Aug 11 17:34:57 UTC 2025 (UTC-7, Pacific Daylight Time)
+========================================
+
+tests/e2e/test_orchestrated_routes.py:        """Validate response from orchestrated routes."""
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311-pytest-8.4.1.pyc: binary file matches
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311.pyc: binary file matches

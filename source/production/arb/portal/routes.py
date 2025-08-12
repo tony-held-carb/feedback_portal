@@ -1491,8 +1491,6 @@ def upload_file_staged_refactored(message: str | None = None) -> Union[str, Resp
   if request.method == 'POST':
     flash("_upload_attempted", "internal-marker")
     
-
-    
     try:
       request_file = request.files.get('file')
 

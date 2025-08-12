@@ -1,0 +1,38 @@
+===== RUN SCRIPT DIAGNOSTICS =====
+Command: timeout 30 grep -r upload_orchestrated source/ tests/
+Working Directory: /home/tonyh/git_repos/feedback_portal
+Timestamp: Mon Aug 11 17:34:57 UTC 2025 (UTC-7, Pacific Daylight Time)
+========================================
+
+grep: source/production/arb/portal/__pycache__/routes.cpython-311.pyc: binary file matches
+source/production/arb/portal/routes.py:@main.route('/upload_orchestrated', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:@main.route('/upload_orchestrated/<message>', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:    # In browser: GET /upload_orchestrated
+source/production/arb/portal/routes.py:    # In browser: POST /upload_orchestrated
+tests/e2e/test_orchestrated_routes.py:def upload_orchestrated_page(page: Page) -> Page:
+tests/e2e/test_orchestrated_routes.py:    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:    def test_upload_orchestrated_page_loads(self, upload_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:        assert "Upload" in upload_orchestrated_page.content()
+tests/e2e/test_orchestrated_routes.py:        file_input = upload_orchestrated_page.locator("input[type='file']")
+tests/e2e/test_orchestrated_routes.py:        form = upload_orchestrated_page.locator("form")
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:    def test_upload_orchestrated_workflow(self, upload_orchestrated_page: Page, file_path: str):
+tests/e2e/test_orchestrated_routes.py:        clear_upload_attempt_marker(upload_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:        upload_file_and_wait_for_attempt_marker(upload_orchestrated_page, file_path)
+tests/e2e/test_orchestrated_routes.py:        original_url = upload_orchestrated_page.url
+tests/e2e/test_orchestrated_routes.py:            upload_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:            submit_button = upload_orchestrated_page.locator("button[type='submit'], input[type='submit']")
+tests/e2e/test_orchestrated_routes.py:                upload_orchestrated_page.wait_for_load_state("networkidle")
+tests/e2e/test_orchestrated_routes.py:        self._validate_orchestrated_response(upload_orchestrated_page, file_name, "orchestrated direct")
+tests/e2e/test_orchestrated_routes.py:    def test_orchestrated_invalid_file_handling(self, upload_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:            clear_upload_attempt_marker(upload_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:            upload_file_and_wait_for_attempt_marker(upload_orchestrated_page, invalid_file_path)
+tests/e2e/test_orchestrated_routes.py:            upload_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:                if upload_orchestrated_page.locator(indicator).count() > 0:
+tests/e2e/test_orchestrated_routes.py:                    error_text = upload_orchestrated_page.locator(indicator).first.text_content()
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:            f"{BASE_URL}/upload_orchestrated",
+tests/e2e/test_orchestrated_routes.py:            (f"{BASE_URL}/upload_orchestrated", "direct"),
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311-pytest-8.4.1.pyc: binary file matches
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311.pyc: binary file matches

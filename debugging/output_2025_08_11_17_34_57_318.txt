@@ -1,0 +1,145 @@
+===== RUN SCRIPT DIAGNOSTICS =====
+Command: timeout 30 grep -r orchestrate source/ tests/
+Working Directory: /home/tonyh/git_repos/feedback_portal
+Timestamp: Mon Aug 11 17:34:57 UTC 2025 (UTC-7, Pacific Daylight Time)
+========================================
+
+grep: source/production/arb/portal/__pycache__/routes.cpython-311.pyc: binary file matches
+source/production/arb/portal/utils/route_upload_helpers.py:def orchestrate_upload_route(config: UploadConfiguration, message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/utils/route_upload_helpers.py:        return orchestrate_upload_route(direct_config, message)
+source/production/arb/portal/utils/route_upload_helpers.py:        return orchestrate_upload_route(staged_config, message)
+grep: source/production/arb/portal/utils/__pycache__/route_upload_helpers.cpython-311.pyc: binary file matches
+source/production/arb/portal/utils/route_upload_helpers.py.backup:def orchestrate_upload_route(config: UploadConfiguration, message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/utils/route_upload_helpers.py.backup:        return orchestrate_upload_route(direct_config, message)
+source/production/arb/portal/utils/route_upload_helpers.py.backup:        return orchestrate_upload_route(staged_config, message)
+source/production/arb/portal/routes.py:  UploadConfiguration, orchestrate_upload_route
+source/production/arb/portal/routes.py:@main.route('/upload_orchestrated', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:@main.route('/upload_orchestrated/<message>', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:def upload_file_orchestrated(message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/routes.py:  the unified orchestrate_upload_route function can eliminate duplication while
+source/production/arb/portal/routes.py:    # In browser: GET /upload_orchestrated
+source/production/arb/portal/routes.py:    # In browser: POST /upload_orchestrated
+source/production/arb/portal/routes.py:  return orchestrate_upload_route(direct_config, message)
+source/production/arb/portal/routes.py:@main.route('/upload_staged_orchestrated', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:@main.route('/upload_staged_orchestrated/<message>', methods=['GET', 'POST'])
+source/production/arb/portal/routes.py:def upload_file_staged_orchestrated(message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/routes.py:  the unified orchestrate_upload_route function can eliminate duplication while
+source/production/arb/portal/routes.py:    # In browser: GET /upload_staged_orchestrated
+source/production/arb/portal/routes.py:    # In browser: POST /upload_staged_orchestrated
+source/production/arb/portal/routes.py:  return orchestrate_upload_route(staged_config, message)
+tests/arb/portal/test_upload_logic.py:they correctly orchestrate the backend functions without modifying them.
+grep: tests/arb/portal/__pycache__/test_upload_logic.cpython-311-pytest-8.4.1.pyc: binary file matches
+tests/unit/test_comprehensive_route_equivalence.py:    upload_file_orchestrated,
+tests/unit/test_comprehensive_route_equivalence.py:    upload_file_staged_orchestrated
+tests/unit/test_comprehensive_route_equivalence.py:            upload_file_orchestrated,
+tests/unit/test_comprehensive_route_equivalence.py:            upload_file_staged_orchestrated
+grep: tests/unit/__pycache__/test_comprehensive_route_equivalence.cpython-311-pytest-8.4.1.pyc: binary file matches
+tests/e2e/test_orchestrated_routes.py:This module provides comprehensive end-to-end testing for the Phase 7A orchestrated
+tests/e2e/test_orchestrated_routes.py:- upload_file_orchestrated  
+tests/e2e/test_orchestrated_routes.py:- upload_file_staged_orchestrated
+tests/e2e/test_orchestrated_routes.py:    """Get test files for orchestrated route testing."""
+tests/e2e/test_orchestrated_routes.py:    print(f"✓ Found {len(files)} test files for orchestrated route testing")
+tests/e2e/test_orchestrated_routes.py:def upload_orchestrated_page(page: Page) -> Page:
+tests/e2e/test_orchestrated_routes.py:    """Fixture to navigate to orchestrated upload page."""
+tests/e2e/test_orchestrated_routes.py:    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:def upload_staged_orchestrated_page(page: Page) -> Page:
+tests/e2e/test_orchestrated_routes.py:    """Fixture to navigate to orchestrated staged upload page.""" 
+tests/e2e/test_orchestrated_routes.py:    navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_orchestrated")
+tests/e2e/test_orchestrated_routes.py:    """Test class for orchestrated route structure and accessibility."""
+tests/e2e/test_orchestrated_routes.py:    def test_upload_orchestrated_page_loads(self, upload_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:        """Test that the orchestrated upload page loads correctly."""
+tests/e2e/test_orchestrated_routes.py:        assert "Upload" in upload_orchestrated_page.content()
+tests/e2e/test_orchestrated_routes.py:        file_input = upload_orchestrated_page.locator("input[type='file']")
+tests/e2e/test_orchestrated_routes.py:        form = upload_orchestrated_page.locator("form")
+tests/e2e/test_orchestrated_routes.py:    def test_upload_staged_orchestrated_page_loads(self, upload_staged_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:        """Test that the orchestrated staged upload page loads correctly."""
+tests/e2e/test_orchestrated_routes.py:        assert "Upload" in upload_staged_orchestrated_page.content()
+tests/e2e/test_orchestrated_routes.py:        file_input = upload_staged_orchestrated_page.locator("input[type='file']")
+tests/e2e/test_orchestrated_routes.py:        form = upload_staged_orchestrated_page.locator("form")
+tests/e2e/test_orchestrated_routes.py:    def test_orchestrated_route_consistency(self, page: Page):
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated routes provide consistent user experience."""
+tests/e2e/test_orchestrated_routes.py:        # Test direct orchestrated route
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:        # Test staged orchestrated route  
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_orchestrated")
+tests/e2e/test_orchestrated_routes.py:            "Both orchestrated routes should contain upload functionality"
+tests/e2e/test_orchestrated_routes.py:    """Test class for orchestrated route workflows."""
+tests/e2e/test_orchestrated_routes.py:    def test_upload_orchestrated_workflow(self, upload_orchestrated_page: Page, file_path: str):
+tests/e2e/test_orchestrated_routes.py:        """Test complete workflow for orchestrated direct upload route."""
+tests/e2e/test_orchestrated_routes.py:        print(f"Testing orchestrated upload workflow with file: {file_name}")
+tests/e2e/test_orchestrated_routes.py:        clear_upload_attempt_marker(upload_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:        upload_file_and_wait_for_attempt_marker(upload_orchestrated_page, file_path)
+tests/e2e/test_orchestrated_routes.py:        original_url = upload_orchestrated_page.url
+tests/e2e/test_orchestrated_routes.py:            upload_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:            submit_button = upload_orchestrated_page.locator("button[type='submit'], input[type='submit']")
+tests/e2e/test_orchestrated_routes.py:                upload_orchestrated_page.wait_for_load_state("networkidle")
+tests/e2e/test_orchestrated_routes.py:        # Validate orchestrated route response
+tests/e2e/test_orchestrated_routes.py:        self._validate_orchestrated_response(upload_orchestrated_page, file_name, "orchestrated direct")
+tests/e2e/test_orchestrated_routes.py:    def test_upload_staged_orchestrated_workflow(self, upload_staged_orchestrated_page: Page, file_path: str):
+tests/e2e/test_orchestrated_routes.py:        """Test complete workflow for orchestrated staged upload route."""
+tests/e2e/test_orchestrated_routes.py:        print(f"Testing orchestrated staged workflow with file: {file_name}")
+tests/e2e/test_orchestrated_routes.py:        clear_upload_attempt_marker(upload_staged_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:        upload_file_and_wait_for_attempt_marker(upload_staged_orchestrated_page, file_path)
+tests/e2e/test_orchestrated_routes.py:        original_url = upload_staged_orchestrated_page.url
+tests/e2e/test_orchestrated_routes.py:            upload_staged_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:            submit_button = upload_staged_orchestrated_page.locator("button[type='submit'], input[type='submit']")
+tests/e2e/test_orchestrated_routes.py:                upload_staged_orchestrated_page.wait_for_load_state("networkidle")
+tests/e2e/test_orchestrated_routes.py:        # Validate orchestrated staged route response
+tests/e2e/test_orchestrated_routes.py:        self._validate_orchestrated_response(upload_staged_orchestrated_page, file_name, "orchestrated staged")
+tests/e2e/test_orchestrated_routes.py:    def _validate_orchestrated_response(self, page: Page, file_name: str, upload_type: str):
+tests/e2e/test_orchestrated_routes.py:        """Validate response from orchestrated routes."""
+tests/e2e/test_orchestrated_routes.py:                if "orchestrated" in upload_type:
+tests/e2e/test_orchestrated_routes.py:                if "orchestrated" in upload_type:
+tests/e2e/test_orchestrated_routes.py:    """Test class for orchestrated route error handling."""
+tests/e2e/test_orchestrated_routes.py:    def test_orchestrated_invalid_file_handling(self, upload_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated route handles invalid files consistently."""
+tests/e2e/test_orchestrated_routes.py:            clear_upload_attempt_marker(upload_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:            upload_file_and_wait_for_attempt_marker(upload_orchestrated_page, invalid_file_path)
+tests/e2e/test_orchestrated_routes.py:            # Wait for orchestrated error handling
+tests/e2e/test_orchestrated_routes.py:            upload_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:            # Validate orchestrated error handling
+tests/e2e/test_orchestrated_routes.py:                if upload_orchestrated_page.locator(indicator).count() > 0:
+tests/e2e/test_orchestrated_routes.py:                    error_text = upload_orchestrated_page.locator(indicator).first.text_content()
+tests/e2e/test_orchestrated_routes.py:    def test_staged_orchestrated_invalid_file_handling(self, upload_staged_orchestrated_page: Page):
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated staged route handles invalid files consistently."""
+tests/e2e/test_orchestrated_routes.py:            clear_upload_attempt_marker(upload_staged_orchestrated_page)
+tests/e2e/test_orchestrated_routes.py:            upload_file_and_wait_for_attempt_marker(upload_staged_orchestrated_page, invalid_file_path)
+tests/e2e/test_orchestrated_routes.py:            # Wait for orchestrated error handling
+tests/e2e/test_orchestrated_routes.py:            upload_staged_orchestrated_page.wait_for_function(
+tests/e2e/test_orchestrated_routes.py:            # Validate orchestrated staged error handling
+tests/e2e/test_orchestrated_routes.py:                if upload_staged_orchestrated_page.locator(indicator).count() > 0:
+tests/e2e/test_orchestrated_routes.py:                    error_text = upload_staged_orchestrated_page.locator(indicator).first.text_content()
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated routes demonstrate configuration-driven behavior."""
+tests/e2e/test_orchestrated_routes.py:        # Test that both orchestrated routes are accessible and functional
+tests/e2e/test_orchestrated_routes.py:        # This validates the UploadConfiguration class and orchestrate_upload_route function
+tests/e2e/test_orchestrated_routes.py:        # Test direct orchestrated route
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:        assert page.locator("form").count() > 0, "Direct orchestrated route should be functional"
+tests/e2e/test_orchestrated_routes.py:        # Test staged orchestrated route
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_orchestrated")
+tests/e2e/test_orchestrated_routes.py:        assert page.locator("form").count() > 0, "Staged orchestrated route should be functional"
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated routes demonstrate cross-cutting concern extraction."""
+tests/e2e/test_orchestrated_routes.py:        # are properly extracted and shared between orchestrated routes
+tests/e2e/test_orchestrated_routes.py:            f"{BASE_URL}/upload_orchestrated",
+tests/e2e/test_orchestrated_routes.py:            f"{BASE_URL}/upload_staged_orchestrated"
+tests/e2e/test_orchestrated_routes.py:        assert all(count > 0 for count in form_counts), "All orchestrated routes should have forms"
+tests/e2e/test_orchestrated_routes.py:        assert all(count > 0 for count in input_counts), "All orchestrated routes should have file inputs"
+tests/e2e/test_orchestrated_routes.py:        """Test that orchestrated routes use unified route logic."""
+tests/e2e/test_orchestrated_routes.py:        # This test validates that the orchestrate_upload_route function
+tests/e2e/test_orchestrated_routes.py:        # Test response consistency across orchestrated routes
+tests/e2e/test_orchestrated_routes.py:            (f"{BASE_URL}/upload_orchestrated", "direct"),
+tests/e2e/test_orchestrated_routes.py:            (f"{BASE_URL}/upload_staged_orchestrated", "staged")
+tests/e2e/test_orchestrated_routes.py:            assert "Upload" in page.content(), f"{route_type} orchestrated route should load properly"
+tests/e2e/test_orchestrated_routes.py:            assert page.locator("form").count() > 0, f"{route_type} orchestrated route should have form"
+tests/e2e/test_orchestrated_routes.py:            assert page.locator("input[type='file']").count() > 0, f"{route_type} orchestrated route should have file input"
+tests/e2e/test_orchestrated_routes.py:        # The existence of two working orchestrated routes with different configurations
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_orchestrated")
+tests/e2e/test_orchestrated_routes.py:        navigate_and_wait_for_ready(page, f"{BASE_URL}/upload_staged_orchestrated") 
+tests/e2e/test_orchestrated_routes.py:    """Add custom pytest options for orchestrated route testing."""
+tests/e2e/test_orchestrated_routes.py:        "--orchestrated-only",
+tests/e2e/test_orchestrated_routes.py:        help="Run only orchestrated route tests (Phase 7A)"
+tests/e2e/test_orchestrated_routes.py:    if config.getoption("--orchestrated-only"):
+tests/e2e/test_orchestrated_routes.py:        # Only run orchestrated route tests
+tests/e2e/test_orchestrated_routes.py:        items[:] = [item for item in items if "orchestrated" in item.name.lower()]
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311-pytest-8.4.1.pyc: binary file matches
+grep: tests/e2e/__pycache__/test_orchestrated_routes.cpython-311.pyc: binary file matches

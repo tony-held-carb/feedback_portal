@@ -1,0 +1,3 @@
+OUTPUT_FILE=scripts/../debugging/output_2025_08_11_17_34_57_192.txt
+EXIT_STATUS=0
+COMMAND_DONE

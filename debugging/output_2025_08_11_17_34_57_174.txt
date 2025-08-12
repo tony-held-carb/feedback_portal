@@ -1,0 +1,24 @@
+===== RUN SCRIPT DIAGNOSTICS =====
+Command: timeout 30 grep -r UploadConfiguration source/ tests/
+Working Directory: /home/tonyh/git_repos/feedback_portal
+Timestamp: Mon Aug 11 17:34:57 UTC 2025 (UTC-7, Pacific Daylight Time)
+========================================
+
+grep: source/production/arb/portal/__pycache__/routes.cpython-311.pyc: binary file matches
+source/production/arb/portal/utils/route_upload_helpers.py:class UploadConfiguration:
+source/production/arb/portal/utils/route_upload_helpers.py:def orchestrate_upload_route(config: UploadConfiguration, message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/utils/route_upload_helpers.py:        config: UploadConfiguration containing upload type, template, and processing function
+source/production/arb/portal/utils/route_upload_helpers.py:        direct_config = UploadConfiguration(
+source/production/arb/portal/utils/route_upload_helpers.py:        staged_config = UploadConfiguration(
+source/production/arb/portal/utils/unified_upload_pipeline.py:    This class extends the existing UploadConfiguration to support
+grep: source/production/arb/portal/utils/__pycache__/route_upload_helpers.cpython-311.pyc: binary file matches
+grep: source/production/arb/portal/utils/__pycache__/unified_upload_pipeline.cpython-311.pyc: binary file matches
+source/production/arb/portal/utils/route_upload_helpers.py.backup:class UploadConfiguration:
+source/production/arb/portal/utils/route_upload_helpers.py.backup:def orchestrate_upload_route(config: UploadConfiguration, message: str | None = None) -> Union[str, Response]:
+source/production/arb/portal/utils/route_upload_helpers.py.backup:        config: UploadConfiguration containing upload type, template, and processing function
+source/production/arb/portal/utils/route_upload_helpers.py.backup:        direct_config = UploadConfiguration(
+source/production/arb/portal/utils/route_upload_helpers.py.backup:        staged_config = UploadConfiguration(
+source/production/arb/portal/routes.py:  UploadConfiguration, orchestrate_upload_route
+source/production/arb/portal/routes.py:  direct_config = UploadConfiguration(
+source/production/arb/portal/routes.py:  staged_config = UploadConfiguration(
+tests/e2e/test_orchestrated_routes.py:        # This validates the UploadConfiguration class and orchestrate_upload_route function
