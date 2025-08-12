@@ -2,7 +2,7 @@
 
 # todo - Next Steps
 ----------------------------
-first commit of 34
+first commit of 35
 
 ---------   Key persistence refactor ----------
 * how data are loaded/stored converted is still a bit confusing
@@ -21,7 +21,6 @@ Future Initiatives & Feature Requests Below
 -------------------------------------------------------
 
 * make phone number optional in feedback forms
-
 
 ---------   HTML & Forms ----------
 * consider new color for validate that stands out more.  It may be easier just to give a pop-up
