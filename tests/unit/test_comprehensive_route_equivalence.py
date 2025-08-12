@@ -48,9 +48,7 @@ from arb.portal.routes import (
     upload_file,
     upload_file_refactored,
     upload_file_staged,
-    upload_file_staged_refactored,
-    upload_file_orchestrated,
-    upload_file_staged_orchestrated
+    upload_file_staged_refactored
 )
 
 # Import test utilities
@@ -139,9 +137,7 @@ This test will fail catastrophically to prevent silent test failures.
             upload_file,
             upload_file_refactored,
             upload_file_staged,
-            upload_file_staged_refactored,
-            upload_file_orchestrated,
-            upload_file_staged_orchestrated
+            upload_file_staged_refactored
         ]
         
         for route in routes:
