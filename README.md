@@ -42,8 +42,6 @@
 * Removing the old git repo (if necessary)
     * rm -rf feedback_portal
 * Clone the latest portal repo
-    * git clone https://tony-held-carb:
-      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@github.com/tony-held-carb/feedback_portal --origin github
     * cd feedback_portal
     * git branch -a
     * git checkout <current branch>

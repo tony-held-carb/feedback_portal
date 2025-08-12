@@ -1733,7 +1733,7 @@ testing commit from python running from windows shortcut
 For now, Cursor is designed to provide a consistent experience with Claude 3.5 Sonnet.
 
 The original routes: upload_file, upload_file_refactored
-are being updated with new routes: upload_file_staged, upload_file_staged_refactored 
+are being updated with new routes: upload_file_staged, upload_file_staged_refactored
 ---------------------------------------------------------------------------------------------------
 
 In a "Core Backend Functions for Excel Upload Processing" section include the following functions:
@@ -1745,9 +1745,9 @@ include additional files if you think helpful for completeness and context
 
 For each file include a description of
 
-Location: 
-Purpose: 
-Role: 
+Location:
+Purpose:
+Role:
 System:
 
 System can can be Old, New, or Both depending on its use before and after our refactor
@@ -1779,7 +1779,7 @@ we are continuing our analysis from our previous chat.  Please review:
 I ran the following command:
 
 pytest tests -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_03.txt" 2>&1
-	
+
 the output is at:
 
 ---------------------------------------------------------------------------------------------------
@@ -1790,7 +1790,7 @@ lets commit our recent activity, please propose a good commit message.
 
 
 The original routes: upload_file, upload_file_refactored
-are being updated with new routes: upload_file_staged, upload_file_staged_refactored 
+are being updated with new routes: upload_file_staged, upload_file_staged_refactored
 
 in the process of of trying to implement the new routes, we discovered that our testing was not really
 using the files in feedback_portal/feedback_forms/testing_versions/standard to test the routes,
@@ -1810,12 +1810,12 @@ TODO:
 Follow up questions:
 our testing was really not working because the key testing directory was not in the correct location,
 once we found this out, we put in code to ensure the testing failed if an expected directory was missing
-do we have any tests that should have this sort of existence test in place to make sure we are not skipping tests due 
+do we have any tests that should have this sort of existence test in place to make sure we are not skipping tests due
 to path specification issues.
 
 
 ok, lets see if understand.
-the original upload_file route is working,  a refactored version upload_file_refactored is working that includes clearer return status and error handling.  Similarly upload_file_staged is working and upload_file_staged_refactored is includes better return status and error handling.  upload_file_staged_refactored file tries to reuse helper functions with  upload_file_refactored 
+the original upload_file route is working,  a refactored version upload_file_refactored is working that includes clearer return status and error handling.  Similarly upload_file_staged is working and upload_file_staged_refactored is includes better return status and error handling.  upload_file_staged_refactored file tries to reuse helper functions with  upload_file_refactored
 
 In addition, and not fully implemented are orchestrated routes, these are designed to see upload_file and upload_file_staged as very similar operations with some configuration differences such as persisting staged info, etc.  These will hopefully result in a smaller, clearer codebase with good seperation of concerns.
 
@@ -1825,3 +1825,8 @@ Is this a correct depiction of the code base?
 
 I'm not sure if the unified are better than the refactored since they
 may be relying on the old/working routes for logic and the new refactored had better logic
+
+for tony's use only:     * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal --origin github
+
+
+
