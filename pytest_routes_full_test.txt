@@ -1,0 +1,38 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- /home/tonyh/miniconda3/envs/mini_conda_02/bin/python
+cachedir: .pytest_cache
+rootdir: /home/tonyh/git_repos/feedback_portal
+configfile: pytest.ini
+plugins: base-url-2.1.0, anyio-4.7.0, playwright-0.7.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 22 items
+
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_route_function_signature PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_success PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_missing_id_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_conversion_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_file_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_database_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_unknown_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_no_file_selected PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_with_message_parameter PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_exception_handling PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_route_function_signature PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_get_request PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_success PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_missing_id_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_conversion_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_file_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_database_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_unknown_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_no_file_selected PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_with_message_parameter PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_exception_handling PASSED
+
+============================== slowest durations ===============================
+0.16s setup    tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request
+0.01s call     tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request
+
+(64 durations < 0.005s hidden.  Use -vv to show these durations.)
+============================== 22 passed in 0.51s ==============================
