@@ -1,0 +1,82 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- /home/tonyh/miniconda3/envs/mini_conda_02/bin/python
+cachedir: .pytest_cache
+rootdir: /home/tonyh/git_repos/feedback_portal
+configfile: pytest.ini
+plugins: base-url-2.1.0, anyio-4.7.0, playwright-0.7.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 66 items
+
+tests/arb/portal/test_route_upload_helpers.py::TestValidateUploadRequest::test_validate_upload_request_with_valid_file PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestValidateUploadRequest::test_validate_upload_request_with_no_file PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestValidateUploadRequest::test_validate_upload_request_with_empty_filename PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestValidateUploadRequest::test_validate_upload_request_with_none_filename PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetErrorMessageForType::test_get_error_message_for_missing_id PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetErrorMessageForType::test_get_error_message_for_conversion_failed PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetErrorMessageForType::test_get_error_message_for_file_error PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetErrorMessageForType::test_get_error_message_for_database_error PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetErrorMessageForType::test_get_error_message_for_unknown_error PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetSuccessMessageForUpload::test_get_success_message_for_staged_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestGetSuccessMessageForUpload::test_get_success_message_for_direct_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadForm::test_render_upload_form_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadForm::test_render_upload_form_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadError::test_render_upload_error_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadError::test_render_upload_error_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadError::test_handle_upload_error_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadError::test_handle_upload_error_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadError::test_handle_upload_error_with_missing_id PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadError::test_handle_upload_error_with_conversion_failed PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadError::test_handle_upload_error_with_file_error PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadException::test_handle_upload_exception_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadException::test_handle_upload_exception_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadException::test_handle_upload_exception_with_diagnostic_func PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadException::test_handle_upload_exception_without_diagnostic_func PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadException::test_handle_upload_exception_with_diagnostic_error PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadSuccess::test_handle_upload_success_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadSuccess::test_handle_upload_success_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadSuccess::test_handle_upload_success_with_direct_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadSuccess::test_handle_upload_success_with_staged_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestHandleUploadSuccess::test_handle_upload_success_with_default_upload_type PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadPage::test_render_upload_page_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadPage::test_render_upload_page_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadPage::test_render_upload_page_with_direct_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadPage::test_render_upload_page_with_staged_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadPage::test_render_upload_page_with_default_upload_type PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadSuccessPage::test_render_upload_success_page_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadSuccessPage::test_render_upload_success_page_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadSuccessPage::test_render_upload_success_page_with_direct_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadSuccessPage::test_render_upload_success_page_with_staged_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadErrorPage::test_render_upload_error_page_function_signature PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadErrorPage::test_render_upload_error_page_docstring PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadErrorPage::test_render_upload_error_page_with_direct_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadErrorPage::test_render_upload_error_page_with_staged_upload PASSED
+tests/arb/portal/test_route_upload_helpers.py::TestRenderUploadErrorPage::test_render_upload_error_page_with_error_details PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_route_function_signature PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_success PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_missing_id_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_conversion_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_file_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_database_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_unknown_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_no_file_selected PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_with_message_parameter PASSED
+tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_exception_handling PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_route_function_signature PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_get_request PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_success PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_missing_id_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_conversion_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_file_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_database_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_unknown_error PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_no_file_selected PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_with_message_parameter PASSED
+tests/arb/portal/test_routes.py::test_upload_file_refactored_exception_handling PASSED
+
+============================== slowest durations ===============================
+0.25s setup    tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request
+0.01s call     tests/arb/portal/test_routes.py::test_upload_file_staged_refactored_get_request
+
+(196 durations < 0.005s hidden.  Use -vv to show these durations.)
+============================== 66 passed in 0.67s ==============================

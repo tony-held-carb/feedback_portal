@@ -49,7 +49,6 @@ from arb.portal.utils.db_ingest_util import dict_to_database, extract_tab_and_se
 from arb.portal.utils.route_upload_helpers import validate_upload_request, get_error_message_for_type, \
   get_success_message_for_upload, render_upload_form, render_upload_error, handle_upload_error, handle_upload_exception, \
   handle_upload_success, render_upload_page, render_upload_success_page, render_upload_error_page
-from arb.portal.utils.unified_upload_pipeline import UnifiedUploadConfig, process_upload_unified
 from arb.portal.utils.db_introspection_util import get_ensured_row
 from arb.portal.utils.form_mapper import apply_portal_update_filters
 from arb.portal.utils.route_util import format_diagnostic_message, generate_staging_diagnostics, \
