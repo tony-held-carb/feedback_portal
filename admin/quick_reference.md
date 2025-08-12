@@ -9,6 +9,7 @@
 2. General pytest run
    pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  --durations=0 | tee output_file_01.txt
    pytest <file or folder> -v -s --maxfail=3 -k "match01 or match02"  --durations=0 > output_file_01.txt 2>&1
+   pytest tests -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
 
 2a. Common Tests Run
 pytest tests/arb -v  > "pytest_${MACHINE_NAME}_arb_78.txt" 2>&1

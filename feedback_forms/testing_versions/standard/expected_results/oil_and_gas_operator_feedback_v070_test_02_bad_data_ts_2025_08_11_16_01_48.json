@@ -1,0 +1,51 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:48.118121+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Oil and Gas",
+            "test value 01": 1,
+            "test value 02": 2
+        },
+        "schemas": {
+            "Feedback Form": "oil_and_gas_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002052,
+                "id_plume": null,
+                "observation_timestamp": null,
+                "lat_carb": null,
+                "long_carb": -200.0,
+                "id_message": "xxxy",
+                "facility_name": "ClearSky Oil & Gas Facility & Friends\u2122 \ud83d\udca5\ud83d\udca8",
+                "id_arb_eggrt": "ARB-OMG-WHAT??",
+                "contact_name": "987654321",
+                "contact_phone": "clearsky-operator[at]email(dotcom)",
+                "contact_email": "661-FIX-GAS",
+                "venting_exclusion": "Please Select",
+                "venting_description_1": "hey said the flare burped loudly and then stopped...",
+                "ogi_performed": "Please Select",
+                "ogi_date": null,
+                "ogi_result": "Please Select",
+                "method21_performed": "Please Select",
+                "method21_date": null,
+                "method21_result": "Please Select",
+                "initial_leak_concentration": null,
+                "venting_description_2": "probably the flare stack doing jazz",
+                "initial_mitigation_plan": "Dave duct-taped it and we said \u201cclose enough\u201d",
+                "equipment_at_source": "Continuous Low Bleed Natural Gas-actuated Pneumatic Device",
+                "equipment_other_description": "probably a separator, or like a dehydrator maybe?",
+                "component_at_source": "Flange",
+                "component_other_description": "too melted to identify",
+                "repair_timestamp": null,
+                "final_repair_concentration": null,
+                "repair_description": "We poked it, it hissed, then it stopped",
+                "additional_notes": "There was a full moon and an argument near the control panel, which could\u2019ve influenced equipment karma."
+            }
+        }
+    }
+}

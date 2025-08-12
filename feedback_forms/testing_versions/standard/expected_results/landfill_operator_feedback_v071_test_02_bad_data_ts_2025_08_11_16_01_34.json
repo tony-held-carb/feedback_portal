@@ -1,0 +1,56 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:34.624860+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Landfill",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "landfill_v01_01"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002051,
+                "id_plume": null,
+                "observation_timestamp": null,
+                "lat_carb": null,
+                "long_carb": -200.0,
+                "id_message": "xxxy",
+                "facility_name": "Meadow Hills & Sons of Methane Disposal Unlimited \ud83e\udd20\ud83d\udd25",
+                "id_arb_swis": "34-AA-OOPS",
+                "contact_name": "555-123-4567",
+                "contact_phone": "Laura <at> meadow <dot> hills",
+                "contact_email": "Email? lol just call me",
+                "inspection_timestamp": null,
+                "instrument": "That old beep-stick we use sometimes (not calibrated?)",
+                "emission_identified_flag_fk": "Please Select",
+                "additional_activities": "A gopher was seen digging, and a generator hiccuped. Could be spiritual.",
+                "initial_leak_concentration": null,
+                "lat_revised": 9001.123456,
+                "long_revised": -999.999999,
+                "emission_type_fk": "Please Select",
+                "emission_location": "Please Select",
+                "emission_location_notes": "somewhere near the donut truck last we checked",
+                "emission_cause": "Please Select",
+                "emission_cause_secondary": "Please Select",
+                "emission_cause_tertiary": "Please Select",
+                "emission_cause_notes": "The pipe hissed for a while. Someone said \u201cthat can\u2019t be good\u201d and then left.",
+                "mitigation_actions": "Slapped with wrench, zip-tied closed, flagged as \u201cdo not open\u201d",
+                "mitigation_timestamp": null,
+                "re_monitored_timestamp": null,
+                "re_monitored_concentration": null,
+                "included_in_last_lmr": "Please Select",
+                "included_in_last_lmr_description": "too far to walk that day",
+                "planned_for_next_lmr": "Please Select",
+                "planned_for_next_lmr_description": "permanent bad vibes",
+                "last_surface_monitoring_timestamp": null,
+                "last_component_leak_monitoring_timestamp": null,
+                "additional_notes": "We filled this form during lunch so some stuff might be speculative. \ud83d\ude43"
+            }
+        }
+    }
+}

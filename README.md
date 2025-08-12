@@ -6,7 +6,7 @@
 ### Running the Portal Flask App
 
 * Laptop (Windows): http://127.0.0.1:<port_number>
-    * cd $prod
+    * cd $prod (which is the same as cd source/production)
     * flask --app arb/wsgi run --debug --no-reload -> http://127.0.0.1:5000/
     * flask --app arb/wsgi run --debug --no-reload -p 2113 -> http://127.0.0.1:2113/
 * EC2 Linux: http://10.93.112.44:2113

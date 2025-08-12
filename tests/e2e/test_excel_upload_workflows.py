@@ -142,12 +142,55 @@ def get_test_files() -> list:
     List of file paths for testing
   """
   base_dirs = [
-    Path("feedback_forms/testing_versions/standard"),
+    conftest.STANDARD_TEST_FILES_DIR,
   ]
   files = []
   for base_dir in base_dirs:
     files.extend(get_xls_files(base_dir, recursive=True))
-  return files
+  
+  # ENHANCED SAFETY CHECK: fail catastrophically if no test files are found
+  if not files:
+    error_msg = f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: No test files found!
+
+Base directories checked: {base_dirs}
+Current working directory: {Path.cwd()}
+Repository root: {conftest.REPO_ROOT}
+Standard test files dir: {conftest.STANDARD_TEST_FILES_DIR}
+Standard test files dir exists: {conftest.STANDARD_TEST_FILES_DIR.exists()}
+Files in standard dir: {list(conftest.STANDARD_TEST_FILES_DIR.glob('*'))}
+
+This test will fail catastrophically to prevent silent test failures.
+"""
+    pytest.fail(error_msg)
+  
+  # ADDITIONAL VALIDATION: Ensure files are actually accessible
+  accessible_files = []
+  inaccessible_files = []
+  
+  for file_path in files:
+    if os.path.exists(file_path):
+      accessible_files.append(file_path)
+    else:
+      inaccessible_files.append(file_path)
+  
+  if not accessible_files:
+    error_msg = f"""
+❌ CRITICAL TEST INFRASTRUCTURE ERROR: No accessible test files found!
+
+Total files found: {len(files)}
+Accessible files: {len(accessible_files)}
+Inaccessible files: {inaccessible_files[:5]}...
+
+This indicates a path resolution issue that will cause silent test failures.
+"""
+    pytest.fail(error_msg)
+  
+  if inaccessible_files:
+    print(f"⚠️  Warning: {len(inaccessible_files)} files are inaccessible: {inaccessible_files[:3]}...")
+  
+  print(f"✓ Found {len(accessible_files)} accessible test files for parameterized testing")
+  return accessible_files
 
 
 class TestExcelUpload:
@@ -155,6 +198,30 @@ class TestExcelUpload:
   Test class for Excel upload functionality.
   Each method tests a different aspect of the upload workflow, from UI elements to backend validation.
   """
+
+  def test_test_infrastructure_validation(self):
+    """
+    Test that the test infrastructure is working correctly.
+    This test ensures that all test files are accessible and prevents silent failures.
+    """
+    test_files = get_test_files()
+    
+    # Verify we have test files
+    assert len(test_files) > 0, "No test files found - test infrastructure failure"
+    
+    # Verify all test files are accessible
+    for file_path in test_files:
+      assert os.path.exists(file_path), f"Test file not accessible: {file_path}"
+      assert file_path.endswith(('.xlsx', '.xls')), f"Test file has invalid extension: {file_path}"
+    
+    # Verify we're using the correct path format (should be Linux/WSL paths)
+    for file_path in test_files:
+      # Should not contain Windows backslashes
+      assert '\\' not in file_path, f"Test file path contains Windows backslashes: {file_path}"
+      # Should contain forward slashes
+      assert '/' in file_path, f"Test file path missing forward slashes: {file_path}"
+    
+    print(f"✅ Test infrastructure validation passed: {len(test_files)} accessible test files found")
 
   def test_upload_page_loads(self, upload_page: Page):
     """

@@ -1731,3 +1731,97 @@ testing commit from vs code from wsl
 testing commit from python running from windows shortcut
 
 For now, Cursor is designed to provide a consistent experience with Claude 3.5 Sonnet.
+
+The original routes: upload_file, upload_file_refactored
+are being updated with new routes: upload_file_staged, upload_file_staged_refactored 
+---------------------------------------------------------------------------------------------------
+
+In a "Core Backend Functions for Excel Upload Processing" section include the following functions:
+
+parse_xl_file, xl_dict_to_database, dict_to_database, apply_json_patch_and_log, upload_single_file(), save_uploaded_file_with_result(), convert_upload_to_json()
+convert_file_to_json_with_result(), extract_id_from_json(), validate_id_from_json_with_result(), json_load_with_meta(), extract_tab_and_sector(), process_upload_to_memory(), process_upload_with_config()
+
+include additional files if you think helpful for completeness and context
+
+For each file include a description of
+
+Location: 
+Purpose: 
+Role: 
+System:
+
+System can can be Old, New, or Both depending on its use before and after our refactor
+
+---------------------------------------------------------------------------------------------------
+
+we need to put safety checks in the testing files that if key directory are not found we need to fail catastrophically so we can fix that type of error
+
+also, please create a new testing file that ensures that upload_file_refactored has the performance (which files are uploaded, messages, etc) as upload_file.  Similarly, upload_file_staged_refactored should be doing the same as upload_file_staged.  Make sure you test for all files in: feedback_portal\feedback_forms\testing_versions\standard
+---------------------------------------------------------------------------------------------------
+
+In a previous chat, we began the process of refactoring the route upload_file to upload_file_refactored and upload_file_staged to upload_file_staged_refactored.
+
+The refactor was initially completed and associated testing files were created.  The testing indicated that all the new routes were passing their associated testing, but when i
+hand tested a single spreadsheet testing file from feedback_portal/feedback_forms/testing_versions/standard the route did not perform as expected.
+
+You indicated that the reason the new refactored routes passed tests is that they had the wrong directory for the testing files and they all failed silently.
+
+We were in the process of revising the location of the testing directory to ensure it had the correct path when the chat time out.
+
+we need to do the following.
+
+1) make sure that if testing directories anywhere in our testing files can be resolved we get an error rather than failing silently indicating the test passed.
+2) create a new testing file that ensures that upload_file_refactored has the performance (which files are uploaded, messages, etc) as upload_file.  Similarly, upload_file_staged_refactored should be doing the same as upload_file_staged.  Make sure you test for all files in: feedback_portal\feedback_forms\testing_versions\standard
+---------------------------------------------------------------------------------------------------
+
+we are continuing our analysis from our previous chat.  Please review:
+
+I ran the following command:
+
+pytest tests -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_03.txt" 2>&1
+	
+the output is at:
+
+---------------------------------------------------------------------------------------------------
+
+lets commit our recent activity, please propose a good commit message.
+
+---------------------------------------------------------------------------------------------------
+
+
+The original routes: upload_file, upload_file_refactored
+are being updated with new routes: upload_file_staged, upload_file_staged_refactored 
+
+in the process of of trying to implement the new routes, we discovered that our testing was not really
+using the files in feedback_portal/feedback_forms/testing_versions/standard to test the routes,
+instead the folder was specified in the wrong place and all testing was skipped.
+
+subsequently, we have been trying to make sure that the testing is actually performed on the sample
+files and that the new and old routes were providing the same results.
+
+what i would like to know is the following:
+
+1) is our testing for the sample files comprehensively beening tested for all the key old and new routes of interest,
+2) do the new routes result in the exact same outcomes (excluding timestamp issues) as the original routes,
+---------------------------------------------------------------------------------------------------
+
+TODO:
+
+Follow up questions:
+our testing was really not working because the key testing directory was not in the correct location,
+once we found this out, we put in code to ensure the testing failed if an expected directory was missing
+do we have any tests that should have this sort of existence test in place to make sure we are not skipping tests due 
+to path specification issues.
+
+
+ok, lets see if understand.
+the original upload_file route is working,  a refactored version upload_file_refactored is working that includes clearer return status and error handling.  Similarly upload_file_staged is working and upload_file_staged_refactored is includes better return status and error handling.  upload_file_staged_refactored file tries to reuse helper functions with  upload_file_refactored 
+
+In addition, and not fully implemented are orchestrated routes, these are designed to see upload_file and upload_file_staged as very similar operations with some configuration differences such as persisting staged info, etc.  These will hopefully result in a smaller, clearer codebase with good seperation of concerns.
+
+The orchestrated approach is currently under development and has not been completed/tested.
+
+Is this a correct depiction of the code base?
+
+I'm not sure if the unified are better than the refactored since they
+may be relying on the old/working routes for logic and the new refactored had better logic

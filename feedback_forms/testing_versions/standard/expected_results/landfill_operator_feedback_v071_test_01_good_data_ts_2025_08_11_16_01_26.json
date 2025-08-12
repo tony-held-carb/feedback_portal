@@ -1,0 +1,74 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:26.886901+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Landfill",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "landfill_v01_01"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002041,
+                "id_plume": 447,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2024-06-25T00:00:00"
+                },
+                "lat_carb": 35.3211,
+                "long_carb": -119.5808,
+                "id_message": "200-002",
+                "facility_name": "Meadow Hills Landfill",
+                "id_arb_swis": "34-AA-0029",
+                "contact_name": "Laura Kim",
+                "contact_phone": "(707) 555-9843",
+                "contact_email": "l.kim@meadowhillsenviro.com",
+                "inspection_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-13T08:45:00"
+                },
+                "instrument": "TVA2020",
+                "emission_identified_flag_fk": "Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification",
+                "additional_activities": "N/A",
+                "initial_leak_concentration": 58.0,
+                "lat_revised": 36.778259,
+                "long_revised": -119.417931,
+                "emission_type_fk": "An unintentional leak  (i.e., the operator was not aware of, and could be repaired if discovered)",
+                "emission_location": "Leachate Management System",
+                "emission_location_notes": "Component ID G-204 near leachate sump access",
+                "emission_cause": "Offline Gas Collection Well(s)",
+                "emission_cause_secondary": "Offline Gas Collection Well(s)",
+                "emission_cause_tertiary": "Cover-related Construction (Excavation/ Exposed Operations/ Re-grading)",
+                "emission_cause_notes": "Gasket failure due to temperature cycling",
+                "mitigation_actions": "Replaced failed gasket, secured joint with upgraded clamp, and added vibration-dampening brace.",
+                "mitigation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-13T12:15:00"
+                },
+                "re_monitored_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-14T08:30:00"
+                },
+                "re_monitored_concentration": 1.1,
+                "included_in_last_lmr": "No",
+                "included_in_last_lmr_description": "Not sure, checking into this ...",
+                "planned_for_next_lmr": "No",
+                "planned_for_next_lmr_description": "Not sure, checking into this ...",
+                "last_surface_monitoring_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-06-11T00:00:00"
+                },
+                "last_component_leak_monitoring_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-06-12T00:00:00"
+                },
+                "additional_notes": "Post-repair inspections confirmed resolution. Recommend tracking vibration-prone joints during Q3 checks."
+            }
+        }
+    }
+}

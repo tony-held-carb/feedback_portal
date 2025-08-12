@@ -537,7 +537,6 @@ def test_parse_xl_file() -> None:
   logger.debug(f"{result=}")
 
 
-# todo - may want to create a pretty printer with the logger since they go together well
 def main() -> None:
   """
   Run all schema and Excel file parsing test functions for diagnostic purposes.
@@ -546,7 +545,6 @@ def main() -> None:
   test_load_schema_file_map()
   test_parse_xl_file()
   # initialize_module()
-
 
 # -----------------------------------------------------------------------------
 # Initialize module global values

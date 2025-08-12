@@ -1,0 +1,89 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:00:23.406092+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Dairy Digester",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "dairy_digester_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002001,
+                "id_plume": 12001,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-16T14:06:00"
+                },
+                "lat_carb": 38.5781,
+                "long_carb": -121.4944,
+                "id_message": "2001-12001",
+                "digester_facility_name": "Fictitious Dairy Digesters, LLC",
+                "livestock_facility_name": "Green Pastures Livestock Facility",
+                "id_arb_ciwqs": "CIWQS123456",
+                "contact_name": "John Doe",
+                "contact_phone": "(530) 555-0199",
+                "contact_email": "john.doe@fddigesters.com",
+                "inspection_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-10T09:45:00"
+                },
+                "additional_activities": "High rainfall the day prior may have caused anaerobic lagoon cover displacement.",
+                "initial_leak_concentration": 72.0,
+                "instrument": "RKI Multigas Analyzer Eagle 2",
+                "emission_type_fk": "An unintentional leak (i.e. the operator was not aware of, and could be repaired if discovered)",
+                "emission_location": "Open lagoon",
+                "emission_location_notes": "South side digester unit near the condensate knock-out drum",
+                "emission_cause": "Venting-intentional/routine",
+                "emission_cause_notes": "The leak likely resulted from thermal cycling on an old flange gasket. Minor leakage occurred intermittently over ~3 hours on July 9 before detection.",
+                "able_to_repair": "No",
+                "mitigation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-10T14:15:00"
+                },
+                "mitigation_actions": "Gasket replaced and bolts torqued per spec. Re-inspection confirmed leak cessation.",
+                "manure_solid_dry_scrape": "X",
+                "manure_vacuum": "",
+                "manure_liquid_flush": "",
+                "manure_pasture": "X",
+                "manure_dry_lot_corral": "",
+                "manure_solid_storage": "",
+                "manure_solar_drying": "X",
+                "manure_composting": "",
+                "manure_compost_bedded": "",
+                "manure_slatted_floor": "X",
+                "manure_anaerobic_lagoon": "",
+                "manure_anaerobic_digester": "",
+                "manure_vermifiltration": "X",
+                "manure_liquid_slurry": "",
+                "manure_mechanical_separator": "",
+                "manure_gravity_separator": "X",
+                "manure_weeping_wall": "",
+                "manure_flocculation": "",
+                "manure_daily_spread": "X",
+                "manure_land_application_flood": "",
+                "manure_land_application_drip": "",
+                "bio_biogas_conditioning": "X",
+                "bio_biogas_moving": "",
+                "bio_biomethane_upgrading": "",
+                "bio_covered_lagoon": "X",
+                "bio_in_vessel": "",
+                "bio_electricity": "",
+                "bio_heating": "X",
+                "bio_fuel_cells": "",
+                "bio_common_carrier": "",
+                "bio_onsite_fuel": "X",
+                "anaerobic_digestion_portion": "Approximately 85% of manure is routed to anaerobic digestion.",
+                "transport_method": "Biogas transported via low-pressure gas pipeline to upgrading plant 0.5 miles away.",
+                "transport_recipient": "CleanGreen Bioenergy Upgrading Facility, Woodland, CA",
+                "additional_manure_management": "Routine flare testing is conducted monthly. Facility is piloting solids separation improvements in Q3 2025.",
+                "additional_notes": "Form was straightforward; It only took me 5 minutes to complete."
+            }
+        }
+    }
+}

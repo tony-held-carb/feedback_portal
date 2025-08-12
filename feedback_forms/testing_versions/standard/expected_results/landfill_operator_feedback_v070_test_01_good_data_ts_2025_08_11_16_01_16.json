@@ -1,0 +1,74 @@
+{
+    "_metadata_": {
+        "File created at": "2025-08-11T16:01:16.217531+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "metadata": {
+            "sector": "Landfill",
+            "Red (alert) color": "#FFCCCB"
+        },
+        "schemas": {
+            "Feedback Form": "landfill_v01_00"
+        },
+        "tab_contents": {
+            "Feedback Form": {
+                "id_incidence": 1002031,
+                "id_plume": 447,
+                "observation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2024-06-25T00:00:00"
+                },
+                "lat_carb": 35.3211,
+                "long_carb": -119.5808,
+                "id_message": "200-002",
+                "facility_name": "Sierra Ridge Landfill",
+                "id_arb_swis": "58-AA-0093",
+                "contact_name": "Michael Tanaka",
+                "contact_phone": "(916) 555-2274",
+                "contact_email": "michael.tanaka@srlfacility.com",
+                "inspection_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-10T09:15:00"
+                },
+                "instrument": "RKI Multigas Analyzer Eagle 2",
+                "emission_identified_flag_fk": "Operator detected a leak during follow-up monitoring after receipt of the CARB plume notification",
+                "additional_activities": "N/A",
+                "initial_leak_concentration": 64.0,
+                "lat_revised": 38.739182,
+                "long_revised": -121.392774,
+                "emission_type_fk": "An intentional or allowable vent (i.e., the operator was aware of, and/or would not repair)",
+                "emission_location": "Working Face (area where active filling was being conducted at the time of detection)",
+                "emission_location_notes": "Grid B4, near condensate knockout vessel",
+                "emission_cause": "Offline Gas Collection Well(s)",
+                "emission_cause_secondary": "Uncontrolled Area (no gas collection infrastructure)",
+                "emission_cause_tertiary": "Construction - Well Raising or Horizontal Extension",
+                "emission_cause_notes": "Expansion/contraction during peak heat likely caused the gasket to fail. No major construction occurred, but seasonal maintenance was underway nearby.",
+                "mitigation_actions": "Replaced worn gasket, torqued fittings, and verified with soap test and re-monitoring.",
+                "mitigation_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-10T13:30:00"
+                },
+                "re_monitored_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-07-11T08:00:00"
+                },
+                "re_monitored_concentration": 1.8,
+                "included_in_last_lmr": "Yes",
+                "included_in_last_lmr_description": "\u2014",
+                "planned_for_next_lmr": "Yes",
+                "planned_for_next_lmr_description": "\u2014",
+                "last_surface_monitoring_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-06-15T00:00:00"
+                },
+                "last_component_leak_monitoring_timestamp": {
+                    "__type__": "datetime.datetime",
+                    "value": "2025-06-16T00:00:00"
+                },
+                "additional_notes": "Leak detection and repair process was efficient. Recommend periodic inspection of aged flange hardware."
+            }
+        }
+    }
+}

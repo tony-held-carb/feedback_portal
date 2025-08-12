@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- /home/tonyh/miniconda3/envs/mini_conda_02/bin/python
+cachedir: .pytest_cache
+rootdir: /home/tonyh/git_repos/feedback_portal
+configfile: pytest.ini
+plugins: base-url-2.1.0, anyio-4.7.0, playwright-0.7.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 14 items / 13 deselected / 1 selected
+
+test_refactored_routes_equivalence.py::TestRefactoredRouteEquivalence::test_upload_file_equivalence[chromium-/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx] FAILED [100%]
+
+=================================== FAILURES ===================================
+/home/tonyh/git_repos/feedback_portal/tests/e2e/test_refactored_routes_equivalence.py:278: Failed: Refactored route test failed for /home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx: Locator.count: Execution context was destroyed, most likely because of a navigation
+=========================== short test summary info ============================
+FAILED test_refactored_routes_equivalence.py::TestRefactoredRouteEquivalence::test_upload_file_equivalence[chromium-/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/dairy_digester_operator_feedback_v006_test_01_good_data.xlsx]
+======================= 1 failed, 13 deselected in 2.37s =======================
