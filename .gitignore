@@ -23,6 +23,9 @@ logs/
 # test files
 test_*.txt
 
+# Test artifacts and temporary files
+tests/test_artifacts/
+
 # diagnostics and debugging
 #/debugging/
 

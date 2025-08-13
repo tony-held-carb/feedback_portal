@@ -1926,6 +1926,7 @@ pytest_TONY_HOME_WSL_all_04.txt
 
 git restore feedback_forms/processed_versions/xl_workbooks/*.xlsx
 git restore feedback_forms/processed_versions/xl_payloads/*.json
+git restore feedback_forms/processed_versions/xl_payloads/*.json
 git restore feedback_forms/processed_versions/xl_schemas/*.json
 
 
@@ -1951,10 +1952,12 @@ pytest tests/arb/utils/excel/test_xl_parse.py -v -s --durations=0   > "pytest_${
 pytest tests/arb/utils/excel/test_xl_misc.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_misc_01.txt" 2>&1
 pytest tests/arb/utils/excel/test_excel_content_validator.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_validator_01.txt" 2>&1
 pytest tests/arb/utils/excel/test_excel_functional_equivalence.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_equivalence_01.txt" 2>&1
-tests/arb/utils/excel/test_excel_functional_equivalence.py
 
 pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1
 
+pytest tests/arb/utils/excel/test_excel_integration.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_integration_01.txt" 2>&1
+
+tests/arb/utils/excel/
 
 run_excel_tests is not run with pytest, it is run with this call
 python tests/arb/utils/excel/run_excel_tests.py --no-coverage > run_excel_tests_01.txt 2>&1
