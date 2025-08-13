@@ -54,7 +54,21 @@ tests/arb/utils/excel/test_xl_misc.py::TestXlAddressSort::test_xl_address_sort_e
 tests/arb/utils/excel/test_xl_misc.py::TestXlAddressSort::test_xl_address_sort_single_item PASSED
 tests/arb/utils/excel/test_xl_misc.py::TestXlAddressSort::test_xl_address_sort_invalid_sort_by PASSED
 tests/arb/utils/excel/test_xl_misc.py::TestXlAddressSort::test_xl_address_sort_missing_address PASSED
-tests/arb/utils/excel/test_xl_misc.py::TestRunDiagnostics::test_run_diagnostics_success FAILED
+tests/arb/utils/excel/test_xl_misc.py::TestRunDiagnostics::test_run_diagnostics_success === Testing get_excel_row_column ===
+  Address: $C$42 => ('A', 1)
+  Address: $AA$99 => ('A', 1)
+
+=== Testing get_excel_row_column (invalid formats) ===
+  UNEXPECTED SUCCESS: A$1 => ('A', 1)
+  UNEXPECTED SUCCESS: $A1 => ('A', 1)
+  UNEXPECTED SUCCESS: $A$1$ => ('A', 1)
+  UNEXPECTED SUCCESS: $AB$ => ('A', 1)
+  UNEXPECTED SUCCESS: $AB$XYZ => ('A', 1)
+
+=== Testing xl_address_sort ===
+  Tuple: ('$B$10', 'Example') => Row: {'test': 'sorted'}
+  Tuple: ('key', {'nested': {'cell': '$D$20'}}) => Row: {'test': 'sorted'}
+PASSED
 tests/arb/utils/excel/test_xl_misc.py::TestXlMiscIntegration::test_address_parsing_and_sorting_integration PASSED
 tests/arb/utils/excel/test_xl_misc.py::TestXlMiscIntegration::test_error_handling_integration PASSED
 tests/arb/utils/excel/test_xl_misc.py::TestXlMiscIntegration::test_performance_with_large_datasets PASSED
@@ -92,68 +106,14 @@ tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_parse_xl_f
 tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_extract_tabs_equivalence PASSED
 tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_get_spreadsheet_key_value_pairs_equivalence PASSED
 
-=================================== FAILURES ===================================
-_______________ TestRunDiagnostics.test_run_diagnostics_success ________________
-
-args = (<excel.test_xl_misc.TestRunDiagnostics object at 0x7d15779d4550>,)
-keywargs = {}
-
-    @wraps(func)
-    def patched(*args, **keywargs):
->       with self.decoration_helper(patched,
-                                    args,
-                                    keywargs) as (newargs, newkeywargs):
-
-../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:1375: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-../../miniconda3/envs/mini_conda_02/lib/python3.11/contextlib.py:137: in __enter__
-    return next(self.gen)
-           ^^^^^^^^^^^^^^
-../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:1357: in decoration_helper
-    arg = exit_stack.enter_context(patching)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-../../miniconda3/envs/mini_conda_02/lib/python3.11/contextlib.py:517: in enter_context
-    result = _enter(cm)
-             ^^^^^^^^^^
-../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:1446: in __enter__
-    original, local = self.get_original()
-                      ^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <unittest.mock._patch object at 0x7d15779fc110>
-
-    def get_original(self):
-        target = self.getter()
-        name = self.attribute
-    
-        original = DEFAULT
-        local = False
-    
-        try:
-            original = target.__dict__[name]
-        except (AttributeError, KeyError):
-            original = getattr(target, name, DEFAULT)
-        else:
-            local = True
-    
-        if name in _builtins and isinstance(target, ModuleType):
-            self.create = True
-    
-        if not self.create and original is DEFAULT:
->           raise AttributeError(
-                "%s does not have the attribute %r" % (target, name)
-            )
-E           AttributeError: <module 'arb.utils.excel.xl_misc' from '/home/tonyh/git_repos/feedback_portal/source/production/arb/utils/excel/xl_misc.py'> does not have the attribute 'diag_update_xlsx_payloads_01'
-
-../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:1419: AttributeError
 ============================== slowest durations ===============================
-0.29s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_bad_data
-0.07s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_good_data
+0.30s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_bad_data
+0.11s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_get_spreadsheet_key_value_pairs_equivalence
 0.07s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_extract_tabs_equivalence
-0.05s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_get_spreadsheet_key_value_pairs_equivalence
-0.05s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_blank_file
+0.07s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_good_data
+0.04s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionEquivalence::test_parse_xl_file_with_blank_file
+0.01s call     tests/arb/utils/excel/test_xl_create.py::TestPrepXlTemplates::test_prep_xl_templates_success
+0.01s setup    tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_mock_worksheet
 
-(228 durations < 0.005s hidden.  Use -vv to show these durations.)
-=========================== short test summary info ============================
-FAILED tests/arb/utils/excel/test_xl_misc.py::TestRunDiagnostics::test_run_diagnostics_success
-=================== 1 failed, 76 passed, 1 skipped in 0.96s ====================
+(226 durations < 0.005s hidden.  Use -vv to show these durations.)
+======================== 77 passed, 1 skipped in 1.07s =========================

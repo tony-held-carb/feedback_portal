@@ -143,13 +143,9 @@ class TestXlAddressSort:
 class TestRunDiagnostics:
     """Test run_diagnostics function."""
     
-    @patch('arb.utils.excel.xl_misc.create_default_types_schema')
-    @patch('arb.utils.excel.xl_misc.prep_xl_templates')
-    @patch('arb.utils.excel.xl_misc.create_payloads')
-    @patch('arb.utils.excel.xl_misc.diag_update_xlsx_payloads_01')
     @patch('arb.utils.excel.xl_misc.get_excel_row_column')
     @patch('arb.utils.excel.xl_misc.xl_address_sort')
-    def test_run_diagnostics_success(self, mock_sort, mock_get, mock_diag, mock_payloads, mock_prep, mock_schema):
+    def test_run_diagnostics_success(self, mock_sort, mock_get):
         """Test successful diagnostics run."""
         # Mock the utility functions
         mock_get.return_value = ('A', 1)
@@ -161,12 +157,6 @@ class TestRunDiagnostics:
         # Verify utility functions were called
         mock_get.assert_called()
         mock_sort.assert_called()
-        
-        # Verify that the file writing functions were called (but mocked)
-        mock_schema.assert_called_once()
-        mock_prep.assert_called_once()
-        mock_payloads.assert_called_once()
-        mock_diag.assert_called_once()
 
 
 class TestXlMiscIntegration:

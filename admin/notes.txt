@@ -1908,3 +1908,9 @@ git restore feedback_forms/processed_versions/xl_schemas/*.json
 
 
 pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1
+  still fixing
+
+
+pytest tests/arb/utils -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_utils_01.txt" 2>&1
+
+pytest tests/arb -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_arb_01.txt" 2>&1
