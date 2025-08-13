@@ -12,7 +12,8 @@ This suite provides strong confidence for current and future usage.
 import pathlib
 import sys
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / 'source' / 'production'))
+from arb.utils.path_utils import find_repo_root
+sys.path.insert(0, str(find_repo_root(pathlib.Path(__file__)) / 'source' / 'production'))
 import json
 import pytest
 import decimal

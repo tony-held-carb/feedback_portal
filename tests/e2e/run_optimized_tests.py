@@ -23,6 +23,7 @@ import sys
 import subprocess
 import argparse
 from pathlib import Path
+from arb.utils.path_utils import find_repo_root
 
 def run_command(cmd, description, verbose=False):
     """Run a command and handle errors."""
@@ -36,7 +37,7 @@ def run_command(cmd, description, verbose=False):
             capture_output=True,
             text=True,
             check=True,
-            cwd=Path(__file__).parent.parent.parent
+            cwd=find_repo_root(Path(__file__))
         )
         
         if verbose:

@@ -7,19 +7,7 @@ import os
 import sys
 from pathlib import Path
 
-def find_repo_root() -> Path:
-    """
-    Find the repository root directory by looking for .git directory.
-    This ensures tests work regardless of where they're run from.
-    """
-    current_path = Path(__file__).resolve()
-    while current_path.parent != current_path:  # Stop at filesystem root
-        if (current_path / ".git").exists():
-            return current_path
-        current_path = current_path.parent
-    
-    # Fallback: assume we're in the workspace root
-    return Path.cwd()
+from arb.utils.path_utils import find_repo_root
 
 # Find repository root
 REPO_ROOT = find_repo_root()

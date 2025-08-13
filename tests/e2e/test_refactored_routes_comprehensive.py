@@ -39,6 +39,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 import conftest
+from arb.utils.path_utils import find_repo_root
 from arb.portal.utils.e2e_testing_util import navigate_and_wait_for_ready
 from arb.portal.utils.playwright_testing_util import (
     clear_upload_attempt_marker,
@@ -86,7 +87,7 @@ def get_xls_files(base_path: Path, recursive: bool = False, excel_exts=None) -> 
 Expected path: {test_data_dir}
 Base path: {base_path}
 Current working directory: {Path.cwd()}
-Repository root: {Path(__file__).parent.parent.parent}
+        Repository root: {find_repo_root(Path(__file__))}
 
 This test will fail catastrophically to prevent silent test failures.
 """)

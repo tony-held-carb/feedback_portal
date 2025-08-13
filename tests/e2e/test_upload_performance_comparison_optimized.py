@@ -34,16 +34,7 @@ from arb.portal.utils.playwright_testing_util import (
 # Test configuration
 BASE_URL = os.environ.get('TEST_BASE_URL', "http://127.0.0.1:2113")
 
-# Find repository root for test file resolution
-def find_repo_root() -> Path:
-    """Find the repository root directory by looking for .git directory."""
-    current_path = Path(__file__).resolve()
-    while current_path.parent != current_path:
-        if (current_path / ".git").exists():
-            return current_path
-        current_path = current_path.parent
-    
-    return Path.cwd()
+from arb.utils.path_utils import find_repo_root
 
 # Define test directories
 REPO_ROOT = find_repo_root()

@@ -14,7 +14,8 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'source' / 'production'))
+from arb.utils.path_utils import find_repo_root
+sys.path.insert(0, str(find_repo_root(Path(__file__)) / 'source' / 'production'))
 from arb.utils.io_wrappers import save_json_safely, read_json_file, write_text_file, copy_file_safe
 
 

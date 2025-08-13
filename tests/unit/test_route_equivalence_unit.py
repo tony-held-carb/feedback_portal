@@ -16,8 +16,15 @@ import io
 import tempfile
 import shutil
 
+# Import our path utility
+from arb.utils.path_utils import find_repo_root, get_relative_path_from_repo_root
+
+# Find repository root and set up paths
+repo_root = find_repo_root(Path(__file__))
+production_dir = repo_root / "source" / "production"
+tests_dir = repo_root / "tests"
+
 # Add source/production directory to Python path for imports
-production_dir = Path(__file__).parent.parent.parent / "source" / "production"
 if str(production_dir) not in sys.path:
     sys.path.insert(0, str(production_dir))
 
@@ -29,9 +36,7 @@ from arb.portal.routes import (
     upload_file_staged_refactored
 )
 
-# Import test utilities
-import sys
-tests_dir = Path(__file__).parent.parent
+# Add tests directory to Python path for conftest imports
 if str(tests_dir) not in sys.path:
     sys.path.insert(0, str(tests_dir))
 
@@ -75,7 +80,7 @@ class TestRouteEquivalenceUnit:
 
 Expected path: {test_dir}
 Current working directory: {Path.cwd()}
-Repository root: {Path(__file__).parent.parent.parent}
+Repository root: {repo_root}
 
 This test will fail catastrophically to prevent silent test failures.
 """)

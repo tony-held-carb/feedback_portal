@@ -1855,13 +1855,11 @@ Yes, still the same problem! The terminal is forcing everything through less reg
 
 source scripts/run_all_commands.txt >> command_output.txt 2>&1
 
-pytest tests/arb/utils/excel/__init__.py -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1
+ok, previously you said you implemented full testing for the excel folder, but you really just
+put in placeholders.  Please search the excel testing folder for any instance of pass or placeholder words or constructs so we can
+find the tests that have not actually been implemented.
 
-pytest tests/arb/utils/excel/__init__.py > out.txt
-pytest tests/arb/utils/excel/conftest.py > out.txt
-pytest tests/arb/utils/excel/excel_content_validator.py > out.txt
-pytest tests/arb/utils/excel/run_excel_tests.py > out.txt
-pytest tests/arb/utils/excel/test_excel_functional_equivalence.py > out.txt
-pytest tests/arb/utils/excel/test_xl_misc.py > out.txt
-pytest tests/arb/utils/excel/test_xl_parse.py > out.txt
-pytest tests/arb/utils/excel/test_xl_create.py > out.txt
+
+pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
+
+source scripts/run_all_commands.txt >> command_output_2.txt 2>&1
