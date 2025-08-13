@@ -1,0 +1,988 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- /home/tonyh/miniconda3/envs/mini_conda_02/bin/python
+cachedir: .pytest_cache
+rootdir: /home/tonyh/git_repos/feedback_portal
+configfile: pytest.ini
+plugins: base-url-2.1.0, anyio-4.7.0, playwright-0.7.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 120 items
+
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_mock_data FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_invalid_path PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_empty_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_single_sheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_corrupted_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_large_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_mock_data FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_invalid_path PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_empty_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_corrupted_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_large_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_function_signature FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_mock_data FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_empty_schemas PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_complex_schemas FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_none_schema_map PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_empty_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_function_signature FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_mock_data FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_empty_schemas PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_complex_schemas FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_none_schema_map PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_empty_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_mock_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_empty_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_single_key_value PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_multiple_key_values PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_invalid_cell_reference PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_none_values PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_mock_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_empty_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_single_key_value PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_multiple_key_values PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_invalid_cell_reference PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs2::test_get_spreadsheet_key_value_pairs_2_with_none_values PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_valid_schema PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_missing_schema PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_schema_alias PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_none_schema_map FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_empty_schema_map PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_none_schema_alias PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_empty_schema_alias PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_complex_schema_map PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_complex_schema_alias FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_empty_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_single_coordinate FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_extra_commas FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_whitespace PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_no_lat_long_key PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_none_value PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_non_string_value FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_empty_dict PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_multiple_lat_long_keys PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_mock_data PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_complex_data PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_parse_error FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_save_error FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_different_paths PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_empty_data PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_function_exists PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_xlsx_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_xls_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_other_extension PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_complex_xlsx_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_parse_error PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_save_error PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_different_paths PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_empty_data PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_none_path FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_string_path FAILED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_parse_xl_file_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_extract_tabs_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_get_spreadsheet_key_value_pairs_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_function_behavior_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_function_documentation_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_parse_xl_file_with_very_long_filename PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_parse_xl_file_with_special_characters PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_parse_xl_file_with_unicode_characters PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestErrorHandling::test_parse_xl_file_with_permission_error PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestErrorHandling::test_parse_xl_file_with_disk_full_error PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestErrorHandling::test_parse_xl_file_with_network_error PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestIntegration::test_end_to_end_workflow PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestIntegration::test_function_chain_consistency PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestPerformance::test_large_file_performance PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestPerformance::test_memory_usage PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestCompatibility::test_excel_version_compatibility PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestCompatibility::test_file_format_compatibility PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSecurity::test_path_traversal_protection PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSecurity::test_malicious_file_handling PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestLogging::test_logging_verbosity PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestLogging::test_error_logging PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestDataValidation::test_data_type_validation PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestDataValidation::test_data_range_validation PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestDataValidation::test_data_format_validation PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestBoundaryConditions::test_empty_file_boundary PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestBoundaryConditions::test_single_cell_boundary PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestBoundaryConditions::test_maximum_size_boundary PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestStressTesting::test_concurrent_access PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestStressTesting::test_rapid_file_access PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestStressTesting::test_memory_pressure PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestRegressionTesting::test_known_bug_fixes PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestRegressionTesting::test_functionality_preservation PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestDocumentation::test_function_documentation PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestDocumentation::test_example_accuracy PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestMaintenance::test_code_style PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestMaintenance::test_code_complexity PASSED
+
+=================================== FAILURES ===================================
+______________ TestParseXlFile.test_parse_xl_file_with_mock_data _______________
+
+self = <excel.test_xl_parse.TestParseXlFile object at 0x71322779e7d0>
+mock_extract = <MagicMock name='extract_tabs' id='124460224606480'>
+mock_get_kv = <MagicMock name='get_spreadsheet_key_value_pairs' id='124463705599120'>
+mock_load_workbook = <MagicMock name='load_workbook' id='124460223167056'>
+
+    @patch('arb.utils.excel.xl_parse.openpyxl.load_workbook')
+    @patch('arb.utils.excel.xl_parse.get_spreadsheet_key_value_pairs')
+    @patch('arb.utils.excel.xl_parse.extract_tabs')
+    def test_parse_xl_file_with_mock_data(self, mock_extract, mock_get_kv, mock_load_workbook):
+        """Test parse_xl_file with mock workbook data."""
+        # Mock workbook
+        mock_wb = Mock()
+        mock_wb.sheetnames = ['metadata', 'schema', 'data']
+    
+        # Mock worksheets
+        mock_metadata_ws = Mock()
+        mock_schema_ws = Mock()
+        mock_data_ws = Mock()
+    
+        # Mock cell values
+        mock_metadata_ws.__getitem__ = Mock(return_value=Mock(value='test_sector'))
+        mock_schema_ws.__getitem__ = Mock(return_value=Mock(value='test_schema'))
+        mock_data_ws.__getitem__ = Mock(value='test_value')
+    
+        # Mock workbook access
+        mock_wb.__getitem__ = Mock(side_effect=lambda x: {
+            'metadata': mock_metadata_ws,
+            'schema': mock_schema_ws,
+            'data': mock_data_ws
+        }[x])
+    
+        mock_load_workbook.return_value = mock_wb
+        mock_get_kv.return_value = {'test_key': 'test_value'}
+        mock_extract.return_value = {
+            'metadata': {'test_key': 'test_value'},
+            'schemas': {'data': 'test_schema'},
+            'tab_contents': {'test_tab': {'test_field': 'test_value'}}
+        }
+    
+        # Test the function
+        result = parse_xl_file('test.xlsx')
+    
+        assert isinstance(result, dict)
+        assert 'metadata' in result
+        assert 'schemas' in result
+        assert 'tab_contents' in result
+    
+        # Verify mocks were called correctly
+>       mock_load_workbook.assert_called_once_with('test.xlsx')
+
+tests/arb/utils/excel/test_xl_parse.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:951: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='load_workbook' id='124460223167056'>
+args = ('test.xlsx',), kwargs = {}, expected = call('test.xlsx')
+actual = call('test.xlsx', keep_vba=False, data_only=True)
+_error_message = <function NonCallableMock.assert_called_with.<locals>._error_message at 0x713227642b60>
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: load_workbook('test.xlsx')
+E             Actual: load_workbook('test.xlsx', keep_vba=False, data_only=True)
+
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:939: AssertionError
+_____________ TestParseXlFile2.test_parse_xl_file_2_with_mock_data _____________
+
+self = <excel.test_xl_parse.TestParseXlFile2 object at 0x71322779d2d0>
+mock_extract = <MagicMock name='extract_tabs_2' id='124460215861520'>
+mock_get_kv = <MagicMock name='get_spreadsheet_key_value_pairs_2' id='124460223241232'>
+mock_load_workbook = <MagicMock name='load_workbook' id='124460220628560'>
+
+    @patch('arb.utils.excel.xl_parse.openpyxl.load_workbook')
+    @patch('arb.utils.excel.xl_parse.get_spreadsheet_key_value_pairs_2')
+    @patch('arb.utils.excel.xl_parse.extract_tabs_2')
+    def test_parse_xl_file_2_with_mock_data(self, mock_extract, mock_get_kv, mock_load_workbook):
+        """Test parse_xl_file_2 with mock workbook data."""
+        # Mock workbook
+        mock_wb = Mock()
+        mock_wb.sheetnames = ['metadata', 'schema', 'data']
+    
+        # Mock worksheets
+        mock_metadata_ws = Mock()
+        mock_schema_ws = Mock()
+        mock_data_ws = Mock()
+    
+        # Mock cell values
+        mock_metadata_ws.__getitem__ = Mock(return_value=Mock(value='test_sector'))
+        mock_schema_ws.__getitem__ = Mock(return_value=Mock(value='test_schema'))
+        mock_data_ws.__getitem__ = Mock(value='test_value')
+    
+        # Mock workbook access
+        mock_wb.__getitem__ = Mock(side_effect=lambda x: {
+            'metadata': mock_metadata_ws,
+            'schema': mock_schema_ws,
+            'data': mock_data_ws
+        }[x])
+    
+        mock_load_workbook.return_value = mock_wb
+        mock_get_kv.return_value = {'test_key': 'test_value'}
+        mock_extract.return_value = {
+            'metadata': {'test_key': 'test_value'},
+            'schemas': {'data': 'test_schema'},
+            'tab_contents': {'test_tab': {'test_field': 'test_value'}}
+        }
+    
+        # Test the function
+        result = parse_xl_file_2('test.xlsx')
+    
+        assert isinstance(result, dict)
+        assert 'metadata' in result
+        assert 'schemas' in result
+        assert 'tab_contents' in result
+    
+        # Verify mocks were called correctly
+>       mock_load_workbook.assert_called_once_with('test.xlsx')
+
+tests/arb/utils/excel/test_xl_parse.py:229: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:951: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='load_workbook' id='124460220628560'>
+args = ('test.xlsx',), kwargs = {}, expected = call('test.xlsx')
+actual = call('test.xlsx', keep_vba=False, data_only=True)
+_error_message = <function NonCallableMock.assert_called_with.<locals>._error_message at 0x7132276e59e0>
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: load_workbook('test.xlsx')
+E             Actual: load_workbook('test.xlsx', keep_vba=False, data_only=True)
+
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:939: AssertionError
+___________________ TestExtractTabs.test_function_signature ____________________
+
+self = <excel.test_xl_parse.TestExtractTabs object at 0x71322779bf90>
+
+    def test_function_signature(self):
+        """Test that extract_tabs has the expected signature."""
+        import inspect
+        sig = inspect.signature(extract_tabs)
+        params = list(sig.parameters.keys())
+        expected_params = ['wb', 'schema_map', 'schema_alias']
+>       assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
+E       AssertionError: Expected parameters ['wb', 'schema_map', 'schema_alias'], got ['wb', 'schema_map', 'xl_as_dict']
+E       assert ['wb', 'schem... 'xl_as_dict'] == ['wb', 'schem...schema_alias']
+E         
+E         At index 2 diff: 'xl_as_dict' != 'schema_alias'
+E         
+E         Full diff:
+E           [
+E               'wb',
+E               'schema_map',...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+tests/arb/utils/excel/test_xl_parse.py:306: AssertionError
+_______________ TestExtractTabs.test_extract_tabs_with_mock_data _______________
+
+self = <excel.test_xl_parse.TestExtractTabs object at 0x71322779b390>
+mock_logger = <MagicMock name='logger' id='124460223358352'>
+mock_split = <MagicMock name='split_compound_keys' id='124460223357584'>
+mock_sanitize = <MagicMock name='sanitize_for_utf8' id='124460223286544'>
+mock_ensure = <MagicMock name='ensure_schema' id='124460223286480'>
+
+    @patch('arb.utils.excel.xl_parse.ensure_schema')
+    @patch('arb.utils.excel.xl_parse.sanitize_for_utf8')
+    @patch('arb.utils.excel.xl_parse.split_compound_keys')
+    @patch('arb.utils.excel.xl_parse.logger')
+    def test_extract_tabs_with_mock_data(self, mock_logger, mock_split, mock_sanitize, mock_ensure):
+        """Test extract_tabs with mock data."""
+        # Mock dependencies
+        mock_ensure.return_value = 'test_schema'
+        mock_sanitize.return_value = 'test_value'
+        mock_split.return_value = None
+        mock_logger.debug = Mock()
+        mock_logger.warning = Mock()
+        mock_logger.info = Mock()
+    
+        # Create test data
+        xl_as_dict = {
+            'schemas': {'data': 'test_schema'},
+            'metadata': {},
+            'tab_contents': {}
+        }
+    
+        # Mock workbook
+        mock_wb = Mock()
+        mock_ws = Mock()
+        mock_wb.__getitem__ = Mock(return_value=mock_ws)
+    
+        # Test the function with correct parameters
+        result = extract_tabs(mock_wb, {'test_schema': {'schema': {}}}, xl_as_dict)
+    
+        assert isinstance(result, dict)
+        assert 'tab_contents' in result
+    
+        # Verify mocks were called
+        mock_ensure.assert_called()
+>       mock_sanitize.assert_called()
+
+tests/arb/utils/excel/test_xl_parse.py:342: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='sanitize_for_utf8' id='124460223286544'>
+
+    def assert_called(self):
+        """assert that the mock was called at least once
+        """
+        if self.call_count == 0:
+            msg = ("Expected '%s' to have been called." %
+                   (self._mock_name or 'mock'))
+>           raise AssertionError(msg)
+E           AssertionError: Expected 'sanitize_for_utf8' to have been called.
+
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:908: AssertionError
+____________ TestExtractTabs.test_extract_tabs_with_complex_schemas ____________
+
+self = <excel.test_xl_parse.TestExtractTabs object at 0x71322779a6d0>
+mock_logger = <MagicMock name='logger' id='124460223216272'>
+mock_split = <MagicMock name='split_compound_keys' id='124460223246096'>
+mock_sanitize = <MagicMock name='sanitize_for_utf8' id='124460220594192'>
+mock_ensure = <MagicMock name='ensure_schema' id='124460220589200'>
+
+    @patch('arb.utils.excel.xl_parse.ensure_schema')
+    @patch('arb.utils.excel.xl_parse.sanitize_for_utf8')
+    @patch('arb.utils.excel.xl_parse.split_compound_keys')
+    @patch('arb.utils.excel.xl_parse.logger')
+    def test_extract_tabs_with_complex_schemas(self, mock_logger, mock_split, mock_sanitize, mock_ensure):
+        """Test extract_tabs with complex schema configurations."""
+        # Mock dependencies
+        mock_ensure.return_value = 'complex_schema'
+        mock_sanitize.return_value = 'sanitized_value'
+        mock_split.return_value = None
+        mock_logger.debug = Mock()
+        mock_logger.warning = Mock()
+        mock_logger.info = Mock()
+    
+        # Create complex test data
+        xl_as_dict = {
+            'schemas': {
+                'data': 'complex_schema',
+                'metadata': 'meta_schema',
+                'config': 'config_schema'
+            },
+            'metadata': {'version': '1.0'},
+            'tab_contents': {}
+        }
+    
+        # Mock workbook with multiple sheets
+        mock_wb = Mock()
+        mock_ws = Mock()
+        mock_wb.__getitem__ = Mock(return_value=mock_ws)
+    
+>       result = extract_tabs(mock_wb, {
+            'complex_schema': {'schema': {'fields': ['field1', 'field2']}},
+            'meta_schema': {'schema': {'fields': ['meta1']}},
+            'config_schema': {'schema': {'fields': ['config1']}}
+        }, xl_as_dict)
+
+tests/arb/utils/excel/test_xl_parse.py:392: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+wb = <Mock id='124463710266064'>
+schema_map = {'complex_schema': {'schema': {'fields': ['field1', 'field2']}}, 'config_schema': {'schema': {'fields': ['config1']}}, 'meta_schema': {'schema': {'fields': ['meta1']}}}
+xl_as_dict = {'metadata': {'version': '1.0'}, 'schemas': {'config': 'config_schema', 'data': 'complex_schema', 'metadata': 'meta_schema'}, 'tab_contents': {}}
+
+    def extract_tabs(wb: openpyxl.Workbook,
+                     schema_map: dict[str, dict],
+                     xl_as_dict: dict) -> dict:
+      """
+      DEPRECATED: This function is deprecated and will be removed in a future version.
+    
+      Please use extract_tabs_2 for new code. This function maintains the exact same
+      implementation to ensure backward compatibility.
+    
+      Extract data from the data tabs that are enumerated in the schema tab.
+    
+      Args:
+        wb (Workbook): OpenPyXL workbook object.
+        schema_map (dict[str, dict]): Schema map with schema definitions.
+        xl_as_dict (dict): Parsed Excel content, including 'schemas' and 'metadata'.
+                           Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
+                           parse the tab.
+    
+      Returns:
+        dict: Updated xl_as_dict including parsed 'tab_contents'.
+      """
+    
+      skip_please_selects = False
+    
+      result = copy.deepcopy(xl_as_dict)
+    
+      for tab_name, formatting_schema in result['schemas'].items():
+        resolved_schema = ensure_schema(formatting_schema, schema_map, schema_alias, logger)
+        if not resolved_schema:
+          continue
+        logger.debug(f"Extracting data from '{tab_name}', using the formatting schema '{formatting_schema}'")
+        result['tab_contents'][tab_name] = {}
+    
+        ws = wb[tab_name]
+        format_dict = schema_map[resolved_schema]['schema']
+    
+        for html_field_name, lookup in format_dict.items():
+>         value_address = lookup['value_address']
+                          ^^^^^^^^^^^^^^^^^^^^^^^
+E         TypeError: list indices must be integers or slices, not str
+
+source/production/arb/utils/excel/xl_parse.py:324: TypeError
+___________________ TestExtractTabs2.test_function_signature ___________________
+
+self = <excel.test_xl_parse.TestExtractTabs2 object at 0x713227718fd0>
+
+    def test_function_signature(self):
+        """Test that extract_tabs_2 has the expected signature."""
+        import inspect
+        sig = inspect.signature(extract_tabs_2)
+        params = list(sig.parameters.keys())
+        expected_params = ['wb', 'schema_map', 'schema_alias']
+>       assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
+E       AssertionError: Expected parameters ['wb', 'schema_map', 'schema_alias'], got ['wb', 'schema_map', 'xl_as_dict']
+E       assert ['wb', 'schem... 'xl_as_dict'] == ['wb', 'schem...schema_alias']
+E         
+E         At index 2 diff: 'xl_as_dict' != 'schema_alias'
+E         
+E         Full diff:
+E           [
+E               'wb',
+E               'schema_map',...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+tests/arb/utils/excel/test_xl_parse.py:476: AssertionError
+_____________ TestExtractTabs2.test_extract_tabs_2_with_mock_data ______________
+
+self = <excel.test_xl_parse.TestExtractTabs2 object at 0x713227718550>
+mock_logger = <MagicMock name='logger' id='124460217212880'>
+mock_split = <MagicMock name='split_compound_keys' id='124460217213072'>
+mock_sanitize = <MagicMock name='sanitize_for_utf8' id='124460217209360'>
+mock_ensure = <MagicMock name='ensure_schema' id='124460219329936'>
+
+    @patch('arb.utils.excel.xl_parse.ensure_schema')
+    @patch('arb.utils.excel.xl_parse.sanitize_for_utf8')
+    @patch('arb.utils.excel.xl_parse.split_compound_keys')
+    @patch('arb.utils.excel.xl_parse.logger')
+    def test_extract_tabs_2_with_mock_data(self, mock_logger, mock_split, mock_sanitize, mock_ensure):
+        """Test extract_tabs_2 with mock data."""
+        # Mock dependencies
+        mock_ensure.return_value = 'test_schema'
+        mock_sanitize.return_value = 'test_value'
+        mock_split.return_value = None
+        mock_logger.debug = Mock()
+        mock_logger.warning = Mock()
+        mock_logger.info = Mock()
+    
+        # Create test data
+        xl_as_dict = {
+            'schemas': {'data': 'test_schema'},
+            'metadata': {},
+            'tab_contents': {}
+        }
+    
+        # Mock workbook
+        mock_wb = Mock()
+        mock_ws = Mock()
+        mock_wb.__getitem__ = Mock(return_value=mock_ws)
+    
+        # Test the function with correct parameters
+        result = extract_tabs_2(mock_wb, {'test_schema': {'schema': {}}}, xl_as_dict)
+    
+        assert isinstance(result, dict)
+        assert 'tab_contents' in result
+    
+        # Verify mocks were called
+        mock_ensure.assert_called()
+>       mock_sanitize.assert_called()
+
+tests/arb/utils/excel/test_xl_parse.py:512: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='sanitize_for_utf8' id='124460217209360'>
+
+    def assert_called(self):
+        """assert that the mock was called at least once
+        """
+        if self.call_count == 0:
+            msg = ("Expected '%s' to have been called." %
+                   (self._mock_name or 'mock'))
+>           raise AssertionError(msg)
+E           AssertionError: Expected 'sanitize_for_utf8' to have been called.
+
+../../miniconda3/envs/mini_conda_02/lib/python3.11/unittest/mock.py:908: AssertionError
+__________ TestExtractTabs2.test_extract_tabs_2_with_complex_schemas ___________
+
+self = <excel.test_xl_parse.TestExtractTabs2 object at 0x713227650d10>
+mock_logger = <MagicMock name='logger' id='124463710455504'>
+mock_split = <MagicMock name='split_compound_keys' id='124460220586320'>
+mock_sanitize = <MagicMock name='sanitize_for_utf8' id='124460220585360'>
+mock_ensure = <MagicMock name='ensure_schema' id='124460220583952'>
+
+    @patch('arb.utils.excel.xl_parse.ensure_schema')
+    @patch('arb.utils.excel.xl_parse.sanitize_for_utf8')
+    @patch('arb.utils.excel.xl_parse.split_compound_keys')
+    @patch('arb.utils.excel.xl_parse.logger')
+    def test_extract_tabs_2_with_complex_schemas(self, mock_logger, mock_split, mock_sanitize, mock_ensure):
+        """Test extract_tabs_2 with complex schema configurations."""
+        # Mock dependencies
+        mock_ensure.return_value = 'complex_schema'
+        mock_sanitize.return_value = 'sanitized_value'
+        mock_split.return_value = None
+        mock_logger.debug = Mock()
+        mock_logger.warning = Mock()
+        mock_logger.info = Mock()
+    
+        # Create complex test data
+        xl_as_dict = {
+            'schemas': {
+                'data': 'complex_schema',
+                'metadata': 'meta_schema',
+                'config': 'config_schema'
+            },
+            'metadata': {'version': '1.0'},
+            'tab_contents': {}
+        }
+    
+        # Mock workbook with multiple sheets
+        mock_wb = Mock()
+        mock_ws = Mock()
+        mock_wb.__getitem__ = Mock(return_value=mock_ws)
+    
+>       result = extract_tabs_2(mock_wb, {
+            'complex_schema': {'schema': {'fields': ['field1', 'field2']}},
+            'meta_schema': {'schema': {'fields': ['meta1']}},
+            'config_schema': {'schema': {'fields': ['config1']}}
+        }, xl_as_dict)
+
+tests/arb/utils/excel/test_xl_parse.py:562: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+wb = <Mock id='124460223354576'>
+schema_map = {'complex_schema': {'schema': {'fields': ['field1', 'field2']}}, 'config_schema': {'schema': {'fields': ['config1']}}, 'meta_schema': {'schema': {'fields': ['meta1']}}}
+xl_as_dict = {'metadata': {'version': '1.0'}, 'schemas': {'config': 'config_schema', 'data': 'complex_schema', 'metadata': 'meta_schema'}, 'tab_contents': {}}
+
+    def extract_tabs_2(wb: openpyxl.Workbook,
+                       schema_map: dict[str, dict],
+                       xl_as_dict: dict) -> dict:
+      """
+      Enhanced version of extract_tabs with improved validation and error handling.
+    
+      This function provides the same interface and output as extract_tabs
+      but with enhanced robustness and better error reporting.
+    
+      Args:
+        wb (Workbook): OpenPyXL workbook object.
+        schema_map (dict[str, dict]): Schema map with schema definitions.
+        xl_as_dict (dict): Parsed Excel content, including 'schemas' and 'metadata'.
+                           Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
+                           parse the tab.
+    
+      Returns:
+        dict: Updated xl_as_dict including parsed 'tab_contents'.
+      """
+    
+      skip_please_selects = False
+    
+      result = copy.deepcopy(xl_as_dict)
+    
+      for tab_name, formatting_schema in result['schemas'].items():
+        resolved_schema = ensure_schema(formatting_schema, schema_map, schema_alias, logger)
+        if not resolved_schema:
+          continue
+        logger.debug(f"Extracting data from '{tab_name}', using the formatting schema '{formatting_schema}'")
+        result['tab_contents'][tab_name] = {}
+    
+        ws = wb[tab_name]
+        format_dict = schema_map[resolved_schema]['schema']
+    
+        for html_field_name, lookup in format_dict.items():
+>         value_address = lookup['value_address']
+                          ^^^^^^^^^^^^^^^^^^^^^^^
+E         TypeError: list indices must be integers or slices, not str
+
+source/production/arb/utils/excel/xl_parse.py:426: TypeError
+___________ TestEnsureSchema.test_ensure_schema_with_none_schema_map ___________
+
+self = <excel.test_xl_parse.TestEnsureSchema object at 0x713227717010>
+
+    def test_ensure_schema_with_none_schema_map(self):
+        """Test ensure_schema with None schema_map."""
+        schema_map = None
+        schema_alias = {}
+        mock_logger = Mock()
+>       result = ensure_schema('test_schema', schema_map, schema_alias, mock_logger)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/arb/utils/excel/test_xl_parse.py:965: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+formatting_schema = 'test_schema', schema_map = None, schema_alias = {}
+logger = <Mock id='124460216718736'>
+
+    def ensure_schema(formatting_schema: str, schema_map: dict, schema_alias: dict, logger: logging.Logger) -> str | None:
+      """
+      Resolves a schema version using the schema map and alias mapping.
+      Logs a warning if an alias is used. Returns the resolved schema version, or None if not found.
+    
+      Args:
+          formatting_schema (str): The schema version to resolve.
+          schema_map (dict): The mapping of valid schema versions.
+          schema_alias (dict): The mapping of old schema names to new ones.
+          logger: Logger for warnings/errors.
+    
+      Returns:
+          str | None: The resolved schema version, or None if not found.
+      """
+>     if formatting_schema in schema_map:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E     TypeError: argument of type 'NoneType' is not iterable
+
+source/production/arb/utils/excel/xl_parse.py:507: TypeError
+________ TestEnsureSchema.test_ensure_schema_with_complex_schema_alias _________
+
+self = <excel.test_xl_parse.TestEnsureSchema object at 0x713227716c10>
+
+    def test_ensure_schema_with_complex_schema_alias(self):
+        """Test ensure_schema with complex schema_alias."""
+        schema_map = {'actual_schema': {'fields': ['field1']}}
+        schema_alias = {
+            'alias1': 'actual_schema',
+            'alias2': 'alias1',  # Chain of aliases
+            'alias3': 'nonexistent'
+        }
+        mock_logger = Mock()
+    
+        result1 = ensure_schema('alias1', schema_map, schema_alias, mock_logger)
+        result2 = ensure_schema('alias2', schema_map, schema_alias, mock_logger)
+        result3 = ensure_schema('alias3', schema_map, schema_alias, mock_logger)
+    
+        assert result1 == 'actual_schema'
+>       assert result2 == 'actual_schema'  # Should resolve through chain
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert None == 'actual_schema'
+
+tests/arb/utils/excel/test_xl_parse.py:1025: AssertionError
+____ TestSplitCompoundKeys.test_split_compound_keys_with_single_coordinate _____
+
+self = <excel.test_xl_parse.TestSplitCompoundKeys object at 0x713227907b90>
+
+    def test_split_compound_keys_with_single_coordinate(self):
+        """Test split_compound_keys with single coordinate."""
+        test_dict = {'lat_and_long': '37.7749'}
+>       split_compound_keys(test_dict)
+
+tests/arb/utils/excel/test_xl_parse.py:1056: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dict_ = {'lat_and_long': '37.7749'}
+
+    def split_compound_keys(dict_: dict) -> None:
+      """
+      Decompose compound keys into atomic fields.
+    
+      Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs
+      that are more atomic.
+    
+      Args:
+        dict_ (dict): Dictionary with potentially compound fields (e.g., lat_and_long).
+    
+      Raises:
+        ValueError: If 'lat_and_long' is improperly formatted.
+      """
+      for html_field_name in list(dict_.keys()):
+        value = dict_[html_field_name]
+    
+        if html_field_name == 'lat_and_long':
+          if value:
+            lat_longs = value.split(',')
+            if len(lat_longs) == 2:
+              dict_['lat_arb'] = lat_longs[0]
+              dict_['long_arb'] = lat_longs[1]
+            else:
+>             raise ValueError(f"Lat long must be a blank or a comma separated list of lat/long pairs")
+E             ValueError: Lat long must be a blank or a comma separated list of lat/long pairs
+
+source/production/arb/utils/excel/xl_parse.py:544: ValueError
+_______ TestSplitCompoundKeys.test_split_compound_keys_with_extra_commas _______
+
+self = <excel.test_xl_parse.TestSplitCompoundKeys object at 0x713227907e10>
+
+    def test_split_compound_keys_with_extra_commas(self):
+        """Test split_compound_keys with extra commas."""
+        test_dict = {'lat_and_long': '37.7749,-122.4194,extra'}
+>       split_compound_keys(test_dict)
+
+tests/arb/utils/excel/test_xl_parse.py:1066: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dict_ = {'lat_and_long': '37.7749,-122.4194,extra'}
+
+    def split_compound_keys(dict_: dict) -> None:
+      """
+      Decompose compound keys into atomic fields.
+    
+      Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs
+      that are more atomic.
+    
+      Args:
+        dict_ (dict): Dictionary with potentially compound fields (e.g., lat_and_long).
+    
+      Raises:
+        ValueError: If 'lat_and_long' is improperly formatted.
+      """
+      for html_field_name in list(dict_.keys()):
+        value = dict_[html_field_name]
+    
+        if html_field_name == 'lat_and_long':
+          if value:
+            lat_longs = value.split(',')
+            if len(lat_longs) == 2:
+              dict_['lat_arb'] = lat_longs[0]
+              dict_['long_arb'] = lat_longs[1]
+            else:
+>             raise ValueError(f"Lat long must be a blank or a comma separated list of lat/long pairs")
+E             ValueError: Lat long must be a blank or a comma separated list of lat/long pairs
+
+source/production/arb/utils/excel/xl_parse.py:544: ValueError
+_____ TestSplitCompoundKeys.test_split_compound_keys_with_non_string_value _____
+
+self = <excel.test_xl_parse.TestSplitCompoundKeys object at 0x713227659a10>
+
+    def test_split_compound_keys_with_non_string_value(self):
+        """Test split_compound_keys with non-string value."""
+        test_dict = {'lat_and_long': 123}
+>       split_compound_keys(test_dict)
+
+tests/arb/utils/excel/test_xl_parse.py:1102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dict_ = {'lat_and_long': 123}
+
+    def split_compound_keys(dict_: dict) -> None:
+      """
+      Decompose compound keys into atomic fields.
+    
+      Remove key/value pairs of entries that potentially contain compound keys and replace them with key value pairs
+      that are more atomic.
+    
+      Args:
+        dict_ (dict): Dictionary with potentially compound fields (e.g., lat_and_long).
+    
+      Raises:
+        ValueError: If 'lat_and_long' is improperly formatted.
+      """
+      for html_field_name in list(dict_.keys()):
+        value = dict_[html_field_name]
+    
+        if html_field_name == 'lat_and_long':
+          if value:
+>           lat_longs = value.split(',')
+                        ^^^^^^^^^^^
+E           AttributeError: 'int' object has no attribute 'split'
+
+source/production/arb/utils/excel/xl_parse.py:539: AttributeError
+_____ TestConvertUploadToJson.test_convert_upload_to_json_with_parse_error _____
+
+self = <excel.test_xl_parse.TestConvertUploadToJson object at 0x7132277b0910>
+mock_parse = <MagicMock name='parse_xl_file' id='124460223298832'>
+
+    @patch('arb.utils.excel.xl_parse.parse_xl_file')
+    def test_convert_upload_to_json_with_parse_error(self, mock_parse):
+        """Test convert_upload_to_json with parse error."""
+        # Mock parse error
+        mock_parse.side_effect = Exception("Parse error")
+    
+        from pathlib import Path
+>       with pytest.raises(Exception, match="Parse error"):
+E       Failed: DID NOT RAISE <class 'Exception'>
+
+tests/arb/utils/excel/test_xl_parse.py:1184: Failed
+------------------------------ Captured log call -------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:707 Excel parsing failed for error.xlsx: Parse error
+_____ TestConvertUploadToJson.test_convert_upload_to_json_with_save_error ______
+
+self = <excel.test_xl_parse.TestConvertUploadToJson object at 0x71322765b7d0>
+mock_save = <MagicMock name='json_save_with_meta' id='124460223219536'>
+mock_parse = <MagicMock name='parse_xl_file' id='124460215864912'>
+
+    @patch('arb.utils.excel.xl_parse.parse_xl_file')
+    @patch('arb.utils.excel.xl_parse.json_save_with_meta')
+    def test_convert_upload_to_json_with_save_error(self, mock_save, mock_parse):
+        """Test convert_upload_to_json with save error."""
+        # Mock parse success but save error
+        mock_parse.return_value = {'test': 'data'}
+        mock_save.side_effect = Exception("Save error")
+    
+        from pathlib import Path
+>       with pytest.raises(Exception, match="Save error"):
+E       Failed: DID NOT RAISE <class 'Exception'>
+
+tests/arb/utils/excel/test_xl_parse.py:1196: Failed
+------------------------------ Captured log call -------------------------------
+WARNING  arb.utils.excel.xl_parse:xl_parse.py:707 Excel parsing failed for save_error.xlsx: Save error
+______ TestGetJsonFileNameOld.test_get_json_file_name_old_with_none_path _______
+
+self = <excel.test_xl_parse.TestGetJsonFileNameOld object at 0x7132277b0ed0>
+
+    def test_get_json_file_name_old_with_none_path(self):
+        """Test get_json_file_name_old with None path."""
+>       result = get_json_file_name_old(None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/arb/utils/excel/test_xl_parse.py:1371: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+file_name = None
+
+    def get_json_file_name_old(file_name: Path) -> Path | None:
+      """
+      Depreciated: use convert_upload_to_json instead
+    
+      Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.
+    
+      Args:
+        file_name (Path): The uploaded file.
+    
+      Returns:
+        Path | None: JSON file path if parsed or detected, otherwise None.
+    
+      Notes:
+      - If the file_name is a JSON file (has .json extension), the file_name is the json_file_name.
+      - If the file is an Excel file (.xlsx extension), try to parse it into a JSON file and return the JSON file name
+        of the parsed contents.
+      - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
+      - If the file was already a json file, return the file name unaltered.
+      - If the file was an Excel file, return the json file that its data was extracted to.
+      - For all other file types return None.
+      """
+    
+      json_file_name = None
+    
+>     extension = file_name.suffix
+                  ^^^^^^^^^^^^^^^^
+E     AttributeError: 'NoneType' object has no attribute 'suffix'
+
+source/production/arb/utils/excel/xl_parse.py:650: AttributeError
+_____ TestGetJsonFileNameOld.test_get_json_file_name_old_with_string_path ______
+
+self = <excel.test_xl_parse.TestGetJsonFileNameOld object at 0x7132277b0150>
+
+    def test_get_json_file_name_old_with_string_path(self):
+        """Test get_json_file_name_old with string path."""
+>       result = get_json_file_name_old('test.xlsx')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/arb/utils/excel/test_xl_parse.py:1376: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+file_name = 'test.xlsx'
+
+    def get_json_file_name_old(file_name: Path) -> Path | None:
+      """
+      Depreciated: use convert_upload_to_json instead
+    
+      Convert a file name (Excel or JSON) into a JSON file name, parsing if needed.
+    
+      Args:
+        file_name (Path): The uploaded file.
+    
+      Returns:
+        Path | None: JSON file path if parsed or detected, otherwise None.
+    
+      Notes:
+      - If the file_name is a JSON file (has .json extension), the file_name is the json_file_name.
+      - If the file is an Excel file (.xlsx extension), try to parse it into a JSON file and return the JSON file name
+        of the parsed contents.
+      - If the file is neither a json file nr a spreadsheet that can be parsed into a json file, return None.
+      - If the file was already a json file, return the file name unaltered.
+      - If the file was an Excel file, return the json file that its data was extracted to.
+      - For all other file types return None.
+      """
+    
+      json_file_name = None
+    
+>     extension = file_name.suffix
+                  ^^^^^^^^^^^^^^^^
+E     AttributeError: 'str' object has no attribute 'suffix'
+
+source/production/arb/utils/excel/xl_parse.py:650: AttributeError
+============================== slowest durations ===============================
+
+(360 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_mock_data
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile2::test_parse_xl_file_2_with_mock_data
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_function_signature
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_mock_data
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_complex_schemas
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_function_signature
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_mock_data
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs2::test_extract_tabs_2_with_complex_schemas
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_none_schema_map
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_complex_schema_alias
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_single_coordinate
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_extra_commas
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_non_string_value
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_parse_error
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_save_error
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_none_path
+FAILED tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_string_path
+======================== 17 failed, 103 passed in 0.66s ========================

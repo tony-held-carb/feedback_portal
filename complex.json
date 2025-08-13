@@ -1,0 +1,34 @@
+{
+    "_metadata_": {
+        "version": "2.0",
+        "description": "Complex data",
+        "File created at": "2025-08-13T16:55:52.113415+00:00",
+        "Serialized with": "utils.json.json_save_with_meta",
+        "Deserialize with": "utils.json.json_load_with_meta"
+    },
+    "_data_": {
+        "nested": {
+            "level1": {
+                "level2": "deep_value",
+                "array": [
+                    1,
+                    2,
+                    3,
+                    {
+                        "nested": "value"
+                    }
+                ]
+            }
+        },
+        "list": [
+            {
+                "item1": "value1"
+            },
+            {
+                "item2": "value2"
+            }
+        ],
+        "boolean": true,
+        "null": null
+    }
+}

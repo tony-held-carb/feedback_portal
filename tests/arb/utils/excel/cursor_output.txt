@@ -1,1 +1,0 @@
-bash: scripts/run_all_commands.txt: No such file or directory

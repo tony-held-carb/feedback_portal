@@ -1944,3 +1944,7 @@ pytest tests/e2e -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_e2e
 
 can't run e2e along with arb and unit, this will fail:
   pytest tests/arb tests/unit tests/e2e -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
+
+
+pytest tests/arb/utils/excel/test_xl_create.py -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}__xl_create_01.txt" 2>&1
+pytest tests/arb/utils/excel/test_xl_parse.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_parse_01.txt" 2>&1
