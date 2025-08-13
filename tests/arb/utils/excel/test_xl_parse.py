@@ -34,7 +34,7 @@ class TestParseXlFile:
         import inspect
         sig = inspect.signature(parse_xl_file)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_path']
+        expected_params = ['xl_path', 'schema_map']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
     
     @patch('arb.utils.excel.xl_parse.openpyxl.load_workbook')
@@ -52,7 +52,7 @@ class TestParseXlFile:
         # Mock cell values
         mock_metadata_ws.__getitem__ = Mock(return_value=Mock(value='test_sector'))
         mock_schema_ws.__getitem__ = Mock(return_value=Mock(value='test_schema'))
-        mock_data_ws.__getitem__ = Mock(return_value=Mock(value='test_value'))
+        mock_data_ws.__getitem__ = Mock(value='test_value')
         
         # Mock workbook access
         mock_wb.__getitem__ = Mock(side_effect=lambda x: {
@@ -68,7 +68,7 @@ class TestParseXlFile:
              patch('arb.utils.excel.xl_parse.extract_tabs') as mock_extract:
             
             mock_get_kv.return_value = {'test_key': 'test_value'}
-            mock_extract.return_value = {'test_tab': {'test_field': 'test_value'}}
+            mock_extract.return_value = {'metadata': {'test_key': 'test_value'}, 'schemas': {'data': 'test_schema'}, 'tab_contents': {'test_tab': {'test_field': 'test_value'}}}
             
             # Test the function
             result = parse_xl_file('test.xlsx')
@@ -96,7 +96,7 @@ class TestParseXlFile2:
         import inspect
         sig = inspect.signature(parse_xl_file_2)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_path']
+        expected_params = ['xl_path', 'schema_map']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
     
     @patch('arb.utils.excel.xl_parse.openpyxl.load_workbook')
@@ -114,7 +114,7 @@ class TestParseXlFile2:
         # Mock cell values
         mock_metadata_ws.__getitem__ = Mock(return_value=Mock(value='test_sector'))
         mock_schema_ws.__getitem__ = Mock(return_value=Mock(value='test_schema'))
-        mock_data_ws.__getitem__ = Mock(return_value=Mock(value='test_value'))
+        mock_data_ws.__getitem__ = Mock(value='test_value')
         
         # Mock workbook access
         mock_wb.__getitem__ = Mock(side_effect=lambda x: {
@@ -130,7 +130,7 @@ class TestParseXlFile2:
              patch('arb.utils.excel.xl_parse.extract_tabs_2') as mock_extract:
             
             mock_get_kv.return_value = {'test_key': 'test_value'}
-            mock_extract.return_value = {'test_tab': {'test_field': 'test_value'}}
+            mock_extract.return_value = {'metadata': {'test_key': 'test_value'}, 'schemas': {'data': 'test_schema'}, 'tab_contents': {'test_tab': {'test_field': 'test_value'}}}
             
             # Test the function
             result = parse_xl_file_2('test.xlsx')
@@ -153,7 +153,7 @@ class TestExtractTabs:
         import inspect
         sig = inspect.signature(extract_tabs)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_as_dict', 'xl_path']
+        expected_params = ['wb', 'schema_map', 'xl_as_dict']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
     
     def test_extract_tabs_with_mock_data(self, mock_openpyxl_workbook, mock_worksheet):
@@ -178,8 +178,12 @@ class TestExtractTabs:
                 'tab_contents': {}
             }
             
-            # Test the function
-            result = extract_tabs(xl_as_dict, 'test.xlsx')
+            # Mock workbook
+            mock_wb = Mock()
+            mock_wb.__getitem__ = Mock(return_value=mock_worksheet)
+            
+            # Test the function with correct parameters
+            result = extract_tabs(mock_wb, {'test_schema': {'schema': {}}}, xl_as_dict)
             
             assert isinstance(result, dict)
             assert 'tab_contents' in result
@@ -192,7 +196,10 @@ class TestExtractTabs:
             'tab_contents': {}
         }
         
-        result = extract_tabs(xl_as_dict, 'test.xlsx')
+        # Mock workbook
+        mock_wb = Mock()
+        
+        result = extract_tabs(mock_wb, {}, xl_as_dict)
         
         # If schemas is empty, tab_contents should not be added
         assert 'tab_contents' not in result
@@ -210,7 +217,7 @@ class TestExtractTabs2:
         import inspect
         sig = inspect.signature(extract_tabs_2)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_as_dict', 'xl_path']
+        expected_params = ['wb', 'schema_map', 'xl_as_dict']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
 
 
@@ -226,7 +233,7 @@ class TestGetSpreadsheetKeyValuePairs:
         import inspect
         sig = inspect.signature(get_spreadsheet_key_value_pairs)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_as_dict', 'xl_path']
+        expected_params = ['wb', 'tab_name', 'top_left_cell']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
     
     def test_get_spreadsheet_key_value_pairs_with_mock_worksheet(self, mock_openpyxl_workbook, mock_worksheet):
@@ -249,8 +256,8 @@ class TestGetSpreadsheetKeyValuePairs:
         mock_wb = Mock()
         mock_wb.__getitem__ = Mock(return_value=mock_ws)
         
-        # Test the function
-        result = get_spreadsheet_key_value_pairs({'schemas': {}}, 'test.xlsx')
+        # Test the function with correct parameters
+        result = get_spreadsheet_key_value_pairs(mock_wb, 'test_tab', 'A1')
         
         assert isinstance(result, dict)
 
@@ -267,7 +274,7 @@ class TestGetSpreadsheetKeyValuePairs2:
         import inspect
         sig = inspect.signature(get_spreadsheet_key_value_pairs_2)
         params = list(sig.parameters.keys())
-        expected_params = ['xl_as_dict', 'xl_path']
+        expected_params = ['wb', 'tab_name', 'top_left_cell']
         assert params == expected_params, f"Expected parameters {expected_params}, got {params}"
 
 

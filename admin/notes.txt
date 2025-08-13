@@ -1847,8 +1847,8 @@ git restore feedback_forms/processed_versions/xl_workbooks/*.xlsx
 git status --porcelain | grep xl_workbooks
 
 
-pytest tests/arb/utils/excel -v -s --duration
-s=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1
+pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_02.txt" 2>&1
+source scripts/run_all_commands.txt >> command_output_2.txt 2>&1
 
 
 Yes, still the same problem! The terminal is forcing everything through less regardless of what I do. This suggests there's a shell configuration (like PAGER=less or an alias) that's intercepting all output.
