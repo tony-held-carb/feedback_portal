@@ -288,8 +288,9 @@ class TestPrepXlTemplates:
 class TestCreateDefaultTypesSchema:
     """Test create_default_types_schema function."""
     
+    @patch('arb.utils.excel.xl_create.json_save_with_meta')
     @patch('arb.utils.excel.xl_create.Path.exists', return_value=True)
-    def test_create_default_types_schema_basic(self, mock_exists):
+    def test_create_default_types_schema_basic(self, mock_exists, mock_save):
         """Test basic default types schema creation."""
         result = create_default_types_schema(diagnostics=False)
         
@@ -298,9 +299,13 @@ class TestCreateDefaultTypesSchema:
         assert len(result) > 0
         # Check that values are Python types
         assert all(isinstance(v, type) for v in result.values())
+        
+        # Verify that json_save_with_meta was called to prevent file writing
+        mock_save.assert_called_once()
     
+    @patch('arb.utils.excel.xl_create.json_save_with_meta')
     @patch('arb.utils.excel.xl_create.Path.exists', return_value=True)
-    def test_create_default_types_schema_with_diagnostics(self, mock_exists):
+    def test_create_default_types_schema_with_diagnostics(self, mock_exists, mock_save):
         """Test default types schema creation with diagnostics."""
         result = create_default_types_schema(diagnostics=True)
         
@@ -308,6 +313,9 @@ class TestCreateDefaultTypesSchema:
         assert len(result) > 0
         # Check that values are Python types
         assert all(isinstance(v, type) for v in result.values())
+        
+        # Verify that json_save_with_meta was called to prevent file writing
+        mock_save.assert_called_once()
 
 
 class TestCreatePayload:

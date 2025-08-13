@@ -1905,3 +1905,6 @@ pytest_TONY_HOME_WSL_all_04.txt
 git restore feedback_forms/processed_versions/xl_workbooks/*.xlsx
 git restore feedback_forms/processed_versions/xl_payloads/*.json
 git restore feedback_forms/processed_versions/xl_schemas/*.json
+
+
+pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1

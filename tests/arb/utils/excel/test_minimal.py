@@ -4,8 +4,8 @@ Minimal test file to isolate import issues.
 
 import pytest
 
-# Import * at module level to test if this causes Excel file modifications
-from arb.utils.excel.xl_create import *
+# Import specific functions to test if this causes Excel file modifications
+from arb.utils.excel.xl_create import sort_xl_schema, schema_to_json_file
 
 
 def test_hello_world():
