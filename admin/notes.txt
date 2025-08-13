@@ -1830,3 +1830,18 @@ for tony's use only:     * git clone https://tony-held-carb:ghp_8I0IDgHKHpnNHTNu
 
 
 
+You will likely want to run several commands to determine the state of the system.  Please put your diagnostic commands in @run_all_commands.txt and then i will run them with source scripts/run_all.sh >> output.txt 2>&1
+
+
+source scripts/run_all_commands.txt >> output.txt 2>&1
+
+parse_xl_file
+get_spreadsheet_key_value_pairs
+extract_tabs
+ensure_schema
+sanitize_for_utf8
+try_type_conversion
+
+
+git restore feedback_forms/processed_versions/xl_workbooks/*.xlsx
+git status --porcelain | grep xl_workbooks

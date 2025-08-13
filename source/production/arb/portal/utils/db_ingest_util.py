@@ -36,7 +36,7 @@ from arb.portal.utils.result_types import (
     IdValidationResult, StagedFileResult, DatabaseInsertResult,
     FileUploadResult, FileAuditResult, JsonProcessingResult
 )
-from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, xl_schema_map
+from arb.utils.excel.xl_parse import convert_upload_to_json, get_json_file_name_old, parse_xl_file, parse_xl_file_2, xl_schema_map
 from arb.utils.json import extract_id_from_json, json_load_with_meta
 from arb.utils.web_html import upload_single_file
 
@@ -769,7 +769,7 @@ def _convert_file_to_json(file_path: Path) -> tuple[Path | None, str | None, dic
 
     # Generate import audit for diagnostics
     try:
-      parse_result = parse_xl_file(file_path)
+      parse_result = parse_xl_file_2(file_path)
       audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
       audit_log_path = LOG_DIR / "import_audit.log"
       audit_log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1027,16 +1027,16 @@ def convert_file_to_json_with_result(file_path: Path) -> FileConversionResult:
     try:
         json_path, sector = convert_excel_to_json_if_valid(file_path)
 
-        # Generate import audit for diagnostics
+                # Generate import audit for diagnostics
         try:
-            parse_result = parse_xl_file(file_path)
-            audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
-            audit_log_path = LOG_DIR / "import_audit.log"
-            audit_log_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(audit_log_path, "a", encoding="utf-8") as f:
-                f.write(audit + "\n\n")
+          parse_result = parse_xl_file_2(file_path)
+          audit = generate_import_audit(file_path, parse_result, xl_schema_map, route="upload_file")
+          audit_log_path = LOG_DIR / "import_audit.log"
+          audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+          with open(audit_log_path, "a", encoding="utf-8") as f:
+            f.write(audit + "\n\n")
         except Exception as e:
-            logger.warning(f"Failed to generate import audit: {e}")
+          logger.warning(f"Failed to generate import audit: {e}")
 
         if not json_path:
             return FileConversionResult(

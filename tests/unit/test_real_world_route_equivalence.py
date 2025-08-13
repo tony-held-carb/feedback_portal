@@ -1,25 +1,38 @@
 """
 Real-World Unit Tests for Route Equivalence
 
-This module provides comprehensive unit testing using actual test files and expected results
-to validate that the refactored routes produce identical outputs to the original routes.
+This module provides infrastructure and route behavior testing using actual test files
+to validate that the refactored routes behave similarly to the original routes.
 
-Instead of just checking if functions are callable, these tests:
-1. Use real test files from feedback_forms/testing_versions/standard/
-2. Compare actual route outputs against known-good expected results
-3. Validate file content equivalence (excluding timestamps)
-4. Verify JSON metadata consistency
-5. Test error handling with real bad data files
+IMPORTANT: These tests focus on route behavior and infrastructure, NOT content validation.
+The expected_results directory contains known-good outputs but is NOT used for content comparison.
 
-This gives us confidence that the refactored routes are truly functionally equivalent
-to the original routes, not just structurally similar.
+What these tests actually do:
+1. Use real test files from feedback_forms/testing_versions/standard/ for input
+2. Verify route infrastructure and HTTP response behavior
+3. Test error handling with real bad data files
+4. Validate test environment setup and file availability
+5. Compare HTTP response codes between original and refactored routes
+
+What these tests do NOT do:
+- Compare actual file content against expected results
+- Validate that routes produce correct data output
+- Test functional equivalence of data processing
+- Verify JSON metadata consistency
+- Perform content validation (all processing is mocked)
 
 Test Coverage:
-- File processing equivalence (Excel output files)
-- JSON metadata equivalence (processing results)
-- Content consistency validation
-- Error handling with real bad data
+- Route response behavior equivalence (HTTP status codes)
+- Error handling consistency between route pairs
+- Test infrastructure validation (file availability)
+- Basic route functionality (page loading, form handling)
 - All test file types (good data, bad data, blank files)
+
+Limitations:
+- All actual file processing is mocked - no real content validation
+- Expected results directory is only used for infrastructure validation
+- Tests verify route behavior, not data processing accuracy
+- No functional equivalence testing of actual Excel/JSON output
 """
 
 import pytest
@@ -61,7 +74,11 @@ from arb.portal.app import create_app
 
 
 class TestRealWorldRouteEquivalence:
-    """Real-world unit tests using actual test files and expected results."""
+    """Real-world unit tests for route behavior and infrastructure validation.
+    
+    These tests use actual test files to validate route behavior but do NOT
+    perform content validation or functional equivalence testing.
+    """
     
     @pytest.fixture
     def app(self):

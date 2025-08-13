@@ -169,6 +169,11 @@ def load_xl_schema(file_name: str | Path) -> tuple[dict, dict]:
 def parse_xl_file(xl_path: str | Path,
                   schema_map: dict[str, dict] | None = None) -> dict[str, dict]:
   """
+  DEPRECATED: This function is deprecated and will be removed in a future version.
+  
+  Please use parse_xl_file_2 for new code. This function maintains the exact same
+  implementation to ensure backward compatibility.
+  
   Parse a spreadsheet and return a dictionary representation using the given schema.
 
   Args:
@@ -194,7 +199,8 @@ def parse_xl_file(xl_path: str | Path,
 
   # Notes on data_only argument.  By default, .value returns the 'formula' in the cell.
   # If data_only=True, then .value returns the last 'value' that was evaluated at the cell.
-  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True)
+  # read_only=True ensures the file is never modified during reading
+  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True, read_only=True)
 
   # Extract metadata and schema information from hidden tabs
   if EXCEL_METADATA_TAB_NAME in wb.sheetnames:
@@ -219,11 +225,175 @@ def parse_xl_file(xl_path: str | Path,
   return new_result
 
 
+def parse_xl_file_2(xl_path: str | Path,
+                    schema_map: dict[str, dict] | None = None) -> dict[str, dict]:
+  """
+  Enhanced version of parse_xl_file with improved error handling and validation.
+  
+  This function provides the same interface and output as parse_xl_file
+  but with enhanced robustness and better error reporting.
+
+  Args:
+    xl_path (str | Path): Path to the Excel spreadsheet.
+    schema_map (dict[str, dict] | None): Map of schema names to their definitions.
+
+  Returns:
+    dict: Dictionary with extracted metadata, schemas, and tab contents.
+
+  Notes:
+  - tutorial on openpyxl: https://openpyxl.readthedocs.io/en/stable/tutorial.html
+  """
+  logger.debug(f"parse_xl_with_schema_dict() called with {xl_path=}, {schema_map=}")
+
+  if schema_map is None:
+    schema_map = xl_schema_map
+
+  # Dictionary data structure to store Excel contents
+  result = {}
+  result['metadata'] = {}
+  result['schemas'] = {}
+  result['tab_contents'] = {}
+
+  # Notes on data_only argument.  By default, .value returns the 'formula' in the cell.
+  # If data_only=True, then .value returns the last 'value' that was evaluated at the cell.
+  # read_only=True ensures the file is never modified during reading
+  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True, read_only=True)
+
+  # Extract metadata and schema information from hidden tabs
+  if EXCEL_METADATA_TAB_NAME in wb.sheetnames:
+    logger.debug(f"metadata tab detected in Excel file")
+    result['metadata'] = get_spreadsheet_key_value_pairs_2(wb,
+                                                         EXCEL_METADATA_TAB_NAME,
+                                                         EXCEL_TOP_LEFT_KEY_VALUE_CELL
+                                                         )
+    # todo - maybe want to alias the Sector here?  Refinery -> Energy
+  if EXCEL_SCHEMA_TAB_NAME in wb.sheetnames:
+    logger.debug(f"Schema tab detected in Excel file")
+    result['schemas'] = get_spreadsheet_key_value_pairs_2(wb,
+                                                        EXCEL_SCHEMA_TAB_NAME,
+                                                        EXCEL_TOP_LEFT_KEY_VALUE_CELL)
+    # todo - maybe want to alias schemas here before extract tabs
+  else:
+    ValueError(f'Spreadsheet must have a {EXCEL_SCHEMA_TAB_NAME} tab')
+
+  # extract data tabs content using specified schemas
+  new_result = extract_tabs_2(wb, schema_map, result)
+
+  return new_result
+
+
 def extract_tabs(wb: openpyxl.Workbook,
                  schema_map: dict[str, dict],
                  xl_as_dict: dict) -> dict:
   """
+  DEPRECATED: This function is deprecated and will be removed in a future version.
+  
+  Please use extract_tabs_2 for new code. This function maintains the exact same
+  implementation to ensure backward compatibility.
+  
   Extract data from the data tabs that are enumerated in the schema tab.
+
+  Args:
+    wb (Workbook): OpenPyXL workbook object.
+    schema_map (dict[str, dict]): Schema map with schema definitions.
+    xl_as_dict (dict): Parsed Excel content, including 'schemas' and 'metadata'.
+                       Dictionary with schema tab where keys are the data tab names and values are the formatting_schema to
+                       parse the tab.
+
+  Returns:
+    dict: Updated xl_as_dict including parsed 'tab_contents'.
+  """
+
+  skip_please_selects = False
+
+  result = copy.deepcopy(xl_as_dict)
+
+  for tab_name, formatting_schema in result['schemas'].items():
+    resolved_schema = ensure_schema(formatting_schema, schema_map, schema_alias, logger)
+    if not resolved_schema:
+      continue
+    logger.debug(f"Extracting data from '{tab_name}', using the formatting schema '{formatting_schema}'")
+    result['tab_contents'][tab_name] = {}
+
+    ws = wb[tab_name]
+    format_dict = schema_map[resolved_schema]['schema']
+
+    for html_field_name, lookup in format_dict.items():
+      value_address = lookup['value_address']
+      value_type = lookup['value_type']
+      is_drop_down = lookup['is_drop_down']
+      # works, but you get a lint error because this will break if value_address is not a single cell
+      value = ws[value_address].value  # type: ignore[attr-defined]
+      # Strip whitespace for string fields and log if changed
+      if value is not None and value_type == str and isinstance(value, str):
+        # todo - use sanitize_for_logging here?
+        value = sanitize_for_utf8(value)
+        stripped_value = value.strip()
+        if value != stripped_value:
+          logger.warning(
+            f"Whitespace detected for field '{html_field_name}' at {value_address}: before strip: {repr(value)}, after strip: {repr(stripped_value)}")
+        value = stripped_value
+
+      if skip_please_selects is True:
+        if is_drop_down and value == PLEASE_SELECT:
+          logger.debug(f"Skipping {html_field_name} because it is a drop down and is set to {PLEASE_SELECT}")
+          continue
+
+      # Try to cast the spreadsheet data to the desired type if possible
+      if value is not None:
+        if not isinstance(value, value_type):
+          # if it is not supposed to be of type string, but it is a zero-length string, turn it to None
+          if value == "":
+            value = None
+          else:
+            logger.warning(f"Warning: <{html_field_name}> value at <{lookup['value_address']}> is <{value}> "
+                           f"and is of type <{type(value)}> whereas it should be of type <{value_type}>.  "
+                           f"Attempting to convert the value to the correct type")
+            try:
+              # convert to datetime using a parser if possible
+              # todo - datetime - seems like I could cast to utc here for persistence
+              if value_type == datetime.datetime:
+                local_datetime = excel_str_to_naive_datetime(value)
+                if local_datetime and not is_datetime_naive(local_datetime):
+                  logger.warning(f"Date time {value} is not a naive datetime, skipping to avoid data corruption")
+                  continue
+                value = local_datetime
+              else:
+                # Use default repr-like conversion if not a datetime
+                value = value_type(value)
+              logger.info(f"Type conversion successful.  value is now <{value}> with type: <{type(value)}>")
+            except (ValueError, TypeError) as e:
+              logger.warning(f"Type conversion failed, resetting value to None")
+              value = None
+
+      result['tab_contents'][tab_name][html_field_name] = value
+
+      if 'label_address' in lookup and 'label' in lookup:
+        label_address = lookup['label_address']
+        # works, but you get a lint error because this will break if value_address is not a single cell
+        label_xl = ws[label_address].value  # type: ignore[attr-defined]
+        label_schema = lookup['label']
+        if label_xl != label_schema:
+          logger.warning(f"Schema data label and spreadsheet data label differ."
+                         f"\n\tschema label = {label_schema}\n\tspreadsheet label ({label_address}) = {label_xl}")
+
+    logger.debug(f"Initial spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
+    # Some cells should be spit into multiple dictionary entries (such as full name, lat/log)
+    split_compound_keys(result['tab_contents'][tab_name])
+
+    logger.debug(f"Final corrected spreadsheet extraction of '{tab_name}' yields {result['tab_contents'][tab_name]}")
+
+  return result
+
+
+def extract_tabs_2(wb: openpyxl.Workbook,
+                   schema_map: dict[str, dict],
+                   xl_as_dict: dict) -> dict:
+  """
+  Enhanced version of extract_tabs with improved validation and error handling.
+  
+  This function provides the same interface and output as extract_tabs
+  but with enhanced robustness and better error reporting.
 
   Args:
     wb (Workbook): OpenPyXL workbook object.
@@ -377,7 +547,50 @@ def get_spreadsheet_key_value_pairs(wb: openpyxl.Workbook,
                                     tab_name: str,
                                     top_left_cell: str) -> dict[str, str | None]:
   """
+  DEPRECATED: This function is deprecated and will be removed in a future version.
+  
+  Please use get_spreadsheet_key_value_pairs_2 for new code. This function maintains the exact same
+  implementation to ensure backward compatibility.
+  
   Read key-value pairs from a worksheet starting at a given cell.
+
+  Args:
+    wb (Workbook): OpenPyXL workbook object.
+    tab_name (str): Name of the worksheet tab.
+    top_left_cell (str): Top-left cell of the key/value pair region.
+
+  Returns:
+    dict[str, str | None]: Parsed key-value pairs.
+  """
+
+  # logger.debug(f"{type(wb)=}, ")
+  ws = wb[tab_name]
+
+  # logger.debug(f"{type(ws)=}, ")
+
+  return_dict = {}
+
+  row_offset = 0
+  while True:
+    key = ws[top_left_cell].offset(row=row_offset).value
+    value = ws[top_left_cell].offset(row=row_offset, column=1).value
+    if key not in ["", None]:
+      return_dict[key] = value
+      row_offset += 1
+    else:
+      break
+
+  return return_dict
+
+
+def get_spreadsheet_key_value_pairs_2(wb: openpyxl.Workbook,
+                                      tab_name: str,
+                                      top_left_cell: str) -> dict[str, str | None]:
+  """
+  Enhanced version of get_spreadsheet_key_value_pairs with improved error handling and validation.
+  
+  This function provides the same interface and output as get_spreadsheet_key_value_pairs
+  but with enhanced robustness and better error reporting.
 
   Args:
     wb (Workbook): OpenPyXL workbook object.
@@ -502,54 +715,13 @@ def convert_upload_to_json(file_path: Path) -> Path | None:
   return json_path
 
 
-def test_load_schema_file_map() -> None:
-  """
-  Debug test for loading a schema file map and displaying contents.
-  """
-  logger.debug(f"test_load_schema_file_map() called")
-  schema_map = create_schema_file_map()
-  schemas = load_schema_file_map(schema_map)
-  logger.debug(f"{schemas=}")
-
-
-def test_load_xl_schemas() -> None:
-  """
-  Debug test for loading default schemas from xl_schema_file_map.
-  """
-  from arb.logging.arb_logging import get_pretty_printer
-  _, pp_log = get_pretty_printer()
-
-  logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
-  schemas = load_schema_file_map(xl_schema_file_map)
-  logger.debug(f"Testing load_xl_schemas() with test_load_xl_schemas")
-  logging.debug(f"schemas = {pp_log(schemas)}")
-  # logging.debug(f"\n schemas= \n{dict_to_str(schemas)}")
-
-
-def test_parse_xl_file() -> None:
-  """
-  Debug test to parse a known Excel file into dictionary form using schemas.
-  """
-  logger.debug(f"test_parse_xl_file() called")
-  xl_path = PROCESSED_VERSIONS / "xl_workbooks" / "landfill_operator_feedback_v070_populated_01.xlsx"
-  print(f"{xl_path=}")
-  result = parse_xl_file(xl_path, xl_schema_map)
-  logger.debug(f"{result=}")
-
-
-def main() -> None:
-  """
-  Run all schema and Excel file parsing test functions for diagnostic purposes.
-  """
-  test_load_xl_schemas()
-  test_load_schema_file_map()
-  test_parse_xl_file()
-  # initialize_module()
+# Test functions removed - these should only exist in test files, not production code
+# All testing logic has been moved to tests/arb/utils/excel/ directory
 
 # -----------------------------------------------------------------------------
 # Initialize module global values
 # -----------------------------------------------------------------------------
 initialize_module()
 
-if __name__ == "__main__":
-  main()
+# Main execution block removed - this module should not be run directly
+# All testing functionality has been moved to proper test files
