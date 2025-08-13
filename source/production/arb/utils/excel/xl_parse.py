@@ -199,8 +199,10 @@ def parse_xl_file(xl_path: str | Path,
 
   # Notes on data_only argument.  By default, .value returns the 'formula' in the cell.
   # If data_only=True, then .value returns the last 'value' that was evaluated at the cell.
-  # read_only=True ensures the file is never modified during reading
-  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True, read_only=True)
+  # Note: read_only=True was removed as it breaks the offset() method needed for parsing
+  # To prevent file modification, ensure files are opened in read-only mode at the OS level
+  # or use copy-on-write file systems. The data_only=True parameter prevents formula evaluation.
+  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True)
 
   # Extract metadata and schema information from hidden tabs
   if EXCEL_METADATA_TAB_NAME in wb.sheetnames:
@@ -256,8 +258,8 @@ def parse_xl_file_2(xl_path: str | Path,
 
   # Notes on data_only argument.  By default, .value returns the 'formula' in the cell.
   # If data_only=True, then .value returns the last 'value' that was evaluated at the cell.
-  # read_only=True ensures the file is never modified during reading
-  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True, read_only=True)
+  # Note: read_only=True was removed as it breaks the offset() method needed for parsing
+  wb = openpyxl.load_workbook(xl_path, keep_vba=False, data_only=True)
 
   # Extract metadata and schema information from hidden tabs
   if EXCEL_METADATA_TAB_NAME in wb.sheetnames:

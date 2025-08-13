@@ -1,0 +1,262 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0 -- /home/tonyh/miniconda3/envs/mini_conda_02/bin/python
+cachedir: .pytest_cache
+rootdir: /home/tonyh/git_repos/feedback_portal
+configfile: pytest.ini
+plugins: base-url-2.1.0, anyio-4.7.0, playwright-0.7.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... ✓ Found 14 test files in /home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard
+✓ Test infrastructure validation passed
+collected 51 items
+
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_function_existence PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_function_signature_equivalence PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_good_data FAILED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_bad_data ✅ Both functions failed to parse landfill_operator_feedback_v070_test_02_bad_data.xlsx consistently: 'ReadOnlyCell' object has no attribute 'offset'
+PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_blank_file ✅ Both functions failed to parse dairy_digester_operator_feedback_v006_test_03_blank.xlsx consistently: 'ReadOnlyCell' object has no attribute 'offset'
+PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_extract_tabs_equivalence ✅ extract_tabs functions produce consistent results
+PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_get_spreadsheet_key_value_pairs_equivalence ✅ get_spreadsheet_key_value_pairs functions produce consistent results
+PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_all_feedback_form_types ❌ Failed to parse landfill_operator form: 'ReadOnlyCell' object has no attribute 'offset'
+❌ Failed to parse oil_and_gas_operator form: 'ReadOnlyCell' object has no attribute 'offset'
+❌ Failed to parse dairy_digester form: 'ReadOnlyCell' object has no attribute 'offset'
+❌ Failed to parse energy_operator form: 'ReadOnlyCell' object has no attribute 'offset'
+❌ Failed to parse generic_operator form: 'ReadOnlyCell' object has no attribute 'offset'
+FAILED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_expected_results_availability ✅ Expected results available: 14 Excel files, 14 JSON files
+✅ 14 files have corresponding pairs for validation
+PASSED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelContentValidation::test_content_validation_with_expected_results SKIPPED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelContentValidation::test_metadata_consistency SKIPPED
+tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelContentValidation::test_schema_validation SKIPPED
+tests/arb/utils/excel/test_xl_create.py::test_update_xlsx_payloads_01 PASSED
+tests/arb/utils/excel/test_xl_create.py::TestXlCreate::test_module_import PASSED
+tests/arb/utils/excel/test_xl_create.py::TestXlCreate::test_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_create.py::TestXlCreatePlaceholder::test_placeholder PASSED
+tests/arb/utils/excel/test_xl_misc.py::TestXlMisc::test_module_import PASSED
+tests/arb/utils/excel/test_xl_misc.py::TestXlMisc::test_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_misc.py::TestXlMiscPlaceholder::test_placeholder PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestParseXlFile::test_parse_xl_file_with_mock_workbook PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestExtractTabs::test_extract_tabs_with_mock_data PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_function_signature PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetSpreadsheetKeyValuePairs::test_get_spreadsheet_key_value_pairs_with_mock_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_valid_schema PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_with_alias PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEnsureSchema::test_ensure_schema_not_found PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_empty_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_invalid_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestSplitCompoundKeys::test_split_compound_keys_with_no_lat_long PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_json_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestConvertUploadToJson::test_convert_upload_to_json_with_unsupported_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_basic_functionality PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestGetJsonFileNameOld::test_get_json_file_name_old_with_json_file PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_parse_xl_file_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_extract_tabs_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestFunctionEquivalence::test_get_spreadsheet_key_value_pairs_equivalence PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_parse_xl_file_with_none_schema_map PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_extract_tabs_with_empty_schemas PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestEdgeCases::test_get_spreadsheet_key_value_pairs_with_empty_worksheet PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestInputValidation::test_parse_xl_file_input_types PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestInputValidation::test_extract_tabs_input_types PASSED
+tests/arb/utils/excel/test_xl_parse.py::TestInputValidation::test_get_spreadsheet_key_value_pairs_input_types PASSED
+
+=================================== FAILURES ===================================
+_______ TestExcelFunctionalEquivalence.test_parse_xl_file_with_good_data _______
+
+self = <excel.test_excel_functional_equivalence.TestExcelFunctionalEquivalence object at 0x717c89816fd0>
+test_files_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard')
+expected_results_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/expected_results')
+
+    def test_parse_xl_file_with_good_data(self, test_files_dir, expected_results_dir):
+        """Test parse_xl_file with a good data file and compare against expected results."""
+        # Find a good data test file
+        good_data_file = None
+        for test_file in test_files_dir.glob("*.xlsx"):
+            if "test_01_good_data" in test_file.name:
+                good_data_file = test_file
+                break
+    
+        if not good_data_file:
+            pytest.skip("No good data test file found")
+    
+        # Find corresponding expected result
+        expected_json = find_corresponding_expected_result(good_data_file, expected_results_dir)
+        if not expected_json:
+            pytest.skip(f"No expected result found for {good_data_file.name}")
+    
+        # Parse the Excel file using both functions
+        try:
+>           result_original = parse_xl_file(good_data_file)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/arb/utils/excel/test_excel_functional_equivalence.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+source/production/arb/utils/excel/xl_parse.py:208: in parse_xl_file
+    result['metadata'] = get_spreadsheet_key_value_pairs(wb,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+wb = <openpyxl.workbook.workbook.Workbook object at 0x717c8a442490>
+tab_name = '_json_metadata', top_left_cell = '$B$15'
+
+    def get_spreadsheet_key_value_pairs(wb: openpyxl.Workbook,
+                                        tab_name: str,
+                                        top_left_cell: str) -> dict[str, str | None]:
+      """
+      DEPRECATED: This function is deprecated and will be removed in a future version.
+    
+      Please use get_spreadsheet_key_value_pairs_2 for new code. This function maintains the exact same
+      implementation to ensure backward compatibility.
+    
+      Read key-value pairs from a worksheet starting at a given cell.
+    
+      Args:
+        wb (Workbook): OpenPyXL workbook object.
+        tab_name (str): Name of the worksheet tab.
+        top_left_cell (str): Top-left cell of the key/value pair region.
+    
+      Returns:
+        dict[str, str | None]: Parsed key-value pairs.
+      """
+    
+      # logger.debug(f"{type(wb)=}, ")
+      ws = wb[tab_name]
+    
+      # logger.debug(f"{type(ws)=}, ")
+    
+      return_dict = {}
+    
+      row_offset = 0
+      while True:
+>       key = ws[top_left_cell].offset(row=row_offset).value
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ReadOnlyCell' object has no attribute 'offset'
+
+source/production/arb/utils/excel/xl_parse.py:575: AttributeError
+
+During handling of the above exception, another exception occurred:
+
+self = <excel.test_excel_functional_equivalence.TestExcelFunctionalEquivalence object at 0x717c89816fd0>
+test_files_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard')
+expected_results_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/expected_results')
+
+    def test_parse_xl_file_with_good_data(self, test_files_dir, expected_results_dir):
+        """Test parse_xl_file with a good data file and compare against expected results."""
+        # Find a good data test file
+        good_data_file = None
+        for test_file in test_files_dir.glob("*.xlsx"):
+            if "test_01_good_data" in test_file.name:
+                good_data_file = test_file
+                break
+    
+        if not good_data_file:
+            pytest.skip("No good data test file found")
+    
+        # Find corresponding expected result
+        expected_json = find_corresponding_expected_result(good_data_file, expected_results_dir)
+        if not expected_json:
+            pytest.skip(f"No expected result found for {good_data_file.name}")
+    
+        # Parse the Excel file using both functions
+        try:
+            result_original = parse_xl_file(good_data_file)
+            result_2 = parse_xl_file_2(good_data_file)
+        except Exception as e:
+>           pytest.fail(f"Failed to parse {good_data_file.name}: {e}")
+E           Failed: Failed to parse landfill_operator_feedback_v071_test_01_good_data.xlsx: 'ReadOnlyCell' object has no attribute 'offset'
+
+tests/arb/utils/excel/test_excel_functional_equivalence.py:174: Failed
+_________ TestExcelFunctionalEquivalence.test_all_feedback_form_types __________
+
+self = <excel.test_excel_functional_equivalence.TestExcelFunctionalEquivalence object at 0x717c89ac6bd0>
+test_files_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard')
+expected_results_dir = PosixPath('/home/tonyh/git_repos/feedback_portal/feedback_forms/testing_versions/standard/expected_results')
+
+    def test_all_feedback_form_types(self, test_files_dir, expected_results_dir):
+        """Test that all feedback form types can be parsed and match expected results."""
+        feedback_form_types = [
+            'landfill_operator',
+            'oil_and_gas_operator',
+            'dairy_digester',
+            'energy_operator',
+            'generic_operator'
+        ]
+    
+        successful_parses = 0
+        total_tests = 0
+    
+        for form_type in feedback_form_types:
+            # Find a test file for this form type
+            test_file = None
+            for file in test_files_dir.glob("*.xlsx"):
+                if form_type in file.name and "test_01_good_data" in file.name:
+                    test_file = file
+                    break
+    
+            if test_file:
+                total_tests += 1
+                try:
+                    # Find corresponding expected result
+                    expected_json = find_corresponding_expected_result(test_file, expected_results_dir)
+    
+                    if expected_json:
+                        # Test that both functions can parse this form type
+                        result_original = parse_xl_file(test_file)
+                        result_2 = parse_xl_file_2(test_file)
+    
+                        # Basic validation
+                        assert isinstance(result_original, dict), f"Original function failed on {form_type}"
+                        assert isinstance(result_2, dict), f"_2 function failed on {form_type}"
+    
+                        # Compare against expected results
+                        is_equivalent_original, differences_original = compare_excel_results(result_original, expected_json)
+                        is_equivalent_2, differences_2 = compare_excel_results(result_2, expected_json)
+    
+                        if is_equivalent_original and is_equivalent_2:
+                            successful_parses += 1
+                            print(f"✅ Both functions successfully parsed {form_type} form and matched expected results")
+                        else:
+                            if not is_equivalent_original:
+                                print(f"❌ Original function failed validation for {form_type}: {len(differences_original)} differences")
+                            if not is_equivalent_2:
+                                print(f"❌ _2 function failed validation for {form_type}: {len(differences_2)} differences")
+                    else:
+                        print(f"⚠️  No expected result found for {form_type} form - skipping validation")
+                        successful_parses += 1  # Count as success if we can parse it
+    
+                except Exception as e:
+                    print(f"❌ Failed to parse {form_type} form: {e}")
+            else:
+                print(f"⚠️  No test file found for {form_type} form type")
+    
+        # Ensure we have good coverage
+        assert total_tests >= 4, f"Expected at least 4 feedback form types, found {total_tests}"
+        success_rate = successful_parses / total_tests if total_tests > 0 else 0
+>       assert success_rate >= 0.8, f"Expected at least 80% success rate, got {success_rate:.1%}"
+E       AssertionError: Expected at least 80% success rate, got 0.0%
+E       assert 0.0 >= 0.8
+
+tests/arb/utils/excel/test_excel_functional_equivalence.py:395: AssertionError
+============================== slowest durations ===============================
+0.07s call     tests/arb/utils/excel/test_xl_create.py::test_update_xlsx_payloads_01
+0.06s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_all_feedback_form_types
+0.02s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_blank_file
+0.02s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_good_data
+0.02s call     tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_bad_data
+
+(148 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+FAILED tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_parse_xl_file_with_good_data
+FAILED tests/arb/utils/excel/test_excel_functional_equivalence.py::TestExcelFunctionalEquivalence::test_all_feedback_form_types
+=================== 2 failed, 46 passed, 3 skipped in 0.58s ====================

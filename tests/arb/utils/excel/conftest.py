@@ -1,66 +1,65 @@
 """
-Pytest configuration for Excel module tests.
+Shared pytest fixtures for Excel module tests.
 
-This file provides shared fixtures and configuration for all Excel-related tests.
+This module provides common test fixtures and utilities for testing
+the Excel parsing and processing functionality.
 """
 
 import pytest
-from unittest.mock import Mock, MagicMock
 from pathlib import Path
+from unittest.mock import Mock, MagicMock
+import sys
+
+# Import our new path utility
+from arb.utils.path_utils import find_repo_root, get_relative_path_from_repo_root
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def excel_test_data_dir():
-    """Directory containing test Excel files."""
-    # This would point to actual test Excel files in a real implementation
-    return Path(__file__).parent / "test_data"
+    """Provide path to Excel test data directory."""
+    repo_root = find_repo_root(Path(__file__))
+    return repo_root / "tests" / "arb" / "utils" / "excel" / "test_data"
+
+
+@pytest.fixture
+def test_files_dir():
+    """Provide path to standard test files directory."""
+    repo_root = find_repo_root(Path(__file__))
+    return repo_root / "feedback_forms" / "testing_versions" / "standard"
+
+
+@pytest.fixture
+def expected_results_dir():
+    """Provide path to expected results directory."""
+    repo_root = find_repo_root(Path(__file__))
+    return repo_root / "feedback_forms" / "testing_versions" / "standard" / "expected_results"
 
 
 @pytest.fixture
 def mock_openpyxl_workbook():
-    """Mock OpenPyXL workbook for testing."""
+    """Mock OpenPyXL Workbook object."""
     mock_wb = Mock()
-    mock_wb.sheetnames = ['metadata', 'schema', 'data']
-    
-    # Mock worksheet access
-    mock_ws = Mock()
-    mock_wb.__getitem__ = Mock(return_value=mock_ws)
-    
+    mock_wb.sheetnames = ['Sheet1', 'Sheet2']
     return mock_wb
 
 
 @pytest.fixture
 def mock_worksheet():
-    """Mock worksheet for testing."""
+    """Mock OpenPyXL Worksheet object."""
     mock_ws = Mock()
-    
-    # Mock cell access with offset method
     mock_cell = Mock()
-    mock_cell.offset = Mock(return_value=Mock(value='test_value'))
+    mock_cell.value = 'test_value'
     mock_ws.__getitem__ = Mock(return_value=mock_cell)
-    
     return mock_ws
 
 
 @pytest.fixture
 def sample_schema_map():
-    """Sample schema map for testing."""
+    """Sample schema mapping for testing."""
     return {
         'test_schema': {
-            'schema': {
-                'field1': {
-                    'value_address': 'A1',
-                    'value_type': str,
-                    'is_drop_down': False,
-                    'label': 'Test Field',
-                    'label_address': 'B1'
-                },
-                'field2': {
-                    'value_address': 'A2',
-                    'value_type': int,
-                    'is_drop_down': False
-                }
-            }
+            'fields': ['field1', 'field2'],
+            'required': ['field1']
         }
     }
 
@@ -69,14 +68,9 @@ def sample_schema_map():
 def sample_xl_dict():
     """Sample Excel dictionary structure for testing."""
     return {
-        'metadata': {
-            'sector': 'test_sector',
-            'version': '1.0'
-        },
-        'schemas': {
-            'data': 'test_schema'
-        },
-        'tab_contents': {}
+        'metadata': {'version': '1.0'},
+        'schemas': {'test_schema': {'fields': ['field1']}},
+        'tab_contents': {'Sheet1': {'field1': 'value1'}}
     }
 
 
@@ -88,8 +82,5 @@ def mock_logger():
 
 @pytest.fixture
 def sample_schema_alias():
-    """Sample schema alias mapping for testing."""
-    return {
-        'old_schema_v1': 'new_schema_v2',
-        'deprecated_schema': 'current_schema'
-    }
+    """Sample schema alias for testing."""
+    return 'test_alias'

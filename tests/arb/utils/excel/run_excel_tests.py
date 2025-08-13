@@ -1,96 +1,74 @@
 #!/usr/bin/env python3
 """
-Test runner script for Excel module tests.
+Script to run all Excel module tests with coverage reporting.
 
-This script provides a convenient way to run all Excel-related tests
-with proper configuration and reporting.
+This script provides a convenient way to run the complete Excel testing suite
+and generate coverage reports.
 """
 
 import sys
 import subprocess
-import os
 from pathlib import Path
 
+# Import our new path utility
+from arb.utils.path_utils import find_repo_root
 
-def run_excel_tests():
-    """Run all Excel module tests."""
-    
-    # Get the directory containing this script
-    test_dir = Path(__file__).parent
-    
-    # Change to the test directory
-    os.chdir(test_dir)
-    
-    # Run pytest with Excel-specific configuration
-    cmd = [
-        sys.executable, "-m", "pytest",
-        "--verbose",
-        "--tb=short",
-        "--strict-markers",
-        "--disable-warnings",
-        "."
-    ]
-    
-    print("Running Excel module tests...")
-    print(f"Test directory: {test_dir}")
-    print(f"Command: {' '.join(cmd)}")
-    print("-" * 50)
-    
+
+def main():
+    """Run all Excel tests with coverage."""
     try:
-        result = subprocess.run(cmd, capture_output=False)
+        # Find the repository root
+        repo_root = find_repo_root(Path(__file__))
+        print(f"Repository root: {repo_root}")
+        
+        # Find the Excel tests directory
+        excel_tests_dir = repo_root / "tests" / "arb" / "utils" / "excel"
+        print(f"Excel tests directory: {excel_tests_dir}")
+        
+        if not excel_tests_dir.exists():
+            print(f"❌ Excel tests directory not found: {excel_tests_dir}")
+            return 1
+        
+        # Change to the Excel tests directory
+        excel_tests_dir = excel_tests_dir.resolve()
+        print(f"Changing to directory: {excel_tests_dir}")
+        
+        # Run pytest with coverage
+        cmd = [
+            sys.executable, "-m", "pytest",
+            "--tb=short",  # Short traceback format
+            "--cov=arb.utils.excel",  # Coverage for Excel module
+            "--cov-report=term-missing",  # Show missing lines
+            "--cov-report=html:htmlcov",  # Generate HTML report
+            "--cov-report=xml",  # Generate XML report for CI
+            "-v",  # Verbose output
+            "."
+        ]
+        
+        print(f"Running command: {' '.join(cmd)}")
+        print(f"Working directory: {excel_tests_dir}")
+        
+        # Run the tests
+        result = subprocess.run(
+            cmd,
+            cwd=excel_tests_dir,
+            capture_output=False,  # Let output go to terminal
+            text=True
+        )
+        
+        if result.returncode == 0:
+            print("\n✅ All Excel tests passed!")
+            print(f"Coverage report generated in: {excel_tests_dir}/htmlcov/")
+            print(f"XML coverage report: {excel_tests_dir}/.coverage")
+        else:
+            print(f"\n❌ Some Excel tests failed (exit code: {result.returncode})")
+        
         return result.returncode
+        
     except Exception as e:
-        print(f"Error running tests: {e}")
-        return 1
-
-
-def run_coverage():
-    """Run tests with coverage reporting."""
-    
-    test_dir = Path(__file__).parent
-    
-    # Change to the test directory
-    os.chdir(test_dir)
-    
-    # Run pytest with coverage
-    cmd = [
-        sys.executable, "-m", "pytest",
-        "--cov=arb.utils.excel",
-        "--cov-report=term-missing",
-        "--cov-report=html",
-        "--cov-report=xml",
-        "--verbose",
-        "."
-    ]
-    
-    print("Running Excel module tests with coverage...")
-    print(f"Test directory: {test_dir}")
-    print(f"Command: {' '.join(cmd)}")
-    print("-" * 50)
-    
-    try:
-        result = subprocess.run(cmd, capture_output=False)
-        return result.returncode
-    except Exception as e:
-        print(f"Error running coverage tests: {e}")
+        print(f"❌ Error running Excel tests: {e}")
         return 1
 
 
 if __name__ == "__main__":
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="Run Excel module tests")
-    parser.add_argument(
-        "--coverage", 
-        action="store_true", 
-        help="Run tests with coverage reporting"
-    )
-    
-    args = parser.parse_args()
-    
-    if args.coverage:
-        exit_code = run_coverage()
-    else:
-        exit_code = run_excel_tests()
-    
-    sys.exit(exit_code)
+    sys.exit(main())
