@@ -1948,3 +1948,13 @@ can't run e2e along with arb and unit, this will fail:
 
 pytest tests/arb/utils/excel/test_xl_create.py -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}__xl_create_01.txt" 2>&1
 pytest tests/arb/utils/excel/test_xl_parse.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_parse_01.txt" 2>&1
+pytest tests/arb/utils/excel/test_xl_misc.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_misc_01.txt" 2>&1
+pytest tests/arb/utils/excel/test_excel_content_validator.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_xl_validator_01.txt" 2>&1
+pytest tests/arb/utils/excel/test_excel_functional_equivalence.py -v -s --durations=0   > "pytest_${MACHINE_NAME}_equivalence_01.txt" 2>&1
+tests/arb/utils/excel/test_excel_functional_equivalence.py
+
+pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_excel_01.txt" 2>&1
+
+
+run_excel_tests is not run with pytest, it is run with this call
+python tests/arb/utils/excel/run_excel_tests.py --no-coverage > run_excel_tests_01.txt 2>&1

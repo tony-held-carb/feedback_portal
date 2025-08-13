@@ -19,6 +19,9 @@ pytest -s tests/e2e -v --durations=0  > "pytest_${MACHINE_NAME}_e2e_78.txt" 2>&1
 please use this testing pattern
 cd /d/local/cursor/feedback_portal && pytest <file or folder> <options>  | tee pytest_<description of test>.txt
 
+2c. run_excel_tests is not run with pytest, it is run with this call
+python tests/arb/utils/excel/run_excel_tests.py --no-coverage > run_excel_tests_01.txt 2>&1
+
 3. Flag meanings:
    --maxfail=num Exit after first num failures or errors
    -v, --verbose Increase verbosity

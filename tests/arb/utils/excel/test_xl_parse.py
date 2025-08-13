@@ -328,14 +328,21 @@ class TestExtractTabs:
             'tab_contents': {}
         }
         
-        # Mock workbook
+        # Mock workbook with proper cell access
         mock_wb = Mock()
         mock_ws = Mock()
+        
+        # Create a mock cell that can be accessed by Excel address
+        mock_cell = Mock()
+        mock_cell.value = 'test_value'
+        
+        # Make the worksheet subscriptable for Excel addresses
+        mock_ws.__getitem__ = Mock(return_value=mock_cell)
         mock_wb.__getitem__ = Mock(return_value=mock_ws)
         
         # Test the function with correct parameters
-        # The function expects a schema with 'value_address' and 'value_type' fields
-        schema_map = {'test_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': 'string'}}}}
+        # The function expects a schema with 'value_address', 'value_type', and 'is_drop_down' fields
+        schema_map = {'test_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': str, 'is_drop_down': False}}}}
         result = extract_tabs(mock_wb, schema_map, xl_as_dict)
         
         assert isinstance(result, dict)
@@ -388,15 +395,22 @@ class TestExtractTabs:
             'tab_contents': {}
         }
         
-        # Mock workbook with multiple sheets
+        # Mock workbook with multiple sheets and proper cell access
         mock_wb = Mock()
         mock_ws = Mock()
+        
+        # Create a mock cell that can be accessed by Excel address
+        mock_cell = Mock()
+        mock_cell.value = 'test_value'
+        
+        # Make the worksheet subscriptable for Excel addresses
+        mock_ws.__getitem__ = Mock(return_value=mock_cell)
         mock_wb.__getitem__ = Mock(return_value=mock_ws)
         
         result = extract_tabs(mock_wb, {
-            'complex_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': 'string'}, 'field2': {'value_address': 'A2', 'value_type': 'string'}}},
-            'meta_schema': {'schema': {'meta1': {'value_address': 'B1', 'value_type': 'string'}}},
-            'config_schema': {'schema': {'config1': {'value_address': 'C1', 'value_type': 'string'}}}
+            'complex_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': str, 'is_drop_down': False}, 'field2': {'value_address': 'A2', 'value_type': str, 'is_drop_down': False}}},
+            'meta_schema': {'schema': {'meta1': {'value_address': 'B1', 'value_type': str, 'is_drop_down': False}}},
+            'config_schema': {'schema': {'config1': {'value_address': 'C1', 'value_type': str, 'is_drop_down': False}}}
         }, xl_as_dict)
         
         assert isinstance(result, dict)
@@ -500,14 +514,21 @@ class TestExtractTabs2:
             'tab_contents': {}
         }
         
-        # Mock workbook
+        # Mock workbook with proper cell access
         mock_wb = Mock()
         mock_ws = Mock()
+        
+        # Create a mock cell that can be accessed by Excel address
+        mock_cell = Mock()
+        mock_cell.value = 'test_value'
+        
+        # Make the worksheet subscriptable for Excel addresses
+        mock_ws.__getitem__ = Mock(return_value=mock_cell)
         mock_wb.__getitem__ = Mock(return_value=mock_ws)
         
         # Test the function with correct parameters
-        # The function expects a schema with 'value_address' and 'value_type' fields
-        schema_map = {'test_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': 'string'}}}}
+        # The function expects a schema with 'value_address', 'value_type', and 'is_drop_down' fields
+        schema_map = {'test_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': str, 'is_drop_down': False}}}}
         result = extract_tabs_2(mock_wb, schema_map, xl_as_dict)
         
         assert isinstance(result, dict)
@@ -560,15 +581,22 @@ class TestExtractTabs2:
             'tab_contents': {}
         }
         
-        # Mock workbook with multiple sheets
+        # Mock workbook with multiple sheets and proper cell access
         mock_wb = Mock()
         mock_ws = Mock()
+        
+        # Create a mock cell that can be accessed by Excel address
+        mock_cell = Mock()
+        mock_cell.value = 'test_value'
+        
+        # Make the worksheet subscriptable for Excel addresses
+        mock_ws.__getitem__ = Mock(return_value=mock_cell)
         mock_wb.__getitem__ = Mock(return_value=mock_ws)
         
         result = extract_tabs_2(mock_wb, {
-            'complex_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': 'string'}, 'field2': {'value_address': 'A2', 'value_type': 'string'}}},
-            'meta_schema': {'schema': {'meta1': {'value_address': 'B1', 'value_type': 'string'}}},
-            'config_schema': {'schema': {'config1': {'value_address': 'C1', 'value_type': 'string'}}}
+            'complex_schema': {'schema': {'field1': {'value_address': 'A1', 'value_type': str, 'is_drop_down': False}, 'field2': {'value_address': 'A2', 'value_type': str, 'is_drop_down': False}}},
+            'meta_schema': {'schema': {'meta1': {'value_address': 'B1', 'value_type': str, 'is_drop_down': False}}},
+            'config_schema': {'schema': {'config1': {'value_address': 'C1', 'value_type': str, 'is_drop_down': False}}}
         }, xl_as_dict)
         
         assert isinstance(result, dict)
