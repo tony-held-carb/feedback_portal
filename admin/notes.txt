@@ -1828,6 +1828,38 @@ may be relying on the old/working routes for logic and the new refactored had be
 
 for tony's use only:     * git clone https://tony-held-carb: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@github.com/tony-held-carb/feedback_portal --origin github
 
+In many of the files we have structures like this where you try to guess the directory structure by using parents (in test_upload_performance_comparison_optimized.py):
+
+# Add source/production directory to Python path for imports
+production_dir = Path(__file__).parent.parent.parent / "source" / "production"
+if str(production_dir) not in sys.path:
+    sys.path.insert(0, str(production_dir))
+
+# Add tests directory to Python path for conftest imports
+tests_dir = Path(__file__).parent.parent
+if str(tests_dir) not in sys.path:
+    sys.path.insert(0, str(tests_dir))
+
+
+
+I think we may be guessing incorrectly at where the project route is.
+
+we also have the function:
+
+# Find repository root for test file resolution
+def find_repo_root() -> Path:
+    """Find the repository root directory by looking for .git directory."""
+    current_path = Path(__file__).resolve()
+    while current_path.parent != current_path:
+        if (current_path / ".git").exists():
+            return current_path
+        current_path = current_path.parent
+    
+    return Path.cwd()
+
+
+it seems like this function should be moved to a general utility fil and better documented to show its purpose and limititations.
+Finding the repo_root this way seems much more robust than the .parent approach.
 
 
 You will likely want to run several commands to determine the state of the system.  Please put your diagnostic commands in @run_all_commands.txt and then i will run them with source scripts/run_all.sh >> output.txt 2>&1
@@ -1863,3 +1895,13 @@ find the tests that have not actually been implemented.
 pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
 
 source scripts/run_all_commands.txt >> command_output_2.txt 2>&1
+
+I ran: 
+pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_04.txt" 2>&1
+results at: 
+pytest_TONY_HOME_WSL_all_04.txt
+
+
+git restore feedback_forms/processed_versions/xl_workbooks/*.xlsx
+git restore feedback_forms/processed_versions/xl_payloads/*.json
+git restore feedback_forms/processed_versions/xl_schemas/*.json
