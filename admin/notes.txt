@@ -1891,6 +1891,28 @@ ok, previously you said you implemented full testing for the excel folder, but y
 put in placeholders.  Please search the excel testing folder for any instance of pass or placeholder words or constructs so we can
 find the tests that have not actually been implemented.
 
+Issue 1.
+
+Now that we have good unit testing for the excel related files, can we leverage this so that our e2e testing to make sure that when you drop an excel file into our website that you get the exact json content as in our example file (excluding timestamp file naming difference, or created timestamps in the metadata).
+
+Having a good e2e test that does this would avoid me having to do manual double checks, which was one of the main reasons we put testing in place to begin with.
+
+
+
+Issue 2. (resolved?)
+
+in our new tests, we should be testing the parsing of the file named dairy_digester_operator_feedback_v006_test_01_good_data.xlsx
+it has a field named digester_facility_name that has the value: Fictitious Dairy Digesters, LLC.
+
+Show me where in the testing code that this value is tested for proper importing.
+
+Issue 3. (need to do )
+
+ok, previously you said you implemented full testing for the excel folder, but you really just
+put in placeholders.  Please search the excel testing folder for any instance of pass or placeholder words or constructs so we can
+find the tests that have not actually been implemented. 
+
+
 
 pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
 
@@ -1914,6 +1936,11 @@ pytest tests/arb/utils/excel -v -s --durations=0  --maxfail=10 > "pytest_${MACHI
 pytest tests/arb/utils -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_utils_01.txt" 2>&1
 pytest tests/arb -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_arb_01.txt" 2>&1
 pytest tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_unit_01.txt" 2>&1
+
+pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_non_e2e_01.txt" 2>&1
+
+
 pytest tests/e2e -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_e2e_01.txt" 2>&1
 
-pytest tests/arb tests/unit tests/e2e -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_e2e_01.txt" 2>&1
+can't run e2e along with arb and unit, this will fail:
+  pytest tests/arb tests/unit tests/e2e -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_01.txt" 2>&1
