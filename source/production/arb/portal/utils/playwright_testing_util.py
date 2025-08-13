@@ -354,9 +354,9 @@ def wait_for_upload_attempt_robust(page: Page, timeout: int = None) -> None:
     
     raise TimeoutError(f"No upload attempt detected within {timeout}ms using any method")
 
-def test_robust_marker_system(page: Page) -> bool:
+def diag_robust_marker_system(page: Page) -> bool:
     """
-    Test function to verify the robust marker system is working correctly.
+    Diagnostic function to verify the robust marker system is working correctly.
     
     This can be called during test setup to ensure the marker system is functional.
     

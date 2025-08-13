@@ -53,4 +53,15 @@ Future Initiatives & Feature Requests Below
 * add pytest-cov and then try get a good coverage report
 * come up with some CI/CD that addresses docstring, type safety, edge and corner case, how functions process "", None, or other values that could be error prone
 
+---------   Code Cleanup and Refactoring ----------
+* TODO: Evaluate `get_json_file_name_old` function for potential removal or renaming
+  * Currently used by legacy `/upload` route via `upload_and_update_db()` function
+  * Also used by `convert_excel_to_json_if_valid()` in some staging flows
+  * Newer refactored routes use `convert_upload_to_json` instead
+  * Consider: 
+    - Rename to `get_json_file_name_legacy` to indicate deprecated status
+    - Remove entirely if `/upload` route is deprecated
+    - Or refactor to use `convert_upload_to_json` for consistency
+  * Context: This function only handles `.xlsx` files, not `.xls` files, and has limited functionality compared to newer alternatives
+
 """

@@ -16,6 +16,7 @@ Run this file directly to create all schema and payload artifacts for landfill,
 oil and gas, and energy templates.
 """
 
+import sys
 import logging
 import shutil
 import zipfile
@@ -38,7 +39,6 @@ from arb.utils.json import (
 from arb.utils.misc import ensure_key_value_pair
 
 logger = logging.getLogger(__name__)
-
 
 def sort_xl_schema(xl_schema: dict,
                    sort_by: str = "variable_name") -> dict:
@@ -353,7 +353,7 @@ def update_xlsx_payloads(file_in: Path, file_out: Path, payloads: list | tuple) 
   update_xlsx(file_in, file_out, new_dict)
 
 
-def test_update_xlsx_payloads_01() -> None:
+def diag_update_xlsx_payloads_01() -> None:
   """
   Run test cases that populate Jinja-templated Excel files with known payloads.
 
@@ -372,7 +372,7 @@ def test_update_xlsx_payloads_01() -> None:
     - Uses both file-based and inline payloads.
     - Intended for development and diagnostic use, not production.
   """
-  logger.debug(f"test_update_xlsx_payloads_01() called")
+  logger.debug(f"diag_update_xlsx_payloads_01() called")
 
   for template in EXCEL_TEMPLATES:
     schema_version = template["schema_version"]
@@ -607,7 +607,7 @@ def create_schemas_and_payloads() -> None:
   create_default_types_schema(diagnostics=True)
   prep_xl_templates()
   create_payloads()
-  test_update_xlsx_payloads_01()
+  diag_update_xlsx_payloads_01()
 
 
 def run_diagnostics() -> None:
@@ -638,7 +638,7 @@ def run_diagnostics() -> None:
     create_payloads()
 
     logger.info(f"Step 3: Performing test Excel generation")
-    test_update_xlsx_payloads_01()
+    diag_update_xlsx_payloads_01()
 
     logger.info(f"Diagnostics complete. Check output directory and logs for details.")
 
@@ -647,9 +647,11 @@ def run_diagnostics() -> None:
 
 
 if __name__ == "__main__":
-  from arb.logging.arb_logging import setup_standalone_logging
 
+  from arb.logging.arb_logging import setup_standalone_logging
   setup_standalone_logging("xl_create")
   create_schemas_and_payloads()
+  # print("STOPPED AFTER create_schemas_and_payloads")
+  # sys.exit(0)
   # Uncomment below line to run additional test harness
   # run_diagnostics()

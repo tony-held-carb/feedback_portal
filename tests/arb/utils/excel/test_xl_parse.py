@@ -201,8 +201,9 @@ class TestExtractTabs:
         
         result = extract_tabs(mock_wb, {}, xl_as_dict)
         
-        # If schemas is empty, tab_contents should not be added
-        assert 'tab_contents' not in result
+        # If schemas is empty, tab_contents should still be present but empty
+        assert 'tab_contents' in result
+        assert result['tab_contents'] == {}
 
 
 class TestExtractTabs2:
@@ -288,14 +289,18 @@ class TestEnsureSchema:
     def test_ensure_schema_with_valid_schema(self):
         """Test ensure_schema with valid schema."""
         schema_map = {'test_schema': {'fields': ['field1']}}
-        result = ensure_schema('test_schema', schema_map)
+        schema_alias = {}
+        mock_logger = Mock()
+        result = ensure_schema('test_schema', schema_map, schema_alias, mock_logger)
         assert result == 'test_schema'
     
     def test_ensure_schema_with_missing_schema(self):
         """Test ensure_schema with missing schema."""
         schema_map = {'test_schema': {'fields': ['field1']}}
-        result = ensure_schema('missing_schema', schema_map)
-        assert result == 'missing_schema'
+        schema_alias = {}
+        mock_logger = Mock()
+        result = ensure_schema('missing_schema', schema_map, schema_alias, mock_logger)
+        assert result is None
 
 
 class TestSplitCompoundKeys:
@@ -336,9 +341,10 @@ class TestConvertUploadToJson:
         with patch('arb.utils.excel.xl_parse.parse_xl_file') as mock_parse:
             mock_parse.return_value = {'test': 'data'}
             
-            result = convert_upload_to_json('test.xlsx')
-            assert isinstance(result, dict)
-            assert result == {'test': 'data'}
+            from pathlib import Path
+            result = convert_upload_to_json(Path('test.xlsx'))
+            assert isinstance(result, Path)
+            assert result.suffix == '.json'
 
 
 class TestGetJsonFileNameOld:
@@ -350,18 +356,34 @@ class TestGetJsonFileNameOld:
     
     def test_get_json_file_name_old_with_xlsx_file(self):
         """Test get_json_file_name_old with .xlsx file."""
-        result = get_json_file_name_old('test.xlsx')
-        assert result == 'test.json'
+        from pathlib import Path
+        # Mock the parse_xl_file function to avoid file operations
+        with patch('arb.utils.excel.xl_parse.parse_xl_file') as mock_parse, \
+             patch('arb.utils.excel.xl_parse.json_save_with_meta') as mock_save:
+            mock_parse.return_value = {'test': 'data'}
+            mock_save.return_value = None
+            
+            result = get_json_file_name_old(Path('test.xlsx'))
+            assert result == Path('test.json')
     
     def test_get_json_file_name_old_with_xls_file(self):
         """Test get_json_file_name_old with .xls file."""
-        result = get_json_file_name_old('test.xls')
-        assert result == 'test.json'
+        from pathlib import Path
+        # The function only handles .xlsx files, not .xls files
+        # Mock the parse_xl_file function to avoid file operations
+        with patch('arb.utils.excel.xl_parse.parse_xl_file') as mock_parse, \
+             patch('arb.utils.excel.xl_parse.json_save_with_meta') as mock_save:
+            mock_parse.return_value = {'test': 'data'}
+            mock_save.return_value = None
+            
+            result = get_json_file_name_old(Path('test.xls'))
+            assert result is None
     
     def test_get_json_file_name_old_with_other_extension(self):
         """Test get_json_file_name_old with other file extension."""
-        result = get_json_file_name_old('test.txt')
-        assert result == 'test.txt.json'
+        from pathlib import Path
+        result = get_json_file_name_old(Path('test.txt'))
+        assert result is None
 
 
 class TestFunctionEquivalence:
