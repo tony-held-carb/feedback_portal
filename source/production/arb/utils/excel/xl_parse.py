@@ -28,6 +28,35 @@ from arb.utils.excel.xl_file_structure import PROCESSED_VERSIONS
 from arb.utils.json import json_load_with_meta, json_save_with_meta
 from arb.utils.misc import sanitize_for_utf8
 
+# Enhanced Excel processing components (Phase 1 - Foundation)
+try:
+    from .core import (
+        ExcelParseConfig,
+        KeyValueExtractConfig, 
+        TabExtractConfig,
+        ExcelParseResult,
+        ValidationResult,
+        ProcessingStats,
+        ExcelProcessingError,
+        ValidationError,
+        ProcessingError,
+        SchemaError
+    )
+    ENHANCED_EXCEL_AVAILABLE = True
+except ImportError:
+    # Fallback for when enhanced components are not yet available
+    ENHANCED_EXCEL_AVAILABLE = False
+    ExcelParseConfig = None
+    KeyValueExtractConfig = None
+    TabExtractConfig = None
+    ExcelParseResult = None
+    ValidationResult = None
+    ProcessingStats = None
+    ExcelProcessingError = None
+    ValidationError = None
+    ProcessingError = None
+    SchemaError = None
+
 logger = logging.getLogger(__name__)
 
 # Spreadsheet formatting constants
