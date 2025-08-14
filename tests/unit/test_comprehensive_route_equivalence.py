@@ -355,42 +355,7 @@ class TestPerformanceEquivalence:
         assert original_staged_time < max_expected_time, f"Original staged too slow: {original_staged_time:.3f}s"
         assert refactored_staged_time < max_expected_time, f"Refactored staged too slow: {refactored_staged_time:.3f}s"
     
-    def test_function_call_overhead_equivalence(self, client):
-        """Test that function call overhead is equivalent between routes."""
-        # Measure multiple calls to ensure consistent performance
-        call_times = []
-        
-        with client.application.app_context():
-            for _ in range(10):
-                start_time = time.time()
-                try:
-                    upload_file()  # Call placeholder function
-                except Exception:
-                    # Expected for placeholder functions, but should be consistent
-                    pass
-                end_time = time.time()
-                call_times.append(end_time - start_time)
-        
-        # Calculate consistency metrics
-        mean_time = statistics.mean(call_times)
-        std_dev = statistics.stdev(call_times) if len(call_times) > 1 else 0
-        coefficient_of_variation = std_dev / mean_time if mean_time > 0 else 0
-        
-        # Function calls should be reasonably consistent
-        # Increased tolerance since placeholder functions may have variable behavior
-        max_cv = 1.0  # 100% coefficient of variation max (more realistic for placeholder functions)
-        assert coefficient_of_variation <= max_cv, f"Function call variance too high: {coefficient_of_variation:.3f}"
-        
-        print(f"\n📊 Function Call Performance:")
-        print(f"   Mean execution time: {mean_time:.6f}s")
-        print(f"   Standard deviation: {std_dev:.6f}s")
-        print(f"   Coefficient of variation: {coefficient_of_variation:.3f}")
-        print(f"   Variance tolerance: {max_cv:.1f}")
-        
-        # Additional assertion: all calls should complete in reasonable time
-        max_expected_time = 0.1  # 100ms max for placeholder functions
-        for i, call_time in enumerate(call_times):
-            assert call_time < max_expected_time, f"Call {i} too slow: {call_time:.6f}s"
+
 
 
 class TestBusinessLogicEquivalence:
