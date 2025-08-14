@@ -14,11 +14,15 @@ Created: 2025-01-27
 Version: 1.0
 """
 
-# This module will be populated in Phase 2 of the refactoring
-# with the following classes:
-# - ExcelValidator
-# - SchemaValidator  
-# - DataValidator
+from .excel_validator import ExcelValidator
+from .schema_validator import SchemaValidator
+from .data_validator import DataValidator
+
+__all__ = [
+    'ExcelValidator',
+    'SchemaValidator',
+    'DataValidator'
+]
 
 __version__ = "1.0.0"
 __author__ = "AI Assistant"

@@ -14,11 +14,11 @@ Created: 2025-01-27
 Version: 1.0
 """
 
-# This module will be populated in Phase 3 of the refactoring
-# with the following classes:
-# - CellValueProcessor
-# - SchemaResolver
-# - TabExtractor
+from .excel_processor import ExcelProcessor
+
+__all__ = [
+    'ExcelProcessor'
+]
 
 __version__ = "1.0.0"
 __author__ = "AI Assistant"

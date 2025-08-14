@@ -41,7 +41,8 @@ from .exceptions import (
     SchemaError,
     FileError,
     ConfigurationError,
-    DataError
+    DataError,
+    ErrorCodes
 )
 
 __all__ = [
@@ -62,7 +63,8 @@ __all__ = [
     'SchemaError',
     'FileError',
     'ConfigurationError',
-    'DataError'
+    'DataError',
+    'ErrorCodes'
 ]
 
 __version__ = "1.0.0"
