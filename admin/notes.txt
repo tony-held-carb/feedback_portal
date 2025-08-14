@@ -1854,7 +1854,7 @@ def find_repo_root() -> Path:
         if (current_path / ".git").exists():
             return current_path
         current_path = current_path.parent
-    
+
     return Path.cwd()
 
 
@@ -1910,7 +1910,7 @@ Issue 3. (need to do )
 
 ok, previously you said you implemented full testing for the excel folder, but you really just
 put in placeholders.  Please search the excel testing folder for any instance of pass or placeholder words or constructs so we can
-find the tests that have not actually been implemented. 
+find the tests that have not actually been implemented.
 
 
 
@@ -1918,9 +1918,9 @@ pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHIN
 
 source scripts/run_all_commands.txt >> command_output_2.txt 2>&1
 
-I ran: 
+I ran:
 pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_all_04.txt" 2>&1
-results at: 
+results at:
 pytest_TONY_HOME_WSL_all_04.txt
 
 
@@ -1961,3 +1961,5 @@ tests/arb/utils/excel/
 
 run_excel_tests is not run with pytest, it is run with this call
 python tests/arb/utils/excel/run_excel_tests.py --no-coverage > run_excel_tests_01.txt 2>&1
+
+pytest tests/arb/utils/excel -v -s --durations=0  > "pytest_${MACHINE_NAME}_xl_testing_01.txt" 2>&1
