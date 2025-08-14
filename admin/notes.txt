@@ -1963,3 +1963,5 @@ run_excel_tests is not run with pytest, it is run with this call
 python tests/arb/utils/excel/run_excel_tests.py --no-coverage > run_excel_tests_01.txt 2>&1
 
 pytest tests/arb/utils/excel -v -s --durations=0  > "pytest_${MACHINE_NAME}_xl_testing_01.txt" 2>&1
+
+pytest tests/arb tests/unit -v -s --durations=0  --maxfail=10 > "pytest_${MACHINE_NAME}_non_e2e_01.txt" 2>&1
